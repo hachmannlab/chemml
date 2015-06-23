@@ -2,7 +2,7 @@
 
 PROGRAM_NAME = "CheML"
 PROGRAM_VERSION = "v0.0.1"
-REVISION_DATE = "2015-06-02"
+REVISION_DATE = "2015-06-23"
 AUTHORS = "Johannes Hachmann (hachmann@buffalo.edu) and Mojtaba Haghighatlari (mojtabah@buffalo.edu)"
 CONTRIBUTORS = """ """
 DESCRIPTION = "CheML is a machine learning and informatics program suite for the chemical and materials sciences."

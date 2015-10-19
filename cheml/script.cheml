@@ -5,6 +5,7 @@
 ---------------------------------------------------------------
 
 ## pre_identical      %% f_remove=20
+
 # pre_linearDep		 %% min_r2 = 0.99  	%% n_iter = 20 	%% onebyone = True 	%% rank = True
 
 # save_data
@@ -38,6 +39,5 @@
 # ElasticNet	%% trf = 0.1  %% scaled = True 	%% coef_ = True 	 %% fit_intercept = True 	%% alpha = 0.01	  %% l1_ratio = .5
 
 ## svr 		 %% kernel = "poly" 	%% degree = 3    %% gamma=0.1	  %% epsilon=0.1	  %% cache_size = 4000  %% trf = 0.45  %% scaled = True 
-
 
 ---------------------------------------------------------------

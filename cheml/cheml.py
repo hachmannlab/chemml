@@ -1536,18 +1536,33 @@ script = script.readlines()
 todo={}
 todo_order=[]
 for line in script:
-	if '#' not in line:
+	if '##' not in line:
 		continue
 	
-	line = line.strip()
-	args=[]
+	# function
+	if '%%' in line:
+		function = line[line.index('##')+2:line.index('%')].strip()
+		line = line[line.index('%'):]
+	elif '%' in line:
+		function = line[line.index('##')+2:line.index('%')].strip()
+		todo[function] = []
+		todo_order.append(function)
+		continue
+	else:
+		function = line[line.index('##')+2:].strip()
+		todo[function] = []
+		todo_order.append(function)
+		continue
 	
-	line = line.split('%')
-	if len(line)>1 :
-		for i in range(1,len(line)):
-			args.append(line[i].strip())	
-	line = line[0].split('#')
-	function = line[1].strip()	
+	# args	
+	args=[]	
+	while '%%' in line:
+		line = line[line.index('%%')+2:].strip()
+		if '%' in line:
+			args.append(line[:line.index('%')].strip())
+		else:
+			args.append(line.strip())
+	
 	todo[function] = args
 	todo_order.append(function)
 	

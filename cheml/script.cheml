@@ -1,0 +1,43 @@
+## initialization	%% data_path = "../benchmarks/RI_project/descriptors.csv"	%%label_path = "../benchmarks/RI_project/alpha.csv" %% cn = 5 %% df = 1   %%log_file = "log.txt" 	%% error_file = "error.txt"
+
+# help
+
+---------------------------------------------------------------
+
+## pre_identical      %% f_remove=20
+# pre_linearDep		 %% min_r2 = 0.99  	%% n_iter = 20 	%% onebyone = True 	%% rank = True
+
+# save_data
+ 
+---------------------------------------------------------------
+
+# pca	%% evr_ = True  %% n_components = None
+
+## lda 	%%n_components = 10	%% trf = 0.1  %% scaled = True 
+
+# kpca 		%% n_components = None	%% kernel = "rbf"  %% lambdas_ = True 
+
+---------------------------------------------------------------
+
+# LassoCV	 %% eps = 1000	%% n_alphas=10	 %%alphas=[.01,.1,.5,1,10]  %% cv = 100 	%% max_iter = 3000  %% n_jobs=5  %% normalize=True
+
+# RidgeRegrCV	%%alphas=[.01,.1,.5,1,10]  %% cv = None   %% normalize=True 
+
+# ElasticNetCV	%%alphas=[.01,.1,.5,1,10]  %% cv = None   %% normalize=True 	%% n_jobs=5		%% max_iter = 10000
+
+---------------------------------------------------------------
+
+# ols		%% trf = 0.01 	%% scaled = True
+
+# mvlr 			%% trf = 0.01  %% scaled = True  %% MaxIt = 3000  %% alpha = .4 %% save_every = 500
+
+# lasso		%% trf = 0.01  %% scaled = True 	%% alpha = .1  %% max_iter = 3000  %% coef_ = True
+
+# RidgeRegr		%% trf = 0.1  %% scaled = True	%% coef_ = True 	 %% fit_intercept = True 	%% alpha = 1	%% cv = 10
+
+# ElasticNet	%% trf = 0.1  %% scaled = True 	%% coef_ = True 	 %% fit_intercept = True 	%% alpha = 0.01	  %% l1_ratio = .5
+
+## svr 		 %% kernel = "poly" 	%% degree = 3    %% gamma=0.1	  %% epsilon=0.1	  %% cache_size = 4000  %% trf = 0.45  %% scaled = True 
+
+
+---------------------------------------------------------------

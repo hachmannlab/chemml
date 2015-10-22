@@ -5,7 +5,7 @@ PROGRAM_VERSION = "v0.0.1"
 REVISION_DATE = "2015-06-23"
 AUTHORS = "Johannes Hachmann (hachmann@buffalo.edu) and Mojtaba Haghighatlari (mojtabah@buffalo.edu)"
 CONTRIBUTORS = """ """
-DESCRIPTION = "CheML is a machine learning and informatics program suite for the chemical and materials sciences."
+DESCRIPTION = "ChemML is a machine learning and informatics program suite for the chemical and materials sciences."
 
 # Version history timeline (move to CHANGES periodically):
 # v0.0.1 (2015-06-02): complete refactoring of original CheML code in new package format
@@ -24,6 +24,7 @@ import time
 import argparse
 import copy
 import datetime
+import argparse
 
 import numpy as np
 import pandas as pd
@@ -77,14 +78,14 @@ def tot_exec_time_str(time_start):
 
 ##################################################################################################
     
-def banner(logfile, PROGRAM_NAME, PROGRAM_VERSION, REVISION_DATE, AUTHORS, DESCRIPTION,):
+def banner(logfile, PROGRAM_NAME, PROGRAM_VERSION, REVISION_DATE, AUTHORS, DESCRIPTION):
     """(banner):
         Banner for this script.
     """
     str = []
     str.append("============================================================================== ")
-    str.append(SCRIPT_NAME + " " + SCRIPT_VERSION + " (" + REVISION_DATE + ")")
-    str.append(AUTHOR)
+    str.append(PROGRAM_NAME + " " + PROGRAM_VERSION + " (" + REVISION_DATE + ")")
+    str.append(AUTHORS)
     str.append("============================================================================== ")
     str.append(time.ctime())
     str.append("")    
@@ -114,7 +115,7 @@ def print_function_opts(fline,logfile):
 	print tmp_str
 	logfile.write('\n' + tmp_str + '\n')
 	
-###################################################################################################
+##################################################################################################
 
 def initialization(argument):
 	"""(initialization):
@@ -136,8 +137,8 @@ def initialization(argument):
 	
 			
 	# program files
-	logfile = open(output_folder+'/'+log_file,'a',0)
-	errorfile = open(output_folder+'/'+error_file,'a',0)
+	logfile = open(output_directory+'/'+log_file,'a',0)
+	errorfile = open(output_directory+'/'+error_file,'a',0)
     
 	banner(logfile, PROGRAM_NAME, PROGRAM_VERSION, REVISION_DATE, AUTHORS, DESCRIPTION)
 	
@@ -221,7 +222,7 @@ def initialization(argument):
 
 	return data, labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def feature_scaled(ds1, ds2):
 	""" (feature scaling):
@@ -250,7 +251,7 @@ def feature_scaled_single(data):
 
 	return ds1
 
-###################################################################################################
+##################################################################################################
 
 def TrS_TeS(data, labels, arg_trf, arg_scaled):
 	""" 
@@ -279,7 +280,7 @@ def TrS_TeS(data, labels, arg_trf, arg_scaled):
 	
 	return TrS_data, TrS_label, TeS_data, TeS_label
 
-###################################################################################################
+##################################################################################################
  
 def CV(clf, data, labels, arg_trf, arg_scaled, n_folds):
 	""" 
@@ -323,7 +324,7 @@ def CV(clf, data, labels, arg_trf, arg_scaled, n_folds):
 		
 	return MAE, MAE_SD, RMSE, RMSE_SD
 
-###################################################################################################
+##################################################################################################
  
 def pca(data,labels, logfile, errorfile,argument):
 	""" Principal Component Analysis 
@@ -356,11 +357,11 @@ def pca(data,labels, logfile, errorfile,argument):
 	if evr_ == True:
 		eigenvalue = pca.explained_variance_ratio_
 		eigenvalue = pd.DataFrame({0:list(eigenvalue)})
-		eigenvalue.to_csv(output_folder+'/pca_eigenvalues_%s.csv'%time.ctime())
+		eigenvalue.to_csv(output_directory+'/pca_eigenvalues_%s.csv'%time.ctime())
 	
 	return data, labels, logfile, errorfile
 		
-###################################################################################################
+##################################################################################################
 
 def kpca(data,labels, logfile, errorfile,argument):
 	""" 
@@ -392,11 +393,11 @@ def kpca(data,labels, logfile, errorfile,argument):
 	if lambdas_ == True:
 		eigenvalue = kpca.lambdas_
 		eigenvalue = pd.DataFrame({0:list(eigenvalue)})
-		eigenvalue.to_csv(output_folder+'/kpca_eigenvalues_%s.csv'%time.ctime())
+		eigenvalue.to_csv(output_directory+'/kpca_eigenvalues_%s.csv'%time.ctime())
 			
 	return data, labels	, logfile, errorfile	 
 
-###################################################################################################
+##################################################################################################
 
 def lda(data,labels, logfile, errorfile,argument):
 	""" 
@@ -441,7 +442,7 @@ def lda(data,labels, logfile, errorfile,argument):
 	#r2_train = lda.fit(X,y).score(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/LDA_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/LDA_results_%s.txt'%moment,'a') as file:
 		file.write('                    Linear Discriminant Analysis Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -463,7 +464,7 @@ def lda(data,labels, logfile, errorfile,argument):
 		data = pd.DataFrame(data)	
 		labels = Labels[1]
 		
-		with open(output_folder+'/LDA_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/LDA_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -477,7 +478,7 @@ def lda(data,labels, logfile, errorfile,argument):
 		data = lda.transform(X)
 		data = pd.DataFrame(data)	
 		labels = Labels[0]
-		with open(output_folder+'/LDA_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/LDA_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('All the data points have been transformed (no test set)!  \n')
 			file.write(' \n')
@@ -486,7 +487,7 @@ def lda(data,labels, logfile, errorfile,argument):
 			
 	return data, labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def svr(data,labels, logfile, errorfile,argument):
 	""" 
@@ -531,7 +532,7 @@ def svr(data,labels, logfile, errorfile,argument):
 	r2_training = svr.fit(X,y).score(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/SVR_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/SVR_results_%s.txt'%moment,'a') as file:
 		file.write('                      Support Vector Regression Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -556,7 +557,7 @@ def svr(data,labels, logfile, errorfile,argument):
 		RMSE=np.sqrt(MSE)
 		RMSE_std=np.sqrt(np.std(dif**2))
 	
-		with open(output_folder+'/SVR_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/SVR_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -570,7 +571,7 @@ def svr(data,labels, logfile, errorfile,argument):
 			
 	return data,labels, logfile, errorfile
  		
-###################################################################################################
+##################################################################################################
 
 def pre_identical(data,labels, logfile, errorfile,argument):
 	""" 
@@ -595,18 +596,29 @@ def pre_identical(data,labels, logfile, errorfile,argument):
 	
 	## check identical values
 	count = 0
+	remove_list = []
 	max_size_class = list(labels[0].value_counts())[0]
 	for i in data.columns:
 		max_num_des = list(data[i].value_counts())[0]
 		if max_num_des > f_remove * max_size_class:
 			data = data.drop(i,1)
 			count+=1
+			remove_list.append(i)
 	
-	print "Number of removed features with 'pre_identical' function: ", count			
 		
+	tmp_str = "Number of removed features with 'pre_identical' function: %s" % str(count)			
+	print tmp_str
+	logfile.write(tmp_str + '\n')	
+	tmp_str = "Removed features with 'pre_identical' function: %s" % str(remove_list)
+	print tmp_str
+	logfile.write(tmp_str + '\n\n')
+	tmp_str = "=============================================================================="
+	print tmp_str
+	logfile.write(tmp_str + '\n')
+			
 	return data,labels,logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def pre_linearDep(data,labels, logfile, errorfile,argument):
 	""" 
@@ -652,6 +664,7 @@ def pre_linearDep(data,labels, logfile, errorfile,argument):
 
 		remove_list = np.unique(remove_list)
 		print "Number of removed dependant linear features with 'onebyone' checking: ", len(remove_list)			
+		print 'remove_list:',remove_list
 		data = data.drop(remove_list,1)								
 	
 	## step 2
@@ -689,6 +702,7 @@ def pre_linearDep(data,labels, logfile, errorfile,argument):
 			if Bool == 2:
 				print "SVD rank method removed some of the linearly dependant features. Some independent features may have been removed as well."			
 			
+			print 'a:',a
 			data = data.drop(a,1)		
 		
 		else:
@@ -696,7 +710,7 @@ def pre_linearDep(data,labels, logfile, errorfile,argument):
 	
 	return data,labels, logfile, errorfile	
 
-###################################################################################################	
+##################################################################################################	
 
 def ols(data,labels, logfile, errorfile,argument):
 	""" 
@@ -743,7 +757,7 @@ def ols(data,labels, logfile, errorfile,argument):
 	results = model.fit()
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/OLS_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/OLS_results_%s.txt'%moment,'a') as file:
 		file.write('\n')
 		file.write('----------------------\n')
 		file.write(' Training Set Results \n')
@@ -771,7 +785,7 @@ def ols(data,labels, logfile, errorfile,argument):
 		dfAE = pd.DataFrame(AE, columns=['Absolute Error'])
 		features_index=['x'+str(i) for i in data.columns]		
 		
-		with open(output_folder+'/OLS_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/OLS_results_%s.txt'%moment,'a') as file:
 			file.write('\n')
 			file.write('\n')
 			file.write('Input Features:'+str(features_index) + '\n')
@@ -790,7 +804,7 @@ def ols(data,labels, logfile, errorfile,argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def mvlr(data,labels, logfile, errorfile,argument):
 	""" 
@@ -838,7 +852,7 @@ def mvlr(data,labels, logfile, errorfile,argument):
 	nData = len(X)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/MVLR_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/MVLR_results_%s.txt'%moment,'a') as file:
 		file.write('\n')
 		file.write('                        MultiVariate Linear Regression\n')
 		file.write('==============================================================================\n')
@@ -870,14 +884,14 @@ def mvlr(data,labels, logfile, errorfile,argument):
 		MAE_std = np.std(abs(J['j']))
 		# output file
 		if it in save_file:
-			with open(output_folder+'/MVLR_results_%s.txt'%moment,'a') as file:		
+			with open(output_directory+'/MVLR_results_%s.txt'%moment,'a') as file:		
 				file.write('it:'+str(it)+'  CostFunction: '+str(Cost_Function)+'\n')
 				file.write('it:'+str(it)+'  MAE         : '+str(MAE)+' +/- '+str(MAE_std)+'\n')		
 				file.write('\n')
 	
 	dfTr = pd.DataFrame(thetas, columns=['Coefficients'], index=['x'+str(i) for i in data.columns]+['const'])
 	
-	with open(output_folder+'/MVLR_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/MVLR_results_%s.txt'%moment,'a') as file:
 		file.write('==============================================================================\n')
 		file.write('Number of samples : '+str(len(X))+'\n')	
 		file.write('Number of features : '+str(len(data.columns))+'\n')		
@@ -905,7 +919,7 @@ def mvlr(data,labels, logfile, errorfile,argument):
 
 		dfAE = pd.DataFrame(AE, columns=['Absolute Error'])
 				
-		with open(output_folder+'/MVLR_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/MVLR_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -920,7 +934,7 @@ def mvlr(data,labels, logfile, errorfile,argument):
 			
 	return data, labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def lasso(data,labels, logfile, errorfile,argument):
 	""" 
@@ -967,7 +981,7 @@ def lasso(data,labels, logfile, errorfile,argument):
 	r2_training = lasso.fit(X,y).score(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/Lasso_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/Lasso_results_%s.txt'%moment,'a') as file:
 		file.write('                              Lasso Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -992,7 +1006,7 @@ def lasso(data,labels, logfile, errorfile,argument):
 		RMSE=np.sqrt(MSE)
 		RMSE_std=np.sqrt(np.std(dif**2))
 	
-		with open(output_folder+'/Lasso_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/Lasso_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -1012,7 +1026,7 @@ def lasso(data,labels, logfile, errorfile,argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def lassocv(data,labels, logfile, errorfile, argument):
 	""" (by Scikitlearn)
@@ -1048,7 +1062,7 @@ def lassocv(data,labels, logfile, errorfile, argument):
 	clf.fit(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/LassoCV_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/LassoCV_results_%s.txt'%moment,'a') as file:
 		file.write('                              LassoCV Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -1063,7 +1077,7 @@ def lassocv(data,labels, logfile, errorfile, argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def RidgeRegr(data,labels, logfile, errorfile,argument):
 	""" 
@@ -1110,7 +1124,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 	r2_training = ridge.fit(X,y).score(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/Ridge_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/Ridge_results_%s.txt'%moment,'a') as file:
 		file.write('                           Ridge Regression Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -1135,7 +1149,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 		RMSE=np.sqrt(MSE)
 		RMSE_std=np.sqrt(np.std(dif**2))
 	
-		with open(output_folder+'/Ridge_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/Ridge_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -1151,8 +1165,12 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 				file.write(' \n')
 				file.write('coefficients: \n')
 				file.write('%s\n' % ridge.coef_)
+				file.write(' \n')
+				file.write('intercept: \n')
+				file.write('%s\n' % ridge.intercept_)
 			file.write('==============================================================================\n')
 			file.write('                                     END\n')
+	
 	## Cross Validation
 	if cv>1:
 		from sklearn.cross_validation import KFold
@@ -1182,7 +1200,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 			r2_train = ridge.fit(X,y).score(X,y)
 	
 			
-			with open(output_folder+'/RidgeCV_results_%s.txt'%moment,'a') as file:
+			with open(output_directory+'/RidgeCV_results_%s.txt'%moment,'a') as file:
 				file.write('                           Ridge Regression CV#%s Results\n'% kcv)
 				file.write('==============================================================================\n')
 				file.write('\n')
@@ -1210,7 +1228,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 			mae.append(MAE)
 			rmse.append(RMSE)
 			
-			with open(output_folder+'/RidgeCV_results_%s.txt'%moment,'a') as file:
+			with open(output_directory+'/RidgeCV_results_%s.txt'%moment,'a') as file:
 				file.write(' \n')
 				file.write('------------------\n')
 				file.write(' Test Set Results \n')
@@ -1225,7 +1243,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 				file.write(' \n')
 				file.write(' \n')
 			
-		with open(output_folder+'/RidgeCV_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/RidgeCV_results_%s.txt'%moment,'a') as file:
 			file.write('\n')
 			file.write('----------------------\n')
 			file.write('MAEs: %s\n'%str(mae))  
@@ -1240,7 +1258,7 @@ def RidgeRegr(data,labels, logfile, errorfile,argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def RidgeRegrcv(data,labels, logfile, errorfile, argument):
 	""" (by Scikitlearn)
@@ -1276,7 +1294,7 @@ def RidgeRegrcv(data,labels, logfile, errorfile, argument):
 	clf.fit(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/RidgeRegrCV_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/RidgeRegrCV_results_%s.txt'%moment,'a') as file:
 		file.write('                            RidgeRegrCV Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -1291,7 +1309,7 @@ def RidgeRegrcv(data,labels, logfile, errorfile, argument):
 			
 	return data,labels, logfile, errorfile
 	
-###################################################################################################
+##################################################################################################
 
 def elasticNet(data,labels, logfile, errorfile,argument):
 	""" 
@@ -1338,7 +1356,7 @@ def elasticNet(data,labels, logfile, errorfile,argument):
 	r2_training = clf.fit(X,y).score(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/ElasticNet_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/ElasticNet_results_%s.txt'%moment,'a') as file:
 		file.write('                            Elastic Net Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -1363,7 +1381,7 @@ def elasticNet(data,labels, logfile, errorfile,argument):
 		RMSE=np.sqrt(MSE)
 		RMSE_std=np.sqrt(np.std(dif**2))
 	
-		with open(output_folder+'/ElasticNet_results_%s.txt'%moment,'a') as file:
+		with open(output_directory+'/ElasticNet_results_%s.txt'%moment,'a') as file:
 			file.write(' \n')
 			file.write('------------------\n')
 			file.write(' Test Set Results \n')
@@ -1385,7 +1403,7 @@ def elasticNet(data,labels, logfile, errorfile,argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def ElasticNetcv(data,labels, logfile, errorfile, argument):
 	""" (from Scikitlearn)
@@ -1421,7 +1439,7 @@ def ElasticNetcv(data,labels, logfile, errorfile, argument):
 	clf.fit(X,y)
 	
 	moment = str(time.ctime())
-	with open(output_folder+'/ElasticNetCV_results_%s.txt'%moment,'a') as file:
+	with open(output_directory+'/ElasticNetCV_results_%s.txt'%moment,'a') as file:
 		file.write('                            ElasticNetCV Results\n')
 		file.write('==============================================================================\n')
 		file.write('\n')
@@ -1441,7 +1459,7 @@ def ElasticNetcv(data,labels, logfile, errorfile, argument):
 			
 	return data,labels, logfile, errorfile
 
-###################################################################################################
+##################################################################################################
 
 def save_data(data,labels, logfile, errorfile,argument):
 	""" 
@@ -1452,12 +1470,12 @@ def save_data(data,labels, logfile, errorfile,argument):
 	fline = "funnction: save_data\n"	
 	print_function_opts(fline,logfile)
 		
-	data.to_csv(output_folder+'/newdata_'+str(len(data))+'*'+str(len(data.columns))+'_%s.csv'%time.ctime(),header=None,index=False)
-	labels.to_csv(output_folder+'/newlabels_%s.csv'%time.ctime(),header=None, index=False)
+	data.to_csv(output_directory+'/newdata_'+str(len(data))+'*'+str(len(data.columns))+'_%s.csv'%time.ctime(),header=None,index=False)
+	labels.to_csv(output_directory+'/newlabels_%s.csv'%time.ctime(),header=None, index=False)
 	
 	return data,labels, logfile, errorfile
 
-###################################################################################################	
+##################################################################################################	
 
 def help():
 	"""(help):
@@ -1513,7 +1531,6 @@ def help():
 	logfile.write('\n' + tmp_str + '\n\n')
 
 
-
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
@@ -1525,20 +1542,24 @@ def help():
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*					
 	
+time_start = time.time()
 	
-## read script (*.cheml)
-time_start = time.time()								
-for filename in glob.glob('*.cheml'):
-	script = open(filename,'r')
-script = script.readlines()
-	
+## read script file
+parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
+parser.add_argument("-i", type=str, required=True, help="input directory: must include the script file name and its format")                    		
+parser.add_argument("-o", type=str, default='ChemML.out', help="output directory: a folder will be made by the provided name")                    		
+args = parser.parse_args()            		
+scr_filename = args.i      
+output_directory = args.o 
+
+script = open(scr_filename,'r')
+script = script.readlines()	
 ## make to-do list
 todo={}
 todo_order=[]
 for line in script:
 	if '##' not in line:
 		continue
-	
 	# function
 	if '%%' in line:
 		function = line[line.index('##')+2:line.index('%')].strip()
@@ -1553,7 +1574,6 @@ for line in script:
 		todo[function] = []
 		todo_order.append(function)
 		continue
-	
 	# args	
 	args=[]	
 	while '%%' in line:
@@ -1562,7 +1582,6 @@ for line in script:
 			args.append(line[:line.index('%')].strip())
 		else:
 			args.append(line.strip())
-	
 	todo[function] = args
 	todo_order.append(function)
 	
@@ -1570,25 +1589,22 @@ if "help" in todo_order:
 	help()	
 	
 if "initialization" not in todo_order:
-	sys.exit("Error:  CheML requires initialization options")						
+	sys.exit("Error:  ChemML requires initialization options")						
 		
-## working directories ('CheML.out' and 'temporary' folders)
-check = 'CheML.out'
+## working directories
+initial_output_dir = copy.deepcopy(output_directory)
 i = 0
-while os.path.exists(check):
+while os.path.exists(output_directory):
 	i+=1
-	check = 'CheML.out' + str(i)
+	output_directory = initial_output_dir + ' %i'%i
+os.makedirs(output_directory)
 
-output_folder = check
-os.makedirs(output_folder)
-
-tmp_folder = output_folder +'/temporary'
+tmp_folder = output_directory +'/temporary'
 os.makedirs(tmp_folder)
 
 
-## make a copy of script in the output folder to be kept as readme.txt file
-for filename in glob.glob('*.cheml'):
-	shutil.copyfile(filename, output_folder+'/ReadMe.txt')
+## make a copy of script in the output directory to be kept as readme.txt file
+shutil.copyfile(scr_filename, output_directory+'/ReadMe.txt')
 
 
 ## initial files
@@ -1637,9 +1653,9 @@ shutil.rmtree(tmp_folder)
 ###################################################################################################
 
 def main(opts,commline_list):
-    """(main):
+    "(main):
         Driver of CheML.
-    """
+    "
     time_start = time.time()
 
 # TODO: add banner

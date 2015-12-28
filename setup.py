@@ -8,7 +8,7 @@ Created on 2015-03-05
 
 # from setuptools import setup, find_packages
 
-# setup(name='CheML',
+# setup(name='ChemML',
 #       version='0.0.1',
 #       author='Johannes Hachmann',
 #       author_email='hachmann@buffalo.edu',

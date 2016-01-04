@@ -4,9 +4,9 @@ import numpy as np
 def isfloat(value):
     try:
         float(value)
-        return False
+        return True
     except ValueError:
-        return True		
+        return False		
 
 def string2nan(df):
     missing_cols = [df.dtypes.index[i] for i, type in enumerate(df.dtypes) if type == "object"]

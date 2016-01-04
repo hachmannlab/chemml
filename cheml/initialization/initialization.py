@@ -74,5 +74,5 @@ def output(output_directory="ChemML.results" ,logfile="log.txt",errorfile="error
     error_file = open(output_directory+'/'+errorfile,'a',0)
     tmp_folder = output_directory +'/temporary'
     os.makedirs(tmp_folder)
-    return output_directory, logfile, errorfile, tmp_folder
+    return output_directory, logfile, errorfile
 

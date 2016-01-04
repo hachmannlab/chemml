@@ -4,7 +4,7 @@ PROGRAM_NAME = "CheML"
 PROGRAM_VERSION = "v0.0.1"
 REVISION_DATE = "2015-06-23"
 AUTHORS = "Johannes Hachmann (hachmann@buffalo.edu) and Mojtaba Haghighatlari (mojtabah@buffalo.edu)"
-CONTRIBUTORS = """ """
+CONTRIBUTORS = " "
 DESCRIPTION = "ChemML is a machine learning and informatics program suite for the chemical and materials sciences."
 
 # Version history timeline (move to CHANGES periodically):
@@ -77,9 +77,9 @@ def main(SCRIPT_NAME):
     imports = []    
 
     ## implementing orders
-    functions = {'INPUT'       : INPUT,
-                 'OUTPUT'      : OUTPUT,
-                 'MISSING_VALUES'     : MISSING_VALUES 
+    functions = {'INPUT'                : INPUT,
+                 'OUTPUT'               : OUTPUT,
+                 'MISSING_VALUES'       : MISSING_VALUES 
                 }
 
     for order in todo_order:
@@ -87,10 +87,10 @@ def main(SCRIPT_NAME):
             raise NameError("name %s is not defined"%order)
         functions[order]()
     print "\n"
-    print "NOTE:"
+    print "NOTES:"
     print "* The python script with name '%s' has been stored in the current directory."\
      %cmls.OUTPUT.filename_pyscript.pyval
-    print "** list of required 'packge: module' in the python script:", imports
+    print "** list of required 'package: module's in the python script:", imports
     print "\n"
 
     return 0    #successful termination of program
@@ -118,9 +118,9 @@ def block(state, function):
     """
     secondhalf = 71-len(function)-2-27 
     if state == 'begin':
-        pyscript.write('#'*27 + ' ' + function + ' ' + '#'*secondhalf + '\n')
+        pyscript.write('#'*27 + ' ' + function + '\n')
     if state == 'end':
-        pyscript.write('#'*71 + '\n')
+        pyscript.write('#'*27 + '\n')
         pyscript.write('\n') 
 	
 ##################################################################################################
@@ -153,10 +153,10 @@ def OUTPUT():
     if "cheml: initialization" not in imports:
         pyscript.write("from cheml import initialization\n")
         imports.append("cheml: initialization")
-    line = "output_directory, log_file, error_file, tmp_folder = initialization.output(output_directory = '%s';logfile = '%s';errorfile = '%s')"\
-    %(cmls.OUTPUT.path, cmls.OUTPUT.filename_logfile, cmls.OUTPUT.filename_errorfile)
+    line = "output_directory, log_file, error_file = initialization.output(output_directory = '%s';logfile = '%s';errorfile = '%s')"\
+        %(cmls.OUTPUT.path, cmls.OUTPUT.filename_logfile, cmls.OUTPUT.filename_errorfile)
     write_split(line)
-    block ('end', 'OUTPUT' )
+    block ('end', 'OUTPUT')
     
 									###################
 
@@ -164,13 +164,40 @@ def MISSING_VALUES():
     """(MISSING_VALUES):
 		Handle missing values.
     """
-    block ('begin', 'MISSING_VALUES' )
+    block ('begin', 'MISSING_VALUES')
     if "cheml: preprocessing" not in imports:
         pyscript.write("from cheml import preprocessing\n")
         imports.append("cheml: preprocessing")
-    line = """data, target = preprocessing.missing_values(method = '%s';string_as_null = %s;inf_as_null = %s;missing_values = "%s")"""%(cmls.PREPROCESSING.MISSING_VALUES.method.pyval,cmls.PREPROCESSING.MISSING_VALUES.string_as_null.pyval,cmls.PREPROCESSING.MISSING_VALUES.inf_as_null.pyval,cmls.PREPROCESSING.MISSING_VALUES.missing_values.pyval)
-    write_split(line)    
-    block ('end', 'MISSING_VALUES' )
+    line = """missval = preprocessing.missing_values(strategy = '%s';string_as_null = %s;inf_as_null = %s;missing_values = %s)"""\
+        %(cmls.PREPROCESSING.MISSING_VALUES.strategy,cmls.PREPROCESSING.MISSING_VALUES.string_as_null,cmls.PREPROCESSING.MISSING_VALUES.inf_as_null,cmls.PREPROCESSING.MISSING_VALUES.missing_values)
+    write_split(line)
+    line = """data = missval.fit(data)"""
+    pyscript.write(line + '\n')
+    line = """target = missval.fit(target)"""
+    pyscript.write(line + '\n')
+    if cmls.PREPROCESSING.MISSING_VALUES.strategy in ['zero', 'ignore', 'interpolate']:
+        line = """data, target = missval.transform(data, target)"""
+        pyscript.write(line + '\n')
+    elif cmls.PREPROCESSING.MISSING_VALUES.strategy in ['mean', 'median', 'most_frequent']:
+        if "sklearn: Imputer" not in imports:
+            pyscript.write("from sklearn.preprocessing import Imputer\n")
+            imports.append("sklearn: Imputer")
+        line = """imp = Imputer(strategy = '%s';missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
+            %(cmls.PREPROCESSING.MISSING_VALUES.strategy)
+        write_split(line)
+        line = """df_columns = data.columns """
+        pyscript.write(line + '\n')
+        line = """data = imp.fit_transform(data)"""
+        pyscript.write(line + '\n')
+        line = """data = pd.DataFrame(data,columns=df_columns)"""
+        pyscript.write(line + '\n')
+        line = """df_columns = target.columns """
+        pyscript.write(line + '\n')
+        line = """target = imp.fit_transform(target)"""
+        pyscript.write(line + '\n')
+        line = """target = pd.DataFrame(target,columns=df_columns)"""
+        pyscript.write(line + '\n')
+    block ('end', 'MISSING_VALUES')
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

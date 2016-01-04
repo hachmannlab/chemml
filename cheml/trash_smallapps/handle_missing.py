@@ -2,11 +2,18 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-from ..utils.validation import isfloat
+# from ..utils.validation import isfloat
 
 __all__ = [
     'missing_values',
 ]
+
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False		
 
 def cut_df(col, df, paste_col=False, on_right=False):
     """ 
@@ -54,9 +61,12 @@ class missing_values(object):
     
     Parameters
     ----------
-    strategy: string, optional (default="mean")
+    method: string, optional (default="mean")
         
-        list of strategies:
+        list of methods:
+        - mean: set to the mean
+        - median: set to the median
+        - most_frequent: set to the mode
         - interpolate: interpolate based on sorted target values
         - zero: set to the zero
         - ignore: remove the entire row in data and target
@@ -70,47 +80,76 @@ class missing_values(object):
 
     inf_as_null: boolean, optional (default=True)
         If True inf and -inf elements are considered to be null in computations.
-
+    
+    Attributes
+    ----------
+    
+    
+    
     Returns
     -------
     data and target
     """
-    def __init__(self, strategy="interpolate", string_as_null = True,
+    def __init__(self, method="mean", string_as_null = True,
                  inf_as_null = True, missing_values = False):
-        self.strategy = strategy
+        self.method = method
         self.string_as_null = string_as_null
         self.inf_as_null = inf_as_null
         self.missing_values = missing_values
         
-    def fit(self, df):
+    def fit(self, data, target):
         if self.inf_as_null == True:
-            df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
+            data.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
+            target.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
         if self.string_as_null == True:
-            df = df.convert_objects(convert_numeric=True)
+            data = data.convert_objects(convert_numeric=True)
+            target = target.convert_objects(convert_numeric=True)
+            data = _check_object_col(data, 'data')
+            target = _check_object_col(target, 'target')
         if self.missing_values and isinstance(self.missing_values, (list, tuple)):
             for pattern in self.missing_values:
-                df.replace(pattern, np.nan, True)
-        return df
-        
-    def transform(self, data, target):    
-        data = _check_object_col(data, 'data')
-        target = _check_object_col(target, 'target')
+                data.replace(pattern, np.nan, True)
+                target.replace(pattern, np.nan, True) 
         # drop null columns
         data.dropna(axis=1, how='all', inplace=True)
         target.dropna(axis=1, how='all', inplace=True)
         
-        if self.strategy == 'zero':
+        if self.method == 'mean':
+            for col in data.columns:
+                mean_value = np.mean(data[col])
+                data[col].fillna(value=mean_value,inplace=True)                
+            for col in target.columns:
+                mean_value = np.mean(target[col])
+                target[col].fillna(value=mean_value,inplace=True)                
+            return data, target
+        elif self.method == 'median':
+            for col in data.columns:
+                median_value = np.median(data[col])
+                data[col].fillna(value=median_value,inplace=True)                
+            for col in target.columns:
+                median_value = np.median(target[col])
+                target[col].fillna(value=median_value,inplace=True)                
+            return data, target
+        elif self.method == 'most_frequent':
+            for col in data.columns:
+                most_frequent_value = stats.mode(data[col])[0][0]
+                data[col].fillna(value=most_frequent_value,inplace=True)                
+            for col in target.columns:
+                most_frequent_value = stats.mode(target[col])[0][0]
+                target[col].fillna(value=most_frequent_value,inplace=True)                
+            return data, target
+        elif self.method == 'zero':
             for col in data.columns:
                 data[col].fillna(value=0,inplace=True)                
             for col in target.columns:
                 target[col].fillna(value=0,inplace=True)                
             return data, target
-        elif self.strategy == 'ignore':
+        elif self.method == 'ignore':
             data = pd.concat([data, target], axis=1)
             data.dropna(axis=0, how='any', inplace=True)
             data, target = cut_df(list(target.columns), data, paste_col=list(target.columns), on_right=True)
             return data, target
-        elif self.strategy == 'interpolate':
+        elif self.method == 'interpolate':
             data = pd.concat([data, target], axis=1)
             data = data.interpolate()
             data.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column

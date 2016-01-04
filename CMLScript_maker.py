@@ -1,17 +1,17 @@
-# Note: the only pyval with capital initial is: None
-# Note: lists of values must be written in quotation mark
+# Note: the only pyval with capital initial is: None {Not here, but in the SCRIPT_NAME.xml}
+# Note: list of values must be written in the quotation mark
 from lxml import objectify, etree
 
 ChemML = objectify.Element("ChemML",generation_date="12/15/2015", version="0.0.01")
 
 INPUT = objectify.SubElement(ChemML, "INPUT", status = 'on')
 ChemML.INPUT.data_path = "benchmarks/homo_dump/sample_50/data_NOsmi_50.csv"
-ChemML.INPUT.data_delimiter = None
-ChemML.INPUT.data_header = '[0,1]'
+ChemML.INPUT.data_delimiter = 'None'
+ChemML.INPUT.data_header = 0
 ChemML.INPUT.data_skiprows = 0
 ChemML.INPUT.target_path = "benchmarks/homo_dump/sample_50/homo_50.csv"
-ChemML.INPUT.target_delimiter = None
-ChemML.INPUT.target_header = 0
+ChemML.INPUT.target_delimiter = 'None'
+ChemML.INPUT.target_header = 'None'
 ChemML.INPUT.target_skiprows = 0
 
 
@@ -26,7 +26,7 @@ MISSING_VALUES = objectify.SubElement(PREPROCESSING, "MISSING_VALUES", status = 
 ChemML.PREPROCESSING.MISSING_VALUES.string_as_null = True
 ChemML.PREPROCESSING.MISSING_VALUES.missing_values = False
 ChemML.PREPROCESSING.MISSING_VALUES.inf_as_null = True
-ChemML.PREPROCESSING.MISSING_VALUES.method = "mean"
+ChemML.PREPROCESSING.MISSING_VALUES.strategy = "mean"
 
 ##########################################################################
 objectify.deannotate(ChemML)

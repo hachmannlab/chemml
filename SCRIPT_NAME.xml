@@ -1,12 +1,12 @@
-<ChemML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" generation_date="12/15/2015" version="0.0.01">
+<ChemML generation_date="12/15/2015" version="0.0.01">
   <INPUT status="on">
     <data_path>benchmarks/homo_dump/sample_50/data_NOsmi_50.csv</data_path>
-    <data_delimiter xsi:nil="true"/>
-    <data_header>[0,1]</data_header>
+    <data_delimiter>None</data_delimiter>
+    <data_header>0</data_header>
     <data_skiprows>0</data_skiprows>
     <target_path>benchmarks/homo_dump/sample_50/homo_50.csv</target_path>
-    <target_delimiter xsi:nil="true"/>
-    <target_header>0</target_header>
+    <target_delimiter>None</target_delimiter>
+    <target_header>None</target_header>
     <target_skiprows>0</target_skiprows>
   </INPUT>
   <OUTPUT status="on">
@@ -20,7 +20,7 @@
       <string_as_null>true</string_as_null>
       <missing_values>false</missing_values>
       <inf_as_null>true</inf_as_null>
-      <method>mean</method>
+      <strategy>mean</strategy>
     </MISSING_VALUES>
   </PREPROCESSING>
 </ChemML>

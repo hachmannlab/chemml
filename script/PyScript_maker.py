@@ -33,13 +33,13 @@ from lxml import objectify, etree
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*									  
 
-def _status_parser(todo_order, element):
+def _status_parser(fis, element):
     for sub_element in element.iterchildren():
         if sub_element.attrib['status']=='on':
-            todo_order.append(sub_element.tag)
-        elif sub_element.attrib['status']=='sub':
-            _status_parser(todo_order, sub_element)
-    return todo_order
+            fis.append(sub_element.tag)
+#         elif sub_element.attrib['status']=='sub':
+#             _status_parser(fis, sub_element)
+    return fis
     
 def main(SCRIPT_NAME):
     """main:
@@ -60,16 +60,16 @@ def main(SCRIPT_NAME):
     etree.cleanup_namespaces(cmls)
     print "\n"
     print(objectify.dump(cmls))
-    todo_order = []
-    _status_parser(todo_order, cmls)
+    fis = []
+    fis = _status_parser(fis, cmls)
 
     ## CHECK SCRIPT'S REQUIREMENTS    
-    if "INPUT" not in todo_order or cmls.INPUT.data_path == "enter data path" :
-        raise RuntimeError("cheml requires input data")
+#     if "INPUT" not in todo_order or cmls.INPUT.data_path == "enter data path" :
+#         raise RuntimeError("cheml requires input data")
         # TODO: check typical error names		
 
     ## PYTHON SCRIPT
-    if "OUTPUT" in todo_order:
+    if "OUTPUT" in fis:
         pyscript_file = cmls.OUTPUT.filename_pyscript.pyval
     else:
         pyscript_file = "CheML_PyScript.py"
@@ -82,14 +82,14 @@ def main(SCRIPT_NAME):
                  'MISSING_VALUES'       : MISSING_VALUES 
                 }
 
-    for order in todo_order:
-        if order not in functions:
-            raise NameError("name %s is not defined"%order)
-        functions[order]()
+    for fi in fis:
+        if cmls[fi].attrib['function'] not in functions:
+            raise NameError("name %s is not defined"%cmls[fi].attrib['function'])
+        functions[cmls[fi].attrib['function']](fi)
     print "\n"
     print "NOTES:"
     print "* The python script with name '%s' has been stored in the current directory."\
-     %cmls.OUTPUT.filename_pyscript.pyval
+     %pyscript_file
     print "** list of required 'package: module's in the python script:", imports
     print "\n"
 
@@ -125,7 +125,7 @@ def block(state, function):
 	
 ##################################################################################################
 
-def INPUT():
+def INPUT(fi):
     """(INPUT):
 		Read input files.
 		pandas.read_csv: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
@@ -134,18 +134,18 @@ def INPUT():
     pyscript.write("import pandas as pd\n")
     imports.append("pandas")
     line = "data = pd.read_csv('%s';sep = %s;skiprows = %s;header = %s)"\
-        %(cmls.INPUT.data_path, cmls.INPUT.data_delimiter,cmls.INPUT.data_skiprows,\
-        cmls.INPUT.data_header)
+        %(cmls[fi].data_path, cmls[fi].data_delimiter,cmls[fi].data_skiprows,\
+        cmls[fi].data_header)
     write_split(line)
     line = "target = pd.read_csv('%s';sep = %s;skiprows = %s;header = %s)"\
-        %(cmls.INPUT.target_path, cmls.INPUT.target_delimiter,\
-        cmls.INPUT.target_skiprows,cmls.INPUT.target_header)
+        %(cmls[fi].target_path, cmls[fi].target_delimiter,\
+        cmls[fi].target_skiprows,cmls[fi].target_header)
     write_split(line) 	
     block ('end', 'INPUT' )
     
 									###################
     
-def OUTPUT():
+def OUTPUT(fi):
     """(OUTPUT):
 		Open output files.
     """
@@ -154,13 +154,13 @@ def OUTPUT():
         pyscript.write("from cheml import initialization\n")
         imports.append("cheml: initialization")
     line = "output_directory, log_file, error_file = initialization.output(output_directory = '%s';logfile = '%s';errorfile = '%s')"\
-        %(cmls.OUTPUT.path, cmls.OUTPUT.filename_logfile, cmls.OUTPUT.filename_errorfile)
+        %(cmls[fi].path, cmls[fi].filename_logfile, cmls[fi].filename_errorfile)
     write_split(line)
     block ('end', 'OUTPUT')
     
 									###################
 
-def MISSING_VALUES():
+def MISSING_VALUES(fi):
     """(MISSING_VALUES):
 		Handle missing values.
     """
@@ -169,21 +169,21 @@ def MISSING_VALUES():
         pyscript.write("from cheml import preprocessing\n")
         imports.append("cheml: preprocessing")
     line = """missval = preprocessing.missing_values(strategy = '%s';string_as_null = %s;inf_as_null = %s;missing_values = %s)"""\
-        %(cmls.PREPROCESSING.MISSING_VALUES.strategy,cmls.PREPROCESSING.MISSING_VALUES.string_as_null,cmls.PREPROCESSING.MISSING_VALUES.inf_as_null,cmls.PREPROCESSING.MISSING_VALUES.missing_values)
+        %(cmls[fi].strategy,cmls[fi].string_as_null,cmls[fi].inf_as_null,cmls[fi].missing_values)
     write_split(line)
     line = """data = missval.fit(data)"""
     pyscript.write(line + '\n')
     line = """target = missval.fit(target)"""
     pyscript.write(line + '\n')
-    if cmls.PREPROCESSING.MISSING_VALUES.strategy in ['zero', 'ignore', 'interpolate']:
+    if cmls[fi].strategy in ['zero', 'ignore', 'interpolate']:
         line = """data, target = missval.transform(data, target)"""
         pyscript.write(line + '\n')
-    elif cmls.PREPROCESSING.MISSING_VALUES.strategy in ['mean', 'median', 'most_frequent']:
+    elif cmls[fi].strategy in ['mean', 'median', 'most_frequent']:
         if "sklearn: Imputer" not in imports:
             pyscript.write("from sklearn.preprocessing import Imputer\n")
             imports.append("sklearn: Imputer")
         line = """imp = Imputer(strategy = '%s';missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
-            %(cmls.PREPROCESSING.MISSING_VALUES.strategy)
+            %(cmls[fi].strategy)
         write_split(line)
         line = """df_columns = data.columns """
         pyscript.write(line + '\n')

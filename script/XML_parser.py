@@ -21,4 +21,4 @@ def main(SCRIPT_NAME):
                     
 
     
-cmls = main('SCRIPT_NAME.xml')
+cmls = main('CMLS.xml')

@@ -1,5 +1,5 @@
 <CheML generation_date="12/15/2015" version="0.0.01">
-  <INPUT status="on">
+  <f1 function="INPUT" status="on">
     <data_path>benchmarks/homo_dump/sample_50/data_NOsmi_50.csv</data_path>
     <data_delimiter>None</data_delimiter>
     <data_header>0</data_header>
@@ -8,19 +8,23 @@
     <target_delimiter>None</target_delimiter>
     <target_header>None</target_header>
     <target_skiprows>0</target_skiprows>
-  </INPUT>
-  <OUTPUT status="on">
+  </f1>
+  <f2 function="OUTPUT" status="on">
     <path>CheML.out</path>
     <filename_pyscript>CheML_PyScript.py</filename_pyscript>
     <filename_logfile>log.txt</filename_logfile>
     <filename_errorfile>error.txt</filename_errorfile>
-  </OUTPUT>
-  <PREPROCESSING status="sub">
-    <MISSING_VALUES status="on">
-      <string_as_null>true</string_as_null>
-      <missing_values>false</missing_values>
-      <inf_as_null>true</inf_as_null>
-      <strategy>mean</strategy>
-    </MISSING_VALUES>
-  </PREPROCESSING>
+  </f2>
+  <f3 function="MISSING_VALUES" status="on">
+    <string_as_null>true</string_as_null>
+    <missing_values>false</missing_values>
+    <inf_as_null>true</inf_as_null>
+    <strategy>mean</strategy>
+  </f3>
+  <f4 function="MISSING_VALUES" status="on">
+    <string_as_null>true</string_as_null>
+    <missing_values>false</missing_values>
+    <inf_as_null>true</inf_as_null>
+    <strategy>median</strategy>
+  </f4>
 </CheML>

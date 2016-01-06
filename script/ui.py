@@ -2,34 +2,39 @@
 # Note: list of values must be written in the quotation mark
 from lxml import objectify, etree
 
-CheML = objectify.Element("CheML",generation_date="12/15/2015", version="0.0.01")
+cmls = objectify.Element("CheML",generation_date="12/15/2015", version="0.0.01")
 
-INPUT = objectify.SubElement(CheML, "INPUT", status = 'on')
-CheML.INPUT.data_path = "benchmarks/homo_dump/sample_50/data_NOsmi_50.csv"
-CheML.INPUT.data_delimiter = 'None'
-CheML.INPUT.data_header = 0
-CheML.INPUT.data_skiprows = 0
-CheML.INPUT.target_path = "benchmarks/homo_dump/sample_50/homo_50.csv"
-CheML.INPUT.target_delimiter = 'None'
-CheML.INPUT.target_header = 'None'
-CheML.INPUT.target_skiprows = 0
+f1 = objectify.SubElement(cmls, "f1", function = "INPUT", status = 'on')
+cmls.f1.data_path = "benchmarks/homo_dump/sample_50/data_NOsmi_50.csv"
+cmls.f1.data_delimiter = 'None'
+cmls.f1.data_header = 0
+cmls.f1.data_skiprows = 0
+cmls.f1.target_path = "benchmarks/homo_dump/sample_50/homo_50.csv"
+cmls.f1.target_delimiter = 'None'
+cmls.f1.target_header = 'None'
+cmls.f1.target_skiprows = 0
 
 
-OUTPUT = objectify.SubElement(CheML, "OUTPUT", status = 'on')
-CheML.OUTPUT.path = "CheML.out"
-CheML.OUTPUT.filename_pyscript = "CheML_PyScript.py"
-CheML.OUTPUT.filename_logfile = "log.txt"
-CheML.OUTPUT.filename_errorfile = "error.txt"
+f2 = objectify.SubElement(cmls, "f2", function = "OUTPUT", status = 'on')
+cmls.f2.path = "CheML.out"
+cmls.f2.filename_pyscript = "CheML_PyScript.py"
+cmls.f2.filename_logfile = "log.txt"
+cmls.f2.filename_errorfile = "error.txt"
 
-PREPROCESSING = objectify.SubElement(CheML, "PREPROCESSING", status = 'sub')
-MISSING_VALUES = objectify.SubElement(PREPROCESSING, "MISSING_VALUES", status = 'on')
-CheML.PREPROCESSING.MISSING_VALUES.string_as_null = True
-CheML.PREPROCESSING.MISSING_VALUES.missing_values = False
-CheML.PREPROCESSING.MISSING_VALUES.inf_as_null = True
-CheML.PREPROCESSING.MISSING_VALUES.strategy = "mean"
+f3 = objectify.SubElement(cmls, "f3", function = "MISSING_VALUES", status = 'on')
+cmls.f3.string_as_null = True
+cmls.f3.missing_values = False
+cmls.f3.inf_as_null = True
+cmls.f3.strategy = "mean"
+
+f4 = objectify.SubElement(cmls, "f4", function = "MISSING_VALUES", status = 'on')
+cmls.f4.string_as_null = True
+cmls.f4.missing_values = False
+cmls.f4.inf_as_null = True
+cmls.f4.strategy = "mean"
 
 ##########################################################################
-objectify.deannotate(CheML)
-etree.cleanup_namespaces(CheML)
+objectify.deannotate(cmls)
+etree.cleanup_namespaces(cmls)
 with open('CMLS.xml', 'w') as outfile:
-    outfile.write("%s" %etree.tostring(CheML, pretty_print=True))
+    outfile.write("%s" %etree.tostring(cmls, pretty_print=True))

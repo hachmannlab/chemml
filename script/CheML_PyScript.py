@@ -31,31 +31,23 @@ imp = Imputer(strategy = 'mean',
               axis = 0,
               verbose = 0,
               copy = True)
-df_columns = data.columns 
-data = imp.fit_transform(data)
-data = pd.DataFrame(data,columns=df_columns)
-df_columns = target.columns 
-target = imp.fit_transform(target)
-target = pd.DataFrame(target,columns=df_columns)
+data = preprocessing.Imputer_dataframe(imputer = imp, df = data)
+target = preprocessing.Imputer_dataframe(imputer = imp, df = target)
 ###########################
 
 ########################### MISSING_VALUES
-missval = preprocessing.missing_values(strategy = 'median',
+missval = preprocessing.missing_values(strategy = 'mean',
                                        string_as_null = True,
                                        inf_as_null = True,
                                        missing_values = False)
 data = missval.fit(data)
 target = missval.fit(target)
-imp = Imputer(strategy = 'median',
+imp = Imputer(strategy = 'mean',
               missing_values = 'NaN',
               axis = 0,
               verbose = 0,
               copy = True)
-df_columns = data.columns 
-data = imp.fit_transform(data)
-data = pd.DataFrame(data,columns=df_columns)
-df_columns = target.columns 
-target = imp.fit_transform(target)
-target = pd.DataFrame(target,columns=df_columns)
+data = preprocessing.Imputer_dataframe(imputer = imp, df = data)
+target = preprocessing.Imputer_dataframe(imputer = imp, df = target)
 ###########################
 

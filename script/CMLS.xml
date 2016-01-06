@@ -25,6 +25,6 @@
     <string_as_null>true</string_as_null>
     <missing_values>false</missing_values>
     <inf_as_null>true</inf_as_null>
-    <strategy>median</strategy>
+    <strategy>mean</strategy>
   </f4>
 </CheML>

@@ -64,13 +64,15 @@ def main(SCRIPT_NAME):
     fis = _status_parser(fis, cmls)
 
     ## CHECK SCRIPT'S REQUIREMENTS    
-#     if "INPUT" not in todo_order or cmls.INPUT.data_path == "enter data path" :
-#         raise RuntimeError("cheml requires input data")
+    functions = [element.attrib['function'] for element in cmls.iterchildren()]
+    if "INPUT" not in functions:
+        raise RuntimeError("cheml requires input data")
         # TODO: check typical error names		
 
     ## PYTHON SCRIPT
-    if "OUTPUT" in fis:
-        pyscript_file = cmls.OUTPUT.filename_pyscript.pyval
+    if "OUTPUT" in functions:
+        output_ind = functions.index("OUTPUT")
+        pyscript_file = cmls[fis[output_ind]].filename_pyscript.pyval
     else:
         pyscript_file = "CheML_PyScript.py"
     pyscript = open(pyscript_file,'w',0)
@@ -89,7 +91,7 @@ def main(SCRIPT_NAME):
     print "\n"
     print "NOTES:"
     print "* The python script with name '%s' has been stored in the current directory."\
-     %pyscript_file
+        %pyscript_file
     print "** list of required 'package: module's in the python script:", imports
     print "\n"
 
@@ -185,17 +187,9 @@ def MISSING_VALUES(fi):
         line = """imp = Imputer(strategy = '%s';missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
             %(cmls[fi].strategy)
         write_split(line)
-        line = """df_columns = data.columns """
+        line = """data = preprocessing.Imputer_dataframe(imputer = imp, df = data)"""
         pyscript.write(line + '\n')
-        line = """data = imp.fit_transform(data)"""
-        pyscript.write(line + '\n')
-        line = """data = pd.DataFrame(data,columns=df_columns)"""
-        pyscript.write(line + '\n')
-        line = """df_columns = target.columns """
-        pyscript.write(line + '\n')
-        line = """target = imp.fit_transform(target)"""
-        pyscript.write(line + '\n')
-        line = """target = pd.DataFrame(target,columns=df_columns)"""
+        line = """target = preprocessing.Imputer_dataframe(imputer = imp, df = target)"""
         pyscript.write(line + '\n')
     block ('end', 'MISSING_VALUES')
 

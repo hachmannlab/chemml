@@ -12,7 +12,7 @@ target = pd.read_csv('benchmarks/homo_dump/sample_50/homo_50.csv',
 
 ########################### OUTPUT
 from cheml import initialization
-output_directory, log_file, error_file = initialization.output(output_directory = 'ChemML.out',
+output_directory, log_file, error_file = initialization.output(output_directory = 'CheML.out',
                                                                logfile = 'log.txt',
                                                                errorfile = 'error.txt')
 ###########################

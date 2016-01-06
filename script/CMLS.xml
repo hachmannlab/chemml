@@ -1,4 +1,4 @@
-<ChemML generation_date="12/15/2015" version="0.0.01">
+<CheML generation_date="12/15/2015" version="0.0.01">
   <INPUT status="on">
     <data_path>benchmarks/homo_dump/sample_50/data_NOsmi_50.csv</data_path>
     <data_delimiter>None</data_delimiter>
@@ -10,8 +10,8 @@
     <target_skiprows>0</target_skiprows>
   </INPUT>
   <OUTPUT status="on">
-    <path>ChemML.out</path>
-    <filename_pyscript>ChemML_PyScript.py</filename_pyscript>
+    <path>CheML.out</path>
+    <filename_pyscript>CheML_PyScript.py</filename_pyscript>
     <filename_logfile>log.txt</filename_logfile>
     <filename_errorfile>error.txt</filename_errorfile>
   </OUTPUT>
@@ -23,4 +23,4 @@
       <strategy>mean</strategy>
     </MISSING_VALUES>
   </PREPROCESSING>
-</ChemML>
+</CheML>

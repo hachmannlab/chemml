@@ -72,7 +72,7 @@ def main(SCRIPT_NAME):
     if "OUTPUT" in todo_order:
         pyscript_file = cmls.OUTPUT.filename_pyscript.pyval
     else:
-        pyscript_file = "ChemML_PyScript.py"
+        pyscript_file = "CheML_PyScript.py"
     pyscript = open(pyscript_file,'w',0)
     imports = []    
 
@@ -209,7 +209,6 @@ def MISSING_VALUES():
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#"""
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*					
-
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")

@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from scipy import stats
+import warnings
 
 from ..utils.validation import isfloat
-
+from ..utils.utilities import list_del_indices
 __all__ = [
     'missing_values',
 ]
@@ -47,8 +47,6 @@ def _check_object_col(df, name):
         df = df.drop(object_cols,1)
     return df
     
-
-
 class missing_values(object):
     """ Handle all the missing values.
     
@@ -83,6 +81,10 @@ class missing_values(object):
         self.missing_values = missing_values
         
     def fit(self, df):
+        """
+        fit changes all missing values to nan. Then, they would be ready to be 
+        filled with pandas.fillna or sklearn.Imputer with specific strategies. 
+        """
         if self.inf_as_null == True:
             df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
         if self.string_as_null == True:
@@ -116,3 +118,31 @@ class missing_values(object):
             data.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
             data, target = cut_df(list(target.columns), data, paste_col=list(target.columns), on_right=True)
             return data, target
+
+def Imputer_dataframe(imputer, df):
+    """ keep track of features (columns) that can be removed or changed in the 
+        Imputer by going back to pandas dataframe structure. This happens based on
+        the "statistics_" attribute of Imputer.
+    
+    Parameters
+    ----------
+    imputer: Imputer class 
+         The class with adjusted parameters.
+         
+    df: Pandas dataframe
+        The dataframe that imp is going to deal with.
+    
+    Returns
+    -------
+    transformed data frame
+
+    """
+    df_columns = list(df.columns)
+    df = imputer.fit_transform(df)
+    if df.shape[1] == 0:
+        warnings.warn("empty dataframe: all columns have been removed",Warning)
+    stats = imputer.statistics_
+    nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)] 
+    df_columns = list_del_indices(df_columns, nan_ind)
+    df = pd.DataFrame(df,columns=df_columns)
+    return df

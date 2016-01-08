@@ -121,20 +121,21 @@ class missing_values(object):
 
 def Imputer_dataframe(imputer, df):
     """ keep track of features (columns) that can be removed or changed in the 
-        Imputer by going back to pandas dataframe structure. This happens based on
+        Imputer by transforming data back to pandas dataframe structure. This happens based on
         the "statistics_" attribute of Imputer.
     
     Parameters
     ----------
-    imputer: Imputer class 
+    imputer: sklearn Imputer class 
          The class with adjusted parameters.
          
     df: Pandas dataframe
-        The dataframe that imp is going to deal with.
+        The dataframe that imputer is going to deal with.
     
     Returns
     -------
     transformed data frame
+    fitted imputer class
 
     """
     df_columns = list(df.columns)
@@ -145,4 +146,4 @@ def Imputer_dataframe(imputer, df):
     nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)] 
     df_columns = list_del_indices(df_columns, nan_ind)
     df = pd.DataFrame(df,columns=df_columns)
-    return df
+    return imputer, df

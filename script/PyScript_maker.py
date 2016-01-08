@@ -84,7 +84,8 @@ def main(SCRIPT_NAME):
                  'MISSING_VALUES'       : MISSING_VALUES,
                  'StandardScaler'       : StandardScaler,
                  'MinMaxScaler'         : MinMaxScaler,
-                 'MaxAbsScaler'         : MaxAbsScaler 
+                 'MaxAbsScaler'         : MaxAbsScaler,
+                 'RobustScaler'         : RobustScaler 
                 }
 
     for fi in fis:
@@ -265,6 +266,28 @@ def MaxAbsScaler(fi):
     pyscript.write(line + '\n')
     block ('end', 'MaxAbsScaler')
 
+									###################
+
+def RobustScaler(fi):
+    """(RobustScaler):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler    
+    """
+    block ('begin', 'RobustScaler')
+    if "cheml: preprocessing" not in imports:
+        pyscript.write("from cheml import preprocessing\n")
+        imports.append("cheml: preprocessing")    
+    if "sklearn: RobustScaler" not in imports:
+        pyscript.write("from sklearn.preprocessing import RobustScaler\n")
+        imports.append("sklearn: RobustScaler")
+
+    line = """robust_scaler = RobustScaler(with_centering = %s;with_scaling = %s;copy = %s)"""\
+        %(cmls[fi].with_centering,cmls[fi].with_scaling,cmls[fi].copy)
+    write_split(line)
+    line = """data_robust_scaler, data = preprocessing.Scaler_dataframe(scaler = robust_scaler, df = data)"""
+    pyscript.write(line + '\n')
+    line = """target_robust_scaler, target = preprocessing.Scaler_dataframe(scaler = robust_scaler, df = target)"""
+    pyscript.write(line + '\n')
+    block ('end', 'RobustScaler')
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$

@@ -38,6 +38,11 @@ cmls.f5.copy = True
 f6 = objectify.SubElement(cmls, "f6", function = "MaxAbsScaler", status = 'on')
 cmls.f6.copy = True
 
+f7 = objectify.SubElement(cmls, "f7", function = "RobustScaler", status = 'on')
+cmls.f7.with_centering = True
+cmls.f7.with_scaling = True
+cmls.f7.copy = True
+
 ##########################################################################
 objectify.deannotate(cmls)
 etree.cleanup_namespaces(cmls)

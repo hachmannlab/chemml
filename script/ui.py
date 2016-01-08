@@ -14,7 +14,6 @@ cmls.f1.target_delimiter = 'None'
 cmls.f1.target_header = 'None'
 cmls.f1.target_skiprows = 0
 
-
 f2 = objectify.SubElement(cmls, "f2", function = "OUTPUT", status = 'on')
 cmls.f2.path = "CheML.out"
 cmls.f2.filename_pyscript = "CheML_PyScript.py"
@@ -27,11 +26,17 @@ cmls.f3.missing_values = False
 cmls.f3.inf_as_null = True
 cmls.f3.strategy = "mean"
 
-f4 = objectify.SubElement(cmls, "f4", function = "MISSING_VALUES", status = 'on')
-cmls.f4.string_as_null = True
-cmls.f4.missing_values = False
-cmls.f4.inf_as_null = True
-cmls.f4.strategy = "mean"
+f4 = objectify.SubElement(cmls, "f4", function = "StandardScaler", status = 'on')
+cmls.f4.copy = True
+cmls.f4.with_mean = True
+cmls.f4.with_std = True
+
+f5 = objectify.SubElement(cmls, "f5", function = "MinMaxScaler", status = 'on')
+cmls.f5.feature_range = (0,1)
+cmls.f5.copy = True
+
+f6 = objectify.SubElement(cmls, "f6", function = "MaxAbsScaler", status = 'on')
+cmls.f6.copy = True
 
 ##########################################################################
 objectify.deannotate(cmls)

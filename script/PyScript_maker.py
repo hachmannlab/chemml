@@ -81,7 +81,10 @@ def main(SCRIPT_NAME):
     ## implementing orders
     functions = {'INPUT'                : INPUT,
                  'OUTPUT'               : OUTPUT,
-                 'MISSING_VALUES'       : MISSING_VALUES 
+                 'MISSING_VALUES'       : MISSING_VALUES,
+                 'StandardScaler'       : StandardScaler,
+                 'MinMaxScaler'         : MinMaxScaler,
+                 'MaxAbsScaler'         : MaxAbsScaler 
                 }
 
     for fi in fis:
@@ -187,11 +190,80 @@ def MISSING_VALUES(fi):
         line = """imp = Imputer(strategy = '%s';missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
             %(cmls[fi].strategy)
         write_split(line)
-        line = """data = preprocessing.Imputer_dataframe(imputer = imp, df = data)"""
+        line = """imp_data, data = preprocessing.Imputer_dataframe(imputer = imp, df = data)"""
         pyscript.write(line + '\n')
-        line = """target = preprocessing.Imputer_dataframe(imputer = imp, df = target)"""
+        line = """imp_target, target = preprocessing.Imputer_dataframe(imputer = imp, df = target)"""
         pyscript.write(line + '\n')
     block ('end', 'MISSING_VALUES')
+				
+									###################
+
+def StandardScaler(fi):
+    """(StandardScaler):
+		http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler
+    """
+    block ('begin', 'StandardScaler')
+    if "cheml: preprocessing" not in imports:
+        pyscript.write("from cheml import preprocessing\n")
+        imports.append("cheml: preprocessing")    
+    if "sklearn: StandardScaler" not in imports:
+        pyscript.write("from sklearn.preprocessing import StandardScaler\n")
+        imports.append("sklearn: StandardScaler")
+
+    line = """scaler = StandardScaler(copy = %s;with_mean = %s;with_std = %s)"""\
+        %(cmls[fi].copy,cmls[fi].with_mean,cmls[fi].with_std)
+    write_split(line)
+    line = """data_scaler, data = preprocessing.Scaler_dataframe(scaler = scaler, df = data)"""
+    pyscript.write(line + '\n')
+    line = """target_scaler, target = preprocessing.Scaler_dataframe(scaler = scaler, df = target)"""
+    pyscript.write(line + '\n')
+    block ('end', 'StandardScaler')
+				
+									###################
+
+def MinMaxScaler(fi):
+    """(MinMaxScaler):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler    
+    """
+    block ('begin', 'MinMaxScaler')
+    if "cheml: preprocessing" not in imports:
+        pyscript.write("from cheml import preprocessing\n")
+        imports.append("cheml: preprocessing")    
+    if "sklearn: MinMaxScaler" not in imports:
+        pyscript.write("from sklearn.preprocessing import MinMaxScaler\n")
+        imports.append("sklearn: MinMaxScaler")
+
+    line = """min_max_scaler = MinMaxScaler(feature_range = %s;copy = %s)"""\
+        %(cmls[fi].feature_range,cmls[fi].copy)
+    write_split(line)
+    line = """data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = data)"""
+    pyscript.write(line + '\n')
+    line = """target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = target)"""
+    pyscript.write(line + '\n')
+    block ('end', 'MinMaxScaler')
+				
+									###################
+
+def MaxAbsScaler(fi):
+    """(MaxAbsScaler):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler    
+    """
+    block ('begin', 'MaxAbsScaler')
+    if "cheml: preprocessing" not in imports:
+        pyscript.write("from cheml import preprocessing\n")
+        imports.append("cheml: preprocessing")    
+    if "sklearn: MaxAbsScaler" not in imports:
+        pyscript.write("from sklearn.preprocessing import MaxAbsScaler\n")
+        imports.append("sklearn: MaxAbsScaler")
+
+    line = """max_abs_scaler = MaxAbsScaler(copy = %s)"""\
+        %(cmls[fi].copy)
+    pyscript.write(line + '\n')
+    line = """data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = data)"""
+    pyscript.write(line + '\n')
+    line = """target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = target)"""
+    pyscript.write(line + '\n')
+    block ('end', 'MaxAbsScaler')
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

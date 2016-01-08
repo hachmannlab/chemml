@@ -21,10 +21,17 @@
     <inf_as_null>true</inf_as_null>
     <strategy>mean</strategy>
   </f3>
-  <f4 function="MISSING_VALUES" status="on">
-    <string_as_null>true</string_as_null>
-    <missing_values>false</missing_values>
-    <inf_as_null>true</inf_as_null>
-    <strategy>mean</strategy>
+  <f4 function="StandardScaler" status="on">
+    <copy>true</copy>
+    <with_mean>true</with_mean>
+    <with_std>true</with_std>
   </f4>
+  <f5 function="MinMaxScaler" status="on">
+    <feature_range>0</feature_range>
+    <feature_range>1</feature_range>
+    <copy>true</copy>
+  </f5>
+  <f6 function="MaxAbsScaler" status="on">
+    <copy>true</copy>
+  </f6>
 </CheML>

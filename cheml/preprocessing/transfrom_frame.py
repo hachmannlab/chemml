@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def Scaler_dataframe(scaler, df):
+def transformer_dataframe(transformer, df):
     """ keep track of features (columns) that can be removed or changed in the 
         Scaler by transforming data back to pandas dataframe structure. 
     

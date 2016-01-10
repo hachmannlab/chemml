@@ -43,6 +43,11 @@ cmls.f7.with_centering = True
 cmls.f7.with_scaling = True
 cmls.f7.copy = True
 
+f8 = objectify.SubElement(cmls, "f8", function = "Normalizer", status = 'on')
+cmls.f8.norm = 'l2'
+cmls.f8.copy = True
+
+
 ##########################################################################
 objectify.deannotate(cmls)
 etree.cleanup_namespaces(cmls)

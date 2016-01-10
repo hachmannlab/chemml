@@ -85,7 +85,8 @@ def main(SCRIPT_NAME):
                  'StandardScaler'       : StandardScaler,
                  'MinMaxScaler'         : MinMaxScaler,
                  'MaxAbsScaler'         : MaxAbsScaler,
-                 'RobustScaler'         : RobustScaler 
+                 'RobustScaler'         : RobustScaler,
+                 'Normalizer'           : Normalizer 
                 }
 
     for fi in fis:
@@ -214,9 +215,9 @@ def StandardScaler(fi):
     line = """scaler = StandardScaler(copy = %s;with_mean = %s;with_std = %s)"""\
         %(cmls[fi].copy,cmls[fi].with_mean,cmls[fi].with_std)
     write_split(line)
-    line = """data_scaler, data = preprocessing.Scaler_dataframe(scaler = scaler, df = data)"""
+    line = """data_scaler, data = preprocessing.transformer_dataframe(transformer = scaler, df = data)"""
     pyscript.write(line + '\n')
-    line = """target_scaler, target = preprocessing.Scaler_dataframe(scaler = scaler, df = target)"""
+    line = """target_scaler, target = preprocessing.transformer_dataframe(transformer = scaler, df = target)"""
     pyscript.write(line + '\n')
     block ('end', 'StandardScaler')
 				
@@ -237,9 +238,9 @@ def MinMaxScaler(fi):
     line = """min_max_scaler = MinMaxScaler(feature_range = %s;copy = %s)"""\
         %(cmls[fi].feature_range,cmls[fi].copy)
     write_split(line)
-    line = """data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = data)"""
+    line = """data_min_max_scaler, data = preprocessing.transformer_dataframe(transformer = min_max_scaler, df = data)"""
     pyscript.write(line + '\n')
-    line = """target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = target)"""
+    line = """target_min_max_scaler, target = preprocessing.transformer_dataframe(transformer = min_max_scaler, df = target)"""
     pyscript.write(line + '\n')
     block ('end', 'MinMaxScaler')
 				
@@ -260,9 +261,9 @@ def MaxAbsScaler(fi):
     line = """max_abs_scaler = MaxAbsScaler(copy = %s)"""\
         %(cmls[fi].copy)
     pyscript.write(line + '\n')
-    line = """data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = data)"""
+    line = """data_min_max_scaler, data = preprocessing.transformer_dataframe(transformer = max_abs_scaler, df = data)"""
     pyscript.write(line + '\n')
-    line = """target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = target)"""
+    line = """target_min_max_scaler, target = preprocessing.transformer_dataframe(transformer = max_abs_scaler, df = target)"""
     pyscript.write(line + '\n')
     block ('end', 'MaxAbsScaler')
 
@@ -283,11 +284,34 @@ def RobustScaler(fi):
     line = """robust_scaler = RobustScaler(with_centering = %s;with_scaling = %s;copy = %s)"""\
         %(cmls[fi].with_centering,cmls[fi].with_scaling,cmls[fi].copy)
     write_split(line)
-    line = """data_robust_scaler, data = preprocessing.Scaler_dataframe(scaler = robust_scaler, df = data)"""
+    line = """data_robust_scaler, data = preprocessing.transformer_dataframe(transformer = robust_scaler, df = data)"""
     pyscript.write(line + '\n')
-    line = """target_robust_scaler, target = preprocessing.Scaler_dataframe(scaler = robust_scaler, df = target)"""
+    line = """target_robust_scaler, target = preprocessing.transformer_dataframe(transformer = robust_scaler, df = target)"""
     pyscript.write(line + '\n')
     block ('end', 'RobustScaler')
+
+									###################
+
+def Normalizer(fi):
+    """(Normalizer):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer    
+    """
+    block ('begin', 'Normalizer')
+    if "cheml: preprocessing" not in imports:
+        pyscript.write("from cheml import preprocessing\n")
+        imports.append("cheml: preprocessing")    
+    if "sklearn: RobustScaler" not in imports:
+        pyscript.write("from sklearn.preprocessing import Normalizer\n")
+        imports.append("sklearn: Normalizer")
+
+    line = """normalizer = Normalizer(norm = '%s';copy = %s)"""\
+        %(cmls[fi].norm,cmls[fi].copy)
+    write_split(line)
+    line = """data_normalizer, data = preprocessing.transformer_dataframe(transformer = normalizer, df = data)"""
+    pyscript.write(line + '\n')
+    line = """target_normalizer, target = preprocessing.transformer_dataframe(transformer = normalizer, df = target)"""
+    pyscript.write(line + '\n')
+    block ('end', 'Normalizer')
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$

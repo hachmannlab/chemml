@@ -1,3 +1,7 @@
+########################### Import
+import numpy as np
+###########################
+
 ########################### INPUT
 import pandas as pd
 data = pd.read_csv('benchmarks/homo_dump/sample_50/data_NOsmi_50.csv',
@@ -37,25 +41,82 @@ imp_target, target = preprocessing.Imputer_dataframe(imputer = imp, df = target)
 
 ########################### StandardScaler
 from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler(copy = True,
-                        with_mean = True,
-                        with_std = True)
-data_scaler, data = preprocessing.Scaler_dataframe(scaler = scaler, df = data)
-target_scaler, target = preprocessing.Scaler_dataframe(scaler = scaler, df = target)
+StandardScaler_API = StandardScaler(copy = True,
+                                    with_mean = True,
+                                    with_std = True)
+StandardScaler_API_data, data = preprocessing.transformer_dataframe(transformer = StandardScaler_API,
+                                                                    df = data)
 ###########################
 
 ########################### MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
-min_max_scaler = MinMaxScaler(feature_range = 0,
-                              copy = True)
-data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = data)
-target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = min_max_scaler, df = target)
+MinMaxScaler_API = MinMaxScaler(feature_range = (0,1),
+                                copy = True)
+MinMaxScaler_API_data, data = preprocessing.transformer_dataframe(transformer = MinMaxScaler_API,
+                                                                  df = data)
 ###########################
 
 ########################### MaxAbsScaler
 from sklearn.preprocessing import MaxAbsScaler
-max_abs_scaler = MaxAbsScaler(copy = True)
-data_min_max_scaler, data = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = data)
-target_min_max_scaler, target = preprocessing.Scaler_dataframe(scaler = max_abs_scaler, df = target)
+MaxAbsScaler_API = MaxAbsScaler(copy = True)
+MaxAbsScaler_API_data, data = preprocessing.transformer_dataframe(transformer = MaxAbsScaler_API,
+                                                                  df = data)
+###########################
+
+########################### RobustScaler
+from sklearn.preprocessing import RobustScaler
+RobustScaler_API = RobustScaler(with_centering = True,
+                                with_scaling = True,
+                                copy = True)
+RobustScaler_API_data, data = preprocessing.transformer_dataframe(transformer = RobustScaler_API,
+                                                                  df = data)
+###########################
+
+########################### Normalizer
+from sklearn.preprocessing import Normalizer
+Normalizer_API = Normalizer(norm = "l2" ,
+                            copy = True)
+Normalizer_API_data, data = preprocessing.transformer_dataframe(transformer = Normalizer_API,
+                                                                df = data)
+###########################
+
+########################### Binarizer
+from sklearn.preprocessing import Binarizer
+Binarizer_API = Binarizer(threshold = 0,
+                          copy = True)
+Binarizer_API_data, data = preprocessing.transformer_dataframe(transformer = Binarizer_API,
+                                                               df = data)
+###########################
+
+########################### OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
+OneHotEncoder_API = OneHotEncoder(n_values = "auto" ,
+                                  categorical_features = "all" ,
+                                  dtype = np.float,
+                                  sparse = True,
+                                  handle_unknown = "error" )
+OneHotEncoder_API_data, data = preprocessing.transformer_dataframe(transformer = OneHotEncoder_API,
+                                                                   df = data)
+###########################
+
+########################### PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures
+PolynomialFeatures_API = PolynomialFeatures(degree = 2,
+                                            interaction_only = False,
+                                            include_bias = True)
+PolynomialFeatures_API_data, data = preprocessing.transformer_dataframe(transformer = PolynomialFeatures_API,
+                                                                        df = data)
+###########################
+
+########################### FunctionTransformer
+from sklearn.preprocessing import FunctionTransformer
+FunctionTransformer_API = FunctionTransformer(func = None,
+                                              validate = True,
+                                              accept_sparse = False,
+                                              pass_y = True)
+FunctionTransformer_API_data, data = preprocessing.transformer_dataframe(transformer = FunctionTransformer_API,
+                                                                         df = data)
+FunctionTransformer_API_target, target = preprocessing.transformer_dataframe(transformer = FunctionTransformer_API,
+                                                                             df = target)
 ###########################
 

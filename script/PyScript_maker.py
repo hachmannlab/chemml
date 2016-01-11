@@ -22,6 +22,7 @@ import time
 import copy
 import argparse
 from lxml import objectify, etree
+from sct_utils import isfloat, islist, istuple, isnpdot
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
@@ -86,7 +87,11 @@ def main(SCRIPT_NAME):
                  'MinMaxScaler'         : MinMaxScaler,
                  'MaxAbsScaler'         : MaxAbsScaler,
                  'RobustScaler'         : RobustScaler,
-                 'Normalizer'           : Normalizer 
+                 'Normalizer'           : Normalizer,
+                 'Binarizer'            : Binarizer,
+                 'OneHotEncoder'        : OneHotEncoder,
+                 'PolynomialFeatures'   : PolynomialFeatures,
+                 'FunctionTransformer'  : FunctionTransformer
                 }
 
     for fi in fis:
@@ -132,11 +137,49 @@ def block(state, function):
 	
 ##################################################################################################
 
+def gen_skl_preprocessing(fi, skl_funct, cml_funct, frames):
+    if cml_funct:
+        if "cheml: %s"%cml_funct not in imports:
+            pyscript.write("from cheml import %s\n"%cml_funct)
+            imports.append("cheml: %s"%cml_funct)    
+    if "sklearn: %s"%skl_funct not in imports:
+        pyscript.write("from sklearn.preprocessing import %s\n"%skl_funct)
+        imports.append("sklearn: %s"%skl_funct)
+    
+    line = "%s_%s = %s(" %(skl_funct,'API',skl_funct)
+    param_count = 0
+    for parameter in cmls[fi].iterchildren():
+        param_count += 1
+        if parameter == 'None' or isfloat(parameter) or islist(parameter) or istuple(parameter) or isnpdot(parameter):
+            line += """;%s = %s"""%(parameter.tag,cmls[fi][parameter.tag])
+        else:
+            line += """;%s = "%s" """%(parameter.tag,parameter)
+    line += ')'
+    line = line.replace('(;','(')
+    
+    if param_count > 1 :
+        write_split(line)
+    else:
+        pyscript.write(line + '\n')
+    
+    for frame in frames:
+        line = """%s_%s_%s, %s = preprocessing.transformer_dataframe(transformer = %s_%s;df = %s)"""\
+            %(skl_funct,'API',frame,frame,skl_funct,'API',frame)
+        write_split(line)
+
+
+##################################################################################################
+
 def INPUT(fi):
     """(INPUT):
 		Read input files.
 		pandas.read_csv: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
     """
+    block ('begin', 'Import' )
+    pyscript.write("import numpy as np\n")
+    imports.append("numpy")
+    block ('end', 'Import' )
+    
     block ('begin', 'INPUT' )
     pyscript.write("import pandas as pd\n")
     imports.append("pandas")
@@ -204,22 +247,13 @@ def StandardScaler(fi):
     """(StandardScaler):
 		http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler
     """
-    block ('begin', 'StandardScaler')
-    if "cheml: preprocessing" not in imports:
-        pyscript.write("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")    
-    if "sklearn: StandardScaler" not in imports:
-        pyscript.write("from sklearn.preprocessing import StandardScaler\n")
-        imports.append("sklearn: StandardScaler")
-
-    line = """scaler = StandardScaler(copy = %s;with_mean = %s;with_std = %s)"""\
-        %(cmls[fi].copy,cmls[fi].with_mean,cmls[fi].with_std)
-    write_split(line)
-    line = """data_scaler, data = preprocessing.transformer_dataframe(transformer = scaler, df = data)"""
-    pyscript.write(line + '\n')
-    line = """target_scaler, target = preprocessing.transformer_dataframe(transformer = scaler, df = target)"""
-    pyscript.write(line + '\n')
-    block ('end', 'StandardScaler')
+    skl_funct = 'StandardScaler'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 				
 									###################
 
@@ -227,22 +261,13 @@ def MinMaxScaler(fi):
     """(MinMaxScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler    
     """
-    block ('begin', 'MinMaxScaler')
-    if "cheml: preprocessing" not in imports:
-        pyscript.write("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")    
-    if "sklearn: MinMaxScaler" not in imports:
-        pyscript.write("from sklearn.preprocessing import MinMaxScaler\n")
-        imports.append("sklearn: MinMaxScaler")
-
-    line = """min_max_scaler = MinMaxScaler(feature_range = %s;copy = %s)"""\
-        %(cmls[fi].feature_range,cmls[fi].copy)
-    write_split(line)
-    line = """data_min_max_scaler, data = preprocessing.transformer_dataframe(transformer = min_max_scaler, df = data)"""
-    pyscript.write(line + '\n')
-    line = """target_min_max_scaler, target = preprocessing.transformer_dataframe(transformer = min_max_scaler, df = target)"""
-    pyscript.write(line + '\n')
-    block ('end', 'MinMaxScaler')
+    skl_funct = 'MinMaxScaler'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 				
 									###################
 
@@ -250,22 +275,13 @@ def MaxAbsScaler(fi):
     """(MaxAbsScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler    
     """
-    block ('begin', 'MaxAbsScaler')
-    if "cheml: preprocessing" not in imports:
-        pyscript.write("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")    
-    if "sklearn: MaxAbsScaler" not in imports:
-        pyscript.write("from sklearn.preprocessing import MaxAbsScaler\n")
-        imports.append("sklearn: MaxAbsScaler")
-
-    line = """max_abs_scaler = MaxAbsScaler(copy = %s)"""\
-        %(cmls[fi].copy)
-    pyscript.write(line + '\n')
-    line = """data_min_max_scaler, data = preprocessing.transformer_dataframe(transformer = max_abs_scaler, df = data)"""
-    pyscript.write(line + '\n')
-    line = """target_min_max_scaler, target = preprocessing.transformer_dataframe(transformer = max_abs_scaler, df = target)"""
-    pyscript.write(line + '\n')
-    block ('end', 'MaxAbsScaler')
+    skl_funct = 'MaxAbsScaler'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 
 									###################
 
@@ -273,22 +289,13 @@ def RobustScaler(fi):
     """(RobustScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler    
     """
-    block ('begin', 'RobustScaler')
-    if "cheml: preprocessing" not in imports:
-        pyscript.write("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")    
-    if "sklearn: RobustScaler" not in imports:
-        pyscript.write("from sklearn.preprocessing import RobustScaler\n")
-        imports.append("sklearn: RobustScaler")
-
-    line = """robust_scaler = RobustScaler(with_centering = %s;with_scaling = %s;copy = %s)"""\
-        %(cmls[fi].with_centering,cmls[fi].with_scaling,cmls[fi].copy)
-    write_split(line)
-    line = """data_robust_scaler, data = preprocessing.transformer_dataframe(transformer = robust_scaler, df = data)"""
-    pyscript.write(line + '\n')
-    line = """target_robust_scaler, target = preprocessing.transformer_dataframe(transformer = robust_scaler, df = target)"""
-    pyscript.write(line + '\n')
-    block ('end', 'RobustScaler')
+    skl_funct = 'RobustScaler'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 
 									###################
 
@@ -296,22 +303,72 @@ def Normalizer(fi):
     """(Normalizer):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer    
     """
-    block ('begin', 'Normalizer')
-    if "cheml: preprocessing" not in imports:
-        pyscript.write("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")    
-    if "sklearn: RobustScaler" not in imports:
-        pyscript.write("from sklearn.preprocessing import Normalizer\n")
-        imports.append("sklearn: Normalizer")
+    skl_funct = 'Normalizer'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 
-    line = """normalizer = Normalizer(norm = '%s';copy = %s)"""\
-        %(cmls[fi].norm,cmls[fi].copy)
-    write_split(line)
-    line = """data_normalizer, data = preprocessing.transformer_dataframe(transformer = normalizer, df = data)"""
-    pyscript.write(line + '\n')
-    line = """target_normalizer, target = preprocessing.transformer_dataframe(transformer = normalizer, df = target)"""
-    pyscript.write(line + '\n')
-    block ('end', 'Normalizer')
+									###################
+
+def Binarizer(fi):
+    """(Binarizer):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer    
+    """
+    skl_funct = 'Binarizer'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
+
+									###################
+
+def OneHotEncoder(fi):
+    """(OneHotEncoder):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html    
+    """
+    skl_funct = 'OneHotEncoder'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
+
+									###################
+
+def PolynomialFeatures(fi):
+    """(PolynomialFeatures):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures   
+    """
+    skl_funct = 'PolynomialFeatures'
+    cml_funct = 'preprocessing'
+    frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
+
+									###################
+
+def FunctionTransformer(fi):
+    """(FunctionTransformer):
+        http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer   
+    """
+    skl_funct = 'FunctionTransformer'
+    cml_funct = 'preprocessing'
+    if cmls[fi].pass_y :
+        frames=['data','target']  # ,'target'
+    else:
+        frames=['data']  # ,'target'
+    
+    block ('begin', '%s'%skl_funct )   
+    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    block ('end', '%s'%skl_funct )
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$

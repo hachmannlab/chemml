@@ -27,11 +27,41 @@
     <with_std>true</with_std>
   </f4>
   <f5 function="MinMaxScaler" status="on">
-    <feature_range>0</feature_range>
-    <feature_range>1</feature_range>
+    <feature_range>(0,1)</feature_range>
     <copy>true</copy>
   </f5>
   <f6 function="MaxAbsScaler" status="on">
     <copy>true</copy>
   </f6>
+  <f7 function="RobustScaler" status="on">
+    <with_centering>true</with_centering>
+    <with_scaling>true</with_scaling>
+    <copy>true</copy>
+  </f7>
+  <f8 function="Normalizer" status="on">
+    <norm>l2</norm>
+    <copy>true</copy>
+  </f8>
+  <f9 function="Binarizer" status="on">
+    <threshold>0</threshold>
+    <copy>true</copy>
+  </f9>
+  <f10 function="OneHotEncoder" status="on">
+    <n_values>auto</n_values>
+    <categorical_features>all</categorical_features>
+    <dtype>np.float</dtype>
+    <sparse>true</sparse>
+    <handle_unknown>error</handle_unknown>
+  </f10>
+  <f11 function="PolynomialFeatures" status="on">
+    <degree>2</degree>
+    <interaction_only>false</interaction_only>
+    <include_bias>true</include_bias>
+  </f11>
+  <f12 function="FunctionTransformer" status="on">
+    <func>None</func>
+    <validate>true</validate>
+    <accept_sparse>false</accept_sparse>
+    <pass_y>true</pass_y>
+  </f12>
 </CheML>

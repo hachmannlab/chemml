@@ -51,7 +51,7 @@ cmls.f8.norm = 'l2'
 cmls.f8.copy = True
 
 f9 = objectify.SubElement(cmls, "f9", function = "Binarizer", status = 'on')
-cmls.f9.threshold = 0
+cmls.f9.threshold = 0.0
 cmls.f9.copy = True
 
 f10 = objectify.SubElement(cmls, "f10", function = "OneHotEncoder", status = 'on')
@@ -71,6 +71,9 @@ cmls.f12.func = 'None'
 cmls.f12.validate = True
 cmls.f12.accept_sparse = False
 cmls.f12.pass_y = False
+
+f13 = objectify.SubElement(cmls, "f13", function = "VarianceThreshold", status = 'on')
+cmls.f13.threshold = 0.0
 
 
 ##########################################################################

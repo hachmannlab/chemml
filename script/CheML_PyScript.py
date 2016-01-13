@@ -90,7 +90,7 @@ Normalizer_API_data, data = preprocessing.transformer_dataframe(transformer = No
 ########################### Binarizer
 from sklearn.preprocessing import Binarizer
 
-Binarizer_API = Binarizer(threshold = 0,
+Binarizer_API = Binarizer(threshold = 0.0,
                           copy = True)
 Binarizer_API_data, data = preprocessing.transformer_dataframe(transformer = Binarizer_API,
                                                                df = data)
@@ -127,5 +127,13 @@ FunctionTransformer_API = FunctionTransformer(func = None,
                                               pass_y = False)
 FunctionTransformer_API_data, data = preprocessing.transformer_dataframe(transformer = FunctionTransformer_API,
                                                                          df = data)
+###########################
+
+########################### VarianceThreshold
+from sklearn.feature_selection import VarianceThreshold
+
+VarianceThreshold_API = VarianceThreshold(threshold = 0.0)
+VarianceThreshold_API_data, data = preprocessing.VT_API_dataframe(transformer = VarianceThreshold_API,
+                                                                  df = data)
 ###########################
 

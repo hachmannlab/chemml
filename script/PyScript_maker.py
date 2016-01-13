@@ -98,7 +98,8 @@ def main(SCRIPT_NAME):
                  'Binarizer'            : Binarizer,
                  'OneHotEncoder'        : OneHotEncoder,
                  'PolynomialFeatures'   : PolynomialFeatures,
-                 'FunctionTransformer'  : FunctionTransformer
+                 'FunctionTransformer'  : FunctionTransformer,
+                 'VarianceThreshold'    : VarianceThreshold
                 }
 
     for fi in fis:
@@ -162,13 +163,13 @@ def banner(state, function):
 	
 ##################################################################################################
 
-def gen_skl_preprocessing(fi, skl_funct, cml_funct, frames):
+def gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames):
     if cml_funct:
         if "cheml: %s"%cml_funct not in imports:
             cmlnb["blocks"][it]["imports"].append("from cheml import %s\n"%cml_funct)
             imports.append("cheml: %s"%cml_funct)    
     if "sklearn: %s"%skl_funct not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.preprocessing import %s\n"%skl_funct)
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,skl_funct))
         imports.append("sklearn: %s"%skl_funct)
     
     line = "%s_%s = %s(" %(skl_funct,'API',skl_funct)
@@ -188,8 +189,8 @@ def gen_skl_preprocessing(fi, skl_funct, cml_funct, frames):
         cmlnb["blocks"][it]["source"].append(line + '\n')
     
     for frame in frames:
-        line = """%s_%s_%s, %s = preprocessing.transformer_dataframe(transformer = %s_%s;df = %s)"""\
-            %(skl_funct,'API',frame,frame,skl_funct,'API',frame)
+        line = """%s_%s_%s, %s = preprocessing.%s(transformer = %s_%s;df = %s)"""\
+            %(skl_funct,'API',frame,frame,interface,skl_funct,'API',frame)
         cmlnb["blocks"][it]["source"] += write_split(line)
 
 
@@ -265,9 +266,11 @@ def StandardScaler(fi):
     """
     skl_funct = 'StandardScaler'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 									
 									###################
 def MinMaxScaler(fi):
@@ -276,9 +279,11 @@ def MinMaxScaler(fi):
     """
     skl_funct = 'MinMaxScaler'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 									
 									###################
 def MaxAbsScaler(fi):
@@ -287,9 +292,11 @@ def MaxAbsScaler(fi):
     """
     skl_funct = 'MaxAbsScaler'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 									
 									###################
 def RobustScaler(fi):
@@ -298,9 +305,11 @@ def RobustScaler(fi):
     """
     skl_funct = 'RobustScaler'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 									###################
 def Normalizer(fi):
@@ -309,9 +318,11 @@ def Normalizer(fi):
     """
     skl_funct = 'Normalizer'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 									###################
 def Binarizer(fi):
@@ -320,9 +331,11 @@ def Binarizer(fi):
     """
     skl_funct = 'Binarizer'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 									###################
 def OneHotEncoder(fi):
@@ -331,9 +344,11 @@ def OneHotEncoder(fi):
     """
     skl_funct = 'OneHotEncoder'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 									###################
 def PolynomialFeatures(fi):
@@ -342,9 +357,11 @@ def PolynomialFeatures(fi):
     """
     skl_funct = 'PolynomialFeatures'
     cml_funct = 'preprocessing'
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 									###################
 def FunctionTransformer(fi):
@@ -353,21 +370,34 @@ def FunctionTransformer(fi):
     """
     skl_funct = 'FunctionTransformer'
     cml_funct = 'preprocessing'
-    if cmls[fi].pass_y :
+    skl_class = 'preprocessing'
+    interface = 'transformer_dataframe'
+    if cmls[fi].pass_y.pyval :
         frames=['data','target']  # ,'target'
     else:
         frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, cml_funct, frames)    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def VarianceThreshold(fi):
+    """(VarianceThreshold):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.VarianceThreshold.html#sklearn.feature_selection.VarianceThreshold    
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'VarianceThreshold'
+    cml_funct = 'preprocessing'
+    interface = 'VT_selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
-#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
  									  CheML PySCRIPT 		
 																						
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#"""
-#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*					
 
 if __name__=="__main__":

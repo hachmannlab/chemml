@@ -1,4 +1,4 @@
-<CheML date="2016-01-12" time="15:09:19" version="1.1.0">
+<CheML date="2016-01-13" time="15:16:38" version="1.1.0">
   <f1 function="INPUT" status="on">
     <data_path>benchmarks/homo_dump/sample_50/data_NOsmi_50.csv</data_path>
     <data_delimiter>None</data_delimiter>
@@ -43,7 +43,7 @@
     <copy>true</copy>
   </f8>
   <f9 function="Binarizer" status="on">
-    <threshold>0</threshold>
+    <threshold>0.0</threshold>
     <copy>true</copy>
   </f9>
   <f10 function="OneHotEncoder" status="on">
@@ -64,4 +64,7 @@
     <accept_sparse>false</accept_sparse>
     <pass_y>false</pass_y>
   </f12>
+  <f13 function="VarianceThreshold" status="on">
+    <threshold>0.0</threshold>
+  </f13>
 </CheML>

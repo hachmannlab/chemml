@@ -1,4 +1,4 @@
-<CheML generation_date="12/15/2015" version="0.0.01">
+<CheML date="2016-01-12" time="15:09:19" version="1.1.0">
   <f1 function="INPUT" status="on">
     <data_path>benchmarks/homo_dump/sample_50/data_NOsmi_50.csv</data_path>
     <data_delimiter>None</data_delimiter>
@@ -62,6 +62,6 @@
     <func>None</func>
     <validate>true</validate>
     <accept_sparse>false</accept_sparse>
-    <pass_y>true</pass_y>
+    <pass_y>false</pass_y>
   </f12>
 </CheML>

@@ -3,8 +3,9 @@
 # Note: sth like np.float should be wrapped by quote in here
 from lxml import objectify, etree
 import numpy as np
+from sct_utils import std_datetime_str
 
-cmls = objectify.Element("CheML",generation_date="12/15/2015", version="0.0.01")
+cmls = objectify.Element("CheML", date=std_datetime_str('date'), time=std_datetime_str('time'), version="1.1.0")
 
 f1 = objectify.SubElement(cmls, "f1", function = "INPUT", status = 'on')
 cmls.f1.data_path = "benchmarks/homo_dump/sample_50/data_NOsmi_50.csv"

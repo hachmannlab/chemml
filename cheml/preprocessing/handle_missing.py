@@ -136,14 +136,13 @@ def Imputer_dataframe(imputer, df):
     -------
     transformed data frame
     fitted imputer class
-
-    """
+    """    
     df_columns = list(df.columns)
     df = imputer.fit_transform(df)
     if df.shape[1] == 0:
         warnings.warn("empty dataframe: all columns have been removed",Warning)
     stats = imputer.statistics_
     nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)] 
-    df_columns = list_del_indices(df_columns, nan_ind)
+        df_columns = list_del_indices(df_columns, nan_ind)
     df = pd.DataFrame(df,columns=df_columns)
     return imputer, df

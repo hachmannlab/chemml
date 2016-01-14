@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from ..utils.utilities import list_del_indices
 
 def transformer_dataframe(transformer, df):
     """ keep track of features (columns) that can be removed or changed in the 
@@ -29,14 +30,14 @@ def transformer_dataframe(transformer, df):
         warnings.warn("number of columns befor and after transform doesn't match",Warning)
     return scaler, df
 
-def VT_selector_dataframe(imputer, df):
+def VarianceThreshold_dataframe(transformer, df):
     """ keep track of features (columns) that can be removed or changed in the 
-        Imputer by transforming data back to pandas dataframe structure. This happens based on
-        the "statistics_" attribute of Imputer.
+        VarianceThreshold by transforming data back to pandas dataframe structure. 
+        This happens based on the "variances_" attribute of Imputer.
     
     Parameters
     ----------
-    imputer: sklearn Imputer class 
+    imputer: sklearn VarianceThreshold class 
          The class with adjusted parameters.
          
     df: Pandas dataframe
@@ -48,11 +49,13 @@ def VT_selector_dataframe(imputer, df):
     fitted imputer class
     """    
     df_columns = list(df.columns)
-    df = imputer.fit_transform(df)
+    df = transformer.fit_transform(df)
+    threshold = sel.get_params()['threshold']
     if df.shape[1] == 0:
         warnings.warn("empty dataframe: all columns have been removed",Warning)
-    stats = imputer.statistics_
-    nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)] 
-        df_columns = list_del_indices(df_columns, nan_ind)
-    df = pd.DataFrame(df,columns=df_columns)
-    return imputer, df
+        return transformer, df
+    else:
+        retained_features_ind = sel.get_support(True)
+        df_columns = [df_columns[i] for i in retained_features_ind]
+        df = pd.DataFrame(df,columns=df_columns)
+        return transformer, df

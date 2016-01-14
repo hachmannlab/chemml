@@ -22,7 +22,6 @@ output_directory, log_file, error_file = initialization.output(output_directory 
 
 ########################### MISSING_VALUES
 from cheml import preprocessing
-from sklearn.preprocessing import Imputer
 
 missval = preprocessing.missing_values(strategy = 'mean',
                                        string_as_null = True,
@@ -30,15 +29,6 @@ missval = preprocessing.missing_values(strategy = 'mean',
                                        missing_values = False)
 data = missval.fit(data)
 target = missval.fit(target)
-imp = Imputer(strategy = 'mean',
-              missing_values = 'NaN',
-              axis = 0,
-              verbose = 0,
-              copy = True)
-imp_data, data = preprocessing.Imputer_dataframe(imputer = imp,
-                                                 df = data)
-imp_target, target = preprocessing.Imputer_dataframe(imputer = imp,
-                                                     df = target)
 ###########################
 
 ########################### StandardScaler
@@ -81,7 +71,7 @@ RobustScaler_API_data, data = preprocessing.transformer_dataframe(transformer = 
 ########################### Normalizer
 from sklearn.preprocessing import Normalizer
 
-Normalizer_API = Normalizer(norm = "l2" ,
+Normalizer_API = Normalizer(norm = 'l2',
                             copy = True)
 Normalizer_API_data, data = preprocessing.transformer_dataframe(transformer = Normalizer_API,
                                                                 df = data)
@@ -99,11 +89,11 @@ Binarizer_API_data, data = preprocessing.transformer_dataframe(transformer = Bin
 ########################### OneHotEncoder
 from sklearn.preprocessing import OneHotEncoder
 
-OneHotEncoder_API = OneHotEncoder(n_values = "auto" ,
-                                  categorical_features = "all" ,
+OneHotEncoder_API = OneHotEncoder(n_values = 'auto',
+                                  categorical_features = 'all',
                                   dtype = np.float,
                                   sparse = True,
-                                  handle_unknown = "error" )
+                                  handle_unknown = 'error')
 OneHotEncoder_API_data, data = preprocessing.transformer_dataframe(transformer = OneHotEncoder_API,
                                                                    df = data)
 ###########################
@@ -133,7 +123,7 @@ FunctionTransformer_API_data, data = preprocessing.transformer_dataframe(transfo
 from sklearn.feature_selection import VarianceThreshold
 
 VarianceThreshold_API = VarianceThreshold(threshold = 0.0)
-VarianceThreshold_API_data, data = preprocessing.VT_API_dataframe(transformer = VarianceThreshold_API,
-                                                                  df = data)
+VarianceThreshold_API_data, data = preprocessing.VarianceThreshold_dataframe(transformer = VarianceThreshold_API,
+                                                                             df = data)
 ###########################
 

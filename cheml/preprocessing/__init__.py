@@ -7,12 +7,12 @@ from .handle_missing import missing_values
 from .handle_missing import Imputer_dataframe
 
 from .skl_interface import transformer_dataframe
-from .skl_interface import VT_selector_dataframe
+from .skl_interface import VarianceThreshold_dataframe
 
 __all__ = [
     'missing_values',
     'Imputer_dataframe',
     'transformer_dataframe',
-    'VT_selector_dataframe',
+    'VarianceThreshold_dataframe',
 
 ]

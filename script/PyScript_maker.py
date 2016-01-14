@@ -176,10 +176,7 @@ def gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames
     param_count = 0
     for parameter in cmls[fi].iterchildren():
         param_count += 1
-        if parameter == 'None' or isfloat(parameter) or islist(parameter) or istuple(parameter) or isnpdot(parameter):
-            line += """;%s = %s"""%(parameter.tag,cmls[fi][parameter.tag])
-        else:
-            line += """;%s = "%s" """%(parameter.tag,parameter)
+        line += """;%s = %s"""%(parameter.tag,parameter)
     line += ')'
     line = line.replace('(;','(')
     
@@ -207,12 +204,12 @@ def INPUT(fi):
     cmlnb["blocks"][it]["imports"].append("import pandas as pd\n")
     imports.append("pandas")
     
-    line = "data = pd.read_csv('%s';sep = %s;skiprows = %s;header = %s)"\
+    line = "data = pd.read_csv(%s;sep = %s;skiprows = %s;header = %s)"\
         %(cmls[fi].data_path, cmls[fi].data_delimiter,cmls[fi].data_skiprows,\
         cmls[fi].data_header)
     cmlnb["blocks"][it]["source"] += write_split(line)
     
-    line = "target = pd.read_csv('%s';sep = %s;skiprows = %s;header = %s)"\
+    line = "target = pd.read_csv(%s;sep = %s;skiprows = %s;header = %s)"\
         %(cmls[fi].target_path, cmls[fi].target_delimiter,\
         cmls[fi].target_skiprows,cmls[fi].target_header)
     cmlnb["blocks"][it]["source"] += write_split(line) 	
@@ -225,7 +222,7 @@ def OUTPUT(fi):
     if "cheml: initialization" not in imports:
         cmlnb["blocks"][it]["imports"].append("from cheml import initialization\n")
         imports.append("cheml: initialization")
-    line = "output_directory, log_file, error_file = initialization.output(output_directory = '%s';logfile = '%s';errorfile = '%s')"\
+    line = "output_directory, log_file, error_file = initialization.output(output_directory = %s;logfile = %s;errorfile = %s)"\
         %(cmls[fi].path, cmls[fi].filename_logfile, cmls[fi].filename_errorfile)
     cmlnb["blocks"][it]["source"] += write_split(line)
 									
@@ -237,7 +234,7 @@ def MISSING_VALUES(fi):
     if "cheml: preprocessing" not in imports:
         cmlnb["blocks"][it]["imports"].append("from cheml import preprocessing\n")
         imports.append("cheml: preprocessing")
-    line = """missval = preprocessing.missing_values(strategy = '%s';string_as_null = %s;inf_as_null = %s;missing_values = %s)"""\
+    line = """missval = preprocessing.missing_values(strategy = %s;string_as_null = %s;inf_as_null = %s;missing_values = %s)"""\
         %(cmls[fi].strategy,cmls[fi].string_as_null,cmls[fi].inf_as_null,cmls[fi].missing_values)
     cmlnb["blocks"][it]["source"] += write_split(line)
     line = """data = missval.fit(data)"""
@@ -251,7 +248,7 @@ def MISSING_VALUES(fi):
         if "sklearn: Imputer" not in imports:
             cmlnb["blocks"][it]["imports"].append("from sklearn.preprocessing import Imputer\n")
             imports.append("sklearn: Imputer")
-        line = """imp = Imputer(strategy = '%s';missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
+        line = """imp = Imputer(strategy = %s;missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
             %(cmls[fi].strategy)
         cmlnb["blocks"][it]["source"] += write_split(line)
         line = """imp_data, data = preprocessing.Imputer_dataframe(imputer = imp;df = data)"""
@@ -387,7 +384,7 @@ def VarianceThreshold(fi):
     skl_class = 'feature_selection'
     skl_funct = 'VarianceThreshold'
     cml_funct = 'preprocessing'
-    interface = 'VT_selector_dataframe'
+    interface = 'VarianceThreshold_dataframe'
     frames=['data']  # ,'target'
     
     gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    

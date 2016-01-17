@@ -1,4 +1,4 @@
-<CheML date="2016-01-14" time="17:06:25" version="1.1.0">
+<CheML date="2016-01-15" time="12:42:11" version="1.1.0">
   <f1 function="INPUT" status="on">
     <data_path>'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'</data_path>
     <data_delimiter>None</data_delimiter>
@@ -67,4 +67,8 @@
   <f13 function="VarianceThreshold" status="on">
     <threshold>0.0</threshold>
   </f13>
+  <f14 function="SelectKBest" status="on">
+    <score_func>f_regression</score_func>
+    <k>10</k>
+  </f14>
 </CheML>

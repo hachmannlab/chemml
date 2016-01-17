@@ -2,7 +2,6 @@
 # Note: list of values must be written in the quotation mark
 # Note: sth like np.float should be wrapped by quote in here
 from lxml import objectify, etree
-import numpy as np
 from sct_utils import std_datetime_str
 
 cmls = objectify.Element("CheML", date=std_datetime_str('date'), time=std_datetime_str('time'), version="1.1.0")
@@ -75,6 +74,41 @@ cmls.f12.pass_y = False
 f13 = objectify.SubElement(cmls, "f13", function = "VarianceThreshold", status = 'on')
 cmls.f13.threshold = 0.0
 
+f14 = objectify.SubElement(cmls, "f14", function = "SelectKBest", status = 'on')
+cmls.f14.score_func = 'f_regression'
+cmls.f14.k = 10
+
+f15 = objectify.SubElement(cmls, "f15", function = "SelectPercentile", status = 'on')
+cmls.f15.score_func = 'f_regression'
+cmls.f15.percentile = 10
+
+f16 = objectify.SubElement(cmls, "f16", function = "SelectFpr", status = 'on')
+cmls.f16.score_func = 'f_regression'
+cmls.f16.alpha = 0.05
+
+f17 = objectify.SubElement(cmls, "f17", function = "SelectFdr", status = 'on')
+cmls.f17.score_func = 'f_regression'
+cmls.f17.alpha = 0.05
+
+f18 = objectify.SubElement(cmls, "f18", function = "SelectFwe", status = 'on')
+cmls.f18.score_func = 'f_regression'
+cmls.f18.alpha = 0.05
+
+f19 = objectify.SubElement(cmls, "f19", function = "RFE", status = 'on')
+cmls.f19.estimator = '' # This must be called sooner than this function, no worries about running this once beforehand!
+cmls.f19.n_features_to_select = 'None'
+cmls.f19.step = 1
+cmls.f19.estimator_params = 'None'
+cmls.f19.verbose = 0
+
+
+f20 = objectify.SubElement(cmls, "f20", function = "RFECV", status = 'on')
+cmls.f20.estimator = '' # This must be called sooner than this function, no worries about running this once beforehand!
+cmls.f20.step = 1
+cmls.f20.cv = 'None'
+cmls.f20.scoring = 'None'
+cmls.f20.estimator_params = 'None'
+cmls.f20.verbose = 0
 
 ##########################################################################
 objectify.deannotate(cmls)

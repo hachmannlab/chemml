@@ -123,7 +123,17 @@ FunctionTransformer_API_data, data = preprocessing.transformer_dataframe(transfo
 from sklearn.feature_selection import VarianceThreshold
 
 VarianceThreshold_API = VarianceThreshold(threshold = 0.0)
-VarianceThreshold_API_data, data = preprocessing.VarianceThreshold_dataframe(transformer = VarianceThreshold_API,
-                                                                             df = data)
+VarianceThreshold_API_data, data = preprocessing.selector_dataframe(transformer = VarianceThreshold_API,
+                                                                    df = data)
+###########################
+
+########################### SelectKBest
+from sklearn.feature_selection import f_regression
+from sklearn.feature_selection import SelectKBest
+
+SelectKBest_API = SelectKBest(score_func = f_regression,
+                              k = 10)
+SelectKBest_API_data, data = preprocessing.selector_dataframe(transformer = SelectKBest_API,
+                                                              df = data)
 ###########################
 

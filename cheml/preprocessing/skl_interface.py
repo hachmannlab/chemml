@@ -30,10 +30,10 @@ def transformer_dataframe(transformer, df):
         warnings.warn("number of columns befor and after transform doesn't match",Warning)
     return scaler, df
 
-def VarianceThreshold_dataframe(transformer, df):
+def selector_dataframe(transformer, df, tf):
     """ keep track of features (columns) that can be removed or changed in the 
         VarianceThreshold by transforming data back to pandas dataframe structure. 
-        This happens based on the "variances_" attribute of Imputer.
+        This happens based on the "get_support" method of Imputer.
     
     Parameters
     ----------
@@ -41,7 +41,10 @@ def VarianceThreshold_dataframe(transformer, df):
          The class with adjusted parameters.
          
     df: Pandas dataframe
-        The dataframe that imputer is going to deal with.
+        data frame
+    
+    tf: Pandas dataframe
+        target frame 
     
     Returns
     -------
@@ -49,8 +52,7 @@ def VarianceThreshold_dataframe(transformer, df):
     fitted imputer class
     """    
     df_columns = list(df.columns)
-    df = transformer.fit_transform(df)
-    threshold = sel.get_params()['threshold']
+    df = transformer.fit_transform(df,tf)
     if df.shape[1] == 0:
         warnings.warn("empty dataframe: all columns have been removed",Warning)
         return transformer, df

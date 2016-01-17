@@ -99,7 +99,8 @@ def main(SCRIPT_NAME):
                  'OneHotEncoder'        : OneHotEncoder,
                  'PolynomialFeatures'   : PolynomialFeatures,
                  'FunctionTransformer'  : FunctionTransformer,
-                 'VarianceThreshold'    : VarianceThreshold
+                 'VarianceThreshold'    : VarianceThreshold,
+                 'SelectKBest'          : SelectKBest
                 }
 
     for fi in fis:
@@ -190,6 +191,33 @@ def gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames
             %(skl_funct,'API',frame,frame,interface,skl_funct,'API',frame)
         cmlnb["blocks"][it]["source"] += write_split(line)
 
+##################################################################################################
+
+def gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames):
+    if cml_funct:
+        if "cheml: %s"%cml_funct not in imports:
+            cmlnb["blocks"][it]["imports"].append("from cheml import %s\n"%cml_funct)
+            imports.append("cheml: %s"%cml_funct)    
+    if "sklearn: %s"%skl_funct not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,skl_funct))
+        imports.append("sklearn: %s"%skl_funct)
+    
+    line = "%s_%s = %s(" %(skl_funct,'API',skl_funct)
+    param_count = 0
+    for parameter in cmls[fi].iterchildren():
+        param_count += 1
+        line += """;%s = %s"""%(parameter.tag,parameter)
+    line += ')'
+    line = line.replace('(;','(')
+    
+    if param_count > 1 :
+        cmlnb["blocks"][it]["source"] += write_split(line)
+    else:
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+    
+    line = """%s_%s_%s, %s = preprocessing.%s(transformer = %s_%s;df = %s;tf = %s)"""\
+        %(skl_funct,'API','data','data',interface,skl_funct,'API',data,target)
+    cmlnb["blocks"][it]["source"] += write_split(line)
 
 ##################################################################################################
 
@@ -384,10 +412,141 @@ def VarianceThreshold(fi):
     skl_class = 'feature_selection'
     skl_funct = 'VarianceThreshold'
     cml_funct = 'preprocessing'
-    interface = 'VarianceThreshold_dataframe'
+    interface = 'selector_dataframe'
     frames=['data']  # ,'target'
     
-    gen_skl_preprocessing(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectKBest(fi):
+    """(SelectKBest):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest   
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectKBest'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    if "sklearn: %s"%cmls[fi].score_func not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,cmls[fi].score_func))
+        imports.append("sklearn: %s"%cmls[fi].score_func)
+    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectPercentile(fi):
+    """(SelectPercentile):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectPercentile.html#sklearn.feature_selection.SelectPercentile  
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectPercentile'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    if "sklearn: %s"%cmls[fi].score_func not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,cmls[fi].score_func))
+        imports.append("sklearn: %s"%cmls[fi].score_func)
+    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectFpr(fi):
+    """(SelectFpr):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFpr.html#sklearn.feature_selection.SelectFpr 
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectFpr'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    if "sklearn: %s"%cmls[fi].score_func not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,cmls[fi].score_func))
+        imports.append("sklearn: %s"%cmls[fi].score_func)
+    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectFdr(fi):
+    """(SelectFdr):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr 
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectFdr'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    if "sklearn: %s"%cmls[fi].score_func not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,cmls[fi].score_func))
+        imports.append("sklearn: %s"%cmls[fi].score_func)
+    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectFwe(fi):
+    """(SelectFwe):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFwe.html#sklearn.feature_selection.SelectFwe
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectFwe'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    if "sklearn: %s"%cmls[fi].score_func not in imports:
+        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,cmls[fi].score_func))
+        imports.append("sklearn: %s"%cmls[fi].score_func)
+    
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def RFE(fi):
+    """(RFE):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html#sklearn.feature_selection.RFE
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'RFE'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    # Note: This function and its parameters must be called before RFECV in the script file
+    cmls[fi].estimator = '%s_API'%cmls[fi].estimator
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def RFECV(fi):
+    """(RFECV):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html#sklearn.feature_selection.RFECV
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'RFECV'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    # Note: This function and its parameters must be called before RFECV in the script file
+    cmls[fi].estimator = '%s_API'%cmls[fi].estimator
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
+									###################
+def SelectFromModel(fi):
+    """(SelectFromModel):
+        http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFromModel.html#sklearn.feature_selection.SelectFromModel
+    """
+    skl_class = 'feature_selection'
+    skl_funct = 'SelectFromModel'
+    cml_funct = 'preprocessing'
+    interface = 'selector_dataframe'
+    frames=['data']  # ,'target'
+    
+    # Note: This function and its parameters must be called before RFECV in the script file
+    cmls[fi].estimator = '%s_API'%cmls[fi].estimator
+    gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, frames)    
+
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

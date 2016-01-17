@@ -100,7 +100,15 @@ def main(SCRIPT_NAME):
                  'PolynomialFeatures'   : PolynomialFeatures,
                  'FunctionTransformer'  : FunctionTransformer,
                  'VarianceThreshold'    : VarianceThreshold,
-                 'SelectKBest'          : SelectKBest
+                 'SelectKBest'          : SelectKBest,
+                 'SelectPercentile'     : SelectPercentile,
+                 'SelectFpr'            : SelectFpr,
+                 'SelectFdr'            : SelectFdr,
+                 'SelectFwe'            : SelectFwe,
+                 'RFE'                  : RFE,
+                 'RFECV'                : RFECV,
+                 'SelectFromModel'      : SelectFromModel
+                 
                 }
 
     for fi in fis:
@@ -216,7 +224,7 @@ def gen_skl_featureselection(fi, skl_funct, skl_class, cml_funct, interface, fra
         cmlnb["blocks"][it]["source"].append(line + '\n')
     
     line = """%s_%s_%s, %s = preprocessing.%s(transformer = %s_%s;df = %s;tf = %s)"""\
-        %(skl_funct,'API','data','data',interface,skl_funct,'API',data,target)
+        %(skl_funct,'API','data','data',interface,skl_funct,'API','data','target')
     cmlnb["blocks"][it]["source"] += write_split(line)
 
 ##################################################################################################

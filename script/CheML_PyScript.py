@@ -124,7 +124,8 @@ from sklearn.feature_selection import VarianceThreshold
 
 VarianceThreshold_API = VarianceThreshold(threshold = 0.0)
 VarianceThreshold_API_data, data = preprocessing.selector_dataframe(transformer = VarianceThreshold_API,
-                                                                    df = data)
+                                                                    df = data,
+                                                                    tf = target)
 ###########################
 
 ########################### SelectKBest
@@ -134,6 +135,74 @@ from sklearn.feature_selection import SelectKBest
 SelectKBest_API = SelectKBest(score_func = f_regression,
                               k = 10)
 SelectKBest_API_data, data = preprocessing.selector_dataframe(transformer = SelectKBest_API,
-                                                              df = data)
+                                                              df = data,
+                                                              tf = target)
+###########################
+
+########################### SelectPercentile
+from sklearn.feature_selection import SelectPercentile
+
+SelectPercentile_API = SelectPercentile(score_func = f_regression,
+                                        percentile = 10)
+SelectPercentile_API_data, data = preprocessing.selector_dataframe(transformer = SelectPercentile_API,
+                                                                   df = data,
+                                                                   tf = target)
+###########################
+
+########################### SelectFpr
+from sklearn.feature_selection import SelectFpr
+
+SelectFpr_API = SelectFpr(score_func = f_regression,
+                          alpha = 0.05)
+SelectFpr_API_data, data = preprocessing.selector_dataframe(transformer = SelectFpr_API,
+                                                            df = data,
+                                                            tf = target)
+###########################
+
+########################### SelectFdr
+from sklearn.feature_selection import SelectFdr
+
+SelectFdr_API = SelectFdr(score_func = f_regression,
+                          alpha = 0.05)
+SelectFdr_API_data, data = preprocessing.selector_dataframe(transformer = SelectFdr_API,
+                                                            df = data,
+                                                            tf = target)
+###########################
+
+########################### SelectFwe
+from sklearn.feature_selection import SelectFwe
+
+SelectFwe_API = SelectFwe(score_func = f_regression,
+                          alpha = 0.05)
+SelectFwe_API_data, data = preprocessing.selector_dataframe(transformer = SelectFwe_API,
+                                                            df = data,
+                                                            tf = target)
+###########################
+
+########################### RFE
+from sklearn.feature_selection import RFE
+
+RFE_API = RFE(estimator = _API,
+              n_features_to_select = None,
+              step = 1,
+              estimator_params = None,
+              verbose = 0)
+RFE_API_data, data = preprocessing.selector_dataframe(transformer = RFE_API,
+                                                      df = data,
+                                                      tf = target)
+###########################
+
+########################### RFECV
+from sklearn.feature_selection import RFECV
+
+RFECV_API = RFECV(estimator = _API,
+                  step = 1,
+                  cv = None,
+                  scoring = None,
+                  estimator_params = None,
+                  verbose = 0)
+RFECV_API_data, data = preprocessing.selector_dataframe(transformer = RFECV_API,
+                                                        df = data,
+                                                        tf = target)
 ###########################
 

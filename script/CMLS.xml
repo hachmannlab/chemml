@@ -1,4 +1,4 @@
-<CheML date="2016-01-15" time="12:42:11" version="1.1.0">
+<CheML date="2016-01-17" time="16:37:02" version="1.1.0">
   <f1 function="INPUT" status="on">
     <data_path>'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'</data_path>
     <data_delimiter>None</data_delimiter>
@@ -71,4 +71,35 @@
     <score_func>f_regression</score_func>
     <k>10</k>
   </f14>
+  <f15 function="SelectPercentile" status="on">
+    <score_func>f_regression</score_func>
+    <percentile>10</percentile>
+  </f15>
+  <f16 function="SelectFpr" status="on">
+    <score_func>f_regression</score_func>
+    <alpha>0.05</alpha>
+  </f16>
+  <f17 function="SelectFdr" status="on">
+    <score_func>f_regression</score_func>
+    <alpha>0.05</alpha>
+  </f17>
+  <f18 function="SelectFwe" status="on">
+    <score_func>f_regression</score_func>
+    <alpha>0.05</alpha>
+  </f18>
+  <f19 function="RFE" status="on">
+    <estimator></estimator>
+    <n_features_to_select>None</n_features_to_select>
+    <step>1</step>
+    <estimator_params>None</estimator_params>
+    <verbose>0</verbose>
+  </f19>
+  <f20 function="RFECV" status="on">
+    <estimator></estimator>
+    <step>1</step>
+    <cv>None</cv>
+    <scoring>None</scoring>
+    <estimator_params>None</estimator_params>
+    <verbose>0</verbose>
+  </f20>
 </CheML>

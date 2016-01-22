@@ -1,9 +1,14 @@
-# enter_data		%% data_path = "../benchmarks/RI_project/descriptors.csv"	%% data_col = True %%label_path = "../benchmarks/RI_project/alpha.csv"  %% label_col = True
+## enter_data		%% data_path = "../benchmarks/RI_project/descriptors.csv"	
+                    %% data_col = (1,2) 
+                    %% label_path = None  
+                    %% label_col = True
+
 # make_data			%% dragon  %% columb_matrix  %% fingerprints
 # viz_rawdata		%% histo_labels = True %% features = all
-# remove_outliers	%%  xIQR = 2.0  %% 
+# remove_outliers	%%  xIQR = 2.0   
 
-## initialization	 %% cn = 1 %% df = 1   %%log_file = "log.txt" 	%% error_file = "error.txt"
+## initialization	 %% cn = np.float    %% df = 1   
+                     %log_file = "log.txt" 	%% error_file = "error.txt"
 
 # help
 
@@ -11,15 +16,15 @@
 
 ## pre_identical      %% f_remove=3000
 
-# pre_linearDep		 %% min_r2 = 0.99  	%% n_iter = 20 	%% onebyone = True 	%% rank = True
+## pre_linearDep		 %% min_r2 = 0.99  	%% n_iter = 20 	%% onebyone = True 	%% rank = True
 
-# save_data
+## save_data
  
 ---------------------------------------------------------------
 
-# pca	%% evr_ = True  %% n_components = None
+## pca	%% evr_ = True  %% n_components = None
 
-# lda 	%%n_components = 10	%% trf = 0.1  %% scaled = True 
+## lda 	%%n_components = 10	%% trf = 0.1  %% scaled = True 
 
 # kpca 		%% n_components = None	%% kernel = "rbf"  %% lambdas_ = True 
 

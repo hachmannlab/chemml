@@ -23,13 +23,12 @@ output_directory, log_file, error_file = initialization.output(output_directory 
 ########################### MISSING_VALUES
 from cheml import preprocessing
 
-missval = preprocessing.missing_values(strategy = 'zero',
+missval = preprocessing.missing_values(strategy = 'mean',
                                        string_as_null = True,
                                        inf_as_null = True,
                                        missing_values = False)
 data = missval.fit(data)
 target = missval.fit(target)
-data, target = missval.transform(data, target)
 ###########################
 
 ########################### StandardScaler
@@ -45,8 +44,8 @@ StandardScaler_API_data, data = preprocessing.transformer_dataframe(transformer 
 ########################### MinMaxScaler
 from sklearn.preprocessing import MinMaxScaler
 
-MinMaxScaler_API = MinMaxScaler(copy = True,
-                                feature_range = (0,1))
+MinMaxScaler_API = MinMaxScaler(feature_range = (0,1),
+                                copy = True)
 MinMaxScaler_API_data, data = preprocessing.transformer_dataframe(transformer = MinMaxScaler_API,
                                                                   df = data)
 ###########################
@@ -63,8 +62,8 @@ MaxAbsScaler_API_data, data = preprocessing.transformer_dataframe(transformer = 
 from sklearn.preprocessing import RobustScaler
 
 RobustScaler_API = RobustScaler(with_centering = True,
-                                copy = True,
-                                with_scaling = True)
+                                with_scaling = True,
+                                copy = True)
 RobustScaler_API_data, data = preprocessing.transformer_dataframe(transformer = RobustScaler_API,
                                                                   df = data)
 ###########################
@@ -72,8 +71,8 @@ RobustScaler_API_data, data = preprocessing.transformer_dataframe(transformer = 
 ########################### Normalizer
 from sklearn.preprocessing import Normalizer
 
-Normalizer_API = Normalizer(copy = True,
-                            norm = 'l2')
+Normalizer_API = Normalizer(norm = 'l2',
+                            copy = True)
 Normalizer_API_data, data = preprocessing.transformer_dataframe(transformer = Normalizer_API,
                                                                 df = data)
 ###########################
@@ -90,11 +89,11 @@ Binarizer_API_data, data = preprocessing.transformer_dataframe(transformer = Bin
 ########################### OneHotEncoder
 from sklearn.preprocessing import OneHotEncoder
 
-OneHotEncoder_API = OneHotEncoder(dtype = np.float,
-                                  handle_unknown = 'error',
-                                  sparse = True,
+OneHotEncoder_API = OneHotEncoder(n_values = 'auto',
                                   categorical_features = 'all',
-                                  n_values = 'auto')
+                                  dtype = np.float,
+                                  sparse = True,
+                                  handle_unknown = 'error')
 OneHotEncoder_API_data, data = preprocessing.transformer_dataframe(transformer = OneHotEncoder_API,
                                                                    df = data)
 ###########################
@@ -102,9 +101,9 @@ OneHotEncoder_API_data, data = preprocessing.transformer_dataframe(transformer =
 ########################### PolynomialFeatures
 from sklearn.preprocessing import PolynomialFeatures
 
-PolynomialFeatures_API = PolynomialFeatures(include_bias = True,
+PolynomialFeatures_API = PolynomialFeatures(degree = 2,
                                             interaction_only = False,
-                                            degree = 2)
+                                            include_bias = True)
 PolynomialFeatures_API_data, data = preprocessing.transformer_dataframe(transformer = PolynomialFeatures_API,
                                                                         df = data)
 ###########################
@@ -112,9 +111,9 @@ PolynomialFeatures_API_data, data = preprocessing.transformer_dataframe(transfor
 ########################### FunctionTransformer
 from sklearn.preprocessing import FunctionTransformer
 
-FunctionTransformer_API = FunctionTransformer(validate = True,
+FunctionTransformer_API = FunctionTransformer(func = None,
+                                              validate = True,
                                               accept_sparse = False,
-                                              func = None,
                                               pass_y = False)
 FunctionTransformer_API_data, data = preprocessing.transformer_dataframe(transformer = FunctionTransformer_API,
                                                                          df = data)
@@ -133,8 +132,8 @@ VarianceThreshold_API_data, data = preprocessing.selector_dataframe(transformer 
 from sklearn.feature_selection import f_regression
 from sklearn.feature_selection import SelectKBest
 
-SelectKBest_API = SelectKBest(k = 10,
-                              score_func = f_regression)
+SelectKBest_API = SelectKBest(score_func = f_regression,
+                              k = 10)
 SelectKBest_API_data, data = preprocessing.selector_dataframe(transformer = SelectKBest_API,
                                                               df = data,
                                                               tf = target)
@@ -143,8 +142,8 @@ SelectKBest_API_data, data = preprocessing.selector_dataframe(transformer = Sele
 ########################### SelectPercentile
 from sklearn.feature_selection import SelectPercentile
 
-SelectPercentile_API = SelectPercentile(percentile = 10,
-                                        score_func = f_regression)
+SelectPercentile_API = SelectPercentile(score_func = f_regression,
+                                        percentile = 10)
 SelectPercentile_API_data, data = preprocessing.selector_dataframe(transformer = SelectPercentile_API,
                                                                    df = data,
                                                                    tf = target)
@@ -153,8 +152,8 @@ SelectPercentile_API_data, data = preprocessing.selector_dataframe(transformer =
 ########################### SelectFpr
 from sklearn.feature_selection import SelectFpr
 
-SelectFpr_API = SelectFpr(alpha = 0.05,
-                          score_func = f_regression)
+SelectFpr_API = SelectFpr(score_func = f_regression,
+                          alpha = 0.05)
 SelectFpr_API_data, data = preprocessing.selector_dataframe(transformer = SelectFpr_API,
                                                             df = data,
                                                             tf = target)
@@ -163,8 +162,8 @@ SelectFpr_API_data, data = preprocessing.selector_dataframe(transformer = Select
 ########################### SelectFdr
 from sklearn.feature_selection import SelectFdr
 
-SelectFdr_API = SelectFdr(alpha = 0.05,
-                          score_func = f_regression)
+SelectFdr_API = SelectFdr(score_func = f_regression,
+                          alpha = 0.05)
 SelectFdr_API_data, data = preprocessing.selector_dataframe(transformer = SelectFdr_API,
                                                             df = data,
                                                             tf = target)
@@ -173,8 +172,8 @@ SelectFdr_API_data, data = preprocessing.selector_dataframe(transformer = Select
 ########################### SelectFwe
 from sklearn.feature_selection import SelectFwe
 
-SelectFwe_API = SelectFwe(alpha = 0.05,
-                          score_func = f_regression)
+SelectFwe_API = SelectFwe(score_func = f_regression,
+                          alpha = 0.05)
 SelectFwe_API_data, data = preprocessing.selector_dataframe(transformer = SelectFwe_API,
                                                             df = data,
                                                             tf = target)
@@ -183,11 +182,11 @@ SelectFwe_API_data, data = preprocessing.selector_dataframe(transformer = Select
 ########################### RFE
 from sklearn.feature_selection import RFE
 
-RFE_API = RFE(step = 1,
-              estimator = _API,
-              verbose = 0,
+RFE_API = RFE(estimator = _API,
+              n_features_to_select = None,
+              step = 1,
               estimator_params = None,
-              n_features_to_select = None)
+              verbose = 0)
 RFE_API_data, data = preprocessing.selector_dataframe(transformer = RFE_API,
                                                       df = data,
                                                       tf = target)
@@ -196,12 +195,12 @@ RFE_API_data, data = preprocessing.selector_dataframe(transformer = RFE_API,
 ########################### RFECV
 from sklearn.feature_selection import RFECV
 
-RFECV_API = RFECV(scoring = None,
-                  verbose = 0,
+RFECV_API = RFECV(estimator = _API,
                   step = 1,
+                  cv = None,
+                  scoring = None,
                   estimator_params = None,
-                  estimator = _API,
-                  cv = None)
+                  verbose = 0)
 RFECV_API_data, data = preprocessing.selector_dataframe(transformer = RFECV_API,
                                                         df = data,
                                                         tf = target)

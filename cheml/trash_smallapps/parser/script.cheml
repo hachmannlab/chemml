@@ -1,0 +1,68 @@
+CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+
+## INPUT
+				%% data_path = 'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'
+				%% data_delimiter = None
+				%% data_header = 0
+				%% data_skiprows = 0
+				%% target_path = 'benchmarks/homo_dump/sample_50/homo_50.csv'
+				%% target_delimiter = None
+				%% target_header = None
+				%% target_skiprows = 0
+
+## OUTPUT           %% path = 'CheML.out'
+					%% filename_pyscript = 'CheML_PyScript.py'
+					%% filename_logfile = 'log.txt'
+					%% filename_errorfile = 'error.txt'
+
+## MISSING_VALUES   %% string_as_null = True    %% missing_values = False
+                    %% inf_as_null = True       %% strategy = 'mean'
+
+## StandardScaler   %% copy = True      %% with_mean = True     
+                    %% with_std = True
+
+## MinMaxScaler     %% feature_range = (0,1)    %% copy = True
+
+## MaxAbsScaler     %% copy = True
+
+## RobustScaler     %% with_centering = True    %% with_scaling = True      
+                    %% copy = True
+
+## Normalizer       %% norm = 'l2'  %% copy = True
+
+## Binarizer        %% threshold = 0.0      %% copy = True
+
+## OneHotEncoder    %% n_values = 'auto'    %% categorical_features = 'all'
+                    %% dtype = np.float   %% sparse = True
+                    %% handle_unknown = 'error'
+
+## PolynomialFeatures   %% degree = 2   %% interaction_only = False
+                        %% include_bias = True
+
+## FunctionTransformer  %% func = None              %% validate = True
+                        %% accept_sparse = False    %% pass_y = False
+
+## VarianceThreshold    %% threshold = 0.0
+
+## SelectKBest          %% score_func = f_regression    %% k = 10
+
+## SelectPercentile     %% score_func = f_regression
+                        %% percentile = 10
+
+## SelectFpr            %% score_func = f_regression
+                        %% alpha = 0.05
+
+## SelectFdr            %% score_func = f_regression
+                        %% alpha = 0.05
+
+## SelectFwe            %% score_func = f_regression
+                        %% alpha = 0.05
+
+## RFE                  %% estimator = ''       %% n_features_to_select = None
+                        %% step = 1             %% estimator_params = None
+                        %% verbose = 0
+
+## RFECV                %% estimator = ''       %% step = 1
+                        %% cv = None            %% scoring = None
+                        %% estimator_params = None
+                        %% verbose = 0

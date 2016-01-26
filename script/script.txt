@@ -58,11 +58,15 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 ## SelectFwe            %% score_func = f_regression
                         %% alpha = 0.05
 
-## RFE                  %% estimator = ''       %% n_features_to_select = None
+## RFE                  %% estimator = sklearn.sth.fake1__a = 1__b=True__c='mean'__d = ['r',1]       
+                        %% n_features_to_select = None
                         %% step = 1             %% estimator_params = None
                         %% verbose = 0
 
-## RFECV                %% estimator = ''       %% step = 1
-                        %% cv = None            %% scoring = None
-                        %% estimator_params = None
+## RFECV                %% estimator = sklearn.sth.fake2__a = 1__b=True__c='mean'__d = ['r',1]       
+                        %% step = 1             %% cv = None            
+                        %% scoring = None       %% estimator_params = None
                         %% verbose = 0
+
+## SelectFromModel      %% estimator = sklearn.sth.fake3__a = 1__b=True__c='mean'__d = ['r',1]       
+                        %% threshold = None     %% prefit = True

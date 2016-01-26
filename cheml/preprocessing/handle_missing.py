@@ -118,33 +118,3 @@ class missing_values(object):
             data.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
             data, target = cut_df(list(target.columns), data, paste_col=list(target.columns), on_right=True)
             return data, target
-
-def Imputer_dataframe(imputer, df):
-    """ keep track of features (columns) that can be removed or changed in the 
-        Imputer by transforming data back to pandas dataframe structure. This happens based on
-        the "statistics_" attribute of Imputer.
-    
-    Parameters
-    ----------
-    imputer: sklearn Imputer class 
-         The class with adjusted parameters.
-         
-    df: Pandas dataframe
-        The dataframe that imputer is going to deal with.
-    
-    Returns
-    -------
-    transformed data frame
-    fitted imputer class
-    """    
-    df_columns = list(df.columns)
-    df = imputer.fit_transform(df)
-    if df.shape[1] == 0:
-        warnings.warn("empty dataframe: all columns have been removed",Warning)
-        return imputer, df
-    else:
-        stats = imputer.statistics_
-        nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)] 
-        df_columns = list_del_indices(df_columns, nan_ind)
-        df = pd.DataFrame(df,columns=df_columns)
-        return imputer, df

@@ -60,7 +60,18 @@ def make_script(file,line,type):
     if type == 'p':
         file.write('    %% '+line)
 
-
+def sub_function(block,line):
+    line = line.split('__')
+    imp = line[0]
+    block['sub_function'] = line[0].split('.')[-1]
+    block['sub_parameters'] = {}
+    for arg in line[1:]:
+        param = arg.split('=')[0].strip()
+        val = arg.split('=')[1].strip()
+        block['sub_parameters'][param] = '"%s"'%val
+    return imp 
+        
+        
 blocks = block_finder(script)
 print blocks
 print '\n'

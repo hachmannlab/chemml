@@ -34,14 +34,14 @@ from sct_utils import isfloat, islist, istuple, isnpdot, std_datetime_str
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*									  
 
-def _block_finder(script, blocks={}, it=-1):
+def _block_finder(script, blocks={}, item=-1):
     for line in script:
         if '##' in line:
-            it += 1    
-            blocks[it] = [line]
+            item += 1    
+            blocks[item] = [line]
             continue
         elif '#' not in line and '%' in line:
-            blocks[it].append(line)
+            blocks[item].append(line)
             continue
     return blocks
 
@@ -52,10 +52,10 @@ def _functions(line):
         function = line[line.index('##')+2:].strip()
     return function
 
-def _options(blocks, it=-1):
+def _options(blocks, item=-1):
     cmls = []
     for i in xrange(len(blocks)):
-        it += 1
+        item += 1
         block = blocks[i]
         cmls.append({"function": _functions(block[0]),
                      "parameters": {}})
@@ -68,9 +68,32 @@ def _options(blocks, it=-1):
                     args = line.strip()
                 param = args[:args.index('=')].strip()
                 val = args[args.index('=')+1:].strip()
-                exec("cmls[it]['parameters']['%s']"%param+'='+'"%s"'%val)
+                cmls[item]['parameters'][param] = "%s"%val
     return cmls
-    
+
+def _print_out(cmls):
+    item = 0
+    for block in cmls:
+        item+=1
+        line = '%s\n' %(block['function'])
+        line = line.rstrip("\n")
+        print '%i'%item+' '*(4-len(str(item)))+'function = '+line
+        for param in block['parameters']:
+            line = '%s = %s\n'%(param,block['parameters'][param])
+            line = line.rstrip("\n")
+            print '        '+line 
+
+def _sub_function(block,line):
+    line = line.split('__')
+    imp = line[0]
+    block['sub_function'] = line[0].split('.')[-1]
+    block['sub_parameters'] = {}
+    for arg in line[1:]:
+        param = arg.split('=')[0].strip()
+        val = arg.split('=')[1].strip()
+        block['sub_parameters'][param] = "%s"%val
+    return imp 
+
 def main(SCRIPT_NAME):
     """main:
         Driver of ChemML
@@ -84,6 +107,7 @@ def main(SCRIPT_NAME):
     script = script.readlines()
     blocks = _block_finder(script)
     cmls = _options(blocks)
+    _print_out(cmls)
     
     ## CHECK SCRIPT'S REQUIREMENTS    
     called_functions = [block["function"] for block in cmls]
@@ -158,7 +182,11 @@ def main(SCRIPT_NAME):
     print "NOTES:"
     print "* The python script with name '%s' has been stored in the current directory."\
         %pyscript_file
-    print "** list of required 'package: module's in the python script:", imports
+    print "** list of required 'package: module's in the python script:"
+    for item in imports:
+        line = '    ' + item + '\n'
+        line = line.rstrip("\n")
+        print line
     print "\n"
 
     return 0    #successful termination of program
@@ -192,45 +220,37 @@ def banner(state, function):
 	
 ##################################################################################################
 
-def gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames):
-    if cml_funct:
-        if "cheml: %s"%cml_funct not in imports:
-            cmlnb["blocks"][it]["imports"].append("from cheml import %s\n"%cml_funct)
-            imports.append("cheml: %s"%cml_funct)    
-    if "sklearn: %s"%skl_funct not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,skl_funct))
-        imports.append("sklearn: %s"%skl_funct)
-    
-    line = "%s_%s = %s(" %(skl_funct,'API',skl_funct)
-    param_count = 0
-    for parameter in block["parameters"]:
-        param_count += 1
-        line += """;%s = %s"""%(parameter,block["parameters"][parameter])
-    line += ')'
-    line = line.replace('(;','(')
-    
-    if param_count > 1 :
-        cmlnb["blocks"][it]["source"] += write_split(line)
-    else:
-        cmlnb["blocks"][it]["source"].append(line + '\n')
-    
-    for frame in frames:
-        line = """%s_%s_%s, %s = preprocessing.%s(transformer = %s_%s;df = %s)"""\
-            %(skl_funct,'API',frame,frame,interface,skl_funct,'API',frame)
-        cmlnb["blocks"][it]["source"] += write_split(line)
+def handle_imports(called_imports):
+    """
+    called_imports: list of strings
+    strings ex.:
+    1- "cheml.preprocessing.missing_values" ==> from cheml.preprocessing import missing_values
+    2- "numpy as np" ==> import numpy as np
+    3- "sklearn.feature_selection as sklfs" ==> import sklearn.feature_selection as sklfs
+    """
+    for item in called_imports:
+        if ' as ' in item:
+            item = item.split(' as ')
+            if item[0] not in imports:
+                cmlnb["blocks"][it]["imports"].append("import %s as %s\n"%(item[0],item[-1]))
+                imports.append("%s"%item[0])
+        elif '.' in item:
+            item = item.split('.')
+            if "%s: %s"%(item[0],item[-1]) not in imports:
+                dir = '.'.join(item[:-1])
+                cmlnb["blocks"][it]["imports"].append("from %s import %s\n"%(dir,item[-1]))
+                imports.append("%s: %s"%(item[0],item[-1]))
 
 ##################################################################################################
 
-def gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames):
-    if cml_funct:
-        if "cheml: %s"%cml_funct not in imports:
-            cmlnb["blocks"][it]["imports"].append("from cheml import %s\n"%cml_funct)
-            imports.append("cheml: %s"%cml_funct)    
-    if "sklearn: %s"%skl_funct not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,skl_funct))
-        imports.append("sklearn: %s"%skl_funct)
-    
-    line = "%s_%s = %s(" %(skl_funct,'API',skl_funct)
+def handle_API(block, function = False):
+    """
+    make a class object with input arguments
+    """
+    if function:
+        line = "%s_%s = %s(" %(function,'API',function)
+    else:
+        line = "%s_%s = %s(" %(block["function"],'API',block["function"])
     param_count = 0
     for parameter in block["parameters"]:
         param_count += 1
@@ -242,11 +262,87 @@ def gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, 
         cmlnb["blocks"][it]["source"] += write_split(line)
     else:
         cmlnb["blocks"][it]["source"].append(line + '\n')
-    
-    line = """%s_%s_%s, %s = preprocessing.%s(transformer = %s_%s;df = %s;tf = %s)"""\
-        %(skl_funct,'API','data','data',interface,skl_funct,'API','data','target')
-    cmlnb["blocks"][it]["source"] += write_split(line)
 
+##################################################################################################
+
+def handle_subAPI(block):
+    """
+    make a sub-class object in another class
+    """
+    line = "%s_%s = %s(" %(block["sub_function"],'API',block["sub_function"])
+    param_count = 0
+    for parameter in block["sub_parameters"]:
+        param_count += 1
+        line += """;%s = %s"""%(parameter,block["sub_parameters"][parameter])
+    line += ')'
+    line = line.replace('(;','(')
+    
+    if param_count > 1 :
+        cmlnb["blocks"][it]["source"] += write_split(line)
+    else:
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+
+
+##################################################################################################
+
+def handle_transform(block, interface, function = False, which_df = 'data'):
+    """
+    calls related cheml class to deal with dataframe and API
+    
+    Parameters:
+    -----------
+    block: list of strings
+        block of parameters for called class
+    
+    interface: string
+        cheml class
+    
+    function: string
+        name of main class/function
+    
+    which_df: string
+        the data frames in the action, including:
+            - data: input and output are only data  
+            - target: input and output are only target
+            - both: input is both of data and target, but output is only data
+            - multiple: input and output are both of data and target
+    """
+    if which_df == 'data':
+        if function:
+            line = "data = %s(transformer = %s_API;df = data)"\
+                %(interface, function)
+        else:
+            line = "data = %s(transformer = %s_API;df = data)"\
+                %(interface, block["function"])
+        cmlnb["blocks"][it]["source"] += write_split(line)
+        
+    elif which_df == 'target':
+        if function:
+            line = "target = %s(transformer = %s_API;df = target)"\
+                %(interface, function)
+        else:
+            line = "target = %s(transformer = %s_API;df = target)"\
+                %(interface, block["function"])
+        cmlnb["blocks"][it]["source"] += write_split(line)
+    
+    elif which_df == 'both':
+        if function:
+            line = "data = %s(transformer = %s_API;df = data;tf = target)"\
+                %(interface, function)
+        else:
+            line = "data = %s(transformer = %s_API;df = data;tf = target)"\
+                %(interface, block["function"])
+        cmlnb["blocks"][it]["source"] += write_split(line)
+ 
+    elif which_df == 'multiple':
+        if function:
+            line = "data, target = %s(transformer = %s_API;df = data;tf = target)"\
+                %(interface, function)
+        else:
+            line = "data, target = %s(transformer = %s_API;df = data;tf = target)"\
+                %(interface, block["function"])
+        cmlnb["blocks"][it]["source"] += write_split(line)
+   
 ##################################################################################################
 
 def INPUT(block):
@@ -254,11 +350,7 @@ def INPUT(block):
 		Read input files.
 		pandas.read_csv: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
     """
-    cmlnb["blocks"][it]["imports"].append("import numpy as np\n")
-    imports.append("numpy")
-    
-    cmlnb["blocks"][it]["imports"].append("import pandas as pd\n")
-    imports.append("pandas")
+    handle_imports(["numpy as np","pandas as pd"])
     
     line = "data = pd.read_csv(%s;sep = %s;skiprows = %s;header = %s)"\
         %(block["parameters"]["data_path"], block["parameters"]["data_delimiter"],\
@@ -275,10 +367,8 @@ def OUTPUT(block):
     """(OUTPUT):
 		Open output files.
     """
-    if "cheml: initialization" not in imports:
-        cmlnb["blocks"][it]["imports"].append("from cheml import initialization\n")
-        imports.append("cheml: initialization")
-    line = "output_directory, log_file, error_file = initialization.output(output_directory = %s;logfile = %s;errorfile = %s)"\
+    handle_imports(["cheml.initialization.output"])
+    line = "output_directory, log_file, error_file = output(output_directory = %s;logfile = %s;errorfile = %s)"\
         %(block["parameters"]["path"], block["parameters"]["filename_logfile"],\
         block["parameters"]["filename_errorfile"])
     cmlnb["blocks"][it]["source"] += write_split(line)
@@ -288,294 +378,217 @@ def MISSING_VALUES(block):
     """(MISSING_VALUES):
 		Handle missing values.
     """
-    if "cheml: preprocessing" not in imports:
-        cmlnb["blocks"][it]["imports"].append("from cheml import preprocessing\n")
-        imports.append("cheml: preprocessing")
-    line = """missval = preprocessing.missing_values(strategy = %s;string_as_null = %s;inf_as_null = %s;missing_values = %s)"""\
-        %(block["parameters"]["strategy"],block["parameters"]["string_as_null"],\
-        block["parameters"]["inf_as_null"],block["parameters"]["missing_values"])
-    cmlnb["blocks"][it]["source"] += write_split(line)
-    line = """data = missval.fit(data)"""
+    handle_imports(["cheml.preprocessing.missing_values"])
+    handle_API(block, function = 'missing_values')
+    line = """data = missing_values_API.fit(data)"""
     cmlnb["blocks"][it]["source"].append(line + '\n')
-    line = """target = missval.fit(target)"""
+    line = """target = missing_values_API.fit(target)"""
     cmlnb["blocks"][it]["source"].append(line + '\n')
     if block["parameters"]["strategy"][1:-1] in ['zero', 'ignore', 'interpolate']:
-        line = """data, target = missval.transform(data, target)"""
+        line = """data, target = missing_values_API.transform(data, target)"""
         cmlnb["blocks"][it]["source"].append(line + '\n')
     elif block["parameters"]["strategy"][1:-1] in ['mean', 'median', 'most_frequent']:
-        if "sklearn: Imputer" not in imports:
-            cmlnb["blocks"][it]["imports"].append("from sklearn.preprocessing import Imputer\n")
-            imports.append("sklearn: Imputer")
-        line = """imp = Imputer(strategy = %s;missing_values = 'NaN';axis = 0;verbose = 0;copy = True)"""\
-            %(block["parameters"]["strategy"])
-        cmlnb["blocks"][it]["source"] += write_split(line)
-        line = """imp_data, data = preprocessing.Imputer_dataframe(imputer = imp;df = data)"""
-        cmlnb["blocks"][it]["source"] += write_split(line)
-        line = """imp_target, target = preprocessing.Imputer_dataframe(imputer = imp;df = target)"""
-        cmlnb["blocks"][it]["source"] += write_split(line)
-									
+        handle_imports(["sklearn.preprocessing.Imputer","cheml.preprocessing.Imputer_dataframe"])
+        handle_API(block, function = 'Imputer')
+        handle_transform(block, interface = 'Imputer_dataframe' , function = 'Imputer', which_df = 'data')
+        handle_transform(block, interface = 'Imputer_dataframe' , function = 'Imputer', which_df = 'target')
+    									
 									###################
 def StandardScaler(block):
     """(StandardScaler):
 		http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler
     """
-    skl_funct = 'StandardScaler'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
-									
+    handle_imports(["sklearn.preprocessing.StandardScaler","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'StandardScaler')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'StandardScaler', which_df = 'data')
+ 									
 									###################
 def MinMaxScaler(block):
     """(MinMaxScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler    
     """
-    skl_funct = 'MinMaxScaler'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.MinMaxScaler","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'MinMaxScaler')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'MinMaxScaler', which_df = 'data')
 									
 									###################
 def MaxAbsScaler(block):
     """(MaxAbsScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler    
     """
-    skl_funct = 'MaxAbsScaler'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.MaxAbsScaler","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'MaxAbsScaler')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'MaxAbsScaler', which_df = 'data')
 									
 									###################
 def RobustScaler(block):
     """(RobustScaler):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler    
     """
-    skl_funct = 'RobustScaler'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.RobustScaler","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'RobustScaler')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'RobustScaler', which_df = 'data')
 
 									###################
 def Normalizer(block):
     """(Normalizer):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer    
     """
-    skl_funct = 'Normalizer'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.Normalizer","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'Normalizer')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'Normalizer', which_df = 'data')
 
 									###################
 def Binarizer(block):
     """(Binarizer):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer    
     """
-    skl_funct = 'Binarizer'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.Binarizer","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'Binarizer')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'Binarizer', which_df = 'data')
 
 									###################
 def OneHotEncoder(block):
     """(OneHotEncoder):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html    
     """
-    skl_funct = 'OneHotEncoder'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.OneHotEncoder","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'OneHotEncoder')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'OneHotEncoder', which_df = 'data')
 
 									###################
 def PolynomialFeatures(block):
     """(PolynomialFeatures):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures   
     """
-    skl_funct = 'PolynomialFeatures'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.preprocessing.PolynomialFeatures","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'PolynomialFeatures')
+    handle_transform(block, interface = 'transformer_dataframe', function = 'PolynomialFeatures', which_df = 'data')
 
 									###################
 def FunctionTransformer(block):
     """(FunctionTransformer):
         http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer   
     """
-    skl_funct = 'FunctionTransformer'
-    cml_funct = 'preprocessing'
-    skl_class = 'preprocessing'
-    interface = 'transformer_dataframe'
+    handle_imports(["sklearn.preprocessing.FunctionTransformer","cheml.preprocessing.transformer_dataframe"])
+    handle_API(block, function = 'FunctionTransformer')    
     if block["parameters"]["pass_y"]=='True' :
-        frames=['data','target']  # ,'target'
+        handle_transform(block, interface = 'transformer_dataframe', function = 'FunctionTransformer', which_df = 'data')
     else:
-        frames=['data']  # ,'target'
-    
-    gen_skl_preprocessing(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        frames=['data']
 
 									###################
 def VarianceThreshold(block):
     """(VarianceThreshold):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.VarianceThreshold.html#sklearn.feature_selection.VarianceThreshold    
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'VarianceThreshold'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    handle_imports(["sklearn.feature_selection.VarianceThreshold","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'VarianceThreshold')
+    handle_transform(block, interface = 'selector_dataframe', function = 'VarianceThreshold', which_df = 'both')
 
 									###################
 def SelectKBest(block):
     """(SelectKBest):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest   
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectKBest'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
     if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,block["parameters"]["score_func"]))
-        imports.append("sklearn: %s"%block["parameters"]["score_func"])
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        handle_imports(["sklearn.feature_selection.SelectKBest","cheml.preprocessing.selector_dataframe",
+        "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
+    else:
+        handle_imports(["sklearn.feature_selection.SelectKBest","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'SelectKBest')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectKBest', which_df = 'both')
 
 									###################
 def SelectPercentile(block):
     """(SelectPercentile):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectPercentile.html#sklearn.feature_selection.SelectPercentile  
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectPercentile'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
     if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,block["parameters"]["score_func"]))
-        imports.append("sklearn: %s"%block["parameters"]["score_func"])
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        handle_imports(["sklearn.feature_selection.SelectPercentile","cheml.preprocessing.selector_dataframe",
+        "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
+    else:
+        handle_imports(["sklearn.feature_selection.SelectPercentile","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'SelectPercentile')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectPercentile', which_df = 'both')
 
 									###################
 def SelectFpr(block):
     """(SelectFpr):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFpr.html#sklearn.feature_selection.SelectFpr 
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectFpr'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
     if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,block["parameters"]["score_func"]))
-        imports.append("sklearn: %s"%block["parameters"]["score_func"])
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        handle_imports(["sklearn.feature_selection.SelectFpr","cheml.preprocessing.selector_dataframe",
+        "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
+    else:
+        handle_imports(["sklearn.feature_selection.SelectFpr","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'SelectFpr')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectFpr', which_df = 'both')
 
 									###################
 def SelectFdr(block):
     """(SelectFdr):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr 
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectFdr'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
     if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,block["parameters"]["score_func"]))
-        imports.append("sklearn: %s"%block["parameters"]["score_func"])
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        handle_imports(["sklearn.feature_selection.SelectFdr","cheml.preprocessing.selector_dataframe",
+        "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
+    else:
+        handle_imports(["sklearn.feature_selection.SelectFdr","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'SelectFdr')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectFdr', which_df = 'both')
 
 									###################
 def SelectFwe(block):
     """(SelectFwe):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFwe.html#sklearn.feature_selection.SelectFwe
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectFwe'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
     if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
-        cmlnb["blocks"][it]["imports"].append("from sklearn.%s import %s\n"%(skl_class,block["parameters"]["score_func"]))
-        imports.append("sklearn: %s"%block["parameters"]["score_func"])
-    
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+        handle_imports(["sklearn.feature_selection.SelectFwe","cheml.preprocessing.selector_dataframe",
+        "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
+    else:
+        handle_imports(["sklearn.feature_selection.SelectFwe","cheml.preprocessing.selector_dataframe"])
+    handle_API(block, function = 'SelectFwe')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectFwe', which_df = 'both')
 
 									###################
 def RFE(block):
     """(RFE):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html#sklearn.feature_selection.RFE
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'RFE'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
-    # Note: This function and its parameters must be called before RFECV in the script file
-    block["parameters"]["estimator"] = '%s_API'%block["parameters"]["estimator"][1:-1]
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    imp = _sub_function(block,block["parameters"]["estimator"])
+    handle_imports(["sklearn.feature_selection.RFE","cheml.preprocessing.selector_dataframe",imp])
+    handle_subAPI(block)
+    block["parameters"]["estimator"] = "%s_%s" %(block["sub_function"],'API')
+    handle_API(block, function = 'RFE')
+    handle_transform(block, interface = 'selector_dataframe', function = 'RFE', which_df = 'both')
 
 									###################
 def RFECV(block):
     """(RFECV):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html#sklearn.feature_selection.RFECV
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'RFECV'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
-    # Note: This function and its parameters must be called before RFECV in the script file
-    block["parameters"]["estimator"] = '%s_API'%block["parameters"]["estimator"][1:-1]
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    imp = _sub_function(block,block["parameters"]["estimator"])
+    handle_imports(["sklearn.feature_selection.RFECV","cheml.preprocessing.selector_dataframe",imp])
+    handle_subAPI(block)
+    block["parameters"]["estimator"] = "%s_%s" %(block["sub_function"],'API')
+    handle_API(block, function = 'RFECV')
+    handle_transform(block, interface = 'selector_dataframe', function = 'RFECV', which_df = 'both')
 
 									###################
 def SelectFromModel(block):
     """(SelectFromModel):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFromModel.html#sklearn.feature_selection.SelectFromModel
     """
-    skl_class = 'feature_selection'
-    skl_funct = 'SelectFromModel'
-    cml_funct = 'preprocessing'
-    interface = 'selector_dataframe'
-    frames=['data']  # ,'target'
-    
-    # Note: This function and its parameters must be called before RFECV in the script file
-    block["parameters"]["estimator"] = '%s_API'%block["parameters"]["estimator"][1:-1]
-    gen_skl_featureselection(block, skl_funct, skl_class, cml_funct, interface, frames)    
+    imp = _sub_function(block,block["parameters"]["estimator"])
+    handle_imports(["sklearn.feature_selection.SelectFromModel","cheml.preprocessing.selector_dataframe",imp])
+    handle_subAPI(block)
+    if block["parameters"]["prefit"] == 'True':
+        line = "%s_%s = %s_%s.fit(data, target)" %(block["sub_function"],'API',block["sub_function"],'API')
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+    block["parameters"]["estimator"] = "%s_%s" %(block["sub_function"],'API')
+    handle_API(block, function = 'SelectFromModel')
+    handle_transform(block, interface = 'selector_dataframe', function = 'SelectFromModel', which_df = 'both')
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

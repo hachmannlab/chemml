@@ -282,7 +282,6 @@ def handle_subAPI(block):
     else:
         cmlnb["blocks"][it]["source"].append(line + '\n')
 
-
 ##################################################################################################
 
 def handle_transform(block, interface, function = False, which_df = 'data'):

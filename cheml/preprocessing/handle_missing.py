@@ -82,8 +82,9 @@ class missing_values(object):
         
     def fit(self, df):
         """
-        fit changes all missing values to nan. Then, they would be ready to be 
-        filled with pandas.fillna or sklearn.Imputer with specific strategies. 
+        fit the missing_values to df by replacing missing values with nan. 
+        Then, they would be ready to be filled with pandas.fillna or 
+        sklearn.Imputer with specific strategies. 
         """
         if self.inf_as_null == True:
             df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)

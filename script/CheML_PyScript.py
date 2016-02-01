@@ -243,3 +243,26 @@ data = selector_dataframe(transformer = SelectFromModel_API,
                           tf = target)
 ###########################
 
+########################### Trimmer
+from cheml.initializtion import Trimmer
+
+Trimmer_API = Trimmer(sort = True,
+                      shuffle = True,
+                      cut = 0.05,
+                      type = "margins")
+data = Trimmer_API.fit_transform(df = data,
+                                 tf = target)
+###########################
+
+########################### Uniformer
+from cheml.initializtion import Uniformer
+
+Uniformer_API = Uniformer(include_lowest = True,
+                          right = True,
+                          bin_pop = 0.5,
+                          substitute = None,
+                          bins = )
+data = Uniformer_API.fit_transform(df = data,
+                                   tf = target)
+###########################
+

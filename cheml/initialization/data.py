@@ -12,7 +12,7 @@ def _group_parser(indices, pop):
             sel_ind += sel
     return sel_ind
 
-class trimmer(object):
+class Trimmer(object):
     """ cut unwanted parts of data set
     
     Parameters
@@ -112,7 +112,7 @@ class trimmer(object):
         else:
             raise ValueError("Not a valid type")
       
-class uniformer(object):
+class Uniformer(object):
     """ select a uniform size of groups of target values
     
     Parameters
@@ -131,11 +131,18 @@ class uniformer(object):
     include_lowest: bool, optional, default False
         Whether the first interval should be left-inclusive or not.
     
-    bin_pop: int or float
+    bin_pop: int or float, optional, default 0.5
         bin_pop defines the maximum population of selected samples from each group(bin).
         If bin_pop is an int, it defines the maximum number of samples to be drawn from each group.
         A float value for bin_pop defines the fraction of the maximum population of groups as the 
         maximum size of selections from each group.
+        
+    substitute: str('mean','lower,'upper') or sequence of scalars, optional, default None
+        If substitute is one of the choices of 'mean', 'lower' or 'upper' strings, 
+        target values will be substitute with mean bin edges, lower bin edge or 
+        upper bin edge, respectively. If bins is a sequence, it defines the target 
+        value for bins. If None, no substitute will happen and original target 
+        values would be passed out.
     
     Attributes
     ----------
@@ -153,11 +160,13 @@ class uniformer(object):
     -------
     data and target
     """
-    def __init__(self, bins, bin_pop, right = True, include_lowest = True):
+    def __init__(self, bins, bin_pop = 0.5, right = True, include_lowest = True,
+                 substitute = None):
         self.bins = bins
         self.bin_pop = bin_pop
         self.right = right
         self.include_lowest = include_lowest
+        self.substitute = substitute
         
     def fit_transform(self, data, target):
         """
@@ -165,7 +174,14 @@ class uniformer(object):
         """
         # pandas.cut
         col = target.columns[0]
-        bined = pd.cut(target[col], self.bins, right = self.right, retbins=True, labels=False,include_lowest=self.include_lowest)
+        if type(self.bins) == int:
+            bined = pd.cut(target[col], self.bins, right = self.right, retbins=True, labels=False,include_lowest=self.include_lowest)
+        elif type(self.bins) == float:
+            bins = int(max(target[col]) - min(target[col]) / self.bins)
+            bined = pd.cut(target[col], bins, right = self.right, retbins=True, labels=False,include_lowest=self.include_lowest)
+        else:
+            bined = pd.cut(target[col], self.bins, right = self.right, retbins=True, labels=False,include_lowest=self.include_lowest)
+        
         if self.right:
             ranges = ['(%f,%f]'%(bined[1][i],bined[1][i+1]) for i in bined[0]]
             if self.include_lowest:
@@ -191,10 +207,24 @@ class uniformer(object):
             raise ValueError("Wrong format of bin_pop: must be int or float")              
         
         self.selected_indices_ = _group_parser(self.grouped_indices_, pop)
+        
         data = data.iloc[self.selected_indices_,:]
-        data.index = pd.Index(range(len(data)))
-        target = target.iloc[self.selected_indices_,:]        
-        target.index = pd.Index(range(len(target)))
+        data.index = pd.Index(range(len(data)))        
+        if self.substitute == None :
+            target = target.iloc[self.selected_indices_,:]        
+            target.index = pd.Index(range(len(target)))
+        else:
+            if self.substitute == 'lower':
+                new_target_values = [bined[1][bined[0][i]] for i in self.selected_indices_]
+            elif self.substitute == 'upper':
+                new_target_values = [bined[1][bined[0][i]+1] for i in self.selected_indices_]    
+            elif self.substitute == 'mean':
+                new_target_values = [np.mean([bined[1][bined[0][i]], bined[1][bined[0][i]+1]])for i in self.selected_indices_]
+            else:
+                new_target_values = list(self.substitute)
+        
+            target = pd.DataFrame(new_target_values, columns=[col])        
+        
         return data, target
           
             

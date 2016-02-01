@@ -151,7 +151,9 @@ def main(SCRIPT_NAME):
                  'SelectFwe'            : SelectFwe,
                  'RFE'                  : RFE,
                  'RFECV'                : RFECV,
-                 'SelectFromModel'      : SelectFromModel
+                 'SelectFromModel'      : SelectFromModel,
+                 'Trimmer'              : Trimmer,
+                 'Uniformer'            : Uniformer
                  
                 }
 
@@ -341,6 +343,63 @@ def handle_transform(block, interface, function = False, which_df = 'data'):
             line = "data, target = %s(transformer = %s_API;df = data;tf = target)"\
                 %(interface, block["function"])
         cmlnb["blocks"][it]["source"] += write_split(line)
+   
+##################################################################################################
+
+def handle_simple_transform(block, sub_function, function = False, which_df = 'data'):
+    """
+    calls related cheml class to deal with dataframe and API
+    
+    Parameters:
+    -----------
+    block: list of strings
+        block of parameters for called class
+        
+    function: string
+        name of main class/function
+    
+    which_df: string
+        the data frames in the action, including:
+            - data: input and output are only data  
+            - target: input and output are only target
+            - both: input is both of data and target, but output is only data
+            - multiple: input and output are both of data and target
+    """
+    if which_df == 'data':
+        if function:
+            line = "data = %s.%s(data)"\
+                %(function, sub_function)
+        else:
+            line = "data = %s.%s(data)"\
+                %(block["function"], sub_function)
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        
+    elif which_df == 'target':
+        if function:
+            line = "target = %s.%s(target)"\
+                %(function, sub_function)
+        else:
+            line = "target = %s.%s(target)"\
+                %(block["function"], sub_function)
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+    
+    elif which_df == 'both':
+        if function:
+            line = "data = %s.%s(data, target)"\
+                %(function, sub_function)
+        else:
+            line = "data = %s.%s(data, target)"\
+                %(block["function"], sub_function)
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+ 
+    elif which_df == 'multiple':
+        if function:
+            line = "data, target = %s.%s(data, target)"\
+                %(function, sub_function)
+        else:
+            line = "data, target = %s.%s(data, target)"\
+                %(block["function"], sub_function)
+        cmlnb["blocks"][it]["source"].append(line + '\n')
    
 ##################################################################################################
 
@@ -589,6 +648,23 @@ def SelectFromModel(block):
     handle_API(block, function = 'SelectFromModel')
     handle_transform(block, interface = 'selector_dataframe', function = 'SelectFromModel', which_df = 'both')
 
+									###################
+def Trimmer(block):
+    """(Trimmer):
+    
+    """
+    handle_imports(["cheml.initializtion.Trimmer"])
+    handle_API(block, function = 'Trimmer')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'Trimmer_API', which_df = 'both')
+
+									###################
+def Uniformer(block):
+    """(Uniformer):
+    
+    """
+    handle_imports(["cheml.initializtion.Uniformer"])
+    handle_API(block, function = 'Uniformer')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'Uniformer_API', which_df = 'both')
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

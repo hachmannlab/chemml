@@ -98,8 +98,8 @@ def main(SCRIPT_NAME):
     """main:
         Driver of ChemML
     """
+    it = -1
     global cmls
-    global imports
     global cmlnb
     global it
     
@@ -125,10 +125,9 @@ def main(SCRIPT_NAME):
              "date": std_datetime_str('date'),
              "time": std_datetime_str('time'),
              "file_name": pyscript_file,
-             "version": "1.1.0"
+             "version": "1.1.0",
+             "imports": []
             }
-    imports = []    
-    it = -1
     
     ## implementing orders
     functions = {'INPUT'                : INPUT,
@@ -153,7 +152,8 @@ def main(SCRIPT_NAME):
                  'RFECV'                : RFECV,
                  'SelectFromModel'      : SelectFromModel,
                  'Trimmer'              : Trimmer,
-                 'Uniformer'            : Uniformer
+                 'Uniformer'            : Uniformer,
+                 'PCA'                  : PCA
                  
                 }
 
@@ -185,7 +185,7 @@ def main(SCRIPT_NAME):
     print "* The python script with name '%s' has been stored in the current directory."\
         %pyscript_file
     print "** list of required 'package: module's in the python script:"
-    for item in imports:
+    for item in cmlnb["imports"]:
         line = '    ' + item + '\n'
         line = line.rstrip("\n")
         print line
@@ -233,15 +233,15 @@ def handle_imports(called_imports):
     for item in called_imports:
         if ' as ' in item:
             item = item.split(' as ')
-            if item[0] not in imports:
+            if item[0] not in cmlnb["imports"]:
                 cmlnb["blocks"][it]["imports"].append("import %s as %s\n"%(item[0],item[-1]))
-                imports.append("%s"%item[0])
+                cmlnb["imports"].append("%s"%item[0])
         elif '.' in item:
             item = item.split('.')
-            if "%s: %s"%(item[0],item[-1]) not in imports:
+            if "%s: %s"%(item[0],item[-1]) not in cmlnb["imports"]:
                 dir = '.'.join(item[:-1])
                 cmlnb["blocks"][it]["imports"].append("from %s import %s\n"%(dir,item[-1]))
-                imports.append("%s: %s"%(item[0],item[-1]))
+                cmlnb["imports"].append("%s: %s"%(item[0],item[-1]))
 
 ##################################################################################################
 
@@ -549,7 +549,7 @@ def SelectKBest(block):
     """(SelectKBest):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest   
     """
-    if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
+    if "sklearn: %s"%block["parameters"]["score_func"] not in cmlnb["imports"]:
         handle_imports(["sklearn.feature_selection.SelectKBest","cheml.preprocessing.selector_dataframe",
         "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
     else:
@@ -562,7 +562,7 @@ def SelectPercentile(block):
     """(SelectPercentile):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectPercentile.html#sklearn.feature_selection.SelectPercentile  
     """
-    if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
+    if "sklearn: %s"%block["parameters"]["score_func"] not in cmlnb["imports"]:
         handle_imports(["sklearn.feature_selection.SelectPercentile","cheml.preprocessing.selector_dataframe",
         "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
     else:
@@ -575,7 +575,7 @@ def SelectFpr(block):
     """(SelectFpr):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFpr.html#sklearn.feature_selection.SelectFpr 
     """
-    if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
+    if "sklearn: %s"%block["parameters"]["score_func"] not in cmlnb["imports"]:
         handle_imports(["sklearn.feature_selection.SelectFpr","cheml.preprocessing.selector_dataframe",
         "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
     else:
@@ -588,7 +588,7 @@ def SelectFdr(block):
     """(SelectFdr):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFdr.html#sklearn.feature_selection.SelectFdr 
     """
-    if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
+    if "sklearn: %s"%block["parameters"]["score_func"] not in cmlnb["imports"]:
         handle_imports(["sklearn.feature_selection.SelectFdr","cheml.preprocessing.selector_dataframe",
         "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
     else:
@@ -601,7 +601,7 @@ def SelectFwe(block):
     """(SelectFwe):
         http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectFwe.html#sklearn.feature_selection.SelectFwe
     """
-    if "sklearn: %s"%block["parameters"]["score_func"] not in imports:
+    if "sklearn: %s"%block["parameters"]["score_func"] not in cmlnb["imports"]:
         handle_imports(["sklearn.feature_selection.SelectFwe","cheml.preprocessing.selector_dataframe",
         "sklearn.feature_selection.%s"%block["parameters"]["score_func"]])
     else:
@@ -666,6 +666,17 @@ def Uniformer(block):
     handle_API(block, function = 'Uniformer')
     handle_simple_transform(block, sub_function = 'fit_transform', function = 'Uniformer_API', which_df = 'both')
 
+									###################
+def PCA(block):
+    """(PCA):
+        http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA    
+    """
+    handle_imports(["sklearn.decomposition.PCA"])
+    handle_API(block, function = 'PCA')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'PCA_API', which_df = 'data')
+    line = "data = pd.DataFrame(data)"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  

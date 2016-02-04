@@ -250,8 +250,7 @@ Trimmer_API = Trimmer(sort = True,
                       shuffle = True,
                       cut = 0.05,
                       type = "margins")
-data = Trimmer_API.fit_transform(df = data,
-                                 tf = target)
+data = Trimmer_API.fit_transform(data, target)
 ###########################
 
 ########################### Uniformer
@@ -262,7 +261,16 @@ Uniformer_API = Uniformer(include_lowest = True,
                           bin_pop = 0.5,
                           substitute = None,
                           bins = )
-data = Uniformer_API.fit_transform(df = data,
-                                   tf = target)
+data = Uniformer_API.fit_transform(data, target)
+###########################
+
+########################### PCA
+from sklearn.decomposition import PCA
+
+PCA_API = PCA(copy = True,
+              n_components = None,
+              whiten = False)
+data = PCA_API.fit_transform(data)
+data = pd.DataFrame(data)
 ###########################
 

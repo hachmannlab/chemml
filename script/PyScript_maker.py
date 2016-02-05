@@ -154,7 +154,8 @@ def main(SCRIPT_NAME):
                  'Trimmer'              : Trimmer,
                  'Uniformer'            : Uniformer,
                  'PCA'                  : PCA,
-                 'KernelPCA'            : KernelPCA
+                 'KernelPCA'            : KernelPCA,
+                 'RandomizedPCA'        : RandomizedPCA
                  
                 }
 
@@ -689,7 +690,17 @@ def KernelPCA(block):
     line = "data = pd.DataFrame(data)"
     cmlnb["blocks"][it]["source"].append(line + '\n')
     
-
+									###################
+def RandomizedPCA(block):
+    """(RandomizedPCA):
+        http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.RandomizedPCA.html#sklearn.decomposition.RandomizedPCA   
+    """
+    handle_imports(["sklearn.decomposition.RandomizedPCA"])
+    handle_API(block, function = 'RandomizedPCA')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'RandomizedPCA_API', which_df = 'data')
+    line = "data = pd.DataFrame(data)"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  

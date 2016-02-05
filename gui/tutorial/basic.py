@@ -201,11 +201,28 @@ timer.start(200)
 label = QLabel(w1)
 pixmap = QPixmap(os.getcwd() + '/logo.png')
 label.setPixmap(pixmap)
-w.resize(pixmap.width(),pixmap.height())
+label.move(300,80)
+label.resize(pixmap.width(),pixmap.height())
+# w1.resize(pixmap.width(),pixmap.height())
 ###
+
+### File Dialog
+w2 = QWidget()
+w2.resize(320, 240)
+w2.setWindowTitle("File Dialog")
+ 
+# Get filename using QFileDialog
+filename = QFileDialog.getOpenFileName(w2, 'Open File', '/')
+print filename
+ 
+# print file contents
+with open(filename, 'r') as f:
+    print(f.read())
 
 
 # Show window
 w.show()
 w1.show()
+w2.show()
+
 sys.exit(a.exec_())

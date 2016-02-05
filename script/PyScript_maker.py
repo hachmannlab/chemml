@@ -98,10 +98,10 @@ def main(SCRIPT_NAME):
     """main:
         Driver of ChemML
     """
-    it = -1
     global cmls
     global cmlnb
     global it
+    it = -1
     
     script = open(SCRIPT_NAME,'r')
     script = script.readlines()
@@ -153,7 +153,8 @@ def main(SCRIPT_NAME):
                  'SelectFromModel'      : SelectFromModel,
                  'Trimmer'              : Trimmer,
                  'Uniformer'            : Uniformer,
-                 'PCA'                  : PCA
+                 'PCA'                  : PCA,
+                 'KernelPCA'            : KernelPCA
                  
                 }
 
@@ -676,7 +677,19 @@ def PCA(block):
     handle_simple_transform(block, sub_function = 'fit_transform', function = 'PCA_API', which_df = 'data')
     line = "data = pd.DataFrame(data)"
     cmlnb["blocks"][it]["source"].append(line + '\n')
+
+									###################
+def KernelPCA(block):
+    """(KernelPCA):
+        http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA    
+    """
+    handle_imports(["sklearn.decomposition.KernelPCA"])
+    handle_API(block, function = 'KernelPCA')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'KernelPCA_API', which_df = 'data')
+    line = "data = pd.DataFrame(data)"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
     
+
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  

@@ -274,3 +274,22 @@ data = PCA_API.fit_transform(data)
 data = pd.DataFrame(data)
 ###########################
 
+########################### KernelPCA
+from sklearn.decomposition import KernelPCA
+
+KernelPCA_API = KernelPCA(fit_inverse_transform = False,
+                          kernel = "linear",
+                          tol = 0,
+                          degree = 3,
+                          max_iter = None,
+                          kernel_params = None,
+                          remove_zero_eig = True,
+                          n_components = None,
+                          eigen_solver = 'auto',
+                          alpha = 1.0,
+                          coef0 = 1,
+                          gamma = None)
+data = KernelPCA_API.fit_transform(data)
+data = pd.DataFrame(data)
+###########################
+

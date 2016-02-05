@@ -293,3 +293,28 @@ data = KernelPCA_API.fit_transform(data)
 data = pd.DataFrame(data)
 ###########################
 
+########################### RandomizedPCA
+from sklearn.decomposition import RandomizedPCA
+
+RandomizedPCA_API = RandomizedPCA(random_state = None,
+                                  copy = True,
+                                  n_components = None,
+                                  iterated_power = 3,
+                                  whiten = False)
+data = RandomizedPCA_API.fit_transform(data)
+data = pd.DataFrame(data)
+###########################
+
+########################### LDA
+from sklearn.lda import LDA
+
+LDA_API = LDA(solver = 'svd',
+              shrinkage = None,
+              n_components = None,
+              tol = 0.0001,
+              priors = None,
+              store_covariance = False)
+data = LDA_API.fit_transform(data)
+data = pd.DataFrame(data)
+###########################
+

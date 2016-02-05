@@ -155,7 +155,8 @@ def main(SCRIPT_NAME):
                  'Uniformer'            : Uniformer,
                  'PCA'                  : PCA,
                  'KernelPCA'            : KernelPCA,
-                 'RandomizedPCA'        : RandomizedPCA
+                 'RandomizedPCA'        : RandomizedPCA,
+                 'LDA'                  : LDA
                  
                 }
 
@@ -700,7 +701,29 @@ def RandomizedPCA(block):
     handle_simple_transform(block, sub_function = 'fit_transform', function = 'RandomizedPCA_API', which_df = 'data')
     line = "data = pd.DataFrame(data)"
     cmlnb["blocks"][it]["source"].append(line + '\n')
-    
+
+									###################
+def LDA(block):
+    """(LDA):
+        http://scikit-learn.org/0.16/modules/generated/sklearn.lda.LDA.html#sklearn.lda.LDA   
+    """
+    handle_imports(["sklearn.lda.LDA"])
+    handle_API(block, function = 'LDA')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'LDA_API', which_df = 'data')
+    line = "data = pd.DataFrame(data)"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+
+									###################
+def LDA(block):
+    """(LDA):
+        http://scikit-learn.org/0.16/modules/generated/sklearn.lda.LDA.html#sklearn.lda.LDA   
+    """
+    handle_imports(["sklearn.lda.LDA"])
+    handle_API(block, function = 'LDA')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'LDA_API', which_df = 'data')
+    line = "data = pd.DataFrame(data)"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  

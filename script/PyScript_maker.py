@@ -34,15 +34,23 @@ from sct_utils import isfloat, islist, istuple, isnpdot, std_datetime_str
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*									  
 
-def _block_finder(script, blocks={}, item=-1):
-    for line in script:
-        if '##' in line:
-            item += 1    
-            blocks[item] = [line]
-            continue
-        elif '#' not in line and '%' in line:
-            blocks[item].append(line)
-            continue
+
+def _block_finder(script):
+    blocks={}
+    item=-1
+    a = [i for i,line in enumerate(script) if '#' in line]
+    b = [i for i,line in enumerate(script) if '###' in line]
+    if len(b)%2 != 0:
+        msg = "one of the super functions has not been wrapped with '###' properly."
+        raise ValueError(msg)
+    for ind in b[1::2]:
+        script[ind] = ''
+    for i,j in zip(b,b[1:])[::2]:
+        a = [ind for ind in a if ind<=i or ind>j]
+    inactive = [a.index(i) for i in a if '##' not in script[i]]
+    for i in xrange(len(a)-1):
+        blocks[i] = script[a[i]:a[i+1]]
+    blocks[len(a)-1] = script[a[-1]:]
     return blocks
 
 def _functions(line):
@@ -52,23 +60,50 @@ def _functions(line):
         function = line[line.index('##')+2:].strip()
     return function
 
-def _options(blocks, item=-1):
+def _parameters(block):
+    parameters = {}
+    for line in block:
+        while '%%' in line:
+            line = line[line.index('%%')+2:].strip()
+            if '%' in line:
+                args = line[:line.index('%')].strip()
+            else:
+                args = line.strip()
+            param = args[:args.index('=')].strip()
+            val = args[args.index('=')+1:].strip()
+            parameters[param] = "%s"%val
+    return parameters
+
+def _superfunctions(line):
+    if '#' in line[line.index('###')+3:]:
+        function = line[line.index('###')+3:line.index('#')].strip()
+    else:
+        function = line[line.index('###')+3:].strip()
+    return function
+
+def _superparameters(block):
+    parameters = []
+    block[0] = block[0][block[0].index('###')+3:]
+    sub_blocks = _block_finder(block)
+    for i in xrange(len(sub_blocks)):
+        blk = sub_blocks[i]
+        if '##' in blk[0]:
+            parameters.append({"function": _functions(blk[0]),
+                               "parameters": _parameters(blk)})
+        else:
+            continue        
+    return parameters
+    
+def _options(blocks):
     cmls = []
-    for i in xrange(len(blocks)):
-        item += 1
-        block = blocks[i]
-        cmls.append({"function": _functions(block[0]),
-                     "parameters": {}})
-        for line in block:
-            while '%%' in line:
-                line = line[line.index('%%')+2:].strip()
-                if '%' in line:
-                    args = line[:line.index('%')].strip()
-                else:
-                    args = line.strip()
-                param = args[:args.index('=')].strip()
-                val = args[args.index('=')+1:].strip()
-                cmls[item]['parameters'][param] = "%s"%val
+    for item in xrange(len(blocks)):
+        block = blocks[item]
+        if '###' in block[0]:
+            cmls.append({"function": _superfunctions(block[0]),
+                         "parameters": _superparameters(block)})
+        elif '##' in block[0]:
+            cmls.append({"function": _functions(block[0]),
+                         "parameters": _parameters(block)})
     return cmls
 
 def _print_out(cmls):
@@ -78,11 +113,24 @@ def _print_out(cmls):
         line = '%s\n' %(block['function'])
         line = line.rstrip("\n")
         print '%i'%item+' '*(4-len(str(item)))+'function = '+line
-        for param in block['parameters']:
-            line = '%s = %s\n'%(param,block['parameters'][param])
-            line = line.rstrip("\n")
-            print '        '+line 
-
+        if type(block['parameters']) == dict:
+            for param in block['parameters']:
+                line = '%s = %s\n'%(param,block['parameters'][param])
+                line = line.rstrip("\n")
+                print '        '+line 
+        elif type(block['parameters']) == list:
+            for sub_block in block['parameters']:
+                line = '%s\n' %(sub_block['function'])
+                line = line.rstrip("\n")
+                print '     *'+' '*2+'function = '+line
+                for param in sub_block['parameters']:
+                    line = '%s = %s\n'%(param,sub_block['parameters'][param])
+                    line = line.rstrip("\n")
+                    print '            '+line 
+        else:
+            msg = "script parser can not recognize the format of script"
+            raise ValueError(msg)
+            
 def _sub_function(block,line):
     line = line.split('__')
     imp = line[0]
@@ -377,7 +425,7 @@ def handle_simple_transform(block, sub_function, function = False, which_df = 'd
                 %(block["function"], sub_function)
         cmlnb["blocks"][it]["source"].append(line + '\n')
         
-    elif which_df == 'target':
+		elif which_df == 'target':
         if function:
             line = "target = %s.%s(target)"\
                 %(function, sub_function)
@@ -703,25 +751,43 @@ def RandomizedPCA(block):
     cmlnb["blocks"][it]["source"].append(line + '\n')
 
 									###################
-def LDA(block):
-    """(LDA):
-        http://scikit-learn.org/0.16/modules/generated/sklearn.lda.LDA.html#sklearn.lda.LDA   
+def LinearDiscriminantAnalysis(block):
+    """(LinearDiscriminantAnalysis):
+        http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis   
     """
-    handle_imports(["sklearn.lda.LDA"])
-    handle_API(block, function = 'LDA')
-    handle_simple_transform(block, sub_function = 'fit_transform', function = 'LDA_API', which_df = 'data')
+    handle_imports(["sklearn.discriminant_analysis.LinearDiscriminantAnalysis"])
+    handle_API(block, function = 'LinearDiscriminantAnalysis')
+    handle_simple_transform(block, sub_function = 'fit_transform', function = 'LinearDiscriminantAnalysis_API', which_df = 'data')
     line = "data = pd.DataFrame(data)"
     cmlnb["blocks"][it]["source"].append(line + '\n')
 
 									###################
-def LDA(block):
-    """(LDA):
-        http://scikit-learn.org/0.16/modules/generated/sklearn.lda.LDA.html#sklearn.lda.LDA   
+def SupervisedLearning_regression(block):
+    """(SupervisedLearning_regression):
+        The regression full package   
     """
-    handle_imports(["sklearn.lda.LDA"])
-    handle_API(block, function = 'LDA')
-    handle_simple_transform(block, sub_function = 'fit_transform', function = 'LDA_API', which_df = 'data')
-    line = "data = pd.DataFrame(data)"
+    for opt in ...:
+    
+        if opt=='split':
+    
+        elif opt=='cross_validation':
+    
+        elif opt=='learner':
+    
+        elif opt=='metrics':
+    
+        elif opt=='plot':
+    
+        elif opt=='save':
+    
+        else:
+            msg = "%s is not a valid function. available functions in SupervisedLearning_regression\
+                    are split, cross_validation, learner, metrics, plot and save."
+            raise ValueError(msg) 
+def handle_training(block, function):
+    line = "%s_API.fit(data, target)"%function
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    line = "r2_training = lasso.score(data, target)"
     cmlnb["blocks"][it]["source"].append(line + '\n')
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

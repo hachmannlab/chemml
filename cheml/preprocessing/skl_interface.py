@@ -3,6 +3,30 @@ import numpy as np
 from ..utils.utilities import list_del_indices
 import warnings
 
+def input_preserver(learner, data, target=None):
+    """
+    to preserve input type, eg. transform numpy array to dataframe and keep track
+    of header.
+    
+    Parameters
+    ----------
+    learner: The learner is the last fitted classifier/regressor
+    data: data dataframe
+    target: default None, target dataframe
+    
+    Returns
+    -------
+    transformed data and target dataframes. 
+    
+    """
+    
+    if target == None:
+        #learner functions
+        #return data
+    else:
+        #learner functions
+        #return data, target
+    
 def Imputer_dataframe(transformer, df):
     """ keep track of features (columns) that can be removed or changed in the 
         Imputer by transforming data back to pandas dataframe structure. This happens based on
@@ -64,7 +88,7 @@ def transformer_dataframe(transformer, df):
 def selector_dataframe(transformer, df, tf):
     """ keep track of features (columns) that can be removed or changed in the 
         VarianceThreshold by transforming data back to pandas dataframe structure. 
-        This happens based on the "get_support" method of Imputer.
+        This happens based on the "get_support" method of selector.
     
     Parameters
     ----------

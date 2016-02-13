@@ -95,32 +95,65 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                         %% priors = None                %% n_components = None                    
                         %% store_covariance = False     %% tol = 0.0001
 
-## LinearRegression     %% fit_intercept = True         %% normalize = False     
-                        %% copy_X = True                %% n_jobs = 1                    
-
 ### SupervisedLearning_regression  
 
-	## split               %% from = sklearn       %% method = 'train_test_split'
+	## split               %% module = 'sklearn'       %% method = 'train_test_split'
 											%% test_size = None         
 											%% train_size = None    
 											%% random_state = None      
 											%% stratify = None
     
-    ## cross_validation    %% from = sklearn       %% method = 'K-fold'    
+    ## cross_validation    %% module = 'sklearn'       %% method = 'K-fold'
+                                            %% n = len(data)    
 											%% n_folds = 3  
 											%% shuffle = False
 											%% random_state = None
 
-    ## learner             %% from = sklearn       %% method = 'LinearRegression'
+    ## cross_validation    %% module = 'sklearn'       %% method = 'StratifiedKFold'
+                                            %% y = target    
+											%% n_folds = 3  
+											%% shuffle = False
+											%% random_state = None
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'LabelKFold'
+                                            %% labels = target    
+											%% n_folds = 3  
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'LeaveOneOut'
+                                            %% n = len(data)    
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'LeavePOut'
+                                            %% n = len(data) 
+                                            %% p = 5   
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'LeaveOneLabelOut'
+                                            %% labels = target    
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'LeavePLabelOut'
+                                            %% labels = target   
+                                            %% p = 5
+
+    ## cross_validation    %% module = 'sklearn'       %% method = 'ShuffleSplit'
+                                            %% n = len(data)
+                                            %% n_iter = 10    
+											%% test_size = 0.1         
+											%% train_size = None    
+											%% random_state = None      
+                         
+
+    # learner             %% module = sklearn       %% method = 'LinearRegression'
 											%% fit_intercept = True
 											%% normalize = False
-											%% copy_X = True 
+											%% copy_X = True
+											%% n_jobs = 1  
                                     
-    ## metrics             %% from = sklearn       %% method = 'mean_absolute_error'
+    # metrics             %% module = sklearn       %% method = 'mean_absolute_error'
     
-    ## plot                %% method = '2d'    %% x = 
-                                                %% y = 
-    ## save                %% which_params = [ ]
+    # plot                %% module = cheml         %% method = '2d'    
+             								%% x = 
+                                            %% y = 
+                                            
+    # save                %% which_params = [ ]
 ###
 
 

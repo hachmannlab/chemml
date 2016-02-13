@@ -204,13 +204,15 @@ def main(SCRIPT_NAME):
                  'PCA'                  : PCA,
                  'KernelPCA'            : KernelPCA,
                  'RandomizedPCA'        : RandomizedPCA,
-                 'LDA'                  : LDA
+                 'LDA'                  : LDA,
+                 'SupervisedLearning_regression' : SupervisedLearning_regression
                  
                 }
 
     for block in cmls:
         if block['function'] not in functions:
-            raise NameError("name %s is not defined"%block['function'])
+            msg = "name %s is not defined"%block['function']
+            raise NameError(msg)
         else:
             it += 1
             cmlnb["blocks"].append({"function": block['function'],
@@ -337,6 +339,29 @@ def handle_subAPI(block):
 
 ##################################################################################################
 
+def handle_funct_API(block, inputs, outputs, function):
+    """
+    call a function with all of its parameters.
+    """
+    if inputs:
+        line = "%s = %s(%s" %(outputs,function,inputs)
+    else:
+        line = "%s = %s(" %(outputs,function)
+
+    param_count = 0
+    for parameter in block["parameters"]:
+        param_count += 1
+        line += """;%s = %s"""%(parameter,block["parameters"][parameter])
+    line += ')'
+    if not inputs:
+        line = line.replace('(;','(')
+    if param_count > 1 :
+        cmlnb["blocks"][it]["source"] += write_split(line)
+    else:
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+
+##################################################################################################
+
 def handle_transform(block, interface, function = False, which_df = 'data'):
     """
     calls related cheml class to deal with dataframe and API
@@ -425,7 +450,7 @@ def handle_simple_transform(block, sub_function, function = False, which_df = 'd
                 %(block["function"], sub_function)
         cmlnb["blocks"][it]["source"].append(line + '\n')
         
-		elif which_df == 'target':
+    elif which_df == 'target':
         if function:
             line = "target = %s.%s(target)"\
                 %(function, sub_function)
@@ -751,7 +776,7 @@ def RandomizedPCA(block):
     cmlnb["blocks"][it]["source"].append(line + '\n')
 
 									###################
-def LinearDiscriminantAnalysis(block):
+def LDA(block):
     """(LinearDiscriminantAnalysis):
         http://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis   
     """
@@ -766,25 +791,113 @@ def SupervisedLearning_regression(block):
     """(SupervisedLearning_regression):
         The regression full package   
     """
-    for opt in ...:
-    
-        if opt=='split':
-    
-        elif opt=='cross_validation':
-    
-        elif opt=='learner':
-    
-        elif opt=='metrics':
-    
-        elif opt=='plot':
-    
-        elif opt=='save':
-    
+    sub_functions = {'split'            : split,
+                     'cross_validation' : cross_validation,
+#                      'learner'          : learner,
+#                      'metrics'          : metrics,
+#                      'plot'             : plot,
+#                      'save'             : save
+                     }
+    for sub_block in block['parameters']:
+        if sub_block['function'] not in sub_functions:
+            msg = "subfunction %s in the SupervisedLearning_regression is not defined"%sub_block['function']
+            raise NameError(msg)
+        sub_functions[sub_block['function']](block, sub_block)    
+           
+									#*****************#
+									
+def split(block, sub_block):
+    if sub_block['parameters']['module'][1:-1] == 'sklearn':
+        del sub_block['parameters']['module']
+        if sub_block['parameters']['method'][1:-1] == 'train_test_split':
+            del sub_block['parameters']['method']
+            handle_imports(["sklearn.cross_validation.train_test_split"])
+            outputs = 'data_train, data_test, target_train, target_test'
+            inputs = 'data;target'
+            handle_funct_API(sub_block, inputs=inputs, outputs=outputs, function = 'train_test_split')
         else:
-            msg = "%s is not a valid function. available functions in SupervisedLearning_regression\
-                    are split, cross_validation, learner, metrics, plot and save."
-            raise ValueError(msg) 
-def handle_training(block, function):
+            msg = "Enter a valid sklearn function for split."
+            raise NameError(msg)
+    else:
+        msg = "Enter a valid module name for split."
+        raise NameError(msg)
+
+									#*****************#
+									
+def cross_validation(block, sub_block):
+    if sub_block['parameters']['module'][1:-1] == 'sklearn':
+        del sub_block['parameters']['module']
+        if sub_block['parameters']['method'][1:-1] == 'K-fold':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('n'):
+                sub_block['parameters']['n'] = 'len(data)'
+            handle_imports(["sklearn.cross_validation.K-fold"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'K-fold')
+        elif sub_block['parameters']['method'][1:-1] == 'StratifiedKFold':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('y'):
+                sub_block['parameters']['y'] = target
+            handle_imports(["sklearn.cross_validation.StratifiedKFold"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'StratifiedKFold')
+        elif sub_block['parameters']['method'][1:-1] == 'LabelKFold':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('labels'):
+                sub_block['parameters']['labels'] = target
+            handle_imports(["sklearn.cross_validation.LabelKFold"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelKFold')
+        elif sub_block['parameters']['method'][1:-1] == 'LeaveOneOut':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('n'):
+                sub_block['parameters']['n'] = 'len(data)'
+            handle_imports(["sklearn.cross_validation.LeaveOneOut"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneOut')
+        elif sub_block['parameters']['method'][1:-1] == 'LeavePOut':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('n'):
+                sub_block['parameters']['n'] = 'len(data)'
+            handle_imports(["sklearn.cross_validation.LeavePOut"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePOut')
+        elif sub_block['parameters']['method'][1:-1] == 'LeaveOneLabelOut':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('labels'):
+                sub_block['parameters']['labels'] = target
+            handle_imports(["sklearn.cross_validation.LeaveOneLabelOut"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneLabelOut')
+        elif sub_block['parameters']['method'][1:-1] == 'LeavePLabelOut':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('labels'):
+                sub_block['parameters']['labels'] = target
+            handle_imports(["sklearn.cross_validation.LeavePLabelOut"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePLabelOut')        
+        elif sub_block['parameters']['method'][1:-1] == 'ShuffleSplit':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('n'):
+                sub_block['parameters']['n'] = 'len(data)'
+            handle_imports(["sklearn.cross_validation.ShuffleSplit"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'ShuffleSplit')
+        elif sub_block['parameters']['method'][1:-1] == 'LabelShuffleSplit':
+            del sub_block['parameters']['method']
+            if not sub_block['parameters'].has_key('n'):
+                sub_block['parameters']['n'] = 'len(data)'
+            handle_imports(["sklearn.cross_validation.LabelShuffleSplit"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelShuffleSplit')
+        else:
+            msg = "Enter a valid sklearn function for cross_validation."
+            raise NameError(msg)
+    else:
+        msg = "Enter a valid module name for cross_validation."
+        raise NameError(msg)
+
+def learner(sub_block):
     line = "%s_API.fit(data, target)"%function
     cmlnb["blocks"][it]["source"].append(line + '\n')
     line = "r2_training = lasso.score(data, target)"

@@ -306,15 +306,55 @@ data = pd.DataFrame(data)
 ###########################
 
 ########################### LDA
-from sklearn.lda import LDA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-LDA_API = LDA(solver = 'svd',
-              shrinkage = None,
-              n_components = None,
-              tol = 0.0001,
-              priors = None,
-              store_covariance = False)
-data = LDA_API.fit_transform(data)
+LinearDiscriminantAnalysis_API = LinearDiscriminantAnalysis(solver = 'svd',
+                                                            shrinkage = None,
+                                                            n_components = None,
+                                                            tol = 0.0001,
+                                                            priors = None,
+                                                            store_covariance = False)
+data = LinearDiscriminantAnalysis_API.fit_transform(data)
 data = pd.DataFrame(data)
+###########################
+
+########################### SupervisedLearning_regression
+from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import K-fold
+from sklearn.cross_validation import StratifiedKFold
+from sklearn.cross_validation import LabelKFold
+from sklearn.cross_validation import LeaveOneOut
+from sklearn.cross_validation import LeavePOut
+from sklearn.cross_validation import LeaveOneLabelOut
+from sklearn.cross_validation import LeavePLabelOut
+from sklearn.cross_validation import ShuffleSplit
+
+data_train, data_test, target_train, target_test = train_test_split(data,
+                                                                    target,
+                                                                    train_size = None,
+                                                                    random_state = None,
+                                                                    test_size = None,
+                                                                    stratify = None)
+CV_indices = K-fold(shuffle = False,
+                    n = len(data),
+                    random_state = None,
+                    n_folds = 3)
+CV_indices = StratifiedKFold(shuffle = False,
+                             n_folds = 3,
+                             random_state = None,
+                             y = target)
+CV_indices = LabelKFold(n_folds = 3,
+                        labels = target)
+CV_indices = LeaveOneOut(n = len(data))
+CV_indices = LeavePOut(p = 5,
+                       n = len(data))
+CV_indices = LeaveOneLabelOut(labels = target)
+CV_indices = LeavePLabelOut(p = 5,
+                            labels = target)
+CV_indices = ShuffleSplit(n_iter = 10,
+                          n = len(data),
+                          train_size = None,
+                          random_state = None,
+                          test_size = 0.1)
 ###########################
 

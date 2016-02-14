@@ -298,7 +298,7 @@ def handle_imports(called_imports):
 
 ##################################################################################################
 
-def handle_API(block, function = False):
+def handle_API(block, function = False, ignore = []):
     """
     make a class object with input arguments
     """
@@ -308,6 +308,8 @@ def handle_API(block, function = False):
         line = "%s_%s = %s(" %(block["function"],'API',block["function"])
     param_count = 0
     for parameter in block["parameters"]:
+        if parameter in ignore:
+            continue
         param_count += 1
         line += """;%s = %s"""%(parameter,block["parameters"][parameter])
     line += ')'
@@ -339,7 +341,7 @@ def handle_subAPI(block):
 
 ##################################################################################################
 
-def handle_funct_API(block, inputs, outputs, function):
+def handle_funct_API(block, inputs, outputs, function, ignore = []):
     """
     call a function with all of its parameters.
     """
@@ -350,6 +352,8 @@ def handle_funct_API(block, inputs, outputs, function):
 
     param_count = 0
     for parameter in block["parameters"]:
+        if parameter in ignore:
+            continue
         param_count += 1
         line += """;%s = %s"""%(parameter,block["parameters"][parameter])
     line += ')'
@@ -793,7 +797,8 @@ def SupervisedLearning_regression(block):
     """
     sub_functions = {'split'            : split,
                      'cross_validation' : cross_validation,
-#                      'learner'          : learner,
+                     'scaler'           : scaler,
+                     'learner'          : learner,
 #                      'metrics'          : metrics,
 #                      'plot'             : plot,
 #                      'save'             : save
@@ -808,13 +813,11 @@ def SupervisedLearning_regression(block):
 									
 def split(block, sub_block):
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
-        del sub_block['parameters']['module']
         if sub_block['parameters']['method'][1:-1] == 'train_test_split':
-            del sub_block['parameters']['method']
             handle_imports(["sklearn.cross_validation.train_test_split"])
             outputs = 'data_train, data_test, target_train, target_test'
             inputs = 'data;target'
-            handle_funct_API(sub_block, inputs=inputs, outputs=outputs, function = 'train_test_split')
+            handle_funct_API(sub_block, inputs=inputs, outputs=outputs, function = 'train_test_split', ignore = ['module','method'])
         else:
             msg = "Enter a valid sklearn function for split."
             raise NameError(msg)
@@ -826,70 +829,64 @@ def split(block, sub_block):
 									
 def cross_validation(block, sub_block):
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
-        del sub_block['parameters']['module']
         if sub_block['parameters']['method'][1:-1] == 'K-fold':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('n'):
                 sub_block['parameters']['n'] = 'len(data)'
             handle_imports(["sklearn.cross_validation.K-fold"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'K-fold')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'K-fold', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'StratifiedKFold':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('y'):
                 sub_block['parameters']['y'] = target
             handle_imports(["sklearn.cross_validation.StratifiedKFold"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'StratifiedKFold')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'StratifiedKFold', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LabelKFold':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('labels'):
                 sub_block['parameters']['labels'] = target
             handle_imports(["sklearn.cross_validation.LabelKFold"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelKFold')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelKFold', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LeaveOneOut':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('n'):
                 sub_block['parameters']['n'] = 'len(data)'
             handle_imports(["sklearn.cross_validation.LeaveOneOut"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneOut')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneOut', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LeavePOut':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('n'):
                 sub_block['parameters']['n'] = 'len(data)'
             handle_imports(["sklearn.cross_validation.LeavePOut"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePOut')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePOut', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LeaveOneLabelOut':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('labels'):
                 sub_block['parameters']['labels'] = target
             handle_imports(["sklearn.cross_validation.LeaveOneLabelOut"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneLabelOut')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeaveOneLabelOut', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LeavePLabelOut':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('labels'):
                 sub_block['parameters']['labels'] = target
             handle_imports(["sklearn.cross_validation.LeavePLabelOut"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePLabelOut')        
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LeavePLabelOut', ignore = ['module','method'])        
         elif sub_block['parameters']['method'][1:-1] == 'ShuffleSplit':
-            del sub_block['parameters']['method']
             if not sub_block['parameters'].has_key('n'):
                 sub_block['parameters']['n'] = 'len(data)'
             handle_imports(["sklearn.cross_validation.ShuffleSplit"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'ShuffleSplit')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'ShuffleSplit', ignore = ['module','method'])
         elif sub_block['parameters']['method'][1:-1] == 'LabelShuffleSplit':
-            del sub_block['parameters']['method']
-            if not sub_block['parameters'].has_key('n'):
-                sub_block['parameters']['n'] = 'len(data)'
+            if not sub_block['parameters'].has_key('labels'):
+                sub_block['parameters']['labels'] = target
             handle_imports(["sklearn.cross_validation.LabelShuffleSplit"])
             outputs = 'CV_indices'
-            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelShuffleSplit')
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'LabelShuffleSplit', ignore = ['module','method'])
+        elif sub_block['parameters']['method'][1:-1] == 'PredefinedSplit':
+            handle_imports(["sklearn.cross_validation.PredefinedSplit"])
+            outputs = 'CV_indices'
+            handle_funct_API(sub_block, inputs=False, outputs=outputs, function = 'PredefinedSplit', ignore = ['module','method'])
         else:
             msg = "Enter a valid sklearn function for cross_validation."
             raise NameError(msg)
@@ -897,11 +894,39 @@ def cross_validation(block, sub_block):
         msg = "Enter a valid module name for cross_validation."
         raise NameError(msg)
 
-def learner(sub_block):
-    line = "%s_API.fit(data, target)"%function
-    cmlnb["blocks"][it]["source"].append(line + '\n')
-    line = "r2_training = lasso.score(data, target)"
-    cmlnb["blocks"][it]["source"].append(line + '\n')
+									#*****************#
+									
+def scaler(block, sub_block):
+    if sub_block['parameters']['module'][1:-1] == 'sklearn':
+        if sub_block['parameters']['method'][1:-1] == 'StandardScaler':
+            handle_imports(["sklearn.preprocessing.StandardScaler"])
+            handle_API(sub_block, function = 'StandardScaler', ignore = ['module','method'])
+        elif sub_block['parameters']['method'][1:-1] == 'MinMaxScaler':
+            handle_imports(["sklearn.preprocessing.MinMaxScaler"])
+            handle_API(sub_block, function = 'MinMaxScaler', ignore = ['module','method'])
+        elif sub_block['parameters']['method'][1:-1] == 'MaxAbsScaler':
+            handle_imports(["sklearn.preprocessing.MaxAbsScaler"])
+            handle_API(sub_block, function = 'MaxAbsScaler', ignore = ['module','method'])
+        elif sub_block['parameters']['method'][1:-1] == 'RobustScaler':
+            handle_imports(["sklearn.preprocessing.RobustScaler"])
+            handle_API(sub_block, function = 'RobustScaler', ignore = ['module','method'])
+        elif sub_block['parameters']['method'][1:-1] == 'Normalizer':
+            handle_imports(["sklearn.preprocessing.Normalizer"])
+            handle_API(sub_block, function = 'Normalizer', ignore = ['module','method'])
+        else:
+            msg = "Enter a valid sklearn function for scaler."
+            raise NameError(msg)
+    else:
+        msg = "Enter a valid module name for scaler."
+        raise NameError(msg)
+
+									#*****************#
+
+def learner(block, sub_block):
+    if sub_block['parameters']['module'][1:-1] == 'sklearn':
+        if sub_block['parameters']['method'][1:-1] == 'StandardScaler':
+            handle_imports(["sklearn.preprocessing.StandardScaler"])
+            handle_API(sub_block, function = 'StandardScaler', ignore = ['module','method'])
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

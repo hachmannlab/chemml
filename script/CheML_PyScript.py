@@ -328,6 +328,8 @@ from sklearn.cross_validation import LeavePOut
 from sklearn.cross_validation import LeaveOneLabelOut
 from sklearn.cross_validation import LeavePLabelOut
 from sklearn.cross_validation import ShuffleSplit
+from sklearn.cross_validation import LabelShuffleSplit
+from sklearn.cross_validation import PredefinedSplit
 
 data_train, data_test, target_train, target_test = train_test_split(data,
                                                                     target,
@@ -356,5 +358,22 @@ CV_indices = ShuffleSplit(n_iter = 10,
                           train_size = None,
                           random_state = None,
                           test_size = 0.1)
+CV_indices = LabelShuffleSplit(n_iter = 10,
+                               labels = target,
+                               train_size = None,
+                               random_state = None,
+                               test_size = 0.1)
+CV_indices = PredefinedSplit(test_fold = [0, 1, -1, 1, 2, ...])
+StandardScaler_API = StandardScaler(copy = True,
+                                    with_std = True,
+                                    with_mean = True)
+MinMaxScaler_API = MinMaxScaler(copy = True,
+                                feature_range = (0,1))
+MaxAbsScaler_API = MaxAbsScaler(copy = True)
+RobustScaler_API = RobustScaler(with_scaling = True,
+                                with_centering = True,
+                                copy = True)
+Normalizer_API = Normalizer(copy = True,
+                            norm = 'l2')
 ###########################
 

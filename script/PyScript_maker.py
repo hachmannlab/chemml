@@ -799,7 +799,7 @@ def SupervisedLearning_regression(block):
                      'cross_validation' : cross_validation,
                      'scaler'           : scaler,
                      'learner'          : learner,
-#                      'metrics'          : metrics,
+                     'metrics'          : 0
 #                      'plot'             : plot,
 #                      'save'             : save
                      }
@@ -807,11 +807,16 @@ def SupervisedLearning_regression(block):
         if sub_block['function'] not in sub_functions:
             msg = "subfunction %s in the SupervisedLearning_regression is not defined"%sub_block['function']
             raise NameError(msg)
-        sub_functions[sub_block['function']](block, sub_block)    
+        elif sub_block['function'] == 'metrics':
+            continue
+        else:
+            sub_functions[sub_block['function']](block, sub_block)    
            
 									#*****************#
 									
 def split(block, sub_block):
+    line = '\n# split'
+    cmlnb["blocks"][it]["source"].append(line + '\n')
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
         if sub_block['parameters']['method'][1:-1] == 'train_test_split':
             handle_imports(["sklearn.cross_validation.train_test_split"])
@@ -828,6 +833,8 @@ def split(block, sub_block):
 									#*****************#
 									
 def cross_validation(block, sub_block):
+    line = '\n# cross_validation'
+    cmlnb["blocks"][it]["source"].append(line + '\n')
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
         if sub_block['parameters']['method'][1:-1] == 'K-fold':
             if not sub_block['parameters'].has_key('n'):
@@ -897,6 +904,8 @@ def cross_validation(block, sub_block):
 									#*****************#
 									
 def scaler(block, sub_block):
+    line = '\n# scaler'
+    cmlnb["blocks"][it]["source"].append(line + '\n')
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
         if sub_block['parameters']['method'][1:-1] == 'StandardScaler':
             handle_imports(["sklearn.preprocessing.StandardScaler"])
@@ -923,10 +932,129 @@ def scaler(block, sub_block):
 									#*****************#
 
 def learner(block, sub_block):
+    line = '\n# learner'
+    cmlnb["blocks"][it]["source"].append(line + '\n')
     if sub_block['parameters']['module'][1:-1] == 'sklearn':
-        if sub_block['parameters']['method'][1:-1] == 'StandardScaler':
-            handle_imports(["sklearn.preprocessing.StandardScaler"])
-            handle_API(sub_block, function = 'StandardScaler', ignore = ['module','method'])
+        if sub_block['parameters']['method'][1:-1] == 'LinearRegression':
+            handle_imports(["sklearn.linear_model.LinearRegression"])
+            handle_API(sub_block, function = 'LinearRegression', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'LinearRegression_API')
+
+def handle_regression_sklearn(block, learner_API):
+    order = [ sb['function'] for sb in block['parameters'] ]
+    if 'split' in order:
+        line = '\n# split result'
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        # scale
+        if 'scaler' in order:
+            scaler_API = block['parameters'][order.index('scaler')]['parameters']['method'][1:-1] + '_API'
+            line = '%s.fit(data_train)'%scaler_API
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+            line = 'data_train = ' + scaler_API +'.transform(data_train)'
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+            line = 'data_test = ' + scaler_API +'.transform(data_test)'
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+        # train
+        line = '%s.fit(data_train, target_train)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        # metrics
+        if 'metrics' in order:
+            metrics_items = block['parameters'][order.index('metrics')]['parameters'].items()
+            order_metrics = [item[0] for item in metrics_items if item[1]=='True']
+            metrics(order_metrics, learner_API, style='split')
+
+    if 'cross_validation' in order:
+        line = '\n# cross_validation result'
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        if 'metrics' in order:
+            metrics_items = block['parameters'][order.index('metrics')]['parameters'].items()
+            order_metrics = [item[0] for item in metrics_items if item[1]=='True']
+            CV_metrics = {'training':{}, 'test':{}}
+            for metric in order_metrics:
+                CV_metrics['training'][metric] = []
+                CV_metrics['test'][metric] = []
+            line = "CV_metrics = %s"%str(CV_metrics)
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+
+        line = "for train_index, test_index in CV_indices:"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = "    data_train = data.iloc[train_index,:]"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = "    target_train = target.iloc[train_index,:]"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = "    data_test = target.iloc[test_index,:]"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = "    target_test = target.iloc[test_index,:]"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        # scale
+        if 'scaler' in order:
+            scaler_API = block['parameters'][order.index('scaler')]['parameters']['method'][1:-1] + '_API'
+            line = '    %s.fit(data_train)'%scaler_API
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+            line = '    data_train = ' + scaler_API +'.transform(data_train)'
+            cmlnb["blocks"][it]["source"].append(line + '\n')
+            line = '    data_test = ' + scaler_API +'.transform(data_test)'
+            cmlnb["blocks"][it]["source"].append(line + '\n')                 
+        # train
+        line = '    %s.fit(data_train, target_train)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        # metrics
+        if 'metrics' in order:
+            metrics(order_metrics, learner_API, style='cross_validation')
+ 
+
+def metrics(order_metrics, learner_API, style):
+    metrics_all = ['r2_score',
+                   'explained_variance_score',
+                   'mean_absolute_error',
+                   'median_absolute_error',
+                   'mean_squared_error',
+                   'root_mean_squared_error']
+    if style == 'split':
+        line = 'target_train_pred = %s.predict(data_train)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = 'target_test_pred = %s.predict(data_test)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = "split_metrics = {'training':{}, 'test':{}}"
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        for order in order_metrics:
+            if order not in metrics_all:
+                msg = "Not a valid metrics type."
+                raise ValueError(msg)
+            elif order != 'root_mean_squared_error':
+                handle_imports(['sklearn.metrics.%s'%order])
+                line = "split_metrics['training']['%s'] = %s(target_train, target_train_pred)"%(order,order)
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+                line = "split_metrics['test']['%s'] = %s(target_test, target_test_pred)"%(order,order)
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+            elif order == 'root_mean_squared_error':
+                handle_imports(['sklearn.metrics.mean_squared_error'])
+                line = "split_metrics['training']['%s'] = np.sqrt(%s(target_train, target_train_pred))"%('mean_squared_error','mean_squared_error')
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+                line = "split_metrics['test']['%s'] = np.sqrt(%s(target_test, target_test_pred))"%('mean_squared_error','mean_squared_error')
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+    elif style == 'cross_validation':
+        line = '    target_train_pred = %s.predict(data_train)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        line = '    target_test_pred = %s.predict(data_test)'%learner_API
+        cmlnb["blocks"][it]["source"].append(line + '\n')
+        for order in order_metrics:
+            if order not in metrics_all:
+                msg = "Not a valid metrics type."
+                raise ValueError(msg)
+            elif order != 'root_mean_squared_error':
+                handle_imports(['sklearn.metrics.%s'%order])
+                line = "    CV_metrics['training']['%s'].append(%s(target_train, target_train_pred))"%(order,order)
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+                line = "    CV_metrics['test']['%s'].append(%s(target_test, target_test_pred))"%(order,order)
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+            elif order == 'root_mean_squared_error':
+                handle_imports(['sklearn.metrics.mean_squared_error'])
+                line = "    CV_metrics['training']['%s'].append(np.sqrt(%s(target_train, target_train_pred)))"%('mean_squared_error','mean_squared_error')
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+                line = "    CV_metrics['test']['%s'].append(np.sqrt(%s(target_test, target_test_pred)))"%('mean_squared_error','mean_squared_error')
+                cmlnb["blocks"][it]["source"].append(line + '\n') 
+                     
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

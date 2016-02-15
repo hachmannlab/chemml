@@ -330,50 +330,141 @@ from sklearn.cross_validation import LeavePLabelOut
 from sklearn.cross_validation import ShuffleSplit
 from sklearn.cross_validation import LabelShuffleSplit
 from sklearn.cross_validation import PredefinedSplit
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import median_absolute_error
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import explained_variance_score
 
+
+# split
 data_train, data_test, target_train, target_test = train_test_split(data,
                                                                     target,
                                                                     train_size = None,
                                                                     random_state = None,
                                                                     test_size = None,
                                                                     stratify = None)
+
+# cross_validation
 CV_indices = K-fold(shuffle = False,
                     n = len(data),
                     random_state = None,
                     n_folds = 3)
+
+# cross_validation
 CV_indices = StratifiedKFold(shuffle = False,
                              n_folds = 3,
                              random_state = None,
                              y = target)
+
+# cross_validation
 CV_indices = LabelKFold(n_folds = 3,
                         labels = target)
+
+# cross_validation
 CV_indices = LeaveOneOut(n = len(data))
+
+# cross_validation
 CV_indices = LeavePOut(p = 5,
                        n = len(data))
+
+# cross_validation
 CV_indices = LeaveOneLabelOut(labels = target)
+
+# cross_validation
 CV_indices = LeavePLabelOut(p = 5,
                             labels = target)
+
+# cross_validation
 CV_indices = ShuffleSplit(n_iter = 10,
                           n = len(data),
                           train_size = None,
                           random_state = None,
                           test_size = 0.1)
+
+# cross_validation
 CV_indices = LabelShuffleSplit(n_iter = 10,
                                labels = target,
                                train_size = None,
                                random_state = None,
                                test_size = 0.1)
+
+# cross_validation
 CV_indices = PredefinedSplit(test_fold = [0, 1, -1, 1, 2, ...])
+
+# scaler
 StandardScaler_API = StandardScaler(copy = True,
                                     with_std = True,
                                     with_mean = True)
+
+# scaler
 MinMaxScaler_API = MinMaxScaler(copy = True,
                                 feature_range = (0,1))
+
+# scaler
 MaxAbsScaler_API = MaxAbsScaler(copy = True)
+
+# scaler
 RobustScaler_API = RobustScaler(with_scaling = True,
                                 with_centering = True,
                                 copy = True)
+
+# scaler
 Normalizer_API = Normalizer(copy = True,
                             norm = 'l2')
+
+# learner
+LinearRegression_API = LinearRegression(normalize = False,
+                                        n_jobs = 1,
+                                        fit_intercept = True,
+                                        copy_X = True)
+
+# split result
+StandardScaler_API.fit(data_train)
+data_train = StandardScaler_API.transform(data_train)
+data_test = StandardScaler_API.transform(data_test)
+LinearRegression_API.fit(data_train, target_train)
+target_train_pred = LinearRegression_API.predict(data_train)
+target_test_pred = LinearRegression_API.predict(data_test)
+split_metrics = {'training':{}, 'test':{}}
+split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)
+split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)
+split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)
+split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)
+split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)
+split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)
+split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))
+split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))
+split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
+split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
+
+# cross_validation result
+CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
+for train_index, test_index in CV_indices:
+    data_train = data.iloc[train_index,:]
+    target_train = target.iloc[train_index,:]
+    data_test = target.iloc[test_index,:]
+    target_test = target.iloc[test_index,:]
+    StandardScaler_API.fit(data_train)
+    data_train = StandardScaler_API.transform(data_train)
+    data_test = StandardScaler_API.transform(data_test)
+    LinearRegression_API.fit(data_train, target_train)
+    target_train_pred = LinearRegression_API.predict(data_train)
+    target_test_pred = LinearRegression_API.predict(data_test)
+    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
+    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
+    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))
+    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))
+    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))
+    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))
 ###########################
 

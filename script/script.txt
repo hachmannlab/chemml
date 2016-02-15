@@ -171,13 +171,13 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% norm = 'l2'  
 											%% copy = True
     
-    ## learner               %% module = 'sklearn'         %% method = 'LinearRegression'
+    # learner               %% module = 'sklearn'         %% method = 'LinearRegression'
 											%% fit_intercept = True
 											%% normalize = False
 											%% copy_X = True
 											%% n_jobs = 1  
 
-    ## learner               %% module = 'sklearn'         %% method = 'Ridge'
+    # learner               %% module = 'sklearn'         %% method = 'Ridge'
 											%% alpha = 1.0
 											%% copy_X = True
 											%% fit_intercept = True
@@ -187,7 +187,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% solver = 'auto'
 											%% random_state = None
 
-    ## learner               %% module = 'sklearn'         %% method = 'Lasso'
+    # learner               %% module = 'sklearn'         %% method = 'Lasso'
 											%% alpha = 1.0
 											%% fit_intercept = True
 											%% normalize = False
@@ -200,7 +200,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% random_state = None
 											%% selection='cyclic'
 
-    ## learner               %% module = 'sklearn'         %% method = 'ElasticNet'
+    # learner               %% module = 'sklearn'         %% method = 'ElasticNet'
 											%% alpha = 1.0
 											%% l1_ratio = 0.5
 											%% fit_intercept = True
@@ -225,6 +225,19 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% eps=np.finfo(np.float).eps
 											%% fit_path = True
 											%% positive = False
+
+    ## learner               %% module = 'sklearn'         %% method = 'SVR'
+											%% kernel = 'rbf'
+											%% degree = 3
+											%% gamma = 'auto'
+											%% coef0 = 0.0
+											%% tol = 1e-3 
+											%% C = 1.0
+											%% epsilon = 0.1 
+											%% shrinking = True
+											%% cache_size = 200
+											%% verbose = False 
+											%% max_iter = -1
                                     
     ## metrics                              %% r2_score = True
                                             %% mean_absolute_error = True

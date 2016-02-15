@@ -327,6 +327,10 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import median_absolute_error
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import explained_variance_score
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
+from sklearn.linear_model import LassoLars
 
 
 # split
@@ -388,6 +392,243 @@ for train_index, test_index in CV_indices:
     LinearRegression_API.fit(data_train, target_train)
     target_train_pred = LinearRegression_API.predict(data_train)
     target_test_pred = LinearRegression_API.predict(data_test)
+    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
+    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
+    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))
+    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))
+    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))
+    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))
+
+# learner
+Ridge_API = Ridge(normalize = False,
+                  fit_intercept = True,
+                  max_iter = None,
+                  random_state = None,
+                  tol = 0.001,
+                  copy_X = True,
+                  alpha = 1.0,
+                  solver = 'auto')
+
+# result: split
+StandardScaler_API.fit(data_train)
+data_train = StandardScaler_API.transform(data_train)
+data_test = StandardScaler_API.transform(data_test)
+Ridge_API.fit(data_train, target_train)
+target_train_pred = Ridge_API.predict(data_train)
+target_test_pred = Ridge_API.predict(data_test)
+split_metrics = {'training':{}, 'test':{}}
+split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)
+split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)
+split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)
+split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)
+split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)
+split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)
+split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))
+split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))
+split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
+split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
+
+# result: cross_validation
+CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
+for train_index, test_index in CV_indices:
+    data_train = data.iloc[train_index,:]
+    target_train = target.iloc[train_index,:]
+    data_test = target.iloc[test_index,:]
+    target_test = target.iloc[test_index,:]
+    StandardScaler_API.fit(data_train)
+    data_train = StandardScaler_API.transform(data_train)
+    data_test = StandardScaler_API.transform(data_test)
+    Ridge_API.fit(data_train, target_train)
+    target_train_pred = Ridge_API.predict(data_train)
+    target_test_pred = Ridge_API.predict(data_test)
+    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
+    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
+    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))
+    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))
+    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))
+    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))
+
+# learner
+Lasso_API = Lasso(normalize = False,
+                  warm_start = False,
+                  selection = 'cyclic',
+                  fit_intercept = True,
+                  positive = False,
+                  max_iter = 1000,
+                  precompute = False,
+                  random_state = None,
+                  tol = 0.0001,
+                  copy_X = True,
+                  alpha = 1.0)
+
+# result: split
+StandardScaler_API.fit(data_train)
+data_train = StandardScaler_API.transform(data_train)
+data_test = StandardScaler_API.transform(data_test)
+Lasso_API.fit(data_train, target_train)
+target_train_pred = Lasso_API.predict(data_train)
+target_test_pred = Lasso_API.predict(data_test)
+split_metrics = {'training':{}, 'test':{}}
+split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)
+split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)
+split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)
+split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)
+split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)
+split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)
+split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))
+split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))
+split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
+split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
+
+# result: cross_validation
+CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
+for train_index, test_index in CV_indices:
+    data_train = data.iloc[train_index,:]
+    target_train = target.iloc[train_index,:]
+    data_test = target.iloc[test_index,:]
+    target_test = target.iloc[test_index,:]
+    StandardScaler_API.fit(data_train)
+    data_train = StandardScaler_API.transform(data_train)
+    data_test = StandardScaler_API.transform(data_test)
+    Lasso_API.fit(data_train, target_train)
+    target_train_pred = Lasso_API.predict(data_train)
+    target_test_pred = Lasso_API.predict(data_test)
+    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
+    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
+    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))
+    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))
+    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))
+    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))
+
+# learner
+ElasticNet_API = ElasticNet(normalize = False,
+                            warm_start = False,
+                            selection = 'cyclic',
+                            fit_intercept = True,
+                            l1_ratio = 0.5,
+                            max_iter = 1000,
+                            precompute = False,
+                            random_state = None,
+                            tol = 0.0001,
+                            positive = False,
+                            copy_X = True,
+                            alpha = 1.0)
+
+# result: split
+StandardScaler_API.fit(data_train)
+data_train = StandardScaler_API.transform(data_train)
+data_test = StandardScaler_API.transform(data_test)
+ElasticNet_API.fit(data_train, target_train)
+target_train_pred = ElasticNet_API.predict(data_train)
+target_test_pred = ElasticNet_API.predict(data_test)
+split_metrics = {'training':{}, 'test':{}}
+split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)
+split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)
+split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)
+split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)
+split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)
+split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)
+split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))
+split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))
+split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
+split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
+
+# result: cross_validation
+CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
+for train_index, test_index in CV_indices:
+    data_train = data.iloc[train_index,:]
+    target_train = target.iloc[train_index,:]
+    data_test = target.iloc[test_index,:]
+    target_test = target.iloc[test_index,:]
+    StandardScaler_API.fit(data_train)
+    data_train = StandardScaler_API.transform(data_train)
+    data_test = StandardScaler_API.transform(data_test)
+    ElasticNet_API.fit(data_train, target_train)
+    target_train_pred = ElasticNet_API.predict(data_train)
+    target_test_pred = ElasticNet_API.predict(data_test)
+    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
+    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
+    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))
+    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))
+    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))
+    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))
+    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))
+    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))
+    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))
+
+# learner
+LassoLars_API = LassoLars(normalize = True,
+                          verbose = False,
+                          fit_intercept = True,
+                          positive = False,
+                          max_iter = 500,
+                          eps = np.finfo(np.float).eps,
+                          precompute = 'auto',
+                          copy_X = True,
+                          alpha = 1.0,
+                          fit_path = True)
+
+# result: split
+StandardScaler_API.fit(data_train)
+data_train = StandardScaler_API.transform(data_train)
+data_test = StandardScaler_API.transform(data_test)
+LassoLars_API.fit(data_train, target_train)
+target_train_pred = LassoLars_API.predict(data_train)
+target_test_pred = LassoLars_API.predict(data_test)
+split_metrics = {'training':{}, 'test':{}}
+split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)
+split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)
+split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)
+split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)
+split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)
+split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)
+split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)
+split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))
+split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))
+split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
+split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
+
+# result: cross_validation
+CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
+for train_index, test_index in CV_indices:
+    data_train = data.iloc[train_index,:]
+    target_train = target.iloc[train_index,:]
+    data_test = target.iloc[test_index,:]
+    target_test = target.iloc[test_index,:]
+    StandardScaler_API.fit(data_train)
+    data_train = StandardScaler_API.transform(data_train)
+    data_test = StandardScaler_API.transform(data_test)
+    LassoLars_API.fit(data_train, target_train)
+    target_train_pred = LassoLars_API.predict(data_train)
+    target_test_pred = LassoLars_API.predict(data_test)
     CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))
     CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))
     CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))

@@ -955,6 +955,11 @@ def learner(block, sub_block):
             handle_imports(["sklearn.linear_model.LassoLars"])
             handle_API(sub_block, function = 'LassoLars', ignore = ['module','method'])
             handle_regression_sklearn(block, learner_API = 'LassoLars_API')
+        elif sub_block['parameters']['method'][1:-1] == 'SVR':
+            handle_imports(["sklearn.svm.SVR"])
+            handle_API(sub_block, function = 'SVR', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'SVR_API')
+
 
 def handle_regression_sklearn(block, learner_API):
     order = [ sb['function'] for sb in block['parameters'] ]
@@ -1018,7 +1023,6 @@ def handle_regression_sklearn(block, learner_API):
         if 'metrics' in order:
             metrics(order_metrics, learner_API, style='cross_validation')
  
-
 def metrics(order_metrics, learner_API, style):
     metrics_all = ['r2_score',
                    'explained_variance_score',

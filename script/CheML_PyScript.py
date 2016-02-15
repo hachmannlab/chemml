@@ -321,15 +321,6 @@ data = pd.DataFrame(data)
 ########################### SupervisedLearning_regression
 from sklearn.cross_validation import train_test_split
 from sklearn.cross_validation import K-fold
-from sklearn.cross_validation import StratifiedKFold
-from sklearn.cross_validation import LabelKFold
-from sklearn.cross_validation import LeaveOneOut
-from sklearn.cross_validation import LeavePOut
-from sklearn.cross_validation import LeaveOneLabelOut
-from sklearn.cross_validation import LeavePLabelOut
-from sklearn.cross_validation import ShuffleSplit
-from sklearn.cross_validation import LabelShuffleSplit
-from sklearn.cross_validation import PredefinedSplit
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
@@ -352,67 +343,10 @@ CV_indices = K-fold(shuffle = False,
                     random_state = None,
                     n_folds = 3)
 
-# cross_validation
-CV_indices = StratifiedKFold(shuffle = False,
-                             n_folds = 3,
-                             random_state = None,
-                             y = target)
-
-# cross_validation
-CV_indices = LabelKFold(n_folds = 3,
-                        labels = target)
-
-# cross_validation
-CV_indices = LeaveOneOut(n = len(data))
-
-# cross_validation
-CV_indices = LeavePOut(p = 5,
-                       n = len(data))
-
-# cross_validation
-CV_indices = LeaveOneLabelOut(labels = target)
-
-# cross_validation
-CV_indices = LeavePLabelOut(p = 5,
-                            labels = target)
-
-# cross_validation
-CV_indices = ShuffleSplit(n_iter = 10,
-                          n = len(data),
-                          train_size = None,
-                          random_state = None,
-                          test_size = 0.1)
-
-# cross_validation
-CV_indices = LabelShuffleSplit(n_iter = 10,
-                               labels = target,
-                               train_size = None,
-                               random_state = None,
-                               test_size = 0.1)
-
-# cross_validation
-CV_indices = PredefinedSplit(test_fold = [0, 1, -1, 1, 2, ...])
-
 # scaler
 StandardScaler_API = StandardScaler(copy = True,
                                     with_std = True,
                                     with_mean = True)
-
-# scaler
-MinMaxScaler_API = MinMaxScaler(copy = True,
-                                feature_range = (0,1))
-
-# scaler
-MaxAbsScaler_API = MaxAbsScaler(copy = True)
-
-# scaler
-RobustScaler_API = RobustScaler(with_scaling = True,
-                                with_centering = True,
-                                copy = True)
-
-# scaler
-Normalizer_API = Normalizer(copy = True,
-                            norm = 'l2')
 
 # learner
 LinearRegression_API = LinearRegression(normalize = False,
@@ -420,7 +354,7 @@ LinearRegression_API = LinearRegression(normalize = False,
                                         fit_intercept = True,
                                         copy_X = True)
 
-# split result
+# result: split
 StandardScaler_API.fit(data_train)
 data_train = StandardScaler_API.transform(data_train)
 data_test = StandardScaler_API.transform(data_test)
@@ -441,7 +375,7 @@ split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_
 split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)
 split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)
 
-# cross_validation result
+# result: cross_validation
 CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}
 for train_index, test_index in CV_indices:
     data_train = data.iloc[train_index,:]

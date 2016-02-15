@@ -939,11 +939,23 @@ def learner(block, sub_block):
             handle_imports(["sklearn.linear_model.LinearRegression"])
             handle_API(sub_block, function = 'LinearRegression', ignore = ['module','method'])
             handle_regression_sklearn(block, learner_API = 'LinearRegression_API')
+        elif sub_block['parameters']['method'][1:-1] == 'Ridge':
+            handle_imports(["sklearn.linear_model.Ridge"])
+            handle_API(sub_block, function = 'Ridge', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'Ridge_API')
+        elif sub_block['parameters']['method'][1:-1] == 'Lasso':
+            handle_imports(["sklearn.linear_model.Lasso"])
+            handle_API(sub_block, function = 'Lasso', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'Lasso_API')
+        elif sub_block['parameters']['method'][1:-1] == 'ElasticNet':
+            handle_imports(["sklearn.linear_model.ElasticNet"])
+            handle_API(sub_block, function = 'ElasticNet', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'ElasticNet_API')
 
 def handle_regression_sklearn(block, learner_API):
     order = [ sb['function'] for sb in block['parameters'] ]
     if 'split' in order:
-        line = '\n# split result'
+        line = '\n# result: split'
         cmlnb["blocks"][it]["source"].append(line + '\n')
         # scale
         if 'scaler' in order:
@@ -964,7 +976,7 @@ def handle_regression_sklearn(block, learner_API):
             metrics(order_metrics, learner_API, style='split')
 
     if 'cross_validation' in order:
-        line = '\n# cross_validation result'
+        line = '\n# result: cross_validation'
         cmlnb["blocks"][it]["source"].append(line + '\n')
         if 'metrics' in order:
             metrics_items = block['parameters'][order.index('metrics')]['parameters'].items()

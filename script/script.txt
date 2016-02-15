@@ -213,6 +213,18 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% positive = False
 											%% random_state = None
 											%% selection='cyclic'
+
+    ## learner               %% module = 'sklearn'         %% method = 'LassoLars'
+											%% alpha = 1.0
+											%% verbose = False
+											%% fit_intercept = True
+											%% normalize = True
+											%% precompute = 'auto'
+											%% copy_X = True
+											%% max_iter = 500
+											%% eps=np.finfo(np.float).eps
+											%% fit_path = True
+											%% positive = False
                                     
     ## metrics                              %% r2_score = True
                                             %% mean_absolute_error = True

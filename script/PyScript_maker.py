@@ -951,6 +951,10 @@ def learner(block, sub_block):
             handle_imports(["sklearn.linear_model.ElasticNet"])
             handle_API(sub_block, function = 'ElasticNet', ignore = ['module','method'])
             handle_regression_sklearn(block, learner_API = 'ElasticNet_API')
+        elif sub_block['parameters']['method'][1:-1] == 'LassoLars':
+            handle_imports(["sklearn.linear_model.LassoLars"])
+            handle_API(sub_block, function = 'LassoLars', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'LassoLars_API')
 
 def handle_regression_sklearn(block, learner_API):
     order = [ sb['function'] for sb in block['parameters'] ]

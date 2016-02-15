@@ -963,6 +963,10 @@ def learner(block, sub_block):
             handle_imports(["sklearn.svm.NuSVR"])
             handle_API(sub_block, function = 'NuSVR', ignore = ['module','method'])
             handle_regression_sklearn(block, learner_API = 'NuSVR_API')
+        elif sub_block['parameters']['method'][1:-1] == 'LinearSVR':
+            handle_imports(["sklearn.svm.LinearSVR"])
+            handle_API(sub_block, function = 'LinearSVR', ignore = ['module','method'])
+            handle_regression_sklearn(block, learner_API = 'LinearSVR_API')
 
 
 def handle_regression_sklearn(block, learner_API):

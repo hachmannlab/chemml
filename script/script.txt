@@ -252,6 +252,18 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 											%% verbose = False 
 											%% max_iter = -1
 
+    ## learner               %% module = 'sklearn'         %% method = 'LinearSVR'
+											%% epsilon = 0.0
+											%% tol = 1e-4 
+											%% C = 1.0
+											%% loss = 'epsilon_insensitive'
+											%% fit_intercept = True
+											%% intercept_scaling = 1.0
+											%% dual = True
+											%% random_state = None
+											%% verbose = 0 
+											%% max_iter = 1000
+
                                     
     ## metrics                              %% r2_score = True
                                             %% mean_absolute_error = True

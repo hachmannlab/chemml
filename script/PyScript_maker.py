@@ -968,7 +968,6 @@ def learner(block, sub_block):
             handle_API(sub_block, function = 'LinearSVR', ignore = ['module','method'])
             handle_regression_sklearn(block, learner_API = 'LinearSVR_API')
 
-
 def handle_regression_sklearn(block, learner_API):
     order = [ sb['function'] for sb in block['parameters'] ]
     if 'split' in order:

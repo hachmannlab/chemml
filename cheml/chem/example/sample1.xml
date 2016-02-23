@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DRAGON version="6.0.38" script_version="1" generation_date="2016/02/17">
+  <OPTIONS>
+    <CheckUpdates value="true"/>
+    <SaveLayout value="true"/>
+    <ShowWorksheet value="false"/>
+    <Decimal_Separator value="."/>
+    <Missing_String value="NaN"/>
+    <DefaultMolFormat value="1"/>
+    <HelpBrowser value="/usr/bin/xdg-open"/>
+    <RejectUnusualValence value="true"/>
+    <Add2DHydrogens value="true"/>
+    <MaxSRforAllCircuit value="19"/>
+    <MaxSR value="35"/>
+    <MaxSRDetour value="30"/>
+    <MaxAtomWalkPath value="1000"/>
+    <LogPathWalk value="true"/>
+    <LogEdge value="true"/>
+    <Weights>
+      <weight name="Mass"/>
+      <weight name="VdWVolume"/>
+      <weight name="Electronegativity"/>
+      <weight name="Polarizability"/>
+      <weight name="Ionization"/>
+    </Weights>
+    <SaveOnlyData value="false"/>
+    <SaveLabelsOnSeparateFile value="false"/>
+    <SaveFormatBlock value="%b - %n.txt"/>
+    <SaveFormatSubBlock value="%b-%s - %n - %m.txt"/>
+    <SaveExcludeMisVal value="true"/>
+    <SaveExcludeAllMisVal value="false"/>
+    <SaveExcludeConst value="true"/>
+    <SaveExcludeNearConst value="true"/>
+    <SaveExcludeStdDev value="true"/>
+    <SaveStdDevThreshold value="0.0001"/>
+    <SaveExcludeCorrelated value="true"/>
+    <SaveCorrThreshold value="0.95"/>
+    <SaveExclusionOptionsToVariables value="true"/>
+    <SaveExcludeMisMolecules value="false"/>
+    <SaveExcludeRejectedMolecules value="true"/>
+  </OPTIONS>
+  <DESCRIPTORS>
+    <block id="1" SelectAll="true"/>
+    <block id="2" SelectAll="true"/>
+    <block id="3" SelectAll="true"/>
+    <block id="4" SelectAll="true"/>
+    <block id="5" SelectAll="true"/>
+    <block id="6" SelectAll="true"/>
+    <block id="7" SelectAll="true"/>
+    <block id="8" SelectAll="true"/>
+    <block id="9" SelectAll="true"/>
+    <block id="10" SelectAll="true"/>
+    <block id="11" SelectAll="true"/>
+    <block id="12" SelectAll="true"/>
+    <block id="13" SelectAll="true"/>
+    <block id="14" SelectAll="true"/>
+    <block id="15" SelectAll="true"/>
+    <block id="16" SelectAll="true"/>
+    <block id="17" SelectAll="true"/>
+    <block id="18" SelectAll="true"/>
+    <block id="19" SelectAll="true"/>
+    <block id="20" SelectAll="true"/>
+    <block id="21" SelectAll="true"/>
+    <block id="22" SelectAll="true"/>
+    <block id="23" SelectAll="true"/>
+    <block id="24" SelectAll="true"/>
+    <block id="25" SelectAll="true"/>
+    <block id="26" SelectAll="true"/>
+    <block id="27" SelectAll="true"/>
+    <block id="28" SelectAll="true"/>
+    <block id="29" SelectAll="true"/>
+  </DESCRIPTORS>
+  <MOLFILES>
+    <molInput value="stdin"/>
+    <molInputFormat value="MDL"/>
+  </MOLFILES>
+  <OUTPUT>
+    <SaveStdOut value="true"/>
+    <SaveProject value="false"/>
+    <SaveFile value="true"/>
+    <SaveType value="block"/>
+    <SaveFilePath value="/projects/academic/hachmann/mojtaba"/>
+    <logMode value="file"/>
+    <logFile value="/projects/academic/hachmann/mojtaba/log.txt"/>
+  </OUTPUT>
+</DRAGON>

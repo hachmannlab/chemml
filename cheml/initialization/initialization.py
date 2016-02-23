@@ -46,7 +46,7 @@ def input(data_path, data_label, n_skip_columns=0, n_skip_rows=0, target_path=No
         target = pd.read_csv(target_path, header=None)
     return data, target
 
-def output(output_directory="ChemML.results" ,logfile="log.txt",errorfile="error.txt"):
+def output(output_directory="CheML.out" ,logfile="log.txt",errorfile="error.txt"):
     """
     make all the output files and folders in the output directory. 
     These out put files keep track of all the changes in the rest of program.

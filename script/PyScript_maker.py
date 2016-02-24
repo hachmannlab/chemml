@@ -499,7 +499,7 @@ def Dragon(block):
     cmlnb["blocks"][it]["source"].append(line + '\n')
     line = "dragon_API.run()"
     cmlnb["blocks"][it]["source"].append(line + '\n')
-    line = "data_path = dragon_API.drs"
+    line = "data_path = dragon_API.data_path"
     cmlnb["blocks"][it]["source"].append(line + '\n')
 
    

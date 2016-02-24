@@ -227,7 +227,8 @@ class dragon(object):
             if not set(reported_nodes).issuperset(set(mandatory_nodes)):
                 msg = 'Dragon script does not contain all mandatory nodes, which are:%s'%str(mandatory_nodes)
                 raise ValueError(msg)
-            self._save_script()
+            self.drs = script
+        self.data_path = self.dragon.OUTPUT.SaveFilePath.attrib['value']
         return self
         
     def _save_script(self): 

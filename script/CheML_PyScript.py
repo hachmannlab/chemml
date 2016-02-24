@@ -1,3 +1,60 @@
+########################### Dragon
+from cheml.chem import dragon
+
+dragon_API = dragon(SaveStdOut = False,
+                    MaxSR = "35",
+                    SaveFilePath = "Dragon_descriptors.txt",
+                    SaveExcludeMisMolecules = False,
+                    SaveExcludeStdDev = False,
+                    SaveExcludeNearConst = False,
+                    SaveProject = False,
+                    Add2DHydrogens = False,
+                    blocks = range(1,30),
+                    SaveProjectFile = "Dragon_project.drp",
+                    SaveOnlyData = False,
+                    SaveExclusionOptionsToVariables = False,
+                    LogEdge = True,
+                    LogPathWalk = True,
+                    SaveLabelsOnSeparateFile = False,
+                    version = 6,
+                    DefaultMolFormat = "1",
+                    molFile = None,
+                    HelpBrowser = "/usr/bin/xdg-open",
+                    SaveExcludeRejectedMolecules = False,
+                    RejectUnusualValence = False,
+                    SaveStdDevThreshold = "0.0001",
+                    SaveExcludeConst = False,
+                    SaveFormatSubBlock = "%b-%s-%n-%m.txt",
+                    Decimal_Separator = ".",
+                    SaveExcludeCorrelated = False,
+                    MaxSRDetour = "30",
+                    consecutiveDelimiter = False,
+                    molInputFormat = "SMILES",
+                    SaveExcludeAllMisVal = False,
+                    Weights = ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"],
+                    external = False,
+                    MaxSRforAllCircuit = "19",
+                    fileName = None,
+                    Missing_String = "Nan",
+                    SaveExcludeMisVal = False,
+                    logFile = "Dragon_log.txt",
+                    SaveLayout = True,
+                    molInput = "stdin",
+                    SaveFormatBlock = "%b-%n.txt",
+                    MissingValue = "NaN",
+                    SaveType = "singlefile",
+                    ShowWorksheet = False,
+                    delimiter = ",",
+                    CheckUpdates = True,
+                    MaxAtomWalkPath = "2000",
+                    logMode = "file",
+                    SaveCorrThreshold = "0.95",
+                    SaveFile = True)
+dragon_API.script_wizard(script = "Dragon_script.drs")
+dragon_API.run()
+data_path = dragon_API.drs
+###########################
+
 ########################### INPUT
 import numpy as np
 import pandas as pd

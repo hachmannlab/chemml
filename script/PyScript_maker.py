@@ -54,8 +54,8 @@ def _block_finder(script):
     return blocks
 
 def _functions(line):
-    if '%' in line:
-        function = line[line.index('##')+2:line.index('%')].strip()
+    if '>' in line:
+        function = line[line.index('##')+2:line.index('>')].strip()
     else:
         function = line[line.index('##')+2:].strip()
     return function
@@ -63,10 +63,10 @@ def _functions(line):
 def _parameters(block):
     parameters = {}
     for line in block:
-        while '%%' in line:
-            line = line[line.index('%%')+2:].strip()
-            if '%' in line:
-                args = line[:line.index('%')].strip()
+        while '>>' in line:
+            line = line[line.index('>>')+2:].strip()
+            if '>' in line:
+                args = line[:line.index('>')].strip()
             else:
                 args = line.strip()
             param = args[:args.index('=')].strip()
@@ -179,6 +179,7 @@ def main(SCRIPT_NAME):
     
     ## implementing orders
     functions = {'INPUT'                : INPUT,
+                 'Dragon'               : Dragon,
                  'OUTPUT'               : OUTPUT,
                  'MISSING_VALUES'       : MISSING_VALUES,
                  'StandardScaler'       : StandardScaler,
@@ -345,10 +346,15 @@ def handle_funct_API(block, inputs, outputs, function, ignore = []):
     """
     call a function with all of its parameters.
     """
-    if inputs:
-        line = "%s = %s(%s" %(outputs,function,inputs)
+    if outputs:
+       line = "%s = " %outputs
     else:
-        line = "%s = %s(" %(outputs,function)
+        line = ""
+        
+    if inputs:
+        line += "%s(%s" %(function,inputs)
+    else:
+        line += "%s(" %(function)
 
     param_count = 0
     for parameter in block["parameters"]:
@@ -483,6 +489,21 @@ def handle_simple_transform(block, sub_function, function = False, which_df = 'd
    
 ##################################################################################################
 
+def Dragon(block):
+    """(Dragon):
+        http://www.talete.mi.it/help/dragon_help/index.html?script_file.htm
+    """
+    handle_imports(["cheml.chem.dragon"])
+    handle_funct_API(block, inputs=False, outputs="dragon_API", function="dragon", ignore = ["script"])
+    line = "dragon_API.script_wizard(script = %s)"%block["parameters"]["script"]
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    line = "dragon_API.run()"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    line = "data_path = dragon_API.drs"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+
+   
+									###################
 def INPUT(block):
     """(INPUT):
 		Read input files.
@@ -1081,7 +1102,9 @@ def metrics(order_metrics, learner_API, style):
                 cmlnb["blocks"][it]["source"].append(line + '\n') 
                 line = "    CV_metrics['test']['%s'].append(np.sqrt(%s(target_test, target_test_pred)))"%('mean_squared_error','mean_squared_error')
                 cmlnb["blocks"][it]["source"].append(line + '\n') 
-                     
+
+									###################
+      
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

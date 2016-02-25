@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DRAGON version="6.0.38" script_version="1" generation_date="2016/02/17">
+  <OPTIONS>
+    <CheckUpdates value="true"/>
+    <SaveLayout value="true"/>
+    <ShowWorksheet value="false"/>
+    <Decimal_Separator value="."/>
+    <Missing_String value="NaN"/>
+    <DefaultMolFormat value="1"/>
+    <HelpBrowser value="/usr/bin/xdg-open"/>
+    <RejectUnusualValence value="true"/>
+    <Add2DHydrogens value="true"/>
+    <MaxSRforAllCircuit value="19"/>
+    <MaxSR value="35"/>
+    <MaxSRDetour value="30"/>
+    <MaxAtomWalkPath value="1000"/>
+    <LogPathWalk value="true"/>
+    <LogEdge value="true"/>
+    <Weights>
+      <weight name="Mass"/>
+      <weight name="VdWVolume"/>
+      <weight name="Electronegativity"/>
+      <weight name="Polarizability"/>
+      <weight name="Ionization"/>
+    </Weights>
+    <SaveOnlyData value="false"/>
+    <SaveLabelsOnSeparateFile value="false"/>
+    <SaveFormatBlock value="%b - %n.txt"/>
+    <SaveFormatSubBlock value="%b-%s - %n - %m.txt"/>
+    <SaveExcludeMisVal value="true"/>
+    <SaveExcludeAllMisVal value="false"/>
+    <SaveExcludeConst value="true"/>
+    <SaveExcludeNearConst value="true"/>
+    <SaveExcludeStdDev value="true"/>
+    <SaveStdDevThreshold value="0.0001"/>
+    <SaveExcludeCorrelated value="true"/>
+    <SaveCorrThreshold value="0.95"/>
+    <SaveExclusionOptionsToVariables value="true"/>
+    <SaveExcludeMisMolecules value="false"/>
+    <SaveExcludeRejectedMolecules value="true"/>
+  </OPTIONS>
+  <DESCRIPTORS>
+    <block id="4">
+      <descriptor name="SRW02"/>
+      <descriptor name="SRW03"/>
+      <descriptor name="SRW04"/>
+      <descriptor name="SRW05"/>
+      <descriptor name="SRW06"/>
+      <descriptor name="SRW07"/>
+      <descriptor name="SRW08"/>
+      <descriptor name="SRW09"/>
+      <descriptor name="SRW10"/>
+      <descriptor name="MPC01"/>
+      <descriptor name="MPC02"/>
+      <descriptor name="MPC03"/>
+      <descriptor name="MPC04"/>
+      <descriptor name="MPC05"/>
+      <descriptor name="MPC06"/>
+      <descriptor name="MPC07"/>
+      <descriptor name="MPC08"/>
+      <descriptor name="MPC09"/>
+      <descriptor name="MPC10"/>
+      <descriptor name="piPC01"/>
+      <descriptor name="piPC02"/>
+      <descriptor name="piPC03"/>
+      <descriptor name="piPC04"/>
+      <descriptor name="piPC05"/>
+      <descriptor name="piPC06"/>
+      <descriptor name="piPC07"/>
+      <descriptor name="piPC08"/>
+      <descriptor name="piPC09"/>
+      <descriptor name="piPC10"/>
+      <descriptor name="TWC"/>
+      <descriptor name="TPC"/>
+      <descriptor name="piID"/>
+      <descriptor name="PCR"/>
+      <descriptor name="PCD"/>
+      <descriptor name="CID"/>
+      <descriptor name="BID"/>
+    </block>
+  </DESCRIPTORS>
+  <MOLFILES>
+    <molInput value="stdin"/>
+    <molInputFormat value="MDL"/>
+  </MOLFILES>
+  <OUTPUT>
+    <SaveStdOut value="true"/>
+    <SaveProject value="false"/>
+    <SaveFile value="true"/>
+    <SaveType value="block"/>
+    <SaveFilePath value="/projects/academic/hachmann/mojtaba"/>
+    <logMode value="file"/>
+    <logFile value="/projects/academic/hachmann/mojtaba/log.txt"/>
+  </OUTPUT>
+</DRAGON>

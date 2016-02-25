@@ -126,6 +126,11 @@ class dragon(object):
         drs: string 
             Dragon script file name
         
+        data_path: string
+            The path+name of saved data file in any format. If saveType is 'block' 
+            or 'subblock' data_path is just the path to the directory that all data 
+            files have been saved. 
+             
         Returns
         ------        
         Returns class parameters

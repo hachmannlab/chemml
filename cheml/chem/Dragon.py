@@ -7,7 +7,7 @@ import os
 from ..utils.utilities import std_datetime_str
 
 __all__ = [
-    'dragon',
+    'Dragon',
 ]
 
 def _bool_formatter(bool):
@@ -17,7 +17,7 @@ def _bool_formatter(bool):
         return("false")
 
 
-class dragon(object):
+class Dragon(object):
     """ An interface to Dragon 6 and 7 software.
     
     Parameters

@@ -1,13 +1,16 @@
 """
-The 'cheml.chem' module includes dragon,
-last modified date: Feb. 16, 2016
+The 'cheml.chem' module includes Dragon, RDKFingerprint, CoulombMatrix
+last modified date: March 1, 2016
 """
 
-from .Dragon import dragon
+from .Dragon import Dragon
+from .RDKFP import RDKFingerprint
+from .CoulMat import CoulombMatrix
 
 
 
 __all__ = [
-    'dragon',
-
+    'Dragon',
+    'RDKFingerprint',
+    'CoulombMatrix',
 ]

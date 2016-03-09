@@ -22,15 +22,15 @@ class RDKFingerprint(object):
     Parameters
     ----------
     type: string, optional (default='Morgan')
-        The available Fingerprints:
-           'Hashed_atom_pair' or 'HAP': 
-           'Atom_pair' or 'AP':
-           'MACCS':
-           'Morgan':
-           'Hashed_topological_torsion' or 'HTT':
-           'Topological_torsion' or 'TT':  
+        Available fingerprints:
+            - 'Hashed_atom_pair' or 'HAP' 
+            - 'Atom_pair' or 'AP'
+            - 'MACCS'
+            - 'Morgan'
+            - 'Hashed_topological_torsion' or 'HTT'
+            - 'Topological_torsion' or 'TT' 
 
-    vector: string, optional (default='bit')
+    vector: string, optional (default = 'bit')
         Available options for vector:
             - 'int' : including counts for each bit instead of just zeros and ones
                     It is not available for 'MACCS'.
@@ -38,16 +38,16 @@ class RDKFingerprint(object):
                     It is not available for 'Topological_torsion'.
  
     nBits: integer, optional (default = 1024)
-        To set number of bits in the specific type of vector. 
+        It sets number of bits in the specific type of fingerprint vectors. 
         Not availble for: 
-            - 'MACCS' (MACCS keys has a fixed length of 167 bits)
+            - 'MACCS' (MACCS keys have a fixed length of 167 bits)
             - 'Atom_pair' (In the Atom_pair we return only those bits that are 
                            non zero for at least one of the molecules. Thus, the size 
                            will be significantly less compare to more than 8 million  
                            available bits)
             - 'Topological_torsion'  
 
-    radius: float, optional (default=2.0)
+    radius: integer, optional (default = 2)
         only availble for 'Morgan' fingerprint.
                  
     removeHs: boolean, optional (default=True)
@@ -66,7 +66,8 @@ class RDKFingerprint(object):
         self.removeHs = removeHs
 
     def MolfromFile(self, file, path=None, *arguments):
-        """ Construct molecules from one or more input files.
+        """ (MolfromFile)
+        Construct molecules from one or more input files.
         
         Parameters
         ----------
@@ -168,7 +169,7 @@ class RDKFingerprint(object):
                     if file_extension in ['.smi','.smarts']:
                         mols = open(filename, 'r')
                         mols = mols.readlines()
-                        mols = [extensions[file_extension](x.strip,removeHs=self.removeHs) for x in mols]
+                        mols = [extensions[file_extension](x.strip(),removeHs=self.removeHs) for x in mols]
                         self.molecules += mols
                     else:
                         self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
@@ -294,5 +295,38 @@ class RDKFingerprint(object):
             msg = "The type argument '%s' is not a valid fingerprint type"%self.type
             raise ValueError(msg)
     
-    def Similarity(self,type='eucleadean', size = 1.0, nCores = 1):
-       return data
+    def Similarity(self,data=None, metric='Euclidean', nCores = 1):
+        """(Similarity)
+        Calculate molecular similarity matrix, while each row of data is a feature 
+        vector of one molecule.
+        
+        Parameters
+        ----------
+        data: pandas dataframe, optional (default = None)
+            Each row of data represents corresponding features of one molecule (sample).
+        
+        metric: string, optional (default = 'Euclidean')
+            Similarity metric. Available similarity metrics include Euclidean,
+            Tanimoto, Dice, Cosine, Sokal, Russel, Kulczynski, McConnaughey, and Tversky.
+            
+            Note:
+                if data = None, all metrics except 'Euclidean' can be used. The 
+                Fingerprint function must be called first. Thus, the similarity metrics 
+                implemetned by RDKit will be used on calculated fingerprints.
+                
+                if a dataframe has been passed for data, the only available metric
+                is 'Euclidean'.
+                
+        nCores: integer, optional (default = 1)
+            Number of cores for multiprocessing.          
+        """
+        if data == None:
+            if metric in ['Tanimoto','Dice','Cosine','Sokal','Russel','Kulczynski','McConnaughey','Tversky']:
+                from rdkit import DataStructs
+            
+            
+            
+            else:
+                msg = "The metric '%s' is not a valid metric type for "%metric
+                raise ValueError(msg)
+       return sim_mat

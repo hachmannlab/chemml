@@ -221,18 +221,18 @@ class CoulombMatrix(object):
             return np.array(sorted_cm)    
                     
         elif self.type == 'Random_Coulomb' or self.type == 'RC':
-            lambdas = np.array([np.linalg.norm(atom) for atom in cm])
-            mask = {l: np.random.permutation(self.max_nAtoms) for l in range(self.nPerm)}
             random_cm = []
-            for mol in self.molecules:
+            for nmol,mol in enumerate(self.molecules):
                 cm = _cal_coul_mat(mol,const=1)
-                lambdas = [np.linalg.norm(atom) for atom in cm]
+                lambdas = np.array([np.linalg.norm(atom) for atom in cm])
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
+                cm_perms = []
                 for l in range(self.nPerm):
-                    
-                random_cm.append(cm)
-            return np.array(random_cm) 
+                    mask = np.random.permutation(self.max_nAtoms)
+                    cm_perms.append(cm[:,mask][mask,:])
+                random_cm.append(np.array(cm_perms))
+            return  np.array(random_cm)
             
     def kernel_matrix(self):
             kernel_matrix = []    

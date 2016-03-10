@@ -44,10 +44,23 @@ class CoulombMatrix(object):
     ----------
     type: string, optional (default='SC')
         Available types:
-            - 'Eigenspectrum' or 'E' 
-            - 'Sorted_Coulomb' or 'SC'
-            - 'Random_Coulomb' or 'RC'
- 
+            * 'Eigenspectrum' or 'E' 
+            * 'Sorted_Coulomb' or 'SC'
+            * 'Random_Coulomb' or 'RC'
+    
+    SC_dist: string or integer, optional (default = 'fro')
+        SC_dist defines the method of norm of the difference of two sorted coulomb
+        matrices. Here is a list of available norms:
+            * 'fro' : Frobenius norm 
+            * 'abs' : sum(sum(abs(x-y)))
+            * 'nuc' : nuclear norm, which is the sum of the singular values
+            * 'inf' : max(sum(abs(x-y), axis=1))
+            * '-inf': min(sum(abs(x-y), axis=1))
+            * 1     : max(sum(abs(x-y), axis=0))
+            * -1    : min(sum(abs(x-y), axis=0))
+            * 2     : 2-norm (largest singular value)
+            * -2    : smallest singular value
+    
     nPerm: integer, optional (default = 6)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation. 
@@ -56,8 +69,9 @@ class CoulombMatrix(object):
     -------
     data set of Coulomb matrix similarities.
     """
-    def __init__(self, type='SC',nPerm=6 ):
+    def __init__(self, type='SC', SC_dist = 'fro', nPerm=6 ):
         self.type = type
+        self.SC_dist = SC_dist
         self.nPerm = nPerm
 
     def MolfromFile(self, file, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
@@ -192,7 +206,7 @@ class CoulombMatrix(object):
         if self.type == 'Eigenspectrum' or self.type == 'E':
             eigenspectrum = []
             for mol in self.molecules:
-                cm = _cal_coul_mat(mol,const=1) # Check the constant value for unit conversion atomic unit -> 1 , ngstrom -> 0.529 
+                cm = _cal_coul_mat(mol,const=1) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529 
                 eigenspectrum.append(np.linalg.eigvals(cm).sort()[::-1])
             return pd.DataFrame(eigenspectrum)                
             
@@ -202,10 +216,47 @@ class CoulombMatrix(object):
                 cm = _cal_coul_mat(mol,const=1)
                 lambdas = [np.linalg.norm(atom) for atom in cm]
                 sort_indices = np.argsort(lambdas)
-                cm = np.array([cm[i] for i in sort_indices])
+                cm = cm[:,sort_indices][sort_indices,:]
                 sorted_cm.append(cm)
-                
-            return pd.DataFrame(eigenspectrum)                
-
+            return np.array(sorted_cm)    
+                    
         elif self.type == 'Random_Coulomb' or self.type == 'RC':
-    
+            lambdas = np.array([np.linalg.norm(atom) for atom in cm])
+            mask = {l: np.random.permutation(self.max_nAtoms) for l in range(self.nPerm)}
+            random_cm = []
+            for mol in self.molecules:
+                cm = _cal_coul_mat(mol,const=1)
+                lambdas = [np.linalg.norm(atom) for atom in cm]
+                sort_indices = np.argsort(lambdas)
+                cm = cm[:,sort_indices][sort_indices,:]
+                for l in range(self.nPerm):
+                    
+                random_cm.append(cm)
+            return np.array(random_cm) 
+            
+    def kernel_matrix(self):
+            kernel_matrix = []    
+            for i in range(len(sorted_cm)):
+                vect = []
+                for k in range(0,i):
+                    vect.append(kernel_matrix[k][i])
+                for j in range(i,len(sorted_cm)):
+                    if i==j:
+                        vect.append(0.0)
+                    else:
+                        if self.SC_dist in ['fro','nuc',2,1,-1,-2]:
+                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=self.SC_dist))
+                        elif self.SC_dist == 'inf':
+                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=np.inf))
+                        elif self.SC_dist == '-inf':
+                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=-np.inf))
+                        elif self.SC_dist == 'abs':
+                            vect.append(sum(sum(abs(sorted_cm[i]-sorted_cm[j]))))
+                        else:
+                            msg = "The SC_dist '%s' is not a predefined order of norm"%self.SC-dist
+                            raise ValueError(msg)
+                kernel_matrix.append(vect)
+            return pd.DataFrame(kernel_matrix)
+   
+            
+            

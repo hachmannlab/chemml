@@ -3,6 +3,7 @@ import numpy as np
 import os
 import fnmatch
 import sys
+import scipy
 
 
 
@@ -48,19 +49,6 @@ class CoulombMatrix(object):
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
     
-    SC_dist: string or integer, optional (default = 'fro')
-        SC_dist defines the method of norm of the difference of two sorted coulomb
-        matrices. Here is a list of available norms:
-            * 'fro' : Frobenius norm 
-            * 'abs' : sum(sum(abs(x-y)))
-            * 'nuc' : nuclear norm, which is the sum of the singular values
-            * 'inf' : max(sum(abs(x-y), axis=1))
-            * '-inf': min(sum(abs(x-y), axis=1))
-            * 1     : max(sum(abs(x-y), axis=0))
-            * -1    : min(sum(abs(x-y), axis=0))
-            * 2     : 2-norm (largest singular value)
-            * -2    : smallest singular value
-    
     nPerm: integer, optional (default = 6)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation. 
@@ -69,9 +57,8 @@ class CoulombMatrix(object):
     -------
     data set of Coulomb matrix similarities.
     """
-    def __init__(self, type='SC', SC_dist = 'fro', nPerm=6 ):
+    def __init__(self, type='SC', nPerm=6 ):
         self.type = type
-        self.SC_dist = SC_dist
         self.nPerm = nPerm
 
     def MolfromFile(self, file, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
@@ -234,29 +221,114 @@ class CoulombMatrix(object):
                 random_cm.append(np.array(cm_perms))
             return  np.array(random_cm)
             
-    def kernel_matrix(self):
-            kernel_matrix = []    
-            for i in range(len(sorted_cm)):
+    def Distance_Matrix(self, input_matrix, norm_type='fro', nCores=1):
+        """ (distance_matrix)
+        This function finds the distance between rows of data in the input_matrix.
+        The distance matrix can later be introduced to a custom kernel function.
+        
+        Parameters
+        ----------
+        input_matrix: numpy array
+        Each element (row) of input_matrix can be a vector, matrix or list of matrices.
+        These three types of representation are originally based on possible outpts
+        of Coulomb_Matrix function.
+        
+        norm_type: string or integer, optional (default = 'fro')
+            norm_type defines the type of norm of the difference of two rows of input
+            matrix. Here is a list of available norms:
+                
+                  type          norm for matrices               norm for vectors 
+                  ----          -----------------               ----------------
+                  'l2'          Frobenius norm                  l2 norm for vector       
+                  'l1'          sum(sum(abs(x-y)))              -
+                  'nuc'         nuclear norm                    -
+                  'inf'         max(sum(abs(x-y), axis=1))      max(abs(x-y))
+                  '-inf'        min(sum(abs(x-y), axis=1))      min(abs(x-y))
+                  0             -                               sum(x!=0)                                             
+                  1             max(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)
+                  -1            min(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)               
+                  2             2-norm (largest singular value) sum(abs(x)**ord)**(1./ord)                      
+                  -2            smallest singular value         sum(abs(x)**ord)**(1./ord)     
+                  
+                                norm for list of matrices
+                                -------------------------
+                  'avg'         avg(sum(d(x,y[l])+d(x[l],y))))
+                  'max'         avg(max(d(x,y[l])+d(x[l],y))))
+                
+                * most of these norms are provided by numpy.linalg.norm
+        nCores: integer, optional (default = 1)
+            number of cores for multiprocessing.
+            
+        Return
+        ------
+        distance matrix
+        """
+        distance_matrix = [] 
+        dim = input_matrix.shape
+        if len(dim) == 2:
+            #vector: Ndata=dim[0];  Nvector_elements=dim[1] 
+            
+        elif len(dim) == 3:
+            #matrix: Ndata=dim[0]; Nmatrix_rows=dim[1]; Nmatrix_cols=dim[2] 
+            for i in range(dim[0]):
                 vect = []
                 for k in range(0,i):
-                    vect.append(kernel_matrix[k][i])
-                for j in range(i,len(sorted_cm)):
+                    vect.append(distance_matrix[k][i])
+                for j in range(i,dim[0]):
                     if i==j:
                         vect.append(0.0)
                     else:
-                        if self.SC_dist in ['fro','nuc',2,1,-1,-2]:
-                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=self.SC_dist))
-                        elif self.SC_dist == 'inf':
-                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=np.inf))
-                        elif self.SC_dist == '-inf':
-                            vect.append(np.linalg.norm(sorted_cm[i]-sorted_cm[j],ord=-np.inf))
-                        elif self.SC_dist == 'abs':
-                            vect.append(sum(sum(abs(sorted_cm[i]-sorted_cm[j]))))
+                        if norm_type in ['fro','nuc',2,1,-1,-2]:
+                            vect.append(np.linalg.norm(input_matrix[i]-input_matrix[j],ord=norm_type))
+                        elif norm_type == 'inf':
+                            vect.append(np.linalg.norm(input_matrix[i]-input_matrix[j],ord=np.inf))
+                        elif norm_type == '-inf':
+                            vect.append(np.linalg.norm(input_matrix[i]-input_matrix[j],ord=-np.inf))
+                        elif norm_type == 'abs':
+                            vect.append(sum(sum(abs(input_matrix[i]-input_matrix[j]))))
                         else:
-                            msg = "The SC_dist '%s' is not a predefined order of norm"%self.SC-dist
+                            msg = "The norm_type '%s' is not a defined type of norm"%norm_type
                             raise ValueError(msg)
-                kernel_matrix.append(vect)
-            return pd.DataFrame(kernel_matrix)
-   
+                distance_matrix.append(vect)
+            return np.array(distance_matrix)
             
+        elif len(dim) == 4:
+            # list of matrices: Ndata=dim[0]; Nmatrices_per_row=dim[1]; Nmatrix_rows=dim[2]; Nmatrix_cols=dim[3]
+             
+        else:
+            msg = "the structure of input_matrix is not supported"
+            raise ValueError(msg)
+          
+    def BagofBonds(self):
+        Bags = []
+        keys = {}
+        for mol in self.molecules:
+            Bag_keys = []
+            Bag_values = []
+            for i in xrange(len(mol)):
+                for j in range(i,len(mol)):
+                    if i==j:
+                        Bag_keys.append(mol[i,0]*100+mol[i,0])
+                        Bag_values.append(0.5*mol[i,0]**2.4)
+                    else:
+                        Bag_keys.append(max(mol[i,0],mol[j,0])*100+min(mol[i,0],mol[j,0]))
+                        Bag_values.append((mol[i,0]*mol[j,0]*const)/np.linalg.norm(mol[i,1:]-mol[j,1:]))
+            Bags.append([Bag_keys,Bag_values])
+            keys.update({key:0 for key in np.unique(np.array(Bag_keys)) if key not in keys})
+            for key in np.unique(np.array(Bag_keys)):
+                if key not in keys:
+                    keys.update({key:0})
+                keys[key] = max(keys[key], Bag_keys.count(key)) 
+        BBs = []
+        for mol in Bags:
+            tmp_bag = {}
+            for i,key in enumerate(mol[0]):    
+                
+                tmp_bag
+            
+            elements_order = np.array([mol[i,0] for i in range(len(mol))])
+            elements_unique, elements_count = np.unique(elements_order,return_counts=True)
+            molBag = 
+            nBags = len(elements_unique) + len(np.where(elements_count>1)) + scipy.special.comb(len(elements_unique),2)
+            cm = _cal_coul_mat(mol,const=1)
             

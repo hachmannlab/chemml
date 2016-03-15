@@ -53,14 +53,19 @@ class CoulombMatrix(object):
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation. 
 
+    const: float, optional (default = 1)
+            The constant value for coordinates unit conversion to atomic unit
+            example: atomic unit -> const=1, Angstrom -> const=0.529 
+ 
     Returns
     -------
     data set of Coulomb matrix similarities.
     """
-    def __init__(self, type='SC', nPerm=6 ):
+    def __init__(self, type='SC', nPerm=6, const=1 ):
         self.type = type
         self.nPerm = nPerm
-
+        self.const = const
+        
     def MolfromFile(self, file, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
         """ (MolfromFile)
         Construct molecules from one or more input files.
@@ -171,7 +176,7 @@ class CoulombMatrix(object):
             self.max_nAtoms = max(self.max_nAtoms, len(mol))
             self.molecules.append(mol)
             
-    def _cal_coul_mat(self, mol,const=1):
+    def _cal_coul_mat(self, mol):
         cm = []
         for i in xrange(len(mol)):
             vect = []
@@ -181,7 +186,7 @@ class CoulombMatrix(object):
                 if i==j:
                     vect.append(0.5*mol[i,0]**2.4)
                 else:
-                    vect.append((mol[i,0]*mol[j,0]*const)/np.linalg.norm(mol[i,1:]-mol[j,1:]))
+                    vect.append((mol[i,0]*mol[j,0]*self.const)/np.linalg.norm(mol[i,1:]-mol[j,1:]))
             for m in range(len(mol),self.max_nAtoms):
                 vect.append(0.0)ub
             cm.append(vect)
@@ -193,14 +198,14 @@ class CoulombMatrix(object):
         if self.type == 'Eigenspectrum' or self.type == 'E':
             eigenspectrum = []
             for mol in self.molecules:
-                cm = _cal_coul_mat(mol,const=1) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529 
+                cm = _cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529 
                 eigenspectrum.append(np.linalg.eigvals(cm).sort()[::-1])
             return pd.DataFrame(eigenspectrum)                
             
         elif self.type == 'Sorted_Coulomb' or self.type == 'SC':
             sorted_cm = []
             for mol in self.molecules:
-                cm = _cal_coul_mat(mol,const=1)
+                cm = _cal_coul_mat(mol)
                 lambdas = [np.linalg.norm(atom) for atom in cm]
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
@@ -210,7 +215,7 @@ class CoulombMatrix(object):
         elif self.type == 'Random_Coulomb' or self.type == 'RC':
             random_cm = []
             for nmol,mol in enumerate(self.molecules):
-                cm = _cal_coul_mat(mol,const=1)
+                cm = _cal_coul_mat(mol)
                 lambdas = np.array([np.linalg.norm(atom) for atom in cm])
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
@@ -297,46 +302,12 @@ class CoulombMatrix(object):
              
         else:
             msg = "the structure of input_matrix is not supported"
-            raise ValueError(msg)
-          
-    def _find_bags_wKEYS(self, keys, const=1):
-        all_molecules = []
-        for mol in self.molecules:
-            bags = [[] for i in range(len(keys))]
-            for i in xrange(len(mol)):
-                for j in range(i,len(mol)):
-                    if i==j:
-                        key = mol[i,0]*1000+mol[i,0]
-                        Fc = 0.5*mol[i,0]**2.4
-                    else:
-                        key = max(mol[i,0],mol[j,0])*1000 + min(mol[i,0],mol[j,0])
-                        Fc = (mol[i,0]*mol[j,0]*const) / np.linalg.norm(mol[i,1:]-mol[j,1:])
-                    if key in keys:
-                        bags[keys.index(key)].append(Fc)
-                    else:
-                        msg = "The provided list of all_atoms is probably not including all atoms or atomic numbers"
-                        raise ValueError(msg)
-            all_molecules.append(bags)
-        max_len_bags = [max(len(bag) for bag in col) for col in zip(*all_molecules)]
-        BBs_matrix = []
-        for bags in all_molecules:
-            bagofbags = []
-            for j,bag in enumerate(bags):
-                bagofbags += sorted(bag, reverse=True) + [0.0]*abs(len(bag)-max_len_bags[j])
-            BBs_matrix.append(bagofbags)
-        del all_molecules
-        return BBs_matrix            
+            raise ValueError(msg)            
             
-    def BagofBonds(self, const=1):
+    def BagofBonds(self):
         """ (BagofBonds)
         The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.
-        
-        Parameters
-        ----------
-        const: float, optional (default = 1)
-                   The constant value for unit conversion to atomic unit
-                   example: atomic unit -> const=1, Angstrom -> const=0.529 
-        
+                
         Returns
         -------
         BBs_matrix : The matrix of bag of bonds for molecules.
@@ -353,7 +324,7 @@ class CoulombMatrix(object):
                         Fc = 0.5*mol[i,0]**2.4
                     else:
                         key = max(mol[i,0],mol[j,0])*1000 + min(mol[i,0],mol[j,0])
-                        Fc = (mol[i,0]*mol[j,0]*const) / np.linalg.norm(mol[i,1:]-mol[j,1:])
+                        Fc = (mol[i,0]*mol[j,0]*self.const) / np.linalg.norm(mol[i,1:]-mol[j,1:])
                     if key not in keys:
                         keys.append(key)
                         bags.append([Fc])

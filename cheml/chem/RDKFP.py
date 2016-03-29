@@ -15,14 +15,13 @@ def _add_range(file,start_end):
     exec(s)
     return pattern
 
-
 class RDKFingerprint(object):
     """ An interface to RDKit fingerprints.
     
     Parameters
     ----------
-    type: string, optional (default='Morgan')
-        Available fingerprints:
+    FPtype: string, optional (default='Morgan')
+        Available fingerprint types:
             - 'Hashed_atom_pair' or 'HAP' 
             - 'Atom_pair' or 'AP'
             - 'MACCS'
@@ -57,22 +56,22 @@ class RDKFingerprint(object):
     -------
     data set of fingerprint vectors.
     """
-    def __init__(self, removeHs=True, type='Morgan', vector='bit', nBits=1024, 
+    def __init__(self, removeHs=True, FPtype='Morgan', vector='bit', nBits=1024, 
                  radius = 2):
-        self.type = type
+        self.FPtype = FPtype
         self.vector = vector
         self.nBits = nBits
         self.radius = radius
         self.removeHs = removeHs
 
-    def MolfromFile(self, file, path=None, *arguments):
+    def MolfromFile(self, molfile, path=None, *arguments):
         """ (MolfromFile)
         Construct molecules from one or more input files.
         
         Parameters
         ----------
-        file: string
-            This is the place you define the file name and path. It can contain 
+        molfile: string
+            This is the place you define molecules file name and path. It can contain 
             any special character in the following list:
             
                 *       : matches everything
@@ -146,7 +145,7 @@ class RDKFingerprint(object):
                       '.smarts':    Chem.MolFromSmarts,
                       '.inchi':     Chem.MolFromInchi
                       }
-        file_name, file_extension = os.path.splitext(file)
+        file_name, file_extension = os.path.splitext(molfile)
         if file_extension == '':
             msg = 'file extension not determined'
             raise ValueError(msg)
@@ -158,14 +157,14 @@ class RDKFingerprint(object):
             msg = "pass an even number of integers: 2 for each '%s'"
             raise ValueError(msg)        
         
-        if path and '%s' in file:
-            file = _add_range(file,start_end)
+        if path and '%s' in molfile:
+            molfile = _add_range(molfile,start_end)
         
         self.molecules = []
         if path:
             for root, directories, filenames in os.walk(path):
                 file_path = [os.path.join(root, filename) for filename in filenames]
-                for filename in fnmatch.filter(file_path, os.path.join(path, file)):
+                for filename in fnmatch.filter(file_path, os.path.join(path, molfile)):
                     if file_extension in ['.smi','.smarts']:
                         mols = open(filename, 'r')
                         mols = mols.readlines()
@@ -175,7 +174,7 @@ class RDKFingerprint(object):
                         self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
         else:
             if file_extension in ['.smi','.smarts']:
-                mols = open(file, 'r')
+                mols = open(molfile, 'r')
                 mols = mols.readlines()
                 mols = [extensions[file_extension](x.strip,removeHs=self.removeHs) for x in mols]
                 self.molecules += mols
@@ -183,7 +182,7 @@ class RDKFingerprint(object):
                 self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
     
     def Fingerprint(self):
-        if self.type == 'Hashed_atom_pair' or self.type == 'HAP':
+        if self.FPtype == 'Hashed_atom_pair' or self.FPtype == 'HAP':
             if self.vector == 'int':
                 self.fps = [Chem.AtomPairs.Pairs.GetHashedAtomPairFingerprint(m,nBits=self.nBits) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
@@ -200,7 +199,7 @@ class RDKFingerprint(object):
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
                 raise ValueError(msg)
-        elif self.type == 'Atom_pair' or self.type == 'AP':
+        elif self.FPtype == 'Atom_pair' or self.FPtype == 'AP':
             if self.vector == 'int':
                 self.fps = [Chem.AtomPairs.Pairs.GetAtomPairFingerprint(m) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
@@ -224,7 +223,7 @@ class RDKFingerprint(object):
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
                 raise ValueError(msg)
-        elif self.type == 'MACCS':
+        elif self.FPtype == 'MACCS':
             if self.vector == 'int':
                 msg = "There is no RDKit function to encode int vectors for MACCS keys"
                 raise ValueError(msg)
@@ -238,7 +237,7 @@ class RDKFingerprint(object):
             else:
                 msg = "The vector argument can be 'int' or 'bit'"
                 raise ValueError(msg)
-        elif self.type == 'Morgan':
+        elif self.FPtype == 'Morgan':
             if self.vector == 'int':
                 self.fps = [Chem.rdMolDescriptors.GetMorganFingerprint(mol, self.radius) for mol in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
@@ -258,7 +257,7 @@ class RDKFingerprint(object):
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
                 raise ValueError(msg)
-        elif self.type == 'Hashed_topological_torsion' or self.type == 'HTT':
+        elif self.FPtype == 'Hashed_topological_torsion' or self.FPtype == 'HTT':
             if self.vector == 'int':
                 self.fps = [Chem.rdMolDescriptors.GetHashedTopologicalTorsionFingerprint(m,nBits=self.nBits) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
@@ -275,7 +274,7 @@ class RDKFingerprint(object):
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
                 raise ValueError(msg)
-        elif self.type == 'Topological_torsion' or self.type == 'TT':
+        elif self.FPtype == 'Topological_torsion' or self.FPtype == 'TT':
             if self.vector == 'int':
                 self.fps = [Chem.AtomPairs.Torsions.GetTopologicalTorsionFingerprintAsIntVect(mol) for mol in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
@@ -292,7 +291,7 @@ class RDKFingerprint(object):
                 msg = "The argument vector can be 'int' or 'bit'"
                 raise ValueError(msg)
         else:
-            msg = "The type argument '%s' is not a valid fingerprint type"%self.type
+            msg = "The type argument '%s' is not a valid fingerprint type"%self.FPtype
             raise ValueError(msg)
     
     def Similarity(self,data=None, metric='Euclidean', nCores = 1):

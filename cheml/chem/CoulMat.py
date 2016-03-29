@@ -43,11 +43,12 @@ class CoulombMatrix(object):
     
     Parameters
     ----------
-    type: string, optional (default='SC')
-        Available types:
+    CMtype: string, optional (default='SC')
+        Available Coulomb Matrix (CM) representations:
             * 'Eigenspectrum' or 'E' 
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
+            * 'BagofBonds' or 'BB'
     
     nPerm: integer, optional (default = 6)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
@@ -55,24 +56,26 @@ class CoulombMatrix(object):
 
     const: float, optional (default = 1)
             The constant value for coordinates unit conversion to atomic unit
-            example: atomic unit -> const=1, Angstrom -> const=0.529 
+            example: atomic unit -> const=1, Angstrom -> const=0.529
+            in action: const/|Ri-Rj|, which denominator is the euclidean distance 
+            between atoms i and j coordinates
  
     Returns
     -------
     data set of Coulomb matrix similarities.
     """
-    def __init__(self, type='SC', nPerm=6, const=1 ):
-        self.type = type
+    def __init__(self, CMtype='SC', nPerm=6, const=1 ):
+        self.CMtype = CMtype
         self.nPerm = nPerm
         self.const = const
         
-    def MolfromFile(self, file, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
+    def MolfromFile(self, molfile, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
         """ (MolfromFile)
         Construct molecules from one or more input files.
         
         Parameters
         ----------
-        file: string
+        molfile: string
             This is the place you define the file name and path. It can contain 
             any special character in the following list:
             
@@ -147,7 +150,7 @@ class CoulombMatrix(object):
             arguments: 1,4,7,10
             >>> sample files to be read: 'Mydir/all/1f/1_opt.xyz', 'Mydir/all/2c/2_opt.xyz', ... 
         """
-        file_name, file_extension = os.path.splitext(file)
+        file_name, file_extension = os.path.splitext(molfile)
         if file_extension == '':
             msg = 'file extension not determined'
             raise ValueError(msg)
@@ -159,15 +162,15 @@ class CoulombMatrix(object):
             msg = "pass an even number of integers: 2 for each '%s'"
             raise ValueError(msg)        
         
-        if path and '%s' in file:
-            file = _add_range(file,start_end)
+        if path and '%s' in molfile:
+            molfile = _add_range(molfile,start_end)
         
-        self.molecules = [] 
+        self.molecules = []
         self.max_nAtoms = 1
         if path:
             for root, directories, filenames in os.walk(path):
                 file_path = [os.path.join(root, filename) for filename in filenames]
-                for filename in fnmatch.filter(file_path, os.path.join(path, file)):
+                for filename in fnmatch.filter(file_path, os.path.join(path, molfile)):
                     mol = _file_reader(reader, filename, skip_lines)
                     self.max_nAtoms = max(self.max_nAtoms, len(mol))
                     self.molecules.append(mol)
@@ -195,14 +198,14 @@ class CoulombMatrix(object):
         return np.array(cm)
     
     def Coulomb_Matrix(self):
-        if self.type == 'Eigenspectrum' or self.type == 'E':
+        if self.CMtype == 'Eigenspectrum' or self.CMtype == 'E':
             eigenspectrum = []
             for mol in self.molecules:
                 cm = _cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529 
                 eigenspectrum.append(np.linalg.eigvals(cm).sort()[::-1])
             return pd.DataFrame(eigenspectrum)                
             
-        elif self.type == 'Sorted_Coulomb' or self.type == 'SC':
+        elif self.CMtype == 'Sorted_Coulomb' or self.CMtype == 'SC':
             sorted_cm = []
             for mol in self.molecules:
                 cm = _cal_coul_mat(mol)
@@ -212,7 +215,7 @@ class CoulombMatrix(object):
                 sorted_cm.append(cm)
             return np.array(sorted_cm)    
                     
-        elif self.type == 'Random_Coulomb' or self.type == 'RC':
+        elif self.CMtype == 'Random_Coulomb' or self.CMtype == 'RC':
             random_cm = []
             for nmol,mol in enumerate(self.molecules):
                 cm = _cal_coul_mat(mol)
@@ -225,6 +228,8 @@ class CoulombMatrix(object):
                     cm_perms.append(cm[:,mask][mask,:])
                 random_cm.append(np.array(cm_perms))
             return  np.array(random_cm)
+        elif self.CMtype == 'BagofBonds' or self.CMtype == 'BB':
+            return BagofBonds()
             
     def Distance_Matrix(self, input_matrix, norm_type='fro', nCores=1):
         """ (distance_matrix)

@@ -1,29 +1,32 @@
 ########################### Dragon
-from cheml.chem import dragon
+from cheml.chem import Dragon
 
-dragon_API = dragon(SaveStdOut = False,
+dragon_API = Dragon(SaveExcludeConst = False,
                     MaxSR = "35",
                     SaveFilePath = "Dragon_descriptors.txt",
                     SaveExcludeMisMolecules = False,
-                    SaveExcludeStdDev = False,
+                    LogEdge = True,
                     SaveExcludeNearConst = False,
                     SaveProject = False,
                     Add2DHydrogens = False,
                     blocks = range(1,30),
                     SaveProjectFile = "Dragon_project.drp",
                     SaveOnlyData = False,
+                    RejectDisconnectedStrucuture = False,
                     SaveExclusionOptionsToVariables = False,
-                    LogEdge = True,
+                    DisconnectedCalculationOption = "0",
                     LogPathWalk = True,
                     SaveLabelsOnSeparateFile = False,
+                    SaveStdOut = False,
                     version = 6,
                     DefaultMolFormat = "1",
                     molFile = None,
                     HelpBrowser = "/usr/bin/xdg-open",
                     SaveExcludeRejectedMolecules = False,
+                    knimemode = False,
                     RejectUnusualValence = False,
                     SaveStdDevThreshold = "0.0001",
-                    SaveExcludeConst = False,
+                    RoundDescriptorValues = True,
                     SaveFormatSubBlock = "%b-%s-%n-%m.txt",
                     Decimal_Separator = ".",
                     SaveExcludeCorrelated = False,
@@ -31,13 +34,17 @@ dragon_API = dragon(SaveStdOut = False,
                     consecutiveDelimiter = False,
                     molInputFormat = "SMILES",
                     SaveExcludeAllMisVal = False,
+                    SaveExcludeStdDev = False,
                     Weights = ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"],
                     external = False,
+                    RoundWeights = True,
                     MaxSRforAllCircuit = "19",
                     fileName = None,
+                    RoundCoordinates = True,
                     Missing_String = "Nan",
                     SaveExcludeMisVal = False,
                     logFile = "Dragon_log.txt",
+                    PreserveTemporaryProjects = True,
                     SaveLayout = True,
                     molInput = "stdin",
                     SaveFormatBlock = "%b-%n.txt",
@@ -45,14 +52,37 @@ dragon_API = dragon(SaveStdOut = False,
                     SaveType = "singlefile",
                     ShowWorksheet = False,
                     delimiter = ",",
+                    RetainBiggestFragment = False,
                     CheckUpdates = True,
                     MaxAtomWalkPath = "2000",
                     logMode = "file",
                     SaveCorrThreshold = "0.95",
                     SaveFile = True)
-dragon_API.script_wizard(script = "Dragon_script.drs")
+dragon_API.script_wizard(script = "new")
 dragon_API.run()
-data_path = dragon_API.drs
+data_path = dragon_API.data_path
+###########################
+
+########################### RDKFP
+from cheml.chem import RDKFingerprint
+
+RDKFingerprint_API = RDKFingerprint(nBits = 1024,
+                                    removeHs = True,
+                                    vector = 'bit',
+                                    radius = 2,
+                                    FPtype = 'Morgan')
+RDKFingerprint_API.MolfromFile(molfile = '', path = None, 0,0,...)
+data = RDKFingerprint_API.Fingerprint()
+###########################
+
+########################### CoulombMatrix
+from cheml.chem import CoulombMatrix
+
+CoulombMatrix_API = CoulombMatrix(const = 1,
+                                  CMtype = 'SC',
+                                  nPerm = 6)
+RDKFingerprint_API.MolfromFile(molfile = '', path = None, reader = 'auto', skip_lines = [2,0], 0,0,...)
+data = CoulombMatrix_API.Coulomb_Matrix()
 ###########################
 
 ########################### INPUT

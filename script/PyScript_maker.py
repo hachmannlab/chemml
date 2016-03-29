@@ -180,6 +180,8 @@ def main(SCRIPT_NAME):
     ## implementing orders
     functions = {'INPUT'                : INPUT,
                  'Dragon'               : Dragon,
+                 'RDKFP'                : RDKFP,
+                 'CoulombMatrix'        : CoulombMatrix,
                  'OUTPUT'               : OUTPUT,
                  'MISSING_VALUES'       : MISSING_VALUES,
                  'StandardScaler'       : StandardScaler,
@@ -493,17 +495,43 @@ def Dragon(block):
     """(Dragon):
         http://www.talete.mi.it/help/dragon_help/index.html?script_file.htm
     """
-    handle_imports(["cheml.chem.dragon"])
-    handle_funct_API(block, inputs=False, outputs="dragon_API", function="dragon", ignore = ["script"])
+    handle_imports(["cheml.chem.Dragon"])
+    handle_funct_API(block, inputs=False, outputs="dragon_API", function="Dragon", ignore = ["script"])
     line = "dragon_API.script_wizard(script = %s)"%block["parameters"]["script"]
     cmlnb["blocks"][it]["source"].append(line + '\n')
     line = "dragon_API.run()"
     cmlnb["blocks"][it]["source"].append(line + '\n')
     line = "data_path = dragon_API.data_path"
     cmlnb["blocks"][it]["source"].append(line + '\n')
-
    
 									###################
+
+def RDKFP(block):
+    """(RDKFP):
+        http://www.rdkit.org
+    """
+    handle_imports(["cheml.chem.RDKFingerprint"])
+    handle_funct_API(block, inputs=False, outputs="RDKFingerprint_API", function="RDKFingerprint", ignore = ["molfile", "path","arguments","data","metric"])
+    line = "RDKFingerprint_API.MolfromFile(molfile = %s, path = %s, %s)"%(block["parameters"]["molfile"],block["parameters"]["path"],block["parameters"]["arguments"])
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    line = "data = RDKFingerprint_API.Fingerprint()"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+   
+									###################
+
+def CoulombMatrix(block):
+    """(CoulombMatrix):
+        The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL from cheml. 
+    """
+    handle_imports(["cheml.chem.CoulombMatrix"])
+    handle_funct_API(block, inputs=False, outputs="CoulombMatrix_API", function="CoulombMatrix", ignore = ["molfile", "path", "arguments", "reader", "skip_lines", "nCores"])
+    line = "RDKFingerprint_API.MolfromFile(molfile = %s, path = %s, reader = %s, skip_lines = %s, %s)"%(block["parameters"]["molfile"],block["parameters"]["path"],block["parameters"]["reader"],block["parameters"]["skip_lines"],block["parameters"]["arguments"])
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+    line = "data = CoulombMatrix_API.Coulomb_Matrix()"
+    cmlnb["blocks"][it]["source"].append(line + '\n')
+   
+									###################
+
 def INPUT(block):
     """(INPUT):
 		Read input files.

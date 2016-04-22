@@ -21,6 +21,7 @@ import os
 import time
 import copy
 import argparse
+import warnings
 from lxml import objectify, etree
 from sct_utils import isfloat, islist, istuple, isnpdot, std_datetime_str
 
@@ -159,9 +160,12 @@ def main(SCRIPT_NAME):
     
     ## CHECK SCRIPT'S REQUIREMENTS    
     called_functions = [block["function"] for block in cmls]
-    if "INPUT" not in called_functions:
+    input_functions = [funct for funct in ["INPUT","Dragon","RDKFP","CoulombMatrix"] if funct in called_functions]
+    if len(input_functions)==0:
         raise RuntimeError("cheml requires input data")
-        # TODO: check typical error names		
+    elif len(input_functions)>1:
+        msg = "more than one input functions are available!"
+        warnings.warn(msg,Warning)
 
     ## PYTHON SCRIPT
     if "OUTPUT" in called_functions:

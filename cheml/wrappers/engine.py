@@ -13,6 +13,7 @@ import time
 import copy
 import argparse
 import warnings
+import time
 
 from .scikit_learn import Sklearn_Base
 from .cheml import Cheml_Base
@@ -218,7 +219,7 @@ class Parser(object):
 class order(object):
     """
     main driver
-
+    
     :return:
     API
     """
@@ -277,6 +278,23 @@ class order(object):
     def transform(self):
         pass
 
+class BASE(object):
+    def __init__(self, cmls, CompGraph):
+        self.graph = CompGraph
+        self.send = ()
+        self.cmls = cmls
+        self.start_time = time.time()
+        self.block_time = 0
+        self.date = std_datetime_str('date')
+        self.time = std_datetime_str('time')
+        print 'initialized'
+
+class Main(object):
+    def __init__(self, cmls, ImpOrder, CompGraph):
+        self.Base = BASE(cmls, CompGraph)
+        self.ImpOrder = ImpOrder
+
+    def call(self):
 
 
 def main(script):
@@ -287,7 +305,7 @@ def main(script):
     global cmlnb
     global it
     it = -1
-    cmls, ImpOrder,CompGraph = Parser(script).fit()
+
     order(cmls)
 
     ## CHECK SCRIPT'S REQUIREMENTS
@@ -435,8 +453,9 @@ if __name__=="__main__":
     SCRIPT_NAME = args.i
     script = open(SCRIPT_NAME, 'r')
     script = script.readlines()
-    main(script)   #numbering of sys.argv is only meaningful if it is launched as main
-    
+    cmls, ImpOrder, CompGraph = Parser(script).fit()
+    main = Main(cmls, ImpOrder, CompGraph)
+
 # else:
     # sys.exit("Sorry, must run as driver...")
 

@@ -6,7 +6,6 @@ import sys
 import scipy
 
 
-
 def _add_range(file,start_end):
     start = start_end[0::2]
     end = start_end[1::2]
@@ -191,7 +190,7 @@ class CoulombMatrix(object):
                 else:
                     vect.append((mol[i,0]*mol[j,0]*self.const)/np.linalg.norm(mol[i,1:]-mol[j,1:]))
             for m in range(len(mol),self.max_nAtoms):
-                vect.append(0.0)ub
+                vect.append(0.0)
             cm.append(vect)
         for m in range(len(mol),self.max_nAtoms):
             cm.append([0]*self.max_nAtoms)
@@ -277,7 +276,7 @@ class CoulombMatrix(object):
         dim = input_matrix.shape
         if len(dim) == 2:
             #vector: Ndata=dim[0];  Nvector_elements=dim[1] 
-            
+            pass
         elif len(dim) == 3:
             #matrix: Ndata=dim[0]; Nmatrix_rows=dim[1]; Nmatrix_cols=dim[2] 
             for i in range(dim[0]):
@@ -304,7 +303,7 @@ class CoulombMatrix(object):
             
         elif len(dim) == 4:
             # list of matrices: Ndata=dim[0]; Nmatrices_per_row=dim[1]; Nmatrix_rows=dim[2]; Nmatrix_cols=dim[3]
-             
+            pass
         else:
             msg = "the structure of input_matrix is not supported"
             raise ValueError(msg)            

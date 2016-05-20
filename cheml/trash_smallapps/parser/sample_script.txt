@@ -1,13 +1,22 @@
 CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
-## RDKFP        << removeHs = True              << FPtype = 'Morgan'
-                < vector = 'bit'               << nBits = 1024
-                << radius = 2                   << molfile = ''
-                << path = None                  << arguments = [0,0]
+# Note: don't mix parameters and send&recv options in one line
+# Note: send: >> var id
+# Note: recv: >> id
 
-                >> data  INPUT
+## DataRepresentation
+                << module = cheml                 << function = RDKitFingerprint
 
-## INPUT
+                << removeHs = True                << FPtype = 'Morgan'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     << molfile = ''
+                << path = None                    << arguments = [0,0]
+
+                >> data 0  >> data 3
+
+## Input
+                << module = cheml                 << function = File
+
 				<< data_path = 'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'
 				<< data_delimiter = None
 				<< data_header = 0
@@ -17,17 +26,39 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 				<< target_header = None
 				<< target_skiprows = 0
 
-                >> data SVM    >> target  SVM
+                >> 0    >> 1 > target 2 > fake 6
 
-## SVR                << kernel = 'rbf'
-                      << degree s= 3
-                      << gamma = 'auto'
-                      << coef0 = 0.0
-                      << tol = 1e-3 
-                      << C = 1.0
-                      << epsilon = 0.1
-                      << shrinking = True
-                      << cache_size = 200
-                      << verbose = False
-                      << max_iter = -1
+## Output
+                >> data 1 >> 5
+# Preprocessor
+
+# FeatureSelection
+
+# FeatureTransformation
+
+# Divider
+
+# Evaluation
+
+## Regression
+                << module = sklearn      << function = SVR
+
+                              << kernel = 'rbf'
+                              << degree s= 3
+                              << gamma = 'auto'
+                              << coef0 = 0.0
+                              << tol = 1e-3
+                              << C = 1.0
+                              << epsilon = 0.1
+                              << shrinking = True
+                              << cache_size = 200
+                              << verbose = False
+                              << max_iter = -1
+
+                >> 3    >> api 4 > 6
+
+## Visualization
+                >> 4   > 2  >> fake 5
+
+
 

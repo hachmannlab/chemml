@@ -214,7 +214,7 @@ class RDKFingerprint(object):
                 dict_nonzero = []
                 for fp in self.fps:
                     dict_nonzero.append({i:el for i,el in enumerate(fp) if el!=0})
-               pairScores = []
+                pairScores = []
                 for fp in dict_nonzero:
                     pairScores += [key for key in fp]
                 data = pd.DataFrame(dict_nonzero,columns=list(set(pairScores)))
@@ -328,4 +328,4 @@ class RDKFingerprint(object):
             else:
                 msg = "The metric '%s' is not a valid metric type for "%metric
                 raise ValueError(msg)
-       return sim_mat
+        return sim_mat

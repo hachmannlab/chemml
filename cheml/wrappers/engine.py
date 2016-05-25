@@ -13,11 +13,11 @@ import time
 import copy
 import argparse
 import warnings
-import time
 import inspect
 
-from .scikit_learn import Sklearn_Base
-from .cheml import Cheml_Base
+import .scikit_learn as skl
+import .cheml as cml
+#todo: use utils subdirectory instead
 from .sct_utils import isint, value, std_datetime_str
 
 class Parser(object):
@@ -216,7 +216,7 @@ class Parser(object):
 class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
-        self.send = {}      # {(iblock,token):(value,count)}
+        self.send = {}      # {(iblock,token):[value,count]}
         self.start_time = time.time()
         self.block_time = 0
         self.date = std_datetime_str('date')
@@ -225,7 +225,7 @@ class BASE(object):
 
 class Wrapper(object):
     """
-
+    Todo: documentation
     """
     def __init__(self, cmls, ImpOrder, CompGraph):
         self.Base = BASE(CompGraph)
@@ -277,8 +277,13 @@ class Wrapper(object):
             module = parameters.pop('module')
             function = parameters.pop('function')
             if module == 'sklearn':
+                # check methods0
+                legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
+                if function not in legal_functions:
+                    msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
+                    raise NameError(msg)
                 cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
-                api = cml_interface(self.Base,parameters,iblock)
+                cml_interface(self.Base,parameters,iblock)
 
 
 ##################################################################################################

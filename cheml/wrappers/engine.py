@@ -14,16 +14,11 @@ import copy
 import argparse
 import warnings
 import time
+import inspect
 
 from .scikit_learn import Sklearn_Base
 from .cheml import Cheml_Base
-from .sct_utils import isfloat, islist, istuple, isnpdot, std_datetime_str
-
-def value(string):
-    try:
-        return eval(string)
-    except NameError:
-        return string
+from .sct_utils import isint, value, std_datetime_str
 
 class Parser(object):
     """
@@ -88,15 +83,17 @@ class Parser(object):
                     args = line.strip()
                 arg = args.split()
                 if len(arg) == 2:
-                    var, id = arg
-                    send[(var, int(id))] = item
-                elif len(arg) == 1:
-                    recv[('recv%i'%item,int(arg[0]))] = item
+                    a, b = arg
+                    if isint(b) and not isint(a):
+                        send[(a, int(b))] = item
+                    elif isint(a) and not isint(b):
+                        recv[(b, int(a))] = item
+                    else:
+                        msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)' % (item+1, args)
+                        raise IOError(msg)
                 else:
-                    msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id)'%(item+1,args)
-                    raise ValueError(msg)
-
-
+                    msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)'%(item+1,args)
+                    raise IOError(msg)
         return parameters, send, recv
 
     def _options(self, blocks):
@@ -127,7 +124,7 @@ class Parser(object):
                     line = line.rstrip("\n")
                     print '        '+line
             else:
-                line = ' :no parameter passed: set to defaul values if available'
+                line = ' :no parameter passed: set to default values if available'
                 line = line.rstrip("\n")
                 print '        ' + line
             line = '>>>>>>>'
@@ -135,20 +132,20 @@ class Parser(object):
             print '        ' + line
             if len(block['send']) > 0:
                 for param in block['send']:
-                    line = '%s -> send\n' %str(param)
+                    line = '%s -> send (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     print '        ' + line
             else:
-                line = ' :no send:'
+                line = ' :nothing to send:'
                 line = line.rstrip("\n")
                 print '        ' + line
             if len(block['recv']) > 0:
                 for param in block['recv']:
-                    line = '%s -> recv\n' %str(param)
+                    line = '%s <- recv (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     print '        ' + line
             else:
-                line = ' :no receive:'
+                line = ' :nothing to receive:'
                 line = line.rstrip("\n")
                 print '        ' + line
             line = ''
@@ -173,7 +170,7 @@ class Parser(object):
             recv_all.update(block['recv'])
         # check send and recv
         if len(send_all) != len(recv_all):
-            msg = 'not an equal number of send and receive has been provided'
+            msg = 'number of send and receive is not equal'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all.items()]
         recv_ids = [k[1] for k,v in recv_all.items()]
@@ -190,9 +187,9 @@ class Parser(object):
             raise ValueError(msg)
 
         # make graph
-        reformat_send = {k[1]:[v,-1,k[0]] for k,v in send_all.items()}
+        reformat_send = {k[1]:[v,k[0]] for k,v in send_all.items()}
         for k, v in recv_all.items():
-            reformat_send[k[1]][1] = v
+            reformat_send[k[1]] += [v,k[0]]
             reformat_send[k[1]] = tuple(reformat_send[k[1]])
         CompGraph = tuple(reformat_send.values())
 
@@ -216,195 +213,74 @@ class Parser(object):
                 raise IOError(msg)
         return tuple(ImpOrder),CompGraph
 
-class order(object):
-    """
-    main driver
-    
-    :return:
-    API
-    """
-    def __init__(self, cmls):
-        self.send_recv = ()
-        for block in cmls:
-            self.SuperFunction = block['SuperFunction']
-            self.parameters = block['parameters']
-            self.send = block['send']
-            self._checker()
-            self.call()
-
-    def _checker(self):
-        """
-        check for key parameters like module and function and
-        any possible typo in other params.
-        """
-        # check super function
-        legal_superfunctions = ['DataRepresentation','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Evaluation','Visualization','Optimizer']
-        if self.SuperFunction not in legal_superfunctions:
-            msg = '%s is not a valid task'%self.SuperFunction
-            raise NameError(msg)
-        # check modules
-        legal_modules = ['cheml','sklearn']
-        if 'module' in self.parameters:
-            self.module = self.parameters.pop('module')
-            if self.module not in legal_modules:
-                msg = 'The only available modules in this version are: %s'%str(legal_modules)
-                raise NameError(msg)
-        else:
-            msg = 'no module name passed. Always determine the module and the function name in parameters'
-            raise NameError(msg)
-        # check function
-        legal_functions = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds','File','Merge','Split','SaveFile','settings','MissingValues','Trimmer','Uniformer','TBFS','NN_MLP_PSGD','NN_MLP_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR','GA_Binary','GA_Real'],
-                           'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer','Binarizer','OneHotEncoder','VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr','SelectFwe','RFE','RFECV','SelectFromModel','PCA','KernelPCA','RandomizedPCA','LDA','','','','','']}
-        if 'function' in self.parameters:
-            self.function = self.parameters.pop('function')
-            if self.function not in legal_functions[self.module]:
-                msg = 'The only available functions in the passed module are: %s'%str(legal_functions[self.module])
-                raise NameError(msg)
-        else:
-            msg = 'no function name passed. Always determine the module and the function name in parameters'
-            raise NameError(msg)
-        # check send
-        send_recv = {}
-        for token, receiver in self.send.items():
-            self.send_recv += ({receiver:(self.function,token)},)
-        return 0
-
-    def call(self):
-        if self.module == 'cheml':
-            Cheml_Base(self.function, self.parameters, self.send)
-        elif self.module == 'sklearn':
-            Sklearn_Base(self.function, self.parameters, self.send)
-
-    def transform(self):
-        pass
-
 class BASE(object):
-    def __init__(self, cmls, CompGraph):
+    def __init__(self, CompGraph):
         self.graph = CompGraph
-        self.send = ()
-        self.cmls = cmls
+        self.send = {}      # {(iblock,token):(value,count)}
         self.start_time = time.time()
         self.block_time = 0
         self.date = std_datetime_str('date')
         self.time = std_datetime_str('time')
         print 'initialized'
 
-class Main(object):
+class Wrapper(object):
+    """
+
+    """
     def __init__(self, cmls, ImpOrder, CompGraph):
-        self.Base = BASE(cmls, CompGraph)
+        self.Base = BASE(CompGraph)
         self.ImpOrder = ImpOrder
+        self.cmls = cmls
+        self._checker()
+
+    def _checker(self):
+        """
+        check for key parameters like module and function and
+        any possible typo in other params.
+        """
+        # get params
+        legal_superfunctions = ['DataRepresentation','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Evaluation','Visualization','Optimizer']
+        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds','File','Merge','Split','SaveFile','settings','MissingValues','Trimmer','Uniformer','TBFS','NN_MLP_PSGD','NN_MLP_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR','GA_Binary','GA_Real'],
+                         'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer','Binarizer','OneHotEncoder','VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr','SelectFwe','RFE','RFECV','SelectFromModel','PCA','KernelPCA','RandomizedPCA','LDA','','','','',''],
+                         'mlpy':[]}
+
+        # run over graph
+        for iblock, block in enumerate(self.cmls):
+            # check super function
+            SuperFunction = block['SuperFunction']
+            if SuperFunction not in legal_superfunctions:
+                msg = '%s is not a valid task' %SuperFunction
+                raise NameError(msg)
+            # check parameters
+            parameters = block['parameters']
+            if 'module' not in parameters:
+                msg = "Task %s (task#%i): no 'module' name found" % (SuperFunction, iblock + 1)
+                raise NameError(msg)
+            if 'function' not in parameters:
+                msg = "Task %s (task#%i): no 'function' name found" % (SuperFunction, iblock + 1)
+                raise NameError(msg)
+            # check module and function
+            module = block['parameters']['module']
+            function = block['parameters']['function']
+            if module not in legal_modules:
+                msg = 'Task %s (task#%i): not a valid module passed' % (SuperFunction, iblock + 1)
+                raise NameError(msg)
+            elif function in legal_modules[module]:
+                msg = 'Task %s (task#%i): not a valid function passed' % (SuperFunction, iblock + 1)
+                raise NameError(msg)
+        return 'The input file is in a correct format.'
 
     def call(self):
+        for iblock in self.ImpOrder:
+            SuperFunction = self.cmls[iblock]['SuperFunction']
+            parameters = block['parameters']
+            module = parameters.pop('module')
+            function = parameters.pop('function')
+            if module == 'sklearn':
+                cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
+                api = cml_interface(self.Base,parameters,iblock)
 
 
-def main(script):
-    """main:
-        Driver of ChemML
-    """
-    global cmls
-    global cmlnb
-    global it
-    it = -1
-
-    order(cmls)
-
-    ## CHECK SCRIPT'S REQUIREMENTS
-    called_functions = [block["function"] for block in cmls]
-    input_functions = [funct for funct in ["INPUT","Dragon","RDKFP","CoulombMatrix"] if funct in called_functions]
-    if len(input_functions)==0:
-        raise RuntimeError("cheml requires input data")
-    elif len(input_functions)>1:
-        msg = "more than one input functions are available!"
-        warnings.warn(msg,Warning)
-
-    ## PYTHON SCRIPT
-    if "OUTPUT" in called_functions:
-        output_ind = called_functions.index("OUTPUT")
-        pyscript_file = cmls[output_ind]['parameters']['filename_pyscript'][1:-1]
-    else:
-        pyscript_file = "CheML_PyScript.py"
-    cmlnb = {"blocks": [],
-             "date": std_datetime_str('date'),
-             "time": std_datetime_str('time'),
-             "file_name": pyscript_file,
-             "run": "# how to run: python",
-             "version": "1.1.0",
-             "imports": []
-            }
-    
-    ## implementing orders
-    functions = {'INPUT'                : INPUT,
-                 'Dragon'               : Dragon,
-                 'RDKFP'                : RDKFP,
-                 'CoulombMatrix'        : CoulombMatrix,
-                 'OUTPUT'               : OUTPUT,
-                 'MISSING_VALUES'       : MISSING_VALUES,
-                 'StandardScaler'       : StandardScaler,
-                 'MinMaxScaler'         : MinMaxScaler,
-                 'MaxAbsScaler'         : MaxAbsScaler,
-                 'RobustScaler'         : RobustScaler,
-                 'Normalizer'           : Normalizer,
-                 'Binarizer'            : Binarizer,
-                 'OneHotEncoder'        : OneHotEncoder,
-                 'PolynomialFeatures'   : PolynomialFeatures,
-                 'FunctionTransformer'  : FunctionTransformer,
-                 'VarianceThreshold'    : VarianceThreshold,
-                 'SelectKBest'          : SelectKBest,
-                 'SelectPercentile'     : SelectPercentile,
-                 'SelectFpr'            : SelectFpr,
-                 'SelectFdr'            : SelectFdr,
-                 'SelectFwe'            : SelectFwe,
-                 'RFE'                  : RFE,
-                 'RFECV'                : RFECV,
-                 'SelectFromModel'      : SelectFromModel,
-                 'Trimmer'              : Trimmer,
-                 'Uniformer'            : Uniformer,
-                 'PCA'                  : PCA,
-                 'KernelPCA'            : KernelPCA,
-                 'RandomizedPCA'        : RandomizedPCA,
-                 'LDA'                  : LDA,
-                 'SupervisedLearning_regression' : SupervisedLearning_regression,
-                 'slurm_script'         : slurm_script
-                 
-                }
-
-    for block in cmls:
-        if block['function'] not in functions:
-            msg = "name %s is not defined"%block['function']
-            raise NameError(msg)
-        else:
-            it += 1
-            cmlnb["blocks"].append({"function": block['function'],
-                                    "imports": [],
-                                    "source": []
-                                    })
-            functions[block['function']](block)
-    
-    ## write files
-    pyscript = open(pyscript_file,'w',0)
-    for block in cmlnb["blocks"]:
-        pyscript.write(banner('begin', block["function"]))
-        for line in block["imports"]:
-            pyscript.write(line)
-        pyscript.write('\n')
-        for line in block["source"]:
-            pyscript.write(line)
-        pyscript.write(banner('end', block["function"]))
-        pyscript.write('\n')
-        
-    print "\n"
-    print "NOTES:"
-    print "* The python script with name '%s' has been stored in the current directory."\
-        %pyscript_file
-    print "** list of required 'package: module's in the python script:"
-    for item in cmlnb["imports"]:
-        line = '    ' + item + '\n'
-        line = line.rstrip("\n")
-        print line
-    print "\n"
-
-    return 0    #successful termination of program
-    
 ##################################################################################################
 
 def write_split(line):
@@ -454,8 +330,8 @@ if __name__=="__main__":
     script = open(SCRIPT_NAME, 'r')
     script = script.readlines()
     cmls, ImpOrder, CompGraph = Parser(script).fit()
-    main = Main(cmls, ImpOrder, CompGraph)
-
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph)
+    wrapper.call()
 # else:
     # sys.exit("Sorry, must run as driver...")
 

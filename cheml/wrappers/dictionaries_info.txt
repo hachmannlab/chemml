@@ -1,11 +1,12 @@
 #value(val)
 cmls =
 [{'recv': {}, 'SuperFunction': 'DataRepresentation', 'send': {('data', 3): 0, ('data', 0): 0}, 'parameters': {'function': 'RDKitFingerprint', 'nBits': 1024, 'molfile': '', 'removeHs': True, 'module': 'cheml', 'vector': 'bit', 'FPtype': 'Morgan', 'arguments': [0, 0], 'path': None, 'radius': 2}},
- {'recv': {('recv1', 1): 1, ('recv1', 0): 1}, 'SuperFunction': 'Input', 'send': {}, 'parameters': {'function': 'File', 'data_skiprows': 0, 'target_skiprows': 0, 'data_path': 'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv', 'module': 'cheml', 'data_delimiter': None, 'target_delimiter': None, 'target_header': None, 'data_header': 0, 'target_path': 'benchmarks/homo_dump/sample_50/homo_50.csv'}},
- {'recv': {('recv2', 5): 2}, 'SuperFunction': 'Output', 'send': {('data', 1): 2}, 'parameters': {}},
- {'recv': {('recv3', 3): 3}, 'SuperFunction': 'Regression', 'send': {('api', 4): 3}, 'parameters': {'function': 'SVR', 'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'shrinking': True, 'epsilon': 0.1, 'max_iter': -1, 'module': 'sklearn', 'tol': 0.001, 'cache_size': 200, 'degree s': 3, 'coef0': 0.0, 'gamma': 'auto'}},
- {'recv': {('recv4', 4): 4}, 'SuperFunction': 'Visualization', 'send': {('fake', 5): 4}, 'parameters': {}}
+ {'recv': {('Y', 1): 1, ('X', 0): 1}, 'SuperFunction': 'Input', 'send': {}, 'parameters': {'function': 'File', 'data_skiprows': 0, 'target_skiprows': 0, 'data_path': 'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv', 'module': 'cheml', 'data_delimiter': None, 'target_delimiter': None, 'target_header': None, 'data_header': 0, 'target_path': 'benchmarks/homo_dump/sample_50/homo_50.csv'}},
+ {'recv': {('F', 5): 2}, 'SuperFunction': 'Output', 'send': {('data', 1): 2}, 'parameters': {}}, {'recv': {('X', 3): 3}, 'SuperFunction': 'Regression', 'send': {('api', 4): 3}, 'parameters': {'function': 'SVR', 'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'shrinking': True, 'epsilon': 0.1, 'max_iter': -1, 'module': 'sklearn', 'tol': 0.001, 'cache_size': 200, 'degree s': 3, 'coef0': 0.0, 'gamma': 'auto'}},
+ {'recv': {('api', 4): 4}, 'SuperFunction': 'Visualization', 'send': {('fake', 5): 4}, 'parameters': {}}
 ]
+ImpOrder = (0, 3, 4, 2, 1)
+CompGraph = ((0, 'data', 1, 'X'), (2, 'data', 1, 'Y'), (0, 'data', 3, 'X'), (3, 'api', 4, 'api'), (4, 'fake', 2, 'F'))
 
     ####
 

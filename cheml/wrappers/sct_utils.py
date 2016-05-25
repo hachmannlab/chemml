@@ -30,6 +30,19 @@ def isnpdot(value):
     else:
         return False
 
+def isint(val):
+    try:
+        int(val)
+        return True
+    except ValueError:
+        return False
+
+def value(string):
+    try:
+        return eval(string)
+    except NameError:
+        return string
+
 def std_datetime_str(mode='datetime'):
     """(std_time_str):
         This function gives out the formatted time as a standard string, i.e., YYYY-MM-DD hh:mm:ss.

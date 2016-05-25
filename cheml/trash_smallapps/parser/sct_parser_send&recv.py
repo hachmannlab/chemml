@@ -4,6 +4,13 @@ def value(string):
     except NameError:
         return string
 
+def isint(val):
+    try:
+        int(val)
+        return True
+    except ValueError:
+        return False
+
 class Parser(object):
     """
     script: list of strings
@@ -67,15 +74,17 @@ class Parser(object):
                     args = line.strip()
                 arg = args.split()
                 if len(arg) == 2:
-                    var, id = arg
-                    send[(var, int(id))] = item
-                elif len(arg) == 1:
-                    recv[('recv%i'%item,int(arg[0]))] = item
+                    a, b = arg
+                    if isint(b) and not isint(a):
+                        send[(a, int(b))] = item
+                    elif isint(a) and not isint(b):
+                        recv[(b, int(a))] = item
+                    else:
+                        msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)' % (item+1, args)
+                        raise IOError(msg)
                 else:
-                    msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id)'%(item+1,args)
-                    raise ValueError(msg)
-
-
+                    msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)'%(item+1,args)
+                    raise IOError(msg)
         return parameters, send, recv
 
     def _options(self, blocks):
@@ -106,7 +115,7 @@ class Parser(object):
                     line = line.rstrip("\n")
                     print '        '+line
             else:
-                line = ' :no parameter passed: set to defaul values if available'
+                line = ' :no parameter passed: set to default values if available'
                 line = line.rstrip("\n")
                 print '        ' + line
             line = '>>>>>>>'
@@ -114,20 +123,20 @@ class Parser(object):
             print '        ' + line
             if len(block['send']) > 0:
                 for param in block['send']:
-                    line = '%s -> send\n' %str(param)
+                    line = '%s -> send (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     print '        ' + line
             else:
-                line = ' :no send:'
+                line = ' :nothing to send:'
                 line = line.rstrip("\n")
                 print '        ' + line
             if len(block['recv']) > 0:
                 for param in block['recv']:
-                    line = '%s -> recv\n' %str(param)
+                    line = '%s <- recv (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     print '        ' + line
             else:
-                line = ' :no receive:'
+                line = ' :nothing to receive:'
                 line = line.rstrip("\n")
                 print '        ' + line
             line = ''
@@ -152,7 +161,7 @@ class Parser(object):
             recv_all.update(block['recv'])
         # check send and recv
         if len(send_all) != len(recv_all):
-            msg = 'not an equal number of send and receive has been provided'
+            msg = 'number of send and receive is not equal'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all.items()]
         recv_ids = [k[1] for k,v in recv_all.items()]
@@ -169,9 +178,9 @@ class Parser(object):
             raise ValueError(msg)
 
         # make graph
-        reformat_send = {k[1]:[v,-1,k[0]] for k,v in send_all.items()}
+        reformat_send = {k[1]:[v,k[0]] for k,v in send_all.items()}
         for k, v in recv_all.items():
-            reformat_send[k[1]][1] = v
+            reformat_send[k[1]] += [v,k[0]]
             reformat_send[k[1]] = tuple(reformat_send[k[1]])
         CompGraph = tuple(reformat_send.values())
 

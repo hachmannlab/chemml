@@ -15,3 +15,9 @@ def string2nan(df):
             if isfloat(value):
 				df[col][i] = np.nan
     return(df)
+
+def value(string):
+    try:
+        return eval(string)
+    except NameError:
+        return string

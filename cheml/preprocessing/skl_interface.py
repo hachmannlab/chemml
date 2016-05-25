@@ -82,7 +82,7 @@ def transformer_dataframe(transformer, df):
     if df.shape[1] == len(df_columns):
         df = pd.DataFrame(df,columns=df_columns)
     else:
-        warnings.warn("number of columns befor and after transform doesn't match",Warning)
+        warnings.warn("number of columns before and after transform doesn't match",Warning)
     return df
 
 def selector_dataframe(transformer, df, tf):

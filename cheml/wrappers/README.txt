@@ -8,11 +8,11 @@
 		sklearn						PolynomialFeatures
 
 ## Input
-		module						function
-		------						--------
-		cheml						File  	:	read data
-		cheml						Merge 	:	data - target -> data, target
-		cheml 						Split  	:	data -> data, target
+		module						function            legal_inputs                        legal_outputs
+		------						--------            ------------                        -------------
+		cheml						File  	            {}                                  {'X'}    	
+		cheml						Merge
+		cheml 						Split  		
 
 ## Output
 		module						function

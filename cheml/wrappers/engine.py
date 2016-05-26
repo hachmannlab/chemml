@@ -16,7 +16,7 @@ import warnings
 import inspect
 
 import .scikit_learn as skl
-import .cheml as cml
+import .cheml_wrapper as cml
 #todo: use utils subdirectory instead
 from .sct_utils import isint, value, std_datetime_str
 
@@ -217,6 +217,7 @@ class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
         self.send = {}      # {(iblock,token):[value,count]}
+        self.requirements = []
         self.start_time = time.time()
         self.block_time = 0
         self.date = std_datetime_str('date')
@@ -283,7 +284,8 @@ class Wrapper(object):
                     msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
                     raise NameError(msg)
                 cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
-                cml_interface(self.Base,parameters,iblock)
+                cmli = cml_interface(self.Base,parameters,iblock)
+                cmli.run()
 
 
 ##################################################################################################

@@ -5,46 +5,55 @@ import pandas as pd
 
 
 __all__ = [
-    'input',
+    'File',
     'output',
 ]
-###################################################################################################
-# TODO: 
-# - copy pyscript into output_directory and remove original version
-###################################################################################################
 
-def input(data_path, data_label, n_skip_columns=0, n_skip_rows=0, target_path=None, target_label=None):
+def File(filepath, header=None, skipcolumns=0, skiprows=0):
     """
-    Read input data files. 
-    
-    Parameters
+    Read input data file.
+
+    Parameters:
     ----------
-    data_path: the path/name of input data file in any format
-               engine can switch from 'c' to python for some of the delimiters (pandas.read_csv)
-    data_label: label of the columns are available in the file or not
-    n_skip_columns: number of columns to skip at the start of the file  
-    n_skip_rows: number of rows to skip at the start of the file
-    target_path: the path/name of target file in the csv format
-    target_label: label of the target columns
-    
-    Returns
+    filepath: string
+        The path/name of input file in any format
+        Note that engine may switch from 'c' to python for some of the delimiters (pandas.read_table)
+
+    header: None or 0 (default = None)
+        0 if the label of columns is available in the file
+
+    skipcolumns: integer (default = 0)
+        number of columns to skip at the start of the file
+
+    skiprows: integer (default = 0)
+        number of rows to skip at the start of the file
+
+
+    Return:
     -------
-    data = input data in the pandas dataframe format
-    target = column of target in the pandas dataframe format
-    """   
-    if data_label:
-        data = pd.read_csv(data_path, sep=None, skiprows=n_skip_rows)
-        data = data.drop(data.columns[0:n_skip_columns],1)
-    else:
-        data = pd.read_csv(data_path, sep=None, skiprows=n_skip_rows, header=None)
-        data = data.drop(data.columns[0:n_skip_columns],1)
-        data.columns = range(len(data.columns))
-    
-    if target_label:
-        target = pd.read_csv(target_path)
-    else:
-        target = pd.read_csv(target_path, header=None)
-    return data, target
+    pandas data frame
+
+    """
+    X = pd.read_table(filepath, sep=None, skiprows=skiprows, header=header)
+    if skipcolumns>0:
+        X = X.drop(X.columns[0:skipcolumns], 1)
+        if header==None:
+            X.columns = range(len(X.columns))
+    return X
+
+def Merge(X1, X2):
+    """
+    todo: add more functionality for header overlaps
+    Merge same length data frames.
+
+    :param X_1: pandas data frame
+        first data frame
+    :param X_2: pandas data frame
+        second data frame
+    :return: pandas data frame
+    """
+    X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
+    return X
 
 def output(output_directory="CheML.out" ,logfile="log.txt",errorfile="error.txt"):
     """

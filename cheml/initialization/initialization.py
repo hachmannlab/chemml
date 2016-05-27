@@ -2,7 +2,7 @@ import os
 import copy
 import shutil
 import pandas as pd
-
+import warnings
 
 __all__ = [
     'File',
@@ -54,6 +54,33 @@ def Merge(X1, X2):
     """
     X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
     return X
+
+def Split(X,select=1):
+    """
+    split data frame by columns
+
+    :param X: pandas data frame
+        original pandas data frame
+
+    :param: select: integer or list (default = 1)
+        if integer, shows number of columns from the end of data frame to be cut as second data frame
+        if list, is array of labels
+
+    :return: two pandas data frame: X1 and X2
+    """
+    if isinstance(select,list):
+        X2 = X.loc[:,select]
+        X1 = X.drop(select,axis=1)
+    elif isinstance(select,int):
+        if select >= X.shape[1]:
+            msg = 'The first output data frame is empty, because passed a bigger number than actual number of columns'
+            warnings.warn(msg)
+        X2 = X.iloc[:,-select:]
+        X1 = X.iloc[:,:-select]
+    else:
+        msg = "parameter 'select' can only ba a list or integer"
+        raise TypeError(msg)
+    return X1, X2
 
 def output(output_directory="CheML.out" ,logfile="log.txt",errorfile="error.txt"):
     """

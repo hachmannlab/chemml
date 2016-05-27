@@ -52,6 +52,12 @@ def Merge(X1, X2):
         second data frame
     :return: pandas data frame
     """
+    if not isinstance(X1,pd.DataFrame) or not isinstance(X2,pd.DataFrame):
+        msg = 'both X1 and X2 must be pandas dataframe'
+        raise TypeError(msg)
+    if X1.shape[0] != X2.shape[0]:
+        msg= 'Two input data frames should be in the same length'
+        raise ValueError(msg)
     X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
     return X
 
@@ -62,12 +68,15 @@ def Split(X,select=1):
     :param X: pandas data frame
         original pandas data frame
 
-    :param: select: integer or list (default = 1)
+    :param select: integer or list (default = 1)
         if integer, shows number of columns from the end of data frame to be cut as second data frame
         if list, is array of labels
 
     :return: two pandas data frame: X1 and X2
     """
+    if not isinstance(X,pd.DataFrame):
+        msg = 'X must be a pandas dataframe'
+        raise TypeError(msg)
     if isinstance(select,list):
         X2 = X.loc[:,select]
         X1 = X.drop(select,axis=1)

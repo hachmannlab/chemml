@@ -11,6 +11,9 @@ class BASE(object):
         self.Int()
         return self.a + self.b + self.x
 
+    def Int(self):
+
+
 class sub(BASE):
     # def __init__(self,a,b):
     #     super(sub,self).__init__(a,b)
@@ -22,7 +25,7 @@ class sub(BASE):
         print self.a , self.b, self.x
 
     def Int(self):
-        self.x = 7
+        self.x = 8
 
 clf = sub(1,6)
 # clf.Int()

@@ -1,4 +1,4 @@
-from .sct_utils import isfloat, islist, istuple, isnpdot, std_datetime_str
+import warnings
 
 class sklearn_Base(object):
     """
@@ -25,12 +25,10 @@ class sklearn_Base(object):
                 ind = self.legal_inputs.index(edge[2])
                 count[ind] += 1
                 if count[ind] > 1:
-                    msg = 'only one input per each available input can be received.\
-                           list of legal inputs in function #%i: %s' % (str(self.legal_inputs), self.iblock + 1)
+                    msg = '@function #%i: only one input per each available input can be received.'%self.iblock + 1
                     raise IOError(msg)
             else:
-                msg = "received a non valid input token '%s' in function #%i, sent by function #%i" % (
-                    edge[3], self.iblock + 1, edge[0] + 1)
+                msg = "@function #%i: received a non valid input token '%s', sent by function #%i" % (self.iblock + 1, edge[3], edge[0] + 1)
                 raise IOError(msg)
         for edge in recv:
             key = edge[0:2]
@@ -41,7 +39,7 @@ class sklearn_Base(object):
                 if self.Base.send[key][1] == 0:
                     del self.Base.send[key]
             else:
-                msg = 'broken pipe in edge %s - nothing has been sent' % str(edge)
+                msg = '@function #%i: broken pipe in edge %s - nothing has been sent' % (self.iblock + 1, str(edge))
                 raise IOError(msg)
         return self.legal_inputs
 
@@ -84,7 +82,7 @@ class sklearn_Base(object):
             df = pd.DataFrame(df,columns=df_columns)
             return df
 
-    def transformer_dataframe(self, transformer, df):
+    def Transformer_ManipulateHeader(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the
             Scaler by transforming data back to pandas dataframe structure.
 
@@ -105,11 +103,12 @@ class sklearn_Base(object):
         df_columns = list(df.columns)
         df = transformer.fit_transform(df)
         if df.shape[1] == 0:
-            warnings.warn("empty dataframe: all columns have been removed",Warning)
+            warnings.warn("@function #%i: empty dataframe - all columns have been removed"%self.iblock+1,Warning)
         if df.shape[1] == len(df_columns):
             df = pd.DataFrame(df,columns=df_columns)
         else:
-            warnings.warn("number of columns before and after transform doesn't match",Warning)
+            df = pd.DataFrame(df)
+            warnings.warn("@function #%i: headers untrackable - number of columns before and after transform doesn't match"%self.iblock+1,Warning)
         return df
 
     def selector_dataframe(self, transformer, df, tf):
@@ -147,8 +146,8 @@ class sklearn_Base(object):
 
 class StandardScaler(sklearn_Base):
     def legal_IO(self):
-        self.legal_inputs = {'X': None, 'Y': None}
-        self.legal_outputs = {'StandardScaler_api':None, 'X':None, 'Y':None}
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'SS_skl_api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -156,17 +155,15 @@ class StandardScaler(sklearn_Base):
         try:
             model = StandardScaler(**self.parameters)
         except Exception as err:
-            msg = 'built in error in function #%i: '%iblock + type(err).__name__ + ': '+ err.message
+            msg = '@function #%i: '%iblock + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'StandardScaler_api':
-                self.legal_outputs[token] == model
-            elif token == 'X':
-                self.legal_outputs[token] == self.transformer_dataframe(model, self.legal_inputs['X'])
-            elif token == 'Y':
-                self.legal_outputs[token] == self.transformer_dataframe(model, self.legal_inputs['Y'])
+            if token == 'SS_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "asked to send a non valid output token '%s' in function #%i" % (token, self.iblock + 1)
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
                 raise NameError(msg)
 

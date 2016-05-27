@@ -45,6 +45,15 @@ class sklearn_Base(object):
                 raise IOError(msg)
         return self.legal_inputs
 
+    def send(self):
+        send = [edge for edge in self.Base.graph if edge[0]==self.iblock]
+        for edge in send:
+            key = edge[0:1]
+            if key in self.Base.send:
+                self.Base.send[key][1] += 1
+            else:
+                self.Base.send[key] = [self.legal_outputs[edge[1]],1]
+
     def Imputer_dataframe(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the
             Imputer by transforming data back to pandas dataframe structure. This happens based on
@@ -137,7 +146,6 @@ class sklearn_Base(object):
 
 
 class StandardScaler(sklearn_Base):
-
     def legal_IO(self):
         self.legal_inputs = {'X': None, 'Y': None}
         self.legal_outputs = {'StandardScaler_api':None, 'X':None, 'Y':None}
@@ -146,22 +154,19 @@ class StandardScaler(sklearn_Base):
     def fit(self):
         from sklearn.preprocessing import StandardScaler
         try:
-            self.model = StandardScaler(**self.parameters)
+            model = StandardScaler(**self.parameters)
         except Exception as err:
             msg = 'built in error in function #%i: '%iblock + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
-        
-    def send(self):
-        send = [edge for edge in self.Base.graph if edge[0]==self.iblock]
-        for edge in send:
-            key = edge[0:1]
-            token = edge[1]
-            if token not in self.legal_outputs:
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'StandardScaler_api':
+                self.legal_outputs[token] == model
+            elif token == 'X':
+                self.legal_outputs[token] == self.transformer_dataframe(model, self.legal_inputs['X'])
+            elif token == 'Y':
+                self.legal_outputs[token] == self.transformer_dataframe(model, self.legal_inputs['Y'])
+            else:
                 msg = "asked to send a non valid output token '%s' in function #%i" % (token, self.iblock + 1)
                 raise NameError(msg)
-            if key in self.Base.send:
-                self.Base.send[key][1] += 1
-            else:
-                # todo: in future add more outputs based on arguments of methods and find them for request here (not elsewhere)
-                self.Base.send[key] = [self.legal_outputs[token],1]
 

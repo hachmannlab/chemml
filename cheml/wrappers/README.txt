@@ -11,8 +11,8 @@
 		module						function            legal_inputs                        legal_outputs
 		------						--------            ------------                        -------------
 		cheml						File  	            {}                                  {'X'}    	
-		cheml						Merge
-		cheml 						Split  		
+		cheml						Merge               {X1,X2}                             {'X'}
+		cheml 						Split  		        {X}                                 {'X1','X2'}
 
 ## Output
 		module						function

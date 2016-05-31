@@ -174,7 +174,7 @@ class Parser(object):
                 msg = 'identified non unique receive id (id#%i)'%id
                 raise NameError(msg)
         if len(set(send_ids) - set(recv_ids))>0:
-            msg = 'missing pairs of send and receive id'
+            msg = 'broken pairs of send and receive id for id#%s'%str(set(send_ids) - set(recv_ids))
             raise ValueError(msg)
 
         # make graph
@@ -183,6 +183,18 @@ class Parser(object):
             reformat_send[k[1]] += [v,k[0]]
             reformat_send[k[1]] = tuple(reformat_send[k[1]])
         CompGraph = tuple(reformat_send.values())
+
+        # # @ GUI: online check
+        # # prerequisites: to avoid loops in the directed graph
+        # prereq = {i:[] for i in range(len(cmls))}
+        # for edge in CompGraph:
+        #     prereq[edge[2]].append(edge[0])
+        # for node in prereq:
+        #     for inode in prereq[node]:
+        #         for item in prereq[inode]:
+        #             if item not in prereq[node]:
+        #                 prereq[node].append(item)
+        #     prereq[node] = list(set(prereq[node]))
 
         # find orders
         ids_sent = []

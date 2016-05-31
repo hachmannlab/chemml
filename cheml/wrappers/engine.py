@@ -280,6 +280,7 @@ class Wrapper(object):
             if module == 'sklearn':
                 # check methods0
                 legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
+                if S
                 if function not in legal_functions:
                     msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
                     raise NameError(msg)

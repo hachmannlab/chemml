@@ -52,7 +52,8 @@ class sklearn_Base(object):
             else:
                 self.Base.send[key] = [self.legal_outputs[edge[1]],1]
 
-    def Imputer_dataframe(self, transformer, df):
+class Preprocessor(object):
+    def Imputer_ManipulateHeader(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the
             Imputer by transforming data back to pandas dataframe structure. This happens based on
             the "statistics_" attribute of Imputer.
@@ -73,14 +74,13 @@ class sklearn_Base(object):
         df_columns = list(df.columns)
         df = transformer.fit_transform(df)
         if df.shape[1] == 0:
-            warnings.warn("empty dataframe: all columns have been removed",Warning)
-            return transformer, df
+            warnings.warn("empty dataframe: all columns have been removed", Warning)
         else:
             stats = transformer.statistics_
-            nan_ind = [i for i,val in enumerate(stats) if np.isnan(val)]
+            nan_ind = [i for i, val in enumerate(stats) if np.isnan(val)]
             df_columns = list_del_indices(df_columns, nan_ind)
-            df = pd.DataFrame(df,columns=df_columns)
-            return df
+            df = pd.DataFrame(df, columns=df_columns)
+        return df
 
     def Transformer_ManipulateHeader(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the
@@ -103,12 +103,14 @@ class sklearn_Base(object):
         df_columns = list(df.columns)
         df = transformer.fit_transform(df)
         if df.shape[1] == 0:
-            warnings.warn("@function #%i: empty dataframe - all columns have been removed"%self.iblock+1,Warning)
+            warnings.warn("@function #%i: empty dataframe - all columns have been removed" % self.iblock + 1, Warning)
         if df.shape[1] == len(df_columns):
-            df = pd.DataFrame(df,columns=df_columns)
+            df = pd.DataFrame(df, columns=df_columns)
         else:
             df = pd.DataFrame(df)
-            warnings.warn("@function #%i: headers untrackable - number of columns before and after transform doesn't match"%self.iblock+1,Warning)
+            warnings.warn(
+                "@function #%i: headers untrackable - number of columns before and after transform doesn't match" % self.iblock + 1,
+                Warning)
         return df
 
     def selector_dataframe(self, transformer, df, tf):
@@ -133,18 +135,40 @@ class sklearn_Base(object):
         fitted imputer class
         """
         df_columns = list(df.columns)
-        df = transformer.fit_transform(df,tf)
+        df = transformer.fit_transform(df, tf)
         if df.shape[1] == 0:
-            warnings.warn("empty dataframe: all columns have been removed",Warning)
+            warnings.warn("empty dataframe: all columns have been removed", Warning)
             return transformer, df
         else:
             retained_features_ind = sel.get_support(True)
             df_columns = [df_columns[i] for i in retained_features_ind]
-            df = pd.DataFrame(df,columns=df_columns)
+            df = pd.DataFrame(df, columns=df_columns)
             return df
 
+class Imputer(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'I_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
 
-class StandardScaler(sklearn_Base):
+    def fit(self):
+        from sklearn.preprocessing import Imputer
+        try:
+            model = Imputer(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'I_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Imputer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class StandardScaler(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'SS_skl_api':None, 'df':None}
@@ -155,7 +179,7 @@ class StandardScaler(sklearn_Base):
         try:
             model = StandardScaler(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%iblock + type(err).__name__ + ': '+ err.message
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -167,3 +191,140 @@ class StandardScaler(sklearn_Base):
                 msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
                 raise NameError(msg)
 
+class MinMaxScaler(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'MMS_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import MinMaxScaler
+        try:
+            model = MinMaxScaler(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'MMS_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class MaxAbsScaler(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'MAS_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import MaxAbsScaler
+        try:
+            model = MaxAbsScaler(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'MAS_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class RobustScaler(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'RS_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import RobustScaler
+        try:
+            model = RobustScaler(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'RS_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class Normalizer(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'N_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import Normalizer
+        try:
+            model = Normalizer(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'N_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class Binarizer(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'B_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import Binarizer
+        try:
+            model = Binarizer(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'B_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)
+
+class OneHotEncoder(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'OHE_skl_api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn')
+
+    def fit(self):
+        from sklearn.preprocessing import OneHotEncoder
+        try:
+            model = OneHotEncoder(**self.parameters)
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'OHE_skl_api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                raise NameError(msg)

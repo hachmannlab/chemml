@@ -9,12 +9,18 @@ class BASE(object):
 
     def sum(self):
         self.Int()
+        self.transform()
         return self.a + self.b + self.x
 
-    def Int(self):
 
+class SuperF(object):
+    def _transform(self):
+        return 'transformer'
 
-class sub(BASE):
+    def transform(self):
+        print self._transform()
+
+class sub(BASE,SuperF):
     # def __init__(self,a,b):
     #     super(sub,self).__init__(a,b)
     #     self.x = 7
@@ -22,7 +28,8 @@ class sub(BASE):
     def add(self):
         self.graph += (self.sum(),)
         print self.graph
-        print self.a , self.b, self.x
+
+        # print self.a , self.b, self.x
 
     def Int(self):
         self.x = 8

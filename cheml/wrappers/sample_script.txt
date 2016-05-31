@@ -24,11 +24,41 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 				<< skiprows = 0
 				<< skipcolumns = 0
 
-                >> X 1
 
 ## Output
-                >> data 1 >> 5 F
-# Preprocessor
+                
+
+## Preprocessor
+                        << module == sklearn    << function = StandardScaler
+                        << copy = True          << with_mean = True
+                        << with_std = True
+
+## Preprocessor
+                        << module == sklearn   << function = MinMaxScaler
+                        << feature_range = (0,1)    << copy = True
+
+## Preprocessor
+                        << module == sklearn   << function = MaxAbsScaler
+                        << copy = True
+
+## Preprocessor
+                        << module == sklearn   << function = RobustScaler
+                        << with_centering = True    << with_scaling = True
+                        << copy = True
+
+## Preprocessor
+                        << module == sklearn   << function = Normalizer
+                        << norm = 'l2'  << copy = True
+
+## Preprocessor
+                        << module == sklearn   << function = Binarizer
+                        << threshold = 0.0      << copy = True
+
+## Preprocessor
+                        << module == sklearn   << function = OneHotEncoder
+                        << n_values = 'auto'    << categorical_features = 'all'
+                        << dtype = np.float   << sparse = True
+                        << handle_unknown = 'error'
 
 # FeatureSelection
 

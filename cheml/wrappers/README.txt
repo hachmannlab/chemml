@@ -21,14 +21,14 @@
 		cheml						settings	: path, error file, log file, pyscript, cheml script
 
 ## Preprocessor
-		module						function
-		------						--------
+		module						function            legal_inputs                        legal_outputs
+		------						--------            ------------                        -------------
 		cheml 						MissingValues
 		cheml 						Trimmer
 		cheml 						Uniformer
 		sklearn						Imputer
-		sklearn 					StandardScaler
-		sklearn						MinMaxScaler
+		sklearn 					StandardScaler      {df}                                {'SS_skl_api','df'}
+		sklearn						MinMaxScaler        {df}                                {'MMS_skl_api','df'}
 		sklearn						MaxAbsScaler
 		sklearn						RobustScaler
 		sklearn						Normalizer

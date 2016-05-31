@@ -58,14 +58,14 @@ class File(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {}
         self.legal_outputs = {'df':None}
-        self.Base.requirements.append('scikit_learn')
+        self.Base.requirements.append('cheml','pandas')
 
     def fit(self):
         from cheml.initialization import File
         try:
-            df = File(**parametrs)
+            df = File(**self.parameters)
         except Exception as err:
-            msg = 'built in error in function #%i: '%iblock + type(err).__name__ + ': '+ err.message
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in order:
@@ -75,3 +75,27 @@ class File(cheml_Base):
                 msg = "asked to send a non valid output token '%s' in function #%i" % (token, self.iblock + 1)
                 raise NameError(msg)
 
+class Merge(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {'df1':None, 'df2':None}
+        self.legal_outputs = {'df':None}
+        self.Base.requirements.append('cheml','pandas')
+
+    def fit(self):
+        from cheml.initialization import Merge
+        # check inputs
+        if self.legal_inputs['df1'] == None or self.legal_inputs['df2'] == None:
+            msg = '@function #%i: both inputs (df1 and df2) are required'%self.iblock
+            raise IOError(msg)
+        try:
+            df = Merge(self.legal_inputs['df1'], self.legal_inputs['df2'])
+        except Exception as err:
+            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = df
+            else:
+                msg = "asked to send a non valid output token '%s' in function #%i" % (token, self.iblock + 1)
+                raise NameError(msg)

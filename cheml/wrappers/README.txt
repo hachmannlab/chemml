@@ -1,7 +1,7 @@
 ## DataRepresentation
-		module						function
-		------						--------
-		cheml						RDKitFingerprint
+		module						function            legal_inputs                        legal_outputs
+		------						--------            ------------                        -------------
+		cheml						RDKitFingerprint    {}                                  {df}
 		cheml						Dragon
 		cheml 						CoulombMatrix
 		cheml 						BagofBonds
@@ -10,9 +10,9 @@
 ## Input
 		module						function            legal_inputs                        legal_outputs
 		------						--------            ------------                        -------------
-		cheml						File  	            {}                                  {'X'}    	
-		cheml						Merge               {X1,X2}                             {'X'}
-		cheml 						Split  		        {X}                                 {'X1','X2'}
+		cheml						File  	            {}                                  {df}
+		cheml						Merge               {df1,df2}                           {df}
+		cheml 						Split  		        {df}                                {df1,df2}
 
 ## Output
 		module						function
@@ -26,14 +26,14 @@
 		cheml 						MissingValues
 		cheml 						Trimmer
 		cheml 						Uniformer
-		sklearn						Imputer
-		sklearn 					StandardScaler      {df}                                {'SS_skl_api','df'}
-		sklearn						MinMaxScaler        {df}                                {'MMS_skl_api','df'}
-		sklearn						MaxAbsScaler
-		sklearn						RobustScaler
-		sklearn						Normalizer
-		sklearn						Binarizer
-		sklearn						OneHotEncoder
+		sklearn						Imputer             {df}                                {api,df}
+		sklearn 					StandardScaler      {df}                                {api,df}
+		sklearn						MinMaxScaler        {df}                                {api,df}
+		sklearn						MaxAbsScaler        {df}                                {api,df}
+		sklearn						RobustScaler        {df}                                {api,df}
+		sklearn						Normalizer          {df}                                {api,df}
+		sklearn						Binarizer           {df}                                {api,df}
+		sklearn						OneHotEncoder       {df}                                {api,df}
 
 ## FeatureSelection
 		module						function

@@ -69,6 +69,122 @@ class cheml_Base(object):
             else:
                 self.Base.send[key] = [self.legal_outputs[edge[1]], 1]
 
+#####################################################################
+
+class RDKFingerprint(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'rdkit')
+
+    def fit(self):
+        from cheml.chem import RDKFingerprint
+        if 'molfile' in self.parameters:
+            molfile = self.parameters.pop('molfile')
+        else:
+            molfile = ''
+        if 'path' in self.parameters:
+            path= self.parameters.pop('path')
+        else:
+            path = None
+        if 'arguments' in self.parameters:
+            arguments = self.parameters.pop('arguments')
+        else:
+            arguments = []
+
+        try:
+            model = RDKFingerprint(**self.parameters)
+            model.MolfromFile(molfile,path,*arguments)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = model.Fingerprint()
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+class Dragon(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'lxml', 'Dragon - non python')
+
+    def fit(self):
+        from cheml.chem import Dragon
+        if 'script' in self.parameters:
+            script = self.parameters.pop('script')
+        else:
+            script = 'new'
+
+        try:
+            model = Dragon(**self.parameters)
+            model.script_wizard(script)
+            model.run()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                df_path = model.data_path
+                df = pd.read_csv(df_path)
+                self.legal_outputs[token] = df
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+class CoulombMatrix(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'rdkit')
+
+    def fit(self):
+        from cheml.chem import CoulombMatrix
+        if 'molfile' in self.parameters:
+            molfile = self.parameters.pop('molfile')
+        else:
+            molfile = ''
+        if 'path' in self.parameters:
+            path = self.parameters.pop('path')
+        else:
+            path = None
+        if 'reader' in self.parameters:
+            reader = self.parameters.pop('reader')
+        else:
+            reader = 'auto'
+        if 'skip_lines' in self.parameters:
+            skip_lines = self.parameters.pop('skip_lines')
+        else:
+            skip_lines = [2,0]
+        if 'arguments' in self.parameters:
+            arguments = self.parameters.pop('arguments')
+        else:
+            arguments = []
+
+        try:
+            model = CoulombMatrix(**self.parameters)
+            model.MolfromFile(molfile, path, reader, skip_lines,*arguments)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = model.Coulomb_Matrix()
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+
+#####################################################################
 
 class File(cheml_Base):
     def legal_IO(self):
@@ -124,7 +240,7 @@ class Split(cheml_Base):
         self.Base.requirements.append('cheml','pandas')
 
     def fit(self):
-        from cheml.initialization import Merge
+        from cheml.initialization import Split
         # check inputs
         if self.legal_inputs['df'] == None:
             msg = '@Task #%i(%s): an input data frame is required'%(self.iblock,self.SuperFunction)
@@ -132,7 +248,7 @@ class Split(cheml_Base):
         else:
             self.parameters['X'] = self.legal_inputs['df']
         try:
-            df1, df2 = Merge(**self.parameters)
+            df1, df2 = Split(**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
@@ -145,3 +261,14 @@ class Split(cheml_Base):
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
+
+#####################################################################
+from cheml.chem import RDKFingerprint
+
+RDKFingerprint_API = RDKFingerprint(nBits = 1024,
+                                    removeHs = True,
+                                    vector = 'bit',
+                                    radius = 2,
+                                    FPtype = 'Morgan')
+RDKFingerprint_API.MolfromFile(molfile = '', path = None, 0,0,...)
+data = RDKFingerprint_API.Fingerprint()

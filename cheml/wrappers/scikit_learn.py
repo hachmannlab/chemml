@@ -1,7 +1,7 @@
 import warnings
 import pandas as pd
 
-class cheml_Base(object):
+class sklearn_Base(object):
     """
     Do not instantiate this class
     """
@@ -57,6 +57,7 @@ class cheml_Base(object):
             else:
                 self.Base.send[key] = [self.legal_outputs[edge[1]], 1]
 
+#####################################################################
 
 class Preprocessor(object):
     def Imputer_ManipulateHeader(self, transformer, df):
@@ -155,7 +156,7 @@ class Preprocessor(object):
 class Imputer(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'I_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -167,7 +168,7 @@ class Imputer(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'I_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Imputer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -178,7 +179,7 @@ class Imputer(sklearn_Base,Preprocessor):
 class StandardScaler(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'SS_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -190,7 +191,7 @@ class StandardScaler(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'SS_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -201,7 +202,7 @@ class StandardScaler(sklearn_Base,Preprocessor):
 class MinMaxScaler(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'MMS_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -213,7 +214,7 @@ class MinMaxScaler(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'MMS_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -224,7 +225,7 @@ class MinMaxScaler(sklearn_Base,Preprocessor):
 class MaxAbsScaler(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'MAS_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -236,7 +237,7 @@ class MaxAbsScaler(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'MAS_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -247,7 +248,7 @@ class MaxAbsScaler(sklearn_Base,Preprocessor):
 class RobustScaler(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'RS_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -259,7 +260,7 @@ class RobustScaler(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'RS_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -270,7 +271,7 @@ class RobustScaler(sklearn_Base,Preprocessor):
 class Normalizer(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'N_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -282,7 +283,7 @@ class Normalizer(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'N_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -293,7 +294,7 @@ class Normalizer(sklearn_Base,Preprocessor):
 class Binarizer(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'B_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -305,7 +306,7 @@ class Binarizer(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'B_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
@@ -316,7 +317,7 @@ class Binarizer(sklearn_Base,Preprocessor):
 class OneHotEncoder(sklearn_Base,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'OHE_skl_api':None, 'df':None}
+        self.legal_outputs = {'api':None, 'df':None}
         self.Base.requirements.append('scikit_learn')
 
     def fit(self):
@@ -328,10 +329,13 @@ class OneHotEncoder(sklearn_Base,Preprocessor):
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
-            if token == 'OHE_skl_api':
+            if token == 'api':
                 self.legal_outputs[token] = model
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+#####################################################################
+

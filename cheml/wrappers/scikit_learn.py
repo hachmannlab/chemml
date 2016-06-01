@@ -1,13 +1,15 @@
 import warnings
+import pandas as pd
 
-class sklearn_Base(object):
+class cheml_Base(object):
     """
     Do not instantiate this class
     """
-    def __init__(self, Base,parameters,iblock):
+    def __init__(self, Base, parameters, iblock, SuperFunction):
         self.Base = Base
         self.parameters = parameters
         self.iblock = iblock
+        self.SuperFunction = SuperFunction
 
     def run(self):
         self.legal_IO()
@@ -25,10 +27,12 @@ class sklearn_Base(object):
                 ind = self.legal_inputs.index(edge[2])
                 count[ind] += 1
                 if count[ind] > 1:
-                    msg = '@function #%i: only one input per each available input can be received.'%self.iblock + 1
+                    msg = '@Task #%i(%s): only one input per each available input can be received.' % (
+                        self.iblock + 1, self.SuperFunction)
                     raise IOError(msg)
             else:
-                msg = "@function #%i: received a non valid input token '%s', sent by function #%i" % (self.iblock + 1, edge[3], edge[0] + 1)
+                msg = "@Task #%i(%s): received a non valid input token '%s', sent by function #%i" % (
+                    self.iblock + 1, self.SuperFunction, edge[3], edge[0] + 1)
                 raise IOError(msg)
         for edge in recv:
             key = edge[0:2]
@@ -39,18 +43,20 @@ class sklearn_Base(object):
                 if self.Base.send[key][1] == 0:
                     del self.Base.send[key]
             else:
-                msg = '@function #%i: broken pipe in edge %s - nothing has been sent' % (self.iblock + 1, str(edge))
+                msg = '@Task #%i(%s): broken pipe in edge %s - nothing has been sent' % (
+                    self.iblock + 1, self.SuperFunction, str(edge))
                 raise IOError(msg)
         return self.legal_inputs
 
     def send(self):
-        send = [edge for edge in self.Base.graph if edge[0]==self.iblock]
+        send = [edge for edge in self.Base.graph if edge[0] == self.iblock]
         for edge in send:
             key = edge[0:1]
             if key in self.Base.send:
                 self.Base.send[key][1] += 1
             else:
-                self.Base.send[key] = [self.legal_outputs[edge[1]],1]
+                self.Base.send[key] = [self.legal_outputs[edge[1]], 1]
+
 
 class Preprocessor(object):
     def Imputer_ManipulateHeader(self, transformer, df):
@@ -103,14 +109,15 @@ class Preprocessor(object):
         df_columns = list(df.columns)
         df = transformer.fit_transform(df)
         if df.shape[1] == 0:
-            warnings.warn("@function #%i: empty dataframe - all columns have been removed" % self.iblock + 1, Warning)
+            warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" % (
+                    self.iblock+1, self.SuperFunction), Warning)
         if df.shape[1] == len(df_columns):
             df = pd.DataFrame(df, columns=df_columns)
         else:
             df = pd.DataFrame(df)
             warnings.warn(
-                "@function #%i: headers untrackable - number of columns before and after transform doesn't match" % self.iblock + 1,
-                Warning)
+                "@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" % (
+                    self.iblock+1, self.SuperFunction), Warning)
         return df
 
     def selector_dataframe(self, transformer, df, tf):
@@ -156,7 +163,7 @@ class Imputer(sklearn_Base,Preprocessor):
         try:
             model = Imputer(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -165,7 +172,7 @@ class Imputer(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Imputer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class StandardScaler(sklearn_Base,Preprocessor):
@@ -179,7 +186,7 @@ class StandardScaler(sklearn_Base,Preprocessor):
         try:
             model = StandardScaler(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -188,7 +195,7 @@ class StandardScaler(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
                 raise NameError(msg)
 
 class MinMaxScaler(sklearn_Base,Preprocessor):
@@ -202,7 +209,7 @@ class MinMaxScaler(sklearn_Base,Preprocessor):
         try:
             model = MinMaxScaler(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -211,7 +218,7 @@ class MinMaxScaler(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class MaxAbsScaler(sklearn_Base,Preprocessor):
@@ -225,7 +232,7 @@ class MaxAbsScaler(sklearn_Base,Preprocessor):
         try:
             model = MaxAbsScaler(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -234,7 +241,7 @@ class MaxAbsScaler(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class RobustScaler(sklearn_Base,Preprocessor):
@@ -248,7 +255,7 @@ class RobustScaler(sklearn_Base,Preprocessor):
         try:
             model = RobustScaler(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -257,7 +264,7 @@ class RobustScaler(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class Normalizer(sklearn_Base,Preprocessor):
@@ -271,7 +278,7 @@ class Normalizer(sklearn_Base,Preprocessor):
         try:
             model = Normalizer(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -280,7 +287,7 @@ class Normalizer(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class Binarizer(sklearn_Base,Preprocessor):
@@ -294,7 +301,7 @@ class Binarizer(sklearn_Base,Preprocessor):
         try:
             model = Binarizer(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -303,7 +310,7 @@ class Binarizer(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
 
 class OneHotEncoder(sklearn_Base,Preprocessor):
@@ -317,7 +324,7 @@ class OneHotEncoder(sklearn_Base,Preprocessor):
         try:
             model = OneHotEncoder(**self.parameters)
         except Exception as err:
-            msg = '@function #%i: '%self.iblock + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in order:
@@ -326,5 +333,5 @@ class OneHotEncoder(sklearn_Base,Preprocessor):
             elif token == 'df':
                 self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
             else:
-                msg = "@function #%i: non valid output token '%s'" % (self.iblock + 1, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)

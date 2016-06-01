@@ -274,52 +274,27 @@ class Wrapper(object):
     def call(self):
         for iblock in self.ImpOrder:
             SuperFunction = self.cmls[iblock]['SuperFunction']
-            parameters = block['parameters']
+            parameters = self.cmls[iblock]['parameters']
             module = parameters.pop('module')
             function = parameters.pop('function')
             if module == 'sklearn':
                 # check methods0
                 legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
-                if S
                 if function not in legal_functions:
                     msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
                     raise NameError(msg)
                 cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
-                cmli = cml_interface(self.Base,parameters,iblock)
+                cmli = cml_interface(self.Base,parameters,iblock,SuperFunction)
                 cmli.run()
-
-
-##################################################################################################
-
-def write_split(line):
-    """(write_split):
-        Write the invoked line of python code in multiple lines.
-    """ 
-    pran_ind = line.index('(')
-    function = line[:pran_ind+1]
-    options = line[pran_ind+1:].split(';')
-    spaces = len(function)
-    lines = [function + options[0]+',\n'] + [' ' * spaces + options[i] +',\n' for i in range(1,len(options)-1)] + [' ' * spaces + options[-1]+'\n']
-    return lines
-
-##################################################################################################
-
-def banner(state, function):
-    """(banner):
-        Sign begin and end of a function.
-    """
-    secondhalf = 71-len(function)-2-27 
-    if state == 'begin':
-        line = '#'*27 + ' ' + function + '\n'
-        return line
-    if state == 'end':
-        line = '#'*27 + '\n'
-        return line 
-	
-
-   
-
-#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+            elif module == 'cheml':
+                # check methods0
+                legal_functions = [klass[0] for klass in inspect.getmembers(cml)]
+                if function not in legal_functions:
+                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,module)
+                    raise NameError(msg)
+                cml_interface = [klass[1] for klass in inspect.getmembers(cml) if klass[0] == function][0]
+                cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
+                cmli.run()
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

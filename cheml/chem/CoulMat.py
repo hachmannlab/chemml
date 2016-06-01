@@ -200,14 +200,14 @@ class CoulombMatrix(object):
         if self.CMtype == 'Eigenspectrum' or self.CMtype == 'E':
             eigenspectrum = []
             for mol in self.molecules:
-                cm = _cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529 
+                cm = self._cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
                 eigenspectrum.append(np.linalg.eigvals(cm).sort()[::-1])
             return pd.DataFrame(eigenspectrum)                
             
         elif self.CMtype == 'Sorted_Coulomb' or self.CMtype == 'SC':
             sorted_cm = []
             for mol in self.molecules:
-                cm = _cal_coul_mat(mol)
+                cm = self._cal_coul_mat(mol)
                 lambdas = [np.linalg.norm(atom) for atom in cm]
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
@@ -217,7 +217,7 @@ class CoulombMatrix(object):
         elif self.CMtype == 'Random_Coulomb' or self.CMtype == 'RC':
             random_cm = []
             for nmol,mol in enumerate(self.molecules):
-                cm = _cal_coul_mat(mol)
+                cm = self._cal_coul_mat(mol)
                 lambdas = np.array([np.linalg.norm(atom) for atom in cm])
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
@@ -228,7 +228,7 @@ class CoulombMatrix(object):
                 random_cm.append(np.array(cm_perms))
             return  np.array(random_cm)
         elif self.CMtype == 'BagofBonds' or self.CMtype == 'BB':
-            return BagofBonds()
+            return self.BagofBonds()
             
     def Distance_Matrix(self, input_matrix, norm_type='fro', nCores=1):
         """ (distance_matrix)

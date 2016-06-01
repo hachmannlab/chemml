@@ -116,7 +116,7 @@ class Dragon(object):
         self.RoundDescriptorValues = RoundDescriptorValues
         self.knimemode = knimemode
     
-    def script_wizard(self, script):
+    def script_wizard(self, script='new'):
         """
         Notice: Script for version 7 doesn't support fingerprints block
         The script_wizard is designed to build a Drgon script file. The name and 

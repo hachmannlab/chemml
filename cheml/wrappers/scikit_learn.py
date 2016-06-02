@@ -57,8 +57,6 @@ class sklearn_Base(object):
             else:
                 self.Base.send[key] = [self.legal_outputs[edge[1]], 1]
 
-#####################################################################
-
 class Preprocessor(object):
     def Imputer_ManipulateHeader(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the
@@ -111,14 +109,14 @@ class Preprocessor(object):
         df = transformer.fit_transform(df)
         if df.shape[1] == 0:
             warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" % (
-                    self.iblock+1, self.SuperFunction), Warning)
+                self.iblock + 1, self.SuperFunction), Warning)
         if df.shape[1] == len(df_columns):
             df = pd.DataFrame(df, columns=df_columns)
         else:
             df = pd.DataFrame(df)
             warnings.warn(
                 "@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" % (
-                    self.iblock+1, self.SuperFunction), Warning)
+                    self.iblock + 1, self.SuperFunction), Warning)
         return df
 
     def selector_dataframe(self, transformer, df, tf):
@@ -152,6 +150,37 @@ class Preprocessor(object):
             df_columns = [df_columns[i] for i in retained_features_ind]
             df = pd.DataFrame(df, columns=df_columns)
             return df
+
+#####################################################################
+
+class PolynomialFeatures(sklearn_Base,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'api':None, 'df':None}
+        self.Base.requirements.append('scikit_learn', 'pandas')
+
+    def fit(self):
+        from sklearn.preprocessing import PolynomialFeatures
+        # check inputs
+        if self.legal_inputs['df'] == None:
+            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
+            raise IOError(msg)
+        try:
+            model = PolynomialFeatures(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in order:
+            if token == 'api':
+                self.legal_outputs[token] = model
+            elif token == 'df':
+                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
+                raise NameError(msg)
+
+#####################################################################
 
 class Imputer(sklearn_Base,Preprocessor):
     def legal_IO(self):
@@ -338,4 +367,3 @@ class OneHotEncoder(sklearn_Base,Preprocessor):
                 raise NameError(msg)
 
 #####################################################################
-

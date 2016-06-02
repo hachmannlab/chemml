@@ -171,21 +171,98 @@ class CoulombMatrix(cheml_Base):
             model = CoulombMatrix(**self.parameters)
             model.MolfromFile(molfile, path, reader, skip_lines,*arguments)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in order:
             if token == 'df':
-                self.legal_outputs[token] = model.Coulomb_Matrix()
+                self.legal_outputs[token] = pd.DataFrame(model.Coulomb_Matrix())
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
 
+class DistanceMatrix(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'rdkit')
+
+    def fit(self):
+        from cheml.chem import DistanceMatrix
+        # check inputs
+        if self.legal_inputs['df'] == None:
+            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
+            raise IOError(msg)
+        try:
+            model = DistanceMatrix(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = pd.DataFrame(model.transform(self.legal_inputs['df'].values))
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
 
 #####################################################################
 
+class Settings(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'rdkit')
+
+    def fit(self):
+        from cheml.chem import DistanceMatrix
+        # check inputs
+        if self.legal_inputs['df'] == None:
+            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
+            raise IOError(msg)
+        try:
+            model = DistanceMatrix(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = pd.DataFrame(model.transform(self.legal_inputs['df'].values))
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+class SaveFile(cheml_Base):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'df': None}
+        self.Base.requirements.append('cheml', 'pandas', 'rdkit')
+
+    def fit(self):
+        from cheml.chem import DistanceMatrix
+        # check inputs
+        if self.legal_inputs['df'] == None:
+            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
+            raise IOError(msg)
+        try:
+            model = DistanceMatrix(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in order:
+            if token == 'df':
+                self.legal_outputs[token] = pd.DataFrame(model.transform(self.legal_inputs['df'].values))
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+#####################################################################
 class File(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {}
@@ -263,12 +340,4 @@ class Split(cheml_Base):
                 raise NameError(msg)
 
 #####################################################################
-from cheml.chem import RDKFingerprint
 
-RDKFingerprint_API = RDKFingerprint(nBits = 1024,
-                                    removeHs = True,
-                                    vector = 'bit',
-                                    radius = 2,
-                                    FPtype = 'Morgan')
-RDKFingerprint_API.MolfromFile(molfile = '', path = None, 0,0,...)
-data = RDKFingerprint_API.Fingerprint()

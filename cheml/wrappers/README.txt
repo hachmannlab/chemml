@@ -2,10 +2,11 @@
 		module						function            legal_inputs                        legal_outputs
 		------						--------            ------------                        -------------
 		cheml						RDKitFingerprint    {}                                  {df}
-		cheml						Dragon
-		cheml 						CoulombMatrix
-		cheml 						BagofBonds
-		sklearn						PolynomialFeatures
+		cheml						Dragon              {}                                  {df}
+		cheml 						CoulombMatrix       {}                                  {df}
+		cheml 						BagofBonds          {}                                  {df}
+		cheml                       DistanceMatrix      {df}                                {df}
+		sklearn						PolynomialFeatures  {df}                                {api,df}
 
 ## Input
 		module						function            legal_inputs                        legal_outputs
@@ -17,8 +18,8 @@
 ## Output
 		module						function
 		------						--------
-		cheml						SaveFile
-		cheml						settings	: path, error file, log file, pyscript, cheml script
+		cheml						SaveFile            {df}                                {api,df}
+		cheml						settings
 
 ## Preprocessor
 		module						function            legal_inputs                        legal_outputs

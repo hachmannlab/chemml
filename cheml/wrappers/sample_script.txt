@@ -58,6 +58,26 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 << radius = 2                     << molfile = ''
                 << path = None                    << arguments = [0,0]
 
+## DataRepresentation
+                << module = cheml                 << function = CoulombMatrix
+
+                << CMtype = 'SC'                  << nPerm = 6
+                << const = 1
+                << molfile = ''                   << path = None
+                << reader = 'auto'                << skip_lines = [2,0]
+                << arguments = 0,0,...
+
+## DataRepresentation
+                << module = cheml                 << function = DistanceMatrix
+
+                << norm_type = 'fro'              << nCores = 1
+
+## DataRepresentation
+                << module = cheml                 << function = PolynomialFeatures
+
+                << degree = 2                     << interaction_only = False
+                << include_bias = True
+
 ## Input
                 << module = cheml                 << function = File
 

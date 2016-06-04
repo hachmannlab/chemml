@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cheml.trash_smallapps package &mdash; ChemML 2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ChemML 2 documentation" href="index.html" />
+    <link rel="up" title="cheml package" href="cheml.html" />
+    <link rel="next" title="cheml.utils package" href="cheml.utils.html" />
+    <link rel="prev" title="cheml.svm package" href="cheml.svm.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cheml.utils.html" title="cheml.utils package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cheml.svm.html" title="cheml.svm package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
+          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cheml-trash-smallapps-package">
+<h1>cheml.trash_smallapps package<a class="headerlink" href="#cheml-trash-smallapps-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="cheml-trash-smallapps-cheml-module">
+<h2>cheml.trash_smallapps.cheml module<a class="headerlink" href="#cheml-trash-smallapps-cheml-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-cheml.trash_smallapps.handle_missing">
+<span id="cheml-trash-smallapps-handle-missing-module"></span><h2>cheml.trash_smallapps.handle_missing module<a class="headerlink" href="#module-cheml.trash_smallapps.handle_missing" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.trash_smallapps.handle_missing.missing_values">
+<em class="property">class </em><tt class="descclassname">cheml.trash_smallapps.handle_missing.</tt><tt class="descname">missing_values</tt><big>(</big><em>method='mean'</em>, <em>string_as_null=True</em>, <em>inf_as_null=True</em>, <em>missing_values=False</em><big>)</big><a class="headerlink" href="#cheml.trash_smallapps.handle_missing.missing_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a></p>
+<p>Handle all the missing values.</p>
+<p>method: string, optional (default=&#8221;mean&#8221;)</p>
+<blockquote>
+<div>list of methods:
+- mean: set to the mean
+- median: set to the median
+- most_frequent: set to the mode
+- interpolate: interpolate based on sorted target values
+- zero: set to the zero
+- ignore: remove the entire row in data and target</div></blockquote>
+<dl class="docutils">
+<dt>string_as_null: boolean, optional (default=True)</dt>
+<dd>If True non numeric elements are considered to be null in computations.</dd>
+<dt>missing_values: list, optional (default=False)</dt>
+<dd>The plceholder for missing values. It must be a list of one or more of 
+any type of string, float or integer values.</dd>
+<dt>inf_as_null: boolean, optional (default=True)</dt>
+<dd>If True inf and -inf elements are considered to be null in computations.</dd>
+</dl>
+<p>data and target</p>
+<dl class="method">
+<dt id="cheml.trash_smallapps.handle_missing.missing_values.fit">
+<tt class="descname">fit</tt><big>(</big><em>data</em>, <em>target</em><big>)</big><a class="headerlink" href="#cheml.trash_smallapps.handle_missing.missing_values.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cheml-trash-smallapps-sct-parser-xml-module">
+<h2>cheml.trash_smallapps.sct_parser_xml module<a class="headerlink" href="#cheml-trash-smallapps-sct-parser-xml-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-cheml.trash_smallapps">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.trash_smallapps" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">cheml.trash_smallapps package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#cheml-trash-smallapps-cheml-module">cheml.trash_smallapps.cheml module</a></li>
+<li><a class="reference internal" href="#module-cheml.trash_smallapps.handle_missing">cheml.trash_smallapps.handle_missing module</a></li>
+<li><a class="reference internal" href="#cheml-trash-smallapps-sct-parser-xml-module">cheml.trash_smallapps.sct_parser_xml module</a></li>
+<li><a class="reference internal" href="#module-cheml.trash_smallapps">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="cheml.svm.html"
+                        title="previous chapter">cheml.svm package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="cheml.utils.html"
+                        title="next chapter">cheml.utils package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/cheml.trash_smallapps.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cheml.utils.html" title="cheml.utils package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cheml.svm.html" title="cheml.svm package"
+             >previous</a> |</li>
+        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
+          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

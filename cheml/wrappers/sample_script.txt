@@ -86,9 +86,20 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 				<< skiprows = 0
 				<< skipcolumns = 0
 
+## Input
+                << module = cheml                 << function = Merge
+
+## Input
+                << module = cheml                 << function = Split
+
+                << select = 1
 
 ## Output
-                
+                << module = cheml                 << function = Settings
+
+				<< output_directory = 'CMLWrapper.out'
+				<< InputScript_copy = True
+
 
 ## Preprocessor
                         << module == sklearn    << function = StandardScaler

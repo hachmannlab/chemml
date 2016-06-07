@@ -13,4 +13,5 @@ __all__ = [
     'Dragon',
     'RDKFingerprint',
     'CoulombMatrix',
+    'DistanceMatrix',
 ]

@@ -19,7 +19,7 @@
 		module						function
 		------						--------
 		cheml						SaveFile            {df}                                {api,df}
-		cheml						settings
+		cheml						settings            {}                                  {}
 
 ## Preprocessor
 		module						function            legal_inputs                        legal_outputs

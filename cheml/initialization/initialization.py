@@ -4,6 +4,8 @@ import shutil
 import pandas as pd
 import warnings
 
+from ..utils.utilities import std_datetime_str
+
 __all__ = [
     'File',
     'output',
@@ -91,33 +93,51 @@ def Split(X,select=1):
         raise TypeError(msg)
     return X1, X2
 
-def output(output_directory="CheML.out" ,logfile="log.txt",errorfile="error.txt"):
+class Settings(object):
     """
-    make all the output files and folders in the output directory. 
-    These out put files keep track of all the changes in the rest of program.
-    
+    makes the output directory.
+
     Parameters
     ----------
-    output_directory: The directory path/name to store all the results and outputs 
-    logfile: The name of log file
-    errorfile: The name of error file
-    
+    output_directory: String, (default = "CheML.out")
+        The directory path/name to store all the results and outputs
+
+    input_copy: Boolean, (default = True)
+        If True, keeps a copy of input script in the output_directory
+
     Returns
     -------
-    output_directory: The directory path/name after checking the existence of initial path
-    logfile: log file in the output_directory
-    errorfile: error file in the output_directory
-    tmp_folder: temporary folder in the output_directory, will be removed at the end.
+    output_directory
     """
-    initial_output_dir = copy.deepcopy(output_directory)
-    i = 0
-    while os.path.exists(output_directory):
-        i+=1
-        output_directory = initial_output_dir + '%i'%i
-    os.makedirs(output_directory)
-    log_file = open(output_directory+'/'+logfile,'a',0)
-    error_file = open(output_directory+'/'+errorfile,'a',0)
-    tmp_folder = output_directory +'/temporary'
-    os.makedirs(tmp_folder)
-    return output_directory, logfile, errorfile
+    def __init__(self,output_directory="CMLWrapper.out", InputScript_copy = True):
+        self.output_directory = output_directory
+        self.InputScript_copy = InputScript_copy
 
+    def fit(self,InputScript):
+        initial_output_dir = copy.deepcopy(output_directory)
+        i = 0
+        while os.path.exists(output_directory):
+            i+=1
+            output_directory = initial_output_dir + '%i'%i
+        os.makedirs(output_directory)
+        # log_file = open(output_directory+'/'+logfile,'a',0)
+        # error_file = open(output_directory+'/'+errorfile,'a',0)
+        if self.InputScript_copy:
+            shutil.copyfile(InputScript, output_directory + '/InputScript.txt')
+        return output_directory
+
+class SaveFile(object):
+    """
+    Write DataFrame to a comma-seprated values(csv) file
+    """
+    def __init__(self, filename):
+        self.filename = filename
+
+    def fit(X,output_directory):
+        """
+        Write DataFrame to a comma-seprated values(csv) file
+        :param X: pandas DataFrame
+        :param output_directory: string, the output directory to save output files
+        :return: nothing
+        """
+        X.to_csv('%s/%s_%s.csv'%(output_directory,self.filename,std_datetime_str()), index=False)

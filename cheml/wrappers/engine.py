@@ -222,14 +222,17 @@ class BASE(object):
         self.block_time = 0
         self.date = std_datetime_str('date')
         self.time = std_datetime_str('time')
+        self.InputScript = ''
+        self.output_directory = './'
         print 'initialized'
 
 class Wrapper(object):
     """
     Todo: documentation
     """
-    def __init__(self, cmls, ImpOrder, CompGraph):
+    def __init__(self, cmls, ImpOrder, CompGraph, InputScript):
         self.Base = BASE(CompGraph)
+        self.Base.InputScript = InputScript
         self.ImpOrder = ImpOrder
         self.cmls = cmls
         self._checker()
@@ -313,7 +316,7 @@ if __name__=="__main__":
     script = open(SCRIPT_NAME, 'r')
     script = script.readlines()
     cmls, ImpOrder, CompGraph = Parser(script).fit()
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, SCRIPT_NAME)
     wrapper.call()
 # else:
     # sys.exit("Sorry, must run as driver...")

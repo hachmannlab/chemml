@@ -133,11 +133,12 @@ class SaveFile(object):
     def __init__(self, filename):
         self.filename = filename
 
-    def fit(X,output_directory):
+    def fit(X,output_directory=None):
         """
         Write DataFrame to a comma-seprated values(csv) file
         :param X: pandas DataFrame
         :param output_directory: string, the output directory to save output files
         :return: nothing
         """
-        X.to_csv('%s/%s_%s.csv'%(output_directory,self.filename,std_datetime_str()), index=False)
+        if output_directory:
+            X.to_csv('%s/%s_%s.csv'%(output_directory,self.filename,std_datetime_str()), index=False)

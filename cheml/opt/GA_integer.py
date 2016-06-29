@@ -3,7 +3,7 @@ import random
 import numpy as np
 import copy
 import pickle as pkl
-from ..nn.nn_psgd import
+
 class GA_nn(object):
     """
     Genetic Algorithm mixed with a trained neural network as its objective function
@@ -50,7 +50,7 @@ class GA_nn(object):
         self.nnet = nnet
         self.target = target
         self.normalizer = normalizer
-        self.nVar = nVar3366
+        self.nVar = nVar
         self.crossover = crossover
         self.selection = selection
         self.selection_pressure = selection_pressure
@@ -118,15 +118,13 @@ class GA_nn(object):
         y = copy.deepcopy(x)
         y = list(y)
         for i in xrange(int(nmu)):
-            choices = range(self.element_limit)
+            choices = range(self.element_limit+1)
             choices.remove(y[j[i]])
             y[j[i]] = random.choice(choices)
         return tuple(y)
 
     def CostFunction(self,x):
-        with open(self.nnet, 'rb') as network:
-            self.nnet = pkl.load(network)
-        prediction = nn.output(np.array(x),nnet)
+        prediction = nn.output(np.array(x),self.nnet)
         prediction = (self.normalizer[0] * prediction) + self.normalizer[1] #(0:std, 1:mean)
         error = np.mean(np.abs(prediction - np.array(self.target)))
         return error
@@ -146,14 +144,14 @@ class GA_nn(object):
                 q = self.TournamentSelection(self.cost, self.tournament_size)
                 r = self.TournamentSelection(self.cost, self.tournament_size)
             elif self.selection == 'RS':
-                q = random.randint(0,nPop-1)
-                r = random.randint(0,nPop-1)
+                q = random.randint(0,self.init_pop-1)
+                r = random.randint(0,self.init_pop-1)
             else:
                 msg = "'%s' is not a valid selection method"%self.selection
                 raise NameError(msg)
             # Parents
-            p1 = pop[q]
-            p2 = pop[r]
+            p1 = self.pop[q]
+            p2 = self.pop[r]
 
             # Apply Crossover & Make popc
             if self.crossover == 'SinglePoint':
@@ -182,7 +180,7 @@ class GA_nn(object):
             elif self.selection == 'TS':
                 q = self.TournamentSelection(self.cost, self.tournament_size)
             elif self.selection == 'RS':
-                q = random.randint(0,nPop-1)
+                q = random.randint(0,self.init_pop-1)
             else:
                 msg = "'%s' is not a valid selection method"%self.selection
                 raise NameError(msg)
@@ -201,10 +199,12 @@ class GA_nn(object):
     def fit(self):
         self.pop=[]
         self.cost=[]
+        with open(self.nnet, 'rb') as network:
+            self.nnet = pkl.load(network)
         for i in xrange (0,self.init_pop):
             # Initialize Position
             a=[]
-            for i in range (0,nvar):
+            for i in range (0,self.nVar):
                 q = random.randint(0,self.element_limit)
                 a.append(q)
             a = tuple(a)
@@ -218,46 +218,47 @@ class GA_nn(object):
 
         ## Store cost
         worstcost=[]
-        worstcost.append(cost[-1])
+        worstcost.append(self.cost[-1])
         WorstCost=np.nanmax(worstcost)
 
         ## Main Loop
         for it in xrange (0,self.n_iterations):
             # Calculate Selection Probabilities
-            P = np.exp(-self.selection_pressure*np.array(cost)/WorstCost)
+            P = np.exp(-self.selection_pressure*np.array(self.cost)/WorstCost)
             P = P / float(sum(P))
             popc, costc = self.Crossover(P)
             popm, costm = self.Mutation(P)
             # Create Merge Population & Cost
-            pop = pop + popc + popm
-            cost = cost + costc + costm
+            self.pop = self.pop + popc + popm
+            self.cost = self.cost + costc + costm
 
-            pop = tuple(pop)
-            cost = tuple(cost)
+            self.pop = tuple(self.pop)
+            self.cost = tuple(self.cost)
 
             # Sort Population
-            cost, pop = (list(t)for t in zip(*sorted(zip(cost, pop))))
+            self.cost, self.pop = (list(t)for t in zip(*sorted(zip(self.cost, self.pop))))
 
             # Update WorstCost
-            worstcost.append(cost[-1])
+            worstcost.append(self.cost[-1])
             WorstCost = np.nanmax(worstcost)
 
             # Truncation
-            pop = pop[0:nPop]
-            cost = cost[0:nPop]
+            self.pop = self.pop[0:self.init_pop]
+            self.cost = self.cost[0:self.init_pop]
 
             # Store Best Solution Ever Found
-            BestSol = pop[0]
+            BestSol = self.pop[0]
 
             # Store Best Cost Ever Found
-            BestCost = cost[0]
+            BestCost = self.cost[0]
 
 
             # Save Iteration Information
-            with open('GA_Iteration_Records.txt','a') as it_file:
-                it_file.write('Iteration: %i, Best cost $ %s\n'%(it, str(BestCost)))
-                it_file.write('Iteration: %i, Best chromosome: %s\n'%(it, str(BestSol)))
-                it_file.write('          GA+NN by MHL\n')
+            if it%100 == 0:
+                with open('GA_Iteration_Records.txt','a') as it_file:
+                    it_file.write('Iteration: %i, Best cost $ %s\n'%(it, str(BestCost)))
+                    it_file.write('Iteration: %i, Best chromosome: %s\n'%(it, str(BestSol)))
+                    it_file.write('          GA+NN by MHL\n')
 
 
 

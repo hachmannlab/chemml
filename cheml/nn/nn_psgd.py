@@ -93,7 +93,6 @@ def initialize_data(np_X_train,np_Y_train,np_X_test,np_Y_test):
     c_Y_test = np_to_c(np_Y_test)
     return c_X_train,c_Y_train,c_X_test,c_Y_test
 
-
 def feed_forward(X,weights,act_funcs):
     """
     Feed forward through neural network
@@ -210,7 +209,6 @@ def prevent_underflow(np_array):
     if zero_inds.any():
         np_array[zero_inds] = float(np.finfo(np.float64).tiny)
     return np_array
-
 
 def back_propagate(para_input):
     """

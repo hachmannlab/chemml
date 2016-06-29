@@ -93,6 +93,9 @@ def Split(X,select=1):
         raise TypeError(msg)
     return X1, X2
 
+class Group(object):
+    def __init__(self,keys,columns, ):
+
 class Settings(object):
     """
     makes the output directory.

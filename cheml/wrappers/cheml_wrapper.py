@@ -209,6 +209,7 @@ class DistanceMatrix(cheml_Base):
                 raise NameError(msg)
 
 #####################################################################
+
 class File(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {}

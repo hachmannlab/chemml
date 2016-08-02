@@ -38,16 +38,21 @@ class Parser(object):
         """
         blocks={}
         it = -1
+        check_block = False
         for line in self.script:
             if '##' in line:
                 it += 1
                 blocks[it] = [line]
+                check_block = True
                 continue
-            elif '#' not in line and ('<' in line or '>' in line):
+            elif '#' in line:
+                check_block = False
+            elif check_block and ('<' in line or '>' in line):
                 blocks[it].append(line)
                 continue
 
         cmls = self._options(blocks)
+        print cmls
         ImpOrder,CompGraph = self.transform(cmls)
         self._print_out(cmls)
         return cmls, ImpOrder, CompGraph
@@ -299,20 +304,20 @@ class Wrapper(object):
                 cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
                 cmli.run()
 
-def run(SCRIPT_NAME):
+def run(INPUT_FILE):
     """
     this is the only callable method in this file
-    :param SCRIPT_NAME: path to the script file
+    :param INPUT_FILE: path to the input file
     :return:
     """
-    script = open(SCRIPT_NAME, 'r')
+    script = open(INPUT_FILE, 'r')
     script = script.readlines()
     cmls, ImpOrder, CompGraph = Parser(script).fit()
     print cmls
     print ImpOrder
     print CompGraph
     sys.exit('this is how much you get till now!')
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, SCRIPT_NAME)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE)
     wrapper.call()
 
 
@@ -326,7 +331,7 @@ def run(SCRIPT_NAME):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
-    parser.add_argument("-i", type=str, required=True, help="input directory: must include the script file name and its format")
+    parser.add_argument("-i", type=str, required=True, help="input directory: must include the input file name and its format")
     args = parser.parse_args()
     SCRIPT_NAME = args.i
     run(SCRIPT_NAME)

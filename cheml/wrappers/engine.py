@@ -15,8 +15,8 @@ import argparse
 import warnings
 import inspect
 
-import .scikit_learn as skl
-import .cheml_wrapper as cml
+import sklearn_wrapper as skl
+import cheml_wrapper as cml
 #todo: use utils subdirectory instead
 from .sct_utils import isint, value, std_datetime_str
 
@@ -299,6 +299,22 @@ class Wrapper(object):
                 cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
                 cmli.run()
 
+def run(SCRIPT_NAME):
+    """
+    this is the only callable method in this file
+    :param SCRIPT_NAME: path to the script file
+    :return:
+    """
+    script = open(SCRIPT_NAME, 'r')
+    script = script.readlines()
+    cmls, ImpOrder, CompGraph = Parser(script).fit()
+    print cmls
+    print ImpOrder
+    print CompGraph
+    sys.exit('this is how much you get till now!')
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, SCRIPT_NAME)
+    wrapper.call()
+
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
@@ -306,19 +322,11 @@ class Wrapper(object):
  									  CheML PySCRIPT		
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#"""
-#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*					
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
-    parser.add_argument("-i", type=str, required=True, help="input directory: must include the script file name and its format")                    		
-    args = parser.parse_args()            		
+    parser.add_argument("-i", type=str, required=True, help="input directory: must include the script file name and its format")
+    args = parser.parse_args()
     SCRIPT_NAME = args.i
-    script = open(SCRIPT_NAME, 'r')
-    script = script.readlines()
-    cmls, ImpOrder, CompGraph = Parser(script).fit()
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, SCRIPT_NAME)
-    wrapper.call()
-# else:
-    # sys.exit("Sorry, must run as driver...")
-
-
+    run(SCRIPT_NAME)

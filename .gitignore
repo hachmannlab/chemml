@@ -5,4 +5,4 @@
 /dist/
 
 # huge files
-benchmarks/homo_dump
+benchmarks/

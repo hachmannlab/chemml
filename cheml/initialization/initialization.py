@@ -91,10 +91,8 @@ def Split(X,select=1):
     else:
         msg = "parameter 'select' can only ba a list or integer"
         raise TypeError(msg)
+    print X1, X2
     return X1, X2
-
-class Group(object):
-    def __init__(self,keys,columns, ):
 
 class Settings(object):
     """

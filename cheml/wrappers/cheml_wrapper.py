@@ -20,12 +20,11 @@ class cheml_Base(object):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
         self.Base.graph = [edge for edge in self.Base.graph if edge[2] != self.iblock]
         # check received tokens
-        count = [0] * len(self.legal_inputs)
+        count = {token:0 for token in self.legal_inputs}
         for edge in recv:
             if edge[3] in self.legal_inputs:
-                ind = self.legal_inputs.index(edge[2])
-                count[ind] += 1
-                if count[ind] > 1:
+                count[edge[3]] += 1
+                if count[edge[3]] > 1:
                     msg = '@Task #%i(%s): only one input per each available input can be received.' % (
                         self.iblock+1,self.SuperFunction)
                     raise IOError(msg)
@@ -50,20 +49,20 @@ class cheml_Base(object):
     def type_check(self,token,specific_type=None):
         if token[0:2]=='df':
             if isinstance(self.legal_inputs[token],pd.DataFrame):
-                return self.legal_inputs[token]
+                return True
             else:
-                return None
+                return False
         elif token[0:3]=='api':
             if isinstance(self.legal_inputs[token], specific_type):
-                return self.legal_inputs[token]
+                return True
             else:
-                return None
+                return False
 
     def send(self):
         send = [edge for edge in self.Base.graph if edge[0] == self.iblock]
         for edge in send:
             # insert type_check for send and receive control
-            key = edge[0:1]
+            key = edge[0:2]
             if key in self.Base.send:
                 self.Base.send[key][1] += 1
             else:
@@ -214,7 +213,8 @@ class File(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {}
         self.legal_outputs = {'df':None}
-        self.Base.requirements.append('cheml','pandas')
+        requirements = ['cheml','pandas']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         from cheml.initialization import File
@@ -236,7 +236,7 @@ class Merge(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {'df1':None, 'df2':None}
         self.legal_outputs = {'df':None}
-        self.Base.requirements.append('cheml','pandas')
+        self.Base.requirements += ['cheml','pandas']
 
     def fit(self):
         from cheml.initialization import Merge
@@ -261,16 +261,17 @@ class Split(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {'df':None}
         self.legal_outputs = {'df1':None, 'df2':None}
-        self.Base.requirements.append('cheml','pandas')
+        requirements = ['cheml','pandas']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         from cheml.initialization import Split
         # check inputs
-        if self.legal_inputs['df'] == None:
+        if self.type_check('df'):
+            self.parameters['X'] = self.legal_inputs['df']
+        else:
             msg = '@Task #%i(%s): an input data frame is required'%(self.iblock,self.SuperFunction)
             raise IOError(msg)
-        else:
-            self.parameters['X'] = self.legal_inputs['df']
         try:
             df1, df2 = Split(**self.parameters)
         except Exception as err:

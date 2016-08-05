@@ -274,7 +274,7 @@ class Wrapper(object):
             if module not in legal_modules:
                 msg = 'Task %s (task#%i): not a valid module passed' % (SuperFunction, iblock + 1)
                 raise NameError(msg)
-            elif function in legal_modules[module]:
+            elif function not in legal_modules[module]:
                 msg = 'Task %s (task#%i): not a valid function passed' % (SuperFunction, iblock + 1)
                 raise NameError(msg)
         return 'The input file is in a correct format.'
@@ -286,7 +286,7 @@ class Wrapper(object):
             module = parameters.pop('module')
             function = parameters.pop('function')
             if module == 'sklearn':
-                # check methods0
+                # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
                 if function not in legal_functions:
                     msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
@@ -295,7 +295,7 @@ class Wrapper(object):
                 cmli = cml_interface(self.Base,parameters,iblock,SuperFunction)
                 cmli.run()
             elif module == 'cheml':
-                # check methods0
+                # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cml)]
                 if function not in legal_functions:
                     msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,module)
@@ -316,7 +316,7 @@ def run(INPUT_FILE):
     print cmls
     print ImpOrder
     print CompGraph
-    sys.exit('this is how much you get till now!')
+    # sys.exit('this is how much you get till now!')
     wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE)
     wrapper.call()
 

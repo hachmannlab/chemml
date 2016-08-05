@@ -71,8 +71,8 @@ def Split(X,select=1):
         original pandas data frame
 
     :param select: integer or list (default = 1)
-        if integer, shows number of columns from the end of data frame to be cut as second data frame
-        if list, is array of labels
+        if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
+        if list, is array of labels to be cut as first data frame (X1)
 
     :return: two pandas data frame: X1 and X2
     """
@@ -80,18 +80,17 @@ def Split(X,select=1):
         msg = 'X must be a pandas dataframe'
         raise TypeError(msg)
     if isinstance(select,list):
-        X2 = X.loc[:,select]
-        X1 = X.drop(select,axis=1)
+        X1 = X.loc[:,select]
+        X2 = X.drop(select,axis=1)
     elif isinstance(select,int):
         if select >= X.shape[1]:
             msg = 'The first output data frame is empty, because passed a bigger number than actual number of columns'
             warnings.warn(msg)
-        X2 = X.iloc[:,-select:]
-        X1 = X.iloc[:,:-select]
+        X1 = X.iloc[:,:select]
+        X2 = X.iloc[:,select:]
     else:
-        msg = "parameter 'select' can only ba a list or integer"
+        msg = "parameter 'select' must ba a list or an integer"
         raise TypeError(msg)
-    print X1, X2
     return X1, X2
 
 class Settings(object):

@@ -1,6 +1,4 @@
 import os
-import copy
-import shutil
 import pandas as pd
 import warnings
 
@@ -93,52 +91,47 @@ def Split(X,select=1):
         raise TypeError(msg)
     return X1, X2
 
-class Settings(object):
-    """
-    makes the output directory.
-
-    Parameters
-    ----------
-    output_directory: String, (default = "CheML.out")
-        The directory path/name to store all the results and outputs
-
-    input_copy: Boolean, (default = True)
-        If True, keeps a copy of input script in the output_directory
-
-    Returns
-    -------
-    output_directory
-    """
-    def __init__(self,output_directory="CMLWrapper.out", InputScript_copy = True):
-        self.output_directory = output_directory
-        self.InputScript_copy = InputScript_copy
-
-    def fit(self,InputScript):
-        initial_output_dir = copy.deepcopy(output_directory)
-        i = 0
-        while os.path.exists(output_directory):
-            i+=1
-            output_directory = initial_output_dir + '%i'%i
-        os.makedirs(output_directory)
-        # log_file = open(output_directory+'/'+logfile,'a',0)
-        # error_file = open(output_directory+'/'+errorfile,'a',0)
-        if self.InputScript_copy:
-            shutil.copyfile(InputScript, output_directory + '/InputScript.txt')
-        return output_directory
-
 class SaveFile(object):
     """
     Write DataFrame to a comma-seprated values(csv) file
-    """
-    def __init__(self, filename):
-        self.filename = filename
+    :param output_directory: string, the output directory to save output files
 
-    def fit(X,output_directory=None):
+    """
+    def __init__(self, filename, output_directory = None, record_time = False, format ='csv',
+                 index = False, header = True):
+        self.filename = filename
+        self.record_time = record_time
+        self.output_directory = output_directory
+        self.format = format
+        self.index = index
+        self.header = header
+
+    def fit(self, X, main_directory=None):
         """
-        Write DataFrame to a comma-seprated values(csv) file
+        Write DataFrame to a comma-seprated values (csv) file
         :param X: pandas DataFrame
-        :param output_directory: string, the output directory to save output files
+        :param main_directory: string, if there is any main directory for entire cheml project
         :return: nothing
         """
-        if output_directory:
-            X.to_csv('%s/%s_%s.csv'%(output_directory,self.filename,std_datetime_str()), index=False)
+        if not isinstance(X, pd.DataFrame):
+            msg = 'X must be a pandas dataframe'
+            raise TypeError(msg)
+        if main_directory:
+            self.output_directory = main_directory + '/' + self.output_directory
+        if self.output_directory:
+            if not os.path.exists(self.output_directory):
+                os.makedirs(self.output_directory)
+            if self.record_time:
+                self.file_path = '%s/%s_%s.%s'%(self.output_directory, self.filename,std_datetime_str(),self.format)
+                X.to_csv(self.file_path, index=self.index, header = self.header)
+            else:
+                self.file_path = '%s/%s.%s' % (self.output_directory, self.filename,self.format)
+                X.to_csv(self.file_path, index=self.index, header = self.header)
+        else:
+            if self.record_time:
+                self.file_path = '%s_%s.%s'%(self.filename,std_datetime_str(),self.format)
+                X.to_csv(self.file_path, index=self.index, header = self.header)
+            else:
+                self.file_path = '%s.%s' %(self.filename,self.format)
+                X.to_csv(self.file_path, index=self.index, header = self.header)
+

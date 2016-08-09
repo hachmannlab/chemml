@@ -1,6 +1,5 @@
 """
-The 'cheml.initialization' module includes File, Merge, Split, Settings,
-and SaveFile.
+The 'cheml.initialization' module includes File, Merge, Split, and SaveFile.
 last modified date: Nov. 19, 2015
 """
 
@@ -8,7 +7,6 @@ from .initialization import File
 from .initialization import Merge
 from .initialization import Split
 
-from .initialization import Settings
 from .initialization import SaveFile
 
 from .data import Trimmer
@@ -18,6 +16,5 @@ __all__ = [
     'File',
     'Merge',
     'Split',
-    'Settings',
     'SaveFile',
 ]

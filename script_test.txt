@@ -6,7 +6,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 # Note: send: >> var id
 # Note: recv: >> id var
 
-## DataRepresentation
+# DataRepresentation
                 << module = cheml                      << function = Dragon
                 << version = 6
                 << script = "new"
@@ -50,7 +50,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 << delimiter = ","                      << MissingValue = "NaN"
                 << consecutiveDelimiter = False
 
-## DataRepresentation
+# DataRepresentation
                 << module = cheml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'Morgan'
@@ -78,28 +78,38 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 << degree = 2                     << interaction_only = False
                 << include_bias = True
 
-# Input
+## Input
                 << module = cheml                 << function = File
 
-				<< filepath = 'benchmarks/test_data/sample_data_0.csv'
-				<< header = None
-				<< skiprows = 0
-				<< skipcolumns = 0
-
+                << filepath = 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv'
+                << header = 0
+                << skiprows = 0
+                << skipcolumns = 0
+                >> df 0
 # Input
                 << module = cheml                 << function = Merge
 
-# Input
+## Input
                 << module = cheml                 << function = Split
+                << select = ['SMILES']
+                >> 0 df  >> df2 2  >> df1 1
 
-                << select = 1
+## Input
+                << module = cheml                 << function = Split
+                << select = ['Kp','d_exp']
+                >> 2 df
 
-# Output
-                << module = cheml                 << function = Settings
 
-				<< output_directory = 'CMLWrapper.out'
-				<< InputScript_copy = True
+## Output
+                << module = cheml                 << function = SaveFile
 
+                << filename = '178'
+                << output_directory = 'smiles'
+                << record_time = False
+                << format ='smi'
+                << index = False
+                << header = False
+                >> 1 df
 
 # Preprocessor
                         << module = sklearn    << function = StandardScaler

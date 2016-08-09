@@ -236,7 +236,8 @@ class Merge(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {'df1':None, 'df2':None}
         self.legal_outputs = {'df':None}
-        self.Base.requirements += ['cheml','pandas']
+        requirements = ['cheml','pandas']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         from cheml.initialization import Merge
@@ -289,49 +290,32 @@ class Split(cheml_Base):
 
 #####################################################################
 
-class Settings(cheml_Base):
-    def legal_IO(self):
-        self.legal_inputs = {}
-        self.legal_outputs = {}
-        self.Base.requirements.append('cheml')
-
-    def fit(self):
-        from cheml.initialization import Settings
-        try:
-            model = Settings(**self.parameters)
-            output_directory = model.fit(self.Base.InputScript)
-            self.Base.output_directory = output_directory
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in order:
-            msg = "@Task #%i(%s): asked to send a non valid output token '%s' - Settings doesn't send or receive anything"% (
-                self.iblock + 1, self.SuperFunction, token)
-            raise NameError(msg)
-
 class SaveFile(cheml_Base):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {}
-        self.Base.requirements.append('cheml', 'pandas')
+        self.legal_outputs = {'fp': None}
+        requirements = ['cheml','pandas']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         from cheml.initialization import SaveFile
         # check inputs
-        if self.legal_inputs['df'] == None:
+        if not self.type_check('df'):
             msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
             raise IOError(msg)
         try:
-            model = SaveFile()
+            model = SaveFile(**self.parameters)
             model.fit(self.legal_inputs['df'],self.Base.output_directory)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        if len(order)>0:
-            msg = "@Task #%i(%s): no outputs will be sent" % (self.iblock + 1, self.SuperFunction)
-            raise NameError(msg)
+        for token in order:
+            if token == 'fp':
+                self.legal_outputs[token] = model.file_path
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
+                raise NameError(msg)
 
 #####################################################################
 

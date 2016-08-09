@@ -18,8 +18,7 @@
 ## Output
 		module						function
 		------						--------
-		cheml						SaveFile            {df}                                {api,df}
-		cheml						settings            {}                                  {}
+		cheml						SaveFile            {df}                                {fp(file_path)}
 
 ## Preprocessor
 		module						function            legal_inputs                        legal_outputs

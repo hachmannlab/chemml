@@ -14,6 +14,7 @@ import copy
 import argparse
 import warnings
 import inspect
+import shutil
 
 import sklearn_wrapper as skl
 import cheml_wrapper as cml
@@ -228,16 +229,17 @@ class BASE(object):
         self.date = std_datetime_str('date')
         self.time = std_datetime_str('time')
         self.InputScript = ''
-        self.output_directory = './'
+        self.output_directory = '.'
         print 'initialized'
 
 class Wrapper(object):
     """
     Todo: documentation
     """
-    def __init__(self, cmls, ImpOrder, CompGraph, InputScript):
+    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory):
         self.Base = BASE(CompGraph)
         self.Base.InputScript = InputScript
+        self.Base.output_directory = output_directory
         self.ImpOrder = ImpOrder
         self.cmls = cmls
         self._checker()
@@ -249,7 +251,7 @@ class Wrapper(object):
         """
         # get params
         legal_superfunctions = ['DataRepresentation','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Evaluation','Visualization','Optimizer']
-        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds','File','Merge','Split','SaveFile','settings','MissingValues','Trimmer','Uniformer','TBFS','NN_MLP_PSGD','NN_MLP_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR','GA_Binary','GA_Real'],
+        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds','File','Merge','Split','SaveFile','MissingValues','Trimmer','Uniformer','TBFS','NN_MLP_PSGD','NN_MLP_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR','GA_Binary','GA_Real'],
                          'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer','Binarizer','OneHotEncoder','VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr','SelectFwe','RFE','RFECV','SelectFromModel','PCA','KernelPCA','RandomizedPCA','LDA','','','','',''],
                          'mlpy':[]}
 
@@ -304,7 +306,40 @@ class Wrapper(object):
                 cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
                 cmli.run()
 
-def run(INPUT_FILE):
+class Settings(object):
+    """
+    makes the output directory.
+
+    Parameters
+    ----------
+    output_directory: String, (default = "CheML.out")
+        The directory path/name to store all the results and outputs
+
+    input_copy: Boolean, (default = True)
+        If True, keeps a copy of input script in the output_directory
+
+    Returns
+    -------
+    output_directory
+    """
+    def __init__(self,output_directory="CMLWrapper.out", InputScript_copy = True):
+        self.output_directory = output_directory
+        self.InputScript_copy = InputScript_copy
+
+    def fit(self,InputScript):
+        initial_output_dir = copy.deepcopy(self.output_directory)
+        i = 0
+        while os.path.exists(self.output_directory):
+            i+=1
+            self.output_directory = initial_output_dir + '%i'%i
+        os.makedirs(self.output_directory)
+        # log_file = open(output_directory+'/'+logfile,'a',0)
+        # error_file = open(output_directory+'/'+errorfile,'a',0)
+        if self.InputScript_copy:
+            shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
+        return self.output_directory
+
+def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
     this is the only callable method in this file
     :param INPUT_FILE: path to the input file
@@ -317,14 +352,16 @@ def run(INPUT_FILE):
     print ImpOrder
     print CompGraph
     # sys.exit('this is how much you get till now!')
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE)
+    settings = Settings(OUTPUT_DIRECTORY)
+    OUTPUT_DIRECTORY = settings.fit(INPUT_FILE)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY)
     wrapper.call()
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 """*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
  
- 									  CheML PySCRIPT		
+ 									  ChemML PySCRIPT
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#"""
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
@@ -332,6 +369,10 @@ def run(INPUT_FILE):
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
     parser.add_argument("-i", type=str, required=True, help="input directory: must include the input file name and its format")
+    parser.add_argument("-o", type=str, required=True, help="output directory: must be unique otherwise incrementing numbers will be added")
     args = parser.parse_args()
     SCRIPT_NAME = args.i
-    run(SCRIPT_NAME)
+    output_directory = args.o
+    settings = Settings(output_directory)
+    output_directory = settings.fit(SCRIPT_NAME)
+    run(SCRIPT_NAME, output_directory)

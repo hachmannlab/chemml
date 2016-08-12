@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/initialization/__init__.py" afterPath="$PROJECT_DIR$/cheml/initialization/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/initialization/initialization.py" afterPath="$PROJECT_DIR$/cheml/initialization/initialization.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/README.txt" afterPath="$PROJECT_DIR$/cheml/wrappers/README.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/cheml_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/cheml_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/engine.py" afterPath="$PROJECT_DIR$/cheml/wrappers/engine.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script_test.txt" afterPath="$PROJECT_DIR$/script_test.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
     </list>
     <ignored path="CheML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,8 +28,8 @@
           <file leaf-file-name="engine.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/engine.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="872">
-                  <caret line="376" column="35" selection-start-line="376" selection-start-column="35" selection-end-line="376" selection-end-column="35" />
+                <state relative-caret-position="885">
+                  <caret line="376" column="0" selection-start-line="376" selection-start-column="0" selection-end-line="377" selection-end-column="0" />
                   <folding>
                     <element signature="e#340#350#0" expanded="true" />
                     <element signature="e#754#774#0" expanded="false" />
@@ -55,9 +48,10 @@
           <file leaf-file-name="cheml_wrapper.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/cheml_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="750">
-                  <caret line="321" column="0" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
                   <folding>
+                    <element signature="e#51#2600#0" expanded="false" />
                     <element signature="e#167#292#0" expanded="false" />
                     <element signature="e#321#398#0" expanded="false" />
                     <element signature="e#431#1818#0" expanded="false" />
@@ -107,8 +101,8 @@
           <file leaf-file-name="README.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/README.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
-                  <caret line="20" column="106" selection-start-line="20" selection-start-column="106" selection-end-line="20" selection-end-column="106" />
+                <state relative-caret-position="255">
+                  <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
                   <folding />
                 </state>
               </provider>
@@ -157,11 +151,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="script_test.txt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="script_test.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/script_test.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="885">
-                  <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
+                <state relative-caret-position="962">
+                  <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="RDKFP.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cheml/chem/RDKFP.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="60">
+                  <caret line="4" column="16" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="sample_script.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cheml/wrappers/sample_script.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="765">
+                  <caret line="51" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -233,8 +247,8 @@
         <option value="$PROJECT_DIR$/cheml/initialization/initialization.py" />
         <option value="$PROJECT_DIR$/cheml/wrappers/engine.py" />
         <option value="$PROJECT_DIR$/CMLWrapper.out1/smiles/.smi" />
-        <option value="$PROJECT_DIR$/script_test.txt" />
         <option value="$PROJECT_DIR$/cheml/wrappers/cheml_wrapper.py" />
+        <option value="$PROJECT_DIR$/script_test.txt" />
       </list>
     </option>
   </component>
@@ -287,6 +301,56 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="chem">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -477,7 +541,7 @@
     <frame x="1280" y="-161" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913843" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -561,13 +625,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2235">
           <caret line="1" column="9" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/chem/RDKFP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4123">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -744,14 +801,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sample_script.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -781,7 +830,7 @@
         <state relative-caret-position="30">
           <caret line="2" column="33" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
           <folding>
-            <element signature="e#120#152#0" expanded="true" />
+            <element signature="e#120#152#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -829,14 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="106" selection-start-line="20" selection-start-column="106" selection-end-line="20" selection-end-column="106" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/initialization/initialization.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="705">
@@ -857,18 +898,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sample_script.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script_test.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
+        <state relative-caret-position="962">
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/engine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="872">
-          <caret line="376" column="35" selection-start-line="376" selection-start-column="35" selection-end-line="376" selection-end-column="35" />
+        <state relative-caret-position="885">
+          <caret line="376" column="0" selection-start-line="376" selection-start-column="0" selection-end-line="377" selection-end-column="0" />
           <folding>
             <element signature="e#340#350#0" expanded="true" />
             <element signature="e#754#774#0" expanded="false" />
@@ -883,11 +940,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/chem/RDKFP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="16" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/cheml_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="321" column="0" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+        <state relative-caret-position="30">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
+            <element signature="e#51#2600#0" expanded="false" />
             <element signature="e#167#292#0" expanded="false" />
             <element signature="e#321#398#0" expanded="false" />
             <element signature="e#431#1818#0" expanded="false" />

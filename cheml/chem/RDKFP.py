@@ -3,8 +3,7 @@ import numpy as np
 import os
 import fnmatch
 from rdkit import Chem
-
-
+import rdkit
 
 def _add_range(file,start_end):
     start = start_end[0::2]
@@ -97,7 +96,7 @@ class RDKFingerprint(object):
             of the file name or path.    
             If not None, it determines the path that this function walk through
             and look for every file that mathes the pattern in the file. To start
-            walking from the curent directory, the path value should be '.'
+            walking from the current directory, the path value should be '.'
         
         *arguments: integer
             If sequences in the special characters should be a range of integers,
@@ -143,7 +142,7 @@ class RDKFingerprint(object):
                       '.tpl':       Chem.MolFromTPLFile,
                       '.smi':       Chem.MolFromSmiles,
                       '.smarts':    Chem.MolFromSmarts,
-                      '.inchi':     Chem.MolFromInchi
+                      # '.inchi':     Chem.MolFromInchi
                       }
         file_name, file_extension = os.path.splitext(molfile)
         if file_extension == '':
@@ -176,7 +175,7 @@ class RDKFingerprint(object):
             if file_extension in ['.smi','.smarts']:
                 mols = open(molfile, 'r')
                 mols = mols.readlines()
-                mols = [extensions[file_extension](x.strip,removeHs=self.removeHs) for x in mols]
+                mols = [extensions[file_extension](x.strip()) for x in mols]
                 self.molecules += mols
             else:
                 self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
@@ -184,13 +183,15 @@ class RDKFingerprint(object):
     def Fingerprint(self):
         if self.FPtype == 'Hashed_atom_pair' or self.FPtype == 'HAP':
             if self.vector == 'int':
-                self.fps = [Chem.AtomPairs.Pairs.GetHashedAtomPairFingerprint(m,nBits=self.nBits) for m in self.molecules]
+                from rdkit.Chem.AtomPairs.Pairs import GetHashedAtomPairFingerprint
+                self.fps = [GetHashedAtomPairFingerprint(m,nBits=self.nBits) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 data = pd.DataFrame(dict_nonzero,columns=range(self.nBits))
                 data.fillna(0, inplace = True)
                 return data
             elif self.vector == 'bit':
-                self.fps = [Chem.rdMolDescriptors.GetHashedAtomPairFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]                
+                from rdkit.Chem.rdMolDescriptors import GetHashedAtomPairFingerprintAsBitVect
+                self.fps = [GetHashedAtomPairFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]
                 data = pd.DataFrame()
                 for i,fp in enumerate(self.fps):
                     data[i] = [el for el in fp]
@@ -201,7 +202,8 @@ class RDKFingerprint(object):
                 raise ValueError(msg)
         elif self.FPtype == 'Atom_pair' or self.FPtype == 'AP':
             if self.vector == 'int':
-                self.fps = [Chem.AtomPairs.Pairs.GetAtomPairFingerprint(m) for m in self.molecules]
+                from rdkit.Chem.AtomPairs.Pairs import GetAtomPairFingerprint
+                self.fps = [GetAtomPairFingerprint(m) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 pairScores = []
                 for fp in dict_nonzero:
@@ -210,7 +212,23 @@ class RDKFingerprint(object):
                 data.fillna(0, inplace = True)
                 return data
             elif self.vector == 'bit':
-                self.fps = [Chem.AtomPairs.Pairs.GetAtomPairFingerprintAsBitVect(m) for m in self.molecules]
+                from rdkit.Chem.AtomPairs.Pairs import GetAtomPairFingerprintAsBitVect
+                self.fps = [GetAtomPairFingerprintAsBitVect(m) for m in self.molecules]
+
+
+
+                data = pd.DataFrame()
+                print 'done' , data
+                for i,fp in enumerate(self.fps):
+                    data[i] = [el for el in fp]
+                data = data.T
+                print len(data.columns)
+                d_des = data.describe()
+                for i in data.columns:
+                    if d_des[i]['mean'] == 0 :
+                        data.drop(i,1)
+                print len(data.columns)
+
                 dict_nonzero = []
                 for fp in self.fps:
                     dict_nonzero.append({i:el for i,el in enumerate(fp) if el!=0})
@@ -228,18 +246,20 @@ class RDKFingerprint(object):
                 msg = "There is no RDKit function to encode int vectors for MACCS keys"
                 raise ValueError(msg)
             elif self.vector == 'bit':
-                self.fps = [Chem.MACCSkeys.GenMACCSKeys(mol) for mol in self.molecules]
+                from rdkit.Chem.MACCSkeys import GenMACCSKeys
+                self.fps = [GenMACCSKeys(mol) for mol in self.molecules]
                 data = pd.DataFrame()
                 for i,fp in enumerate(self.fps):
                     data[i] = [el for el in fp]
                 data = data.T
                 return data
             else:
-                msg = "The vector argument can be 'int' or 'bit'"
+                msg = "The vector argument can only be 'int' or 'bit'"
                 raise ValueError(msg)
         elif self.FPtype == 'Morgan':
             if self.vector == 'int':
-                self.fps = [Chem.rdMolDescriptors.GetMorganFingerprint(mol, self.radius) for mol in self.molecules]
+                from rdkit.Chem.rdMolDescriptors import GetMorganFingerprint
+                self.fps = [GetMorganFingerprint(mol, self.radius) for mol in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 pairScores = []
                 for fp in dict_nonzero:
@@ -248,24 +268,27 @@ class RDKFingerprint(object):
                 data.fillna(0, inplace = True)
                 return data
             elif self.vector == 'bit':
-                self.fps = [Chem.rdMolDescriptors.GetMorganFingerprintAsBitVect(mol, self.radius,nBits=self.nBits) for mol in self.molecules]
+                from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
+                self.fps = [GetMorganFingerprintAsBitVect(mol, self.radius,nBits=self.nBits) for mol in self.molecules]
                 data = pd.DataFrame()
                 for i,fp in enumerate(self.fps):
                     data[i] = [el for el in fp]
                 data = data.T
                 return data
             else:
-                msg = "The argument vector can be 'int' or 'bit'"
+                msg = "The argument vector can only be 'int' or 'bit'"
                 raise ValueError(msg)
         elif self.FPtype == 'Hashed_topological_torsion' or self.FPtype == 'HTT':
             if self.vector == 'int':
-                self.fps = [Chem.rdMolDescriptors.GetHashedTopologicalTorsionFingerprint(m,nBits=self.nBits) for m in self.molecules]
+                from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprint
+                self.fps = [GetHashedTopologicalTorsionFingerprint(m,nBits=self.nBits) for m in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 data = pd.DataFrame(dict_nonzero,columns=range(self.nBits))
                 data.fillna(0, inplace = True)
                 return data
             elif self.vector == 'bit':
-                self.fps = [Chem.rdMolDescriptors.GetHashedTopologicalTorsionFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]                
+                from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprintAsBitVect
+                self.fps = [GetHashedTopologicalTorsionFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]
                 data = pd.DataFrame()
                 for i,fp in enumerate(self.fps):
                     data[i] = [el for el in fp]
@@ -276,7 +299,8 @@ class RDKFingerprint(object):
                 raise ValueError(msg)
         elif self.FPtype == 'Topological_torsion' or self.FPtype == 'TT':
             if self.vector == 'int':
-                self.fps = [Chem.AtomPairs.Torsions.GetTopologicalTorsionFingerprintAsIntVect(mol) for mol in self.molecules]
+                from rdkit.Chem.AtomPairs.Torsions import GetTopologicalTorsionFingerprintAsIntVect
+                self.fps = [GetTopologicalTorsionFingerprintAsIntVect(mol) for mol in self.molecules]
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 pairScores = []
                 for fp in dict_nonzero:
@@ -288,7 +312,7 @@ class RDKFingerprint(object):
                 msg = "There is no RDKit function to encode bit vectors for Topological Torsion Fingerprints"
                 raise ValueError(msg)
             else:
-                msg = "The argument vector can be 'int' or 'bit'"
+                msg = "The argument vector can only be 'int'"
                 raise ValueError(msg)
         else:
             msg = "The type argument '%s' is not a valid fingerprint type"%self.FPtype

@@ -116,10 +116,10 @@ class Dragon(object):
         self.RoundDescriptorValues = RoundDescriptorValues
         self.knimemode = knimemode
     
-    def script_wizard(self, script='new'):
+    def script_wizard(self, script='new', output_directory='./'):
         """
         Notice: Script for version 7 doesn't support fingerprints block
-        The script_wizard is designed to build a Drgon script file. The name and 
+        The script_wizard is designed to build a Dragon script file. The name and
         the functionality of this function is the same as available Script wizard 
         in the Graphic User Intrface.
         Note: All reported nodes are mandatory, except the <EXTERNAL> tag
@@ -147,6 +147,12 @@ class Dragon(object):
         ------        
         Returns class parameters
         """
+        if output_directory[-1] == '/':
+            self.output_directory = output_directory
+        else:
+            self.output_directory = output_directory + '/'
+        if not os.path.exists(self.output_directory):
+            os.makedirs(self.output_directory)
 
         if script == 'new':
             if self.version == 6:
@@ -217,10 +223,10 @@ class Dragon(object):
                 OUTPUT.append(objectify.Element("SaveFile", value = _bool_formatter(self.SaveFile)))
                 if self.SaveFile:
                     OUTPUT.append(objectify.Element("SaveType", value = self.SaveType)) # value = "[singlefile/block/subblock]"
-                    OUTPUT.append(objectify.Element("SaveFilePath", value = self.SaveFilePath)) #Specifies the file name for saving results as a plan text file(s), if the "singlefile" option is set; if "block" or "subblock" are set, specifies the path in which results files will be saved.
+                    OUTPUT.append(objectify.Element("SaveFilePath", value = self.output_directory+self.SaveFilePath)) #Specifies the file name for saving results as a plan text file(s), if the "singlefile" option is set; if "block" or "subblock" are set, specifies the path in which results files will be saved.
                 OUTPUT.append(objectify.Element("logMode", value = self.logMode)) # value = [none/stderr/file]
                 if self.logMode == "file":
-                    OUTPUT.append(objectify.Element("logFile", value = self.logFile))
+                    OUTPUT.append(objectify.Element("logFile", value = self.output_directory+self.logFile))
             
                 if self.external:
                     EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL") 
@@ -307,10 +313,10 @@ class Dragon(object):
                 OUTPUT.append(objectify.Element("SaveFile", value = _bool_formatter(self.SaveFile)))
                 if self.SaveFile:
                     OUTPUT.append(objectify.Element("SaveType", value = self.SaveType)) # value = "[singlefile/block/subblock]"
-                    OUTPUT.append(objectify.Element("SaveFilePath", value = self.SaveFilePath)) #Specifies the file name for saving results as a plan text file(s), if the "singlefile" option is set; if "block" or "subblock" are set, specifies the path in which results files will be saved.
+                    OUTPUT.append(objectify.Element("SaveFilePath", value = self.output_directory+self.SaveFilePath)) #Specifies the file name for saving results as a plan text file(s), if the "singlefile" option is set; if "block" or "subblock" are set, specifies the path in which results files will be saved.
                 OUTPUT.append(objectify.Element("logMode", value = self.logMode)) # value = [none/stderr/file]
                 if self.logMode == "file":
-                    OUTPUT.append(objectify.Element("logFile", value = self.logFile))
+                    OUTPUT.append(objectify.Element("logFile", value = self.output_directory+self.logFile))
             
                 if self.external:
                     EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL") 
@@ -321,7 +327,7 @@ class Dragon(object):
                 self._save_script()
                 
             else:
-                msg = "All options are based on newest vesions of Dragon, 6 or 7."
+                msg = "Only version 6 and version 7 (newest version) are available in this module."
                 warnings.warn(msg,Warning)
         
         else:
@@ -346,7 +352,7 @@ class Dragon(object):
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         self.drs = 'Dragon_script.drs'
-        with open(self.drs, 'w') as outfile:
+        with open(self.output_directory+self.drs, 'w') as outfile:
             outfile.write("%s" %etree.tostring(self.dragon, pretty_print=True))
 
     def printout(self):
@@ -356,6 +362,6 @@ class Dragon(object):
         
     def run(self):
         print "running Dragon%s ..."%self.version    
-        os.system('nohup dragon%sshell -s %s'%(self.version,self.drs))
+        os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs))
 #         print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
         print "... all done!"    

@@ -364,4 +364,4 @@ class Dragon(object):
         print "running Dragon%s ..."%self.version    
         os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs))
 #         print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
-        print "... all done!"    
+        print "... Dragon job completed!"

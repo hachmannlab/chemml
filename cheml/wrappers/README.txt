@@ -1,119 +1,164 @@
 ## DataRepresentation
-		module						function            legal_inputs                        legal_outputs
-		------						--------            ------------                        -------------
-		cheml						RDKitFingerprint    {}                                  {df}
-		cheml						Dragon              {}                                  {df}
-		cheml 						CoulombMatrix       {}                                  {df}
-		cheml 						BagofBonds          {}                                  {df}
-		cheml                       DistanceMatrix      {df}                                {df}
-		sklearn						PolynomialFeatures  {df}                                {api,df}
 
+    module						function            legal_inputs                        legal_outputs
+    ------						--------            ------------                        -------------
+D	cheml						RDKitFingerprint    {molfile}                           {df}
+D	cheml						Dragon              {molfile}                           {df}
+    cheml 						CoulombMatrix       {}                                  {df}
+    cheml 						BagofBonds          {}                                  {df}
+    cheml                       DistanceMatrix      {df}                                {df}
+    sklearn						PolynomialFeatures  {df}                                {api,df}
+
+
+----------------------------------------------------------------------------------------------------
+## Script
+
+D   cheml                       PyScript            {df,api,value}                            {df,api,value}
+
+
+----------------------------------------------------------------------------------------------------
 ## Input
-		module						function            legal_inputs                        legal_outputs
-		------						--------            ------------                        -------------
-		cheml						File  	            {}                                  {df}
-		cheml						Merge               {df1,df2}                           {df}
-		cheml 						Split  		        {df}                                {df1,df2}
 
+    module						function            legal_inputs                        legal_outputs
+    ------						--------            ------------                        -------------
+D	cheml						File  	            {}                                  {df}
+D	cheml						Merge               {df1,df2}                           {df}
+D	cheml 						Split  		        {df}                                {df1,df2}
+
+
+----------------------------------------------------------------------------------------------------
 ## Output
-		module						function
-		------						--------
-		cheml						SaveFile            {df}                                {fp(file_path)}
 
+    module						function
+    ------						--------
+D	cheml						SaveFile            {df}                         {filepath}                                {fp(file_path)}
+
+
+----------------------------------------------------------------------------------------------------
 ## Preprocessor
-		module						function            legal_inputs                        legal_outputs
-		------						--------            ------------                        -------------
-		cheml 						MissingValues
-		cheml 						Trimmer
-		cheml 						Uniformer
-		sklearn						Imputer             {df}                                {api,df}
-		sklearn 					StandardScaler      {df}                                {api,df}
-		sklearn						MinMaxScaler        {df}                                {api,df}
-		sklearn						MaxAbsScaler        {df}                                {api,df}
-		sklearn						RobustScaler        {df}                                {api,df}
-		sklearn						Normalizer          {df}                                {api,df}
-		sklearn						Binarizer           {df}                                {api,df}
-		sklearn						OneHotEncoder       {df}                                {api,df}
 
+    module						function            legal_inputs                        legal_outputs
+    ------						--------            ------------                        -------------
+D   cheml 						MissingValues       {df}                                {api,df}
+D   cheml 						Trimmer             {dfx, dfy}                          {api,dfx,dfy}
+D   cheml 						Uniformer           {dfx, dfy}                          {api,dfx,dfy}
+D	sklearn						Imputer             {df}                                {api,df}
+D	sklearn 					StandardScaler      {df}                                {api,df}
+D	sklearn						MinMaxScaler        {df}                                {api,df}
+D	sklearn						MaxAbsScaler        {df}                                {api,df}
+D	sklearn						RobustScaler        {df}                                {api,df}
+D	sklearn						Normalizer          {df}                                {api,df}
+D	sklearn						Binarizer           {df}                                {api,df}
+D	sklearn						OneHotEncoder       {df}                                {api,df}
+
+
+----------------------------------------------------------------------------------------------------
 ## FeatureSelection
-		module						function
-		------						--------
-		cheml						TBFS
-		sklearn						VarianceThreshold
-		sklearn						SelectKBest
-		sklearn						SelectPercentile
-		sklearn						SelectFpr
-		sklearn						SelectFdr
-		sklearn						SelectFwe
-		sklearn						RFE
-		sklearn						RFECV
-		sklearn						SelectFromModel
 
+    module						function
+    ------						--------
+    cheml						TBFS
+    sklearn						VarianceThreshold
+    sklearn						SelectKBest
+    sklearn						SelectPercentile
+    sklearn						SelectFpr
+    sklearn						SelectFdr
+    sklearn						SelectFwe
+    sklearn						RFE
+    sklearn						RFECV
+    sklearn						SelectFromModel
+
+
+----------------------------------------------------------------------------------------------------
 ## FeatureTransformation
-		module						function
-		------						--------
-		sklearn						PCA
-		sklearn						KernelPCA
-		sklearn						RandomizedPCA
-		sklearn						LDA
 
+    module                      function            legal_inputs                        legal_outputs
+    ------                      --------            ------------                        -------------
+D   sklearn                     PCA                 {df}                                {api,df}
+    sklearn                     KernelPCA
+    sklearn                     RandomizedPCA
+    sklearn                     LDA
+
+----------------------------------------------------------------------------------------------------
 ## Divider
-		module						function
-		------						--------
-		sklearn						train_test_split
-		sklearn						K-fold
-		sklearn						StratifiedKFold
-		sklearn						LabelKFold
-		sklearn						LeaveOneOut
-		sklearn						LeavePOut
-		sklearn						LeaveOneLabelOut
-		sklearn						LeavePLabelOut
-		sklearn						ShuffleSplit
-		sklearn						LabelShuffleSplit
-		sklearn						PredefinedSplit
 
+    module						function            legal_inputs                        legal_outputs
+    ------						--------            ------------                        -------------
+D   sklearn						Train_Test_Split    {dfx,dfy(None)}                     {dfx_train,dfx_test,dfy_train(None),dfy_test(None)}
+D   sklearn						KFold               {}                                  {CV}
+    sklearn						StratifiedKFold
+    sklearn						LabelKFold
+    sklearn						LeaveOneOut
+    sklearn						LeavePOut
+    sklearn						LeaveOneLabelOut
+    sklearn						LeavePLabelOut
+    sklearn						ShuffleSplit
+    sklearn						LabelShuffleSplit
+    sklearn						PredefinedSplit
+
+
+----------------------------------------------------------------------------------------------------
 ## Regression
-		module						function
-		------						--------
-		cheml						NN_MLP_PSGD
-		cheml						NN_MLP_DSGD
-		cheml						NN_MLP_Theano
-		cheml						NN_MLP_Tensorflow
-		cheml						SVR
-		sklearn						Linear
-		sklearn						Ridge
-		sklearn						KernelRidge
-		sklearn						Lasso
-		sklearn						ElasticNet
-		sklearn						LassoLars
-		sklearn						SVR
-		sklearn						NuSVR
-		sklearn						LinearSVR
 
+    module						function            legal_inputs                        legal_outputs
+    ------						--------            ------------                        -------------
+    cheml						NN_MLP_PSGD
+    cheml						NN_MLP_DSGD
+    cheml						NN_MLP_Theano
+    cheml						NN_MLP_Tensorflow
+    cheml						SVR
+D   sklearn						Linear
+D   sklearn						Ridge
+D   sklearn						KernelRidge
+D   sklearn						Lasso
+D   sklearn                     MultiTaskLasso
+D   sklearn                     ElasticNet
+D   sklearn                     MultiTaskElasticNet
+D   aklearn                     Lars
+D   sklearn						LassoLars
+D   sklearn                     BayesianRidge
+D   sklearn                     ARD
+D   sklearn                     Logistic
+D   sklearn                     SGD
+D   sklearn						SVR                 {'dfx','dfy','pack'}          {'r2_train','api'}
+D   sklearn						NuSVR
+D   sklearn						LinearSVR
+
+
+----------------------------------------------------------------------------------------------------
 ## Classification
-		module						function
-		------						--------
 
-## Evaluation
-		module						function
-		------						--------
-		sklearn						r2_score
-		sklearn						mean_absolute_error
-		sklearn						median_absolute_error
-		sklearn						mean_squared_error
-		sklearn						root_mean_squared_error
-		sklearn						explained_variance_score
+    module						function
+    ------						--------
 
+
+----------------------------------------------------------------------------------------------------
+## Postprocessor
+
+    module						function
+    ------						--------
+D   sklearn                     Evaluation
+D   sklearn                     Grid_SearchCV
+    sklearn                     Model_Persistence
+
+
+
+
+----------------------------------------------------------------------------------------------------
 ## Visualization
-		module						function
-		------						--------
-		cheml
 
+    module						function
+    ------						--------
+    cheml
+
+
+----------------------------------------------------------------------------------------------------
 ## Optimizer
-		module						function
-		------						--------
-		cheml						GA_Binary
-		cheml						GA_Real
-		cheml						ANT
-		cheml						PSO
+
+    module						function
+    ------						--------
+    cheml						GA_Binary
+    cheml						GA_Real
+    cheml						ANT
+    cheml						PSO
 

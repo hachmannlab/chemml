@@ -92,7 +92,7 @@ def selector_dataframe(transformer, df, tf):
     
     Parameters
     ----------
-    imputer: sklearn VarianceThreshold class 
+    transformer: sklearn VarianceThreshold class
          The class with adjusted parameters.
          
     df: Pandas dataframe
@@ -112,7 +112,7 @@ def selector_dataframe(transformer, df, tf):
         warnings.warn("empty dataframe: all columns have been removed",Warning)
         return transformer, df
     else:
-        retained_features_ind = sel.get_support(True)
+        retained_features_ind = transformer.get_support(True)
         df_columns = [df_columns[i] for i in retained_features_ind]
         df = pd.DataFrame(df,columns=df_columns)
         return df

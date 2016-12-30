@@ -947,7 +947,7 @@ def SupervisedLearning_regression(block):
         elif sub_block['function'] == 'metrics':
             continue
         else:
-            sub_functions[sub_block['function']](block, sub_block)    
+            sub_functions[sub_block['function']](block, sub_block)
            
 									#*****************#
 									
@@ -1122,7 +1122,7 @@ def handle_cheml_nn_psgd(block, learner_API):
         cmlnb["blocks"][it]["source"].append(line + '\n')
         # scale
         if 'scaler' in order:
-            scaler_API = block['parameters'][order.index('scaler')]['parameters']['method'][1:-1] + '_API'
+            scaler_API = block['parameters'][ord    er.index('scaler')]['parameters']['method'][1:-1] + '_API'
             line = '%s.fit(data_train)'%scaler_API
             cmlnb["blocks"][it]["source"].append(line + '\n')
             line = 'data_train = ' + scaler_API +'.transform(data_train)'

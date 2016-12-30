@@ -5,6 +5,8 @@ import fnmatch
 from rdkit import Chem
 import rdkit
 
+# TODO: AP/bit is time consuming - should be used directly with distance matrix
+
 def _add_range(file,start_end):
     start = start_end[0::2]
     end = start_end[1::2]

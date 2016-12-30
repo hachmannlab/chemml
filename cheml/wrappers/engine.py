@@ -53,7 +53,6 @@ class Parser(object):
                 continue
 
         cmls = self._options(blocks)
-        print cmls
         ImpOrder,CompGraph = self.transform(cmls)
         self._print_out(cmls)
         return cmls, ImpOrder, CompGraph
@@ -169,35 +168,28 @@ class Parser(object):
         :param cmls:
         :return implementation order:
         """
-        send_all = {}
-        recv_all = {}
+        send_all = []
+        recv_all = []
         for block in cmls:
-            send_all.update(block['send'])
-            recv_all.update(block['recv'])
+            send_all += block['send'].items()
+            recv_all += block['recv'].items()
         # check send and recv
-        if len(send_all) != len(recv_all):
-            msg = 'number of send and receive is not equal'
+        if len(send_all) > len(recv_all):
+            msg = '@cehml script - number of sent tokens must be less or equal to number of received tokens'
             raise ValueError(msg)
-        send_ids = [k[1] for k,v in send_all.items()]
-        recv_ids = [k[1] for k,v in recv_all.items()]
+        send_ids = [k[1] for k,v in send_all]
+        recv_ids = [k[1] for k,v in recv_all]
         for id in send_ids:
             if send_ids.count(id)>1:
                 msg = 'identified non unique send id (id#%i)'%id
                 raise NameError(msg)
-        for id in recv_ids:
-            if recv_ids.count(id)>1:
-                msg = 'identified non unique receive id (id#%i)'%id
-                raise NameError(msg)
-        if len(set(send_ids) - set(recv_ids))>0:
+        if set(send_ids) != set(recv_ids):
             msg = 'missing pairs of send and receive id'
             raise ValueError(msg)
 
         # make graph
-        reformat_send = {k[1]:[v,k[0]] for k,v in send_all.items()}
-        for k, v in recv_all.items():
-            reformat_send[k[1]] += [v,k[0]]
-            reformat_send[k[1]] = tuple(reformat_send[k[1]])
-        CompGraph = tuple(reformat_send.values())
+        reformat_send = {k[1]:[v,k[0]] for k,v in send_all}
+        CompGraph = tuple([tuple(reformat_send[k[1]]+[v,k[0]]) for k,v in recv_all])
 
         # find orders
         ids_sent = []
@@ -211,25 +203,30 @@ class Parser(object):
                     if len(ids_recvd) == 0:
                         ids_sent += [k[1] for k,v in cmls[i]['send'].items()]
                         ImpOrder.append(i)
-                    elif len(set(ids_recvd) - set(ids_sent))==0:
+                    elif len(set(ids_recvd) - set(ids_sent)) == 0:
                         ids_sent += [k[1] for k,v in cmls[i]['send'].items()]
                         ImpOrder.append(i)
             if  inf_checker > len(cmls):
-                msg = 'Your design of send and receive tokens makes a loop of interdependencies. We believe that you can avoid such loops with setting only one received input per input type.'
+                msg = 'Your design of send and receive tokens makes a loop of interdependencies. You can avoid such loops by designing your workflow hierarchichally'
                 raise IOError(msg)
         return tuple(ImpOrder),CompGraph
 
 class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
+        self.graph_info = {}
         self.send = {}      # {(iblock,token):[value,count]}
-        self.requirements = []
+        self.requirements = ['pandas']
         self.start_time = time.time()
         self.block_time = 0
         self.date = std_datetime_str('date')
         self.time = std_datetime_str('time')
         self.InputScript = ''
         self.output_directory = '.'
+        self.cheml_type = {'descriptor':[], 'interpreter':[], 'input':[], 'output':[],
+                           'selector':[], 'transformer':[], 'regressor':[],
+                           'preprocessor':[], 'divider':[], 'postprocessor':[],
+                           'classifier':[], 'evaluator':[], 'visualizer':[], 'optimizer':[]}
         print 'initialized'
 
 class Wrapper(object):
@@ -250,9 +247,19 @@ class Wrapper(object):
         any possible typo in other params.
         """
         # get params
-        legal_superfunctions = ['DataRepresentation','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Evaluation','Visualization','Optimizer']
-        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds','File','Merge','Split','SaveFile','MissingValues','Trimmer','Uniformer','TBFS','NN_MLP_PSGD','NN_MLP_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR','GA_Binary','GA_Real'],
-                         'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer','Binarizer','OneHotEncoder','VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr','SelectFwe','RFE','RFECV','SelectFromModel','PCA','KernelPCA','RandomizedPCA','LDA','','','','',''],
+        legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Postprocessor','Evaluation','Visualization','Optimizer']
+        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds',
+                                  'PyScript','File','Merge','Split','SaveFile',
+                                  'MissingValues','Trimmer','Uniformer','Constant','TBFS',
+                                  'NN_PSGD','NN_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR'],
+                         'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler',
+                                     'RobustScaler','Normalizer','Binarizer','OneHotEncoder',
+                                     'VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr',
+                                     'SelectFwe','RFE','RFECV','SelectFromModel',
+                                     'PCA','KernelPCA','RandomizedPCA','LDA',
+                                     'Train_Test_Split','KFold','','','',
+                                     'SVR','','',
+                                     'Grid_SearchCV','Evaluation',''],
                          'mlpy':[]}
 
         # run over graph
@@ -293,6 +300,7 @@ class Wrapper(object):
                 if function not in legal_functions:
                     msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
                     raise NameError(msg)
+                self.Base.graph_info[iblock] = (module, function)
                 cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
                 cmli = cml_interface(self.Base,parameters,iblock,SuperFunction)
                 cmli.run()
@@ -302,6 +310,7 @@ class Wrapper(object):
                 if function not in legal_functions:
                     msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,module)
                     raise NameError(msg)
+                self.Base.graph_info[iblock] = (module, function)
                 cml_interface = [klass[1] for klass in inspect.getmembers(cml) if klass[0] == function][0]
                 cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
                 cmli.run()
@@ -348,9 +357,9 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     script = open(INPUT_FILE, 'r')
     script = script.readlines()
     cmls, ImpOrder, CompGraph = Parser(script).fit()
-    print cmls
-    print ImpOrder
-    print CompGraph
+    # print cmls
+    # print ImpOrder
+    # print CompGraph
     # sys.exit('this is how much you get till now!')
     settings = Settings(OUTPUT_DIRECTORY)
     OUTPUT_DIRECTORY = settings.fit(INPUT_FILE)

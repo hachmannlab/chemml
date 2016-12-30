@@ -52,18 +52,19 @@ class missing_values(object):
     
     Parameters
     ----------
-    strategy: string, optional (default="mean")
+    strategy: string, optional (default="ignore")
         
         list of strategies:
         - interpolate: interpolate based on sorted target values
         - zero: set to the zero
-        - ignore: remove the entire row in data and target
-    
+        - ignore_row: remove the entire row in data and target
+        - ignore_column: remove the entire column in data and target
+
     string_as_null: boolean, optional (default=True)
         If True non numeric elements are considered to be null in computations.
     
     missing_values: list, optional (default=False)
-        The plceholder for missing values. It must be a list of one or more of 
+        The placeholder for missing values. It must be a list of one or more of
         any type of string, float or integer values. 
 
     inf_as_null: boolean, optional (default=True)
@@ -95,27 +96,25 @@ class missing_values(object):
                 df.replace(pattern, np.nan, True)
         return df
         
-    def transform(self, data, target):    
+    def transform(self, data):
         data = _check_object_col(data, 'data')
-        target = _check_object_col(target, 'target')
         # drop null columns
         data.dropna(axis=1, how='all', inplace=True)
-        target.dropna(axis=1, how='all', inplace=True)
-        
+
         if self.strategy == 'zero':
             for col in data.columns:
                 data[col].fillna(value=0,inplace=True)                
-            for col in target.columns:
-                target[col].fillna(value=0,inplace=True)                
-            return data, target
-        elif self.strategy == 'ignore':
-            data = pd.concat([data, target], axis=1)
+            return data
+        elif self.strategy == 'ignore_row':
             data.dropna(axis=0, how='any', inplace=True)
-            data, target = cut_df(list(target.columns), data, paste_col=list(target.columns), on_right=True)
-            return data, target
+            return data
+        elif self.strategy == 'ignore_column':
+            data.dropna(axis=1, how='any', inplace=True)
+            return data
         elif self.strategy == 'interpolate':
-            data = pd.concat([data, target], axis=1)
             data = data.interpolate()
             data.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
-            data, target = cut_df(list(target.columns), data, paste_col=list(target.columns), on_right=True)
-            return data, target
+            return data
+        else:
+            msg = "Wrong strategy has been passed"
+            raise TypeError(msg)

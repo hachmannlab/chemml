@@ -13,7 +13,7 @@ def _group_parser(indices, pop):
     return sel_ind
 
 class Trimmer(object):
-    """ cut unwanted parts of data set
+    """ cut unnecessary parts of data set
     
     Parameters
     ----------
@@ -126,7 +126,7 @@ class Uniformer(object):
     
     right: bool, optional, default True
         Indicates whether the bins include the rightmost edge or not. 
-        If right == True (the default), then the bins [1,2,3,4] indicate (1,2], (2,3], (3,4].
+        If right == True (by default), then the bins [1,2,3,4] indicate (1,2], (2,3], (3,4].
     
     include_lowest: bool, optional, default False
         Whether the first interval should be left-inclusive or not.
@@ -226,5 +226,4 @@ class Uniformer(object):
             target = pd.DataFrame(new_target_values, columns=[col])        
         
         return data, target
-          
-            
+

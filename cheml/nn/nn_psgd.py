@@ -255,7 +255,7 @@ def back_propagate(para_input):
                     or np.isinf(weight[1]).any():
                     break
                 di = dhi * np.dot(di,weight[0].T)
-
+ZZ
 
 # @profile
 def train(X_train,X_test,Y_train,Y_test,nneurons,input_act_funcs,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,

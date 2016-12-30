@@ -1,12 +1,12 @@
 #value(val)
 cmls =
-[{'recv': {}, 'SuperFunction': 'DataRepresentation', 'send': {('data', 3): 0, ('data', 0): 0}, 'parameters': {'function': 'RDKitFingerprint', 'nBits': 1024, 'molfile': '', 'removeHs': True, 'module': 'cheml', 'vector': 'bit', 'FPtype': 'Morgan', 'arguments': [0, 0], 'path': None, 'radius': 2}},
- {'recv': {('Y', 1): 1, ('X', 0): 1}, 'SuperFunction': 'Input', 'send': {}, 'parameters': {'function': 'File', 'data_skiprows': 0, 'target_skiprows': 0, 'data_path': 'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv', 'module': 'cheml', 'data_delimiter': None, 'target_delimiter': None, 'target_header': None, 'data_header': 0, 'target_path': 'benchmarks/homo_dump/sample_50/homo_50.csv'}},
- {'recv': {('F', 5): 2}, 'SuperFunction': 'Output', 'send': {('data', 1): 2}, 'parameters': {}}, {'recv': {('X', 3): 3}, 'SuperFunction': 'Regression', 'send': {('api', 4): 3}, 'parameters': {'function': 'SVR', 'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'shrinking': True, 'epsilon': 0.1, 'max_iter': -1, 'module': 'sklearn', 'tol': 0.001, 'cache_size': 200, 'degree s': 3, 'coef0': 0.0, 'gamma': 'auto'}},
- {'recv': {('api', 4): 4}, 'SuperFunction': 'Visualization', 'send': {('fake', 5): 4}, 'parameters': {}}
+[{'recv': {},             'SuperFunction': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
+ {'recv': {('df', 0): 1}, 'SuperFunction': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
+ {'recv': {('df', 2): 2}, 'SuperFunction': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
 ]
-ImpOrder = (0, 3, 4, 2, 1)
-CompGraph = ((0, 'data', 1, 'X'), (2, 'data', 1, 'Y'), (0, 'data', 3, 'X'), (3, 'api', 4, 'api'), (4, 'fake', 2, 'F'))
+
+ImpOrder = (0, 1, 2)
+CompGraph = ((0, 'df', 1, 'df'), (1, '  df2', 2, 'df'))
 
     ####
 
@@ -16,9 +16,9 @@ cmls =
  {'function': 'INPUT', 'send': {'data': 'SVM', 'target': 'SVM'}, 'parameters': {'target_path': "'benchmarks/homo_dump/sample_50/homo_50.csv'", 'data_skiprows': '0', 'target_skiprows': '0', 'data_path': "'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'", 'data_delimiter': 'None', 'target_delimiter': 'None', 'target_header': 'None', 'data_header': '0'}},
  {'function': 'SVR', 'send': {}, 'parameters': {'kernel': "'rbf'", 'C': '1.0', 'verbose': 'False', 'shrinking': 'True', 'epsilon': '0.1', 'max_iter': '-1', 'tol': '1e-3', 'cache_size': '200', 'degree s': '3', 'coef0': '0.0', 'gamma': "'auto'"}}
 ]
- 	 
- 	####
- 	 
+
+    ####
+
 cmlnb =
 {'blocks': [{'function': 'RDKFP', 'imports': ['from cheml.chem import RDKFingerprint\n'], 'source': ['RDKFingerprint_API = RDKFingerprint(nBits = 1024,\n', '                                    removeHs = True,\n', "                                    vector = 'bit',\n", '                                    radius = 2,\n', "                                    FPtype = 'Morgan')\n", "RDKFingerprint_API.MolfromFile(molfile = '', path = None, 0,0,...)\n", 'data = RDKFingerprint_API.Fingerprint()\n']}, 
             {'function': 'INPUT', 'imports': ['import numpy as np\n', 'import pandas as pd\n'], 'source': ["data = pd.read_csv('benchmarks/homo_dump/sample_50/data_NOsmi_50.csv',\n", '                   sep = None,\n', '                   skiprows = 0,\n', '                   header = 0)\n', "target = pd.read_csv('benchmarks/homo_dump/sample_50/homo_50.csv',\n", '                     sep = None,\n', '                     skiprows = 0,\n', '                     header = None)\n']},
@@ -30,3 +30,57 @@ cmlnb =
  'imports': ['cheml: RDKFingerprint', 'numpy', 'pandas', 'sklearn: train_test_split', 'sklearn: K-fold', 'sklearn: StandardScaler', 'sklearn: SVR', 'sklearn: r2_score', 'sklearn: mean_absolute_error', 'sklearn: median_absolute_error', 'sklearn: mean_squared_error', 'sklearn: explained_variance_score'],
  'date': '2016-04-22'
 }
+
+
+    ####
+
+CompGraph = ((0, 'df', 1, 'df'), (1, 'df2', 2, 'df'), (1, 'df1', 3, 'df'), (3, 'filepath', 4, 'molfile'), (4, 'df', 5, 'df'), (5, 'df', 6, 'df'))
+CompGraph = {(iblock_send,token,iblock_recv,token)}
+self.Base.graph = CompGraph
+
+self.legal_inputs = {token:(value,(i_send,token,module,function))}
+
+self.Base.graph_info = {iblock:(module,function)}
+
+self.Base.send = {(iblock_send,token) : [value, count]}
+
+self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

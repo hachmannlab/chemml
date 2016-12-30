@@ -5,7 +5,7 @@ import multiprocessing
 import nn_psgd
 from ..utils import chunk
 
-def nn_dsgd_train(X,Y,nneurons,input_act_funcs,validation=0.1,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
+def train(X,Y,nneurons,input_act_funcs,validation=0.1,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
     batch_size=256,n_hist=20,n_check=50,threshold=0.1, print_level=1):
     """
     Main distributed memory function
@@ -66,7 +66,7 @@ def nn_dsgd_train(X,Y,nneurons,input_act_funcs,validation=0.1,learn_rate=0.001,r
     if rank==0:
         return trained_network
 
-def nn_dsgd_output(X,nnets):
+def output(X,nnets):
     """(nn_dsgd_output)
     User accessible output for neural network given trained weights.
     
@@ -86,7 +86,7 @@ def nn_dsgd_output(X,nnets):
     comm=MPI.COMM_WORLD
     rank=comm.rank
     size=comm.size
-    
+
     if rank == 0:
         results = []
         for nn in nnets:

@@ -11,8 +11,8 @@ last modified date: April 24, 2016
 
 
 __all__ = [
-    'nn_PSGD',
-    'nn_DSGD',
-    'nn_tf',
-    'nn_theano',
+    'multilayer_perceptron',
+    'recurrent_network',
+    'convolutional',
+    '',
 ]

@@ -1,142 +1,431 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>cheml.initialization package &mdash; ChemML 2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ChemML 2 documentation" href="index.html" />
-    <link rel="up" title="cheml package" href="cheml.html" />
-    <link rel="next" title="cheml.nn package" href="cheml.nn.html" />
-    <link rel="prev" title="cheml.chem package" href="cheml.chem.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.nn.html" title="cheml.nn package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="cheml.chem.html" title="cheml.chem package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.initialization package &mdash; ChemML 2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="up" title="cheml package" href="cheml.html"/>
+        <link rel="next" title="cheml.nn package" href="cheml.nn.html"/>
+        <link rel="prev" title="cheml.chem package" href="cheml.chem.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.initialization package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.initialization.data">cheml.initialization.data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-initialization-module">cheml.initialization.initialization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.initialization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">Computational Graph Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#data-representation">Data Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#script">Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#input">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#output">Output</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cheml.html">cheml package</a> &raquo;</li>
+      
+    <li>cheml.initialization package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.initialization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="cheml-initialization-package">
 <h1>cheml.initialization package<a class="headerlink" href="#cheml-initialization-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-initialization-data-module">
-<h2>cheml.initialization.data module<a class="headerlink" href="#cheml-initialization-data-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.initialization.data">
+<span id="cheml-initialization-data-module"></span><h2>cheml.initialization.data module<a class="headerlink" href="#module-cheml.initialization.data" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.initialization.data.Trimmer">
+<em class="property">class </em><code class="descclassname">cheml.initialization.data.</code><code class="descname">Trimmer</code><span class="sig-paren">(</span><em>type='margins'</em>, <em>sort=True</em>, <em>cut=0.05</em>, <em>shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Trimmer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>cut unnecessary parts of data set</p>
+<p>type: string, optional (default=&#8221;margins&#8221;)</p>
+<blockquote>
+<div>list of types:
+- random: remove part of data randomly
+- margins: cut from both top and bottom of data set
+- top: cut only top margin
+- bottom: cut only bottom margin</div></blockquote>
+<dl class="docutils">
+<dt>sort: boolean, optional (default=True)</dt>
+<dd>If True data will be sorted by target values before trimming.</dd>
+<dt>cut: float in (0,1) range, optional (default=0.05)</dt>
+<dd>fraction of data set size to be trimmed.</dd>
+<dt>shuffle: Boolean, optional (default=True)</dt>
+<dd>To shuffle the data before sampling. Effective only if sort is False.</dd>
+</dl>
+<dl class="docutils">
+<dt>Ncut: int</dt>
+<dd>number of removed data points</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">selected_indices_</span></a>: list</dt>
+<dd>Axis labels of data points that have been drawn randomly. Available only
+if type is &#8216;random&#8217;.</dd>
+</dl>
+<p>data and target</p>
+<dl class="method">
+<dt id="cheml.initialization.data.Trimmer.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>data</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Trimmer.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the trimmer on df.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.data.Uniformer">
+<em class="property">class </em><code class="descclassname">cheml.initialization.data.</code><code class="descname">Uniformer</code><span class="sig-paren">(</span><em>bins</em>, <em>bin_pop=0.5</em>, <em>right=True</em>, <em>include_lowest=True</em>, <em>substitute=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Uniformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>select a uniform size of groups of target values</p>
+<dl class="docutils">
+<dt>bins: int or sequence of scalars or float, to be passed to pandas.cut</dt>
+<dd>If bins is an int, it defines the number of equal-width bins in the range of x. 
+However, in this case, the range of x is extended by 0.1% on each side to include 
+the min or max values of x. If bins is a sequence it defines the bin edges allowing
+for non-uniform bin width. No extension of the range of x is done in this case.
+If bins is a float, it defines the width of bins.</dd>
+<dt>right: bool, optional, default True</dt>
+<dd>Indicates whether the bins include the rightmost edge or not. 
+If right == True (by default), then the bins [1,2,3,4] indicate (1,2], (2,3], (3,4].</dd>
+<dt>include_lowest: bool, optional, default False</dt>
+<dd>Whether the first interval should be left-inclusive or not.</dd>
+<dt>bin_pop: int or float, optional, default 0.5</dt>
+<dd>bin_pop defines the maximum population of selected samples from each group(bin).
+If bin_pop is an int, it defines the maximum number of samples to be drawn from each group.
+A float value for bin_pop defines the fraction of the maximum population of groups as the 
+maximum size of selections from each group.</dd>
+<dt>substitute: str(&#8216;mean&#8217;,&#8217;lower,&#8217;upper&#8217;) or sequence of scalars, optional, default None</dt>
+<dd>If substitute is one of the choices of &#8216;mean&#8217;, &#8216;lower&#8217; or &#8216;upper&#8217; strings, 
+target values will be substitute with mean bin edges, lower bin edge or 
+upper bin edge, respectively. If bins is a sequence, it defines the target 
+value for bins. If None, no substitute will happen and original target 
+values would be passed out.</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id3"><span class="problematic" id="id4">groups_</span></a>: dataframe, shape (n_targets, n_bins, n_ranges)</dt>
+<dd>return groups info: target values, bin labels, range of bins</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">grouped_indices_</span></a>: dictionary</dt>
+<dd>A dict whose keys are the group labels and corresponding values being the 
+axis labels belonging to each group.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">selected_indices_</span></a>: list</dt>
+<dd>axis labels of data points that are drawn.</dd>
+</dl>
+<p>data and target</p>
+<dl class="method">
+<dt id="cheml.initialization.data.Uniformer.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>data</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Uniformer.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the uniformer on df.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="cheml-initialization-initialization-module">
 <h2>cheml.initialization.initialization module<a class="headerlink" href="#cheml-initialization-initialization-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-cheml.initialization.initialization"></span><dl class="function">
+<dt id="cheml.initialization.initialization.File">
+<code class="descclassname">cheml.initialization.initialization.</code><code class="descname">File</code><span class="sig-paren">(</span><em>filepath</em>, <em>header=None</em>, <em>skipcolumns=0</em>, <em>skiprows=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read input data file.</p>
+<dl class="docutils">
+<dt>filepath: string</dt>
+<dd>The path/name of input file in any format
+Note that engine may switch from &#8216;c&#8217; to python for some of the delimiters (pandas.read_table)</dd>
+<dt>header: None or 0 (default = None)</dt>
+<dd>0 if the label of columns is available in the file</dd>
+<dt>skipcolumns: integer (default = 0)</dt>
+<dd>number of columns to skip at the start of the file</dd>
+<dt>skiprows: integer (default = 0)</dt>
+<dd>number of rows to skip at the start of the file</dd>
+</dl>
+<p>pandas data frame</p>
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.initialization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.initialization" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;cheml.initialization&#8217; module includes File, Merge, Split, and SaveFile.
+last modified date: Nov. 19, 2015</p>
+<dl class="function">
+<dt id="cheml.initialization.File">
+<code class="descclassname">cheml.initialization.</code><code class="descname">File</code><span class="sig-paren">(</span><em>filepath</em>, <em>header=None</em>, <em>skipcolumns=0</em>, <em>skiprows=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read input data file.</p>
+<dl class="docutils">
+<dt>filepath: string</dt>
+<dd>The path/name of input file in any format
+Note that engine may switch from &#8216;c&#8217; to python for some of the delimiters (pandas.read_table)</dd>
+<dt>header: None or 0 (default = None)</dt>
+<dd>0 if the label of columns is available in the file</dd>
+<dt>skipcolumns: integer (default = 0)</dt>
+<dd>number of columns to skip at the start of the file</dd>
+<dt>skiprows: integer (default = 0)</dt>
+<dd>number of rows to skip at the start of the file</dd>
+</dl>
+<p>pandas data frame</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.initialization.Merge">
+<code class="descclassname">cheml.initialization.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>X1</em>, <em>X2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>todo: add more functionality for header overlaps
+Merge same length data frames.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X_1</strong> &#8211; pandas data frame
+first data frame</li>
+<li><strong>X_2</strong> &#8211; pandas data frame
+second data frame</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas data frame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.initialization.Split">
+<code class="descclassname">cheml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>X</em>, <em>select=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split" title="Permalink to this definition">¶</a></dt>
+<dd><p>split data frame by columns</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> &#8211; pandas data frame
+original pandas data frame</li>
+<li><strong>select</strong> &#8211; integer or list (default = 1)
+if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
+if list, is array of labels to be cut as first data frame (X1)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">two pandas data frame: X1 and X2</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.SaveFile">
+<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Write DataFrame to a comma-seprated values(csv) file
+:param output_directory: string, the output directory to save output files</p>
+<dl class="method">
+<dt id="cheml.initialization.SaveFile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write DataFrame to a comma-seprated values (csv) file
+:param X: pandas DataFrame
+:param main_directory: string, if there is any main directory for entire cheml project
+:return: nothing</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">cheml.initialization package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#cheml-initialization-data-module">cheml.initialization.data module</a></li>
-<li><a class="reference internal" href="#cheml-initialization-initialization-module">cheml.initialization.initialization module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.nn.html" class="btn btn-neutral float-right" title="cheml.nn package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.chem.html" class="btn btn-neutral" title="cheml.chem package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="cheml.chem.html"
-                        title="previous chapter">cheml.chem package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cheml.nn.html"
-                        title="next chapter">cheml.nn package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/cheml.initialization.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.nn.html" title="cheml.nn package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="cheml.chem.html" title="cheml.chem package"
-             >previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2016, Mojtaba Haghighatlari.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

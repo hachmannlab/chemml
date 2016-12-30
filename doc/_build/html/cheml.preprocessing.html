@@ -1,154 +1,327 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>cheml.preprocessing package &mdash; ChemML 2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ChemML 2 documentation" href="index.html" />
-    <link rel="up" title="cheml package" href="cheml.html" />
-    <link rel="next" title="cheml.svm package" href="cheml.svm.html" />
-    <link rel="prev" title="cheml.nn package" href="cheml.nn.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.svm.html" title="cheml.svm package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="cheml.nn.html" title="cheml.nn package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.preprocessing package &mdash; ChemML 2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="up" title="cheml package" href="cheml.html"/>
+        <link rel="next" title="cheml.svm package" href="cheml.svm.html"/>
+        <link rel="prev" title="cheml.nn package" href="cheml.nn.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.preprocessing package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.preprocessing.handle_missing">cheml.preprocessing.handle_missing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-preprocessing-skl-interface-module">cheml.preprocessing.skl_interface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.preprocessing.test">cheml.preprocessing.test module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">ChemML Wrapper Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cheml.html">cheml package</a> &raquo;</li>
+      
+    <li>cheml.preprocessing package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.preprocessing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="cheml-preprocessing-package">
 <h1>cheml.preprocessing package<a class="headerlink" href="#cheml-preprocessing-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
 </div>
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-preprocessing-handle-missing-module">
-<h2>cheml.preprocessing.handle_missing module<a class="headerlink" href="#cheml-preprocessing-handle-missing-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.preprocessing.handle_missing">
+<span id="cheml-preprocessing-handle-missing-module"></span><h2>cheml.preprocessing.handle_missing module<a class="headerlink" href="#module-cheml.preprocessing.handle_missing" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.preprocessing.handle_missing.missing_values">
+<em class="property">class </em><code class="descclassname">cheml.preprocessing.handle_missing.</code><code class="descname">missing_values</code><span class="sig-paren">(</span><em>strategy='interpolate'</em>, <em>string_as_null=True</em>, <em>inf_as_null=True</em>, <em>missing_values=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.handle_missing.missing_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Handle all the missing values.</p>
+<p>strategy: string, optional (default=&#8221;ignore&#8221;)</p>
+<blockquote>
+<div>list of strategies:
+- interpolate: interpolate based on sorted target values
+- zero: set to the zero
+- ignore_row: remove the entire row in data and target
+- ignore_column: remove the entire column in data and target</div></blockquote>
+<dl class="docutils">
+<dt>string_as_null: boolean, optional (default=True)</dt>
+<dd>If True non numeric elements are considered to be null in computations.</dd>
+<dt>missing_values: list, optional (default=False)</dt>
+<dd>The placeholder for missing values. It must be a list of one or more of
+any type of string, float or integer values.</dd>
+<dt>inf_as_null: boolean, optional (default=True)</dt>
+<dd>If True inf and -inf elements are considered to be null in computations.</dd>
+</dl>
+<p>data and target</p>
+<dl class="method">
+<dt id="cheml.preprocessing.handle_missing.missing_values.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.handle_missing.missing_values.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the missing_values to df by replacing missing values with nan. 
+Then, they would be ready to be filled with pandas.fillna or 
+sklearn.Imputer with specific strategies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.preprocessing.handle_missing.missing_values.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.handle_missing.missing_values.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="cheml-preprocessing-skl-interface-module">
 <h2>cheml.preprocessing.skl_interface module<a class="headerlink" href="#cheml-preprocessing-skl-interface-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-preprocessing-test-module">
-<h2>cheml.preprocessing.test module<a class="headerlink" href="#cheml-preprocessing-test-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.preprocessing.test">
+<span id="cheml-preprocessing-test-module"></span><h2>cheml.preprocessing.test module<a class="headerlink" href="#module-cheml.preprocessing.test" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-cheml.preprocessing"></span><p>The &#8216;cheml.preprocessing&#8217; module includes missing_values, Imputer_dataframe,
+last modified date: Dec. 19, 2015</p>
+<dl class="class">
+<dt id="cheml.preprocessing.missing_values">
+<em class="property">class </em><code class="descclassname">cheml.preprocessing.</code><code class="descname">missing_values</code><span class="sig-paren">(</span><em>strategy='interpolate'</em>, <em>string_as_null=True</em>, <em>inf_as_null=True</em>, <em>missing_values=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.missing_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Handle all the missing values.</p>
+<p>strategy: string, optional (default=&#8221;ignore&#8221;)</p>
+<blockquote>
+<div>list of strategies:
+- interpolate: interpolate based on sorted target values
+- zero: set to the zero
+- ignore_row: remove the entire row in data and target
+- ignore_column: remove the entire column in data and target</div></blockquote>
+<dl class="docutils">
+<dt>string_as_null: boolean, optional (default=True)</dt>
+<dd>If True non numeric elements are considered to be null in computations.</dd>
+<dt>missing_values: list, optional (default=False)</dt>
+<dd>The placeholder for missing values. It must be a list of one or more of
+any type of string, float or integer values.</dd>
+<dt>inf_as_null: boolean, optional (default=True)</dt>
+<dd>If True inf and -inf elements are considered to be null in computations.</dd>
+</dl>
+<p>data and target</p>
+<dl class="method">
+<dt id="cheml.preprocessing.missing_values.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.missing_values.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the missing_values to df by replacing missing values with nan. 
+Then, they would be ready to be filled with pandas.fillna or 
+sklearn.Imputer with specific strategies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.preprocessing.missing_values.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.missing_values.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">cheml.preprocessing package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#cheml-preprocessing-handle-missing-module">cheml.preprocessing.handle_missing module</a></li>
-<li><a class="reference internal" href="#cheml-preprocessing-skl-interface-module">cheml.preprocessing.skl_interface module</a></li>
-<li><a class="reference internal" href="#cheml-preprocessing-test-module">cheml.preprocessing.test module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.svm.html" class="btn btn-neutral float-right" title="cheml.svm package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.nn.html" class="btn btn-neutral" title="cheml.nn package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="cheml.nn.html"
-                        title="previous chapter">cheml.nn package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cheml.svm.html"
-                        title="next chapter">cheml.svm package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/cheml.preprocessing.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.svm.html" title="cheml.svm package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="cheml.nn.html" title="cheml.nn package"
-             >previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2016, Mojtaba Haghighatlari.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

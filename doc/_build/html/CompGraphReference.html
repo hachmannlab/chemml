@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ChemML Wrapper Reference &mdash; ChemML 2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="prev" title="cheml.wrappers package" href="cheml.wrappers.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-representation">Data Representation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cheml">cheml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sklearn">sklearn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#script">Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">cheml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#input">Input</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">cheml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">cheml</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>ChemML Wrapper Reference</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/CompGraphReference.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chemml-wrapper-reference">
+<h1>ChemML Wrapper Reference<a class="headerlink" href="#chemml-wrapper-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
+parameters and attributes of each block is provided in the <a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a>.</p>
+<div class="section" id="data-representation">
+<h2>Data Representation<a class="headerlink" href="#data-representation" title="Permalink to this headline">¶</a></h2>
+<p>Data representation (features, descriptors, latent variables) for chemical molecules and materials.</p>
+<div class="section" id="cheml">
+<h3>cheml<a class="headerlink" href="#cheml" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>RDKitFingerprint</td>
+<td>molfile</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>Dragon</td>
+<td>molfile</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>CoulombMatrix</td>
+<td>&nbsp;</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>BagofBonds</td>
+<td>&nbsp;</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>DistanceMatrix</td>
+<td>df</td>
+<td>df</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sklearn">
+<h3>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PolynomialFeatures</td>
+<td>df</td>
+<td>api, df</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</div>
+</div>
+<div class="section" id="script">
+<h2>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h2>
+<p>Python script block in the structure of computational graph</p>
+<div class="section" id="id1">
+<h3>cheml<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PyScript</td>
+<td>df,api,value</td>
+<td>df,api,value</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</div>
+</div>
+<div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<p>Input blocks deal with all sort of input files and data frames.</p>
+<div class="section" id="id2">
+<h3>cheml<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>File</td>
+<td>&nbsp;</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>Merge</td>
+<td>df1, df2</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>Split</td>
+<td>df</td>
+<td>df1, df2</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</div>
+</div>
+<div class="section" id="output">
+<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<p>Output blocks are used for storing data frames and other type of output files.</p>
+<div class="section" id="id3">
+<h3>cheml<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>SaveFile</td>
+<td>df</td>
+<td>filepath</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="cheml.wrappers.html" class="btn btn-neutral" title="cheml.wrappers package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

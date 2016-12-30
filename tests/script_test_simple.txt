@@ -1,0 +1,250 @@
+CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+
+## Input
+                << module = cheml                 << function = File
+
+                << filepath = 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv'
+                << header = 0
+                << skiprows = 0
+                << skipcolumns = 0
+                >> df 0
+
+## Input
+                << module = cheml                 << function = Split
+                << select = ['SMILES']
+                >> 0 df   >> df1 1  >> df2 2
+
+## Input
+                << module = cheml                 << function = Split
+                << select = ['Kp'] < ,'d_exp']
+                >> 2 df >> df1 3    > df2 4
+
+## Script
+                        << module = cheml           << function = PyScript
+                        << l0 = "print 'df.describe():', df.describe()"
+                        << l1 = "l = list(df.describe().loc['mean',:])*df.shape[0]"
+                        << l2 = "df_out = pd.DataFrame(l)"
+                        < l3 = "print df_out"
+                        >> 3 df > df_out 100
+
+## Output
+                << module = cheml                 << function = SaveFile
+
+                << filename = '178'
+                << output_directory = 'smiles'
+                << record_time = False
+                << format ='smi'
+                << index = False
+                << header = False
+                >> 1 df >> filepath 5
+
+
+# DataRepresentation
+                << module = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HAP'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 5 molfile  >> df 6
+
+## DataRepresentation
+                << module = cheml                      << function = Dragon
+                << version = 7
+                << script = "new"
+                << output_directory = 'dragon'
+
+                << CheckUpdates = True                  << SaveLayout = True
+                << PreserveTemporaryProjects = True
+
+                << RejectDisconnectedStrucuture = False << RetainBiggestFragment = False
+                << DisconnectedCalculationOption = "0"
+                << RoundCoordinates = True              << RoundWeights = True
+                << RoundDescriptorValues = True         << knimemode = False
+
+                << ShowWorksheet = False                << Decimal_Separator = "."
+                << Missing_String = "Nan"               << DefaultMolFormat = "1"
+                << HelpBrowser = "/usr/bin/xdg-open"    << RejectUnusualValence = False
+                << Add2DHydrogens = False               << MaxSRforAllCircuit = "19"
+                << MaxSR = "35"                         << MaxSRDetour = "30"
+                << MaxAtomWalkPath = "2000"             << LogPathWalk = True
+                << LogEdge = True                       << Weights = ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]
+                << SaveOnlyData = False                 << SaveLabelsOnSeparateFile = False
+                << SaveFormatBlock = "%b-%n.txt"        << SaveFormatSubBlock = "%b-%s-%n-%m.txt"
+                << SaveExcludeMisVal = False            << SaveExcludeAllMisVal = False
+                << SaveExcludeConst = False             << SaveExcludeNearConst = False
+                << SaveExcludeStdDev = False            << SaveStdDevThreshold = "0.0001"
+                << SaveExcludeCorrelated = False        << SaveCorrThreshold = "0.95"
+                << SaveExcludeMisMolecules = False      << SaveExclusionOptionsToVariables = False
+                << SaveExcludeRejectedMolecules = False
+
+                << blocks = range(1,31)
+
+                << molInput = "file"                    << molInputFormat = "SMILES"
+                << molFile = None
+
+                << SaveStdOut = False
+                << SaveProject = False                  << SaveProjectFile = "Dragon_project.drp"
+                << SaveFile = True
+                << SaveType = "singlefile"              << SaveFilePath = "Dragon_descriptors.txt"
+                << logMode = "file"                     << logFile = "Dragon_log.txt"
+
+                << external = False                     << fileName = None
+                << delimiter = ","                      << MissingValue = "NaN"
+                << consecutiveDelimiter = False
+
+                >> 5 molfile  >> df 6
+
+## Input
+                << module = cheml                 << function = Split
+                << select = ['No.','NAME']
+                >> 6 df >> df2 20
+
+## Preprocessor
+                        << module = cheml           << function = MissingValues
+                        << string_as_null = True    << missing_values = ['Nan']
+                        << inf_as_null = True       << strategy = 'ignore_column'
+                        >> 20 df      >> df 21
+
+
+## Preprocessor
+                        << module = cheml         << function = Constant
+
+                        >> 21 df >> df 7 >> removed_columns_ 8
+
+## Output
+                << module = cheml                 << function = SaveFile
+
+                << filename = 'removed_features'
+                << output_directory = 'constant'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = False
+                >> 8 df
+
+
+## Script
+                        << module = cheml           << function = PyScript
+                        << l0 = "print 'df.shape:', df.shape"
+                        >> 7 df >> 3 value
+
+
+## Regression
+                << module = sklearn      << function = SVR
+
+                              << C = 1.0
+                              << epsilon = 0.1
+                              << kernel = 'rbf'
+                              << degree = 3
+                              << gamma = 'auto'
+                              << coef0 = 0.0
+                              << tol = 1e-3
+                              << shrinking = True
+                              << cache_size = 20000
+                              << verbose = False
+                              << max_iter = -1
+
+                > ? dfx     > ? dfy     > r2_train ?   >> model 90
+
+## Postprocessor
+                << module = sklearn      << function = Grid_SearchCV
+
+                              << param_grid = {'kernel':('linear', 'rbf', 'poly','sigmoid'), 'C':[0.1,1], 'epsilon':[0.01,0.1], 'gamma':[0.01,0.1]}
+                              << scoring = None         < 'degree':[2,3,4,5]
+                              << fit_params = None
+                              << n_jobs = 1
+                              << pre_dispatch = '2*n_jobs'
+                              << iid = True
+                              << cv = None
+                              << refit = True
+                              << verbose = 0
+                              << error_score = 'raise'
+                              << return_train_score = True
+                >> 7 dfx    >> 3 dfy    >> 90 model  >> cv_results_ 91    >> best_model_ 92     >> api 93
+
+## Script
+                        << module = cheml           << function = PyScript
+                        << l0 = "print df"
+                        << l1 = "print '--------'"
+                        < l2 = "print api.best_estimator_"
+                        << l3 = "print api.best_score_"
+                        << l4 = "print api.best_params_"
+                        >> 92 df    >> 93 api
+
+## Output
+                << module = cheml                 << function = SaveFile
+
+                << filename = 'G_SCV_SVR_results'
+                << output_directory = 'SVR'
+                << record_time = True
+                << format ='csv'
+                << index = False
+                << header = True
+                >> 91 df
+
+# Divider
+                        << module = sklearn             << function = Train_Test_Split
+                        << test_size = 0.2             << train_size = None
+                        << random_state = None          << stratify = None
+                        >> 7 dfx   >> 3 dfy     > dfx_train 14  >> dfx_test 10  > dfy_train 15  >> dfy_test 11
+
+
+# Preprocessor
+                        << module = sklearn     << function = StandardScaler
+                        << copy = True          << with_mean = True
+                        << with_std = True
+                        > df 1 > 2 df >> api  103
+
+# Preprocessor
+                        << module = sklearn     << function = MinMaxScaler
+                        << feature_range = (0,1)    << copy = True
+                        > df 1 > 2 df >> api  103
+## Divider
+                        << module = sklearn             << function = KFold
+                        << n_splits = 3                 << shuffle = False
+                        << random_state = 99
+                        >> CV 106
+
+
+## Postprocessor
+                << module = sklearn      << function = Evaluation
+                              << r2_score = True
+                              << r2_sample_weight = None       << r2_multioutput = None
+
+                              << mean_absolute_error = True
+                              << mae_sample_weight = None       << mae_multioutput = "uniform_average"
+
+                              << median_absolute_error = True
+
+                              << mean_squared_error = True
+                              << mse_sample_weight = None       << mse_multioutput = "uniform_average"
+
+                              << root_mean_squared_error = True
+                              << rmse_sample_weight = None       << rmse_multioutput = "uniform_average"
+
+                              << explained_variance_score = True
+                              << ev_sample_weight = None       << ev_multioutput = "uniform_average"
+
+                > Note: can not pass multiple inputs
+                >> 7 dfx     >> 3 dfy   >> 106 CV  >> 92 model  > ? X_scaler   > ? Y_scaler   >> results 94
+
+
+## Output
+                << module = cheml                 << function = SaveFile
+
+                << filename = 'svr_test_results'
+                << output_directory = 'SVR'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = True
+                >> 94 df

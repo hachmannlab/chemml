@@ -1,303 +1,173 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>cheml.chem package &mdash; ChemML 2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ChemML 2 documentation" href="index.html" />
-    <link rel="up" title="cheml package" href="cheml.html" />
-    <link rel="next" title="cheml.initialization package" href="cheml.initialization.html" />
-    <link rel="prev" title="cheml package" href="cheml.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.initialization.html" title="cheml.initialization package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="cheml.html" title="cheml package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.chem package &mdash; ChemML 2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="up" title="cheml package" href="cheml.html"/>
+        <link rel="next" title="cheml.initialization package" href="cheml.initialization.html"/>
+        <link rel="prev" title="cheml package" href="cheml.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.chem package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-coulmat-module">cheml.chem.CoulMat module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-distmat-module">cheml.chem.DistMat module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-dragon-module">cheml.chem.Dragon module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-rdkfp-module">cheml.chem.RDKFP module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">ChemML Wrapper Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cheml.html">cheml package</a> &raquo;</li>
+      
+    <li>cheml.chem package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.chem.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="cheml-chem-package">
 <h1>cheml.chem package<a class="headerlink" href="#cheml-chem-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.chem.CoulMat">
-<span id="cheml-chem-coulmat-module"></span><h2>cheml.chem.CoulMat module<a class="headerlink" href="#module-cheml.chem.CoulMat" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.chem.CoulMat.CoulombMatrix">
-<em class="property">class </em><tt class="descclassname">cheml.chem.CoulMat.</tt><tt class="descname">CoulombMatrix</tt><big>(</big><em>CMtype='SC'</em>, <em>nPerm=6</em>, <em>const=1</em><big>)</big><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a></p>
-<p>(CoulombMatrix) 
-The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL.</p>
-<dl class="docutils">
-<dt>CMtype: string, optional (default=&#8217;SC&#8217;)</dt>
-<dd><dl class="first last docutils">
-<dt>Available Coulomb Matrix (CM) representations:</dt>
-<dd><ul class="first last simple">
-<li>&#8216;Eigenspectrum&#8217; or &#8216;E&#8217;</li>
-<li>&#8216;Sorted_Coulomb&#8217; or &#8216;SC&#8217;</li>
-<li>&#8216;Random_Coulomb&#8217; or &#8216;RC&#8217;</li>
-<li>&#8216;BagofBonds&#8217; or &#8216;BB&#8217;</li>
-</ul>
-</dd>
-</dl>
-</dd>
-<dt>nPerm: integer, optional (default = 6)</dt>
-<dd>Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
-type of representation.</dd>
-<dt>const: float, optional (default = 1)</dt>
-<dd>The constant value for coordinates unit conversion to atomic unit
-example: atomic unit -&gt; const=1, Angstrom -&gt; const=0.529
-in action: const/<a href="#id11"><span class="problematic" id="id12">|Ri-Rj|</span></a>, which denominator is the euclidean distance 
-between atoms i and j coordinates</dd>
-</dl>
-<p>data set of Coulomb matrix similarities.</p>
-<dl class="method">
-<dt id="cheml.chem.CoulMat.CoulombMatrix.BagofBonds">
-<tt class="descname">BagofBonds</tt><big>(</big><big>)</big><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.BagofBonds" title="Permalink to this definition">¶</a></dt>
-<dd><p>(BagofBonds)
-The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.</p>
-<p>BBs_matrix : The matrix of bag of bonds for molecules.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="cheml.chem.CoulMat.CoulombMatrix.Coulomb_Matrix">
-<tt class="descname">Coulomb_Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.Coulomb_Matrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cheml.chem.CoulMat.CoulombMatrix.MolfromFile">
-<tt class="descname">MolfromFile</tt><big>(</big><em>molfile, path=None, reader='auto', skip_lines=[2, 0], *arguments</em><big>)</big><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.MolfromFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>(MolfromFile)
-Construct molecules from one or more input files.</p>
-<dl class="docutils">
-<dt>molfile: string</dt>
-<dd><p class="first">This is the place you define the file name and path. It can contain 
-any special character in the following list:</p>
-<blockquote>
-<div><ul class="simple">
-<li>: matches everything</li>
-</ul>
-<p>?       : matches any single character
-[seq]   : matches any character in seq
-[!seq]  : matches any character not in seq
-/       : filename seperator</p>
-</div></blockquote>
-<p class="last">The pattern matching is implemented by fnmatch - Unix filename pattern matching.
-Note: The pattern must include the extension at the end. The only acceptable
-extension is &#8216;.xyz&#8217;.</p>
-</dd>
-<dt>path: string, optional (default = None)            </dt>
-<dd>If path is None, this function tries to open the file as a single
-file (without any pattern matching). It is a fixed path to subdirectories 
-or files. Therefore, none of the above special characters except &#8216;/&#8217; 
-can be used.    
-If not None, it determines the path that this function walk through
-and look for every file that matches the pattern in the file. To start
-walking from the curent directory, the path value should be &#8216;.&#8217;</dd>
-<dt>reader: string, optional (default = &#8216;auto&#8217;)</dt>
-<dd>Available options : &#8216;auto&#8217; and &#8216;manual&#8217;
-If &#8216;auto&#8217;, the openbabel readstring function creat the molecule object. 
-The type of files for openbabel class has been set to &#8216;xyz&#8217;, thus the format
-of the file has to obey the extension as well. However, with &#8216;manual&#8217;
-reader you can skip some lines from the beginning or end of xyz files.</dd>
-<dt>skip_lines: list of two integers, optional (default = [2,0])</dt>
-<dd>Number of lines to skip (int) at the start and end of the xyz files, respectively. 
-Based on the original xyz format only 2 lines from top and zero from
-bottom of a file can be skipped. Thus, number of atoms in the first line 
-can also be ignored. 
-Only available for &#8216;manual&#8217; reader.</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>arguments: integer</dt>
-<dd><p class="first">If sequences in the special characters should be a range of integers,
-you can easily pass the start and the end arguments of range as extra 
-arguments. But, notice that:</p>
-<blockquote class="last">
-<div><dl class="docutils">
-<dt>1- In this case remember to replace seq with %s. Then, you should </dt>
-<dd>have [%s] or [!%s] in the file pattern.</dd>
-<dt>2- for each %s you must pass two integers (always an even number </dt>
-<dd>of extra arguments must be passed). Also, the order is important
-and it should be in the same order of &#8216;%s&#8217;s.</dd>
-</dl>
-</div></blockquote>
-</dd>
-</dl>
-<blockquote>
-<div><p>(1)
-file: &#8216;Mydir/1f/1_opt.xyz&#8217;
-path: None
-&gt;&gt;&gt; sample files to be read: &#8216;Mydir/1f/1_opt.xyz&#8217;</p>
-<p>(2)
-file: &#8216;[1,2,3,4]?/<a href="#id3"><span class="problematic" id="id4">*</span></a>_opt.xyz&#8217;
-path: &#8216;Mydir&#8217;
-&gt;&gt;&gt; sample files to be read: &#8216;Mydir/1f/1_opt.xyz&#8217;, &#8216;Mydir/2c/2_opt.xyz&#8217;, ...</p>
-<p>(3)
-file: &#8216;[!1,2]?/<a href="#id5"><span class="problematic" id="id6">*</span></a>_opt.xyz&#8217;
-path: &#8216;.&#8217;
-&gt;&gt;&gt; sample files to be read: &#8216;./3f/3_opt.xyz&#8217;, &#8216;Mydir/7c/7_opt.xyz&#8217;, ...</p>
-<p>(4)
-file: &#8216;<a href="#id7"><span class="problematic" id="id8">*</span></a>[&#8216;f&#8217;,&#8217;c&#8217;]/<a href="#id9"><span class="problematic" id="id10">*</span></a>_opt.xyz&#8217;
-path: &#8216;Mydir&#8217;
-&gt;&gt;&gt; sample files to be read: &#8216;Mydir/1f/1_opt.xyz&#8217;, &#8216;Mydir/2c/2_opt.xyz&#8217;, ...</p>
-<p>(5)
-file: &#8216;[%s]?/[!%s]_opt.xyz&#8217;
-path: &#8216;Mydir/all&#8217;
-arguments: 1,4,7,10
-&gt;&gt;&gt; sample files to be read: &#8216;Mydir/all/1f/1_opt.xyz&#8217;, &#8216;Mydir/all/2c/2_opt.xyz&#8217;, ...</p>
-</div></blockquote>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="cheml-chem-coulmat-module">
+<h2>cheml.chem.CoulMat module<a class="headerlink" href="#cheml-chem-coulmat-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.chem.DistMat">
-<span id="cheml-chem-distmat-module"></span><h2>cheml.chem.DistMat module<a class="headerlink" href="#module-cheml.chem.DistMat" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.chem.DistMat.DistanceMatrix">
-<em class="property">class </em><tt class="descclassname">cheml.chem.DistMat.</tt><tt class="descname">DistanceMatrix</tt><big>(</big><em>norm_type='fro'</em>, <em>nCores=1</em><big>)</big><a class="headerlink" href="#cheml.chem.DistMat.DistanceMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a></p>
-<p>(distance_matrix)
-This function finds the distance between rows of data in the input_matrix.
-The distance matrix can later be introduced to a custom kernel function.</p>
-<p>input_matrix: numpy array
-Each element (row) of input_matrix can be a vector, matrix or list of matrices.
-These three types of representation are originally based on possible outpts
-of Coulomb_Matrix function.</p>
-<dl class="docutils">
-<dt>norm_type: string or integer, optional (default = &#8216;fro&#8217;)</dt>
-<dd><p class="first">norm_type defines the type of norm of the difference of two rows of input
-matrix. Here is a list of available norms:</p>
-<blockquote class="last">
-<div><blockquote>
-<div><p>type          norm for matrices               norm for vectors
-&#8212;-          &#8212;&#8212;&#8212;&#8212;&#8212;&#8211;               &#8212;&#8212;&#8212;&#8212;&#8212;-
-&#8216;l2&#8217;          Frobenius norm                  l2 norm for vector
-&#8216;l1&#8217;          sum(sum(abs(x-y)))              -
-&#8216;nuc&#8217;         nuclear norm                    -
-&#8216;inf&#8217;         max(sum(abs(x-y), axis=1))      max(abs(x-y))
-&#8216;-inf&#8217;        min(sum(abs(x-y), axis=1))      min(abs(x-y))
-0             -                               sum(x!=0)
-1             max(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)
--1            min(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)
-2             2-norm (largest singular value) sum(abs(x)**ord)**(1./ord)
--2            smallest singular value         sum(abs(x)**ord)**(1./ord)</p>
-<blockquote>
-<div></div></blockquote>
-<p>&#8216;avg&#8217;         avg(sum(d(x,y[l])+d(x[l],y))))
-&#8216;max&#8217;         avg(max(d(x,y[l])+d(x[l],y))))</p>
-</div></blockquote>
-<ul class="simple">
-<li>most of these norms are provided by numpy.linalg.norm</li>
-</ul>
-</div></blockquote>
-</dd>
-<dt>nCores: integer, optional (default = 1)</dt>
-<dd>number of cores for multiprocessing.</dd>
-</dl>
-<p>distance matrix</p>
-<dl class="method">
-<dt id="cheml.chem.DistMat.DistanceMatrix.transform">
-<tt class="descname">transform</tt><big>(</big><em>input_matrix</em><big>)</big><a class="headerlink" href="#cheml.chem.DistMat.DistanceMatrix.transform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="cheml-chem-distmat-module">
+<h2>cheml.chem.DistMat module<a class="headerlink" href="#cheml-chem-distmat-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.chem.Dragon">
-<span id="cheml-chem-dragon-module"></span><h2>cheml.chem.Dragon module<a class="headerlink" href="#module-cheml.chem.Dragon" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.chem.Dragon.Dragon">
-<em class="property">class </em><tt class="descclassname">cheml.chem.Dragon.</tt><tt class="descname">Dragon</tt><big>(</big><em>version=6, CheckUpdates=True, SaveLayout=True, PreserveTemporaryProjects=True, ShowWorksheet=False, Decimal_Separator='.', Missing_String='NaN', DefaultMolFormat='1', HelpBrowser='/usr/bin/xdg-open', RejectUnusualValence=False, Add2DHydrogens=False, MaxSRforAllCircuit='19', MaxSR='35', MaxSRDetour='30', MaxAtomWalkPath='2000', LogPathWalk=True, LogEdge=True, Weights=['Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'], SaveOnlyData=False, SaveLabelsOnSeparateFile=False, SaveFormatBlock='%b-%n.txt', SaveFormatSubBlock='%b-%s-%n-%m.txt', SaveExcludeMisVal=False, SaveExcludeAllMisVal=False, SaveExcludeConst=False, SaveExcludeNearConst=False, SaveExcludeStdDev=False, SaveStdDevThreshold='0.0001', SaveExcludeCorrelated=False, SaveCorrThreshold='0.95', SaveExclusionOptionsToVariables=False, SaveExcludeMisMolecules=False, SaveExcludeRejectedMolecules=False, blocks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], molInput='stdin', molInputFormat='SMILES', molFile=None, SaveStdOut=False, SaveProject=False, SaveProjectFile='Dragon_project.drp', SaveFile=True, SaveType='singlefile', SaveFilePath='Dragon_descriptors.txt', logMode='file', logFile='Dragon_log.txt', external=False, fileName=None, delimiter=',', consecutiveDelimiter=False, MissingValue='NaN', RejectDisconnectedStrucuture=False, RetainBiggestFragment=False, DisconnectedCalculationOption='0', RoundCoordinates=True, RoundWeights=True, RoundDescriptorValues=True, knimemode=False</em><big>)</big><a class="headerlink" href="#cheml.chem.Dragon.Dragon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a></p>
-<p>An interface to Dragon 6 and 7 software.</p>
-<dl class="docutils">
-<dt>version: int, optional (default=7)</dt>
-<dd>The version of available Dragon on the user&#8217;s machine</dd>
-<dt>Weights: list, optional (default=[&#8220;Mass&#8221;,&#8221;VdWVolume&#8221;,&#8221;Electronegativity&#8221;,&#8221;Polarizability&#8221;,&#8221;Ionization&#8221;,&#8221;I-State&#8221;])</dt>
-<dd>A list of weights to be used</dd>
-<dt>blocks: list, optional (default=False)</dt>
-<dd>A list of descriptor blocks&#8217; id. For all of them parameter SelectAll=&#8221;true&#8221; is given. 
-To select descriptors one by one based on descriptor names, use Script Wizard in Drgon GUI.</dd>
-<dt>external: boolean, optional (default=False)</dt>
-<dd>If True, include external variables at the end of each saved file.</dd>
-</dl>
-<p>Dragon Script and descriptors.</p>
-<dl class="method">
-<dt id="cheml.chem.Dragon.Dragon.printout">
-<tt class="descname">printout</tt><big>(</big><big>)</big><a class="headerlink" href="#cheml.chem.Dragon.Dragon.printout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cheml.chem.Dragon.Dragon.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#cheml.chem.Dragon.Dragon.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cheml.chem.Dragon.Dragon.script_wizard">
-<tt class="descname">script_wizard</tt><big>(</big><em>script='new'</em><big>)</big><a class="headerlink" href="#cheml.chem.Dragon.Dragon.script_wizard" title="Permalink to this definition">¶</a></dt>
-<dd><p>Notice: Script for version 7 doesn&#8217;t support fingerprints block
-The script_wizard is designed to build a Drgon script file. The name and 
-the functionality of this function is the same as available Script wizard 
-in the Graphic User Intrface.
-Note: All reported nodes are mandatory, except the &lt;EXTERNAL&gt; tag</p>
-<dl class="docutils">
-<dt>script: string, optional (default=&#8221;new&#8221;)</dt>
-<dd>If &#8220;new&#8221; start with a new script. If you want to load an existing script,
-pass the filename with drs format.</dd>
-</dl>
-<dl class="docutils">
-<dt>dragon: xml element</dt>
-<dd>Dragon script in  xml format.</dd>
-<dt>drs: string </dt>
-<dd>Dragon script file name</dd>
-<dt>data_path: string</dt>
-<dd>The path+name of saved data file in any format. If saveType is &#8216;block&#8217; 
-or &#8216;subblock&#8217; data_path is just the path to the directory that all data 
-files have been saved.</dd>
-</dl>
-<p>Returns class parameters</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="cheml-chem-dragon-module">
+<h2>cheml.chem.Dragon module<a class="headerlink" href="#cheml-chem-dragon-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="cheml-chem-rdkfp-module">
 <h2>cheml.chem.RDKFP module<a class="headerlink" href="#cheml-chem-rdkfp-module" title="Permalink to this headline">¶</a></h2>
@@ -305,73 +175,71 @@ files have been saved.</dd>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">cheml.chem package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-cheml.chem.CoulMat">cheml.chem.CoulMat module</a></li>
-<li><a class="reference internal" href="#module-cheml.chem.DistMat">cheml.chem.DistMat module</a></li>
-<li><a class="reference internal" href="#module-cheml.chem.Dragon">cheml.chem.Dragon module</a></li>
-<li><a class="reference internal" href="#cheml-chem-rdkfp-module">cheml.chem.RDKFP module</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.initialization.html" class="btn btn-neutral float-right" title="cheml.initialization package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.html" class="btn btn-neutral" title="cheml package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="cheml.html"
-                        title="previous chapter">cheml package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cheml.initialization.html"
-                        title="next chapter">cheml.initialization package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/cheml.chem.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.initialization.html" title="cheml.initialization package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="cheml.html" title="cheml package"
-             >previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2016, Mojtaba Haghighatlari.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

@@ -1,72 +1,352 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>cheml.nn package &mdash; ChemML 2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ChemML 2 documentation" href="index.html" />
-    <link rel="up" title="cheml package" href="cheml.html" />
-    <link rel="next" title="cheml.preprocessing package" href="cheml.preprocessing.html" />
-    <link rel="prev" title="cheml.initialization package" href="cheml.initialization.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.preprocessing.html" title="cheml.preprocessing package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="cheml.initialization.html" title="cheml.initialization package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.nn package &mdash; ChemML 2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="up" title="cheml package" href="cheml.html"/>
+        <link rel="next" title="cheml.preprocessing package" href="cheml.preprocessing.html"/>
+        <link rel="prev" title="cheml.initialization package" href="cheml.initialization.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.nn package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_SGD_Shared">cheml.nn.nn_SGD_Shared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-dsgd-module">cheml.nn.nn_dsgd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_keras">cheml.nn.nn_keras module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-neurolab-module">cheml.nn.nn_neurolab module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-psgd-module">cheml.nn.nn_psgd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_pybrain">cheml.nn.nn_pybrain module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-tensorflow-module">cheml.nn.nn_tensorflow module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">ChemML Wrapper Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cheml.html">cheml package</a> &raquo;</li>
+      
+    <li>cheml.nn package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.nn.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="cheml-nn-package">
 <h1>cheml.nn package<a class="headerlink" href="#cheml-nn-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-nn-nn-sgd-shared-module">
-<h2>cheml.nn.nn_SGD_Shared module<a class="headerlink" href="#cheml-nn-nn-sgd-shared-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.nn.nn_SGD_Shared">
+<span id="cheml-nn-nn-sgd-shared-module"></span><h2>cheml.nn.nn_SGD_Shared module<a class="headerlink" href="#module-cheml.nn.nn_SGD_Shared" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.act_funcs_from_string">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">act_funcs_from_string</code><span class="sig-paren">(</span><em>input_act_funcs</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.act_funcs_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>translate activation functions input from user
+Inputs:
+input_act_funcs - list of activation functions or just one function. should be same
+length as nneurons if a list; allowed functions as of Jan 2015 are</p>
+<blockquote>
+<div><ul class="simple">
+<li>tanh</li>
+<li>logistic</li>
+</ul>
+</div></blockquote>
+<p>n - number of activation functions
+Outputs:
+list of activation functions to be used and their gradients</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.check_array">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">check_array</code><span class="sig-paren">(</span><em>X</em>, <em>name</em>, <em>n0=None</em>, <em>n1=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.check_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that array is correct
+Inputs:
+X - array to be checked
+n0 - number of data entries
+n1 - number of features
+name - name of array (e.g. training input)
+Output:
+array converted to floats</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.feed_forward">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">feed_forward</code><span class="sig-paren">(</span><em>X</em>, <em>weights</em>, <em>act_funcs</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.feed_forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Feed forward through neural network
+Inputs:
+X - input
+weights - weights
+act_funcs - activation functions
+Output:
+his - output from each layer of the network
+dhis - h&#8217;(a) for each layer in the network, where h&#8217; is the derivative of the activation
+function, and a is the sum of weighted outputs from the previous layer for use in back propagation</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.initialize_data">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">initialize_data</code><span class="sig-paren">(</span><em>np_X_train</em>, <em>np_Y_train</em>, <em>np_X_test</em>, <em>np_Y_test</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.initialize_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes training and testing data
+:param np_X_train: numpy array
+:param np_Y_train: numpy array
+:param np_X_test: numpy array
+:param np_Y_test: numpy array
+:return: tuple of c-type arrays for features_training, targets_training, features_testing, targets_testing</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.initialize_rms_weights">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">initialize_rms_weights</code><span class="sig-paren">(</span><em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.initialize_rms_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes weights for rms prop
+:param weights: type list of lists: weights in each layer
+:return: zeroed list of lists with the same dimensions as the input list of lists</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.initialize_weights">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">initialize_weights</code><span class="sig-paren">(</span><em>complete_nneurons</em>, <em>n_hist</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.initialize_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize weights randomly using numpy&#8217;s random number generator
+Inputs:
+complete_nneurons - list of number of neurons (including input and output layers)
+Output:
+list of initialized weights</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.nn.nn_SGD_Shared.nn_psgd">
+<em class="property">class </em><code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">nn_psgd</code><span class="sig-paren">(</span><em>nneurons=[7], input_act_funcs='tanh', learn_rate=0.001, rms_decay=0.9, n_epochs=10000, batch_size=256, n_cores=1, n_hist=20, n_check=50, threshold=0.1, print_level=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.nn_psgd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>(nn_psgd) 
+The implementation of neural networks with stochstic gradient descent and HogWild 
+algorithm for shared memory multiprocessing.</p>
+<p>nneurons - list of integers describing how many neurons there are in each layer
+input_act_funcs - list of activation functions or just one function. should be same
+length as nneurons if a list
+Outputs:
+nnet - a tuple with trained weights and the activation functions</p>
+<dl class="method">
+<dt id="cheml.nn.nn_SGD_Shared.nn_psgd.back_prop_init">
+<code class="descname">back_prop_init</code><span class="sig-paren">(</span><em>c_X_train</em>, <em>c_Y_train</em>, <em>c_X_test</em>, <em>c_Y_test</em>, <em>shared_weights</em>, <em>shared_hist</em>, <em>input_act_funcs</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.nn_psgd.back_prop_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializing back propagation.  Initializes global vars for each thread, and makes sure that all the
+threads share memory to save memory.
+:param c_X_train: ctype array of the training features
+:param c_Y_train: ctype array of the training targets
+:param c_X_test: ctype array of the testing features
+:param c_Y_test: ctype array of the testing targets
+:param shared_weights: list of weights
+:param shared_hist: array : history for early stopping
+:param input_act_funcs: user input of activation functions
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.nn.nn_SGD_Shared.nn_psgd.back_propagate">
+<code class="descname">back_propagate</code><span class="sig-paren">(</span><em>para_input</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.nn_psgd.back_propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs back propagation on one thread to train the neural network
+:param para_input: type list: input parameters (unpacking needed due to python&#8217;s handling)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.nn.nn_SGD_Shared.nn_psgd.output">
+<code class="descname">output</code><span class="sig-paren">(</span><em>X</em>, <em>nn</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.nn_psgd.output" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>User accessible output for neural network given trained weights.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> &#8211; type array:Input features</li>
+<li><strong>nn</strong> &#8211; type dict : Neural network: keys required weights and activation functions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">type array: output values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.nn.nn_SGD_Shared.nn_psgd.train">
+<code class="descname">train</code><span class="sig-paren">(</span><em>X_train</em>, <em>X_test</em>, <em>Y_train</em>, <em>Y_test</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.nn_psgd.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main training function
+Inputs:
+X_train - input training data
+X_test - input testing data
+Y_train - output training data
+Y_test - output testing data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.np_to_c">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">np_to_c</code><span class="sig-paren">(</span><em>np_array</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.np_to_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts numpy array to c-type to allow for sharing across different threads
+:param np_array:
+:return: ctype array</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_SGD_Shared.prevent_underflow">
+<code class="descclassname">cheml.nn.nn_SGD_Shared.</code><code class="descname">prevent_underflow</code><span class="sig-paren">(</span><em>np_array</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_SGD_Shared.prevent_underflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops underflow by replacing 0 with smallest numpy value
+:param np_array:
+:return:</p>
+</dd></dl>
+
 </div>
 <div class="section" id="cheml-nn-nn-dsgd-module">
 <h2>cheml.nn.nn_dsgd module<a class="headerlink" href="#cheml-nn-nn-dsgd-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-nn-nn-keras-module">
-<h2>cheml.nn.nn_keras module<a class="headerlink" href="#cheml-nn-nn-keras-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.nn.nn_keras">
+<span id="cheml-nn-nn-keras-module"></span><h2>cheml.nn.nn_keras module<a class="headerlink" href="#module-cheml.nn.nn_keras" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="cheml.nn.nn_keras.activations">
+<code class="descclassname">cheml.nn.nn_keras.</code><code class="descname">activations</code><span class="sig-paren">(</span><em>activation</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_keras.activations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_keras.chunk">
+<code class="descclassname">cheml.nn.nn_keras.</code><code class="descname">chunk</code><span class="sig-paren">(</span><em>xs</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_keras.chunk" title="Permalink to this definition">¶</a></dt>
+<dd><p>The use case: chunk_list= list( chunk(range(10),3) )</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_keras.train">
+<code class="descclassname">cheml.nn.nn_keras.</code><code class="descname">train</code><span class="sig-paren">(</span><em>data</em>, <em>target</em>, <em>hidden_layers</em>, <em>activtion</em>, <em>loss='mse'</em>, <em>optimizer='rmsprop'</em>, <em>learning_rate=0.001</em>, <em>training_epochs=15</em>, <em>batch_size=100</em>, <em>display_step=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_keras.train" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="cheml-nn-nn-neurolab-module">
 <h2>cheml.nn.nn_neurolab module<a class="headerlink" href="#cheml-nn-nn-neurolab-module" title="Permalink to this headline">¶</a></h2>
@@ -74,89 +354,85 @@
 <div class="section" id="cheml-nn-nn-psgd-module">
 <h2>cheml.nn.nn_psgd module<a class="headerlink" href="#cheml-nn-nn-psgd-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-nn-nn-pybrain-module">
-<h2>cheml.nn.nn_pybrain module<a class="headerlink" href="#cheml-nn-nn-pybrain-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.nn.nn_pybrain">
+<span id="cheml-nn-nn-pybrain-module"></span><h2>cheml.nn.nn_pybrain module<a class="headerlink" href="#module-cheml.nn.nn_pybrain" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="cheml-nn-nn-tensorflow-module">
 <h2>cheml.nn.nn_tensorflow module<a class="headerlink" href="#cheml-nn-nn-tensorflow-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-cheml.nn"></span><p>The &#8216;cheml.nn&#8217; module includes neural_net, 
+last modified date: April 24, 2016</p>
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">cheml.nn package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-sgd-shared-module">cheml.nn.nn_SGD_Shared module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-dsgd-module">cheml.nn.nn_dsgd module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-keras-module">cheml.nn.nn_keras module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-neurolab-module">cheml.nn.nn_neurolab module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-psgd-module">cheml.nn.nn_psgd module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-pybrain-module">cheml.nn.nn_pybrain module</a></li>
-<li><a class="reference internal" href="#cheml-nn-nn-tensorflow-module">cheml.nn.nn_tensorflow module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.preprocessing.html" class="btn btn-neutral float-right" title="cheml.preprocessing package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.initialization.html" class="btn btn-neutral" title="cheml.initialization package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="cheml.initialization.html"
-                        title="previous chapter">cheml.initialization package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cheml.preprocessing.html"
-                        title="next chapter">cheml.preprocessing package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/cheml.nn.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.preprocessing.html" title="cheml.preprocessing package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="cheml.initialization.html" title="cheml.initialization package"
-             >previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2016, Mojtaba Haghighatlari.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

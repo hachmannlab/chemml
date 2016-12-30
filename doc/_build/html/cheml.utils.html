@@ -1,58 +1,163 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>cheml.utils package &mdash; ChemML 2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="ChemML 2 documentation" href="index.html" />
-    <link rel="up" title="cheml package" href="cheml.html" />
-    <link rel="next" title="cheml.wrappers package" href="cheml.wrappers.html" />
-    <link rel="prev" title="cheml.trash_smallapps package" href="cheml.trash_smallapps.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.wrappers.html" title="cheml.wrappers package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="cheml.trash_smallapps.html" title="cheml.trash_smallapps package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" accesskey="U">cheml package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.utils package &mdash; ChemML 2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 2 documentation" href="index.html"/>
+        <link rel="up" title="cheml package" href="cheml.html"/>
+        <link rel="next" title="cheml.wrappers package" href="cheml.wrappers.html"/>
+        <link rel="prev" title="cheml.trash_smallapps package" href="cheml.trash_smallapps.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.utils.lib_jcode">cheml.utils.lib_jcode module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.utils.utilities">cheml.utils.utilities module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.utils.validation">cheml.utils.validation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">Computational Graph Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#data-representation">Data Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#script">Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#input">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#output">Output</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cheml.html">cheml package</a> &raquo;</li>
+      
+    <li>cheml.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="cheml-utils-package">
 <h1>cheml.utils package<a class="headerlink" href="#cheml-utils-package" title="Permalink to this headline">¶</a></h1>
@@ -63,102 +168,102 @@
 <span id="cheml-utils-lib-jcode-module"></span><h2>cheml.utils.lib_jcode module<a class="headerlink" href="#module-cheml.utils.lib_jcode" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.banner">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">banner</tt><big>(</big><em>logfile</em>, <em>SCRIPT_NAME</em>, <em>SCRIPT_VERSION</em>, <em>REVISION_DATE</em>, <em>AUTHOR</em>, <em>DESCRIPTION</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.banner" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">banner</code><span class="sig-paren">(</span><em>logfile</em>, <em>SCRIPT_NAME</em>, <em>SCRIPT_VERSION</em>, <em>REVISION_DATE</em>, <em>AUTHOR</em>, <em>DESCRIPTION</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.banner" title="Permalink to this definition">¶</a></dt>
 <dd><p>(banner):
 Banner for this little script.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.bin_file_format_change">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">bin_file_format_change</tt><big>(</big><em>infile_namestr</em>, <em>outfile_namestr</em>, <em>mode</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.bin_file_format_change" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">bin_file_format_change</code><span class="sig-paren">(</span><em>infile_namestr</em>, <em>outfile_namestr</em>, <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.bin_file_format_change" title="Permalink to this definition">¶</a></dt>
 <dd><p>(bin_file_format_change):
 This function reads in a binary file of a certain format, converts it, and gives out a binary file of the new format.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.chk_mkdir">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">chk_mkdir</tt><big>(</big><em>dir</em>, <em>warning=False</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.chk_mkdir" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">chk_mkdir</code><span class="sig-paren">(</span><em>dir</em>, <em>warning=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.chk_mkdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>(chk_mkdir):
 This function checks whether a directory exists and if not creates it.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.chk_rmdir">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">chk_rmdir</tt><big>(</big><em>dir</em>, <em>check='any'</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.chk_rmdir" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">chk_rmdir</code><span class="sig-paren">(</span><em>dir</em>, <em>check='any'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.chk_rmdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>(chk_rmdir):
 This function checks whether a directory exists and removes it, if it is empty.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.chk_rmfile">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">chk_rmfile</tt><big>(</big><em>file_namestr</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.chk_rmfile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">chk_rmfile</code><span class="sig-paren">(</span><em>file_namestr</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.chk_rmfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>(chk_rmfile):
 This function checks whether a file is empty and if yes deletes it.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.dsu_sort">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">dsu_sort</tt><big>(</big><em>list</em>, <em>index</em>, <em>reverse=False</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.dsu_sort" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">dsu_sort</code><span class="sig-paren">(</span><em>list</em>, <em>index</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.dsu_sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>(dsu_sort):</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.dsu_sort2">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">dsu_sort2</tt><big>(</big><em>list</em>, <em>index</em>, <em>reverse=False</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.dsu_sort2" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">dsu_sort2</code><span class="sig-paren">(</span><em>list</em>, <em>index</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.dsu_sort2" title="Permalink to this definition">¶</a></dt>
 <dd><p>(dsu_sort2):
 This function sorts only based on the primary element, not on secondary elements in case of equality.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.filelinecount">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">filelinecount</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.filelinecount" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">filelinecount</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.filelinecount" title="Permalink to this definition">¶</a></dt>
 <dd><p>(filelinecount):
 Counts the number of lines in a file.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.intermed_exec_timing">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">intermed_exec_timing</tt><big>(</big><em>time_start</em>, <em>intermed_n</em>, <em>total_n</em>, <em>n_str='n'</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.intermed_exec_timing" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">intermed_exec_timing</code><span class="sig-paren">(</span><em>time_start</em>, <em>intermed_n</em>, <em>total_n</em>, <em>n_str='n'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.intermed_exec_timing" title="Permalink to this definition">¶</a></dt>
 <dd><p>(intermed_exec_timing):
 This function gives out the intermediate timing, speed, pace, projected remaining and end time.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.intermed_process_timing">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">intermed_process_timing</tt><big>(</big><em>time_start</em>, <em>process_n</em>, <em>intermed_n</em>, <em>total_n</em>, <em>n_str='n'</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.intermed_process_timing" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">intermed_process_timing</code><span class="sig-paren">(</span><em>time_start</em>, <em>process_n</em>, <em>intermed_n</em>, <em>total_n</em>, <em>n_str='n'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.intermed_process_timing" title="Permalink to this definition">¶</a></dt>
 <dd><p>(intermed_process_timing):
 This function gives out the intermediate timing, speed, pace, projected remaining and end time of a particular process with restarted time.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.isFloat">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">isFloat</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.isFloat" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">isFloat</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.isFloat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.line_count">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">line_count</tt><big>(</big><em>file_namestr</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.line_count" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">line_count</code><span class="sig-paren">(</span><em>file_namestr</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.line_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>(line_count):
 Returns the number of lines in a file.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.list_chunks">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">list_chunks</tt><big>(</big><em>l</em>, <em>n</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.list_chunks" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">list_chunks</code><span class="sig-paren">(</span><em>l</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.list_chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield successive n-sized chunks from l.
 Found on: <a class="reference external" href="http://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks-in-python">http://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks-in-python</a></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.md5checksum">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">md5checksum</tt><big>(</big><em>file_path</em>, <em>blocksize=8192</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.md5checksum" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">md5checksum</code><span class="sig-paren">(</span><em>file_path</em>, <em>blocksize=8192</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.md5checksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>(md5checksum):
 Compute md5 hash of the specified file.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.mksubdir_struct">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">mksubdir_struct</tt><big>(</big><em>dir</em>, <em>max_n_entries=10000</em>, <em>run_always=False</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.mksubdir_struct" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">mksubdir_struct</code><span class="sig-paren">(</span><em>dir</em>, <em>max_n_entries=10000</em>, <em>run_always=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.mksubdir_struct" title="Permalink to this definition">¶</a></dt>
 <dd><p>(mksubdir_struct):
 This function takes the content of a dir and makes numbered substructure dirs with each n_entries of the original dir.
 The motivation was to have a function with limits the number of entries in a directory to a certain threshold
@@ -167,21 +272,21 @@ The motivation was to have a function with limits the number of entries in a dir
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.mv2subdir_struct">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">mv2subdir_struct</tt><big>(</big><em>source_dir_pathstr</em>, <em>target_subdir</em>, <em>target_subdir_n</em>, <em>target_subdir_pathstr</em>, <em>maxitems=10000</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.mv2subdir_struct" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">mv2subdir_struct</code><span class="sig-paren">(</span><em>source_dir_pathstr</em>, <em>target_subdir</em>, <em>target_subdir_n</em>, <em>target_subdir_pathstr</em>, <em>maxitems=10000</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.mv2subdir_struct" title="Permalink to this definition">¶</a></dt>
 <dd><p>(mv2subdir_struct):
 This function moves a source folder into a target subdir structure and updates it.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.print_invoked_opts">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">print_invoked_opts</tt><big>(</big><em>logfile</em>, <em>opts</em>, <em>commline_list=[]</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.print_invoked_opts" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">print_invoked_opts</code><span class="sig-paren">(</span><em>logfile</em>, <em>opts</em>, <em>commline_list=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.print_invoked_opts" title="Permalink to this definition">¶</a></dt>
 <dd><p>(print_invoked_opts):
 Prints the invoked options to stdout and the logfile.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.queryset_iterator">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">queryset_iterator</tt><big>(</big><em>queryset</em>, <em>chunksize=1000</em>, <em>reverse=False</em>, <em>id_only=False</em>, <em>values=False</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.queryset_iterator" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">queryset_iterator</code><span class="sig-paren">(</span><em>queryset</em>, <em>chunksize=1000</em>, <em>reverse=False</em>, <em>id_only=False</em>, <em>values=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.queryset_iterator" title="Permalink to this definition">¶</a></dt>
 <dd><p>(queryset_iterator):
 Django incremental queryset iterator.
 Found on: <a class="reference external" href="http://www.poeschko.com/2012/02/memory-efficient-django-queries/">http://www.poeschko.com/2012/02/memory-efficient-django-queries/</a></p>
@@ -189,42 +294,42 @@ Found on: <a class="reference external" href="http://www.poeschko.com/2012/02/me
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.revdict_lookup">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">revdict_lookup</tt><big>(</big><em>dict</em>, <em>lookup_val</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.revdict_lookup" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">revdict_lookup</code><span class="sig-paren">(</span><em>dict</em>, <em>lookup_val</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.revdict_lookup" title="Permalink to this definition">¶</a></dt>
 <dd><p>(revdict_lookup):
 Performs a reverse dictionary lookup. Careful: only returns first match, but there may be others.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.std_datetime_str">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">std_datetime_str</tt><big>(</big><em>mode='datetime'</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.std_datetime_str" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">std_datetime_str</code><span class="sig-paren">(</span><em>mode='datetime'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.std_datetime_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>(std_time_str):
 This function gives out the formatted time as a standard string, i.e., YYYY-MM-DD hh:mm:ss.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.target_dir_struct">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">target_dir_struct</tt><big>(</big><em>target_dir_path</em>, <em>maxitems=10000</em>, <em>digits=5</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.target_dir_struct" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">target_dir_struct</code><span class="sig-paren">(</span><em>target_dir_path</em>, <em>maxitems=10000</em>, <em>digits=5</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.target_dir_struct" title="Permalink to this definition">¶</a></dt>
 <dd><p>(target_dir_struct):
 This function checks whether a target dir exists and establishes/checks the subdir structure.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.timeit">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">timeit</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.timeit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">timeit</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.timeit" title="Permalink to this definition">¶</a></dt>
 <dd><p>(timeit):
 Annotate a function with its elapsed execution time.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.tot_exec_time_str">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">tot_exec_time_str</tt><big>(</big><em>time_start</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.tot_exec_time_str" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">tot_exec_time_str</code><span class="sig-paren">(</span><em>time_start</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.tot_exec_time_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>(tot_exec_time_str):
 This function gives out the formatted time string.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.wc_all">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">wc_all</tt><big>(</big><em>dir</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.wc_all" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">wc_all</code><span class="sig-paren">(</span><em>dir</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.wc_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>(wc_all):
 Returns the number of files and dirs in a given dir via ls -1 | wc -l. 
 Not that this becomes a rather expensive function call when dir contains many entries.</p>
@@ -232,7 +337,7 @@ Not that this becomes a rather expensive function call when dir contains many en
 
 <dl class="function">
 <dt id="cheml.utils.lib_jcode.wc_dir">
-<tt class="descclassname">cheml.utils.lib_jcode.</tt><tt class="descname">wc_dir</tt><big>(</big><em>dir</em><big>)</big><a class="headerlink" href="#cheml.utils.lib_jcode.wc_dir" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.lib_jcode.</code><code class="descname">wc_dir</code><span class="sig-paren">(</span><em>dir</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.lib_jcode.wc_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>(wc_dir):
 Returns the number of dirs in a given dir via ls -1d | wc -l. 
 Not that this becomes a rather expensive function call when dir contains many subdirs.</p>
@@ -243,18 +348,18 @@ Not that this becomes a rather expensive function call when dir contains many su
 <span id="cheml-utils-utilities-module"></span><h2>cheml.utils.utilities module<a class="headerlink" href="#module-cheml.utils.utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="cheml.utils.utilities.chunk">
-<tt class="descclassname">cheml.utils.utilities.</tt><tt class="descname">chunk</tt><big>(</big><em>xs</em>, <em>n</em><big>)</big><a class="headerlink" href="#cheml.utils.utilities.chunk" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">chunk</code><span class="sig-paren">(</span><em>xs</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.chunk" title="Permalink to this definition">¶</a></dt>
 <dd><p>The use case: chunk_list= list( chunk(range(10),3) )</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.utilities.list_del_indices">
-<tt class="descclassname">cheml.utils.utilities.</tt><tt class="descname">list_del_indices</tt><big>(</big><em>mylist</em>, <em>indices</em><big>)</big><a class="headerlink" href="#cheml.utils.utilities.list_del_indices" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">list_del_indices</code><span class="sig-paren">(</span><em>mylist</em>, <em>indices</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.list_del_indices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.utilities.slurm_script_exclusive">
-<tt class="descclassname">cheml.utils.utilities.</tt><tt class="descname">slurm_script_exclusive</tt><big>(</big><em>pyscript_file</em>, <em>nnodes=1</em>, <em>input_slurm_script=None</em>, <em>output_slurm_script='script.slurm'</em><big>)</big><a class="headerlink" href="#cheml.utils.utilities.slurm_script_exclusive" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">slurm_script_exclusive</code><span class="sig-paren">(</span><em>pyscript_file</em>, <em>nnodes=1</em>, <em>input_slurm_script=None</em>, <em>output_slurm_script='script.slurm'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.slurm_script_exclusive" title="Permalink to this definition">¶</a></dt>
 <dd><p>(slurmjob)
 make the slurm script based on exclusive selection of cores per nodes.</p>
 <dl class="docutils">
@@ -279,7 +384,7 @@ output_slurm_script.</p>
 
 <dl class="function">
 <dt id="cheml.utils.utilities.std_datetime_str">
-<tt class="descclassname">cheml.utils.utilities.</tt><tt class="descname">std_datetime_str</tt><big>(</big><em>mode='datetime'</em><big>)</big><a class="headerlink" href="#cheml.utils.utilities.std_datetime_str" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">std_datetime_str</code><span class="sig-paren">(</span><em>mode='datetime'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.std_datetime_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>(std_time_str):
 This function gives out the formatted time as a standard string, i.e., YYYY-MM-DD hh:mm:ss.</p>
 </dd></dl>
@@ -289,17 +394,17 @@ This function gives out the formatted time as a standard string, i.e., YYYY-MM-D
 <span id="cheml-utils-validation-module"></span><h2>cheml.utils.validation module<a class="headerlink" href="#module-cheml.utils.validation" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="cheml.utils.validation.isfloat">
-<tt class="descclassname">cheml.utils.validation.</tt><tt class="descname">isfloat</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#cheml.utils.validation.isfloat" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">isfloat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.isfloat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.validation.string2nan">
-<tt class="descclassname">cheml.utils.validation.</tt><tt class="descname">string2nan</tt><big>(</big><em>df</em><big>)</big><a class="headerlink" href="#cheml.utils.validation.string2nan" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">string2nan</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.string2nan" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.validation.value">
-<tt class="descclassname">cheml.utils.validation.</tt><tt class="descname">value</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#cheml.utils.validation.value" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">value</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -310,19 +415,19 @@ isfloat, string2nan,
 last modified date: April 25, 2016</p>
 <dl class="function">
 <dt id="cheml.utils.list_del_indices">
-<tt class="descclassname">cheml.utils.</tt><tt class="descname">list_del_indices</tt><big>(</big><em>mylist</em>, <em>indices</em><big>)</big><a class="headerlink" href="#cheml.utils.list_del_indices" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.</code><code class="descname">list_del_indices</code><span class="sig-paren">(</span><em>mylist</em>, <em>indices</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.list_del_indices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.std_datetime_str">
-<tt class="descclassname">cheml.utils.</tt><tt class="descname">std_datetime_str</tt><big>(</big><em>mode='datetime'</em><big>)</big><a class="headerlink" href="#cheml.utils.std_datetime_str" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.</code><code class="descname">std_datetime_str</code><span class="sig-paren">(</span><em>mode='datetime'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.std_datetime_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>(std_time_str):
 This function gives out the formatted time as a standard string, i.e., YYYY-MM-DD hh:mm:ss.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.slurm_script_exclusive">
-<tt class="descclassname">cheml.utils.</tt><tt class="descname">slurm_script_exclusive</tt><big>(</big><em>pyscript_file</em>, <em>nnodes=1</em>, <em>input_slurm_script=None</em>, <em>output_slurm_script='script.slurm'</em><big>)</big><a class="headerlink" href="#cheml.utils.slurm_script_exclusive" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.</code><code class="descname">slurm_script_exclusive</code><span class="sig-paren">(</span><em>pyscript_file</em>, <em>nnodes=1</em>, <em>input_slurm_script=None</em>, <em>output_slurm_script='script.slurm'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.slurm_script_exclusive" title="Permalink to this definition">¶</a></dt>
 <dd><p>(slurmjob)
 make the slurm script based on exclusive selection of cores per nodes.</p>
 <dl class="docutils">
@@ -347,85 +452,83 @@ output_slurm_script.</p>
 
 <dl class="function">
 <dt id="cheml.utils.isfloat">
-<tt class="descclassname">cheml.utils.</tt><tt class="descname">isfloat</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#cheml.utils.isfloat" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.</code><code class="descname">isfloat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.isfloat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="cheml.utils.string2nan">
-<tt class="descclassname">cheml.utils.</tt><tt class="descname">string2nan</tt><big>(</big><em>df</em><big>)</big><a class="headerlink" href="#cheml.utils.string2nan" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">cheml.utils.</code><code class="descname">string2nan</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.string2nan" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">cheml.utils package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-cheml.utils.lib_jcode">cheml.utils.lib_jcode module</a></li>
-<li><a class="reference internal" href="#module-cheml.utils.utilities">cheml.utils.utilities module</a></li>
-<li><a class="reference internal" href="#module-cheml.utils.validation">cheml.utils.validation module</a></li>
-<li><a class="reference internal" href="#module-cheml.utils">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.wrappers.html" class="btn btn-neutral float-right" title="cheml.wrappers package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.trash_smallapps.html" class="btn btn-neutral" title="cheml.trash_smallapps package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="cheml.trash_smallapps.html"
-                        title="previous chapter">cheml.trash_smallapps package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cheml.wrappers.html"
-                        title="next chapter">cheml.wrappers package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/cheml.utils.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cheml.wrappers.html" title="cheml.wrappers package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="cheml.trash_smallapps.html" title="cheml.trash_smallapps package"
-             >previous</a> |</li>
-        <li><a href="index.html">ChemML 2 documentation</a> &raquo;</li>
-          <li><a href="cheml.html" >cheml package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2016, Mojtaba Haghighatlari.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

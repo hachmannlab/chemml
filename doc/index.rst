@@ -12,7 +12,8 @@ Contents:
    :maxdepth: 2
 
    cheml
-   CompGraphReference
+   CMLWReference
+   CMLWInputFile
 
 Indices and tables
 ==================

@@ -1,5 +1,5 @@
 =============================
-ChemML Wrapper Reference
+ChemML Wrapper reference
 =============================
 
 This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the

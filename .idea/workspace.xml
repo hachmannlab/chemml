@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CompGraphReference.rst" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.svm.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/cheml.svm.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/objects.inv" afterPath="$PROJECT_DIR$/doc/_build/html/objects.inv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/index.rst.txt" afterPath="$PROJECT_DIR$/doc/_build/html/_sources/index.rst.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.chem.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.chem.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.nn.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.nn.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.preprocessing.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.preprocessing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.svm.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.svm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.trash_smallapps.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.trash_smallapps.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.html" afterPath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/genindex.html" afterPath="$PROJECT_DIR$/doc/_build/html/genindex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/index.html" afterPath="$PROJECT_DIR$/doc/_build/html/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/py-modindex.html" afterPath="$PROJECT_DIR$/doc/_build/html/py-modindex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/search.html" afterPath="$PROJECT_DIR$/doc/_build/html/search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/searchindex.js" afterPath="$PROJECT_DIR$/doc/_build/html/searchindex.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/index.rst" afterPath="$PROJECT_DIR$/doc/index.rst" />
-    </list>
+    <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="" />
     <ignored path="CheML.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -47,10 +26,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.4549356">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="engine.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="engine.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/engine.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="322">
+                <state relative-caret-position="548">
                   <caret line="356" column="34" selection-start-line="356" selection-start-column="34" selection-end-line="356" selection-end-column="34" />
                   <folding>
                     <element signature="e#340#350#0" expanded="true" />
@@ -64,64 +43,13 @@
                     <element signature="e#8690#8725#1" expanded="false" />
                     <element signature="e#8816#9023#0" expanded="false" />
                     <element signature="e#11868#13385#0" expanded="false" />
-                    <element signature="e#13415#14525#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CMLWInputFile.rst" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/doc/CMLWInputFile.rst">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="825">
-                  <caret line="64" column="33" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CMLWReference.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/CMLWReference.rst">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/index.rst">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cheml.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/cheml.rst">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cheml.svm.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/cheml.svm.rst">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cheml.nn.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/cheml.nn.rst">
+          <file leaf-file-name="multilayer_perceptron.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cheml/nn/tensorflow/multilayer_perceptron.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
                   <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -189,16 +117,6 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="script_sklearn.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/cheml/wrappers/script_sklearn.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1170">
-                  <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="script_cheml.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/script_cheml.txt">
               <provider selected="true" editor-type-id="text-editor">
@@ -256,7 +174,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="script_test_simple.txt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="script_test_simple.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/script_test_simple.txt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="240">
@@ -279,8 +197,18 @@
           <file leaf-file-name="dictionaries_info.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="104" selection-start-line="2" selection-start-column="104" selection-end-line="2" selection-end-column="104" />
+                <state relative-caret-position="195">
+                  <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="script.txt" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cheml/wrappers/script.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-435">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -454,7 +382,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="initialization">
+            <PATH_ELEMENT USER_OBJECT="wrappers">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -472,7 +400,29 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="chem">
+            <PATH_ELEMENT USER_OBJECT="nn">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="nn">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="tensorflow">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -809,7 +759,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="-161" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739726" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1" sideWeight="0.50479233" order="7" side_tool="true" content_ui="tabs" />
@@ -819,7 +769,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970297" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1315229" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1315229" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13385417" sideWeight="0.5072604" order="2" side_tool="true" content_ui="tabs" />
@@ -876,13 +826,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cheml/nn/nn_neurolab.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/nn/nn_pybrain.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1072,7 +1015,7 @@
         <state relative-caret-position="330">
           <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="false" />
             <element signature="e#448#1172#0" expanded="false" />
             <element signature="e#1444#4327#0" expanded="false" />
             <element signature="e#4586#4924#0" expanded="false" />
@@ -1211,14 +1154,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/nn/tensorflow/multilayer_perceptron.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="51" column="55" selection-start-line="51" selection-start-column="55" selection-end-line="51" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/chem/Dragon.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="787">
@@ -1234,27 +1169,6 @@
         <state relative-caret-position="15">
           <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/engine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="356" column="34" selection-start-line="356" selection-start-column="34" selection-end-line="356" selection-end-column="34" />
-          <folding>
-            <element signature="e#340#350#0" expanded="true" />
-            <element signature="e#624#7859#0" expanded="false" />
-            <element signature="e#754#774#0" expanded="false" />
-            <element signature="e#803#1580#0" expanded="false" />
-            <element signature="e#1622#1902#0" expanded="false" />
-            <element signature="e#1951#3418#0" expanded="false" />
-            <element signature="e#3460#3860#0" expanded="false" />
-            <element signature="e#3902#5624#0" expanded="false" />
-            <element signature="e#8690#8725#1" expanded="false" />
-            <element signature="e#8816#9023#0" expanded="false" />
-            <element signature="e#11868#13385#0" expanded="false" />
-            <element signature="e#13415#14525#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1328,14 +1242,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doc/CMLWReference.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/doc/CMLWInputFile.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="825">
@@ -1354,6 +1260,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/script_test_simple.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/CMLWReference.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/nn/tensorflow/multilayer_perceptron.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script_test.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -1362,18 +1292,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/engine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="356" column="34" selection-start-line="356" selection-start-column="34" selection-end-line="356" selection-end-column="34" />
+          <folding>
+            <element signature="e#340#350#0" expanded="true" />
+            <element signature="e#624#7859#0" expanded="false" />
+            <element signature="e#754#774#0" expanded="false" />
+            <element signature="e#803#1580#0" expanded="false" />
+            <element signature="e#1622#1902#0" expanded="false" />
+            <element signature="e#1951#3418#0" expanded="false" />
+            <element signature="e#3460#3860#0" expanded="false" />
+            <element signature="e#3902#5624#0" expanded="false" />
+            <element signature="e#8690#8725#1" expanded="false" />
+            <element signature="e#8816#9023#0" expanded="false" />
+            <element signature="e#11868#13385#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="104" selection-start-line="2" selection-start-column="104" selection-end-line="2" selection-end-column="104" />
+        <state relative-caret-position="195">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script_test_simple.txt">
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/script.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="23" />
+        <state relative-caret-position="-435">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-PROGRAM_NAME = "CheML"
-PROGRAM_VERSION = "v0.0.1"
-REVISION_DATE = "2015-06-23"
-AUTHORS = "Johannes Hachmann (hachmann@buffalo.edu) and Mojtaba Haghighatlari (mojtabah@buffalo.edu)"
-CONTRIBUTORS = " "
-DESCRIPTION = "ChemML is a machine learning and informatics program suite for the chemical and materials sciences."
-
 import sys
 import os
 import time
@@ -20,6 +13,28 @@ import sklearn_wrapper as skl
 import cheml_wrapper as cml
 #todo: use utils subdirectory instead
 from .sct_utils import isint, value, std_datetime_str
+
+def banner():
+    PROGRAM_NAME = "ChemML"
+    PROGRAM_VERSION = "v1.3.1"
+    REVISION_DATE = "2017-01-03"
+    AUTHORS = ["Johannes Hachmann (hachmann@buffalo.edu)","Mojtaba Haghighatlari (mojtabah@buffalo.edu)"]
+    CONTRIBUTORS = " "
+    DESCRIPTION = "ChemML is a machine learning and informatics program suite for the chemical and materials sciences."
+    str = []
+    str.append("=================================================")
+    str.append(PROGRAM_NAME + " " + PROGRAM_VERSION + " (" + REVISION_DATE + ")")
+    for AUTHOR in AUTHORS:
+        str.append(AUTHOR)
+    str.append("=================================================")
+    str.append(time.ctime())
+    str.append("")
+    # str.append(DESCRIPTION)
+    # str.append("")
+
+    print
+    for line in str:
+        print line
 
 class Parser(object):
     """
@@ -54,6 +69,8 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
+        banner()
+        print 'Input File: \n'
         self._print_out(cmls)
         return cmls, ImpOrder, CompGraph
 
@@ -227,7 +244,7 @@ class BASE(object):
                            'selector':[], 'transformer':[], 'regressor':[],
                            'preprocessor':[], 'divider':[], 'postprocessor':[],
                            'classifier':[], 'evaluator':[], 'visualizer':[], 'optimizer':[]}
-        print 'initialized'
+        print "=================================================\n"
 
 class Wrapper(object):
     """

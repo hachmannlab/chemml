@@ -7,8 +7,8 @@ from .base import BASE
 
 class PyScript(BASE):
     def legal_IO(self):
-        self.legal_inputs = {'df':None,'api':None, 'value': None}
-        self.legal_outputs = {'df_out':None,'api_out':None, 'value_out': None}
+        self.legal_inputs = {'var1':None,'var2':None,'var3':None, 'var4':None, 'var5': None}
+        self.legal_outputs = {'var_out1':None,'var_out2':None,'var_out3':None,'var_out4':None,'var_out5':None}
         requirements = []
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -20,12 +20,16 @@ class PyScript(BASE):
             exec(self.parameters[line])
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'df_out':
-                self.Base.send[(self.iblock, token)] = [df_out, order.count(token)]
-            elif token == 'api_out':
-                self.Base.send[(self.iblock, token)] = [api_out, order.count(token)]
-            elif token == 'value_out':
-                self.Base.send[(self.iblock, token)] = [value_out, order.count(token)]
+            if token == 'var_out1':
+                self.Base.send[(self.iblock, token)] = [var_out1, order.count(token)]
+            elif token == 'var_out2':
+                self.Base.send[(self.iblock, token)] = [var_out2, order.count(token)]
+            elif token == 'var_out3':
+                self.Base.send[(self.iblock, token)] = [var_out3, order.count(token)]
+            elif token == 'var_out4':
+                self.Base.send[(self.iblock, token)] = [var_out4, order.count(token)]
+            elif token == 'var_out5':
+                self.Base.send[(self.iblock, token)] = [var_out5, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)

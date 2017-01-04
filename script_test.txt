@@ -10,23 +10,28 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 ## Input
                 << module = cheml                 << function = File
 
-                << filepath = 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv'
+                << filepath = 'benchmarks/RI_project/MDdensity/R1/1k_pol_RI_den.csv'
                 << header = 0
                 << skiprows = 0
                 << skipcolumns = 0
                 >> df 0
 
-## Input
+## Script
+                        << module = cheml           << function = PyScript
+                        << l0 = "print df.shape"
+                        >> 0 df
+
+# Input
                 << module = cheml                 << function = Split
                 << select = ['SMILES']
                 >> 0 df   >> df1 1  >> df2 2
 
-## Input
+# Input
                 << module = cheml                 << function = Split
                 << select = ['Kp'] < ,'d_exp']
                 >> 2 df >> df1 3    > df2 4
 
-## Script
+# Script
                         << module = cheml           << function = PyScript
                         << l0 = "print 'df.describe():', df.describe()"
                         << l1 = "l = list(df.describe().loc['mean',:])*df.shape[0]"
@@ -34,7 +39,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                         < l3 = "print df_out"
                         >> 3 df > df_out 100
 
-## Output
+# Output
                 << module = cheml                 << function = SaveFile
 
                 << filename = '178'
@@ -56,7 +61,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
                 >> 5 molfile  >> df 6
 
-## DataRepresentation
+# DataRepresentation
                 << module = cheml                      << function = Dragon
                 << version = 7
                 << script = "new"
@@ -103,24 +108,24 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
                 >> 5 molfile  >> df 6
 
-## Input
+# Input
                 << module = cheml                 << function = Split
                 << select = ['No.','NAME']
                 >> 6 df >> df2 20
 
-## Preprocessor
+# Preprocessor
                         << module = cheml           << function = MissingValues
                         << string_as_null = True    << missing_values = ['Nan']
                         << inf_as_null = True       << strategy = 'ignore_column'
                         >> 20 df      >> df 21
 
 
-## Preprocessor
+# Preprocessor
                         << module = cheml         << function = Constant
 
                         >> 21 df >> df 7 >> removed_columns_ 8
 
-## Output
+# Output
                 << module = cheml                 << function = SaveFile
 
                 << filename = 'removed_features'
@@ -132,13 +137,13 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 8 df
 
 
-## Script
+# Script
                         << module = cheml           << function = PyScript
                         << l0 = "print 'df.shape:', df.shape"
                         >> 7 df >> 3 value
 
 
-## Regression
+# Regression
                 << module = sklearn      << function = SVR
 
                               << C = 1.0
@@ -155,7 +160,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
                 > ? dfx     > ? dfy     > r2_train ?   >> model 90
 
-## Postprocessor
+# Postprocessor
                 << module = sklearn      << function = Grid_SearchCV
 
                               << param_grid = {'kernel':('linear', 'rbf','sigmoid'), 'C':[0.1,1,10], 'epsilon':[0.01,0.1,1], 'gamma':[0.01,0.1,1]}
@@ -171,7 +176,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                               << return_train_score = True
                 >> 7 dfx    >> 3 dfy    >> 90 model  >> cv_results_ 91    >> best_model_ 92     >> api 93
 
-## Script
+# Script
                         << module = cheml           << function = PyScript
                         << l0 = "print df"
                         << l1 = "print '--------'"
@@ -180,7 +185,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                         << l4 = "print api.best_params_"
                         >> 92 df    >> 93 api
 
-## Output
+# Output
                 << module = cheml                 << function = SaveFile
 
                 << filename = 'G_SCV_SVR_results'
@@ -208,14 +213,14 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                         << module = sklearn     << function = MinMaxScaler
                         << feature_range = (0,1)    << copy = True
                         > df 1 > 2 df >> api  103
-## Divider
+# Divider
                         << module = sklearn             << function = KFold
                         << n_splits = 3                 << shuffle = False
                         << random_state = 99
                         >> CV 106
 
 
-## Postprocessor
+# Postprocessor
                 << module = sklearn      << function = Evaluation
                               << r2_score = True
                               << r2_sample_weight = None       << r2_multioutput = None
@@ -238,7 +243,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 7 dfx     >> 3 dfy   >> 106 CV  >> 92 model  > ? X_scaler   > ? Y_scaler   >> results 94
 
 
-## Output
+# Output
                 << module = cheml                 << function = SaveFile
 
                 << filename = 'svr_test_results'

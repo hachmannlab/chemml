@@ -9,9 +9,13 @@ from .utilities import std_datetime_str
 from .utilities import slurm_script_exclusive
 from .utilities import chunk
 
-from .validation import isfloat
 from .validation import string2nan
-
+from .validation import isfloat
+from .validation import islist
+from .validation import istuple
+from .validation import isnpdot
+from .validation import isint
+from .validation import value
 
 
 __all__ = [

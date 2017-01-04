@@ -4,96 +4,7 @@ import numpy as np
 import copy
 
 from ..utils.utilities import list_del_indices
-
-class sklearn_Base(object):
-    """
-    Do not instantiate this class
-    """
-    def __init__(self, Base, parameters, iblock, SuperFunction):
-        self.Base = Base
-        self.parameters = parameters
-        self.iblock = iblock
-        self.SuperFunction = SuperFunction
-
-    def run(self):
-        self.legal_IO()
-        self.receive()
-        self.fit()
-
-    def receive(self):
-        recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
-        self.Base.graph = tuple([edge for edge in self.Base.graph if edge[2] != self.iblock])
-        # check received tokens to (1) be a legal input, and (2) be unique.
-        count = {token:0 for token in self.legal_inputs}
-        for edge in recv:
-            if edge[3] in self.legal_inputs:
-                count[edge[3]] += 1
-                if count[edge[3]] > 1:
-                    msg = '@Task #%i(%s): only one input per each available input path/token can be received.' % (
-                        self.iblock+1,self.SuperFunction)
-                    raise IOError(msg)
-            else:
-                msg = "@Task #%i(%s): received a non valid input token '%s', sent by function #%i" % (
-                    self.iblock+1,self.SuperFunction,edge[3], edge[0] + 1)
-                raise IOError(msg)
-        for edge in recv:
-            key = edge[0:2]
-            if key in self.Base.send:
-                if self.Base.send[key][1] > 0:
-                    value = self.Base.send[key][0]
-                    # TODO: deepcopy is memory consuming
-                #     value = copy.deepcopy(self.Base.send[key][0])
-                # else:
-                #     value = self.Base.send[key][0]
-                # Todo: informative token should be a list of (int(edge[0],edge[1])
-                informative_token = (int(edge[0]), edge[1]) + self.Base.graph_info[int(edge[0])]
-                self.legal_inputs[edge[3]] = (value,informative_token)
-                del value
-                self.Base.send[key][1] -= 1
-                if self.Base.send[key][1] == 0:
-                    del self.Base.send[key]
-            else:
-                msg = '@Task #%i(%s): broken pipe in token %s - nothing has been sent' % (
-                    self.iblock+1,self.SuperFunction,edge[3])
-                raise IOError(msg)
-        return self.legal_inputs
-
-    def _error_type(self,token):
-        msg = "@Task #%i(%s): The type of input with token '%s' is not valid" \
-              % (self.iblock + 1, self.SuperFunction, token)
-        raise IOError(msg)
-
-    def type_check(self,token,cheml_type,req=False,py_type=False):
-        if isinstance(self.legal_inputs[token], type(None)):
-            if req:
-                msg = "@Task #%i(%s): The input type with token '%s' is required." \
-                      % (self.iblock + 1, self.SuperFunction, token)
-                raise IOError(msg)
-            else:
-                return None
-        else:
-            slit0 = self.legal_inputs[token][0]
-            slit1 = self.legal_inputs[token][1]
-            if py_type:
-                if not isinstance(slit0, py_type):
-                    self._error_type(token)
-            # if cheml_type == 'df':
-            #     if not slit1[1][0:2] == 'df':
-            #         self._error_type(token)
-            # elif cheml_type == 'model':
-            #     if slit1[2]+'_'+slit1[3] not in self.Base.cheml_type['model']:
-            #         self._error_type(token)
-            # elif cheml_type == 'scaler':
-            #     if slit1[2]+'_'+slit1[3] not in self.Base.cheml_type['scaler']:
-            #         self._error_type(token)
-            # elif cheml_type == 'cv':
-            #     if slit1[2]+'_'+slit1[3] not in self.Base.cheml_type['cv']:
-            #         self._error_type(token)
-            # else:
-            #     msg = "@Task #%i(%s): The type of input with token '%s' must be %s not %s" \
-            #           % (self.iblock + 1, self.SuperFunction, token, str(py_type), str(type(slit0)))
-            #     raise IOError(msg)
-            return slit0
+from .base import BASE
 
 class Preprocessor(object):
     def Imputer_ManipulateHeader(self, transformer, df):
@@ -226,7 +137,7 @@ class Regressor(object):
 
 #####################################################################DataRepresentation
 
-class PolynomialFeatures(sklearn_Base,Preprocessor):
+class PolynomialFeatures(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -255,7 +166,7 @@ class PolynomialFeatures(sklearn_Base,Preprocessor):
 
 #####################################################################Preprocessor
 
-class Imputer(sklearn_Base,Preprocessor):
+class Imputer(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -290,7 +201,7 @@ class Imputer(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class StandardScaler(sklearn_Base,Preprocessor):
+class StandardScaler(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -324,7 +235,7 @@ class StandardScaler(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class MinMaxScaler(sklearn_Base,Preprocessor):
+class MinMaxScaler(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -358,7 +269,7 @@ class MinMaxScaler(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class MaxAbsScaler(sklearn_Base,Preprocessor):
+class MaxAbsScaler(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -392,7 +303,7 @@ class MaxAbsScaler(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class RobustScaler(sklearn_Base,Preprocessor):
+class RobustScaler(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -426,7 +337,7 @@ class RobustScaler(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Normalizer(sklearn_Base,Preprocessor):
+class Normalizer(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -460,7 +371,7 @@ class Normalizer(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Binarizer(sklearn_Base,Preprocessor):
+class Binarizer(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -494,7 +405,7 @@ class Binarizer(sklearn_Base,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class OneHotEncoder(sklearn_Base,Preprocessor):
+class OneHotEncoder(BASE,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -534,7 +445,7 @@ class OneHotEncoder(sklearn_Base,Preprocessor):
 
 #####################################################################FeatureTransformation
 
-class PCA(sklearn_Base):
+class PCA(BASE):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -565,7 +476,7 @@ class PCA(sklearn_Base):
 
 #####################################################################Divider
 
-class Train_Test_Split(sklearn_Base):
+class Train_Test_Split(BASE):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
@@ -602,7 +513,7 @@ class Train_Test_Split(sklearn_Base):
                 raise NameError(msg)
         del self.legal_inputs
 
-class KFold(sklearn_Base):
+class KFold(BASE):
     def legal_IO(self):
         self.legal_inputs = {}
         self.legal_outputs = {'CV': None}
@@ -630,7 +541,7 @@ class KFold(sklearn_Base):
 
 #####################################################################Regression
 
-class OLS(sklearn_Base, Regressor):
+class OLS(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -667,7 +578,7 @@ class OLS(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Ridge(sklearn_Base, Regressor):
+class Ridge(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -704,7 +615,7 @@ class Ridge(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class KernelRidge(sklearn_Base, Regressor):
+class KernelRidge(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -741,7 +652,7 @@ class KernelRidge(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Lasso(sklearn_Base, Regressor):
+class Lasso(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -778,7 +689,7 @@ class Lasso(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class MultiTaskLasso(sklearn_Base, Regressor):
+class MultiTaskLasso(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -815,7 +726,7 @@ class MultiTaskLasso(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class ElasticNet(sklearn_Base, Regressor):
+class ElasticNet(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -852,7 +763,7 @@ class ElasticNet(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class MultiTaskElasticNet(sklearn_Base, Regressor):
+class MultiTaskElasticNet(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -889,7 +800,7 @@ class MultiTaskElasticNet(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Lars(sklearn_Base, Regressor):
+class Lars(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -926,7 +837,7 @@ class Lars(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class LassoLars(sklearn_Base, Regressor):
+class LassoLars(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -963,7 +874,7 @@ class LassoLars(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class BayesianRidge(sklearn_Base, Regressor):
+class BayesianRidge(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -1000,7 +911,7 @@ class BayesianRidge(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class ARD(sklearn_Base, Regressor):
+class ARD(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -1037,7 +948,7 @@ class ARD(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Logistic(sklearn_Base, Regressor):
+class Logistic(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -1074,7 +985,7 @@ class Logistic(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class SGD(sklearn_Base, Regressor):
+class SGD(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'api': None}
@@ -1111,7 +1022,7 @@ class SGD(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class SVR(sklearn_Base, Regressor):
+class SVR(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'model': None}
@@ -1150,7 +1061,7 @@ class SVR(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class NuSVR(sklearn_Base, Regressor):
+class NuSVR(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'model': None}
@@ -1187,7 +1098,7 @@ class NuSVR(sklearn_Base, Regressor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class LinearSVR(sklearn_Base, Regressor):
+class LinearSVR(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'r2_train': None, 'model': None}
@@ -1226,7 +1137,7 @@ class LinearSVR(sklearn_Base, Regressor):
 
 #####################################################################Postprocessor
 
-class Grid_SearchCV(sklearn_Base):
+class Grid_SearchCV(BASE):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'model': None}
         self.legal_outputs = {'cv_results_': None, 'api': None, 'best_model_': None}
@@ -1273,7 +1184,7 @@ class Grid_SearchCV(sklearn_Base):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Evaluation(sklearn_Base, Regressor):
+class Evaluation(BASE, Regressor):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None, 'X_scaler': None, 'Y_scaler': None, 'model': None}
         self.legal_outputs = {'results': None}

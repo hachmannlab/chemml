@@ -116,6 +116,7 @@ class Dragon(BASE):
             if token == 'df':
                 df_path = model.data_path
                 df = pd.read_csv(df_path, sep=None, engine='python')
+                df = df.drop(['No.','NAME'],axis=1)
                 self.Base.send[(self.iblock, token)] = [df, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
@@ -201,25 +202,28 @@ class DistanceMatrix(BASE):
 
 class MissingValues(BASE):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'df': None, 'api':None}
-        requirements = ['cheml', 'pandas']
+        self.legal_inputs = {'dfx': None, 'dfy':None}
+        self.legal_outputs = {'dfx': None, 'dfy': None, 'api':None}
+        requirements = ['cheml',  'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         from cheml.preprocessing import missing_values
-        df = self.type_check('df', cheml_type='df', req=True, py_type=pd.DataFrame)
+        dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame)
         try:
             model = missing_values(**self.parameters)
-            df = model.fit(df)
-            df = model.transform(df)
+            dfx = model.fit_transform(dfx)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+            if token == 'dfx':
+                self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
+            elif token == 'dfy':
+                dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
+                dfy = model.transform(dfy)
+                self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
             elif token == 'api':
                 self.Base.send[(self.iblock, token)] = [model, order.count(token)]
             else:

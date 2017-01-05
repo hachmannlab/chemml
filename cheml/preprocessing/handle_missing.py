@@ -72,7 +72,8 @@ class missing_values(object):
 
     Returns
     -------
-    data and target
+    data frame
+    mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed
     """
     def __init__(self, strategy="interpolate", string_as_null = True,
                  inf_as_null = True, missing_values = False):
@@ -81,11 +82,21 @@ class missing_values(object):
         self.inf_as_null = inf_as_null
         self.missing_values = missing_values
         
-    def fit(self, df):
+    def fit_transform(self, df):
         """
-        fit the missing_values to df by replacing missing values with nan. 
-        Then, they would be ready to be filled with pandas.fillna or 
-        sklearn.Imputer with specific strategies. 
+        To:
+         - replace missing values with nan.
+         - drop columns with all nan values.
+         - fill nan values with the specified strategy.
+
+        :param:
+            df: pandas data frame
+        :attribute:
+            mask: binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
+                mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
+                if the row/column in the same position has been removed or not.
+                The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
+                on that. The mask can later be used in the transform method to change other data frames in the same way.
         """
         if self.inf_as_null == True:
             df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
@@ -94,27 +105,44 @@ class missing_values(object):
         if self.missing_values and isinstance(self.missing_values, (list, tuple)):
             for pattern in self.missing_values:
                 df.replace(pattern, np.nan, True)
-        return df
-        
-    def transform(self, data):
-        data = _check_object_col(data, 'data')
+
+        df = _check_object_col(df, 'df')
         # drop null columns
-        data.dropna(axis=1, how='all', inplace=True)
+        df.dropna(axis=1, how='all', inplace=True)
 
         if self.strategy == 'zero':
-            for col in data.columns:
-                data[col].fillna(value=0,inplace=True)                
-            return data
+            for col in df.columns:
+                df[col].fillna(value=0,inplace=True)
+            return df
         elif self.strategy == 'ignore_row':
-            data.dropna(axis=0, how='any', inplace=True)
-            return data
+            self.mask = pd.notnull(df).all(1)
+            df = df[self.mask]
+            # df.dropna(axis=0, how='any', inplace=True)
+            return df
         elif self.strategy == 'ignore_column':
-            data.dropna(axis=1, how='any', inplace=True)
-            return data
+            self.mask = pd.notnull(df).all(0)
+            df = df.T[self.mask].T
+            # df.dropna(axis=1, how='any', inplace=True)
+            return df
         elif self.strategy == 'interpolate':
-            data = data.interpolate()
-            data.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
-            return data
+            df = df.interpolate()
+            df.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
+            return df
         else:
             msg = "Wrong strategy has been passed"
             raise TypeError(msg)
+
+    def transform(self, df):
+        """
+        Only if the class is fitted with 'ignore_row' or 'ignore_column' strategies.
+
+        :param df: pandas dataframe
+        :return: transformed data frame based on the mask vector from fit_transform method.
+        """
+        if self.strategy == 'ignore_row':
+            return df[self.mask]
+        elif self.strategy == 'ignore_column':
+            return df.T[self.mask].T
+        else:
+            msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform your new dataframe with those methods."
+            warnings.warn(msg)

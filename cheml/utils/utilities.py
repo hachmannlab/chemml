@@ -1,5 +1,6 @@
 import datetime
 import random
+import numpy as np
 
 def list_del_indices(mylist,indices):
     for index in sorted(indices, reverse=True):
@@ -105,3 +106,29 @@ def chunk(xs, n):
         else:
            extra= []
         yield ys[c*size:(c+1)*size] + extra
+
+def choice(a, n, replace=False):
+    """
+    Generates a random sample from a given 1-D array. Bassicaly same as np.random.choice with pre- and post-processing
+     steps. Sampling without replacement.
+    :param a: 1-D array-like or int
+        If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if
+        a was np.arange(n).
+    :param n: int
+        size of output
+    :param replace: boolean, default=False
+        whether the sample is with or without replacement
+    :return: a_out: 1-D array-like
+                the array of out of sample elements
+    :return: a_sample: 1-D array-like, shape (size,)
+                the sample array
+    """
+    if isinstance(a,int):
+        a = np.arange(a)
+        a_sample = np.random.choice(a,n,replace=replace)
+        a_out=np.array([i for i in a if i not in a_sample])
+        return a_out, a_sample
+    else:
+        a_sample = np.random.choice(a,n,replace=replace)
+        a_out = np.array([i for i in a if i not in a_sample])
+        return a_out, a_sample

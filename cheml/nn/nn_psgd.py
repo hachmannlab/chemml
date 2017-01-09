@@ -1,8 +1,9 @@
 import numpy as np
 from scipy import special as spspecial
-import sys
 from multiprocessing import Pool, sharedctypes, Value
 import copy
+from ..utils import choice
+from .. utils import check_input
 
 def act_funcs_from_string(input_act_funcs, n):
     """
@@ -27,27 +28,6 @@ def act_funcs_from_string(input_act_funcs, n):
             return map(lambda x: act_func_dict[x],input_act_funcs)
     else:
         return [act_func_dict[input_act_funcs]]*n
-
-def check_array(X,name,n0=None,n1=None):
-    """
-    Makes sure that array is correct
-    Inputs:
-    X - array to be checked
-    n0 - number of data entries
-    n1 - number of features
-    name - name of array (e.g. training input)
-    Output:
-    array converted to floats
-    """
-    if not (isinstance(X, np.ndarray) and X.ndim == 2):
-        raise Exception(name+' needs to be two dimensional numpy array')
-    elif not np.can_cast(X.dtype,np.float,casting='same_kind'):
-        raise Exception(name+' cannot be cast to floats')
-    if n0 and X.shape[0] != n0:
-        raise Exception(name+' has an invalid number of data entries')
-    if n1 and X.shape[1] != n1:
-        raise Exception(name+' has an invalid number of feature entries')
-    return X.astype(float)
 
 def np_to_c(np_array):
     """
@@ -255,29 +235,33 @@ def back_propagate(para_input):
                     or np.isinf(weight[1]).any():
                     break
                 di = dhi * np.dot(di,weight[0].T)
-ZZ
 
 # @profile
-def train(X_train,X_test,Y_train,Y_test,nneurons,input_act_funcs,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
+def train(X_train,Y_train,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
     batch_size=256,n_cores=1,n_hist=20,n_check=50,threshold=0.1, print_level=1):
     """
     Main training function
-    Inputs:
-    X_train - input training data
-    X_test - input testing data
-    Y_train - output training data
-    Y_test - output testing data
-    nneurons - list of integers describing how many neurons there are in each layer
-    input_act_funcs - list of activation functions or just one function. should be same
-    length as nneurons if a list
-    Outputs:
-    nnet - a tuple with trained weights and the activation functions
+    :param X_train: pandas dataframe or numpy array
+        input training data
+    :param Y_train: pandas dataframe or numpy array
+        output training data
+    :param nneurons: list of integers
+        describing how many neurons there are in each layer
+    :param input_act_funcs: list of activation functions or just one function (string)
+        should be same length as nneurons if a list
+    :param validation_size: float between zero and one, optional (default = 0.2)
+        size of data to be selected randomly for validation
+
+    :return nnet: a tuple with trained weights and the activation functions
 
     """
-    X_train = check_array(X_train,'Training input')
-    X_test = check_array(X_test,'Testing input',n1=X_train.shape[1])
-    Y_train = check_array(Y_train,'Training output',n0=X_train.shape[0])
-    Y_test = check_array(Y_test,'Testing output',n0=X_test.shape[0],n1=Y_train.shape[1])
+    X_train, _ = check_input(X_train,'Training input', format_out='ar')
+    Y_train, _ = check_input(Y_train,'Training output',n0=X_train.shape[0],format_out='ar')
+    print X_train.ndim
+    print Y_train.ndim
+    X_train, X_test, Y_train, Y_test = choice(X_train, Y_train, n = validation_size)
+    X_test, _ = check_input(X_test,'Testing input',n1=X_train.shape[1],format_out='ar')
+    Y_test, _ = check_input(Y_test,'Testing output',n0=X_test.shape[0],n1=Y_train.shape[1],format_out='ar')
     n_features = X_train.shape[1]
     n_outputs = Y_train.shape[1]
     N = X_train.shape[0]
@@ -306,16 +290,12 @@ def train(X_train,X_test,Y_train,Y_test,nneurons,input_act_funcs,learn_rate=0.00
     return {'weights':final_weights,'act_funcs':input_act_funcs}
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
     N = 2000
     X = (np.random.rand(N,1) - 0.5) * 10
     Y = np.sin(X)
-    X_train = X[:N/2]
-    X_test = X[N/2:]
-    Y_train = Y[:N/2]
-    Y_test = Y[N/2:]
-    nnet = train(X_train,X_test,Y_train,Y_test,[20,10],'tanh',learn_rate=0.001,n_epochs=50000,n_cores=2)
-    print np.mean(np.abs(output(X_test,nnet) - Y_test),axis=0)
-    plt.plot(X_test[:,0],output(X_test,nnet)[:,0],'x')
-    plt.plot(X_test[:,0],Y_test[:,0],'o')
-    plt.show()
+    nnet = train(X,Y,[20,10],'tanh',validation_size=0.1,learn_rate=0.001,n_epochs=50000,n_cores=2)
+    print np.mean(np.abs(output(X[:N/2],nnet) - Y[:N/2]),axis=0)
+    # plt.plot(X_test[:,0],output(X_test,nnet)[:,0],'x')
+    # plt.plot(X_test[:,0],Y_test[:,0],'o')
+    # plt.show()

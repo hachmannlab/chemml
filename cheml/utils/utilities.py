@@ -107,15 +107,16 @@ def chunk(xs, n):
            extra= []
         yield ys[c*size:(c+1)*size] + extra
 
-def choice(a, n, replace=False):
+def choice(X, Y=None, n=0.1, replace=False):
     """
     Generates a random sample from a given 1-D array. Bassicaly same as np.random.choice with pre- and post-processing
      steps. Sampling without replacement.
-    :param a: 1-D array-like or int
-        If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if
-        a was np.arange(n).
-    :param n: int
-        size of output
+    :param X: 1-D array-like
+        A random sample will be generated from its elements.
+    :param Y: 1-D array-like, optional (default = None)
+        A random sample will be generated from its elements.
+    :param n: int or float between zero and one, optional (default = 0.1)
+        size of sample
     :param replace: boolean, default=False
         whether the sample is with or without replacement
     :return: a_out: 1-D array-like
@@ -123,12 +124,18 @@ def choice(a, n, replace=False):
     :return: a_sample: 1-D array-like, shape (size,)
                 the sample array
     """
-    if isinstance(a,int):
-        a = np.arange(a)
-        a_sample = np.random.choice(a,n,replace=replace)
-        a_out=np.array([i for i in a if i not in a_sample])
-        return a_out, a_sample
+    if not isinstance(n,int):
+            n = int(n*len(X))
+    ind_sample = np.random.choice(len(X),n,replace=replace)
+    ind_out = np.array([i for i in range(len(X)) if i not in ind_sample])
+    X_sample = X[ind_sample]
+    X_out = X[ind_out]
+    if isinstance(Y,np.ndarray):
+        if len(Y) != len(X):
+            raise Exception('X and Y must be same size')
+        Y_sample = Y[ind_sample]
+        Y_out = Y[ind_out]
     else:
-        a_sample = np.random.choice(a,n,replace=replace)
-        a_out = np.array([i for i in a if i not in a_sample])
-        return a_out, a_sample
+        Y_sample = None
+        Y_out = None
+    return X_out, X_sample, Y_out, Y_sample

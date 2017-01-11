@@ -351,8 +351,8 @@ class Dragon(object):
     def _save_script(self): 
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
-        self.drs = 'Dragon_script.drs'
-        with open(self.output_directory+self.drs, 'w') as outfile:
+        self.drs_name = 'Dragon_script.drs'
+        with open(self.output_directory+self.drs_name, 'w') as outfile:
             outfile.write("%s" %etree.tostring(self.dragon, pretty_print=True))
 
     def printout(self):
@@ -362,6 +362,6 @@ class Dragon(object):
         
     def run(self):
         print "running Dragon%s ..."%self.version    
-        os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs))
+        os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs_name))
 #         print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
         print "... Dragon job completed!"

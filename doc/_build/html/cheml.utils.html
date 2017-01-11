@@ -108,11 +108,8 @@
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html">Computational Graph Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#data-representation">Data Representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#script">Script</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#input">Input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CompGraphReference.html#output">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
 </ul>
 
             
@@ -347,6 +344,41 @@ Not that this becomes a rather expensive function call when dir contains many su
 <div class="section" id="module-cheml.utils.utilities">
 <span id="cheml-utils-utilities-module"></span><h2>cheml.utils.utilities module<a class="headerlink" href="#module-cheml.utils.utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="cheml.utils.utilities.choice">
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">choice</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em>, <em>n=0.1</em>, <em>replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.choice" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Generates a random sample from a given 1-D array. Bassicaly same as np.random.choice with pre- and post-processing</dt>
+<dd>steps. Sampling without replacement.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> &#8211; 1-D array-like
+A random sample will be generated from its elements.</li>
+<li><strong>Y</strong> &#8211; 1-D array-like, optional (default = None)
+A random sample will be generated from its elements.</li>
+<li><strong>n</strong> &#8211; int or float between zero and one, optional (default = 0.1)
+size of sample</li>
+<li><strong>replace</strong> &#8211; boolean, default=False
+whether the sample is with or without replacement</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a_out: 1-D array-like
+the array of out of sample elements</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a_sample: 1-D array-like, shape (size,)
+the sample array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="cheml.utils.utilities.chunk">
 <code class="descclassname">cheml.utils.utilities.</code><code class="descname">chunk</code><span class="sig-paren">(</span><em>xs</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.chunk" title="Permalink to this definition">¶</a></dt>
 <dd><p>The use case: chunk_list= list( chunk(range(10),3) )</p>
@@ -393,8 +425,55 @@ This function gives out the formatted time as a standard string, i.e., YYYY-MM-D
 <div class="section" id="module-cheml.utils.validation">
 <span id="cheml-utils-validation-module"></span><h2>cheml.utils.validation module<a class="headerlink" href="#module-cheml.utils.validation" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="cheml.utils.validation.check_input">
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">check_input</code><span class="sig-paren">(</span><em>X</em>, <em>name</em>, <em>n0=None</em>, <em>n1=None</em>, <em>format_out='df'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.check_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that input is a 2-D numpy array or pandas dataframe in the correct format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>X</strong> &#8211; numpy.ndarray or pandas.DataFrame
+input data</li>
+<li><strong>name</strong> &#8211; string
+name of input (e.g. training input)</li>
+<li><strong>n0</strong> &#8211; int
+number of data entries</li>
+<li><strong>n1</strong> &#8211; int
+number of features</li>
+<li><strong>format_out</strong> &#8211; string (&#8216;df&#8217; or &#8216;ar&#8217;), optional (default = &#8216;df&#8217;)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>:return input data converted to array or dataframe
+:return the header of dataframe if input data is not a dataframe return None</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="cheml.utils.validation.isfloat">
 <code class="descclassname">cheml.utils.validation.</code><code class="descname">isfloat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.isfloat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cheml.utils.validation.isint">
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">isint</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.isint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cheml.utils.validation.islist">
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">islist</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.islist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cheml.utils.validation.isnpdot">
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">isnpdot</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.isnpdot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cheml.utils.validation.istuple">
+<code class="descclassname">cheml.utils.validation.</code><code class="descname">istuple</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.validation.istuple" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">

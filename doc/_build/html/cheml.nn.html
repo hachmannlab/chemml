@@ -93,10 +93,10 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.nn package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_SGD_Shared">cheml.nn.nn_SGD_Shared module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-dsgd-module">cheml.nn.nn_dsgd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_dsgd">cheml.nn.nn_dsgd module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_keras">cheml.nn.nn_keras module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-neurolab-module">cheml.nn.nn_neurolab module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-psgd-module">cheml.nn.nn_psgd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_psgd">cheml.nn.nn_psgd module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_pybrain">cheml.nn.nn_pybrain module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-tensorflow-module">cheml.nn.nn_tensorflow module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
@@ -114,6 +114,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Input_file_generator.html">Input File Generator</a></li>
 </ul>
 
             
@@ -327,8 +328,42 @@ Y_test - output testing data</p>
 </dd></dl>
 
 </div>
-<div class="section" id="cheml-nn-nn-dsgd-module">
-<h2>cheml.nn.nn_dsgd module<a class="headerlink" href="#cheml-nn-nn-dsgd-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.nn.nn_dsgd">
+<span id="cheml-nn-nn-dsgd-module"></span><h2>cheml.nn.nn_dsgd module<a class="headerlink" href="#module-cheml.nn.nn_dsgd" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="cheml.nn.nn_dsgd.output">
+<code class="descclassname">cheml.nn.nn_dsgd.</code><code class="descname">output</code><span class="sig-paren">(</span><em>X</em>, <em>nnets</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_dsgd.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>(nn_dsgd_output)
+User accessible output for neural network given trained weights.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>X: array</dt>
+<dd>Input features</dd>
+<dt>nnets: list of dict</dt>
+<dd><dl class="first last docutils">
+<dt>A list of neural networks from each cluster. keys required weights and</dt>
+<dd>activation functions</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>predicted values in array type</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_dsgd.train">
+<code class="descclassname">cheml.nn.nn_dsgd.</code><code class="descname">train</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>nneurons</em>, <em>input_act_funcs</em>, <em>validation=0.1</em>, <em>learn_rate=0.001</em>, <em>rms_decay=0.9</em>, <em>n_epochs=10000</em>, <em>batch_size=256</em>, <em>n_hist=20</em>, <em>n_check=50</em>, <em>threshold=0.1</em>, <em>print_level=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_dsgd.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main distributed memory function</p>
+<p>All available parameters for nn_psgd - n_cores + validation</p>
+<dl class="docutils">
+<dt>validation: float between zero and one, optional(default = 0.1)</dt>
+<dd>The ratio of data set to be used for validation of trained network. The 
+rest of data points will be used as training data.</dd>
+</dl>
+<p>trained_network: a list of dicts with trained weights and the activation functions from
+each node</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-cheml.nn.nn_keras">
 <span id="cheml-nn-nn-keras-module"></span><h2>cheml.nn.nn_keras module<a class="headerlink" href="#module-cheml.nn.nn_keras" title="Permalink to this headline">¶</a></h2>
@@ -352,8 +387,146 @@ Y_test - output testing data</p>
 <div class="section" id="cheml-nn-nn-neurolab-module">
 <h2>cheml.nn.nn_neurolab module<a class="headerlink" href="#cheml-nn-nn-neurolab-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-nn-nn-psgd-module">
-<h2>cheml.nn.nn_psgd module<a class="headerlink" href="#cheml-nn-nn-psgd-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cheml.nn.nn_psgd">
+<span id="cheml-nn-nn-psgd-module"></span><h2>cheml.nn.nn_psgd module<a class="headerlink" href="#module-cheml.nn.nn_psgd" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.act_funcs_from_string">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">act_funcs_from_string</code><span class="sig-paren">(</span><em>input_act_funcs</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.act_funcs_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>translate activation functions input from user
+Inputs:
+input_act_funcs - list of activation functions or just one function. should be same
+length as nneurons if a list; allowed functions as of Jan 2015 are</p>
+<blockquote>
+<div><ul class="simple">
+<li>tanh</li>
+<li>logistic</li>
+</ul>
+</div></blockquote>
+<p>n - number of activation functions
+Outputs:
+list of activation functions to be used and their gradients</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.back_prop_init">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">back_prop_init</code><span class="sig-paren">(</span><em>c_X_train</em>, <em>c_Y_train</em>, <em>c_X_test</em>, <em>c_Y_test</em>, <em>shared_weights</em>, <em>shared_hist</em>, <em>input_act_funcs</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.back_prop_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializing back propagation.  Initializes global vars for each thread, and makes sure that all the
+threads share memory to save memory.
+:param c_X_train: ctype array of the training features
+:param c_Y_train: ctype array of the training targets
+:param c_X_test: ctype array of the testing features
+:param c_Y_test: ctype array of the testing targets
+:param shared_weights: list of weights
+:param shared_hist: array : history for early stopping
+:param input_act_funcs: user input of activation functions
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.back_propagate">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">back_propagate</code><span class="sig-paren">(</span><em>para_input</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.back_propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs back propagation on one thread to train the neural network
+:param para_input: type list: input parameters (unpacking needed due to python&#8217;s handling)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.feed_forward">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">feed_forward</code><span class="sig-paren">(</span><em>X</em>, <em>weights</em>, <em>act_funcs</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.feed_forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Feed forward through neural network
+Inputs:
+X - input
+weights - weights
+act_funcs - activation functions
+Output:
+his - output from each layer of the network
+dhis - h&#8217;(a) for each layer in the network, where h&#8217; is the derivative of the activation
+function, and a is the sum of weighted outputs from the previous layer for use in back propagation</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.initialize_data">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">initialize_data</code><span class="sig-paren">(</span><em>np_X_train</em>, <em>np_Y_train</em>, <em>np_X_test</em>, <em>np_Y_test</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.initialize_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes training and testing data
+:param np_X_train: numpy array
+:param np_Y_train: numpy array
+:param np_X_test: numpy array
+:param np_Y_test: numpy array
+:return: tuple of c-type arrays for features_training, targets_training, features_testing, targets_testing</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.initialize_rms_weights">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">initialize_rms_weights</code><span class="sig-paren">(</span><em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.initialize_rms_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes weights for rms prop
+:param weights: type list of lists: weights in each layer
+:return: zeroed list of lists with the same dimensions as the input list of lists</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.initialize_weights">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">initialize_weights</code><span class="sig-paren">(</span><em>complete_nneurons</em>, <em>n_hist</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.initialize_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize weights randomly using numpy&#8217;s random number generator
+Inputs:
+complete_nneurons - list of number of neurons (including input and output layers)
+Output:
+list of initialized weights</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.np_to_c">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">np_to_c</code><span class="sig-paren">(</span><em>np_array</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.np_to_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts numpy array to c-type to allow for sharing across different threads
+:param np_array:
+:return: ctype array</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.output">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">output</code><span class="sig-paren">(</span><em>X</em>, <em>nn</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>User accessible output for neural network given trained weights.
+:param X: type array:Input features
+:param nn: type dict : Neural network: keys required weights and activation functions
+:return: type array: output values</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.prevent_underflow">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">prevent_underflow</code><span class="sig-paren">(</span><em>np_array</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.prevent_underflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops underflow by replacing 0 with smallest numpy value
+:param np_array:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cheml.nn.nn_psgd.train">
+<code class="descclassname">cheml.nn.nn_psgd.</code><code class="descname">train</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>nneurons</em>, <em>input_act_funcs</em>, <em>validation_size=0.2</em>, <em>learn_rate=0.001</em>, <em>rms_decay=0.9</em>, <em>n_epochs=10000</em>, <em>batch_size=256</em>, <em>n_cores=1</em>, <em>n_hist=20</em>, <em>n_check=50</em>, <em>threshold=0.1</em>, <em>print_level=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.nn.nn_psgd.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main training function
+:param X: pandas dataframe or numpy array</p>
+<blockquote>
+<div>input training data</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Y</strong> &#8211; pandas dataframe or numpy array
+output training data</li>
+<li><strong>nneurons</strong> &#8211; list of integers
+describing how many neurons there are in each layer</li>
+<li><strong>input_act_funcs</strong> &#8211; list of activation functions or just one function (string)
+should be same length as nneurons if a list</li>
+<li><strong>validation_size</strong> &#8211; float between zero and one, optional (default = 0.2)
+size of data to be selected randomly for validation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return nnet:</th><td class="field-body"><p class="first last">a tuple with trained weights and the activation functions</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-cheml.nn.nn_pybrain">
 <span id="cheml-nn-nn-pybrain-module"></span><h2>cheml.nn.nn_pybrain module<a class="headerlink" href="#module-cheml.nn.nn_pybrain" title="Permalink to this headline">¶</a></h2>

@@ -101,8 +101,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.wrappers.cheml_wrapper">cheml.wrappers.cheml_wrapper module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.wrappers.engine">cheml.wrappers.engine module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cheml-wrappers-scikit-learn-module">cheml.wrappers.scikit_learn module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.wrappers.sct_utils">cheml.wrappers.sct_utils module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.wrappers.test">cheml.wrappers.test module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-wrappers-sct-utils-module">cheml.wrappers.sct_utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-wrappers-test-module">cheml.wrappers.test module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.wrappers">Module contents</a></li>
 </ul>
 </li>
@@ -113,6 +113,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Input_file_generator.html">Input File Generator</a></li>
 </ul>
 
             
@@ -172,7 +173,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Constant">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Constant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Constant.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Constant.fit" title="Permalink to this definition">¶</a></dt>
@@ -188,7 +189,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.CoulombMatrix">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">CoulombMatrix</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.CoulombMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.CoulombMatrix.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.CoulombMatrix.fit" title="Permalink to this definition">¶</a></dt>
@@ -204,7 +205,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.DistanceMatrix">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">DistanceMatrix</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.DistanceMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.DistanceMatrix.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.DistanceMatrix.fit" title="Permalink to this definition">¶</a></dt>
@@ -220,7 +221,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Dragon">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Dragon</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Dragon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Dragon.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Dragon.fit" title="Permalink to this definition">¶</a></dt>
@@ -236,7 +237,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.File">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">File</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.File" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.File.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.File.fit" title="Permalink to this definition">¶</a></dt>
@@ -252,7 +253,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Merge">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Merge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Merge.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Merge.fit" title="Permalink to this definition">¶</a></dt>
@@ -268,7 +269,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.MissingValues">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">MissingValues</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.MissingValues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.MissingValues.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.MissingValues.fit" title="Permalink to this definition">¶</a></dt>
@@ -284,7 +285,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.NN_PSGD">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">NN_PSGD</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.NN_PSGD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.NN_PSGD.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.NN_PSGD.fit" title="Permalink to this definition">¶</a></dt>
@@ -300,7 +301,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.PyScript">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">PyScript</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.PyScript" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.PyScript.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.PyScript.fit" title="Permalink to this definition">¶</a></dt>
@@ -316,7 +317,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.RDKitFingerprint">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">RDKitFingerprint</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.RDKitFingerprint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.RDKitFingerprint.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.RDKitFingerprint.fit" title="Permalink to this definition">¶</a></dt>
@@ -332,7 +333,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.SaveFile">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.SaveFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.SaveFile.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
@@ -348,7 +349,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Split">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Split" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Split.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Split.fit" title="Permalink to this definition">¶</a></dt>
@@ -364,7 +365,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Trimmer">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Trimmer</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Trimmer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Trimmer.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Trimmer.fit" title="Permalink to this definition">¶</a></dt>
@@ -380,7 +381,7 @@
 <dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.Uniformer">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">Uniformer</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Uniformer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.Uniformer.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.Uniformer.fit" title="Permalink to this definition">¶</a></dt>
@@ -394,31 +395,9 @@
 </dd></dl>
 
 <dl class="class">
-<dt id="cheml.wrappers.cheml_wrapper.cheml_Base">
-<em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">cheml_Base</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Do not instantiate this class</p>
-<dl class="method">
-<dt id="cheml.wrappers.cheml_wrapper.cheml_Base.receive">
-<code class="descname">receive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.cheml_Base.receive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cheml.wrappers.cheml_wrapper.cheml_Base.run">
-<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.cheml_Base.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cheml.wrappers.cheml_wrapper.cheml_Base.type_check">
-<code class="descname">type_check</code><span class="sig-paren">(</span><em>token</em>, <em>cheml_type</em>, <em>req=False</em>, <em>py_type=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.cheml_Base.type_check" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="cheml.wrappers.cheml_wrapper.nn_dsgd">
 <em class="property">class </em><code class="descclassname">cheml.wrappers.cheml_wrapper.</code><code class="descname">nn_dsgd</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.nn_dsgd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cheml.wrappers.cheml_wrapper.cheml_Base" title="cheml.wrappers.cheml_wrapper.cheml_Base"><code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.cheml_wrapper.cheml_Base</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.cheml_wrapper.nn_dsgd.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.cheml_wrapper.nn_dsgd.fit" title="Permalink to this definition">¶</a></dt>
@@ -524,6 +503,11 @@ It starts with finding blocks and then runs other functions.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="cheml.wrappers.engine.banner">
+<code class="descclassname">cheml.wrappers.engine.</code><code class="descname">banner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.engine.banner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="cheml.wrappers.engine.run">
 <code class="descclassname">cheml.wrappers.engine.</code><code class="descname">run</code><span class="sig-paren">(</span><em>INPUT_FILE</em>, <em>OUTPUT_DIRECTORY</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.engine.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>this is the only callable method in this file
@@ -535,69 +519,11 @@ It starts with finding blocks and then runs other functions.</p>
 <div class="section" id="cheml-wrappers-scikit-learn-module">
 <h2>cheml.wrappers.scikit_learn module<a class="headerlink" href="#cheml-wrappers-scikit-learn-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.wrappers.sct_utils">
-<span id="cheml-wrappers-sct-utils-module"></span><h2>cheml.wrappers.sct_utils module<a class="headerlink" href="#module-cheml.wrappers.sct_utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.isfloat">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">isfloat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.isfloat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.isint">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">isint</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.isint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.islist">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">islist</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.islist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.isnpdot">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">isnpdot</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.isnpdot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.istuple">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">istuple</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.istuple" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.std_datetime_str">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">std_datetime_str</code><span class="sig-paren">(</span><em>mode='datetime'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.std_datetime_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>(std_time_str):
-This function gives out the formatted time as a standard string, i.e., YYYY-MM-DD hh:mm:ss.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.sct_utils.value">
-<code class="descclassname">cheml.wrappers.sct_utils.</code><code class="descname">value</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.sct_utils.value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="cheml-wrappers-sct-utils-module">
+<h2>cheml.wrappers.sct_utils module<a class="headerlink" href="#cheml-wrappers-sct-utils-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.wrappers.test">
-<span id="cheml-wrappers-test-module"></span><h2>cheml.wrappers.test module<a class="headerlink" href="#module-cheml.wrappers.test" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.wrappers.test.C">
-<em class="property">class </em><code class="descclassname">cheml.wrappers.test.</code><code class="descname">C</code><a class="headerlink" href="#cheml.wrappers.test.C" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="cheml.wrappers.test.C.add">
-<code class="descname">add</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.test.C.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.test.check_functions">
-<code class="descclassname">cheml.wrappers.test.</code><code class="descname">check_functions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.test.check_functions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="cheml.wrappers.test.test_main">
-<code class="descclassname">cheml.wrappers.test.</code><code class="descname">test_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.test.test_main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="cheml-wrappers-test-module">
+<h2>cheml.wrappers.test module<a class="headerlink" href="#cheml-wrappers-test-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-cheml.wrappers">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.wrappers" title="Permalink to this headline">¶</a></h2>

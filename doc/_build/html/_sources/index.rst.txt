@@ -14,6 +14,7 @@ Contents:
    cheml
    CMLWReference
    CMLWInputFile
+   Input_file_generator
 
 Indices and tables
 ==================

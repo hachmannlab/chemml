@@ -96,9 +96,9 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.trash_smallapps package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cheml-trash-smallapps-cheml-module">cheml.trash_smallapps.cheml module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.trash_smallapps.handle_missing">cheml.trash_smallapps.handle_missing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-trash-smallapps-handle-missing-module">cheml.trash_smallapps.handle_missing module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cheml-trash-smallapps-sct-parser-xml-module">cheml.trash_smallapps.sct_parser_xml module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.trash_smallapps">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
@@ -110,6 +110,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Input_file_generator.html">Input File Generator</a></li>
 </ul>
 
             
@@ -164,45 +165,14 @@
 <div class="section" id="cheml-trash-smallapps-cheml-module">
 <h2>cheml.trash_smallapps.cheml module<a class="headerlink" href="#cheml-trash-smallapps-cheml-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.trash_smallapps.handle_missing">
-<span id="cheml-trash-smallapps-handle-missing-module"></span><h2>cheml.trash_smallapps.handle_missing module<a class="headerlink" href="#module-cheml.trash_smallapps.handle_missing" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.trash_smallapps.handle_missing.missing_values">
-<em class="property">class </em><code class="descclassname">cheml.trash_smallapps.handle_missing.</code><code class="descname">missing_values</code><span class="sig-paren">(</span><em>method='mean'</em>, <em>string_as_null=True</em>, <em>inf_as_null=True</em>, <em>missing_values=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.trash_smallapps.handle_missing.missing_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Handle all the missing values.</p>
-<p>method: string, optional (default=&#8221;mean&#8221;)</p>
-<blockquote>
-<div>list of methods:
-- mean: set to the mean
-- median: set to the median
-- most_frequent: set to the mode
-- interpolate: interpolate based on sorted target values
-- zero: set to the zero
-- ignore: remove the entire row in data and target</div></blockquote>
-<dl class="docutils">
-<dt>string_as_null: boolean, optional (default=True)</dt>
-<dd>If True non numeric elements are considered to be null in computations.</dd>
-<dt>missing_values: list, optional (default=False)</dt>
-<dd>The plceholder for missing values. It must be a list of one or more of 
-any type of string, float or integer values.</dd>
-<dt>inf_as_null: boolean, optional (default=True)</dt>
-<dd>If True inf and -inf elements are considered to be null in computations.</dd>
-</dl>
-<p>data and target</p>
-<dl class="method">
-<dt id="cheml.trash_smallapps.handle_missing.missing_values.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.trash_smallapps.handle_missing.missing_values.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="cheml-trash-smallapps-handle-missing-module">
+<h2>cheml.trash_smallapps.handle_missing module<a class="headerlink" href="#cheml-trash-smallapps-handle-missing-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="cheml-trash-smallapps-sct-parser-xml-module">
 <h2>cheml.trash_smallapps.sct_parser_xml module<a class="headerlink" href="#cheml-trash-smallapps-sct-parser-xml-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.trash_smallapps">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.trash_smallapps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

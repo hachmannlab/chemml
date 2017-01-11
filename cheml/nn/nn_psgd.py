@@ -3,7 +3,7 @@ from scipy import special as spspecial
 from multiprocessing import Pool, sharedctypes, Value
 import copy
 from ..utils import choice
-from .. utils import check_input
+from ..utils import check_input
 
 def act_funcs_from_string(input_act_funcs, n):
     """
@@ -237,13 +237,13 @@ def back_propagate(para_input):
                 di = dhi * np.dot(di,weight[0].T)
 
 # @profile
-def train(X_train,Y_train,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
+def train(X,Y,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
     batch_size=256,n_cores=1,n_hist=20,n_check=50,threshold=0.1, print_level=1):
     """
     Main training function
-    :param X_train: pandas dataframe or numpy array
+    :param X: pandas dataframe or numpy array
         input training data
-    :param Y_train: pandas dataframe or numpy array
+    :param Y: pandas dataframe or numpy array
         output training data
     :param nneurons: list of integers
         describing how many neurons there are in each layer
@@ -255,10 +255,8 @@ def train(X_train,Y_train,nneurons,input_act_funcs,validation_size=0.2,learn_rat
     :return nnet: a tuple with trained weights and the activation functions
 
     """
-    X_train, _ = check_input(X_train,'Training input', format_out='ar')
-    Y_train, _ = check_input(Y_train,'Training output',n0=X_train.shape[0],format_out='ar')
-    print X_train.ndim
-    print Y_train.ndim
+    X_train, _ = check_input(X,'Training input', format_out='ar')
+    Y_train, _ = check_input(Y,'Training output',n0=X_train.shape[0],format_out='ar')
     X_train, X_test, Y_train, Y_test = choice(X_train, Y_train, n = validation_size)
     X_test, _ = check_input(X_test,'Testing input',n1=X_train.shape[1],format_out='ar')
     Y_test, _ = check_input(Y_test,'Testing output',n0=X_test.shape[0],n1=Y_train.shape[1],format_out='ar')

@@ -92,9 +92,12 @@ def slurm_script_exclusive(pyscript_file,nnodes=1,input_slurm_script=None,output
         script.write(line)
     script.close()
 
-def chunk(xs, n):
+def chunk(xs, n, X=None, Y=None):
     """
-    The use case: chunk_list= list( chunk(range(10),3) )
+    X and Y must be np array
+    the term of use:
+                it = chunk ( range(len(X), n, X, Y)
+                X_chunk, y_chunk = it.next()
     """
     ys = list(xs)
     random.shuffle(ys)
@@ -105,7 +108,13 @@ def chunk(xs, n):
            extra= [ leftovers.pop() ] 
         else:
            extra= []
-        yield ys[c*size:(c+1)*size] + extra
+        if isinstance(X,np.ndarray):
+            if isinstance(Y, np.ndarray):
+                yield X[ys[c*size:(c+1)*size] + extra], Y[ys[c*size:(c+1)*size] + extra]
+            else:
+                yield X[ys[c * size:(c + 1) * size] + extra]
+        else:
+            yield ys[c*size:(c+1)*size] + extra
 
 def choice(X, Y=None, n=0.1, replace=False):
     """
@@ -127,7 +136,7 @@ def choice(X, Y=None, n=0.1, replace=False):
     if not isinstance(n,int):
             n = int(n*len(X))
     ind_sample = np.random.choice(len(X),n,replace=replace)
-    ind_out = np.array([i for i in range(len(X)) if i not in ind_sample])
+    ind_out = np.array([i for i in xrange(len(X)) if i not in ind_sample])
     X_sample = X[ind_sample]
     X_out = X[ind_out]
     if isinstance(Y,np.ndarray):

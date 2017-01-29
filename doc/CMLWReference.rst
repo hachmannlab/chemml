@@ -46,7 +46,7 @@ cheml
 ==================      ============        ============
 block                   Inputs              Outputs
 ==================      ============        ============
-PyScript                df,api,value        df,api,value
+PyScript                var1..5             var_out1..5
 ==================      ============        ============
 ----
 
@@ -83,3 +83,91 @@ block                   Inputs              Outputs
 ==================      ============        ============
 SaveFile                df                  filepath
 ==================      ============        ============
+----
+
+----
+=======================================================
+Preprocessor
+=======================================================
+
+Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.
+
+cheml
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+MissingValues           dfx, dfy            dfx, dfy, api
+Trimmer                 dfx, dfy            dfx, dfy, api
+Uniformer               dfx, dfy            dfx, dfy, api
+Constant                df                  df, api, 'removed_columns_'
+==================      ============        ============
+
+sklearn
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+Imputer                 df                  api, df
+StandardScaler          df                  api, df
+MinMaxScaler            df                  api, df
+MaxAbsScaler            df                  api, df
+RobustScaler            df                  api, df
+Normalizer              df                  api, df
+Binarizer               df                  api, df
+OneHotEncoder           df                  api, df
+==================      ============        ============
+----
+
+----
+=======================================================
+Feature Transformation
+=======================================================
+
+Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.
+
+cheml
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+TBFS                    df                  api, df
+==================      ============        ============
+
+sklearn
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+PCA                     df                  api, df
+KernelPCA               df                  api, df
+RandomizedPCA           df                  api, df
+LDA                     df                  api, df
+==================      ============        ============
+----
+
+----
+=======================================================
+Divider
+=======================================================
+
+
+cheml
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+TBFS                    df                  api, df
+==================      ============        ============
+
+sklearn
+---------
+==================      ============        ============
+block                   Inputs              Outputs
+==================      ============        ============
+PCA                     df                  api, df
+KernelPCA               df                  api, df
+RandomizedPCA           df                  api, df
+LDA                     df                  api, df
+==================      ============        ============
+----

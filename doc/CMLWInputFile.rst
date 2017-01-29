@@ -53,7 +53,9 @@ Only four specific characters (#, <, >, =) are defined and can be used in the in
     A Double less-than sign (<<) keeps a parameter in the block and single less-than sign (<) ignore the assigned value to that
     parameter. If you are going to ignore a parameter value make sure it's not a required  parameter or at least have a default
     value.
+
     .. note:: two parameters are mandatory for all the blocks:
+
                 - **module**: to specify the python library that must be used for the task
                 - **function**: to specify the ChemML Wrapper function that makes binding with the main function in the specified library.
 - Equals sign (=)
@@ -86,7 +88,7 @@ General Rules
 =======================================================
 Be aware of some general restrictions:
 
-    - You are not allowed to have two different specific signs in one line of input file.
+    - You are not allowed to have two different specific charecters in one line of input file.
     - The input tokens and output tokens for each block may be similar but they don't have to have similar values.
     - Only one input per legal input token can be received.
     - You are allowed to receive one sent token in several blocks.

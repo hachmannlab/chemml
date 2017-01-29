@@ -38,7 +38,7 @@ class BASE(object):
                 #     value = copy.deepcopy(self.Base.send[key][0])
                 # else:
                 #     value = self.Base.send[key][0]
-                # Todo: informative token should be a list of (int(edge[0],edge[1])
+                # Todo: informative token should be a list of (int(edge[0]),edge[1])
                 informative_token = (int(edge[0]), edge[1]) + self.Base.graph_info[int(edge[0])]
                 self.legal_inputs[edge[3]] = (value, informative_token)
                 del value
@@ -87,3 +87,45 @@ class BASE(object):
             #           % (self.iblock + 1, self.SuperFunction, token, str(py_type), str(type(slit0)))
             #     raise IOError(msg)
             return slit0
+
+class LIBRARY(object):
+    """
+    Do not instantiate this class
+    """
+    def references(self,module,function):
+        if module == 'sklearn':
+            ref_g = "https://github.com/scikit-learn/scikit-learn"
+            ref_p = "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011."
+            self.refs['scikit-learn'] = {'github':ref_g, 'paper':ref_p}
+        elif module == 'cheml':
+            ref_g = "https://mhlari@bitbucket.org/hachmanngroup/cheml.git"
+            ref_p = "no publicatin"
+            self.refs['ChemML'] =  {'github': ref_g, 'paper': ref_p}
+            if function == 'RDKitFingerprint':
+                ref_g = "https://github.com/rdkit"
+                ref_p = "no publication"
+                self.refs['rdkit'] = {'github': ref_g, 'paper': ref_p}
+            elif function == 'Dragon':
+                ref_g = "http://www.talete.mi.it/products/dragon_description.htm"
+                ref_p = "R. Todeschini,  V. Consonni,  R. Mannhold,H.  Kubinyi,  H.  Timmerman,  Handbook  ofMolecular Descriptors, Wiley-VCH, 2000."
+                self.refs['Dragon'] = {'url': ref_g, 'paper': ref_p}
+            elif function == 'CoulombMatrix':
+                ref_g = "no software package"
+                ref_p = "M.  Rupp,  A.  Tkatchenko,  K.-R.  Muller,O.  A.  von  Lilienfeld,   Fast  and  Accu-rate  Modeling  of  Molecular  AtomizationEnergies  with  Machine  Learning,   Physi-cal  Review  Letters  108  (5)  (2012)  058301.doi:10.1103/PhysRevLett.108.058301"
+                self.refs['CoulombMatrix'] = {'url': ref_g, 'paper': ref_p}
+            elif function == 'BagofBonds':
+                ref_g = "no software package"
+                ref_p = "Hansen, K.; Biegler, F.; Ramakrishnan, R.; Pronobis, W.; von Lilienfeld, O. A.; Muller, K.-R.; Tkatchenko, A. Machine Learning Predictions of Molecular Properties: Accurate Many-Body Potentials and Nonlocality in Chemical Space J. Phys. Chem. Lett. 2015, 6, 2326 2331, DOI: 10.1021/acs.jpclett.5b00831"
+                self.refs['BagofBonds'] = {'url': ref_g, 'paper': ref_p}
+        elif module == 'tf':
+            ref_g = "https://github.com/tensorflow/tensorflow"
+            ref_p = "M. Abadi,  P. Barham,  J. Chen,  Z. Chen,A. Davis, J. Dean, M. Devin, S. Ghemawat,G. Irving, M. Isard, M. Kudlur, J. Levenberg,R. Monga, S. Moore, D. G. Murray, B. Steiner,P. Tucker, V. Vasudevan, P. Warden, M. Wicke,Y. Yu, X. Zheng, Tensorflow:  A system forlarge-scale machine learning, in: 12th USENIXSymposium on Operating Systems Design andImplementation (OSDI 16), USENIX Associa-tion, GA, 2016, pp. 265-283"
+            self.refs['tensorflow'] = {'github': ref_g, 'paper': ref_p}
+
+    def _save_references(self):
+        with open(self.Base.output_directory+'/citation.txt','w') as file:
+            for module in self.refs:
+                file.write(module+':\n')
+                for source in self.refs[module]:
+                    file.write('    '+source+': '+self.refs[module][source]+'\n')
+                file.write('\n')

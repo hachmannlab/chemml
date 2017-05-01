@@ -28,6 +28,8 @@
   
 
   
+    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
@@ -108,8 +110,9 @@
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
 </ul>
 
@@ -157,7 +160,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cheml-utils-package">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="cheml-utils-package">
 <h1>cheml.utils package<a class="headerlink" href="#cheml-utils-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
@@ -396,6 +433,11 @@ X_chunk, y_chunk = it.next()</div></blockquote>
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="cheml.utils.utilities.return2Dshape">
+<code class="descclassname">cheml.utils.utilities.</code><code class="descname">return2Dshape</code><span class="sig-paren">(</span><em>shape</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.return2Dshape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="cheml.utils.utilities.slurm_script_exclusive">
 <code class="descclassname">cheml.utils.utilities.</code><code class="descname">slurm_script_exclusive</code><span class="sig-paren">(</span><em>pyscript_file</em>, <em>nnodes=1</em>, <em>input_slurm_script=None</em>, <em>output_slurm_script='script.slurm'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.utils.utilities.slurm_script_exclusive" title="Permalink to this definition">¶</a></dt>
 <dd><p>(slurmjob)
@@ -600,6 +642,7 @@ output_slurm_script.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

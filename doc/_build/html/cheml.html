@@ -28,6 +28,8 @@
   
 
   
+    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
@@ -35,7 +37,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
         <link rel="next" title="cheml.chem package" href="cheml.chem.html"/>
-        <link rel="prev" title="Welcome to ChemML’s documentation!" href="index.html"/> 
+        <link rel="prev" title="Welcome to the ChemML’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -100,8 +102,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-cheml">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
 </ul>
 
@@ -147,7 +150,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cheml-package">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="cheml-package">
 <h1>cheml package<a class="headerlink" href="#cheml-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
@@ -164,7 +201,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html#module-cheml.initialization.data">cheml.initialization.data module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html#cheml-initialization-initialization-module">cheml.initialization.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html#module-cheml.initialization.initialization">cheml.initialization.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html#module-cheml.initialization">Module contents</a></li>
 </ul>
 </li>
@@ -216,7 +253,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#cheml-wrappers-cheml-pyscriopt-module">cheml.wrappers.Cheml_Pyscriopt module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#module-cheml.wrappers.cheml_wrapper">cheml.wrappers.cheml_wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#cheml-wrappers-cheml-wrapper-module">cheml.wrappers.cheml_wrapper module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#module-cheml.wrappers.engine">cheml.wrappers.engine module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#cheml-wrappers-scikit-learn-module">cheml.wrappers.scikit_learn module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.wrappers.html#cheml-wrappers-sct-utils-module">cheml.wrappers.sct_utils module</a></li>
@@ -242,7 +279,7 @@
         <a href="cheml.chem.html" class="btn btn-neutral float-right" title="cheml.chem package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to ChemML’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to the ChemML’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -282,6 +319,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

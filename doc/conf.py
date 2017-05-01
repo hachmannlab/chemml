@@ -31,6 +31,8 @@ sys.path.insert(0, os.path.abspath('../../cheml'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
+    'nbsphinx',
+    'jupyter_sphinx.embed_widgets',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

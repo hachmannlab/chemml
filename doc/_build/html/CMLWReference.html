@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChemML Wrapper reference &mdash; ChemML 1 documentation</title>
+  <title>ChemML Wrapper Reference &mdash; ChemML 1 documentation</title>
   
 
   
@@ -28,14 +28,16 @@
   
 
   
+    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
-        <link rel="next" title="ChemML Wrapper input file" href="CMLWInputFile.html"/>
-        <link rel="prev" title="cheml.wrappers package" href="cheml.wrappers.html"/> 
+        <link rel="next" title="ReadTable" href="CMLWReference.ReadTable.html"/>
+        <link rel="prev" title="ChemML Wrapper input file" href="CMLWInputFile.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -86,32 +88,20 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#data-representation">Data Representation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cheml">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sklearn">sklearn</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#script">Script</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">cheml</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#input">Input</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">cheml</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#output">Output</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">cheml</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#preprocessor">Preprocessor</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">sklearn</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.ReadTable.html">ReadTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Split.html">Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Merge.html">Merge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.SaveFile.html">SaveFile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.PyScript.html">PyScript</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.RDKFP.html">RDKitFingerprint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Dragon.html">Dragon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.SVR.html">SVR</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
 </ul>
 
@@ -143,7 +133,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>ChemML Wrapper reference</li>
+    <li>ChemML Wrapper Reference</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -157,252 +147,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="chemml-wrapper-reference">
-<h1>ChemML Wrapper reference<a class="headerlink" href="#chemml-wrapper-reference" title="Permalink to this headline">¶</a></h1>
-<p>This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
-parameters and attributes of each block is provided in the <a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a>.</p>
-<div class="section" id="data-representation">
-<h2>Data Representation<a class="headerlink" href="#data-representation" title="Permalink to this headline">¶</a></h2>
-<p>Data representation (features, descriptors, latent variables) for chemical molecules and materials.</p>
-<div class="section" id="cheml">
-<h3>cheml<a class="headerlink" href="#cheml" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>RDKitFingerprint</td>
-<td>molfile</td>
-<td>df</td>
-</tr>
-<tr class="row-odd"><td>Dragon</td>
-<td>molfile</td>
-<td>df</td>
-</tr>
-<tr class="row-even"><td>CoulombMatrix</td>
-<td>&nbsp;</td>
-<td>df</td>
-</tr>
-<tr class="row-odd"><td>BagofBonds</td>
-<td>&nbsp;</td>
-<td>df</td>
-</tr>
-<tr class="row-even"><td>DistanceMatrix</td>
-<td>df</td>
-<td>df</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="sklearn">
-<h3>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>PolynomialFeatures</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-</tbody>
-</table>
-<hr class="docutils" />
-</div>
-</div>
-<div class="section" id="script">
-<h2>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h2>
-<p>Python script block in the structure of computational graph</p>
-<div class="section" id="id1">
-<h3>cheml<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>PyScript</td>
-<td>var1..5</td>
-<td>var_out1..5</td>
-</tr>
-</tbody>
-</table>
-<hr class="docutils" />
-</div>
-</div>
-<div class="section" id="input">
-<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
-<p>Input blocks deal with all sort of input files and data frames.</p>
-<div class="section" id="id2">
-<h3>cheml<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>File</td>
-<td>&nbsp;</td>
-<td>df</td>
-</tr>
-<tr class="row-odd"><td>Merge</td>
-<td>df1, df2</td>
-<td>df</td>
-</tr>
-<tr class="row-even"><td>Split</td>
-<td>df</td>
-<td>df1, df2</td>
-</tr>
-</tbody>
-</table>
-<hr class="docutils" />
-</div>
-</div>
-<div class="section" id="output">
-<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
-<p>Output blocks are used for storing data frames and other type of output files.</p>
-<div class="section" id="id3">
-<h3>cheml<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>SaveFile</td>
-<td>df</td>
-<td>filepath</td>
-</tr>
-</tbody>
-</table>
-<hr class="docutils" />
-</div>
-</div>
-<div class="section" id="preprocessor">
-<h2>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this headline">¶</a></h2>
-<p>Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.</p>
-<div class="section" id="id4">
-<h3>cheml<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="32%" />
-<col width="21%" />
-<col width="47%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>MissingValues</td>
-<td>dfx, dfy</td>
-<td>dfx, dfy, api</td>
-</tr>
-<tr class="row-odd"><td>Trimmer</td>
-<td>dfx, dfy</td>
-<td>dfx, dfy, api</td>
-</tr>
-<tr class="row-even"><td>Uniformer</td>
-<td>dfx, dfy</td>
-<td>dfx, dfy, api</td>
-</tr>
-<tr class="row-odd"><td>Constant</td>
-<td>df</td>
-<td>df, api, &#8216;<a href="#id6"><span class="problematic" id="id7">removed_columns_</span></a>&#8216;</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="id5">
-<h3>sklearn<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="43%" />
-<col width="29%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">block</th>
-<th class="head">Inputs</th>
-<th class="head">Outputs</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Imputer</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-odd"><td>StandardScaler</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-even"><td>MinMaxScaler</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-odd"><td>MaxAbsScaler</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-even"><td>RobustScaler</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-odd"><td>Normalizer</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-even"><td>Binarizer</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-<tr class="row-odd"><td>OneHotEncoder</td>
-<td>df</td>
-<td>api, df</td>
-</tr>
-</tbody>
-</table>
-<hr class="docutils" />
-</div>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="chemml-wrapper-reference">
+<h1>ChemML Wrapper Reference<a class="headerlink" href="#chemml-wrapper-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the Task and function block reference of ChemML wrapper.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.ReadTable.html">ReadTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.Split.html">Split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.Merge.html">Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.SaveFile.html">SaveFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.PyScript.html">PyScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.RDKFP.html">RDKitFingerprint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.Dragon.html">Dragon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.SVR.html">SVR</a></li>
+</ul>
 </div>
 </div>
 
@@ -413,10 +206,10 @@ parameters and attributes of each block is provided in the <a class="reference i
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWInputFile.html" class="btn btn-neutral float-right" title="ChemML Wrapper input file" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWReference.ReadTable.html" class="btn btn-neutral float-right" title="ReadTable" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.wrappers.html" class="btn btn-neutral" title="cheml.wrappers package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CMLWInputFile.html" class="btn btn-neutral" title="ChemML Wrapper input file" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -456,6 +249,7 @@ parameters and attributes of each block is provided in the <a class="reference i
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

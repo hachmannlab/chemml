@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ChemML's documentation!
+Welcome to the ChemML's documentation!
 ==================================
 
 Contents:
@@ -12,9 +12,12 @@ Contents:
    :maxdepth: 2
 
    cheml
-   CMLWReference
+   CMLWOverview
    CMLWInputFile
+   CMLWReference
    CMLWInputFileGenerator
+   a.ipynb
+
 
 Indices and tables
 ==================

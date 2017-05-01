@@ -28,14 +28,16 @@
   
 
   
+    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
-        <link rel="next" title="Input File Generator" href="CMLWInputFileGenerator.html"/>
-        <link rel="prev" title="ChemML Wrapper reference" href="CMLWReference.html"/> 
+        <link rel="next" title="ChemML Wrapper Reference" href="CMLWReference.html"/>
+        <link rel="prev" title="ChemML Wrapper Overview" href="CMLWOverview.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -86,13 +88,14 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper input file</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-structure">Input File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#specific-characters">Specific Characters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#general-rules">General Rules</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
 </ul>
 
@@ -138,7 +141,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="chemml-wrapper-input-file">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="chemml-wrapper-input-file">
 <h1>ChemML Wrapper input file<a class="headerlink" href="#chemml-wrapper-input-file" title="Permalink to this headline">¶</a></h1>
 <p>The input file should be produced by using the Input builder available in the website. However, the file is a text file
 that contains all the information needed for making the entire workflow. Thus the user can manually edit or build it from
@@ -272,10 +309,10 @@ and ID, in a way that:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWInputFileGenerator.html" class="btn btn-neutral float-right" title="Input File Generator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWReference.html" class="btn btn-neutral float-right" title="ChemML Wrapper Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="CMLWReference.html" class="btn btn-neutral" title="ChemML Wrapper reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CMLWOverview.html" class="btn btn-neutral" title="ChemML Wrapper Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -315,6 +352,7 @@ and ID, in a way that:</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

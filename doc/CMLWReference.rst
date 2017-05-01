@@ -1,173 +1,19 @@
-=============================
-ChemML Wrapper reference
-=============================
+ChemML Wrapper Reference
+=============
 
-This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
-parameters and attributes of each block is provided in the :ref:`genindex`.
+This is the Task and function block reference of ChemML wrapper.
 
-----
-=======================================================
-Data Representation
-=======================================================
+.. toctree::
 
-Data representation (features, descriptors, latent variables) for chemical molecules and materials.
+    CMLWReference.ReadTable
+    CMLWReference.Split
+    CMLWReference.Merge
+    CMLWReference.SaveFile
+    CMLWReference.PyScript
 
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-RDKitFingerprint        molfile             df
-Dragon                  molfile             df
-CoulombMatrix                               df
-BagofBonds                                  df
-DistanceMatrix          df                  df
-==================      ============        ============
+    CMLWReference.RDKFP
+    CMLWReference.Dragon
 
-sklearn
----------
+    CMLWReference.GridSearchCV
+    CMLWReference.SVR
 
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-PolynomialFeatures      df                  api, df
-==================      ============        ============
-----
-
-----
-=======================================================
-Script
-=======================================================
-
-Python script block in the structure of computational graph
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-PyScript                var1..5             var_out1..5
-==================      ============        ============
-----
-
-----
-=======================================================
-Input
-=======================================================
-
-
-Input blocks deal with all sort of input files and data frames.
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-File                                        df
-Merge                   df1, df2            df
-Split                   df                  df1, df2
-==================      ============        ============
-----
-
-----
-=======================================================
-Output
-=======================================================
-
-Output blocks are used for storing data frames and other type of output files.
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-SaveFile                df                  filepath
-==================      ============        ============
-----
-
-----
-=======================================================
-Preprocessor
-=======================================================
-
-Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-MissingValues           dfx, dfy            dfx, dfy, api
-Trimmer                 dfx, dfy            dfx, dfy, api
-Uniformer               dfx, dfy            dfx, dfy, api
-Constant                df                  df, api, 'removed_columns_'
-==================      ============        ============
-
-sklearn
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-Imputer                 df                  api, df
-StandardScaler          df                  api, df
-MinMaxScaler            df                  api, df
-MaxAbsScaler            df                  api, df
-RobustScaler            df                  api, df
-Normalizer              df                  api, df
-Binarizer               df                  api, df
-OneHotEncoder           df                  api, df
-==================      ============        ============
-----
-
-----
-=======================================================
-Feature Transformation
-=======================================================
-
-Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-TBFS                    df                  api, df
-==================      ============        ============
-
-sklearn
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-PCA                     df                  api, df
-KernelPCA               df                  api, df
-RandomizedPCA           df                  api, df
-LDA                     df                  api, df
-==================      ============        ============
-----
-
-----
-=======================================================
-Divider
-=======================================================
-
-
-cheml
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-TBFS                    df                  api, df
-==================      ============        ============
-
-sklearn
----------
-==================      ============        ============
-block                   Inputs              Outputs
-==================      ============        ============
-PCA                     df                  api, df
-KernelPCA               df                  api, df
-RandomizedPCA           df                  api, df
-LDA                     df                  api, df
-==================      ============        ============
-----

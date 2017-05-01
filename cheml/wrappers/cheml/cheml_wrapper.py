@@ -1,18 +1,23 @@
 import pandas as pd
 import numpy as np
+import cheml
+import os
 
-from .base import BASE
+from ..base import BASE, LIBRARY
 
 #####################################################################Script
 
-class PyScript(BASE):
+class PyScript(BASE, LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'var1':None,'var2':None,'var3':None, 'var4':None, 'var5': None}
-        self.legal_outputs = {'var_out1':None,'var_out2':None,'var_out3':None,'var_out4':None,'var_out5':None}
+        self.legal_inputs = {'df1':None,'df2':None,'api1':None, 'api2':None, 'var1': None, 'var2': None}
+        self.legal_outputs = {'df_out1':None,'df_out2':None,'api_out1':None,'api_out2':None,'var_out1':None,'var_out2':None}
         requirements = []
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
+        # step1: check inputs
+        df1, df1_info = self.input_check('df1', req=False, py_type=pd.DataFrame)
+        df2, df2_info = self.input_check('df2', req=False, py_type=pd.DataFrame)
         inputs = [item for item in self.legal_inputs if not isinstance(self.legal_inputs[item], type(None))]
         for item in inputs:
             exec("%s = self.legal_inputs['%s'][0]"%(item,item))
@@ -20,16 +25,18 @@ class PyScript(BASE):
             exec(self.parameters[line])
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'var_out1':
+            if token == 'df_out1':
+                self.Base.send[(self.iblock, token)] = [df_out1, order.count(token)]
+            elif token == 'df_out2':
+                self.Base.send[(self.iblock, token)] = [df_out2, order.count(token)]
+            elif token == 'api_out1':
+                self.Base.send[(self.iblock, token)] = [api_out1, order.count(token)]
+            elif token == 'api_out2':
+                self.Base.send[(self.iblock, token)] = [api_out2, order.count(token)]
+            elif token == 'var_out1':
                 self.Base.send[(self.iblock, token)] = [var_out1, order.count(token)]
             elif token == 'var_out2':
                 self.Base.send[(self.iblock, token)] = [var_out2, order.count(token)]
-            elif token == 'var_out3':
-                self.Base.send[(self.iblock, token)] = [var_out3, order.count(token)]
-            elif token == 'var_out4':
-                self.Base.send[(self.iblock, token)] = [var_out4, order.count(token)]
-            elif token == 'var_out5':
-                self.Base.send[(self.iblock, token)] = [var_out5, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)
@@ -38,22 +45,27 @@ class PyScript(BASE):
 
 #####################################################################DataRepresentation
 
-class RDKitFingerprint(BASE):
+class RDKitFingerprint(BASE,LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'molfile': None}
-        self.legal_outputs = {'df': None}
+        self.legal_outputs = {'df': None, 'removed_rows':None}
         requirements = ['cheml', 'pandas', 'rdkit']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.chem import RDKFingerprint
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
         if 'molfile' in self.parameters:
-            molfile = self.type_check('molfile', cheml_type='molfile', req=True, py_type=False)
+            molfile = self.parameters['molfile']
+            self.parameters.pop('molfile')
         elif not isinstance(self.legal_inputs['molfile'],type(None)):
             molfile = self.legal_inputs['molfile'][0]
         else:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + 'No molecule file (molfile) has been passed'
             raise TypeError(msg)
+        # step3: check the dimension of input data frame
+        # step4: extract parameters
         if 'path' in self.parameters:
             path = self.parameters.pop('path')
         else:
@@ -63,32 +75,50 @@ class RDKitFingerprint(BASE):
         else:
             arguments = []
 
+        # step5: import module and make APIs
         try:
+            from cheml.chem import RDKFingerprint
             model = RDKFingerprint(**self.parameters)
             model.MolfromFile(molfile,path,*arguments)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
                 val = model.Fingerprint()
                 self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+            elif token == 'removed_rows':
+                self.Base.send[(self.iblock, token)] = [model.removed_rows, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                 self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Dragon(BASE):
+class Dragon(BASE,LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'molfile': None}
         self.legal_outputs = {'df': None}
-        requirements = ['cheml', 'pandas', 'lxml', 'Dragon - not a python library']
+        requirements = ['cheml', 'pandas', 'lxml', 'Dragon']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.chem import Dragon
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+        # if ('molFile' not in self.parameters or self.parameters['molFile'] is None):
+        #     self.parameters['molFile'] = self.type_check('molfile', cheml_type='descriptor', req=True, py_type=str)
+        # else:
+        #     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + 'No molecule file (molfile) has been passed'
+        #     raise TypeError(msg)
+
+        # step3: check the dimension of input data frame
+        # step4: extract  parameters
         if 'script' in self.parameters:
             script = self.parameters.pop('script')
         else:
@@ -98,19 +128,18 @@ class Dragon(BASE):
         else:
             output_directory = ''
         output_directory = self.Base.output_directory + '/' + output_directory
-        if ('molFile' not in self.parameters or self.parameters['molFile'] is None):
-            self.parameters['molFile'] = self.type_check('molfile', cheml_type='descriptor', req=True, py_type=str)
-        else:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + 'No molecule file (molfile) has been passed'
-            raise TypeError(msg)
 
+        # step5: import module and make APIs
         try:
+            from cheml.chem import Dragon
             model = Dragon(**self.parameters)
             model.script_wizard(script, output_directory)
             model.run()
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
@@ -122,6 +151,9 @@ class Dragon(BASE):
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete dragon descriptors and all inputs from memory
+        os.remove(model.output_directory + self.parameters['SaveFilePath'])
         del self.legal_inputs
 
 class CoulombMatrix(BASE):
@@ -235,7 +267,7 @@ class MissingValues(BASE):
 class Trimmer(BASE):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'df': None, 'api': None}
+        self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
         requirements = ['cheml', 'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -267,7 +299,7 @@ class Trimmer(BASE):
 class Uniformer(BASE):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'df': None, 'api': None}
+        self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
         requirements = ['cheml', 'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -330,7 +362,7 @@ class Constant(BASE):
 
 #####################################################################Input
 
-class File(BASE):
+class ReadTable(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {}
         self.legal_outputs = {'df':None}
@@ -338,24 +370,32 @@ class File(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.initialization import File
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        # step3: import module and make APIs
         try:
-            df = File(**self.parameters)
+            from cheml.initialization import ReadTable
+            df = ReadTable(**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
+
+        # step4: check the dimension of input data frame
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
-                val = df
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Merge(BASE):
+class Merge(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df1':None, 'df2':None}
         self.legal_outputs = {'df':None}
@@ -363,27 +403,39 @@ class Merge(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.initialization import Merge
-        # check inputs
-        if isinstance(self.legal_inputs['df1'], type(None)) or isinstance(self.legal_inputs['df2'], type(None)):
-            msg = '@Task #%i(%s): both inputs (df1 and df2) are required'%(self.iblock,self.SuperFunction)
-            raise IOError(msg)
+        # step1: check inputs
+        df1, df1_info = self.input_check('df1', req=True, py_type=pd.DataFrame)
+        df2, df2_info = self.input_check('df2', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        df1, _ = self.data_check('df1', df1, ndim=2, n0=None, n1=None, format_out='df')
+        df2, _ = self.data_check('df2', df2, ndim=2, n0=df1.shape[0], n1=None, format_out='df')
+
+        # step4: import module and make APIs
         try:
-            df = Merge(self.legal_inputs['df1'][0], self.legal_inputs['df2'][0])
+            from cheml.initialization import Merge
+            df = Merge(df1, df2)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
-                val = df
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Split(BASE):
+class Split(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df':None}
         self.legal_outputs = {'df1':None, 'df2':None}
@@ -391,18 +443,26 @@ class Split(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.initialization import Split
-        # check inputs
-        if not isinstance(self.legal_inputs['df'], type(None)):
-            self.parameters['X'] = self.type_check('df', cheml_type='df', req=True, py_type=pd.DataFrame)
-        else:
-            msg = '@Task #%i(%s): an input data frame is required'%(self.iblock,self.SuperFunction)
-            raise IOError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req = True, py_type = pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
         try:
-            df1, df2 = Split(**self.parameters)
+            from cheml.initialization import Split
+            split = Split(**self.parameters)
+            df1, df2 = split.fit(dfx)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df1':
@@ -414,11 +474,12 @@ class Split(BASE):
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Output
 
-class SaveFile(BASE):
+class SaveFile(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'filepath': None}
@@ -426,17 +487,24 @@ class SaveFile(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.initialization import SaveFile
-        # check inputs
-        if isinstance(self.legal_inputs['df'], type(None)):
-            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
-            raise IOError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
         try:
+            from cheml.initialization import SaveFile
             model = SaveFile(**self.parameters)
-            model.fit(self.legal_inputs['df'][0],self.Base.output_directory)
+            model.fit(self.legal_inputs['df'][0], self.Base.output_directory)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'filepath':
@@ -445,14 +513,15 @@ class SaveFile(BASE):
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Regression
 
 class NN_PSGD(BASE):
     def legal_IO(self):
-        self.legal_inputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
-        self.legal_outputs = {'dfy_train_pred': None, 'model': None}
+        self.legal_inputs = {'dfx': None, 'dfy': None}
+        self.legal_outputs = {'dfy_pred': None, 'model': None}
         requirements = ['cheml', 'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -460,22 +529,19 @@ class NN_PSGD(BASE):
         from cheml.nn import nn_psgd
         cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
         self.Base.cheml_type['regressor'].append(cheml_type)
-        if self.legal_inputs['dfx_train'] is not None:
-            dfx_train = self.type_check('dfx_train', cheml_type='df', req=True, py_type=pd.DataFrame).values
-            dfx_test = self.type_check('dfx_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
-            dfy_train = self.type_check('dfy_train', cheml_type='df', req=True, py_type=pd.DataFrame)
-            dfy_header = dfy_train.columns
-            dfy_train = dfy_train.values
-            print dfy_train
-            dfy_test = self.type_check('dfy_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
+        if self.legal_inputs['dfx'] is not None:
+            dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame).values
+            # dfy_header = dfy.columns
+            dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
+
             try:
-                model = nn_psgd.train(dfx_train,dfx_test,dfy_train,dfy_test,**self.parameters)
+                model = nn_psgd.train(dfx,dfy,**self.parameters)
             except Exception as err:
                 msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                     err).__name__ + ': ' + err.message
                 raise TypeError(msg)
-            dfy_pred = nn_psgd.output(dfx_train,model)
-            dfy_pred = pd.DataFrame(dfy_pred, columns=dfy_header)
+            dfy_pred = nn_psgd.output(dfx,model)
+            dfy_pred = pd.DataFrame(dfy_pred)#, columns=dfy_header)
         else:
             model = self.parameters
 
@@ -483,8 +549,8 @@ class NN_PSGD(BASE):
         for token in set(order):
             if token == 'model':
                 self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'dfy_train_pred':
-                if self.legal_inputs['dfx_train'] is None:
+            elif token == 'dfy_pred':
+                if self.legal_inputs['dfx'] is None:
                     msg = "@Task #%i(%s): No input data" % (self.iblock + 1, self.SuperFunction)
                     raise NameError(msg)
                 self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token)]

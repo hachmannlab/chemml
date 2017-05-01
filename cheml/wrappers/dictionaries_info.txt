@@ -31,7 +31,6 @@ cmlnb =
  'date': '2016-04-22'
 }
 
-
     ####
 
 CompGraph = ((0, 'df', 1, 'df'), (1, 'df2', 2, 'df'), (1, 'df1', 3, 'df'), (3, 'filepath', 4, 'molfile'), (4, 'df', 5, 'df'), (5, 'df', 6, 'df'))
@@ -45,42 +44,3 @@ self.Base.graph_info = {iblock:(module,function)}
 self.Base.send = {(iblock_send,token) : [value, count]}
 
 self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

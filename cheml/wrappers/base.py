@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 class BASE(object):
     """
     Do not instantiate this class
@@ -16,7 +19,7 @@ class BASE(object):
     def receive(self):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
         self.Base.graph = tuple([edge for edge in self.Base.graph if edge[2] != self.iblock])
-        # check received tokens to (1) be a legal input, and (2) be unique.
+        # check received tokens to: (1) be a legal input, and (2) be unique.
         count = {token: 0 for token in self.legal_inputs}
         for edge in recv:
             if edge[3] in self.legal_inputs:
@@ -52,7 +55,7 @@ class BASE(object):
         return self.legal_inputs
 
     def _error_type(self, token):
-        msg = "@Task #%i(%s): The type of input with token '%s' is not valid" \
+        msg = "@Task #%i(%s): The type of input '%s' is not valid" \
               % (self.iblock + 1, self.SuperFunction, token)
         raise IOError(msg)
 
@@ -87,6 +90,116 @@ class BASE(object):
             #           % (self.iblock + 1, self.SuperFunction, token, str(py_type), str(type(slit0)))
             #     raise IOError(msg)
             return slit0
+
+    def input_check(self, token, req=False, py_type=False):
+        """
+        Tasks:
+            - check if input token is required
+            - check if python type is correct
+            - check if the input is acceptable (based on the original sender)
+
+        Note:
+            - always run with Library.manual
+
+        :param token: string, name of the input
+        :param req: Boolean, optional (default = False)
+        :param py_type: any python recognizable type, optional (default = False)
+        :return:
+            token value and token information (the sender info)
+        """
+        if self.legal_inputs[token] is None:
+            if req:
+                msg = "@Task #%i(%s): The input '%s' is required." \
+                      % (self.iblock + 1, self.SuperFunction, token)
+                raise IOError(msg)
+            else:
+                return None, None
+        else:
+            slit0 = self.legal_inputs[token][0]
+            slit1 = self.legal_inputs[token][1]
+            if py_type:
+                if not isinstance(slit0, py_type):
+                    self._error_type(token)
+            self.manual(host_function = self.Base.graph_info[self.iblock], token=token, slit1=slit1)
+        return slit0, slit1
+
+    def paramFROMinput(self):
+        for param in self.parameters:
+            if isinstance(self.parameters[param], str):
+                if self.parameters[param][0]=='@':
+                    token = self.parameters[param][1:]
+                    if token in self.legal_inputs:
+                        self.parameters[param] = self.legal_inputs[token][0]
+                    else:
+                        msg = "@Task #%i(%s): assigned an unknown token name - %s - to the parameter - %s - " \
+                              % (self.iblock + 1, self.SuperFunction, token, param)
+                        raise IOError(msg)
+
+    def _dim_check(self, token, X, ndim):
+        if (X.ndim == ndim < 3):
+            pass
+        elif (X.ndim == 1) and (ndim == 2):
+            X = np.array([[i] for i in X])
+        elif (X.ndim == 2) and (X.shape[1] == 1) and (ndim == 1):
+            X = X.ravel()
+        else:
+            msg = "@Task #%i(%s): the %s is not or can not be converted to %i dimensional " \
+                  % (self.iblock + 1, self.SuperFunction, token, ndim)
+            raise IOError(msg)
+
+    def data_check(self, token, X, ndim=2, n0=None, n1=None, format_out='df'):
+        """
+        Tasks:
+            - check the dimension and size of input
+            - change the format from numpy array to pandas data frame or vice versa
+
+        :param X: numpy.ndarray or pandas.DataFrame
+            input data
+        :param token: string
+            name of input (e.g. training input)
+        :param ndim: integer, optional (default=2)
+            X.ndim; valid digits are 1 and 2
+        :param n0: int
+            number of data entries
+        :param n1: int
+            number of features
+        :param format_out: string ('df' or 'ar'), optional (default = 'df')
+
+        :return input data converted to array or dataframe
+        :return the header of dataframe
+            if input data is not a dataframe return None
+        """
+        if isinstance(X, pd.DataFrame):
+            if format_out == 'ar':
+                header = X.columns
+                X = self._dim_check(token, X.values, ndim)
+            else:
+                header = X.columns
+            # if not np.can_cast(X.dtypes, np.float, casting='same_kind'):
+            #     msg = "@Task #%i(%s): %s cannot be cast to floats" \
+            #           % (self.iblock + 1, self.SuperFunction, token)
+            #     raise Exception(msg)
+        elif isinstance(X, np.ndarray):
+            if format_out == 'df':
+                X = pd.DataFrame(X)
+                header = None
+            else:
+                header = None
+                X = self._dim_check(token, X, ndim)
+        else:
+            msg = "@Task #%i(%s): %s needs to be either pandas dataframe or numpy array" \
+                  % (self.iblock + 1, self.SuperFunction, token)
+            raise Exception(msg)
+
+        if n0 and X.shape[0] != n0:
+            msg = "@Task #%i(%s): %s has an invalid number of data entries" \
+                  % (self.iblock + 1, self.SuperFunction, token)
+            raise Exception(msg)
+        if n1 and X.shape[1] != n1:
+            msg = "@Task #%i(%s): %s has an invalid number of feature entries" \
+                  % (self.iblock + 1, self.SuperFunction, token)
+            raise Exception(msg)
+        return X, header #X.astype(float), header
 
 class LIBRARY(object):
     """
@@ -129,3 +242,80 @@ class LIBRARY(object):
                 for source in self.refs[module]:
                     file.write('    '+source+': '+self.refs[module][source]+'\n')
                 file.write('\n')
+
+    def manual(self, host_function, token=None, slit1=None):
+        # legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds',
+        #                           'PyScript','File','Merge','Split','SaveFile',
+        #                           'MissingValues','Trimmer','Uniformer','Constant','TBFS',
+        #                           'NN_PSGD','NN_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR'],
+        #                  'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler',
+        #                              'RobustScaler','Normalizer','Binarizer','OneHotEncoder',
+        #                              'VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr',
+        #                              'SelectFwe','RFE','RFECV','SelectFromModel',
+        #                              'PCA','KernelPCA','RandomizedPCA','LDA',
+        #                              'Train_Test_Split','KFold','','','',
+        #                              'SVR','','',
+        #                              'GridSearchCV','Evaluation',''],
+        #                  'tf':[]}
+
+        # general input formats
+        dfs = [('df','cheml','ReadTable'), ('df1','cheml','Split'), ('df2','cheml','Split'),\
+                ('df', 'cheml', 'Merge'), ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
+                ('df', 'cheml', 'Dragon'),]
+        # input formats
+        CMLWinfo = {
+            ('cheml','RDKitFingerprint'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
+            ('cheml','Dragon'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
+            ('cheml','CoulombMatrix'):{'':[]},
+            ('cheml','BagofBonds'):{'':[]},
+            ('cheml','PyScript'):{'':[]},
+
+            ('cheml','ReadTable'):{'':[]},
+            ('cheml','Merge'):{'df1':dfs+[], 'df2':dfs+[]},
+            ('cheml','Split'):{'df':dfs+[]},
+            ('cheml','SaveFile'):{'df':dfs+[]},
+
+            ('cheml','MissingValues'):{'':[]},
+            ('cheml','Trimmer'):{'':[]},
+            ('cheml','Uniformer'):{'':[]},
+            ('cheml','Constant'):{'':[]},
+            ('cheml','TBFS'):{'':[]},
+            ('cheml',''):{'':[]},
+            ('cheml',''):{'':[]},
+            ('cheml',''):{'':[]},
+            ('sklearn', 'SVR'): {},
+            ('sklearn', 'SVR'): {},
+            ('sklearn', 'SVR'): {},
+            ('sklearn', 'SVR'): {},
+            ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
+        }
+        if token:
+            if host_function in CMLWinfo:
+                if token in CMLWinfo[host_function]:
+                    if slit1[1:] not in CMLWinfo[host_function][token]:
+                        msg = "@Task #%i(%s): received an illegal input format - %s - for the token %s. " \
+                              "The list of acceptable formats are: %s" \
+                              % (self.iblock + 1, self.SuperFunction, str(slit1[1:]), token, str(CMLWinfo[host_function][token]))
+                        raise IOError(msg)
+        else:
+            if host_function not in CMLWinfo:
+                return False
+            else:
+                return True
+
+class BIG_BANK(object):
+    def __init__(self):
+        self.info = {'Feature Representation':{'cheml':['RDKitFingerprint','Dragon','CoulombMatrix'],
+                                                   'sklearn':['PolynomialFeatures']
+                                                   },
+                         'Script':{'cheml':['PyScript']
+                                   },
+                         'IO':{'cheml':['ReadTable', 'Merge','Split', 'SaveFile']
+                               },
+                         'Preprocessor':{'cheml': ['MissingValues','Trimmer','Uniformer','Constant'],
+                                          'sklearn':['Imputer']
+                                         },
+                         'Feature Transformation':{},
+                         'Feature Selection':{},
+                         'Divider':{}
+                         }

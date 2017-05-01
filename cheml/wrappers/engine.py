@@ -9,12 +9,12 @@ import warnings
 import inspect
 import shutil
 
-import sklearn_wrapper as skl
-import cheml_wrapper as cml
-#todo: use utils subdirectory instead
-from .sct_utils import isint, value, std_datetime_str
+from .sklearn import skl
+from .cheml import cml
+from ..utils import isint, value, std_datetime_str, tot_exec_time_str
+from .base import LIBRARY
 
-def banner():
+def banner(logfile):
     PROGRAM_NAME = "ChemML"
     PROGRAM_VERSION = "v1.3.1"
     REVISION_DATE = "2017-01-03"
@@ -35,6 +35,12 @@ def banner():
     print
     for line in str:
         print line
+        logfile.write(line+'\n')
+
+# def function_banner(end_time,iblock, host, function):
+#     print "### block#%i: invoke (host: %s - function: %s)" %(iblock+1,host,function)
+#     print end_time
+#     print "\n"
 
 class Parser(object):
     """
@@ -44,7 +50,7 @@ class Parser(object):
     def __init__(self, script):
         self.script = script
 
-    def fit(self):
+    def fit(self,logfile):
         """
         The main funtion for parsing cheml script.
         It starts with finding blocks and then runs other functions.
@@ -69,10 +75,12 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-        banner()
-        print 'Input File: \n'
-        self._print_out(cmls)
-        return cmls, ImpOrder, CompGraph
+        banner(logfile)
+        tmp_str =  'Input File: \n'
+        logfile.write(tmp_str+'\n')
+        print tmp_str
+        logfile = self._print_out(cmls,logfile)
+        return cmls, ImpOrder, CompGraph, logfile
 
     def _functions(self, line):
         if '<' in line:
@@ -130,49 +138,70 @@ class Parser(object):
                          "recv": recv})
         return cmls
 
-    def _print_out(self, cmls):
+    def _print_out(self, cmls, logfile):
         item = 0
         for block in cmls:
             item+=1
             line = '%s\n' %(block['SuperFunction'])
             line = line.rstrip("\n")
-            print '%i'%item+' '*(4-len(str(item)))+'Task: '+line
+            tmp_str =  '%i'%item+' '*(4-len(str(item)))+'Task: '+line
+            print tmp_str
+            logfile.write(tmp_str+'\n')
             line = '<<<<<<<'
             line = line.rstrip("\n")
-            print '        ' + line
+            tmp_str = '        ' + line
+            print tmp_str
+            logfile.write(tmp_str+'\n')
             if len(block['parameters']) > 0 :
                 for param in block['parameters']:
                     line = '%s = %s\n'%(param,block['parameters'][param])
                     line = line.rstrip("\n")
-                    print '        '+line
+                    tmp_str =  '        '+line
+                    print tmp_str
+                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :no parameter passed: set to default values if available'
                 line = line.rstrip("\n")
-                print '        ' + line
+                tmp_str =  '        ' + line
+                print tmp_str
+                logfile.write(tmp_str+'\n')
             line = '>>>>>>>'
             line = line.rstrip("\n")
-            print '        ' + line
+            tmp_str =  '        ' + line
+            print tmp_str
+            logfile.write(tmp_str+'\n')
             if len(block['send']) > 0:
                 for param in block['send']:
                     line = '%s -> send (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
-                    print '        ' + line
+                    tmp_str =  '        ' + line
+                    print tmp_str
+                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to send:'
                 line = line.rstrip("\n")
-                print '        ' + line
+                tmp_str =  '        ' + line
+                print tmp_str
+                logfile.write(tmp_str+'\n')
             if len(block['recv']) > 0:
                 for param in block['recv']:
                     line = '%s <- recv (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
-                    print '        ' + line
+                    tmp_str = '        ' + line
+                    print tmp_str
+                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to receive:'
                 line = line.rstrip("\n")
-                print '        ' + line
+                tmp_str = '        ' + line
+                print tmp_str
+                logfile.write(tmp_str+'\n')
             line = ''
             line = line.rstrip("\n")
-            print '        ' + line
+            tmp_str = '        ' + line
+            print tmp_str
+            logfile.write(tmp_str+'\n')
+        return logfile
 
     def transform(self, cmls):
         """
@@ -240,22 +269,27 @@ class BASE(object):
         self.time = std_datetime_str('time')
         self.InputScript = ''
         self.output_directory = '.'
+        self.log = []
+        self.logfile = ''
         self.cheml_type = {'descriptor':[], 'interpreter':[], 'input':[], 'output':[],
                            'selector':[], 'transformer':[], 'regressor':[],
                            'preprocessor':[], 'divider':[], 'postprocessor':[],
                            'classifier':[], 'evaluator':[], 'visualizer':[], 'optimizer':[]}
-        print "=================================================\n"
 
-class Wrapper(object):
+class Wrapper(LIBRARY):
     """
     Todo: documentation
     """
-    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory):
+    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory,logfile):
         self.Base = BASE(CompGraph)
         self.Base.InputScript = InputScript
         self.Base.output_directory = output_directory
+        self.Base.logfile = logfile
         self.ImpOrder = ImpOrder
         self.cmls = cmls
+        tmp_str = "=================================================\n"
+        self.Base.logfile.write(tmp_str+'\n')
+        print tmp_str
         self._checker()
 
     def _checker(self):
@@ -265,72 +299,83 @@ class Wrapper(object):
         """
         # get params
         legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Postprocessor','Evaluation','Visualization','Optimizer']
-        legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds',
-                                  'PyScript','File','Merge','Split','SaveFile',
-                                  'MissingValues','Trimmer','Uniformer','Constant','TBFS',
-                                  'NN_PSGD','NN_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR'],
-                         'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler',
-                                     'RobustScaler','Normalizer','Binarizer','OneHotEncoder',
-                                     'VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr',
-                                     'SelectFwe','RFE','RFECV','SelectFromModel',
-                                     'PCA','KernelPCA','RandomizedPCA','LDA',
-                                     'Train_Test_Split','KFold','','','',
-                                     'SVR','','',
-                                     'Grid_SearchCV','Evaluation',''],
-                         'mlpy':[]}
 
         # run over graph
         for iblock, block in enumerate(self.cmls):
             # check super function
             SuperFunction = block['SuperFunction']
             if SuperFunction not in legal_superfunctions:
-                msg = '%s is not a valid task' %SuperFunction
+                msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, SuperFunction,SuperFunction)
                 raise NameError(msg)
             # check parameters
             parameters = block['parameters']
-            if 'module' not in parameters:
-                msg = "Task %s (task#%i): no 'module' name found" % (SuperFunction, iblock + 1)
+            if 'host' not in parameters:
+                msg = "@Task #%i(%s): no host name found" % (iblock + 1, SuperFunction)
                 raise NameError(msg)
             if 'function' not in parameters:
-                msg = "Task %s (task#%i): no 'function' name found" % (SuperFunction, iblock + 1)
+                msg = "@Task #%i(%s): no function name found" % (iblock + 1, SuperFunction)
                 raise NameError(msg)
-            # check module and function
-            module = block['parameters']['module']
-            function = block['parameters']['function']
-            if module not in legal_modules:
-                msg = 'Task %s (task#%i): not a valid module passed' % (SuperFunction, iblock + 1)
-                raise NameError(msg)
-            elif function not in legal_modules[module]:
-                msg = 'Task %s (task#%i): not a valid function passed' % (SuperFunction, iblock + 1)
+            # check host and function
+            host_function = (block['parameters']['host'], block['parameters']['function'])
+            if not self.manual(host_function = host_function):
+                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, SuperFunction, str(host_function) )
                 raise NameError(msg)
         return 'The input file is in a correct format.'
 
     def call(self):
+        self.refs = {}
         for iblock in self.ImpOrder:
             SuperFunction = self.cmls[iblock]['SuperFunction']
             parameters = self.cmls[iblock]['parameters']
-            module = parameters.pop('module')
+            host = parameters.pop('host')
             function = parameters.pop('function')
-            if module == 'sklearn':
+            start_time = time.time()
+            tmp_str =  "======= block#%i: (%s, %s)" % (iblock + 1, host, function)
+            print tmp_str
+            self.Base.logfile.write(tmp_str+'\n')
+            tmp_str = "| run ...\n"
+            print tmp_str
+            self.Base.logfile.write(tmp_str+'\n')
+            if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
                 if function not in legal_functions:
-                    msg = "function name '%s' in module '%s' is not a valid method"%(function,module)
+                    msg = "function name '%s' in module '%s' is not a valid method"%(function,host)
                     raise NameError(msg)
-                self.Base.graph_info[iblock] = (module, function)
+                self.references(host,function) # check references
+                self.Base.graph_info[iblock] = (host, function)
                 cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
                 cmli = cml_interface(self.Base,parameters,iblock,SuperFunction)
                 cmli.run()
-            elif module == 'cheml':
+            elif host == 'cheml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cml)]
                 if function not in legal_functions:
-                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,module)
+                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,host)
                     raise NameError(msg)
-                self.Base.graph_info[iblock] = (module, function)
+                self.references(host,function) # check references
+                self.Base.graph_info[iblock] = (host, function)
                 cml_interface = [klass[1] for klass in inspect.getmembers(cml) if klass[0] == function][0]
                 cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
                 cmli.run()
+            end_time = tot_exec_time_str(start_time)
+            tmp_str = "| ... done!"
+            print tmp_str
+            self.Base.logfile.write(tmp_str+'\n')
+            tmp_str = '| '+end_time
+            print tmp_str
+            self.Base.logfile.write(tmp_str+'\n')
+            tmp_str = "=======\n\n"
+            print tmp_str
+            self.Base.logfile.write(tmp_str+'\n')
+        self._save_references()
+        tmp_str = "Total " + tot_exec_time_str(self.Base.start_time)
+        print tmp_str
+        self.Base.logfile.write(tmp_str+'\n')
+        tmp_str = std_datetime_str() + '\n'
+        print tmp_str
+        self.Base.logfile.write(tmp_str+'\n')
+        self.Base.logfile.close()
 
 class Settings(object):
     """
@@ -363,7 +408,8 @@ class Settings(object):
         # error_file = open(output_directory+'/'+errorfile,'a',0)
         if self.InputScript_copy:
             shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
-        return self.output_directory
+        logfile = open(self.output_directory + '/log.txt', 'a', 0)
+        return self.output_directory, logfile
 
 def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
@@ -371,16 +417,16 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     :param INPUT_FILE: path to the input file
     :return:
     """
+    settings = Settings(OUTPUT_DIRECTORY)
+    OUTPUT_DIRECTORY, logfile = settings.fit(INPUT_FILE)
     script = open(INPUT_FILE, 'r')
     script = script.readlines()
-    cmls, ImpOrder, CompGraph = Parser(script).fit()
+    cmls, ImpOrder, CompGraph, logfile = Parser(script).fit(logfile)
     # print cmls
     # print ImpOrder
     # print CompGraph
     # sys.exit('this is how much you get till now!')
-    settings = Settings(OUTPUT_DIRECTORY)
-    OUTPUT_DIRECTORY = settings.fit(INPUT_FILE)
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY,logfile)
     wrapper.call()
 
 
@@ -393,12 +439,4 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 if __name__=="__main__":
-    parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
-    parser.add_argument("-i", type=str, required=True, help="input directory: must include the input file name and its format")
-    parser.add_argument("-o", type=str, required=True, help="output directory: must be unique otherwise incrementing numbers will be added")
-    args = parser.parse_args()
-    SCRIPT_NAME = args.i
-    output_directory = args.o
-    settings = Settings(output_directory)
-    output_directory = settings.fit(SCRIPT_NAME)
-    run(SCRIPT_NAME, output_directory)
+    sys.exit()

@@ -84,10 +84,10 @@ class missing_values(object):
         
     def fit_transform(self, df):
         """
-        To:
-         - replace missing values with nan.
-         - drop columns with all nan values.
-         - fill nan values with the specified strategy.
+        use fit_transform for:
+            - replace missing values with nan.
+            - drop columns with all nan values.
+            - fill nan values with the specified strategy.
 
         :param:
             df: pandas data frame

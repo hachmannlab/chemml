@@ -1,6 +1,7 @@
 import datetime
 import random
 import numpy as np
+import sys
 
 def list_del_indices(mylist,indices):
     for index in sorted(indices, reverse=True):
@@ -98,6 +99,7 @@ def chunk(xs, n, X=None, Y=None):
     the term of use:
                 it = chunk ( range(len(X), n, X, Y)
                 X_chunk, y_chunk = it.next()
+    n is the number of chunks (#total_batch).
     """
     ys = list(xs)
     random.shuffle(ys)
@@ -148,3 +150,11 @@ def choice(X, Y=None, n=0.1, replace=False):
         Y_sample = None
         Y_out = None
     return X_out, X_sample, Y_out, Y_sample
+
+def return2Dshape(shape):
+    if len(shape) == 2:
+        return shape
+    elif len(shape) == 1:
+        return (shape[0],None)
+    else:
+        raise Exception('input dimension is greater than 2')

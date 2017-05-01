@@ -70,7 +70,8 @@ def check_input(X,name,n0=None,n1=None, format_out='df'):
     :param format_out: string ('df' or 'ar'), optional (default = 'df')
 
     :return input data converted to array or dataframe
-    :return the header of dataframe if input data is not a dataframe return None
+    :return the header of dataframe
+        if input data is not a dataframe return None
 
     """
     if not (X.ndim == 2):
@@ -89,7 +90,7 @@ def check_input(X,name,n0=None,n1=None, format_out='df'):
                     X = X.values
         else:
             header = X.columns
-        if not np.can_cast(X.dtype, np.float, casting='same_kind'):
+        if not np.can_cast(X.dtypes, np.float, casting='same_kind'):
             raise Exception(name + ' cannot be cast to floats')
     elif isinstance(X, np.ndarray):
         if format_out == 'df':
@@ -99,7 +100,6 @@ def check_input(X,name,n0=None,n1=None, format_out='df'):
             header = None
     else:
         raise Exception(name+' needs to be either pandas dataframe or numpy array')
-
     if n0 and X.shape[0] != n0:
         raise Exception(name+' has an invalid number of data entries')
     if n1 and X.shape[1] != n1:

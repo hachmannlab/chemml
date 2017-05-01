@@ -6,9 +6,6 @@ import warnings
 import os 
 from ..utils.utilities import std_datetime_str
 
-__all__ = [
-    'Dragon',
-]
 
 def _bool_formatter(bool):
     if bool:
@@ -18,26 +15,23 @@ def _bool_formatter(bool):
 
 
 class Dragon(object):
-    """ An interface to Dragon 6 and 7 software.
+    """
+    An interface to Dragon 6 and 7 software.
+
+    :param: version: int, optional (default=7)
+        The version of available Dragon on the user's machine. (available versions 6 or 7)
     
-    Parameters
-    ----------
-    version: int, optional (default=7)
-        The version of available Dragon on the user's machine
-    
-    Weights: list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
+    :param: Weights: list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
         A list of weights to be used
 
-    blocks: list, optional (default=False)
+    :param: blocks: list, optional (default=False)
         A list of descriptor blocks' id. For all of them parameter SelectAll="true" is given. 
         To select descriptors one by one based on descriptor names, use Script Wizard in Drgon GUI.
                 
-    external: boolean, optional (default=False)
+    :param: external: boolean, optional (default=False)
         If True, include external variables at the end of each saved file.
 
-    Returns
-    -------
-    Dragon Script and descriptors.
+    :return: Dragon Script and descriptors.
     """
     def __init__(self, version = 6,CheckUpdates = True,SaveLayout = True, PreserveTemporaryProjects = True,
                 ShowWorksheet = False,Decimal_Separator = ".",Missing_String = "NaN",
@@ -118,34 +112,31 @@ class Dragon(object):
     
     def script_wizard(self, script='new', output_directory='./'):
         """
-        Notice: Script for version 7 doesn't support fingerprints block
         The script_wizard is designed to build a Dragon script file. The name and
         the functionality of this function is the same as available Script wizard 
-        in the Graphic User Intrface.
+        in the Dragon Graphic User Interface.
         Note: All reported nodes are mandatory, except the <EXTERNAL> tag
+        Note: Script for version 7 doesn't support fingerprints block
 
-        Parameters
-        ----------
-        script: string, optional (default="new")
+        :param: script: string, optional (default="new")
             If "new" start with a new script. If you want to load an existing script,
             pass the filename with drs format.
-        
-        Attributes
-        ----------
-        dragon: xml element
+
+        :param: output_directory: string, optional (default = './')
+            the path to the working directory to store output files.
+
+        :: dragon: xml element
             Dragon script in  xml format.
         
-        drs: string 
+        :: drs: string
             Dragon script file name
         
-        data_path: string
+        :: data_path: string
             The path+name of saved data file in any format. If saveType is 'block' 
             or 'subblock' data_path is just the path to the directory that all data 
             files have been saved. 
              
-        Returns
-        ------        
-        Returns class parameters
+        :return: class parameters
         """
         if output_directory[-1] == '/':
             self.output_directory = output_directory

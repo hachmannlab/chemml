@@ -1,9 +1,9 @@
 """
-The 'cheml.initialization' module includes File, Merge, Split, and SaveFile.
+The 'cheml.initialization' module includes ReadTable, Merge, Split, and SaveFile.
 last modified date: Nov. 19, 2015
 """
 
-from .initialization import File
+from .initialization import ReadTable
 from .initialization import Merge
 from .initialization import Split
 
@@ -13,7 +13,7 @@ from .data import Trimmer
 from .data import Uniformer
 
 __all__ = [
-    'File',
+    'ReadTable',
     'Merge',
     'Split',
     'SaveFile',

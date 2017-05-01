@@ -304,7 +304,7 @@ def tot_exec_time_str(time_start):
     """
     time_end = time.time()
     exec_time = time_end-time_start
-    tmp_str = "Total execution time: %0.2fs (%dh %dm %0.2fs)" %(exec_time, exec_time/3600, (exec_time%3600)/60,(exec_time%3600)%60)
+    tmp_str = "execution time: %0.2fs (%dh %dm %0.2fs)" %(exec_time, exec_time/3600, (exec_time%3600)/60,(exec_time%3600)%60)
     return tmp_str
 
 ##################################################################################################

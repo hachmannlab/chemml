@@ -4,14 +4,9 @@ import warnings
 
 from ..utils.utilities import std_datetime_str
 
-__all__ = [
-    'File',
-    'output',
-]
-
-def File(filepath, header=None, skipcolumns=0, skiprows=0):
+def ReadTable(filepath, header=None, skipcolumns=0, skiprows=0):
     """
-    Read input data file.
+    Read general delimited file into DataFrame.
 
     Parameters:
     ----------
@@ -46,9 +41,9 @@ def Merge(X1, X2):
     todo: add more functionality for header overlaps
     Merge same length data frames.
 
-    :param X_1: pandas data frame
+    :param X1: pandas data frame
         first data frame
-    :param X_2: pandas data frame
+    :param X2: pandas data frame
         second data frame
     :return: pandas data frame
     """
@@ -61,35 +56,42 @@ def Merge(X1, X2):
     X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
     return X
 
-def Split(X,select=1):
+class Split(object):
     """
     split data frame by columns
-
-    :param X: pandas data frame
-        original pandas data frame
 
     :param select: integer or list (default = 1)
         if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
         if list, is array of labels to be cut as first data frame (X1)
-
     :return: two pandas data frame: X1 and X2
     """
-    if not isinstance(X,pd.DataFrame):
-        msg = 'X must be a pandas dataframe'
-        raise TypeError(msg)
-    if isinstance(select,list):
-        X1 = X.loc[:,select]
-        X2 = X.drop(select,axis=1)
-    elif isinstance(select,int):
-        if select >= X.shape[1]:
-            msg = 'The first output data frame is empty, because passed a bigger number than actual number of columns'
-            warnings.warn(msg)
-        X1 = X.iloc[:,:select]
-        X2 = X.iloc[:,select:]
-    else:
-        msg = "parameter 'select' must ba a list or an integer"
-        raise TypeError(msg)
-    return X1, X2
+    def __init__(self,selection=1):
+        self.selection = selection
+
+    def fit(self,X):
+        """
+        fit the split task to the input data frame
+
+        :param X:  pandas data frame
+        original pandas data frame
+        :return: two pandas data frame: X1 and X2
+        """
+        if not isinstance(X,pd.DataFrame):
+            msg = 'X must be a pandas dataframe'
+            raise TypeError(msg)
+        if isinstance(self.selection,list):
+            X1 = X.loc[:,self.selection]
+            X2 = X.drop(self.selection,axis=1)
+        elif isinstance(self.selection,int):
+            if self.selection >= X.shape[1]:
+                msg = 'The first output data frame is empty, because passed a bigger number than actual number of columns'
+                warnings.warn(msg)
+            X1 = X.iloc[:,:self.selection]
+            X2 = X.iloc[:,self.selection:]
+        else:
+            msg = "selection parameter must ba a list or an integer"
+            raise TypeError(msg)
+        return X1, X2
 
 # class Match(object):
 #     def __init__(self,):
@@ -101,7 +103,7 @@ def Split(X,select=1):
 class SaveFile(object):
     """
     Write DataFrame to a comma-seprated values(csv) file
-    :param output_directory: string, the output directory to save output files
+    :param: output_directory: string, the output directory to save output files
 
     """
     def __init__(self, filename, output_directory = None, record_time = False, format ='csv',
@@ -116,8 +118,8 @@ class SaveFile(object):
     def fit(self, X, main_directory=None):
         """
         Write DataFrame to a comma-seprated values (csv) file
-        :param X: pandas DataFrame
-        :param main_directory: string, if there is any main directory for entire cheml project
+        :param: X: pandas DataFrame
+        :param: main_directory: string, if there is any main directory for entire cheml project
         :return: nothing
         """
         if not isinstance(X, pd.DataFrame):

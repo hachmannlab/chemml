@@ -49,10 +49,10 @@ class RDKFingerprint(object):
 
     radius: integer, optional (default = 2)
         only availble for 'Morgan' fingerprint.
-                 
+
     removeHs: boolean, optional (default=True)
         If True, remove any hydrogen from the graph of a molecule.
-                
+
     Returns
     -------
     data set of fingerprint vectors.
@@ -160,7 +160,8 @@ class RDKFingerprint(object):
         
         if path and '%s' in molfile:
             molfile = _add_range(molfile,start_end)
-        
+
+        self.removed_rows = []
         self.molecules = []
         if path:
             for root, directories, filenames in os.walk(path):
@@ -169,19 +170,31 @@ class RDKFingerprint(object):
                     if file_extension in ['.smi','.smarts']:
                         mols = open(filename, 'r')
                         mols = mols.readlines()
-                        mols = [extensions[file_extension](x.strip(),removeHs=self.removeHs) for x in mols]
-                        self.molecules += mols
+                        for i, x in enumerate(mols):
+                            mol = extensions[file_extension](x.strip(),removeHs=self.removeHs)
+                            if mol is None:
+                                self.removed_rows.append(i)
+                            else:
+                                self.molecules.append(mol)
+                        # mols = [extensions[file_extension](x.strip(),removeHs=self.removeHs) for x in mols]
+                        # self.molecules += mols
                     else:
                         self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
         else:
             if file_extension in ['.smi','.smarts']:
                 mols = open(molfile, 'r')
                 mols = mols.readlines()
-                mols = [extensions[file_extension](x.strip()) for x in mols]
-                self.molecules += mols
+                for i,x in enumerate(mols):
+                    mol = extensions[file_extension](x.strip())
+                    if mol is None:
+                        self.removed_rows.append(i)
+                    else:
+                       self.molecules.append(mol)
+                # mols = [extensions[file_extension](x.strip()) for x in mols]
+                # self.molecules += mols
             else:
                 self.molecules += [extensions[file_extension](filename,removeHs=self.removeHs)]
-    
+
     def Fingerprint(self):
         if self.FPtype == 'Hashed_atom_pair' or self.FPtype == 'HAP':
             if self.vector == 'int':

@@ -232,7 +232,7 @@ class DistanceMatrix(BASE):
 
 #####################################################################Preprocessor
 
-class MissingValues(BASE):
+class MissingValues(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy':None}
         self.legal_outputs = {'dfx': None, 'dfy': None, 'api':None}
@@ -240,20 +240,33 @@ class MissingValues(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.preprocessing import missing_values
-        dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame)
+        # step1: check inputs
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
         try:
+            from cheml.preprocessing import missing_values
             model = missing_values(**self.parameters)
             dfx = model.fit_transform(dfx)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfx':
                 self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
             elif token == 'dfy':
-                dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
+                dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+                dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
                 dfy = model.transform(dfy)
                 self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
             elif token == 'api':
@@ -262,6 +275,8 @@ class MissingValues(BASE):
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                 self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 class Trimmer(BASE):
@@ -328,7 +343,7 @@ class Uniformer(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Constant(BASE):
+class Constant(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
         self.legal_outputs = {'df': None, 'api': None, 'removed_columns_': None}
@@ -336,15 +351,27 @@ class Constant(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.preprocessing import Constant
-        df = self.type_check('df', cheml_type='df', req=True, py_type=pd.DataFrame)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
         try:
+            from cheml.preprocessing import Constant
             model = Constant()
             df = model.fit_transform(df)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                 err).__name__ + ': ' + err.message
             raise TypeError(msg)
+
+        #step5: process
+        #step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
@@ -358,6 +385,8 @@ class Constant(BASE):
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        #step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Input
@@ -518,7 +547,7 @@ class SaveFile(BASE, LIBRARY):
 
 #####################################################################Regression
 
-class NN_PSGD(BASE):
+class NN_PSGD(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'dfy_pred': None, 'model': None}
@@ -526,18 +555,23 @@ class NN_PSGD(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from cheml.nn import nn_psgd
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        if self.legal_inputs['dfx'] is not None:
-            dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame).values
-            # dfy_header = dfy.columns
-            dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
+        # step1: check inputs
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
 
-            try:
-                model = nn_psgd.train(dfx,dfy,**self.parameters)
-            except Exception as err:
-                msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
+
+        # step4: import module and make APIs
+        try:
+            from cheml.nn import nn_psgd
+            model = nn_psgd.train(dfx,dfy,**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                     err).__name__ + ': ' + err.message
                 raise TypeError(msg)
             dfy_pred = nn_psgd.output(dfx,model)

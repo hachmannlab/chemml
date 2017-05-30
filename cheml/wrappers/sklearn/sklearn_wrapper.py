@@ -74,7 +74,7 @@ class Imputer(BASE,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class StandardScaler(BASE,LIBRARY):
+class StandardScaler(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None, 'api': None}
         self.legal_outputs = {'api':None, 'df':None}
@@ -93,7 +93,7 @@ class StandardScaler(BASE,LIBRARY):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('method')  # method = transform or inverse
+        method = self.parameters.pop('func_method')  # method = transform or inverse
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -106,11 +106,10 @@ class StandardScaler(BASE,LIBRARY):
                 msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
                 raise NameError(msg)
         else:
-
-
+            pass
 
         # step5: process
-        self.scaler(model,df,method)
+        model, df = self.scaler(model,df,method)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -119,12 +118,163 @@ class StandardScaler(BASE,LIBRARY):
                 val = model
                 self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
-                else:
-                    msg = "@Task #%i(%s): received no data to send out" % (
-                    self.iblock, self.SuperFunction)
-                    raise NameError(msg)
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class MinMaxScaler(BASE,LIBRARY,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api':None, 'df':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = transform or inverse
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import MinMaxScaler
+                    model = MinMaxScaler(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+        else:
+            pass
+
+        # step5: process
+        model, df = self.scaler(model,df,method)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'api':
+                val = model
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class MaxAbsScaler(BASE,LIBRARY,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api':None, 'df':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = transform or inverse
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import MaxAbsScaler
+                    model = MaxAbsScaler(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+        else:
+            pass
+
+        # step5: process
+        model, df = self.scaler(model,df,method)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'api':
+                val = model
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class RobustScaler(BASE,LIBRARY,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api':None, 'df':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = transform or inverse
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import RobustScaler
+                    model = RobustScaler(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+        else:
+            pass
+
+        # step5: process
+        model, df = self.scaler(model,df,method)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'api':
+                val = model
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
                 raise NameError(msg)

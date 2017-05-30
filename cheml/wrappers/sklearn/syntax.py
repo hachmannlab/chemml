@@ -40,11 +40,6 @@ class Preprocessor(object):
         """ keep track of features (columns) that can be removed or changed in the
             Scaler by transforming data back to pandas dataframe structure.
 
-            case 1: method=whatever and 01 df and 00 api ==> scaled df out + api out
-            case 2: method=transform and 01 df and 01 api ==> scaled df out + api out
-            case 3: method=inverse and 01 df and 01 api ==> inv_scaled df out + api out
-            in the case number 4, the input api must be already fitted
-
         Parameters
         ----------
         transformer: an instance of sklearn Scaler class
@@ -53,6 +48,8 @@ class Preprocessor(object):
         df: Pandas dataframe
             The dataframe that scaler is going to deal with.
 
+        method: string
+            sklearn methods for scaler: 'fit_transform', 'transform', inverse_transform'
 
         Returns
         -------
@@ -61,19 +58,16 @@ class Preprocessor(object):
 
         """
 
-        if not isinstance(self.legal_inputs['df'],type(None)) and isinstance(self.legal_inputs['api'],type(None)):
-            df_columns = list(df.columns)
+        df_columns = list(df.columns)
+        if method == 'fit_transform':
             df = transformer.fit_transform(df)
-        elif not isinstance(self.legal_inputs['df'],type(None)) and not isinstance(self.legal_inputs['api'],type(None)):
-            df_columns = list(df.columns)
-            if method == 'transform':
-                df = transformer.transform(df)
-            elif method == 'inverse':
-                df = transformer.inverse_transform(df)
-            else:
-                msg = "@Task #%i(%s): The parameter value for 'method' is not valid. It can be either transform or inverse." % (self.iblock, self.SuperFunction)
-                raise NameError(msg)
-
+        elif method == 'transform':
+            df = transformer.transform(df)
+        elif method == 'inverse':
+            df = transformer.inverse_transform(df)
+        else:
+            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform or inverse_transform." % (self.iblock, self.SuperFunction)
+            raise NameError(msg)
 
         if df.shape[1] == 0:
             warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \

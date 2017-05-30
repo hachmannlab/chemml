@@ -74,140 +74,62 @@ class Imputer(BASE,Preprocessor):
                 raise NameError(msg)
         del self.legal_inputs
 
-class StandardScaler(BASE,Preprocessor):
+class StandardScaler(BASE,LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api': None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.preprocessing import StandardScaler
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = StandardScaler(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
 
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
 
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('method')  # method = transform or inverse
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import StandardScaler
+                    model = StandardScaler(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+        else:
+
+
+
+        # step5: process
+        self.scaler(model,df,method)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
                 val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
                 if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                    self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
+                else:
+                    msg = "@Task #%i(%s): received no data to send out" % (
+                    self.iblock, self.SuperFunction)
+                    raise NameError(msg)
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
                 raise NameError(msg)
-        del self.legal_inputs
 
-class MinMaxScaler(BASE,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'api':None, 'df':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.preprocessing import MinMaxScaler
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = MinMaxScaler(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
-            elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class MaxAbsScaler(BASE,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'api':None, 'df':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.preprocessing import MaxAbsScaler
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = MaxAbsScaler(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
-            elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class RobustScaler(BASE,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'api':None, 'df':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.preprocessing import RobustScaler
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = RobustScaler(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
-            elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 class Normalizer(BASE,Preprocessor):
@@ -349,7 +271,7 @@ class PCA(BASE):
 
 #####################################################################Divider
 
-class Train_Test_Split(BASE):
+class Train_Test_Split(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
@@ -357,20 +279,30 @@ class Train_Test_Split(BASE):
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
+        # step1: check inputs
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
 
-        from sklearn.model_selection import train_test_split
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['transformer'].append(cheml_type)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
         try:
+            from sklearn.model_selection import train_test_split
             if dfy is None:
                 tts_out = train_test_split(dfx,**self.parameters)
             else:
+                dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
                 tts_out = train_test_split(dfx,dfy, **self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'dfx_train':
@@ -384,6 +316,8 @@ class Train_Test_Split(BASE):
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 class KFold(BASE):
@@ -414,601 +348,99 @@ class KFold(BASE):
 
 #####################################################################Regression
 
-class OLS(BASE, Regressor):
+class regression(BASE, LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import LinearRegression
-        cheml_type = "%s_%s"%(self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = LinearRegression(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx,type(None)) and not isinstance(dfy,type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class Ridge(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import Ridge
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = Ridge(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class KernelRidge(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.kernel_ridge import KernelRidge
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = KernelRidge(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class Lasso(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import Lasso
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = Lasso(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class MultiTaskLasso(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import MultiTaskLasso
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = MultiTaskLasso(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class ElasticNet(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import ElasticNet
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = ElasticNet(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class MultiTaskElasticNet(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import MultiTaskElasticNet
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = MultiTaskElasticNet(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class Lars(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import Lars
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = Lars(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class LassoLars(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import LassoLars
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = LassoLars(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class BayesianRidge(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import BayesianRidge
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = BayesianRidge(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class ARD(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import ARDRegression
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = ARDRegression(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class Logistic(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import LogisticRegression
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = LogisticRegression(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class SGD(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'api': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.linear_model import SGDRegressor
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = SGDRegressor(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class SVR(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'model': None}
+        self.legal_inputs = {}
+        self.legal_outputs = {'api': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         # step1: check inputs
-        dfx, dfx_info = self.input_check('dfx', req = True, py_type = pd.DataFrame)
-        dfy, dfy_info = self.input_check('dfy', req = True, py_type = pd.DataFrame)
-
-        from sklearn.svm import SVR
-
+        # step2: assign inputs to parameters if necessary (param = @token)
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
         try:
-            model = SVR(**self.parameters)
+            if self.Function == 'OLS':
+                from sklearn.linear_model import LinearRegression
+                model = LinearRegression(**self.parameters)
+            elif self.Function == 'Ridge':
+                from sklearn.linear_model import Ridge
+                model = Ridge(**self.parameters)
+            elif self.Function == 'KernelRidge':
+                from sklearn.kernel_ridge import KernelRidge
+                model = KernelRidge(**self.parameters)
+            elif self.Function == 'Lasso':
+                from sklearn.linear_model import Lasso
+                model = Lasso(**self.parameters)
+            elif self.Function == 'MultiTaskLasso':
+                from sklearn.linear_model import MultiTaskLasso
+                model = MultiTaskLasso(**self.parameters)
+            elif self.Function == 'ElasticNet':
+                from sklearn.kernel_ridge import ElasticNet
+                model = ElasticNet(**self.parameters)
+            elif self.Function == 'MultiTaskElasticNet':
+                from sklearn.linear_model import MultiTaskElasticNet
+                model = MultiTaskElasticNet(**self.parameters)
+            elif self.Function == 'Lars':
+                from sklearn.linear_model import Lars
+                model = Lars(**self.parameters)
+            elif self.Function == 'LassoLars':
+                from sklearn.kernel_ridge import LassoLars
+                model = LassoLars(**self.parameters)
+            elif self.Function == 'BayesianRidge':
+                from sklearn.linear_model import BayesianRidge
+                model = BayesianRidge(**self.parameters)
+            elif self.Function == 'ARDRegression':
+                from sklearn.linear_model import ARDRegression
+                model = ARDRegression(**self.parameters)
+            elif self.Function == 'LogisticRegression':
+                from sklearn.kernel_ridge import LogisticRegression
+                model = LogisticRegression(**self.parameters)
+            elif self.Function == 'SGDRegressor':
+                from sklearn.linear_model import SGDRegressor
+                model = SGDRegressor(**self.parameters)
+            elif self.Function == 'SVR':
+                from sklearn.svm import SVR
+                model = SVR(**self.parameters)
+            elif self.Function == 'NuSVR':
+                from sklearn.svm import NuSVR
+                model = NuSVR(**self.parameters)
+            elif self.Function == 'LinearSVR':
+                from sklearn.svm import LinearSVR
+                model = LinearSVR(**self.parameters)
+            elif self.Function == 'MLPRegressor':
+                from sklearn.neural_network import MLPRegressor
+                model = MLPRegressor(**self.parameters)
+            else:
+                msg = "@Task #%i(%s): function name '%s' in module '%s' is not available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
+                raise NameError(msg)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
 
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if dfy is not None and dfy.shape[1]==1:
-            dfy = np.ravel(dfy)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'model':
+            if token == 'api':
                 self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
+            # elif token == 'r2_train':
+            #     if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
+            #         # step3: check the dimension of input data frame
+            #         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+            #         dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
+            #
+            #         model.fit(dfx,dfy)
+            #         r2score_training = model.score(dfx, dfy)
+            #     else:
+            #         msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
+            #         raise NameError(msg)
+            #     self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
-        del self.legal_inputs
-
-class NuSVR(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'model': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.svm import NuSVR
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = NuSVR(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class LinearSVR(BASE, Regressor):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'r2_train': None, 'model': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.svm import LinearSVR
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        try:
-            model = LinearSVR(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfx = self.type_check('dfx', cheml_type='df', req=False, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=False, py_type=pd.DataFrame)
-        if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            model, r2score_training = self.sklearn_training(model, dfx, dfy)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'r2_train':
-                if isinstance(dfx, type(None)) or isinstance(dfy, type(None)):
-                    msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
+        #step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Postprocessor
@@ -1117,8 +549,6 @@ class Evaluation(BASE, Regressor, Evaluator):
 
     def fit(self):
         #Todo: add a function to read the model from file
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['evaluator'].append(cheml_type)
         dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame)
         dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
         model = self.type_check('model', cheml_type='model', req=True)
@@ -1142,4 +572,45 @@ class Evaluation(BASE, Regressor, Evaluator):
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+        del self.legal_inputs
+
+class Evaluate_static(BASE,LIBRARY,Evaluator):
+    def legal_IO(self):
+        self.legal_inputs = {'dfy': None, 'dfy_pred': None}
+        self.legal_outputs = {'evaluation_results_': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        dfy, dfy_info = self.input_check('dfy', req = True, py_type = pd.DataFrame)
+        dfy_pred, dfy_pred_info = self.input_check('dfy_pred', req = True, py_type = pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
+        dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        try:
+            self._evaluation_params()
+            self.evaluate(dfy,dfy_pred)
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'evaluation_results_':
+                evaluation_results_ = self.results
+                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        #step7: delete all inputs from memory
         del self.legal_inputs

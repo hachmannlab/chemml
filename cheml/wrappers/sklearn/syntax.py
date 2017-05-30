@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import warnings
 
 from ...utils.utilities import list_del_indices
 
@@ -34,6 +35,57 @@ class Preprocessor(object):
             df_columns = list_del_indices(df_columns, nan_ind)
             df = pd.DataFrame(df, columns=df_columns)
         return transformer, df
+
+    def scaler(self, transformer, df, method):
+        """ keep track of features (columns) that can be removed or changed in the
+            Scaler by transforming data back to pandas dataframe structure.
+
+            case 1: method=whatever and 01 df and 00 api ==> scaled df out + api out
+            case 2: method=transform and 01 df and 01 api ==> scaled df out + api out
+            case 3: method=inverse and 01 df and 01 api ==> inv_scaled df out + api out
+            in the case number 4, the input api must be already fitted
+
+        Parameters
+        ----------
+        transformer: an instance of sklearn Scaler class
+            The class with adjusted parameters.
+
+        df: Pandas dataframe
+            The dataframe that scaler is going to deal with.
+
+
+        Returns
+        -------
+        transformed data frame
+        fitted scaler class
+
+        """
+
+        if not isinstance(self.legal_inputs['df'],type(None)) and isinstance(self.legal_inputs['api'],type(None)):
+            df_columns = list(df.columns)
+            df = transformer.fit_transform(df)
+        elif not isinstance(self.legal_inputs['df'],type(None)) and not isinstance(self.legal_inputs['api'],type(None)):
+            df_columns = list(df.columns)
+            if method == 'transform':
+                df = transformer.transform(df)
+            elif method == 'inverse':
+                df = transformer.inverse_transform(df)
+            else:
+                msg = "@Task #%i(%s): The parameter value for 'method' is not valid. It can be either transform or inverse." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+
+        if df.shape[1] == 0:
+            warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
+                          % (self.iblock + 1, self.SuperFunction), Warning)
+        if df.shape[1] == len(df_columns):
+            df = pd.DataFrame(df, columns=df_columns)
+        else:
+            df = pd.DataFrame(df)
+            warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
+                %(self.iblock + 1, self.SuperFunction), Warning)
+        return transformer, df
+
 
     def Transformer_ManipulateHeader(self, transformer, df):
         """ keep track of features (columns) that can be removed or changed in the

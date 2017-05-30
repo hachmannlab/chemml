@@ -9,8 +9,11 @@ import warnings
 import inspect
 import shutil
 
-from .sklearn import skl
-from .cheml import cml
+from .pandas import pdw
+from .cheml import cmlw
+from .sklearn import sklw
+from .tf import tfw
+
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
 
@@ -325,7 +328,7 @@ class Wrapper(LIBRARY):
     def call(self):
         self.refs = {}
         for iblock in self.ImpOrder:
-            SuperFunction = self.cmls[iblock]['SuperFunction']
+            task = self.cmls[iblock]['SuperFunction']
             parameters = self.cmls[iblock]['parameters']
             host = parameters.pop('host')
             function = parameters.pop('function')
@@ -338,26 +341,58 @@ class Wrapper(LIBRARY):
             self.Base.logfile.write(tmp_str+'\n')
             if host == 'sklearn':
                 # check methods
-                legal_functions = [klass[0] for klass in inspect.getmembers(skl)]
-                if function not in legal_functions:
-                    msg = "function name '%s' in module '%s' is not a valid method"%(function,host)
+                legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
+                if task == 'Regression':
+                    pass
+                elif function not in legal_functions:
+                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
                     raise NameError(msg)
-                self.references(host,function) # check references
-                self.Base.graph_info[iblock] = (host, function)
-                cml_interface = [klass[1] for klass in inspect.getmembers(skl) if klass[0]==function][0]
-                cmli = cml_interface(self.Base,parameters,iblock,SuperFunction)
-                cmli.run()
+                if task=='Regression':
+                    self.references(host, function)  # check references
+                    self.Base.graph_info[iblock] = (host, function)
+                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'regression'][0]
+                    cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
+                    cmli.run()
+                else:
+                    self.references(host,function) # check references
+                    self.Base.graph_info[iblock] = (host, function)
+                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0]==function][0]
+                    cmli = cml_interface(self.Base,parameters,iblock,task,function,host)
+                    cmli.run()
             elif host == 'cheml':
                 # check methods
-                legal_functions = [klass[0] for klass in inspect.getmembers(cml)]
+                legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]
                 if function not in legal_functions:
                     msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,host)
                     raise NameError(msg)
                 self.references(host,function) # check references
                 self.Base.graph_info[iblock] = (host, function)
-                cml_interface = [klass[1] for klass in inspect.getmembers(cml) if klass[0] == function][0]
-                cmli = cml_interface(self.Base, parameters, iblock,SuperFunction)
+                cml_interface = [klass[1] for klass in inspect.getmembers(cmlw) if klass[0] == function][0]
+                cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
                 cmli.run()
+            elif host == 'pandas':
+                # check methods
+                legal_functions = [klass[0] for klass in inspect.getmembers(pdw)]
+                if function not in legal_functions:
+                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,host)
+                    raise NameError(msg)
+                self.references(host,function) # check references
+                self.Base.graph_info[iblock] = (host, function)
+                cml_interface = [klass[1] for klass in inspect.getmembers(pdw) if klass[0] == function][0]
+                cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
+                cmli.run()
+            elif host == 'tensorflow':
+                # check methods
+                legal_functions = [klass[0] for klass in inspect.getmembers(tfw)]
+                if function not in legal_functions:
+                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,host)
+                    raise NameError(msg)
+                self.references(host,function) # check references
+                self.Base.graph_info[iblock] = (host, function)
+                cml_interface = [klass[1] for klass in inspect.getmembers(tfw) if klass[0] == function][0]
+                cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
+                cmli.run()
+
             end_time = tot_exec_time_str(start_time)
             tmp_str = "| ... done!"
             print tmp_str

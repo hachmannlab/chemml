@@ -5,11 +5,13 @@ class BASE(object):
     """
     Do not instantiate this class
     """
-    def __init__(self, Base, parameters, iblock, SuperFunction):
+    def __init__(self, Base, parameters, iblock, SuperFunction, Function, Host):
         self.Base = Base
         self.parameters = parameters
         self.iblock = iblock
         self.SuperFunction = SuperFunction
+        self.Function = Function
+        self.Host = Host
 
     def run(self):
         self.legal_IO()
@@ -37,15 +39,14 @@ class BASE(object):
             if key in self.Base.send:
                 if self.Base.send[key][1] > 0:
                     value = self.Base.send[key][0]
-                    # TODO: deepcopy is memory consuming
-                #     value = copy.deepcopy(self.Base.send[key][0])
-                # else:
-                #     value = self.Base.send[key][0]
-                # Todo: informative token should be a list of (int(edge[0]),edge[1])
-                informative_token = (int(edge[0]), edge[1]) + self.Base.graph_info[int(edge[0])]
-                self.legal_inputs[edge[3]] = (value, informative_token)
-                del value
-                self.Base.send[key][1] -= 1
+                    # value = copy.deepcopy(self.Base.send[key][0])
+                    # else:
+                    #     value = self.Base.send[key][0]
+                    # Todo: informative token should be a list of (int(edge[0]),edge[1])
+                    # informative_token = (int(edge[0]), edge[1]) + self.Base.graph_info[int(edge[0])]
+                    self.legal_inputs[edge[3]] = (value, self.Base.send[key][2])
+                    del value
+                    self.Base.send[key][1] -= 1
                 if self.Base.send[key][1] == 0:
                     del self.Base.send[key]
             else:
@@ -146,6 +147,7 @@ class BASE(object):
             msg = "@Task #%i(%s): the %s is not or can not be converted to %i dimensional " \
                   % (self.iblock + 1, self.SuperFunction, token, ndim)
             raise IOError(msg)
+        return X
 
     def data_check(self, token, X, ndim=2, n0=None, n1=None, format_out='df'):
         """
@@ -171,6 +173,7 @@ class BASE(object):
         """
         if isinstance(X, pd.DataFrame):
             if format_out == 'ar':
+                print '%s.ndim:'%token, X.values.ndim
                 header = X.columns
                 X = self._dim_check(token, X.values, ndim)
             else:
@@ -205,12 +208,12 @@ class LIBRARY(object):
     """
     Do not instantiate this class
     """
-    def references(self,module,function):
-        if module == 'sklearn':
+    def references(self,host,function):
+        if host == 'sklearn':
             ref_g = "https://github.com/scikit-learn/scikit-learn"
             ref_p = "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011."
             self.refs['scikit-learn'] = {'github':ref_g, 'paper':ref_p}
-        elif module == 'cheml':
+        elif host == 'cheml':
             ref_g = "https://mhlari@bitbucket.org/hachmanngroup/cheml.git"
             ref_p = "no publicatin"
             self.refs['ChemML'] =  {'github': ref_g, 'paper': ref_p}
@@ -230,7 +233,7 @@ class LIBRARY(object):
                 ref_g = "no software package"
                 ref_p = "Hansen, K.; Biegler, F.; Ramakrishnan, R.; Pronobis, W.; von Lilienfeld, O. A.; Muller, K.-R.; Tkatchenko, A. Machine Learning Predictions of Molecular Properties: Accurate Many-Body Potentials and Nonlocality in Chemical Space J. Phys. Chem. Lett. 2015, 6, 2326 2331, DOI: 10.1021/acs.jpclett.5b00831"
                 self.refs['BagofBonds'] = {'url': ref_g, 'paper': ref_p}
-        elif module == 'tf':
+        elif host == 'tf':
             ref_g = "https://github.com/tensorflow/tensorflow"
             ref_p = "M. Abadi,  P. Barham,  J. Chen,  Z. Chen,A. Davis, J. Dean, M. Devin, S. Ghemawat,G. Irving, M. Isard, M. Kudlur, J. Levenberg,R. Monga, S. Moore, D. G. Murray, B. Steiner,P. Tucker, V. Vasudevan, P. Warden, M. Wicke,Y. Yu, X. Zheng, Tensorflow:  A system forlarge-scale machine learning, in: 12th USENIXSymposium on Operating Systems Design andImplementation (OSDI 16), USENIX Associa-tion, GA, 2016, pp. 265-283"
             self.refs['tensorflow'] = {'github': ref_g, 'paper': ref_p}
@@ -258,11 +261,19 @@ class LIBRARY(object):
         #                              'GridSearchCV','Evaluation',''],
         #                  'tf':[]}
 
-        # general input formats
-        dfs = [('df','cheml','ReadTable'), ('df1','cheml','Split'), ('df2','cheml','Split'),\
-                ('df', 'cheml', 'Merge'), ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
-                ('df', 'cheml', 'Dragon'),]
-        # input formats
+        # general output formats
+        dfs = [('df','cheml','ReadTable'),\
+               ('df1','cheml','Split'), ('df2','cheml','Split'),\
+               ('df', 'cheml', 'Merge'), \
+               ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
+               ('df', 'cheml', 'Dragon'), ('df', 'cheml', 'RDKitFingerprint'), \
+               ('dfx', 'cheml', 'MissingValues'),('dfy', 'cheml', 'MissingValues'), \
+               ('df', 'cheml', 'Constant'), \
+               ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
+               ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
+               ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split')]
+
+        # {inputs: legal output formats}
         CMLWinfo = {
             ('cheml','RDKitFingerprint'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
             ('cheml','Dragon'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
@@ -273,20 +284,21 @@ class LIBRARY(object):
             ('cheml','ReadTable'):{'':[]},
             ('cheml','Merge'):{'df1':dfs+[], 'df2':dfs+[]},
             ('cheml','Split'):{'df':dfs+[]},
-            ('cheml','SaveFile'):{'df':dfs+[]},
+            ('cheml','SaveFile'):{'df':dfs+[('removed_columns_', 'cheml', 'Constant'),('dfy_pred', 'cheml', 'NN_PSGD'), \
+                                            ('evaluation_results_', 'sklearn', 'Evaluate_static')]},
 
-            ('cheml','MissingValues'):{'':[]},
+            ('cheml','MissingValues'):{'dfx':dfs+[], 'dfy':dfs+[]},
             ('cheml','Trimmer'):{'':[]},
             ('cheml','Uniformer'):{'':[]},
-            ('cheml','Constant'):{'':[]},
+            ('cheml','Constant'):{'df':dfs+[]},
             ('cheml','TBFS'):{'':[]},
+            ('cheml','NN_PSGD'):{'dfx_train':dfs+[], 'dfy_train':dfs+[], 'dfx_test':dfs+[]},
             ('cheml',''):{'':[]},
             ('cheml',''):{'':[]},
-            ('cheml',''):{'':[]},
             ('sklearn', 'SVR'): {},
             ('sklearn', 'SVR'): {},
-            ('sklearn', 'SVR'): {},
-            ('sklearn', 'SVR'): {},
+            ('sklearn', 'Evaluate_static'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
+            ('sklearn', 'Train_Test_Split'): {'dfx':dfs+[], 'dfy':dfs+[]},
             ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
         }
         if token:

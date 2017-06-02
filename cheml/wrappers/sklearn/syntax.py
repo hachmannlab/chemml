@@ -5,11 +5,12 @@ import warnings
 from ...utils.utilities import list_del_indices
 
 class Preprocessor(object):
-    def Imputer_ManipulateHeader(self, transformer, df):
+    def imputer(self, transformer, df, method):
         """ keep track of features (columns) that can be removed or changed in the
             Imputer by transforming data back to pandas dataframe structure. This happens based on
             the "statistics_" attribute of Imputer.
 
+            this function also distinguish different methods of Imputer.
         Parameters
         ----------
         transformer: sklearn Imputer class
@@ -18,6 +19,9 @@ class Preprocessor(object):
         df: Pandas dataframe
             The dataframe that imputer is going to deal with.
 
+        method: string
+            sklearn methods for imputer: 'fit_transform' and 'transform'
+
         Returns
         -------
         transformed data frame
@@ -25,7 +29,13 @@ class Preprocessor(object):
         """
 
         df_columns = list(df.columns)
-        df = transformer.fit_transform(df)
+        if method == 'fit_transform':
+            df = transformer.fit_transform(df)
+        elif method == 'transform':
+            df = transformer.transform(df)
+        else:
+            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform." % (self.iblock, self.SuperFunction)
+            raise NameError(msg)
         if df.shape[1] == 0:
             warnings.warn("@Task #%i(%s): empty dataframe: all columns have been removed" \
                           %(self.iblock + 1, self.SuperFunction), Warning)
@@ -80,8 +90,7 @@ class Preprocessor(object):
                 %(self.iblock + 1, self.SuperFunction), Warning)
         return transformer, df
 
-
-    def Transformer_ManipulateHeader(self, transformer, df):
+    def transformer(self, transformer, df, method, header=True):
         """ keep track of features (columns) that can be removed or changed in the
             Scaler by transforming data back to pandas dataframe structure.
 
@@ -93,6 +102,9 @@ class Preprocessor(object):
         df: Pandas dataframe
             The dataframe that scaler is going to deal with.
 
+        method: string
+            sklearn methods for scaler: 'fit_transform', 'transform'
+
         Returns
         -------
         transformed data frame
@@ -100,16 +112,23 @@ class Preprocessor(object):
 
         """
         df_columns = list(df.columns)
-        df = transformer.fit_transform(df)
-        if df.shape[1] == 0:
-            warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
-                          % (self.iblock + 1, self.SuperFunction), Warning)
-        if df.shape[1] == len(df_columns):
-            df = pd.DataFrame(df, columns=df_columns)
+        if method == 'fit_transform':
+            df = transformer.fit_transform(df)
+        elif method == 'transform':
+            df = transformer.transform(df)
         else:
-            df = pd.DataFrame(df)
-            warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
-                %(self.iblock + 1, self.SuperFunction), Warning)
+            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform." % (self.iblock, self.SuperFunction)
+            raise NameError(msg)
+        if header:
+            if df.shape[1] == 0:
+                warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
+                              % (self.iblock + 1, self.SuperFunction), Warning)
+            if df.shape[1] == len(df_columns):
+                df = pd.DataFrame(df, columns=df_columns)
+            else:
+                df = pd.DataFrame(df)
+                warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
+                    %(self.iblock + 1, self.SuperFunction), Warning)
         return transformer, df
 
     #unused

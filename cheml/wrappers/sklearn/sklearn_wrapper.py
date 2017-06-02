@@ -8,70 +8,109 @@ from ..base import BASE, LIBRARY
 from .syntax import Preprocessor, Regressor, Evaluator
 
 
-#####################################################################DataRepresentation
+##################################################################### 2 Prepare Data
 
-class PolynomialFeatures(BASE,Preprocessor):
+# Data Representation
+
+class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'api':None, 'df':None}
-        self.Base.requirements.append('scikit_learn', 'pandas')
-
-    def fit(self):
-        from sklearn.preprocessing import PolynomialFeatures
-        # check inputs
-        if self.legal_inputs['df'] == None:
-            msg = '@Task #%i(%s): input data frame is required'%(self.iblock,self.SuperFunction)
-            raise IOError(msg)
-        try:
-            model = PolynomialFeatures(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in order:
-            if token == 'api':
-                self.legal_outputs[token] = model
-            elif token == 'df':
-                self.legal_outputs[token] = self.Transformer_ManipulateHeader(model, self.legal_inputs['df'])
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock, self.SuperFunction, token)
-                raise NameError(msg)
-
-#####################################################################Preprocessor
-
-class Imputer(BASE,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api':None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.preprocessing import Imputer
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = Imputer(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-        # Send
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
 
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Imputer_ManipulateHeader(model, df)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
 
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import PolynomialFeatures
+                    model = PolynomialFeatures(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.transformer(model, df, method, header = False)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+
+# Preprocessors
+
+class Imputer(BASE,LIBRARY,Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api':None}
+        self.legal_outputs = {'api':None, 'df':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import Imputer
+                    model = Imputer(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.imputer(model, df, method)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 class StandardScaler(BASE,LIBRARY,Preprocessor):
@@ -93,7 +132,7 @@ class StandardScaler(BASE,LIBRARY,Preprocessor):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = transform or inverse
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -105,8 +144,6 @@ class StandardScaler(BASE,LIBRARY,Preprocessor):
             else:
                 msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
                 raise NameError(msg)
-        else:
-            pass
 
         # step5: process
         model, df = self.scaler(model,df,method)
@@ -115,8 +152,7 @@ class StandardScaler(BASE,LIBRARY,Preprocessor):
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token),(self.iblock,token,self.Host,self.Function)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
                 self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
             else:
@@ -145,7 +181,7 @@ class MinMaxScaler(BASE,LIBRARY,Preprocessor):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = transform or inverse
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -157,8 +193,6 @@ class MinMaxScaler(BASE,LIBRARY,Preprocessor):
             else:
                 msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
                 raise NameError(msg)
-        else:
-            pass
 
         # step5: process
         model, df = self.scaler(model,df,method)
@@ -197,7 +231,7 @@ class MaxAbsScaler(BASE,LIBRARY,Preprocessor):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = transform or inverse
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -209,8 +243,6 @@ class MaxAbsScaler(BASE,LIBRARY,Preprocessor):
             else:
                 msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
                 raise NameError(msg)
-        else:
-            pass
 
         # step5: process
         model, df = self.scaler(model,df,method)
@@ -249,7 +281,7 @@ class RobustScaler(BASE,LIBRARY,Preprocessor):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = transform or inverse
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -261,8 +293,6 @@ class RobustScaler(BASE,LIBRARY,Preprocessor):
             else:
                 msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
                 raise NameError(msg)
-        else:
-            pass
 
         # step5: process
         model, df = self.scaler(model,df,method)
@@ -282,141 +312,212 @@ class RobustScaler(BASE,LIBRARY,Preprocessor):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Normalizer(BASE,Preprocessor):
+class Normalizer(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api':None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.preprocessing import Normalizer
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = Normalizer(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
 
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
 
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import Normalizer
+                    model = Normalizer(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.transformer(model,df,method)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Binarizer(BASE,Preprocessor):
+class Binarizer(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api':None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.preprocessing import Binarizer
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = Binarizer(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
 
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
 
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import Binarizer
+                    model = Binarizer(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.transformer(model,df,method)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-class OneHotEncoder(BASE,Preprocessor):
+class OneHotEncoder(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api':None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.preprocessing import OneHotEncoder
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['preprocessor'].append(cheml_type)
-        try:
-            model = OneHotEncoder(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
 
-        if not isinstance(self.legal_inputs['df'],type(None)):
-            df = self.legal_inputs['df'][0]
-            model, df = self.Transformer_ManipulateHeader(model, df)
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
 
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import OneHotEncoder
+                    model = OneHotEncoder(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                        err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (
+                self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.transformer(model, df, method, header = False)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'df':
-                if not isinstance(self.legal_inputs['df'], type(None)):
-                    self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
-#####################################################################FeatureSelection
+
+# FeatureSelection
 
 
+# FeatureTransformation
 
-#####################################################################FeatureTransformation
-
-class PCA(BASE):
+class PCA(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
-        self.legal_inputs = {'df': None}
+        self.legal_inputs = {'df': None, 'api':None}
         self.legal_outputs = {'api':None, 'df':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
-        from sklearn.decomposition import PCA
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['transformer'].append(cheml_type)
-        try:
-            model = PCA(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.decomposition import PCA
+                    model = PCA(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        model, df = self.imputer(model, df, method)
+
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'api':
-                val = model
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'df':
-                val = pd.DataFrame(model.fit_transform(self.legal_inputs['df'][0]))
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Divider
@@ -496,7 +597,9 @@ class KFold(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
-#####################################################################Regression
+#####################################################################
+
+# Regression
 
 class regression(BASE, LIBRARY):
     def legal_IO(self):

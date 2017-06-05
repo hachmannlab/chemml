@@ -807,8 +807,6 @@ class KFold(BASE, LIBRARY):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-#####################################################################Postprocessor
-
 class GridSearchCV(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None}
@@ -865,7 +863,54 @@ class GridSearchCV(BASE, LIBRARY):
         #step7: delete all inputs from memory
         del self.legal_inputs
 
-class Evaluation(BASE, Regressor, Evaluator):
+class Evaluate_Regression(BASE,LIBRARY,Evaluator):
+    def legal_IO(self):
+        self.legal_inputs = {'dfy': None, 'dfy_pred': None}
+        self.legal_outputs = {'evaluation_results_': None, 'evaluator': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step4: import module and make APIs
+        try:
+            self._reg_evaluation_params()
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'evaluator':
+                self.Base.send[(self.iblock, token)] = [self.evaluator, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'evaluation_results_':
+                # step1: check inputs
+                dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+                dfy_pred, dfy_pred_info = self.input_check('dfy_pred', req=True, py_type=pd.DataFrame)
+
+                # step3: check the dimension of input data frame
+                dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
+                dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
+
+                self._reg_evaluate(dfy, dfy_pred)
+                evaluation_results_ = self.results
+                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        #step7: delete all inputs from memory
+        del self.legal_inputs
+
+##################################################################### 5 Train/Run
+
+class Search(BASE, Regressor, Evaluator):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None, 'X_scaler': None, 'Y_scaler': None, 'model': None}
         self.legal_outputs = {'results': None}
@@ -939,46 +984,4 @@ class Evaluation(BASE, Regressor, Evaluator):
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
-        del self.legal_inputs
-
-class Evaluate_static(BASE,LIBRARY,Evaluator):
-    def legal_IO(self):
-        self.legal_inputs = {'dfy': None, 'dfy_pred': None}
-        self.legal_outputs = {'evaluation_results_': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        # step1: check inputs
-        dfy, dfy_info = self.input_check('dfy', req = True, py_type = pd.DataFrame)
-        dfy_pred, dfy_pred_info = self.input_check('dfy_pred', req = True, py_type = pd.DataFrame)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
-        dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
-
-        # step4: import module and make APIs
-        try:
-            self._evaluation_params()
-            self.evaluate(dfy,dfy_pred)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'evaluation_results_':
-                evaluation_results_ = self.results
-                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token),
-                                                        (self.iblock,token,self.Host,self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
-
-        #step7: delete all inputs from memory
         del self.legal_inputs

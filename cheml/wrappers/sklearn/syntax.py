@@ -159,94 +159,89 @@ class Regressor(object):
         return Y_pred
 
 class Evaluator(object):
-    def _evaluation_params(self):
+    def _reg_evaluation_params(self):
         self.params = {}
-        self.results = {}
+        self.evaluator = {}
         if 'r2_score' in self.parameters and self.parameters['r2_score'] == True:
-            self.results['r2_score'] = []
-            self.params['r2_score'] = {}
+            metric = 'r2_score'
+            self.params[metric] = {}
             if 'r2_sample_weight' in self.parameters:
-                self.params['r2_score']['sample_weight'] = self.parameters['r2_sample_weight']
+                self.params[metric]['sample_weight'] = self.parameters['r2_sample_weight']
             if 'r2_multioutput' in self.parameters:
-                self.params['r2_score']['multioutput'] = self.parameters['r2_multioutput']
-        if 'mean_absolute_error' in self.parameters and self.parameters['mean_absolute_error'] == True:
-            self.results['mean_absolute_error'] = []
-            self.params['mean_absolute_error'] = {}
-            if 'mae_sample_weight' in self.parameters:
-                self.params['mean_absolute_error']['sample_weight'] = self.parameters['mae_sample_weight']
-            if 'mae_multioutput' in self.parameters:
-                self.params['mean_absolute_error']['multioutput'] = self.parameters['mae_multioutput']
-        if 'median_absolute_error' in self.parameters and self.parameters['median_absolute_error'] == True:
-            self.results['median_absolute_error'] = []
-            self.params['median_absolute_error'] = {}
-        if 'mean_squared_error' in self.parameters and self.parameters['mean_squared_error'] == True:
-            self.results['mean_squared_error'] = []
-            self.params['mean_squared_error'] = {}
-            if 'mse_sample_weight' in self.parameters:
-                self.params['mean_squared_error']['sample_weight'] = self.parameters['mse_sample_weight']
-            if 'mse_multioutput' in self.parameters:
-                self.params['mean_squared_error']['multioutput'] = self.parameters['mse_multioutput']
-        if 'root_mean_squared_error' in self.parameters and self.parameters['root_mean_squared_error'] == True:
-            self.results['root_mean_squared_error'] = []
-            self.params['root_mean_squared_error'] = {}
-            if 'rmse_sample_weight' in self.parameters:
-                self.params['root_mean_squared_error']['sample_weight'] = self.parameters['rmse_sample_weight']
-            if 'rmse_multioutput' in self.parameters:
-                self.params['root_mean_squared_error']['multioutput'] = self.parameters['rmse_multioutput']
-        if 'explained_variance_score' in self.parameters and self.parameters['explained_variance_score'] == True:
-            self.results['explained_variance_score'] = []
-            self.params['explained_variance_score'] = {}
-            if 'ev_sample_weight' in self.parameters:
-                self.params['explained_variance_score']['sample_weight'] = self.parameters['ev_sample_weight']
-            if 'ev_multioutput' in self.parameters:
-                self.params['explained_variance_score']['multioutput'] = self.parameters['ev_multioutput']
+                self.params[metric]['multioutput'] = self.parameters['r2_multioutput']
 
-    def evaluate(self, Y, Y_pred):
-        # if Y.shape[1]>1:
-        #     msg = "@Task #%i(%s): multiple output values - be careful with the multioutput parameter in the selected metric" \
-        #                   %(self.iblock + 1, self.SuperFunction)
-        #     warnings.warn(msg, Warning)
-        for metric in self.results:
-            if metric == 'r2_score':
-                from sklearn.metrics import r2_score
-                try:
-                    self.results[metric].append(r2_score(y_true=Y, y_pred=Y_pred, **self.params[metric]))
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            elif metric == 'mean_absolute_error':
-                from sklearn.metrics import mean_absolute_error
-                try:
-                    self.results[metric].append(mean_absolute_error(y_true=Y, y_pred=Y_pred, **self.params[metric]))
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            elif metric == 'median_absolute_error':
-                from sklearn.metrics import median_absolute_error
-                try:
-                    self.results[metric].append(median_absolute_error(y_true=Y, y_pred=Y_pred))#, **self.params[metric])
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            elif metric == 'mean_squared_error':
-                from sklearn.metrics import mean_squared_error
-                try:
-                    self.results[metric].append(mean_squared_error(y_true=Y, y_pred=Y_pred, **self.params[metric]))
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            elif metric == 'root_mean_squared_error':
-                from sklearn.metrics import mean_squared_error
-                try:
-                    self.results[metric].append(np.sqrt(mean_squared_error(y_true=Y, y_pred=Y_pred, **self.params[metric])))
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            elif metric == 'explained_variance_score':
-                from sklearn.metrics import explained_variance_score
-                try:
-                    self.results[metric].append(explained_variance_score(y_true=Y, y_pred=Y_pred, **self.params[metric]))
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
+            # import module and make APIs
+            from sklearn.metrics import r2_score
+            self.evaluator[metric] = lambda Y, Y_pred: r2_score(y_true=Y, y_pred=Y_pred, **self.params[metric])
+
+        if 'mean_absolute_error' in self.parameters and self.parameters['mean_absolute_error'] == True:
+            metric = 'mean_absolute_error'
+            self.params[metric] = {}
+            if 'mae_sample_weight' in self.parameters:
+                self.params[metric]['sample_weight'] = self.parameters['mae_sample_weight']
+            if 'mae_multioutput' in self.parameters:
+                self.params[metric]['multioutput'] = self.parameters['mae_multioutput']
+
+            # import module and make APIs
+            from sklearn.metrics import mean_absolute_error
+            self.evaluator[metric] = lambda Y, Y_pred: mean_absolute_error(y_true=Y, y_pred=Y_pred, **self.params[metric])
+
+        if 'median_absolute_error' in self.parameters and self.parameters['median_absolute_error'] == True:
+            metric = 'median_absolute_error'
+            self.params[metric] = {}
+
+            # import module and make APIs
+            from sklearn.metrics import median_absolute_error
+            self.evaluator[metric] = lambda Y, Y_pred: median_absolute_error(y_true=Y, y_pred=Y_pred)#, **self.params[metric])
+
+        if 'mean_squared_error' in self.parameters and self.parameters['mean_squared_error'] == True:
+            metric = 'mean_squared_error'
+            self.params[metric] = {}
+            if 'mse_sample_weight' in self.parameters:
+                self.params[metric]['sample_weight'] = self.parameters['mse_sample_weight']
+            if 'mse_multioutput' in self.parameters:
+                self.params[metric]['multioutput'] = self.parameters['mse_multioutput']
+
+            # import module and make APIs
+            from sklearn.metrics import mean_squared_error
+            self.evaluator[metric] = lambda Y, Y_pred: mean_squared_error(y_true=Y, y_pred=Y_pred, **self.params[metric])
+
+        if 'root_mean_squared_error' in self.parameters and self.parameters['root_mean_squared_error'] == True:
+            metric = 'root_mean_squared_error'
+            self.params[metric] = {}
+            if 'rmse_sample_weight' in self.parameters:
+                self.params[metric]['sample_weight'] = self.parameters['rmse_sample_weight']
+            if 'rmse_multioutput' in self.parameters:
+                self.params[metric]['multioutput'] = self.parameters['rmse_multioutput']
+
+            # import module and make APIs
+            from sklearn.metrics import mean_squared_error
+            self.evaluator[metric] = lambda Y, Y_pred: np.sqrt(mean_squared_error(y_true=Y, y_pred=Y_pred, **self.params[metric]))
+
+        if 'explained_variance_score' in self.parameters and self.parameters['explained_variance_score'] == True:
+            metric = 'explained_variance_score'
+            self.params[metric] = {}
+            if 'ev_sample_weight' in self.parameters:
+                self.params[metric]['sample_weight'] = self.parameters['ev_sample_weight']
+            if 'ev_multioutput' in self.parameters:
+                self.params[metric]['multioutput'] = self.parameters['ev_multioutput']
+
+            # import module and make APIs
+            from sklearn.metrics import explained_variance_score
+            self.evaluator[metric] = lambda Y, Y_pred: explained_variance_score(y_true=Y, y_pred=Y_pred, **self.params[metric])
+
+    def _reg_evaluate(self, Y, Y_pred):
+        if Y.shape[1]>1:
+            msg = "@Task #%i(%s): be aware of 'multioutput' behavior of selected metrics" \
+                          %(self.iblock + 1, self.SuperFunction)
+            warnings.warn(msg, Warning)
+        self.results = {}
+        for metric in self.evaluator:
+            try:
+                self.results[metric] = [self.evaluator[metric](Y, Y_pred)]
+            except Exception as err:
+                msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                    err).__name__ + ': ' + err.message
+                raise TypeError(msg)
+
 

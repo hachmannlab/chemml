@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cheml/wrappers/pandas/tf_wrapper.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/input_files/ri_preprocess.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CheML.iml" afterPath="$PROJECT_DIR$/.idea/CheML.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMLW_InFileGenerator.ipynb" afterPath="$PROJECT_DIR$/CMLW_InFileGenerator.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/initialization/initialization.py" afterPath="$PROJECT_DIR$/cheml/initialization/initialization.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/nn/4mnopt.slurm" afterPath="$PROJECT_DIR$/cheml/nn/4mnopt.slurm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/notebooks/main.py" afterPath="$PROJECT_DIR$/cheml/notebooks/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/cheml/__init__.py" afterPath="$PROJECT_DIR$/cheml/wrappers/cheml/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/cheml/cheml_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/cheml/cheml_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/cheml/script_cheml.txt" afterPath="$PROJECT_DIR$/cheml/wrappers/cheml/script_cheml.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt" afterPath="$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/engine.py" afterPath="$PROJECT_DIR$/cheml/wrappers/engine.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/pandas/__init__.py" afterPath="$PROJECT_DIR$/cheml/wrappers/pandas/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/tf/__init__.py" afterPath="$PROJECT_DIR$/cheml/wrappers/tf/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/tf/tf_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/tf/tf_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input_files/ri_data.txt" afterPath="$PROJECT_DIR$/input_files/ri_data.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input_files/ri_eval.txt" afterPath="$PROJECT_DIR$/input_files/ri_eval.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input_files/ri_meanprop.txt" afterPath="$PROJECT_DIR$/input_files/ri_meanprop.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_data.py" afterPath="$PROJECT_DIR$/test_data.py" />
     </list>
     <ignored path="CheML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,14 +26,14 @@
     <favorites_list name="CheML" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5122471">
+    <splitter split-orientation="horizontal" split-proportion="0.4066339">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="sklearn_wrapper.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="191">
-                  <caret line="943" column="21" selection-start-line="943" selection-start-column="21" selection-end-line="943" selection-end-column="21" />
+                <state relative-caret-position="689">
+                  <caret line="865" column="50" selection-start-line="865" selection-start-column="50" selection-end-line="865" selection-end-column="50" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                     <element signature="e#339#2756#0" expanded="false" />
@@ -72,12 +50,22 @@
                     <element signature="e#28356#34539#0" expanded="false" />
                     <element signature="e#29565#32947#0" expanded="false" />
                     <element signature="e#34680#37934#0" expanded="false" />
-                    <element signature="e#37968#39399#0" expanded="false" />
-                    <element signature="e#39522#42292#0" expanded="false" />
-                    <element signature="e#42344#45889#0" expanded="false" />
-                    <element signature="e#42718#43176#0" expanded="false" />
-                    <element signature="e#43221#44619#0" expanded="false" />
+                    <element signature="e#37968#39397#0" expanded="false" />
+                    <element signature="e#39438#42208#0" expanded="false" />
+                    <element signature="e#42265#44477#0" expanded="false" />
+                    <element signature="e#44606#48151#0" expanded="false" />
+                    <element signature="e#44980#45438#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="script_sklearn.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/script_sklearn.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-1621">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -143,7 +131,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="sklearn_wrapper.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="sklearn_wrapper.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="676">
@@ -162,28 +150,30 @@
                     <element signature="e#23013#25553#0" expanded="false" />
                     <element signature="e#25605#28219#0" expanded="false" />
                     <element signature="e#28356#34539#0" expanded="false" />
-                    <element signature="e#37968#39399#0" expanded="false" />
-                    <element signature="e#39522#42292#0" expanded="false" />
-                    <element signature="e#42344#45889#0" expanded="false" />
-                    <element signature="e#42718#43176#0" expanded="false" />
-                    <element signature="e#43221#44619#0" expanded="false" />
-                    <element signature="e#45942#47844#0" expanded="false" />
+                    <element signature="e#37968#39397#0" expanded="false" />
+                    <element signature="e#39438#42208#0" expanded="false" />
+                    <element signature="e#42265#44477#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="syntax.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="syntax.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="48" column="29" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="29" />
+                <state relative-caret-position="420">
+                  <caret line="234" column="34" selection-start-line="234" selection-start-column="34" selection-end-line="234" selection-end-column="34" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
+                    <element signature="e#137#4786#0" expanded="false" />
                     <element signature="e#189#1784#0" expanded="false" />
                     <element signature="e#4817#6167#0" expanded="false" />
-                    <element signature="e#6198#12171#0" expanded="false" />
-                    <element signature="e#6236#9108#0" expanded="false" />
+                    <element signature="e#6379#6923#0" expanded="false" />
+                    <element signature="e#7041#7622#0" expanded="false" />
+                    <element signature="e#7744#8045#0" expanded="false" />
+                    <element signature="e#8161#8739#0" expanded="false" />
+                    <element signature="e#8865#9461#0" expanded="false" />
+                    <element signature="e#9589#10181#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -334,10 +324,10 @@
         <option value="$PROJECT_DIR$/cheml/wrappers/base.py" />
         <option value="$PROJECT_DIR$/input_files/ri_prep_reg_eval.txt" />
         <option value="$PROJECT_DIR$/cheml/wrappers/tf/tf_wrapper.py" />
-        <option value="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" />
         <option value="$PROJECT_DIR$/cheml/wrappers/engine.py" />
         <option value="$PROJECT_DIR$/cheml/notebooks/main.py" />
         <option value="$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py" />
+        <option value="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" />
       </list>
     </option>
   </component>
@@ -443,6 +433,14 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="sklearn">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="neural_network">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
@@ -499,7 +497,47 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="sklearn">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="notebooks">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="CheML">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="cheml">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="nn">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -833,7 +871,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19628432" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13312034" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32673267" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1" sideWeight="0.50479233" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1028,13 +1066,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/input_files/ri_preprocess.txt" />
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/script_sklearn.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1561">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/cheml/script_cheml.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="598">
@@ -1081,13 +1112,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/nn/nn_psgd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1216,20 +1240,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="48" column="29" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#189#1784#0" expanded="false" />
-            <element signature="e#4817#6167#0" expanded="false" />
-            <element signature="e#6198#12171#0" expanded="false" />
-            <element signature="e#6236#9108#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/notebooks/main2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-437">
@@ -1305,10 +1315,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/nn/nn_psgd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/script_sklearn.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1621">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="234" column="34" selection-start-line="234" selection-start-column="34" selection-end-line="234" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#137#4786#0" expanded="false" />
+            <element signature="e#189#1784#0" expanded="false" />
+            <element signature="e#4817#6167#0" expanded="false" />
+            <element signature="e#6379#6923#0" expanded="false" />
+            <element signature="e#7041#7622#0" expanded="false" />
+            <element signature="e#7744#8045#0" expanded="false" />
+            <element signature="e#8161#8739#0" expanded="false" />
+            <element signature="e#8865#9461#0" expanded="false" />
+            <element signature="e#9589#10181#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="943" column="21" selection-start-line="943" selection-start-column="21" selection-end-line="943" selection-end-column="21" />
+        <state relative-caret-position="689">
+          <caret line="865" column="50" selection-start-line="865" selection-start-column="50" selection-end-line="865" selection-end-column="50" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#339#2756#0" expanded="false" />
@@ -1325,11 +1372,11 @@
             <element signature="e#28356#34539#0" expanded="false" />
             <element signature="e#29565#32947#0" expanded="false" />
             <element signature="e#34680#37934#0" expanded="false" />
-            <element signature="e#37968#39399#0" expanded="false" />
-            <element signature="e#39522#42292#0" expanded="false" />
-            <element signature="e#42344#45889#0" expanded="false" />
-            <element signature="e#42718#43176#0" expanded="false" />
-            <element signature="e#43221#44619#0" expanded="false" />
+            <element signature="e#37968#39397#0" expanded="false" />
+            <element signature="e#39438#42208#0" expanded="false" />
+            <element signature="e#42265#44477#0" expanded="false" />
+            <element signature="e#44606#48151#0" expanded="false" />
+            <element signature="e#44980#45438#0" expanded="false" />
           </folding>
         </state>
       </provider>

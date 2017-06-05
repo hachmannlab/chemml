@@ -10,7 +10,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 ## Input
                 << host = cheml                 << function = ReadTable
 
-                << filepath = 'benchmarks/RI_project/MDdensity/R1/1k_pol_RI_den.csv'
+                << filepath = 'benchmarks/RI_project/liq_org/pol_den_RI.csv'
                 << header = 0
                 << skiprows = 0
                 << skipcolumns = 0
@@ -20,38 +20,39 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         << host = cheml           << function = PyScript
                         << l0 = "print 'df:', var1.shape"
                         << l1 = "print var1.columns"
+                        < l2 = "print var1.describe()"
                         >> 0 var1
 
-## Input
+# Input
                 << host = cheml                 << function = Split
                 << selection = ['Mol_Smiles']
                 >> 0 df   >> df1 1  >> df2 2
 
-## Input
+# Input
                 << host = cheml                 << function = Split
-                << selection = ['den_MD']
+                << selection = ['Den_MD']
                 >> 2 df   >> df1 3
 
-## Script
+# Script
                         << host = cheml           << function = PyScript
                         << l0 = "print 'df:', var1.shape"
-                        << l1 = "print 'df1:', df1.shape"
-                        << l2 = "print 'df2:', df2.shape"
-                        << l3 = "print 'den_MD:', var2.shape"
+                        << l1 = "print 'df1:', df1.shape, df1.columns"
+                        << l2 = "print 'df2:', df2.shape, df2.columns"
+                        << l3 = "print 'Den_MD:', var2.shape, var2.columns"
                         >> 1 df1 >> 2 df2 >> 0 var1  >> 3 var2
 
-## Input
+# Input
                 << host = cheml                 << function = Merge
                 >> 1 df1   >> 3 df2   >> df 4
 
 
-## Script
+# Script
                         << host = cheml           << function = PyScript
-                        << l0 = "print 'df.shape:', df1.shape"
-                        << l1 = "print 'df:', df1"
+                        << l0 = "print 'df1.shape:', df1.shape"
+                        << l1 = "print 'df1.columns:', df1.columns"
                         >> 4 df1
 
-## Output
+# Output
                 << host = cheml                 << function = SaveFile
 
                 << filename = '1k_den'
@@ -63,11 +64,11 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 >> 1 df >> filepath 5
 
 
-## DataRepresentation
+# DataRepresentation
                 << host = cheml                 << function = RDKitFingerprint
 
-                << removeHs = True                << FPtype = 'HAP'
-                << vector = 'int'                 << nBits = 1024
+                << removeHs = True                << FPtype = 'HTT'
+                << vector = 'bit'                 << nBits = 1024
                 << radius = 2                     << molfile = "@molfile"
                 << path = None                    < arguments = [0,0]
 
@@ -103,7 +104,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << SaveExcludeMisMolecules = False      << SaveExclusionOptionsToVariables = False
                 << SaveExcludeRejectedMolecules = False
 
-                << blocks = range(1,2)
+                << blocks = range(8,31)
 
                 << molInput = "file"                    << molInputFormat = "SMILES"
                 << molFile = "@molfile"
@@ -120,171 +121,21 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
                 >> 5 molfile  >> df 6
 
-## Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print 'shape(data): ', df1.shape"
-                        << l1 = "print 'len(removed_rows): ',len(var1)"
-                        >> 6 df1  >> 7 var1
-
-
-## Preprocessor
-                        << host = cheml             << function = MissingValues
-                        << string_as_null = True    << missing_values = ['Nan']
-                        << inf_as_null = True       << strategy = 'ignore_row'
-                        >> 5 dfx >> 3 dfy  >> dfx 6  >> dfy 7
-
-# Preprocessor
-                        << host = cheml         << function = Constant
-                        >> 6 df >> df 8 >> removed_columns_ 9
-
 # Script
                         << host = cheml           << function = PyScript
-                        << l0 = "print var1.shape"
-                        << l1 = "print var1.describe()"
-                        << l2 = "print var2"
-                        << l3 = "print var3.shape"
-                        >> 8 var1   >> 9 var2  >> 7 var3
+                        << l0 = "print 'shape(data): ', df1.shape, df1.columns"
+                        < l1 = "print 'len(removed_rows): ',len(var1)"
+                        < l2 = "print var1"
+                        >> 6 df1  > 7 var1
 
 # Output
                 << host = cheml                 << function = SaveFile
 
-                << filename = 'removed_features'
-                << output_directory = 'constant'
+                << filename = 'dragon_all'
+                << output_directory = 'dragon_csv'
                 << record_time = False
                 << format ='csv'
                 << index = False
                 << header = False
-                >> 9 df
+                >> 6 df > filepath 5
 
-# Regression
-                        << host = cheml        << function = NN_PSGD
-                                            << nneurons = [20,10]
-                                            << input_act_funcs = 'tanh'
-                                            << learn_rate = 0.001
-                                            << rms_decay = 0.9
-                                            << n_epochs = 1000
-                                            << batch_size = 100
-                                            << n_cores = 3
-                                            << n_hist = 20
-                                            << n_check = 50
-                                            << threshold = 0.1
-                                            << print_level = 1
-                        >> 8 dfx    >> 7 dfy    >> dfy_pred 10    >> model 11
-# Regression
-                << host = sklearn      << function = SVR
-
-                              << C = 1.0
-                              << epsilon = 0.1
-                              << kernel = 'rbf'
-                              << degree = 3
-                              << gamma = 'auto'
-                              << coef0 = 0.0
-                              << tol = 1e-3
-                              << shrinking = True
-                              << cache_size = 8000
-                              << verbose = False
-                              << max_iter = -1
-
-                >> 8 dfx     >> 7 dfy     >> r2_train 10   >> model 11
-
-# Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print var1"
-                        << l2 = "print var2"
-                        >> 10 var1   >> 11 var2
-
-# Postprocessor
-                << host = sklearn      << function = GridSearchCV
-
-                              << estimator = '@estimator'
-                              << param_grid = {'kernel':('linear', 'rbf','sigmoid'), 'C':[0.1,1], 'epsilon':[0.01,0.1], 'gamma':[0.01,0.1]}
-                              << scoring = None         < 'degree':[2,3,4,5]
-                              << fit_params = None
-                              << n_jobs = 10
-                              << pre_dispatch = '2*n_jobs'
-                              << iid = True
-                              << cv = None
-                              << refit = True
-                              << verbose = 0
-                              << error_score = 'raise'
-                              << return_train_score = True
-                >> 8 dfx    >> 7 dfy    >> 11 estimator  >> cv_results_ 12    >> best_model_ 13     >> api 14
-
-# Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print var1"
-                        << l1 = "print '--------'"
-                        < l2 = "print var3.best_estimator_"
-                        << l3 = "print var3.best_score_"
-                        << l4 = "print var3.best_params_"
-                        << l5 = "print 'best model:', var2"
-                        >> 12 var1    >> 13 var2  >> 14 var3
-
-# Output
-                << host = cheml                 << function = SaveFile
-
-                << filename = 'G_SCV_SVR_results'
-                << output_directory = 'SVR'
-                << record_time = True
-                << format ='csv'
-                << index = False
-                << header = True
-                >> 12 df
-
-# Divider
-                        << host = sklearn             << function = Train_Test_Split
-                        << test_size = 0.2             << train_size = None
-                        << random_state = None          << stratify = None
-                        >> 7 dfx   >> 3 dfy     > dfx_train 14  >> dfx_test 10  > dfy_train 15  >> dfy_test 11
-
-
-# Preprocessor
-                        << host = sklearn     << function = StandardScaler
-                        << copy = True          << with_mean = True
-                        << with_std = True
-                        > df 1 > 2 df >> api  103
-
-# Preprocessor
-                        << host = sklearn     << function = MinMaxScaler
-                        << feature_range = (0,1)    << copy = True
-                        > df 1 > 2 df >> api  103
-# Divider
-                        << host = sklearn             << function = KFold
-                        << n_splits = 3                 << shuffle = False
-                        << random_state = 99
-                        >> CV 106
-
-
-# Postprocessor
-                << host = sklearn      << function = Evaluation
-                              << r2_score = True
-                              << r2_sample_weight = None       << r2_multioutput = None
-
-                              << mean_absolute_error = True
-                              << mae_sample_weight = None       << mae_multioutput = "uniform_average"
-
-                              << median_absolute_error = True
-
-                              << mean_squared_error = True
-                              << mse_sample_weight = None       << mse_multioutput = "uniform_average"
-
-                              << root_mean_squared_error = True
-                              << rmse_sample_weight = None       << rmse_multioutput = "uniform_average"
-
-                              << explained_variance_score = True
-                              << ev_sample_weight = None       << ev_multioutput = "uniform_average"
-
-                > Note: can not pass multiple inputs
-                >> 8 dfx     >> 7 dfy   > 106 CV  >> 11 model  > ? X_scaler   > ? Y_scaler   >> results 15
-
-
-# Output
-                << host = cheml                 << function = SaveFile
-
-                << filename = 'svr_test_results'
-                << output_directory = 'SVR'
-                << record_time = False
-                << format ='csv'
-                << index = False
-                << header = True
-                >> 15 df

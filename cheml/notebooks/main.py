@@ -7,7 +7,7 @@ from ..wrappers.base import BIG_BANK
 class rungui(BIG_BANK):
 
     def gui(self,script = 'new'):
-        caption = widgets.Label(value='set the task, host and function names:')
+        # caption = widgets.Label(value='Enter Data')
         task_options = [i for i in self.info]
         self.task = widgets.Dropdown(
             options = task_options,
@@ -38,10 +38,10 @@ class rungui(BIG_BANK):
 
         self.task.observe(self.handle_task_change,names='value')
 
-        download = widgets.Button(description="Download")
-        display(download)
+        set = widgets.Button(description="Set")
+        display(set)
         self.graph = {'task':self.task.value,'host':self.host.value,'function':self.func.value}
-        download.on_click(self.on_download_clicked)
+        set.on_click(self.on_download_clicked)
 
         if script == 'new':
             pass

@@ -29,7 +29,7 @@ def ReadTable(filepath, header=None, skipcolumns=0, skiprows=0):
     pandas data frame
 
     """
-    X = pd.read_table(filepath, sep=None, skiprows=skiprows, header=header, engine='python')
+    X = pd.read_table(filepath, sep=',', skiprows=skiprows, header=header, engine='python')
     if skipcolumns>0:
         X = X.drop(X.columns[0:skipcolumns], 1)
         if header==None:

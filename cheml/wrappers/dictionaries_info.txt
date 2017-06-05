@@ -43,4 +43,5 @@ self.Base.graph_info = {iblock:(module,function)}
 
 self.Base.send = {(iblock_send,token) : [value, count]}
 
-self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}
+
+#self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}

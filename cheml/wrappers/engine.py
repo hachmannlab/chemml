@@ -342,12 +342,12 @@ class Wrapper(LIBRARY):
             if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
-                if task == 'Regression':
+                if task == 'Define_Model':
                     pass
                 elif function not in legal_functions:
                     msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
                     raise NameError(msg)
-                if task=='Regression':
+                if task=='Define_Model':
                     self.references(host, function)  # check references
                     self.Base.graph_info[iblock] = (host, function)
                     cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'regression'][0]

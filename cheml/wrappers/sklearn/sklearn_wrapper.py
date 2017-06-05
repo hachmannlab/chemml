@@ -31,7 +31,7 @@ class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
         # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform
         if isinstance(self.legal_inputs['api'], type(None)):
             if method == 'fit_transform':
                 try:
@@ -45,7 +45,8 @@ class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.transformer(model, df, method, header = False)
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -146,7 +147,8 @@ class StandardScaler(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.scaler(model,df,method)
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -195,7 +197,8 @@ class MinMaxScaler(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.scaler(model,df,method)
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -245,7 +248,8 @@ class MaxAbsScaler(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.scaler(model,df,method)
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -295,7 +299,8 @@ class RobustScaler(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.scaler(model,df,method)
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -345,7 +350,8 @@ class Normalizer(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.transformer(model,df,method)
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -394,7 +400,8 @@ class Binarizer(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.transformer(model,df,method)
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -445,7 +452,8 @@ class OneHotEncoder(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.transformer(model, df, method, header = False)
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
@@ -502,7 +510,8 @@ class PCA(BASE,LIBRARY,Preprocessor):
                 raise NameError(msg)
 
         # step5: process
-        model, df = self.imputer(model, df, method)
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
@@ -520,7 +529,182 @@ class PCA(BASE,LIBRARY,Preprocessor):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-#####################################################################Divider
+class KernelPCA(BASE, LIBRARY, Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api': None, 'df': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.decomposition import KernelPCA
+                    model = KernelPCA(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                        err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform the input data, otherwise you need to fit_transform the data with proper parameters." % (
+                self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        available_methods = ['fit_transform', 'transform', 'inverse_transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+##################################################################### 3 Define Model
+
+# Regression
+
+class regression(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'api': None}
+        self.legal_outputs = {'api': None, 'dfy_pred':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        method = self.parameters.pop('func_method')  # method = 'fit', 'predict', None
+
+        # step1: check inputs
+        model, _ = self.input_check('api', req=False)
+        if method is None:
+            dfx, dfx_info = self.input_check('dfx', req=False, py_type=pd.DataFrame)
+            dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
+        else:
+            dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        if method == 'fit':
+            dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+
+        # step4: import module and make APIs
+        if model is None:
+            if method == 'fit' or method is None:
+                try:
+                    if self.Function == 'OLS':
+                        from sklearn.linear_model import LinearRegression
+                        model = LinearRegression(**self.parameters)
+                    elif self.Function == 'Ridge':
+                        from sklearn.linear_model import Ridge
+                        model = Ridge(**self.parameters)
+                    elif self.Function == 'KernelRidge':
+                        from sklearn.kernel_ridge import KernelRidge
+                        model = KernelRidge(**self.parameters)
+                    elif self.Function == 'Lasso':
+                        from sklearn.linear_model import Lasso
+                        model = Lasso(**self.parameters)
+                    elif self.Function == 'MultiTaskLasso':
+                        from sklearn.linear_model import MultiTaskLasso
+                        model = MultiTaskLasso(**self.parameters)
+                    elif self.Function == 'ElasticNet':
+                        from sklearn.kernel_ridge import ElasticNet
+                        model = ElasticNet(**self.parameters)
+                    elif self.Function == 'MultiTaskElasticNet':
+                        from sklearn.linear_model import MultiTaskElasticNet
+                        model = MultiTaskElasticNet(**self.parameters)
+                    elif self.Function == 'Lars':
+                        from sklearn.linear_model import Lars
+                        model = Lars(**self.parameters)
+                    elif self.Function == 'LassoLars':
+                        from sklearn.kernel_ridge import LassoLars
+                        model = LassoLars(**self.parameters)
+                    elif self.Function == 'BayesianRidge':
+                        from sklearn.linear_model import BayesianRidge
+                        model = BayesianRidge(**self.parameters)
+                    elif self.Function == 'ARDRegression':
+                        from sklearn.linear_model import ARDRegression
+                        model = ARDRegression(**self.parameters)
+                    elif self.Function == 'LogisticRegression':
+                        from sklearn.kernel_ridge import LogisticRegression
+                        model = LogisticRegression(**self.parameters)
+                    elif self.Function == 'SGDRegressor':
+                        from sklearn.linear_model import SGDRegressor
+                        model = SGDRegressor(**self.parameters)
+                    elif self.Function == 'SVR':
+                        from sklearn.svm import SVR
+                        model = SVR(**self.parameters)
+                    elif self.Function == 'NuSVR':
+                        from sklearn.svm import NuSVR
+                        model = NuSVR(**self.parameters)
+                    elif self.Function == 'LinearSVR':
+                        from sklearn.svm import LinearSVR
+                        model = LinearSVR(**self.parameters)
+                    elif self.Function == 'MLPRegressor':
+                        from sklearn.neural_network import MLPRegressor
+                        model = MLPRegressor(**self.parameters)
+                    else:
+                        msg = "@Task #%i(%s): function name '%s' in module '%s' is not an available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
+                        raise NameError(msg)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to fit the input data, otherwise you need to fit_transform the data with proper parameters." % (
+                    self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        if method == 'fit':
+            model.fit(dfx, dfy)
+        elif method == 'predict':
+            dfy_pred = model.predict(dfx)
+            dfy_pred = pd.DataFrame(dfy_pred)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
+            elif token == 'dfy_pred':
+                dfy_pred = model.predict(dfx)
+                dfy_pred = pd.DataFrame(dfy_pred)
+                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+        #step7: delete all inputs from memory
+        del self.legal_inputs
+
+##################################################################### 4 Define Search
+
+# Divider
 
 class Train_Test_Split(BASE, LIBRARY):
     def legal_IO(self):
@@ -544,156 +728,83 @@ class Train_Test_Split(BASE, LIBRARY):
         try:
             from sklearn.model_selection import train_test_split
             if dfy is None:
-                tts_out = train_test_split(dfx,**self.parameters)
+                tts_out = train_test_split(dfx, **self.parameters)
             else:
                 dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
-                tts_out = train_test_split(dfx,dfy, **self.parameters)
+                tts_out = train_test_split(dfx, dfy, **self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
             raise TypeError(msg)
 
         # step5: process
         # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfx_train':
-                self.Base.send[(self.iblock, token)] = [tts_out[0], order.count(token)]
+                self.Base.send[(self.iblock, token)] = [tts_out[0], order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'dfx_test':
-                self.Base.send[(self.iblock, token)] = [tts_out[1], order.count(token)]
+                self.Base.send[(self.iblock, token)] = [tts_out[1], order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'dfy_train':
-                self.Base.send[(self.iblock, token)] = [tts_out[2], order.count(token)]
+                if dfy is None:
+                    val = None
+                    msg = "@Task #%i(%s): The output for '%s' is None" % (self.iblock + 1, self.SuperFunction, token)
+                    warnings.warn(msg)
+                else:
+                    val = tts_out[2]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'dfy_test':
-                self.Base.send[(self.iblock, token)] = [tts_out[3], order.count(token)]
+                if dfy is None:
+                    val = None
+                    msg = "@Task #%i(%s): The output for '%s' is None" % (self.iblock + 1, self.SuperFunction, token)
+                    warnings.warn(msg)
+                else:
+                    val = tts_out[3]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
 
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-class KFold(BASE):
+class KFold(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {}
-        self.legal_outputs = {'CV': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from sklearn.model_selection import KFold
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['transformer'].append(cheml_type)
-        try:
-            model = KFold(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'CV':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-#####################################################################
-
-# Regression
-
-class regression(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {}
-        self.legal_outputs = {'api': None}
+        self.legal_outputs = {'kfold': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
-            if self.Function == 'OLS':
-                from sklearn.linear_model import LinearRegression
-                model = LinearRegression(**self.parameters)
-            elif self.Function == 'Ridge':
-                from sklearn.linear_model import Ridge
-                model = Ridge(**self.parameters)
-            elif self.Function == 'KernelRidge':
-                from sklearn.kernel_ridge import KernelRidge
-                model = KernelRidge(**self.parameters)
-            elif self.Function == 'Lasso':
-                from sklearn.linear_model import Lasso
-                model = Lasso(**self.parameters)
-            elif self.Function == 'MultiTaskLasso':
-                from sklearn.linear_model import MultiTaskLasso
-                model = MultiTaskLasso(**self.parameters)
-            elif self.Function == 'ElasticNet':
-                from sklearn.kernel_ridge import ElasticNet
-                model = ElasticNet(**self.parameters)
-            elif self.Function == 'MultiTaskElasticNet':
-                from sklearn.linear_model import MultiTaskElasticNet
-                model = MultiTaskElasticNet(**self.parameters)
-            elif self.Function == 'Lars':
-                from sklearn.linear_model import Lars
-                model = Lars(**self.parameters)
-            elif self.Function == 'LassoLars':
-                from sklearn.kernel_ridge import LassoLars
-                model = LassoLars(**self.parameters)
-            elif self.Function == 'BayesianRidge':
-                from sklearn.linear_model import BayesianRidge
-                model = BayesianRidge(**self.parameters)
-            elif self.Function == 'ARDRegression':
-                from sklearn.linear_model import ARDRegression
-                model = ARDRegression(**self.parameters)
-            elif self.Function == 'LogisticRegression':
-                from sklearn.kernel_ridge import LogisticRegression
-                model = LogisticRegression(**self.parameters)
-            elif self.Function == 'SGDRegressor':
-                from sklearn.linear_model import SGDRegressor
-                model = SGDRegressor(**self.parameters)
-            elif self.Function == 'SVR':
-                from sklearn.svm import SVR
-                model = SVR(**self.parameters)
-            elif self.Function == 'NuSVR':
-                from sklearn.svm import NuSVR
-                model = NuSVR(**self.parameters)
-            elif self.Function == 'LinearSVR':
-                from sklearn.svm import LinearSVR
-                model = LinearSVR(**self.parameters)
-            elif self.Function == 'MLPRegressor':
-                from sklearn.neural_network import MLPRegressor
-                model = MLPRegressor(**self.parameters)
-            else:
-                msg = "@Task #%i(%s): function name '%s' in module '%s' is not available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
-                raise NameError(msg)
+            from sklearn.model_selection import KFold
+            model = KFold(**self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
             raise TypeError(msg)
 
         # step5: process
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            # elif token == 'r2_train':
-            #     if not isinstance(dfx, type(None)) and not isinstance(dfy, type(None)):
-            #         # step3: check the dimension of input data frame
-            #         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
-            #         dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
-            #
-            #         model.fit(dfx,dfy)
-            #         r2score_training = model.score(dfx, dfy)
-            #     else:
-            #         msg = "@Task #%i(%s): training needs both dfx and dfy" % (self.iblock + 1, self.SuperFunction)
-            #         raise NameError(msg)
-            #     self.Base.send[(self.iblock, token)] = [r2score_training, order.count(token)]
+            if token == 'kfold':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
-        #step7: delete all inputs from memory
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 #####################################################################Postprocessor
@@ -739,11 +850,14 @@ class GridSearchCV(BASE, LIBRARY):
                     best_estimator_ = copy.deepcopy(self.parameters['estimator'])
                     best_estimator_.set_params(**api.best_params_)
                     # best_estimator_.fit(dfx,dfy)
-                self.Base.send[(self.iblock, token)] = [best_estimator_, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [best_estimator_, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'cv_results_':
-                self.Base.send[(self.iblock, token)] = [pd.DataFrame(api.cv_results_), order.count(token)]
+                self.Base.send[(self.iblock, token)] = [pd.DataFrame(api.cv_results_), order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [api, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [api, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
@@ -860,7 +974,8 @@ class Evaluate_static(BASE,LIBRARY,Evaluator):
         for token in set(order):
             if token == 'evaluation_results_':
                 evaluation_results_ = self.results
-                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token)]
+                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)

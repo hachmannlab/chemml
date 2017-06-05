@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --time=99:00:00
 #SBATCH --job-name="nn"
-#SBATCH --output=nn.out
+#SBATCH --output=nn.txt
 #SBATCH --clusters=chemistry
 #SBATCH --partition=beta
 #SBATCH --account=pi-hachmann

@@ -1,4 +1,4 @@
 from cheml import run
-run(INPUT_FILE = 'script_test.txt', OUTPUT_DIRECTORY = 'CMLWrapper.out')
+run(INPUT_FILE = 'input_files/ri_prep_reg_eval.txt', OUTPUT_DIRECTORY = 'RI_NN_dragon_8:30_RI.out')
 
 

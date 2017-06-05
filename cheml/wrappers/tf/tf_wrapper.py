@@ -1,4 +1,4 @@
 import tensorflow as tf
 
-from .base import BASE
+from ..base import BASE, LIBRARY
 

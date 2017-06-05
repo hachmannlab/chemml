@@ -46,79 +46,40 @@ class Preprocessor(object):
             df = pd.DataFrame(df, columns=df_columns)
         return transformer, df
 
-    def scaler(self, transformer, df, method):
+    def fit_transform_inverse(self, api, df, method, available_methods, header=True):
         """ keep track of features (columns) that can be removed or changed in the
-            Scaler by transforming data back to pandas dataframe structure.
+            preprocessor by transforming data back to pandas dataframe.
+
+            this function also distinguish different methods of APIs.
 
         Parameters
         ----------
-        transformer: an instance of sklearn Scaler class
+        api: an instance of sklearn class
             The class with adjusted parameters.
 
         df: Pandas dataframe
-            The dataframe that scaler is going to deal with.
+            The dataframe that api is going to deal with
 
         method: string
-            sklearn methods for scaler: 'fit_transform', 'transform', inverse_transform'
+            sklearn methods for the api: 'fit_transform', 'transform', 'inverse_transform'
 
         Returns
         -------
         transformed data frame
-        fitted scaler class
+        fitted api class
 
         """
 
         df_columns = list(df.columns)
-        if method == 'fit_transform':
-            df = transformer.fit_transform(df)
-        elif method == 'transform':
-            df = transformer.transform(df)
-        elif method == 'inverse':
-            df = transformer.inverse_transform(df)
-        else:
+        if method not in available_methods:
             msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform or inverse_transform." % (self.iblock, self.SuperFunction)
             raise NameError(msg)
-
-        if df.shape[1] == 0:
-            warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
-                          % (self.iblock + 1, self.SuperFunction), Warning)
-        if df.shape[1] == len(df_columns):
-            df = pd.DataFrame(df, columns=df_columns)
-        else:
-            df = pd.DataFrame(df)
-            warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
-                %(self.iblock + 1, self.SuperFunction), Warning)
-        return transformer, df
-
-    def transformer(self, transformer, df, method, header=True):
-        """ keep track of features (columns) that can be removed or changed in the
-            Scaler by transforming data back to pandas dataframe structure.
-
-        Parameters
-        ----------
-        scaler: sklearn Scaler class
-            The class with adjusted parameters.
-
-        df: Pandas dataframe
-            The dataframe that scaler is going to deal with.
-
-        method: string
-            sklearn methods for scaler: 'fit_transform', 'transform'
-
-        Returns
-        -------
-        transformed data frame
-        fitted scaler class
-
-        """
-        df_columns = list(df.columns)
         if method == 'fit_transform':
-            df = transformer.fit_transform(df)
+            df = api.fit_transform(df)
         elif method == 'transform':
-            df = transformer.transform(df)
-        else:
-            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform." % (self.iblock, self.SuperFunction)
-            raise NameError(msg)
+            df = api.transform(df)
+        elif method == 'inverse_transform':
+            df = api.inverse_transform(df)
         if header:
             if df.shape[1] == 0:
                 warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
@@ -129,7 +90,7 @@ class Preprocessor(object):
                 df = pd.DataFrame(df)
                 warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
                     %(self.iblock + 1, self.SuperFunction), Warning)
-        return transformer, df
+        return api, df
 
     #unused
     def selector_dataframe(self, transformer, df, tf):

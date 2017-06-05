@@ -266,7 +266,7 @@ class MissingValues(BASE, LIBRARY):
                 self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
             elif token == 'dfy':
                 dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
-                dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
+                dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=None, n1=None, format_out='df')
                 dfy = model.transform(dfy)
                 self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
             elif token == 'api':
@@ -549,48 +549,52 @@ class SaveFile(BASE, LIBRARY):
 
 class NN_PSGD(BASE, LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'dfy_pred': None, 'model': None}
+        self.legal_inputs = {'dfx_train': None, 'dfy_train': None, 'dfx_test':None}
+        self.legal_outputs = {'dfy_train_pred': None, 'dfy_test_pred': None, 'model': None}
         requirements = ['cheml', 'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
         # step1: check inputs
-        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
-        dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+        dfx_train, dfx_train_info = self.input_check('dfx_train', req=True, py_type=pd.DataFrame)
+        dfy_train, dfy_train_info = self.input_check('dfy_train', req=True, py_type=pd.DataFrame)
 
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
-        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
+        dfx_train, _ = self.data_check('dfx_train', dfx_train, ndim=2, n0=None, n1=None, format_out='ar')
+        dfy_train, _ = self.data_check('dfy_train', dfy_train, ndim=2, n0=dfx_train.shape[0], n1=None, format_out='ar')
 
         # step4: import module and make APIs
         try:
             from cheml.nn import nn_psgd
-            model = nn_psgd.train(dfx,dfy,**self.parameters)
+            model = nn_psgd.train(dfx_train,dfy_train,**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                     err).__name__ + ': ' + err.message
-                raise TypeError(msg)
-            dfy_pred = nn_psgd.output(dfx,model)
-            dfy_pred = pd.DataFrame(dfy_pred)#, columns=dfy_header)
-        else:
-            model = self.parameters
+            raise TypeError(msg)
 
+        # step5: process
+        # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'model':
                 self.Base.send[(self.iblock, token)] = [model, order.count(token)]
-            elif token == 'dfy_pred':
-                if self.legal_inputs['dfx'] is None:
-                    msg = "@Task #%i(%s): No input data" % (self.iblock + 1, self.SuperFunction)
-                    raise NameError(msg)
-                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token)]
+            elif token == 'dfy_train_pred':
+                dfy_train_pred = nn_psgd.output(dfx_train, model)
+                dfy_train_pred = pd.DataFrame(dfy_train_pred)  # , columns=dfy_header)
+                self.Base.send[(self.iblock, token)] = [dfy_train_pred, order.count(token)]
+            elif token == 'dfy_test_pred':
+                dfx_test, dfx_test_info = self.input_check('dfx_test', req=True, py_type=pd.DataFrame)
+                dfy_test_pred = nn_psgd.output(dfx_test, model)
+                dfy_test_pred = pd.DataFrame(dfy_test_pred)  # , columns=dfy_header)
+                self.Base.send[(self.iblock, token)] = [dfy_test_pred, order.count(token)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
+        # step7: delete all inputs from memory
         del self.legal_inputs
 
 class nn_dsgd(BASE):
@@ -635,3 +639,4 @@ class nn_dsgd(BASE):
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
         del self.legal_inputs
+

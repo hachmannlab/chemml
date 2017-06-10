@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn/syntax.py" />
     </list>
@@ -32,7 +33,7 @@
           <file leaf-file-name="sklearn_wrapper.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="674">
+                <state relative-caret-position="688">
                   <caret line="963" column="0" selection-start-line="963" selection-start-column="0" selection-end-line="963" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
@@ -341,7 +342,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1280" />
-    <option name="y" value="-146" />
+    <option name="y" value="-161" />
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -843,7 +844,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="-146" width="1920" height="1080" extended-state="0" />
+    <frame x="1280" y="-161" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1330,7 +1331,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="674">
+        <state relative-caret-position="688">
           <caret line="963" column="0" selection-start-line="963" selection-start-column="0" selection-end-line="963" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />

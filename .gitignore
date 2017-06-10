@@ -3,6 +3,7 @@
 
 # Setuptools distribution folder
 /dist/
+/.idea/
 
 # huge files
 benchmarks/

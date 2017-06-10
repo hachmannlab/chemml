@@ -863,6 +863,51 @@ class GridSearchCV(BASE, LIBRARY):
         #step7: delete all inputs from memory
         del self.legal_inputs
 
+class cross_val_score(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None}
+        self.legal_outputs = {'scores': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        _, _ = self.input_check('estimator', req=True)
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        try:
+            from sklearn.model_selection import cross_val_score
+            scores = cross_val_score(X=dfx, y=dfy, **self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'scores':
+                self.Base.send[(self.iblock, token)] = [scores, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+
+# Metrics
+
 class Evaluate_Regression(BASE,LIBRARY,Evaluator):
     def legal_IO(self):
         self.legal_inputs = {'dfy': None, 'dfy_pred': None}
@@ -897,7 +942,7 @@ class Evaluate_Regression(BASE,LIBRARY,Evaluator):
                 dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
                 dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
 
-                self._reg_evaluate(dfy, dfy_pred)
+                self._reg_evaluate(dfy, dfy_pred, self.evaluator)
                 evaluation_results_ = self.results
                 self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token),
                                                         (self.iblock,token,self.Host,self.Function)]
@@ -912,7 +957,7 @@ class Evaluate_Regression(BASE,LIBRARY,Evaluator):
 
 class Search(BASE, Regressor, Evaluator):
     def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None, 'X_scaler': None, 'Y_scaler': None, 'model': None}
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None,'model': None, }
         self.legal_outputs = {'results': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]

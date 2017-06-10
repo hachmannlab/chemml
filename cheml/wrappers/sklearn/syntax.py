@@ -230,15 +230,15 @@ class Evaluator(object):
             from sklearn.metrics import explained_variance_score
             self.evaluator[metric] = lambda Y, Y_pred: explained_variance_score(y_true=Y, y_pred=Y_pred, **self.params[metric])
 
-    def _reg_evaluate(self, Y, Y_pred):
+    def _reg_evaluate(self, Y, Y_pred, evaluator):
         if Y.shape[1]>1:
             msg = "@Task #%i(%s): be aware of 'multioutput' behavior of selected metrics" \
                           %(self.iblock + 1, self.SuperFunction)
             warnings.warn(msg, Warning)
         self.results = {}
-        for metric in self.evaluator:
+        for metric in evaluator:
             try:
-                self.results[metric] = [self.evaluator[metric](Y, Y_pred)]
+                self.results[metric] = [evaluator[metric](Y, Y_pred)]
             except Exception as err:
                 msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                     err).__name__ + ': ' + err.message

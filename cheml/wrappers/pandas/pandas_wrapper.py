@@ -27,7 +27,8 @@ class Read_Table(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)

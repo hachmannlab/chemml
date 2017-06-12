@@ -26,17 +26,23 @@ class PyScript(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df_out1':
-                self.Base.send[(self.iblock, token)] = [df_out1, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df_out1, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'df_out2':
-                self.Base.send[(self.iblock, token)] = [df_out2, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df_out2, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api_out1':
-                self.Base.send[(self.iblock, token)] = [api_out1, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [api_out1, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api_out2':
-                self.Base.send[(self.iblock, token)] = [api_out2, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [api_out2, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'var_out1':
-                self.Base.send[(self.iblock, token)] = [var_out1, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [var_out1, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'var_out2':
-                self.Base.send[(self.iblock, token)] = [var_out2, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [var_out2, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)
@@ -89,9 +95,11 @@ class RDKitFingerprint(BASE,LIBRARY):
         for token in set(order):
             if token == 'df':
                 val = model.Fingerprint()
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'removed_rows':
-                self.Base.send[(self.iblock, token)] = [model.removed_rows, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model.removed_rows, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                 self.iblock + 1, self.SuperFunction, token)
@@ -146,7 +154,8 @@ class Dragon(BASE,LIBRARY):
                 df_path = model.data_path
                 df = pd.read_csv(df_path, sep=None, engine='python')
                 df = df.drop(['No.','NAME'],axis=1)
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
@@ -263,14 +272,17 @@ class MissingValues(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfx':
-                self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy':
                 dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
                 dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=None, n1=None, format_out='df')
                 dfy = model.transform(dfy)
-                self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                 self.iblock + 1, self.SuperFunction, token)
@@ -300,11 +312,14 @@ class Trimmer(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfx':
-                self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy':
-                self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
@@ -332,11 +347,14 @@ class Uniformer(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfx':
-                self.Base.send[(self.iblock, token)] = [dfx, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy':
-                self.Base.send[(self.iblock, token)] = [dfy, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
@@ -375,12 +393,15 @@ class Constant(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'removed_columns_':
                 val = pd.DataFrame(model.removed_columns_)
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock + 1, self.SuperFunction, token)
@@ -415,7 +436,8 @@ class ReadTable(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)
@@ -456,7 +478,8 @@ class Merge(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
@@ -496,10 +519,12 @@ class Split(BASE, LIBRARY):
         for token in set(order):
             if token == 'df1':
                 val = df1
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'df2':
                 val = df2
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
@@ -538,7 +563,8 @@ class SaveFile(BASE, LIBRARY):
         for token in set(order):
             if token == 'filepath':
                 val = model.file_path
-                self.Base.send[(self.iblock, token)] = [val, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
@@ -580,16 +606,19 @@ class NN_PSGD(BASE, LIBRARY):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy_train_pred':
                 dfy_train_pred = nn_psgd.output(dfx_train, model)
                 dfy_train_pred = pd.DataFrame(dfy_train_pred)  # , columns=dfy_header)
-                self.Base.send[(self.iblock, token)] = [dfy_train_pred, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy_train_pred, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy_test_pred':
                 dfx_test, dfx_test_info = self.input_check('dfx_test', req=True, py_type=pd.DataFrame)
                 dfy_test_pred = nn_psgd.output(dfx_test, model)
                 dfy_test_pred = pd.DataFrame(dfy_test_pred)  # , columns=dfy_header)
-                self.Base.send[(self.iblock, token)] = [dfy_test_pred, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy_test_pred, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
@@ -632,9 +661,11 @@ class nn_dsgd(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             elif token == 'dfy_train_pred':
-                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token)]
+                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)

@@ -17,7 +17,7 @@ from .tf import tfw
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
 
-def banner(logfile):
+def banner():
     PROGRAM_NAME = "ChemML"
     PROGRAM_VERSION = "v1.3.1"
     REVISION_DATE = "2017-01-03"
@@ -38,12 +38,6 @@ def banner(logfile):
     print
     for line in str:
         print line
-        logfile.write(line+'\n')
-
-# def function_banner(end_time,iblock, host, function):
-#     print "### block#%i: invoke (host: %s - function: %s)" %(iblock+1,host,function)
-#     print end_time
-#     print "\n"
 
 class Parser(object):
     """
@@ -53,7 +47,7 @@ class Parser(object):
     def __init__(self, script):
         self.script = script
 
-    def fit(self,logfile):
+    def fit(self):
         """
         The main funtion for parsing cheml script.
         It starts with finding blocks and then runs other functions.
@@ -78,12 +72,10 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-        banner(logfile)
         tmp_str =  'Input File: \n'
-        logfile.write(tmp_str+'\n')
         print tmp_str
-        logfile = self._print_out(cmls,logfile)
-        return cmls, ImpOrder, CompGraph, logfile
+        self._print_out(cmls)
+        return cmls, ImpOrder, CompGraph
 
     def _functions(self, line):
         if '<' in line:
@@ -141,7 +133,7 @@ class Parser(object):
                          "recv": recv})
         return cmls
 
-    def _print_out(self, cmls, logfile):
+    def _print_out(self, cmls):
         item = 0
         for block in cmls:
             item+=1
@@ -149,62 +141,51 @@ class Parser(object):
             line = line.rstrip("\n")
             tmp_str =  '%i'%item+' '*(4-len(str(item)))+'Task: '+line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             line = '<<<<<<<'
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             if len(block['parameters']) > 0 :
                 for param in block['parameters']:
                     line = '%s = %s\n'%(param,block['parameters'][param])
                     line = line.rstrip("\n")
                     tmp_str =  '        '+line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :no parameter passed: set to default values if available'
                 line = line.rstrip("\n")
                 tmp_str =  '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             line = '>>>>>>>'
             line = line.rstrip("\n")
             tmp_str =  '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             if len(block['send']) > 0:
                 for param in block['send']:
                     line = '%s -> send (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     tmp_str =  '        ' + line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to send:'
                 line = line.rstrip("\n")
                 tmp_str =  '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             if len(block['recv']) > 0:
                 for param in block['recv']:
                     line = '%s <- recv (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     tmp_str = '        ' + line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to receive:'
                 line = line.rstrip("\n")
                 tmp_str = '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             line = ''
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
-        return logfile
 
     def transform(self, cmls):
         """
@@ -273,25 +254,22 @@ class BASE(object):
         self.InputScript = ''
         self.output_directory = '.'
         self.log = []
-        self.logfile = ''
         self.cheml_type = {'descriptor':[], 'interpreter':[], 'input':[], 'output':[],
-                           'selector':[], 'transformer':[], 'regressor':[],
-                           'preprocessor':[], 'divider':[], 'postprocessor':[],
-                           'classifier':[], 'evaluator':[], 'visualizer':[], 'optimizer':[]}
+                           'selector':[],   'transformer':[], 'regressor':[],
+                           'preprocessor':[],   'divider':[], 'postprocessor':[],
+                           'classifier':[],   'evaluator':[], 'visualizer':[], 'optimizer':[]}
 
 class Wrapper(LIBRARY):
     """
     Todo: documentation
     """
-    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory,logfile):
+    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory):
         self.Base = BASE(CompGraph)
         self.Base.InputScript = InputScript
         self.Base.output_directory = output_directory
-        self.Base.logfile = logfile
         self.ImpOrder = ImpOrder
         self.cmls = cmls
         tmp_str = "=================================================\n"
-        self.Base.logfile.write(tmp_str+'\n')
         print tmp_str
         self._checker()
 
@@ -335,10 +313,8 @@ class Wrapper(LIBRARY):
             start_time = time.time()
             tmp_str =  "======= block#%i: (%s, %s)" % (iblock + 1, host, function)
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = "| run ...\n"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
@@ -396,21 +372,15 @@ class Wrapper(LIBRARY):
             end_time = tot_exec_time_str(start_time)
             tmp_str = "| ... done!"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = '| '+end_time
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = "=======\n\n"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
         self._save_references()
         tmp_str = "Total " + tot_exec_time_str(self.Base.start_time)
         print tmp_str
-        self.Base.logfile.write(tmp_str+'\n')
         tmp_str = std_datetime_str() + '\n'
         print tmp_str
-        self.Base.logfile.write(tmp_str+'\n')
-        self.Base.logfile.close()
 
 class Settings(object):
     """
@@ -439,12 +409,20 @@ class Settings(object):
             i+=1
             self.output_directory = initial_output_dir + '%i'%i
         os.makedirs(self.output_directory)
-        # log_file = open(output_directory+'/'+logfile,'a',0)
         # error_file = open(output_directory+'/'+errorfile,'a',0)
         if self.InputScript_copy:
             shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
         logfile = open(self.output_directory + '/log.txt', 'a', 0)
         return self.output_directory, logfile
+
+class Logger(object):
+    def __init__(self,logfile):
+        self.terminal = sys.stdout
+        self.log = logfile
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
 
 def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
@@ -453,15 +431,16 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     :return:
     """
     settings = Settings(OUTPUT_DIRECTORY)
-    OUTPUT_DIRECTORY, logfile = settings.fit(INPUT_FILE)
+    OUTPUT_DIRECTORY, logfile= settings.fit(INPUT_FILE)
+    sys.stdout = Logger(logfile)
     script = open(INPUT_FILE, 'r')
     script = script.readlines()
-    cmls, ImpOrder, CompGraph, logfile = Parser(script).fit(logfile)
+    cmls, ImpOrder, CompGraph = Parser(script).fit()
     # print cmls
     # print ImpOrder
     # print CompGraph
     # sys.exit('this is how much you get till now!')
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY,logfile)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY)
     wrapper.call()
 
 

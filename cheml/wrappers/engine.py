@@ -409,11 +409,11 @@ class Settings(object):
             i+=1
             self.output_directory = initial_output_dir + '%i'%i
         os.makedirs(self.output_directory)
-        # error_file = open(output_directory+'/'+errorfile,'a',0)
         if self.InputScript_copy:
             shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
         logfile = open(self.output_directory + '/log.txt', 'a', 0)
-        return self.output_directory, logfile
+        errorfile = open(self.output_directory + '/error.txt', 'a', 0)
+        return self.output_directory, logfile, errorfile
 
 class Logger(object):
     def __init__(self,logfile):
@@ -424,6 +424,16 @@ class Logger(object):
         self.terminal.write(message)
         self.log.write(message)
 
+class Error(object):
+    def __init__(self,errorfile):
+        self.terminal = sys.stderr
+        self.err = errorfile
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.err.write(message)
+
+
 def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
     this is the only callable method in this file
@@ -431,8 +441,9 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     :return:
     """
     settings = Settings(OUTPUT_DIRECTORY)
-    OUTPUT_DIRECTORY, logfile= settings.fit(INPUT_FILE)
+    OUTPUT_DIRECTORY, logfile, errorfile= settings.fit(INPUT_FILE)
     sys.stdout = Logger(logfile)
+    sys.stderr = Error(errorfile)
     script = open(INPUT_FILE, 'r')
     script = script.readlines()
     cmls, ImpOrder, CompGraph = Parser(script).fit()

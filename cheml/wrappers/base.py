@@ -300,6 +300,9 @@ class LIBRARY(object):
             ('sklearn', 'Evaluate_static'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
             ('sklearn', 'Train_Test_Split'): {'dfx':dfs+[], 'dfy':dfs+[]},
             ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
+
+            ('pandas', 'read_table'): {'': []},
+
         }
         if token:
             if host_function in CMLWinfo:

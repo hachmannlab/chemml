@@ -9,10 +9,10 @@ import warnings
 import inspect
 import shutil
 
-from .pandas import pdw
-from .cheml import cmlw
-from .sklearn import sklw
-from .tf import tfw
+from .pandas_pd import pdw
+from .cheml_cml import cmlw
+from .sklearn_skl import sklw
+from .tensorflow_tf import tfw
 
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
@@ -279,8 +279,10 @@ class Wrapper(LIBRARY):
         any possible typo in other params.
         """
         # get params
-        legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Postprocessor','Evaluation','Visualization','Optimizer']
-
+        # legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
+        #                         'FeatureTransformation','Divider','Regression','Classification','Postprocessor',
+        #                         'Evaluation','Visualization','Optimizer']
+        legal_superfunctions = ['Enter Data','Prepare Data','Define Model','Define Search','Pool','Visualize','Store']
         # run over graph
         for iblock, block in enumerate(self.cmls):
             # check super function

@@ -954,7 +954,7 @@ class Evaluate_Regression(BASE,LIBRARY,Evaluator):
 
 ##################################################################### 5 Train/Run
 
-class Search(BASE, Regressor, Evaluator):
+class Old_Search(BASE, Regressor, Evaluator):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None,'model': None, }
         self.legal_outputs = {'results': None}
@@ -1029,3 +1029,4 @@ class Search(BASE, Regressor, Evaluator):
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
                 raise NameError(msg)
         del self.legal_inputs
+

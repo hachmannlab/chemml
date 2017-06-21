@@ -412,40 +412,6 @@ class Constant(BASE, LIBRARY):
 
 #####################################################################Input
 
-class ReadTable(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {}
-        self.legal_outputs = {'df':None}
-        requirements = ['cheml','pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        # step1: check inputs
-        # step2: assign inputs to parameters if necessary (param = @token)
-        # step3: import module and make APIs
-        try:
-            from cheml.initialization import ReadTable
-            df = ReadTable(**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        # step4: check the dimension of input data frame
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
-                    self.iblock+1,self.SuperFunction,token)
-                raise NameError(msg)
-
-        # step7: delete all inputs from memory
-        del self.legal_inputs
-
 class Merge(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df1':None, 'df2':None}
@@ -502,13 +468,13 @@ class Split(BASE, LIBRARY):
         self.paramFROMinput()
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+        df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
 
         # step4: import module and make APIs
         try:
             from cheml.initialization import Split
             split = Split(**self.parameters)
-            df1, df2 = split.fit(dfx)
+            df1, df2 = split.fit(df)
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
@@ -671,3 +637,49 @@ class nn_dsgd(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
+##################################################################### Pool
+
+class kfold_pool(BASE,LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'kfold':None, 'model':None, 'evaluator':None}
+        self.legal_outputs = {'evaluation_results_': None, 'best_model_': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step4: import module and make APIs
+        try:
+            self._reg_evaluation_params()
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
+        for token in set(order):
+            if token == 'evaluator':
+                self.Base.send[(self.iblock, token)] = [self.evaluator, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'evaluation_results_':
+                # step1: check inputs
+                dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+                dfy_pred, dfy_pred_info = self.input_check('dfy_pred', req=True, py_type=pd.DataFrame)
+
+                # step3: check the dimension of input data frame
+                dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
+                dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
+
+                self._reg_evaluate(dfy, dfy_pred, self.evaluator)
+                evaluation_results_ = self.results
+                self.Base.send[(self.iblock, token)] = [pd.DataFrame(evaluation_results_), order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        #step7: delete all inputs from memory
+        del self.legal_inputs

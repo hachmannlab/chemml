@@ -262,7 +262,7 @@ class LIBRARY(object):
         #                  'tf':[]}
 
         # general output formats
-        dfs = [('df','cheml','ReadTable'),\
+        dfs = [('df','pandas','read_table'),\
                ('df1','cheml','Split'), ('df2','cheml','Split'),\
                ('df', 'cheml', 'Merge'), \
                ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
@@ -271,7 +271,8 @@ class LIBRARY(object):
                ('df', 'cheml', 'Constant'), \
                ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
                ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
-               ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split')]
+               ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split'),\
+               ]
 
         # {inputs: legal output formats}
         CMLWinfo = {

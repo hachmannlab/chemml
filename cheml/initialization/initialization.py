@@ -4,37 +4,6 @@ import warnings
 
 from ..utils.utilities import std_datetime_str
 
-def ReadTable(filepath, header=None, skipcolumns=0, skiprows=0):
-    """
-    Read general delimited file into DataFrame.
-
-    Parameters:
-    ----------
-    filepath: string
-        The path/name of input file in any format
-        Note that engine may switch from 'c' to python for some of the delimiters (pandas.read_table)
-
-    header: None or 0 (default = None)
-        0 if the label of columns is available in the file
-
-    skipcolumns: integer (default = 0)
-        number of columns to skip at the start of the file
-
-    skiprows: integer (default = 0)
-        number of rows to skip at the start of the file
-
-
-    Return:
-    -------
-    pandas data frame
-
-    """
-    X = pd.read_table(filepath, sep=',', skiprows=skiprows, header=header, engine='python')
-    if skipcolumns>0:
-        X = X.drop(X.columns[0:skipcolumns], 1)
-        if header==None:
-            X.columns = range(len(X.columns))
-    return X
 
 def Merge(X1, X2):
     """
@@ -92,13 +61,6 @@ class Split(object):
             msg = "selection parameter must ba a list or an integer"
             raise TypeError(msg)
         return X1, X2
-
-# class Match(object):
-#     def __init__(self,):
-#
-#     def fit (X1)
-#     def transform(self,X1,X2,header):
-#         df = pd.concat([X1, X2], axis=1, join='inner')
 
 class SaveFile(object):
     """

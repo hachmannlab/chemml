@@ -1,17 +1,34 @@
 =============================
-ChemML Wrapper Overview
+Table of Contents
 =============================
 
 This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
-parameters and attributes of each block is provided in the :ref:`genindex`.
+parameters and attributes of each block is provided in each function's page.
 
 
 ----
 =======================================================
-Data Representation
+Enter Data
 =======================================================
 
-Data representation (features, descriptors, latent variables) for chemical molecules and materials.
++----+------------+-----------+--------+------------+------------------+---------------+
+| #  | task       | subtask   | host   | function   | receive tokens   | send tokens   |
++====+============+===========+========+============+==================+===============+
+|  0 | Enter Data | input     | pandas | read_table | -                | df            |
++----+------------+-----------+--------+------------+------------------+---------------+
+|  1 | Enter Data | input     | pandas | read_excel | -                | df            |
++----+------------+-----------+--------+------------+------------------+---------------+
+|  2 | nan        | nan       | nan    | nan        | nan              | nan           |
++----+------------+-----------+--------+------------+------------------+---------------+
+|  3 | nan        | nan       | nan    | nan        | nan              | nan           |
++----+------------+-----------+--------+------------+------------------+---------------+
+----
+
+
+
+
+
+Data representation (features, descriptors, or latent variables) for chemical molecules and materials.
 
 cheml
 ---------
@@ -64,13 +81,7 @@ Input
 
 Input blocks read input files and do basic changes in the data frames too.
 
-cheml
----------
-+------------------------+------------------------------------------+-----------------------------------------+
-| block                  | Inputs                                   | Outputs                                 |
-+========================+==========================================+=========================================+
-| :ref:`ReadTable`       |                                          | df                                      |
-+------------------------+------------------------------------------+-----------------------------------------+
+
 | :ref:`Merge`           | df1, df2                                 | df                                      |
 +------------------------+------------------------------------------+-----------------------------------------+
 | :ref:`Split`           | df                                       | df1, df2                                |

@@ -12,11 +12,11 @@ Contents:
    :maxdepth: 2
 
    cheml
-   CMLWOverview
    CMLWInputFile
+   CMLWContentsTable
    CMLWReference
    CMLWInputFileGenerator
-   a.ipynb
+   a
 
 
 Indices and tables

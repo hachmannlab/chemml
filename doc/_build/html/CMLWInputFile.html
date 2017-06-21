@@ -192,32 +192,26 @@ scratch with any text editor. As the input file could be quite complex, it is st
 </pre></div>
 </div>
 <dl class="docutils">
-<dt>The task name is fixed and a list of 13 available tasks in the ChemML Wrapper is here:</dt>
+<dt>Here is a list of 7 available tasks in the ChemML Wrapper:</dt>
 <dd><ul class="first last simple">
-<li>Input</li>
-<li>Output</li>
-<li>Script</li>
-<li>DataRepresentaion</li>
-<li>Preprocessor</li>
-<li>FeatureSelection</li>
-<li>FeatureTransformation</li>
-<li>Divider</li>
-<li>Regression</li>
-<li>Classification</li>
-<li>Postprocessor</li>
-<li>Visualization</li>
-<li>Optimizer</li>
+<li>Enter Data</li>
+<li>Prepare Data</li>
+<li>Define Model</li>
+<li>Define Search</li>
+<li>Pool</li>
+<li>Visualize</li>
+<li>Store</li>
 </ul>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">None of Tasks are mandatory, except an Input block to initialize the workflow with a data set.</p>
+<p class="last">None of Tasks are mandatory, except a block of Enter Data to initialize the workflow with a data set.</p>
 </div>
 </div>
 <div class="section" id="specific-characters">
 <h2>Specific Characters<a class="headerlink" href="#specific-characters" title="Permalink to this headline">¶</a></h2>
-<p>Only four specific characters (#, &lt;, &gt;, =) are defined and can be used in the input files.</p>
+<p>Only five specific characters (#, &lt;, =, &gt;, &#64;) are defined and can be used in the input files.</p>
 <ul>
 <li><dl class="first docutils">
 <dt>Pound sign (#)</dt>
@@ -253,11 +247,11 @@ be inside the quotation marks.</p>
 </li>
 <li><dl class="first docutils">
 <dt>Greater-than sign (&gt;)</dt>
-<dd><p class="first">Greater-than sign (&gt;) is for sending outputs or receiveing inputs. Thus you can connect
-different blocks with each other. The sending and receiving feature helps to have the predefined tokens of one block
-in other blocks. This way a workflow of blocks can be designed.</p>
-<p>To keep track of inputs and outputs you have to assigne them together with a unique identification (ID) number. This number
-can be any integer. The ChemML Wrapper will extract, and append the sent output of one block with the received input
+<dd><p class="first">Greater-than sign (&gt;) is all you need to design the send/receive stream ( to send outputs or to receive inputs). Thus, it facilitates connection
+between different blocks. Every block includes some predefined tokens (container names) to receive information from other
+blocks or to send a piece of information out. This way a workflow of blocks can be designed.</p>
+<p>To keep track of inputs and outputs you have to assign a unique identification (ID) number to each token. This number
+can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input
 of another block through these unique IDs. However the name of tokens are predefined by each block and can be found
 in the <a href="#id1"><span class="problematic" id="id2">CMLWReference_</span></a>. To distinguish the send and receive actions you just need to switch the position of token
 and ID, in a way that:</p>
@@ -284,6 +278,13 @@ and ID, in a way that:</p>
 </dd>
 </dl>
 </li>
+<li><dl class="first docutils">
+<dt>At sign (&#64;)</dt>
+<dd><p class="first last">At sign (&#64;) can be used to get a parameter value from the send/receive stream. It comes right after equals sign (=)
+and should be followed by one of the IDs of received tokens (with no space, e.g. parameter = &#64;7).</p>
+</dd>
+</dl>
+</li>
 </ul>
 </div>
 <div class="section" id="general-rules">
@@ -291,7 +292,7 @@ and ID, in a way that:</p>
 <p>Be aware of some general restrictions:</p>
 <blockquote>
 <div><ul class="simple">
-<li>You are not allowed to have two different specific charecters in one line of input file.</li>
+<li>You are not allowed to have two different specific charecters in one line of input file (except for &#64; sign).</li>
 <li>The input tokens and output tokens for each block may be similar but they don&#8217;t have to have similar values.</li>
 <li>Only one input per legal input token can be received.</li>
 <li>You are allowed to receive one sent token in several blocks.</li>

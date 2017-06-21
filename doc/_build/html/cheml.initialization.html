@@ -93,9 +93,9 @@
 <li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.initialization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.initialization.data">cheml.initialization.data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.initialization.initialization">cheml.initialization.initialization module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-cheml.initialization">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-data-module">cheml.initialization.data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-initialization-module">cheml.initialization.initialization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
@@ -109,10 +109,11 @@
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
 </ul>
 
             
@@ -198,320 +199,14 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.initialization.data">
-<span id="cheml-initialization-data-module"></span><h2>cheml.initialization.data module<a class="headerlink" href="#module-cheml.initialization.data" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="cheml.initialization.data.Trimmer">
-<em class="property">class </em><code class="descclassname">cheml.initialization.data.</code><code class="descname">Trimmer</code><span class="sig-paren">(</span><em>type='margins'</em>, <em>sort=True</em>, <em>cut=0.05</em>, <em>shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Trimmer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>cut unnecessary parts of data set</p>
-<p>type: string, optional (default=&#8221;margins&#8221;)</p>
-<blockquote>
-<div>list of types:
-- random: remove part of data randomly
-- margins: cut from both top and bottom of data set
-- top: cut only top margin
-- bottom: cut only bottom margin</div></blockquote>
-<dl class="docutils">
-<dt>sort: boolean, optional (default=True)</dt>
-<dd>If True data will be sorted by target values before trimming.</dd>
-<dt>cut: float in (0,1) range, optional (default=0.05)</dt>
-<dd>fraction of data set size to be trimmed.</dd>
-<dt>shuffle: Boolean, optional (default=True)</dt>
-<dd>To shuffle the data before sampling. Effective only if sort is False.</dd>
-</dl>
-<dl class="docutils">
-<dt>Ncut: int</dt>
-<dd>number of removed data points</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">selected_indices_</span></a>: list</dt>
-<dd>Axis labels of data points that have been drawn randomly. Available only
-if type is &#8216;random&#8217;.</dd>
-</dl>
-<p>data and target</p>
-<dl class="method">
-<dt id="cheml.initialization.data.Trimmer.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>data</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Trimmer.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the trimmer on df.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.data.Uniformer">
-<em class="property">class </em><code class="descclassname">cheml.initialization.data.</code><code class="descname">Uniformer</code><span class="sig-paren">(</span><em>bins</em>, <em>bin_pop=0.5</em>, <em>right=True</em>, <em>include_lowest=True</em>, <em>substitute=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Uniformer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>select a uniform size of groups of target values</p>
-<dl class="docutils">
-<dt>bins: int or sequence of scalars or float, to be passed to pandas.cut</dt>
-<dd>If bins is an int, it defines the number of equal-width bins in the range of x. 
-However, in this case, the range of x is extended by 0.1% on each side to include 
-the min or max values of x. If bins is a sequence it defines the bin edges allowing
-for non-uniform bin width. No extension of the range of x is done in this case.
-If bins is a float, it defines the width of bins.</dd>
-<dt>right: bool, optional, default True</dt>
-<dd>Indicates whether the bins include the rightmost edge or not. 
-If right == True (by default), then the bins [1,2,3,4] indicate (1,2], (2,3], (3,4].</dd>
-<dt>include_lowest: bool, optional, default False</dt>
-<dd>Whether the first interval should be left-inclusive or not.</dd>
-<dt>bin_pop: int or float, optional, default 0.5</dt>
-<dd>bin_pop defines the maximum population of selected samples from each group(bin).
-If bin_pop is an int, it defines the maximum number of samples to be drawn from each group.
-A float value for bin_pop defines the fraction of the maximum population of groups as the 
-maximum size of selections from each group.</dd>
-<dt>substitute: str(&#8216;mean&#8217;,&#8217;lower,&#8217;upper&#8217;) or sequence of scalars, optional, default None</dt>
-<dd>If substitute is one of the choices of &#8216;mean&#8217;, &#8216;lower&#8217; or &#8216;upper&#8217; strings, 
-target values will be substitute with mean bin edges, lower bin edge or 
-upper bin edge, respectively. If bins is a sequence, it defines the target 
-value for bins. If None, no substitute will happen and original target 
-values would be passed out.</dd>
-</dl>
-<dl class="docutils">
-<dt><a href="#id3"><span class="problematic" id="id4">groups_</span></a>: dataframe, shape (n_targets, n_bins, n_ranges)</dt>
-<dd>return groups info: target values, bin labels, range of bins</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">grouped_indices_</span></a>: dictionary</dt>
-<dd>A dict whose keys are the group labels and corresponding values being the 
-axis labels belonging to each group.</dd>
-<dt><a href="#id7"><span class="problematic" id="id8">selected_indices_</span></a>: list</dt>
-<dd>axis labels of data points that are drawn.</dd>
-</dl>
-<p>data and target</p>
-<dl class="method">
-<dt id="cheml.initialization.data.Uniformer.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>data</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.data.Uniformer.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the uniformer on df.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="cheml-initialization-data-module">
+<h2>cheml.initialization.data module<a class="headerlink" href="#cheml-initialization-data-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.initialization.initialization">
-<span id="cheml-initialization-initialization-module"></span><h2>cheml.initialization.initialization module<a class="headerlink" href="#module-cheml.initialization.initialization" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="cheml.initialization.initialization.Merge">
-<code class="descclassname">cheml.initialization.initialization.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>X1</em>, <em>X2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.Merge" title="Permalink to this definition">¶</a></dt>
-<dd><p>todo: add more functionality for header overlaps
-Merge same length data frames.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X1</strong> &#8211; pandas data frame
-first data frame</li>
-<li><strong>X2</strong> &#8211; pandas data frame
-second data frame</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas data frame</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="cheml.initialization.initialization.ReadTable">
-<code class="descclassname">cheml.initialization.initialization.</code><code class="descname">ReadTable</code><span class="sig-paren">(</span><em>filepath</em>, <em>header=None</em>, <em>skipcolumns=0</em>, <em>skiprows=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.ReadTable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read general delimited file into DataFrame.</p>
-<dl class="docutils">
-<dt>filepath: string</dt>
-<dd>The path/name of input file in any format
-Note that engine may switch from &#8216;c&#8217; to python for some of the delimiters (pandas.read_table)</dd>
-<dt>header: None or 0 (default = None)</dt>
-<dd>0 if the label of columns is available in the file</dd>
-<dt>skipcolumns: integer (default = 0)</dt>
-<dd>number of columns to skip at the start of the file</dd>
-<dt>skiprows: integer (default = 0)</dt>
-<dd>number of rows to skip at the start of the file</dd>
-</dl>
-<p>pandas data frame</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.initialization.SaveFile">
-<em class="property">class </em><code class="descclassname">cheml.initialization.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Write DataFrame to a comma-seprated values(csv) file
-:param: output_directory: string, the output directory to save output files</p>
-<dl class="method">
-<dt id="cheml.initialization.initialization.SaveFile.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write DataFrame to a comma-seprated values (csv) file
-:param: X: pandas DataFrame
-:param: main_directory: string, if there is any main directory for entire cheml project
-:return: nothing</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.initialization.Split">
-<em class="property">class </em><code class="descclassname">cheml.initialization.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.Split" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>split data frame by columns</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> &#8211; integer or list (default = 1)
-if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
-if list, is array of labels to be cut as first data frame (X1)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">two pandas data frame: X1 and X2</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="cheml.initialization.initialization.Split.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fit the split task to the input data frame</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> &#8211; pandas data frame</td>
-</tr>
-</tbody>
-</table>
-<p>original pandas data frame
-:return: two pandas data frame: X1 and X2</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="cheml.initialization.initialization.slurm_script">
-<code class="descclassname">cheml.initialization.initialization.</code><code class="descname">slurm_script</code><span class="sig-paren">(</span><em>block</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.initialization.slurm_script" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>(slurm_script):</dt>
-<dd>if part of your code must be run on a cluster and you need to make a slurm
-script for that purpose, this function helps you to do so.</dd>
-</dl>
-<dl class="docutils">
-<dt>style: string, optional(default=exclusive)</dt>
-<dd><dl class="first last docutils">
-<dt>Available options:</dt>
-<dd><ul class="first last simple">
-<li>exclusive : makes the slurm script based on exclusive selection of cores per nodes.</li>
-</ul>
-</dd>
-</dl>
-</dd>
-<dt>nnodes: int, optional(default = 1)</dt>
-<dd>number of available empty nodes in the cluster.</dd>
-<dt>input_slurm_script: string, optional(default = None)</dt>
-<dd>The file path to the prepared slurm script. We also locate place of
-&#8211;nodes and -np in the script and make sure that provided numbers are
-equal to number of nodes(nnodes). Also, the exclusive option must be
-included in the script to have access to an entire node.</dd>
-<dt>output_slurm_script: string, optional(default = &#8216;script.slurm&#8217;)</dt>
-<dd>The path and name of the slurm script file that will be saved after
-changes by this function.</dd>
-</dl>
-<p>The function will write a slurm script file with the filename passed by
-output_slurm_script.</p>
-</dd></dl>
-
+<div class="section" id="cheml-initialization-initialization-module">
+<h2>cheml.initialization.initialization module<a class="headerlink" href="#cheml-initialization-initialization-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-cheml.initialization">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.initialization" title="Permalink to this headline">¶</a></h2>
-<p>The &#8216;cheml.initialization&#8217; module includes ReadTable, Merge, Split, and SaveFile.
-last modified date: Nov. 19, 2015</p>
-<dl class="function">
-<dt id="cheml.initialization.ReadTable">
-<code class="descclassname">cheml.initialization.</code><code class="descname">ReadTable</code><span class="sig-paren">(</span><em>filepath</em>, <em>header=None</em>, <em>skipcolumns=0</em>, <em>skiprows=0</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.ReadTable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read general delimited file into DataFrame.</p>
-<dl class="docutils">
-<dt>filepath: string</dt>
-<dd>The path/name of input file in any format
-Note that engine may switch from &#8216;c&#8217; to python for some of the delimiters (pandas.read_table)</dd>
-<dt>header: None or 0 (default = None)</dt>
-<dd>0 if the label of columns is available in the file</dd>
-<dt>skipcolumns: integer (default = 0)</dt>
-<dd>number of columns to skip at the start of the file</dd>
-<dt>skiprows: integer (default = 0)</dt>
-<dd>number of rows to skip at the start of the file</dd>
-</dl>
-<p>pandas data frame</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="cheml.initialization.Merge">
-<code class="descclassname">cheml.initialization.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>X1</em>, <em>X2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Merge" title="Permalink to this definition">¶</a></dt>
-<dd><p>todo: add more functionality for header overlaps
-Merge same length data frames.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X1</strong> &#8211; pandas data frame
-first data frame</li>
-<li><strong>X2</strong> &#8211; pandas data frame
-second data frame</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas data frame</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.Split">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>split data frame by columns</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> &#8211; integer or list (default = 1)
-if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
-if list, is array of labels to be cut as first data frame (X1)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">two pandas data frame: X1 and X2</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="cheml.initialization.Split.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fit the split task to the input data frame</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> &#8211; pandas data frame</td>
-</tr>
-</tbody>
-</table>
-<p>original pandas data frame
-:return: two pandas data frame: X1 and X2</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.SaveFile">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Write DataFrame to a comma-seprated values(csv) file
-:param: output_directory: string, the output directory to save output files</p>
-<dl class="method">
-<dt id="cheml.initialization.SaveFile.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write DataFrame to a comma-seprated values (csv) file
-:param: X: pandas DataFrame
-:param: main_directory: string, if there is any main directory for entire cheml project
-:return: nothing</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

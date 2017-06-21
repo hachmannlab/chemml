@@ -20,29 +20,24 @@ Here is how a block of ChemML Wrapper workflow looks in the input file::
         >> token id
         >> id token
 
-The task name is fixed and a list of 13 available tasks in the ChemML Wrapper is here:
-    - Input
-    - Output
-    - Script
-    - DataRepresentaion
-    - Preprocessor
-    - FeatureSelection
-    - FeatureTransformation
-    - Divider
-    - Regression
-    - Classification
-    - Postprocessor
-    - Visualization
-    - Optimizer
+Here is a list of 7 available tasks in the ChemML Wrapper:
+    - Enter Data
+    - Prepare Data
+    - Define Model
+    - Define Search
+    - Pool
+    - Visualize
+    - Store
 
-.. note:: None of Tasks are mandatory, except an Input block to initialize the workflow with a data set.
+
+.. note:: None of Tasks are mandatory, except a block of Enter Data to initialize the workflow with a data set.
 
 ----
 =======================================================
 Specific Characters
 =======================================================
 
-Only four specific characters (#, <, >, =) are defined and can be used in the input files.
+Only five specific characters (#, <, =, >, @) are defined and can be used in the input files.
 
 - Pound sign (#)
     Pound sign (#) is for starting a block and must be followed by the task name. A double pound sign (##) keeps a block
@@ -64,12 +59,12 @@ Only four specific characters (#, <, >, =) are defined and can be used in the in
     be inside the quotation marks.
 
 - Greater-than sign (>)
-    Greater-than sign (>) is for sending outputs or receiveing inputs. Thus you can connect
-    different blocks with each other. The sending and receiving feature helps to have the predefined tokens of one block
-    in other blocks. This way a workflow of blocks can be designed.
+    Greater-than sign (>) is all you need to design the send/receive stream ( to send outputs or to receive inputs). Thus, it facilitates connection
+    between different blocks. Every block includes some predefined tokens (container names) to receive information from other
+    blocks or to send a piece of information out. This way a workflow of blocks can be designed.
 
-    To keep track of inputs and outputs you have to assigne them together with a unique identification (ID) number. This number
-    can be any integer. The ChemML Wrapper will extract, and append the sent output of one block with the received input
+    To keep track of inputs and outputs you have to assign a unique identification (ID) number to each token. This number
+    can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input
     of another block through these unique IDs. However the name of tokens are predefined by each block and can be found
     in the CMLWReference_. To distinguish the send and receive actions you just need to switch the position of token
     and ID, in a way that:
@@ -82,13 +77,17 @@ Only four specific characters (#, <, >, =) are defined and can be used in the in
                     >> ID token
             e.g.    >> 7 molfile
 
+- At sign (@)
+    At sign (@) can be used to get a parameter value from the send/receive stream. It comes right after equals sign (=)
+    and should be followed by one of the IDs of received tokens (with no space, e.g. parameter = @7).
+
 ----
 =======================================================
 General Rules
 =======================================================
 Be aware of some general restrictions:
 
-    - You are not allowed to have two different specific charecters in one line of input file.
+    - You are not allowed to have two different specific charecters in one line of input file (except for @ sign).
     - The input tokens and output tokens for each block may be similar but they don't have to have similar values.
     - Only one input per legal input token can be received.
     - You are allowed to receive one sent token in several blocks.

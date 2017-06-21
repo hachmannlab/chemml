@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ReadTable &mdash; ChemML 1 documentation</title>
+  <title>read_excel &mdash; ChemML 1 documentation</title>
   
 
   
@@ -35,10 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="ChemML 1 documentation" href="index.html"/>
-        <link rel="up" title="ChemML Wrapper Reference" href="CMLWReference.html"/>
-        <link rel="next" title="Split" href="CMLWReference.Split.html"/>
-        <link rel="prev" title="ChemML Wrapper Reference" href="CMLWReference.html"/> 
+    <link rel="top" title="ChemML 1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -87,24 +84,13 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">ReadTable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Split.html">Split</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Merge.html">Merge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.SaveFile.html">SaveFile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.PyScript.html">PyScript</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.RDKFP.html">RDKitFingerprint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.Dragon.html">Dragon</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.read_table.html">read_table</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.SVR.html">SVR</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
 </ul>
 
             
@@ -135,13 +121,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="CMLWReference.html">ChemML Wrapper Reference</a> &raquo;</li>
-      
-    <li>ReadTable</li>
+    <li>read_excel</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/CMLWReference.ReadTable.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/CMLWReference.read_excel.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -185,37 +169,29 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="readtable">
-<span id="id1"></span><h1>ReadTable<a class="headerlink" href="#readtable" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="read-excel">
+<span id="id1"></span><h1>read_excel<a class="headerlink" href="#read-excel" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
-<div class="line">Input</div>
+<div class="line">Enter Data</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
-<div class="line">cheml</div>
+<div class="line">pandas</div>
 </div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
-<div class="line">ReadTable</div>
+<div class="line">read_excel</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">parameters:</th><td class="field-body"><div class="first line-block">
-<div class="line">filepath</div>
-<div class="line">header</div>
-<div class="line">skiprows</div>
-<div class="line">skipcolumns</div>
-<div class="line"><br /></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation for parameters can be found here: <a class="reference internal" href="cheml.initialization.html#cheml.initialization.ReadTable" title="cheml.initialization.ReadTable"><code class="xref py py-func docutils literal"><span class="pre">cheml.initialization.ReadTable()</span></code></a></p>
+<div class="line">all the parameters of this function in the documentation page (and only those) are available.</div>
 </div>
 </td>
 </tr>
@@ -232,23 +208,33 @@
 </div>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">requirements:</th><td class="field-body"><div class="first line-block">
-<div class="line"><a class="reference internal" href="cheml.html#module-cheml" title="cheml"><code class="xref py py-mod docutils literal"><span class="pre">cheml</span></code></a>, version: 1.3.1</div>
-</div>
+<tr class="field-odd field"><th class="field-name" colspan="2">parameters documentation:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">pandas.read_excel: find it <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html#pandas.read_excel">here</a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">input file view:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first last line-block">
-<div class="line"><code class="docutils literal"><span class="pre">##</span> <span class="pre">Input</span></code></div>
+<tr class="field-even field"><th class="field-name">requirements:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org">Pandas</a>, version: 0.20.2</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span> <span class="pre">Enter</span> <span class="pre">Data</span></code></div>
 <div class="line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">ReadTable</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">filepath</span> <span class="pre">=</span> <span class="pre">''</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skiprows</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skipcolumns</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">df</span> <span class="pre">id</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span></code>            <code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">read_excel</span></code></div>
 </div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">io</span> <span class="pre">=</span> <span class="pre">''</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">...</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">df</span> <span class="pre">id</span></code></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The rest of parameters are not required, but they still can be set and passed to the function in the same way.</p>
 </div>
 </td>
 </tr>
@@ -260,15 +246,6 @@
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="CMLWReference.Split.html" class="btn btn-neutral float-right" title="Split" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="CMLWReference.html" class="btn btn-neutral" title="ChemML Wrapper Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

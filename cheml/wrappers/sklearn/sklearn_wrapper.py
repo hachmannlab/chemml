@@ -707,6 +707,8 @@ class regression(BASE, LIBRARY):
                 raise NameError(msg)
         #step7: delete all inputs from memory
         del self.legal_inputs
+        
+#TODO_BHARGAVA: add classification here
 
 ##################################################################### 4 Define Search
 

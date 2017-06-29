@@ -667,6 +667,12 @@ class regression(BASE, LIBRARY):
                     elif self.Function == 'MLPRegressor':
                         from sklearn.neural_network import MLPRegressor
                         model = MLPRegressor(**self.parameters)
+                    elif self.Function == 'RandomForestRegressor':
+                        from sklearn.ensemble import RandomForestRegressor
+                        model = RandomForestRegressor(**self.parameters)
+                    elif self.Function == 'GradientBoostingRegressor':
+                        from sklearn.ensemble import GradientBoostingRegressor
+                        model = GradientBoostingRegressor(**self.parameters)
                     else:
                         msg = "@Task #%i(%s): function name '%s' in module '%s' is not an available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
                         raise NameError(msg)

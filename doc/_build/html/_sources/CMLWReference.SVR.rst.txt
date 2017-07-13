@@ -4,7 +4,7 @@ SVR
 ============
 
 :task:
-    | Regression
+    | Define Model
 
 :host:
     | sklearn
@@ -53,9 +53,9 @@ SVR
     .. _Scikit-learn: http://scikit-learn.org/stable/index.html
 
 :input file view:
-    | ``## Postprocessor``
+    | ``## Define Model``
     |   ``<< module = sklearn``
-    |   ``<< function = Grid_SearchCV``
+    |   ``<< function = SVR``
     |   ``<< estimator = '@estimator'``
     |   ``<< param_grid = {}``
     |   ``<< scoring = None``

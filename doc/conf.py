@@ -18,7 +18,7 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../cheml'))
+sys.path.insert(0, os.path.abspath('../../CheML'))
 
 # -- General configuration ------------------------------------------------
 
@@ -32,7 +32,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'nbsphinx',
-    'jupyter_sphinx.embed_widgets',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -112,6 +111,8 @@ html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ["/Users/mojtabahaghighatlari/anaconda/lib/python2.7/site-packages"]
+# html_static_path = ['_static']
+
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".

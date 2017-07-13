@@ -28,8 +28,6 @@
   
 
   
-    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -90,53 +88,50 @@
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Table of Contents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#enter-data">Enter Data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cheml">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sklearn">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cheml">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sklearn">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#script">Script</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#script">Script</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">cheml</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output">Output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#input">Input</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#output">Output</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">cheml</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preprocessor">Preprocessor</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#preprocessor">Preprocessor</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#feature-transformation">Feature Transformation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#feature-transformation">Feature Transformation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#feature-selection">Feature Selection</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#feature-selection">Feature Selection</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#divider">Divider</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#divider">Divider</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#regression">Regression</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#regression">Regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">cheml</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#postprocessor">Postprocessor</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#postprocessor">Postprocessor</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id12">sklearn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#visualization">Visualization</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#matplotlib">matplotlib</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#seaborn">seaborn</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#matplotlib">matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seaborn">seaborn</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
@@ -224,17 +219,15 @@
 <h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
 <p>This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
 parameters and attributes of each block is provided in each function&#8217;s page.</p>
-<div class="section" id="enter-data">
-<h2>Enter Data<a class="headerlink" href="#enter-data" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
+<col width="3%" />
+<col width="9%" />
+<col width="11%" />
 <col width="5%" />
-<col width="15%" />
-<col width="14%" />
-<col width="10%" />
-<col width="15%" />
-<col width="23%" />
-<col width="19%" />
+<col width="12%" />
+<col width="22%" />
+<col width="38%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">#</th>
@@ -242,55 +235,56 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 <th class="head">subtask</th>
 <th class="head">host</th>
 <th class="head">function</th>
-<th class="head">receive tokens</th>
-<th class="head">send tokens</th>
+<th class="head">input tokens</th>
+<th class="head">output tokens</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>0</td>
+<tr class="row-even"><td>1</td>
 <td>Enter Data</td>
 <td>input</td>
 <td>pandas</td>
-<td>read_table</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td><a class="reference internal" href="include_CMLWREnterData.html#read-table"><span class="std std-ref">read_table</span></a></td>
+<td>no receiver</td>
 <td>df</td>
 </tr>
-<tr class="row-odd"><td>1</td>
+<tr class="row-odd"><td>2</td>
 <td>Enter Data</td>
 <td>input</td>
 <td>pandas</td>
-<td>read_excel</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
+<td><a class="reference internal" href="include_CMLWREnterData.html#read-excel"><span class="std std-ref">read_excel</span></a></td>
+<td>no receiver</td>
 <td>df</td>
 </tr>
-<tr class="row-even"><td>2</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
+<tr class="row-even"><td>3</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#split"><span class="std std-ref">Split</span></a></td>
+<td>df</td>
+<td>df1, df2</td>
 </tr>
-<tr class="row-odd"><td>3</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
-<td>nan</td>
+<tr class="row-odd"><td>4</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#merge"><span class="std std-ref">Merge</span></a></td>
+<td>df1, df2</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#pyscript"><span class="std std-ref">PyScript</span></a></td>
+<td>df1, df2, api1, api2, var1, var2</td>
+<td>df_out1, df_out2, api_out1, api_out2, var_out1, var_out2</td>
 </tr>
 </tbody>
 </table>
-<hr class="docutils" />
 <p>Data representation (features, descriptors, or latent variables) for chemical molecules and materials.</p>
 <div class="section" id="cheml">
-<h3>cheml<a class="headerlink" href="#cheml" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#cheml" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="22%" />
@@ -308,19 +302,19 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 <td>molfile</td>
 <td>df, removed_rows</td>
 </tr>
-<tr class="row-odd"><td><span class="xref std std-ref">Dragon</span></td>
+<tr class="row-odd"><td><a class="reference internal" href="include_CMLWRPrepareData.html#dragon"><span class="std std-ref">Dragon</span></a></td>
 <td>molfile</td>
 <td>df</td>
 </tr>
-<tr class="row-even"><td><span class="xref std std-ref">CoulombMatrix</span></td>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRPrepareData.html#coulombmatrix"><span class="std std-ref">CoulombMatrix</span></a></td>
 <td>&nbsp;</td>
 <td>df</td>
 </tr>
-<tr class="row-odd"><td><span class="xref std std-ref">BagofBonds</span></td>
+<tr class="row-odd"><td><a class="reference internal" href="include_CMLWRPrepareData.html#bagofbonds"><span class="std std-ref">BagofBonds</span></a></td>
 <td>&nbsp;</td>
 <td>df</td>
 </tr>
-<tr class="row-even"><td><span class="xref std std-ref">DistanceMatrix</span></td>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRPrepareData.html#distancematrix"><span class="std std-ref">DistanceMatrix</span></a></td>
 <td>df</td>
 <td>df</td>
 </tr>
@@ -328,7 +322,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="sklearn">
-<h3>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -349,13 +343,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="script">
-<h2>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h2>
+<h3>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h3>
 <p>Python script block in the structure of computational graph</p>
+</div>
+</div>
 <div class="section" id="id1">
-<h3>cheml<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="19%" />
@@ -369,20 +363,18 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="CMLWReference.PyScript.html#pyscript"><span class="std std-ref">PyScript</span></a></td>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRPrepareData.html#pyscript"><span class="std std-ref">PyScript</span></a></td>
 <td>df1, df2, api1, api2, var1, var2</td>
 <td>df_out1, df_out2, api_out1, api_out2, var_out1, var_out2</td>
 </tr>
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="input">
-<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<h3>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h3>
 <p>Input blocks read input files and do basic changes in the data frames too.</p>
 <div class="line-block">
-<div class="line"><a class="reference internal" href="CMLWReference.Merge.html#merge"><span class="std std-ref">Merge</span></a>           | df1, df2                                 | df                                      |</div>
+<div class="line"><a class="reference internal" href="include_CMLWRPrepareData.html#merge"><span class="std std-ref">Merge</span></a>           | df1, df2                                 | df                                      |</div>
 </div>
 <table border="1" class="docutils">
 <colgroup>
@@ -391,7 +383,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 <col width="38%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="CMLWReference.Split.html#split"><span class="std std-ref">Split</span></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="include_CMLWRPrepareData.html#split"><span class="std std-ref">Split</span></a></td>
 <td>df</td>
 <td>df1, df2</td>
 </tr>
@@ -400,10 +392,12 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 <hr class="docutils" />
 </div>
 <div class="section" id="output">
-<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<h3>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
 <p>Output blocks are used for storing data frames and other type of output files.</p>
+</div>
+</div>
 <div class="section" id="id2">
-<h3>cheml<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="22%" />
@@ -417,20 +411,20 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><span class="xref std std-ref">SaveFile</span></td>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRStore.html#savefile"><span class="std std-ref">SaveFile</span></a></td>
 <td>df</td>
 <td>filepath</td>
 </tr>
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="preprocessor">
-<h2>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this headline">¶</a></h2>
+<h3>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this headline">¶</a></h3>
 <p>Preprocessor functions transfer raw feature vectors into a representation that is more suitable for the downstream estimators.</p>
+</div>
+</div>
 <div class="section" id="id3">
-<h3>cheml<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="32%" />
@@ -464,7 +458,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="id4">
-<h3>sklearn<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -513,13 +507,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="feature-transformation">
-<h2>Feature Transformation<a class="headerlink" href="#feature-transformation" title="Permalink to this headline">¶</a></h2>
+<h3>Feature Transformation<a class="headerlink" href="#feature-transformation" title="Permalink to this headline">¶</a></h3>
 <p>Those dimension reduction methods that involve transformation of data to a new feature space.</p>
+</div>
+</div>
 <div class="section" id="id5">
-<h3>cheml<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -541,7 +535,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="id6">
-<h3>sklearn<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -574,13 +568,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="feature-selection">
-<h2>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">¶</a></h2>
+<h3>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this headline">¶</a></h3>
 <p>Those dimension reduction methods that determine which features should be used to address a particular problem based on their original values and not the transformed feature space.</p>
+</div>
+</div>
 <div class="section" id="id7">
-<h3>cheml<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -602,7 +596,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="id8">
-<h3>sklearn<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -627,13 +621,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="divider">
-<h2>Divider<a class="headerlink" href="#divider" title="Permalink to this headline">¶</a></h2>
+<h3>Divider<a class="headerlink" href="#divider" title="Permalink to this headline">¶</a></h3>
 <p>To split data to smaller folds.</p>
+</div>
+</div>
 <div class="section" id="id9">
-<h3>sklearn<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="26%" />
@@ -658,13 +652,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="regression">
-<h2>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h2>
+<h3>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h3>
 <p>Regression methods.</p>
+</div>
+</div>
 <div class="section" id="id10">
-<h3>cheml<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h2>cheml<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -686,7 +680,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="id11">
-<h3>sklearn<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="40%" />
@@ -711,13 +705,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="postprocessor">
-<h2>Postprocessor<a class="headerlink" href="#postprocessor" title="Permalink to this headline">¶</a></h2>
+<h3>Postprocessor<a class="headerlink" href="#postprocessor" title="Permalink to this headline">¶</a></h3>
 <p>postprocessing tasks like evaluation, validation, model selection, ...</p>
+</div>
+</div>
 <div class="section" id="id12">
-<h3>sklearn<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h2>sklearn<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="22%" />
@@ -742,13 +736,13 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
-</div>
 <div class="section" id="visualization">
-<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<h3>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h3>
 <p>Regression methods.</p>
+</div>
+</div>
 <div class="section" id="matplotlib">
-<h3>matplotlib<a class="headerlink" href="#matplotlib" title="Permalink to this headline">¶</a></h3>
+<h2>matplotlib<a class="headerlink" href="#matplotlib" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="43%" />
@@ -770,7 +764,7 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </table>
 </div>
 <div class="section" id="seaborn">
-<h3>seaborn<a class="headerlink" href="#seaborn" title="Permalink to this headline">¶</a></h3>
+<h2>seaborn<a class="headerlink" href="#seaborn" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="40%" />
@@ -795,7 +789,6 @@ parameters and attributes of each block is provided in each function&#8217;s pag
 </tbody>
 </table>
 <hr class="docutils" />
-</div>
 </div>
 </div>
 
@@ -849,7 +842,6 @@ parameters and attributes of each block is provided in each function&#8217;s pag
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

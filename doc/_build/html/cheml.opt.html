@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.opt package &mdash; ChemML 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>cheml.opt package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cheml.opt.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="cheml-opt-package">
+<h1>cheml.opt package<a class="headerlink" href="#cheml-opt-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="cheml-opt-ga-nn-constrained-module">
+<h2>cheml.opt.GA_NN_Constrained module<a class="headerlink" href="#cheml-opt-ga-nn-constrained-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="cheml-opt-ga-binary-module">
+<h2>cheml.opt.GA_binary module<a class="headerlink" href="#cheml-opt-ga-binary-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-cheml.opt.GA_integer">
+<span id="cheml-opt-ga-integer-module"></span><h2>cheml.opt.GA_integer module<a class="headerlink" href="#module-cheml.opt.GA_integer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.opt.GA_integer.GA_nn">
+<em class="property">class </em><code class="descclassname">cheml.opt.GA_integer.</code><code class="descname">GA_nn</code><span class="sig-paren">(</span><em>nnet, target, nVar, normalizer=[0, 0], crossover='Uniform', selection='RWS', selection_pressure=3, init_pop=100, crossover_ratio=0.8, mutation_ratio=0.3, mutation_rate=0.02, tournament_size=3, element_limit=1, n_iterations=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Genetic Algorithm mixed with a trained neural network as its objective function</p>
+<dl class="docutils">
+<dt>nnet: string</dt>
+<dd>The path to the pickle file that contains the weights and activation functions of a
+trained neural network.</dd>
+<dt>target: list</dt>
+<dd>list of desired values for outputs</dd>
+<dt>nVar: integer</dt>
+<dd>Number of elements in each chromosome</dd>
+<dt>normalizer: list, optional (default = [0,0])</dt>
+<dd>A list of standard deviation (first element) and mean (second element) of target values
+in the training set.</dd>
+<dt>crossover: string, optinal (default = &#8216;Uniform&#8217;)</dt>
+<dd>A choice of three different crossover methods: &#8216;SinglePoint&#8217;, &#8216;DoublePoint&#8217;, &#8216;Uniform&#8217;</dd>
+<dt>selection: string, optional (default = &#8216;RWS&#8217;)</dt>
+<dd><dl class="first last docutils">
+<dt>A choice of three different methods for the selection of parent chromosomes:</dt>
+<dd>&#8216;RWS&#8217; : Roulette Wheel Selection
+&#8216;TS&#8217; : Tournament Selection
+&#8216;RS&#8217; : Random Selection</dd>
+</dl>
+</dd>
+<dt>selection_pressure: integer, optional (default = 3)</dt>
+<dd>selection pressure determines the effect of cost of a chromosome in the chance of selection</dd>
+<dt>init_pop: integer, optional (default = 100)</dt>
+<dd>The initialized population of chromosomes</dd>
+<dt>crossover_ratio: float in the range(0,1), optional (default = 0.8)</dt>
+<dd>The proportion of total number of chromosomes to be selected for crossover</dd>
+<dt>mutation_ratio: float in the range(0,1), optional (default = 0.3)</dt>
+<dd>The proportion of total number of chromosomes to be selected for mutation</dd>
+<dt>mutaton_rate: float, optional (default = 0.02)</dt>
+<dd>The proportion of total number of elements in a chromosome for mutation.</dd>
+<dt>tournament_size: integer, optional (default = 3)</dt>
+<dd>size of subgroups for the tournament selection</dd>
+<dt>element_limit: integer, optional (default=1)</dt>
+<dd>maximum number of one elements of each chromosome</dd>
+<dt>n_iterations: integer, optional (default = 1000)</dt>
+<dd>Total number of iteration</dd>
+</dl>
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.CostFunction">
+<code class="descname">CostFunction</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.CostFunction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.Crossover">
+<code class="descname">Crossover</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.Crossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.DoublePointCrossover">
+<code class="descname">DoublePointCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.DoublePointCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.Mutate">
+<code class="descname">Mutate</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.Mutate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.Mutation">
+<code class="descname">Mutation</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.Mutation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.RouletteWheelSelection">
+<code class="descname">RouletteWheelSelection</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.RouletteWheelSelection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.SinglePointCrossover">
+<code class="descname">SinglePointCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.SinglePointCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.TournamentSelection">
+<code class="descname">TournamentSelection</code><span class="sig-paren">(</span><em>C</em>, <em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.TournamentSelection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.UniformCrossover">
+<code class="descname">UniformCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.UniformCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_integer.GA_nn.repair">
+<code class="descname">repair</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_integer.GA_nn.repair" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-cheml.opt">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.opt" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;cheml.opt&#8217; module includes GA_nn,
+last modified date: May 9, 2016</p>
+<dl class="class">
+<dt id="cheml.opt.GA_nn">
+<em class="property">class </em><code class="descclassname">cheml.opt.</code><code class="descname">GA_nn</code><span class="sig-paren">(</span><em>nnet, target, nVar, normalizer=[0, 0], crossover='Uniform', selection='RWS', selection_pressure=3, init_pop=100, crossover_ratio=0.8, mutation_ratio=0.3, mutation_rate=0.02, tournament_size=3, element_limit=1, n_iterations=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Genetic Algorithm mixed with a trained neural network as its objective function</p>
+<dl class="docutils">
+<dt>nnet: string</dt>
+<dd>The path to the pickle file that contains the weights and activation functions of a
+trained neural network.</dd>
+<dt>target: list</dt>
+<dd>list of desired values for outputs</dd>
+<dt>nVar: integer</dt>
+<dd>Number of elements in each chromosome</dd>
+<dt>normalizer: list, optional (default = [0,0])</dt>
+<dd>A list of standard deviation (first element) and mean (second element) of target values
+in the training set.</dd>
+<dt>crossover: string, optinal (default = &#8216;Uniform&#8217;)</dt>
+<dd>A choice of three different crossover methods: &#8216;SinglePoint&#8217;, &#8216;DoublePoint&#8217;, &#8216;Uniform&#8217;</dd>
+<dt>selection: string, optional (default = &#8216;RWS&#8217;)</dt>
+<dd><dl class="first last docutils">
+<dt>A choice of three different methods for the selection of parent chromosomes:</dt>
+<dd>&#8216;RWS&#8217; : Roulette Wheel Selection
+&#8216;TS&#8217; : Tournament Selection
+&#8216;RS&#8217; : Random Selection</dd>
+</dl>
+</dd>
+<dt>selection_pressure: integer, optional (default = 3)</dt>
+<dd>selection pressure determines the effect of cost of a chromosome in the chance of selection</dd>
+<dt>init_pop: integer, optional (default = 100)</dt>
+<dd>The initialized population of chromosomes</dd>
+<dt>crossover_ratio: float in the range(0,1), optional (default = 0.8)</dt>
+<dd>The proportion of total number of chromosomes to be selected for crossover</dd>
+<dt>mutation_ratio: float in the range(0,1), optional (default = 0.3)</dt>
+<dd>The proportion of total number of chromosomes to be selected for mutation</dd>
+<dt>mutaton_rate: float, optional (default = 0.02)</dt>
+<dd>The proportion of total number of elements in a chromosome for mutation.</dd>
+<dt>tournament_size: integer, optional (default = 3)</dt>
+<dd>size of subgroups for the tournament selection</dd>
+<dt>element_limit: integer, optional (default=1)</dt>
+<dd>maximum number of one elements of each chromosome</dd>
+<dt>n_iterations: integer, optional (default = 1000)</dt>
+<dd>Total number of iteration</dd>
+</dl>
+<dl class="method">
+<dt id="cheml.opt.GA_nn.CostFunction">
+<code class="descname">CostFunction</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.CostFunction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.Crossover">
+<code class="descname">Crossover</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.Crossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.DoublePointCrossover">
+<code class="descname">DoublePointCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.DoublePointCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.Mutate">
+<code class="descname">Mutate</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.Mutate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.Mutation">
+<code class="descname">Mutation</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.Mutation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.RouletteWheelSelection">
+<code class="descname">RouletteWheelSelection</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.RouletteWheelSelection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.SinglePointCrossover">
+<code class="descname">SinglePointCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.SinglePointCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.TournamentSelection">
+<code class="descname">TournamentSelection</code><span class="sig-paren">(</span><em>C</em>, <em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.TournamentSelection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.UniformCrossover">
+<code class="descname">UniformCrossover</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.UniformCrossover" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.opt.GA_nn.repair">
+<code class="descname">repair</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.opt.GA_nn.repair" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

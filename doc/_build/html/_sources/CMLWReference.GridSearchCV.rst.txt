@@ -4,7 +4,7 @@ GridSearchCV
 ============
 
 :task:
-    | Postprocessor
+    | Define Search
 
 :host:
     | sklearn
@@ -51,7 +51,7 @@ GridSearchCV
     .. _Scikit-learn: http://scikit-learn.org/stable/index.html
 
 :input file view:
-    | ``## Postprocessor``
+    | ``## Define Search``
     |   ``<< host = sklearn``
     |   ``<< function = Grid_SearchCV``
     |   ``<< estimator = '@estimator'``

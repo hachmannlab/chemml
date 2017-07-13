@@ -5,7 +5,7 @@ Dragon
 ============
 
 :task:
-    | DataRepresentation
+    | Prepare Data
 
 :host:
     | cheml
@@ -26,12 +26,12 @@ Dragon
     |   The path to the input molecule file
 
 :requirements:
-    | Dragon_, version: 0.18.1
+    | Dragon_, version: 6 or 7
 
     .. _Dragon: http://www.talete.mi.it/products/dragon_description.htm
 
 :input file view:
-    | ``## DataRepresentation``
+    | ``## Prepare Data``
     |   ``<< host = cheml``
     |   ``<< function = Dragon``
     |   ``<< version = 7``

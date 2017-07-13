@@ -14,7 +14,7 @@ Input File Structure
 Here is how a block of ChemML Wrapper workflow looks in the input file::
 
     ## Task
-        << module = name        << function = name
+        << host = name        << function = name
         << parameter = value    << ...
         << ...                  << ...
         >> token id
@@ -25,7 +25,7 @@ Here is a list of 7 available tasks in the ChemML Wrapper:
     - Prepare Data
     - Define Model
     - Define Search
-    - Pool
+    - Explore
     - Visualize
     - Store
 
@@ -51,7 +51,7 @@ Only five specific characters (#, <, =, >, @) are defined and can be used in the
 
     .. note:: two parameters are mandatory for all the blocks:
 
-                - **module**: to specify the python library that must be used for the task
+                - **host**: to specify the python library that must be used for the task
                 - **function**: to specify the ChemML Wrapper function that makes binding with the main function in the specified library.
 - Equals sign (=)
     Equals sign (=) is for setting the value of parameters. It comes right after the parameter name and is followed by its
@@ -66,7 +66,7 @@ Only five specific characters (#, <, =, >, @) are defined and can be used in the
     To keep track of inputs and outputs you have to assign a unique identification (ID) number to each token. This number
     can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input
     of another block through these unique IDs. However the name of tokens are predefined by each block and can be found
-    in the CMLWReference_. To distinguish the send and receive actions you just need to switch the position of token
+    in the :ref:`ChemML_Wrapper_Reference`. To distinguish the send and receive actions you just need to switch the position of token
     and ID, in a way that:
 
     - to send:
@@ -79,7 +79,7 @@ Only five specific characters (#, <, =, >, @) are defined and can be used in the
 
 - At sign (@)
     At sign (@) can be used to get a parameter value from the send/receive stream. It comes right after equals sign (=)
-    and should be followed by one of the IDs of received tokens (with no space, e.g. parameter = @7).
+    and should be followed by one of the input tokens (e.g. parameter = @df).
 
 ----
 =======================================================
@@ -87,7 +87,7 @@ General Rules
 =======================================================
 Be aware of some general restrictions:
 
-    - You are not allowed to have two different specific charecters in one line of input file (except for @ sign).
+    - You are not allowed to have two different specific charecters in one line of input file (except '=' and '@' signs).
     - The input tokens and output tokens for each block may be similar but they don't have to have similar values.
     - Only one input per legal input token can be received.
     - You are allowed to receive one sent token in several blocks.

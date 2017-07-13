@@ -28,8 +28,6 @@
   
 
   
-    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -93,8 +91,8 @@
 <li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.initialization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-data-module">cheml.initialization.data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-initialization-module">cheml.initialization.initialization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-merge-module">cheml.initialization.Merge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml-initialization-savefile-module">cheml.initialization.SaveFile module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -199,14 +197,92 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-initialization-data-module">
-<h2>cheml.initialization.data module<a class="headerlink" href="#cheml-initialization-data-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml-initialization-merge-module">
+<h2>cheml.initialization.Merge module<a class="headerlink" href="#cheml-initialization-merge-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-initialization-initialization-module">
-<h2>cheml.initialization.initialization module<a class="headerlink" href="#cheml-initialization-initialization-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml-initialization-savefile-module">
+<h2>cheml.initialization.SaveFile module<a class="headerlink" href="#cheml-initialization-savefile-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-cheml.initialization"></span><p>The &#8216;cheml.initialization&#8217; module includes ReadTable, Merge, Split, and SaveFile.
+last modified date: Nov. 19, 2015</p>
+<dl class="function">
+<dt id="cheml.initialization.Merge">
+<code class="descclassname">cheml.initialization.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>X1</em>, <em>X2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>todo: add more functionality for header overlaps
+Merge same length data frames.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X1</strong> &#8211; pandas data frame
+first data frame</li>
+<li><strong>X2</strong> &#8211; pandas data frame
+second data frame</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas data frame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.Split">
+<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>split data frame by columns</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> &#8211; integer or list (default = 1)
+if integer, shows number of columns from the first of data frame to be cut as first data frame (X1)
+if list, is array of labels to be cut as first data frame (X1)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">two pandas data frame: X1 and X2</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="cheml.initialization.Split.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the split task to the input data frame</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> &#8211; pandas data frame</td>
+</tr>
+</tbody>
+</table>
+<p>original pandas data frame
+:return: two pandas data frame: X1 and X2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.SaveFile">
+<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Write DataFrame to a comma-seprated values(csv) file
+:param: output_directory: string, the output directory to save output files</p>
+<dl class="method">
+<dt id="cheml.initialization.SaveFile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write DataFrame to a comma-seprated values (csv) file
+:param: X: pandas DataFrame
+:param: main_directory: string, if there is any main directory for entire cheml project
+:return: nothing</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -260,7 +336,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

@@ -4,7 +4,7 @@ SaveFile
 ============
 
 :task:
-    | Output
+    | Store
 
 :host:
     | cheml
@@ -34,7 +34,7 @@ SaveFile
     | :py:mod:`cheml`, version: 1.3.1
 
 :input file view:
-    | ``## Output``
+    | ``## Store``
     |   ``<< host = cheml``
     |   ``<< function = SaveFile``
     |   ``<< filename = ''``

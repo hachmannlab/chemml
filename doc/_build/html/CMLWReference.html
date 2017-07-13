@@ -28,15 +28,13 @@
   
 
   
-    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
-        <link rel="next" title="Input File Generator" href="CMLWInputFileGenerator.html"/>
+        <link rel="next" title="read_table" href="include_CMLWREnterData.html"/>
         <link rel="prev" title="Table of Contents" href="CMLWContentsTable.html"/> 
 
   
@@ -90,7 +88,45 @@
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Reference</a><ul class="simple">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#enter-data">Enter Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWREnterData.html">read_table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWREnterData.html#read-excel">read_excel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#prepare-data">Prepare Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html">Split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#merge">Merge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#missingvalues">MissingValues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#trimmer">Trimmer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#uniformer">Uniformer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#constant">Constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#pyscript">PyScript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#rdkitfingerprint">RDKitFingerprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#dragon">Dragon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#coulombmatrix">CoulombMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#bagofbonds">BagofBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRPrepareData.html#distancematrix">DistanceMatrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#define-model">Define Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRDefineModel.html">NN_PSGD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#define-search">Define Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#explore">Explore</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#visualize">Visualize</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#store">Store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="include_CMLWRStore.html">SaveFile</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
@@ -174,9 +210,69 @@
 }
 </style>
 <div class="section" id="chemml-wrapper-reference">
-<h1>ChemML Wrapper Reference<a class="headerlink" href="#chemml-wrapper-reference" title="Permalink to this headline">¶</a></h1>
-<p>This is the Task and function block reference of ChemML wrapper.</p>
+<span id="id1"></span><h1>ChemML Wrapper Reference<a class="headerlink" href="#chemml-wrapper-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the function/block reference of ChemML wrapper.</p>
+<div class="section" id="enter-data">
+<h2>Enter Data<a class="headerlink" href="#enter-data" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWREnterData.html">read_table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWREnterData.html#read-excel">read_excel</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="prepare-data">
+<h2>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html">Split</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#merge">Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#missingvalues">MissingValues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#trimmer">Trimmer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#uniformer">Uniformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#constant">Constant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#pyscript">PyScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#rdkitfingerprint">RDKitFingerprint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#dragon">Dragon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#coulombmatrix">CoulombMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#bagofbonds">BagofBonds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRPrepareData.html#distancematrix">DistanceMatrix</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="define-model">
+<h2>Define Model<a class="headerlink" href="#define-model" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRDefineModel.html">NN_PSGD</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="define-search">
+<h2>Define Search<a class="headerlink" href="#define-search" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="explore">
+<h2>Explore<a class="headerlink" href="#explore" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="visualize">
+<h2>Visualize<a class="headerlink" href="#visualize" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="store">
+<h2>Store<a class="headerlink" href="#store" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="include_CMLWRStore.html">SaveFile</a></li>
+</ul>
+</div>
 </div>
 </div>
 
@@ -187,7 +283,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWInputFileGenerator.html" class="btn btn-neutral float-right" title="Input File Generator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="include_CMLWREnterData.html" class="btn btn-neutral float-right" title="read_table" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="CMLWContentsTable.html" class="btn btn-neutral" title="Table of Contents" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -230,7 +326,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

@@ -4,7 +4,7 @@ RDKitFingerprint
 ==================
 
 :task:
-    | DataRepresentation
+    | Prepare Data
 
 :host:
     | cheml
@@ -32,7 +32,7 @@ RDKitFingerprint
     .. _RDKit: http://www.rdkit.org
 
 :input file view:
-    | ``## DataRepresentation``
+    | ``## Prepare Data``
     |   ``<< host = cheml``
     |   ``<< function = RDKitFingerprint``
     |   ``<< removeHs = True``

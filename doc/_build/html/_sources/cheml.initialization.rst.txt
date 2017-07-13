@@ -4,18 +4,18 @@ cheml.initialization package
 Submodules
 ----------
 
-cheml.initialization.data module
+cheml.initialization.Merge module
 --------------------------------
 
-.. automodule:: cheml.initialization.data
+.. automodule:: cheml.initialization.Merge
     :members:
     :undoc-members:
     :show-inheritance:
 
-cheml.initialization.initialization module
+cheml.initialization.SaveFile module
 ------------------------------------------
 
-.. automodule:: cheml.initialization.initialization
+.. automodule:: cheml.initialization.initialization.
     :members:
     :undoc-members:
     :show-inheritance:

@@ -28,16 +28,14 @@
   
 
   
-    <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
-        <link rel="next" title="ChemML Wrapper Reference" href="CMLWReference.html"/>
-        <link rel="prev" title="ChemML Wrapper Overview" href="CMLWOverview.html"/> 
+        <link rel="next" title="Table of Contents" href="CMLWContentsTable.html"/>
+        <link rel="prev" title="cheml.wrappers package" href="cheml.wrappers.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -88,15 +86,16 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWOverview.html">ChemML Wrapper Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper input file</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-structure">Input File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#specific-characters">Specific Characters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#general-rules">General Rules</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
 </ul>
 
             
@@ -184,7 +183,7 @@ scratch with any text editor. As the input file could be quite complex, it is st
 <h2>Input File Structure<a class="headerlink" href="#input-file-structure" title="Permalink to this headline">¶</a></h2>
 <p>Here is how a block of ChemML Wrapper workflow looks in the input file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span class="c">## Task</span>
-    <span class="o">&lt;&lt;</span> <span class="n">module</span> <span class="o">=</span> <span class="n">name</span>        <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">name</span>        <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">name</span>
     <span class="o">&lt;&lt;</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">value</span>    <span class="o">&lt;&lt;</span> <span class="o">...</span>
     <span class="o">&lt;&lt;</span> <span class="o">...</span>                  <span class="o">&lt;&lt;</span> <span class="o">...</span>
     <span class="o">&gt;&gt;</span> <span class="n">token</span> <span class="nb">id</span>
@@ -198,7 +197,7 @@ scratch with any text editor. As the input file could be quite complex, it is st
 <li>Prepare Data</li>
 <li>Define Model</li>
 <li>Define Search</li>
-<li>Pool</li>
+<li>Explore</li>
 <li>Visualize</li>
 <li>Store</li>
 </ul>
@@ -230,7 +229,7 @@ value.</p>
 <p class="first admonition-title">Note</p>
 <p>two parameters are mandatory for all the blocks:</p>
 <ul class="last simple">
-<li><strong>module</strong>: to specify the python library that must be used for the task</li>
+<li><strong>host</strong>: to specify the python library that must be used for the task</li>
 <li><strong>function</strong>: to specify the ChemML Wrapper function that makes binding with the main function in the specified library.</li>
 </ul>
 </div>
@@ -253,7 +252,7 @@ blocks or to send a piece of information out. This way a workflow of blocks can 
 <p>To keep track of inputs and outputs you have to assign a unique identification (ID) number to each token. This number
 can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input
 of another block through these unique IDs. However the name of tokens are predefined by each block and can be found
-in the <a href="#id1"><span class="problematic" id="id2">CMLWReference_</span></a>. To distinguish the send and receive actions you just need to switch the position of token
+in the <a class="reference internal" href="CMLWReference.html#chemml-wrapper-reference"><span class="std std-ref">ChemML Wrapper Reference</span></a>. To distinguish the send and receive actions you just need to switch the position of token
 and ID, in a way that:</p>
 <ul class="last">
 <li><dl class="first docutils">
@@ -281,7 +280,7 @@ and ID, in a way that:</p>
 <li><dl class="first docutils">
 <dt>At sign (&#64;)</dt>
 <dd><p class="first last">At sign (&#64;) can be used to get a parameter value from the send/receive stream. It comes right after equals sign (=)
-and should be followed by one of the IDs of received tokens (with no space, e.g. parameter = &#64;7).</p>
+and should be followed by one of the input tokens (e.g. parameter = &#64;df).</p>
 </dd>
 </dl>
 </li>
@@ -292,7 +291,7 @@ and should be followed by one of the IDs of received tokens (with no space, e.g.
 <p>Be aware of some general restrictions:</p>
 <blockquote>
 <div><ul class="simple">
-<li>You are not allowed to have two different specific charecters in one line of input file (except for &#64; sign).</li>
+<li>You are not allowed to have two different specific charecters in one line of input file (except &#8216;=&#8217; and &#8216;&#64;&#8217; signs).</li>
 <li>The input tokens and output tokens for each block may be similar but they don&#8217;t have to have similar values.</li>
 <li>Only one input per legal input token can be received.</li>
 <li>You are allowed to receive one sent token in several blocks.</li>
@@ -310,10 +309,10 @@ and should be followed by one of the IDs of received tokens (with no space, e.g.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWReference.html" class="btn btn-neutral float-right" title="ChemML Wrapper Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWContentsTable.html" class="btn btn-neutral float-right" title="Table of Contents" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="CMLWOverview.html" class="btn btn-neutral" title="ChemML Wrapper Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cheml.wrappers.html" class="btn btn-neutral" title="cheml.wrappers package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -353,7 +352,6 @@ and should be followed by one of the IDs of received tokens (with no space, e.g.
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"></script>
 
   
 

@@ -1,27 +1,66 @@
+.. _ChemML_Wrapper_Reference:
+
 ChemML Wrapper Reference
 =============
 
-This is the Task and function block reference of ChemML wrapper.
+This is the task/function reference of ChemML wrapper.
+
+
+=======================================================
+Enter Data
+=======================================================
 
 .. toctree::
 
-.. cheml
+    include_CMLWREnterData
 
-    CMLWReference.ReadTable
-    CMLWReference.Split
-    CMLWReference.Merge
-    CMLWReference.SaveFile
-    CMLWReference.PyScript
+=======================================================
+Prepare Data
+=======================================================
 
-    CMLWReference.RDKFP
-    CMLWReference.Dragon
+.. toctree::
 
-.. pandas
+    include_CMLWRPrepareData
 
-    CMLWReference.read_table
-    CMLWReference.read_excel
+=======================================================
+Define Model
+=======================================================
 
-.. sklearn
+.. toctree::
 
+    include_CMLWRDefineModel
+
+
+=======================================================
+Define Search
+=======================================================
+
+.. toctree::
+
+    include_CMLWRDefineSearch
     CMLWReference.GridSearchCV
-    CMLWReference.SVR
+
+
+=======================================================
+Explore
+=======================================================
+
+.. toctree::
+
+    include_CMLWRExplore
+
+=======================================================
+Visualize
+=======================================================
+
+.. toctree::
+
+    include_CMLWRVisualize
+
+=======================================================
+Store
+=======================================================
+
+.. toctree::
+
+    include_CMLWRStore

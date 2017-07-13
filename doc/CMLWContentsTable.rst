@@ -2,29 +2,28 @@
 Table of Contents
 =============================
 
-This is the reference of the computational graph blocks provided by ChemML Wrapper. The further details of each block, as the
-parameters and attributes of each block is provided in each function's page.
+This is a complete list of all the methods that the ChemML Wrapper is interfacing with.
+The further details of each block, as the parameters and attributes of each block is provided in each function's page.
 
+The table header provides information about:
+    - task and subtask: just for an easier classification of methods
+    - host: the main library/dependency required for using the method
+    - function: the method name
+    - input and output tokens: the only tokens that are responsible to send or receive data and information in each blocks
 
-----
-=======================================================
-Enter Data
-=======================================================
-
-+----+------------+-----------+--------+------------+------------------+---------------+
-| #  | task       | subtask   | host   | function   | receive tokens   | send tokens   |
-+====+============+===========+========+============+==================+===============+
-|  0 | Enter Data | input     | pandas | read_table | -                | df            |
-+----+------------+-----------+--------+------------+------------------+---------------+
-|  1 | Enter Data | input     | pandas | read_excel | -                | df            |
-+----+------------+-----------+--------+------------+------------------+---------------+
-|  2 | nan        | nan       | nan    | nan        | nan              | nan           |
-+----+------------+-----------+--------+------------+------------------+---------------+
-|  3 | nan        | nan       | nan    | nan        | nan              | nan           |
-+----+------------+-----------+--------+------------+------------------+---------------+
-----
-
-
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
+|  # | task         | subtask         | host   | function          | input tokens                     | output tokens                                            |
++====+==============+=================+========+===================+==================================+==========================================================+
+|  1 | Enter Data   | input           | pandas | :ref:`read_table` | no receiver                      | df                                                       |
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
+|  2 | Enter Data   | input           | pandas | :ref:`read_excel` | no receiver                      | df                                                       |
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
+|  3 | Prepare Data | basic operators | cheml  | :ref:`Split`      | df                               | df1, df2                                                 |
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
+|  4 | Prepare Data | basic operators | cheml  | :ref:`Merge`      | df1, df2                         | df                                                       |
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
+|  5 | Prepare Data | basic operators | cheml  | :ref:`PyScript`   | df1, df2, api1, api2, var1, var2 | df_out1, df_out2, api_out1, api_out2, var_out1, var_out2 |
++----+--------------+-----------------+--------+-------------------+----------------------------------+----------------------------------------------------------+
 
 
 
@@ -250,6 +249,7 @@ sklearn
 +------------------------+------------------------------------------+-----------------------------------------+
 ----
 
+
 ----
 =======================================================
 Visualization
@@ -264,6 +264,7 @@ block                   Inputs              Outputs
 ==================      ============        ============
 TBFS                    df                  api, df
 ==================      ============        ============
+
 
 seaborn
 ---------

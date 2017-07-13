@@ -2,17 +2,18 @@ import pandas as pd
 from tabulate import tabulate
 
 df = pd.read_excel('contents.xlsx',sheetname=0,header=0) 
-print tabulate(df, headers='keys', tablefmt='psql')
+# print tabulate(df, headers='keys', tablefmt='psql')
 
 ###################
-dir = 'temporary'
+dir = 'CMLWR_ALL'
 
-for i in range(df.shape[1]):
+print df.shape
+for i in range(df.shape[0]):
     i+=1
     function = df['function'][i][6:-1]
     filename = 'CMLWR.%s'%function
     print filename
-    with open('%s/%s.rst'%(dir,filename), 'wb') as file:
+    with open('%s/raw/%s.rst'%(dir,filename), 'wb') as file:
         file.write('.. _%s:\n'%function)
         file.write('\n')
         file.write('%s\n' % function)
@@ -53,7 +54,8 @@ for i in range(df.shape[1]):
         file.write(':required parameters:\n')
         params_list = df['req_parameters'][i].split(',')
         for item in params_list:
-            file.write('    | %s\n'% item.strip().split('=')[0])
+            file.write('    | %s'% item.strip().split('=')[0])
+            file.write(' (%s)\n'%item.strip().split('=')[1])
         file.write('    |\n')
         file.write('    .. note:: The documentation for this function can be found here_\n\n'\
                    '    .. _here: %s\n'% df['param_doc'][i])

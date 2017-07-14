@@ -7,9 +7,10 @@ from json import load
 from importlib import import_module
 
 class mlp(object):
-    def __init__(self, nhidden = 1, nneurons = [100], activations = ['sigmoid'],\
-                 learning_rate = 0.01, decay = 0.99,\
-                 nepochs = 100, batch_size = 100, loss = 'mean_squared_error',\
+    def __init__(self, nhidden = 1, nneurons = [100], activations = ['sigmoid'],
+                 learning_rate = 0.01, lr_decay = 0.99,
+                 nepochs = 100, batch_size = 100, loss = 'mean_squared_error',
+                 regression = True, nclasses = None,
                  layer_config_file = None, opt_config_file = None):
         self.model = Sequential()
         if layer_config_file:
@@ -22,13 +23,14 @@ class mlp(object):
         if opt_config_file:
             self.opt = self.parse_opt_config(opt_config_file)
         else:
-            self.opt = SGD(lr = learning_rate, momentum = 0.9, decay = decay, nesterov = False)
+            self.opt = SGD(lr = learning_rate, momentum = 0.9, decay = lr_decay, nesterov = False)
         self.nepochs = nepochs
         self.batch_size = batch_size
         self.loss = loss
-
-    def fit(self, X, y, regression = True, nclasses = None):
         self.is_regression = regression
+        self.nclasses = nclasses
+
+    def fit(self, X, y):
         if len(self.layers) == 0:
             for i in xrange(self.nhidden):
                 self.layers.append((Dense,
@@ -40,8 +42,8 @@ class mlp(object):
                                      'activation': 'linear'}))
             else:
                 self.layers.append((Dense,
-                                    {'units': nclasses,
-                                     'activation': 'linear'}))
+                                    {'units': self.nclasses,
+                                     'activation': 'softmax'}))
         layer_name, layer_params = self.layers[0]
         layer_params['input_dim'] = X.shape[-1]
         keras_layer_module = import_module('keras.layers')
@@ -49,7 +51,7 @@ class mlp(object):
             layer = getattr(keras_layer_module, layer_name)
             self.model.add(layer(**layer_params))
         self.model.compile(loss = self.loss, optimizer = self.opt)
-        self.batch_size = X.shape[0] if X.shape[0] < 100 else 100
+        self.batch_size = X.shape[0] if X.shape[0] < self.batch_size else self.batch_size
         self.model.fit(x = X, y = y,  epochs = self.nepochs, batch_size = self.batch_size)
 
     def predict(self, X):

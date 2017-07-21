@@ -2,9 +2,10 @@ import pandas as pd
 
 from ..base import BASE, LIBRARY
 
-##################################################################### Enter Data
+##################################################################### 1 Enter Data
 
-#input
+# input
+
 class read_table(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {}
@@ -26,7 +27,7 @@ class read_table(BASE, LIBRARY):
         # step5: process
         print '(rows, columns): ', df.shape
         if 'header' in self.parameters and self.parameters['header'] is not None:
-            print 'header: ', df.columns
+            print 'headers: ', list(df.columns)
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]

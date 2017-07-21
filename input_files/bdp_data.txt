@@ -1,0 +1,133 @@
+CheML date="2016-01-21" time="16:30:29" version="1.2.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+
+## Enter Data
+                << host = pandas                 << function = read_table
+
+                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/pol_den_RI.csv'
+                << sep=','
+                << header = 0
+                << skiprows = 0
+                >> df 0
+
+## Prepare Data
+                << host = cheml                 << function = Split
+                << selection = ['Mol_Smiles']
+                >> 0 df   >> df1 1  >> df2 2
+
+## Prepare Data
+                << host = cheml                 << function = Split
+                << selection = ['Den_MD']
+                >> 2 df   >> df1 3
+
+## Prepare Data
+                        << host = cheml           << function = PyScript
+                        << l1 = "print 'df1:', df1.shape, df1.columns"
+                        << l2 = "print 'df2:', df2.shape, df2.columns"
+                        << l3 = "print 'Den_MD:', var2.shape, var2.columns"
+                        >> 1 df1 >> 2 df2  >> 3 var2
+
+## Prepare Data
+                << host = cheml                 << function = Merge
+                >> 1 df1   >> 3 df2   >> df 4
+
+
+## Prepare Data
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'df1.shape:', df1.shape"
+                        << l1 = "print 'df1.columns:', df1.columns"
+                        >> 4 df1
+
+## Store
+                << host = cheml                 << function = SaveFile
+
+                << filename = '100k'
+                << output_directory = 'smiles'
+                << record_time = False
+                << format ='smi'
+                << index = False
+                << header = False
+                >> 1 df >> filepath 5
+
+
+## Prepare Data
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HTT'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     << molfile = "@molfile"
+                << path = None                    < arguments = [0,0]
+
+                >> 5 molfile  >> df 6 >>  removed_rows 7
+
+# Prepare Data
+                << host = cheml                      << function = Dragon
+                << version = 7
+                << script = "new"
+                << output_directory = 'dragon'
+
+                << CheckUpdates = True                  << SaveLayout = True
+                << PreserveTemporaryProjects = True
+
+                << RejectDisconnectedStrucuture = False << RetainBiggestFragment = False
+                << DisconnectedCalculationOption = "0"
+                << RoundCoordinates = True              << RoundWeights = True
+                << RoundDescriptorValues = True         << knimemode = False
+
+                << ShowWorksheet = False                << Decimal_Separator = "."
+                << Missing_String = "Nan"               << DefaultMolFormat = "1"
+                << HelpBrowser = "/usr/bin/xdg-open"    << RejectUnusualValence = False
+                << Add2DHydrogens = False               << MaxSRforAllCircuit = "19"
+                << MaxSR = "35"                         << MaxSRDetour = "30"
+                << MaxAtomWalkPath = "2000"             << LogPathWalk = True
+                << LogEdge = True                       << Weights = ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]
+                << SaveOnlyData = False                 << SaveLabelsOnSeparateFile = False
+                << SaveFormatBlock = "%b-%n.txt"        << SaveFormatSubBlock = "%b-%s-%n-%m.txt"
+                << SaveExcludeMisVal = False            << SaveExcludeAllMisVal = False
+                << SaveExcludeConst = False             << SaveExcludeNearConst = False
+                << SaveExcludeStdDev = False            << SaveStdDevThreshold = "0.0001"
+                << SaveExcludeCorrelated = False        << SaveCorrThreshold = "0.95"
+                << SaveExcludeMisMolecules = False      << SaveExclusionOptionsToVariables = False
+                << SaveExcludeRejectedMolecules = False
+
+                << blocks = range(8,31)
+
+                << molInput = "file"                    << molInputFormat = "SMILES"
+                << molFile = "@molfile"
+
+                << SaveStdOut = False
+                << SaveProject = False                  << SaveProjectFile = "Dragon_project.drp"
+                << SaveFile = True
+                << SaveType = "singlefile"              << SaveFilePath = "Dragon_descriptors.txt"
+                << logMode = "file"                     << logFile = "Dragon_log.txt"
+
+                << external = False                     << fileName = None
+                << delimiter = ","                      << MissingValue = "NaN"
+                << consecutiveDelimiter = False
+
+                >> 5 molfile  >> df 6
+
+## Prepare Data
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'shape(data): ', df1.shape, df1.columns"
+                        << l1 = "print 'len(removed_rows): ',len(var1)"
+                        << l2 = "print var1"
+                        >> 6 df1  >> 7 var1
+
+## Store
+                << host = cheml                 << function = SaveFile
+
+                << filename = 'dragon_all'
+                << output_directory = 'dragon_csv'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = False
+                >> 6 df > filepath 5
+

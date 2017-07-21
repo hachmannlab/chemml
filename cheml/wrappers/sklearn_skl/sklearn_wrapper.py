@@ -10,7 +10,7 @@ from .syntax import Preprocessor, Regressor, Evaluator
 
 ##################################################################### 2 Prepare Data
 
-# Data Representation
+# descriptor
 
 class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
@@ -62,8 +62,116 @@ class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
+class Binarizer(BASE, LIBRARY, Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api': None, 'df': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
-# Preprocessors
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import Binarizer
+                    model = Binarizer(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                        err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (
+                self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class OneHotEncoder(BASE, LIBRARY, Preprocessor):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None, 'api': None}
+        self.legal_outputs = {'api': None, 'df': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+        model, _ = self.input_check('api', req=False)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
+        if isinstance(self.legal_inputs['api'], type(None)):
+            if method == 'fit_transform':
+                try:
+                    from sklearn.preprocessing import OneHotEncoder
+                    model = OneHotEncoder(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                        err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+            else:
+                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (
+                    self.iblock, self.SuperFunction)
+                raise NameError(msg)
+
+        # step5: process
+        available_methods = ['fit_transform', 'transform']
+        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+
+# basic oprator
 
 class Imputer(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
@@ -113,6 +221,8 @@ class Imputer(BASE,LIBRARY,Preprocessor):
 
         # step7: delete all inputs from memory
         del self.legal_inputs
+
+# scaler
 
 class StandardScaler(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
@@ -367,114 +477,9 @@ class Normalizer(BASE,LIBRARY,Preprocessor):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-class Binarizer(BASE,LIBRARY,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None, 'api':None}
-        self.legal_outputs = {'api':None, 'df':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+# feature selector
 
-    def fit(self):
-        # step1: check inputs
-        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
-        model, _ = self.input_check('api', req=False)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-
-        # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
-        if isinstance(self.legal_inputs['api'], type(None)):
-            if method == 'fit_transform':
-                try:
-                    from sklearn.preprocessing import Binarizer
-                    model = Binarizer(**self.parameters)
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            else:
-                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (self.iblock, self.SuperFunction)
-                raise NameError(msg)
-
-        # step5: process
-        available_methods = ['fit_transform', 'transform']
-        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=True)
-
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),(self.iblock,token,self.Host,self.Function)]
-            elif token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),(self.iblock,token,self.Host,self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
-
-        # step7: delete all inputs from memory
-        del self.legal_inputs
-
-class OneHotEncoder(BASE,LIBRARY,Preprocessor):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None, 'api':None}
-        self.legal_outputs = {'api':None, 'df':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        # step1: check inputs
-        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
-        model, _ = self.input_check('api', req=False)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        # df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-
-        # step4: import module and make APIs
-        method = self.parameters.pop('func_method')  # method = fit_transform, transform or inverse_transform
-        if isinstance(self.legal_inputs['api'], type(None)):
-            if method == 'fit_transform':
-                try:
-                    from sklearn.preprocessing import OneHotEncoder
-                    model = OneHotEncoder(**self.parameters)
-                except Exception as err:
-                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                        err).__name__ + ': ' + err.message
-                    raise TypeError(msg)
-            else:
-                msg = "@Task #%i(%s): pass an api to transform or inverse_transform the input data, otherwise you need to fit_transform the data with proper parameters." % (
-                self.iblock, self.SuperFunction)
-                raise NameError(msg)
-
-        # step5: process
-        available_methods = ['fit_transform', 'transform']
-        model, df = self.fit_transform_inverse(model, df, method, available_methods, header=False)
-
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-
-        # step7: delete all inputs from memory
-        del self.legal_inputs
-
-
-# FeatureSelection
-
-# FeatureTransformation
+# feature transformer
 
 class PCA(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
@@ -582,128 +587,7 @@ class KernelPCA(BASE, LIBRARY, Preprocessor):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-##################################################################### 3 Define Model
-
-# Regression
-
-class regression(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None, 'api': None}
-        self.legal_outputs = {'api': None, 'dfy_pred':None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        method = self.parameters.pop('func_method')  # method = 'fit', 'predict', None
-
-        # step1: check inputs
-        model, _ = self.input_check('api', req=False)
-        if method is None:
-            dfx, dfx_info = self.input_check('dfx', req=False, py_type=pd.DataFrame)
-            dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
-        else:
-            dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
-        if method == 'fit':
-            dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-
-        # step4: import module and make APIs
-        if model is None:
-            if method == 'fit' or method is None:
-                try:
-                    if self.Function == 'OLS':
-                        from sklearn.linear_model import LinearRegression
-                        model = LinearRegression(**self.parameters)
-                    elif self.Function == 'Ridge':
-                        from sklearn.linear_model import Ridge
-                        model = Ridge(**self.parameters)
-                    elif self.Function == 'KernelRidge':
-                        from sklearn.kernel_ridge import KernelRidge
-                        model = KernelRidge(**self.parameters)
-                    elif self.Function == 'Lasso':
-                        from sklearn.linear_model import Lasso
-                        model = Lasso(**self.parameters)
-                    elif self.Function == 'MultiTaskLasso':
-                        from sklearn.linear_model import MultiTaskLasso
-                        model = MultiTaskLasso(**self.parameters)
-                    elif self.Function == 'ElasticNet':
-                        from sklearn.kernel_ridge import ElasticNet
-                        model = ElasticNet(**self.parameters)
-                    elif self.Function == 'MultiTaskElasticNet':
-                        from sklearn.linear_model import MultiTaskElasticNet
-                        model = MultiTaskElasticNet(**self.parameters)
-                    elif self.Function == 'Lars':
-                        from sklearn.linear_model import Lars
-                        model = Lars(**self.parameters)
-                    elif self.Function == 'LassoLars':
-                        from sklearn.kernel_ridge import LassoLars
-                        model = LassoLars(**self.parameters)
-                    elif self.Function == 'BayesianRidge':
-                        from sklearn.linear_model import BayesianRidge
-                        model = BayesianRidge(**self.parameters)
-                    elif self.Function == 'ARDRegression':
-                        from sklearn.linear_model import ARDRegression
-                        model = ARDRegression(**self.parameters)
-                    elif self.Function == 'LogisticRegression':
-                        from sklearn.kernel_ridge import LogisticRegression
-                        model = LogisticRegression(**self.parameters)
-                    elif self.Function == 'SGDRegressor':
-                        from sklearn.linear_model import SGDRegressor
-                        model = SGDRegressor(**self.parameters)
-                    elif self.Function == 'SVR':
-                        from sklearn.svm import SVR
-                        model = SVR(**self.parameters)
-                    elif self.Function == 'NuSVR':
-                        from sklearn.svm import NuSVR
-                        model = NuSVR(**self.parameters)
-                    elif self.Function == 'LinearSVR':
-                        from sklearn.svm import LinearSVR
-                        model = LinearSVR(**self.parameters)
-                    elif self.Function == 'MLPRegressor':
-                        from sklearn.neural_network import MLPRegressor
-                        model = MLPRegressor(**self.parameters)
-                    else:
-                        msg = "@Task #%i(%s): function name '%s' in module '%s' is not an available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
-                        raise NameError(msg)
-                except Exception as err:
-                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
-                    raise TypeError(msg)
-            else:
-                msg = "@Task #%i(%s): pass an api to fit the input data, otherwise you need to fit_transform the data with proper parameters." % (
-                    self.iblock, self.SuperFunction)
-                raise NameError(msg)
-
-        # step5: process
-        if method == 'fit':
-            model.fit(dfx, dfy)
-        elif method == 'predict':
-            dfy_pred = model.predict(dfx)
-            dfy_pred = pd.DataFrame(dfy_pred)
-
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock,token,self.Host,self.Function)]
-            elif token == 'dfy_pred':
-                dfy_pred = model.predict(dfx)
-                dfy_pred = pd.DataFrame(dfy_pred)
-                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-        #step7: delete all inputs from memory
-        del self.legal_inputs
-
-##################################################################### 4 Define Search
-
-# Divider
+# splitter
 
 class Train_Test_Split(BASE, LIBRARY):
     def legal_IO(self):
@@ -806,6 +690,123 @@ class KFold(BASE, LIBRARY):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
+##################################################################### 3 Define Model
+
+# Regression
+
+class regression(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'api': None}
+        self.legal_outputs = {'api': None, 'dfy_pred':None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        method = self.parameters.pop('func_method')  # method = 'fit', 'predict', None
+
+        # step1: check inputs
+        model, _ = self.input_check('api', req=False)
+        if method is None:
+            dfx, dfx_info = self.input_check('dfx', req=False, py_type=pd.DataFrame)
+            dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
+        else:
+            dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        if method == 'fit':
+            dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+        if method == 'predict':
+            model, _ = self.input_check('api', req=True)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+
+        # step4: import module and make APIs
+        if model is None:
+            if method == 'fit' or method is None:
+                try:
+                    if self.Function == 'OLS':
+                        from sklearn.linear_model import LinearRegression
+                        model = LinearRegression(**self.parameters)
+                    elif self.Function == 'Ridge':
+                        from sklearn.linear_model import Ridge
+                        model = Ridge(**self.parameters)
+                    elif self.Function == 'KernelRidge':
+                        from sklearn.kernel_ridge import KernelRidge
+                        model = KernelRidge(**self.parameters)
+                    elif self.Function == 'Lasso':
+                        from sklearn.linear_model import Lasso
+                        model = Lasso(**self.parameters)
+                    elif self.Function == 'MultiTaskLasso':
+                        from sklearn.linear_model import MultiTaskLasso
+                        model = MultiTaskLasso(**self.parameters)
+                    elif self.Function == 'ElasticNet':
+                        from sklearn.kernel_ridge import ElasticNet
+                        model = ElasticNet(**self.parameters)
+                    elif self.Function == 'MultiTaskElasticNet':
+                        from sklearn.linear_model import MultiTaskElasticNet
+                        model = MultiTaskElasticNet(**self.parameters)
+                    elif self.Function == 'Lars':
+                        from sklearn.linear_model import Lars
+                        model = Lars(**self.parameters)
+                    elif self.Function == 'LassoLars':
+                        from sklearn.kernel_ridge import LassoLars
+                        model = LassoLars(**self.parameters)
+                    elif self.Function == 'BayesianRidge':
+                        from sklearn.linear_model import BayesianRidge
+                        model = BayesianRidge(**self.parameters)
+                    elif self.Function == 'ARDRegression':
+                        from sklearn.linear_model import ARDRegression
+                        model = ARDRegression(**self.parameters)
+                    elif self.Function == 'LogisticRegression':
+                        from sklearn.kernel_ridge import LogisticRegression
+                        model = LogisticRegression(**self.parameters)
+                    elif self.Function == 'SGDRegressor':
+                        from sklearn.linear_model import SGDRegressor
+                        model = SGDRegressor(**self.parameters)
+                    elif self.Function == 'SVR':
+                        from sklearn.svm import SVR
+                        model = SVR(**self.parameters)
+                    elif self.Function == 'NuSVR':
+                        from sklearn.svm import NuSVR
+                        model = NuSVR(**self.parameters)
+                    elif self.Function == 'LinearSVR':
+                        from sklearn.svm import LinearSVR
+                        model = LinearSVR(**self.parameters)
+                    elif self.Function == 'MLPRegressor':
+                        from sklearn.neural_network import MLPRegressor
+                        model = MLPRegressor(**self.parameters)
+                    else:
+                        msg = "@Task #%i(%s): function name '%s' in module '%s' is not an available/valid regression method" % (self.iblock, self.SuperFunction,self.Function, 'sklearn')
+                        raise NameError(msg)
+                except Exception as err:
+                    msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+                    raise TypeError(msg)
+
+        # step5: process
+        if method == 'fit':
+            model.fit(dfx, dfy)
+        elif method == 'predict':
+            dfy_pred = model.predict(dfx)
+            dfy_pred = pd.DataFrame(dfy_pred)
+
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock,token,self.Host,self.Function)]
+            elif token == 'dfy_pred':
+                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+        #step7: delete all inputs from memory
+        del self.legal_inputs
+
+##################################################################### 4 Define Search
+
 class GridSearchCV(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None}
@@ -821,6 +822,7 @@ class GridSearchCV(BASE, LIBRARY):
 
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
+        print ' ### *** ', self.parameters['estimator']
 
         # step3: check the dimension of input data frame
         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
@@ -952,7 +954,7 @@ class Evaluate_Regression(BASE,LIBRARY,Evaluator):
         #step7: delete all inputs from memory
         del self.legal_inputs
 
-##################################################################### 5 Train/Run
+##################################################################### 5 Explore
 
 class Old_Search(BASE, Regressor, Evaluator):
     def legal_IO(self):

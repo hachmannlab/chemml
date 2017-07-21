@@ -114,7 +114,6 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                               << estimator = '@estimator'
                               << param_grid = {}
                               << scoring = None
-                              << kernel = 'rbf'
                               << fit_params = None
                               << n_jobs = 1
                               << pre_dispatch = '2*n_jobs'
@@ -123,7 +122,6 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                               << refit = True
                               << verbose = 0
                               << error_score = 'raise'
-                              << return_train_score = True
 
                 > Note: can not pass multiple inputs
                 >> id dfx     >> id dfy   >> id estimator  >> id pack   >> cv_results_  >> api 6  >> best_model_api

@@ -797,6 +797,9 @@ class regression(BASE, LIBRARY):
                 self.Base.send[(self.iblock, token)] = [model, order.count(token),
                                                         (self.iblock,token,self.Host,self.Function)]
             elif token == 'dfy_pred':
+                if method not in ['fit', 'predict']:
+                    msg = "@Task #%i(%s): no calculation for dfy_pred has been requested, func_method = %s" % (self.iblock + 1, self.SuperFunction, str(method))
+                    raise ValueError(msg)
                 self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
                                                         (self.iblock, token, self.Host, self.Function)]
             else:

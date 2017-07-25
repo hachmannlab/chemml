@@ -37,7 +37,7 @@ def _check_object_col(df, name):
       converted to numeric values.
     - remove columns with all non numeric elements.
     """
-    object_cols = [df.dtypes.index[i] for i, type in enumerate(df.dtypes) if type == "object"]
+    object_cols = [df.dtypes.index[i] for i, typ in enumerate(df.dtypes) if typ == "object"]
     for col in object_cols:
         for i, value in enumerate(df[col]):
             if  isfloat(value):
@@ -52,7 +52,7 @@ class missing_values(object):
     
     Parameters
     ----------
-    strategy: string, optional (default="ignore")
+    strategy: string, optional (default="ignore_row")
         
         list of strategies:
         - interpolate: interpolate based on sorted target values
@@ -75,7 +75,7 @@ class missing_values(object):
     data frame
     mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed
     """
-    def __init__(self, strategy="interpolate", string_as_null = True,
+    def __init__(self, strategy="ignore_row", string_as_null = True,
                  inf_as_null = True, missing_values = False):
         self.strategy = strategy
         self.string_as_null = string_as_null
@@ -115,14 +115,20 @@ class missing_values(object):
                 df[col].fillna(value=0,inplace=True)
             return df
         elif self.strategy == 'ignore_row':
-            self.mask = pd.notnull(df).all(1)
-            df = df[self.mask]
-            # df.dropna(axis=0, how='any', inplace=True)
+            dfi = df.index
+            df.dropna(axis=0, how='any', inplace=True)
+            mask=[i in df.index for i in dfi]
+            self.mask = pd.Series(mask, index=df.index)
+            # self.mask = pd.notnull(df).all(1)
+            # df = df[self.mask]
             return df
         elif self.strategy == 'ignore_column':
-            self.mask = pd.notnull(df).all(0)
-            df = df.T[self.mask].T
-            # df.dropna(axis=1, how='any', inplace=True)
+            dfc = df.columns
+            df.dropna(axis=1, how='any', inplace=True)
+            mask=[i in df.columns for i in dfc]
+            self.mask = pd.Series(mask, index=df.columns)
+            # self.mask = pd.notnull(df).all(0)
+            # df = df.T[self.mask].T
             return df
         elif self.strategy == 'interpolate':
             df = df.interpolate()
@@ -142,7 +148,7 @@ class missing_values(object):
         if self.strategy == 'ignore_row':
             return df[self.mask]
         elif self.strategy == 'ignore_column':
-            return df.T[self.mask].T
+            return df.loc[:,self.mask]
         else:
             msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform your new dataframe with those methods."
             warnings.warn(msg)

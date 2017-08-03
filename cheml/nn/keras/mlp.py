@@ -6,9 +6,9 @@ import numpy as np
 from json import load
 from importlib import import_module
 
-class mlp(object):
+class MLP(object):
     def __init__(self, nhidden = 1, nneurons = [100], activations = ['sigmoid'],
-                 learning_rate = 0.01, lr_decay = 0.99,
+                 learning_rate = 0.01, lr_decay = 0.0,
                  nepochs = 100, batch_size = 100, loss = 'mean_squared_error',
                  regression = True, nclasses = None,
                  layer_config_file = None, opt_config_file = None):
@@ -33,15 +33,15 @@ class mlp(object):
     def fit(self, X, y):
         if len(self.layers) == 0:
             for i in xrange(self.nhidden):
-                self.layers.append((Dense,
+                self.layers.append(('Dense',
                                     {'units': self.nneurons[i],
                                      'activation': self.activations[i]}))
             if self.is_regression:
-                self.layers.append((Dense,
+                self.layers.append(('Dense',
                                     {'units': 1,
                                      'activation': 'linear'}))
             else:
-                self.layers.append((Dense,
+                self.layers.append(('Dense',
                                     {'units': self.nclasses,
                                      'activation': 'softmax'}))
         layer_name, layer_params = self.layers[0]
@@ -62,7 +62,7 @@ class mlp(object):
         if self.is_regression:
             return np.mean((prediction - y) ** 2) ** 0.5
         else:
-            return np.sum(np.argmax(prediction) == y) * 100. / len(y)
+            return np.sum(np.argmax(prediction, axis=1) == y) * 100. / len(y)
 
     def parse_layer_config(self, layer_config_file):
         with open(layer_config_file, 'r') as f:

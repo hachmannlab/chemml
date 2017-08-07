@@ -658,7 +658,7 @@ class Train_Test_Split(BASE, LIBRARY):
 class KFold(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {}
-        self.legal_outputs = {'kfold': None}
+        self.legal_outputs = {'cv': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -681,7 +681,7 @@ class KFold(BASE, LIBRARY):
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'kfold':
+            if token == 'cv':
                 self.Base.send[(self.iblock, token)] = [model, order.count(token),
                                                         (self.iblock,token,self.Host,self.Function)]
             else:
@@ -689,6 +689,77 @@ class KFold(BASE, LIBRARY):
                 raise NameError(msg)
         # step7: delete all inputs from memory
         del self.legal_inputs
+
+class ShuffleSplit(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'cv': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            from sklearn.model_selection import ShuffleSplit
+            model = ShuffleSplit(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'cv':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class StratifiedShuffleSplit(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'cv': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            from sklearn.model_selection import StratifiedShuffleSplit
+            model = StratifiedShuffleSplit(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'cv':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
 
 ##################################################################### 3 Define Model
 
@@ -712,7 +783,10 @@ class regression(BASE, LIBRARY):
         else:
             dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
         if method == 'fit':
+            model, _ = self.input_check('api', req=False)
             dfy, dfy_info = self.input_check('dfy', req=True, py_type=pd.DataFrame)
+            # step3: check the dimension of input data frame
+            dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
         if method == 'predict':
             model, _ = self.input_check('api', req=True)
 
@@ -720,6 +794,7 @@ class regression(BASE, LIBRARY):
         self.paramFROMinput()
 
         # step3: check the dimension of input data frame
+        # dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
         # step4: import module and make APIs
         if model is None:
@@ -800,6 +875,9 @@ class regression(BASE, LIBRARY):
                 if method not in ['fit', 'predict']:
                     msg = "@Task #%i(%s): no calculation for dfy_pred has been requested, func_method = %s" % (self.iblock + 1, self.SuperFunction, str(method))
                     raise ValueError(msg)
+                if method == 'fit':
+                    dfy_pred = model.predict(dfx)
+                    dfy_pred = pd.DataFrame(dfy_pred)
                 self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
                                                         (self.iblock, token, self.Host, self.Function)]
             else:
@@ -808,7 +886,7 @@ class regression(BASE, LIBRARY):
         #step7: delete all inputs from memory
         del self.legal_inputs
 
-##################################################################### 4 Define Search
+##################################################################### 4 Search
 
 class GridSearchCV(BASE, LIBRARY):
     def legal_IO(self):
@@ -825,11 +903,10 @@ class GridSearchCV(BASE, LIBRARY):
 
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
-        print ' ### *** ', self.parameters['estimator']
 
         # step3: check the dimension of input data frame
         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
-        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
+        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
         # step4: import module and make APIs
         try:
@@ -902,6 +979,107 @@ class cross_val_score(BASE, LIBRARY):
             if token == 'scores':
                 self.Base.send[(self.iblock, token)] = [scores, order.count(token),
                                                         (self.iblock,token,self.Host,self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class cross_val_predict(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None}
+        self.legal_outputs = {'dfy_pred': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        _, _ = self.input_check('estimator', req=True)
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+
+        # step4: import module and make APIs
+        try:
+            from sklearn.model_selection import cross_val_predict
+            predictions = cross_val_score(X=dfx, y=dfy, **self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'dfy_pred':
+                self.Base.send[(self.iblock, token)] = [predictions, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class learning_curve(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None, 'cv':None}
+        self.legal_outputs = {'train_sizes_abs': None,'train_scores': None,'test_scores': None, \
+                              'extended_result_': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        _, _ = self.input_check('estimator', req=True)
+        dfx, dfx_info = self.input_check('dfx', req=True, py_type=pd.DataFrame)
+        dfy, dfy_info = self.input_check('dfy', req=False, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
+
+        # step4: import module and make APIs
+        try:
+            from sklearn.model_selection import learning_curve
+            train_sizes_abs, train_scores, test_scores = learning_curve(X=dfx,y=dfy,**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        train_scores_mean = np.mean(train_scores, axis=1)
+        train_scores_std = np.std(train_scores, axis=1)
+        test_scores_mean = np.mean(test_scores, axis=1)
+        test_scores_std = np.std(test_scores, axis=1)
+        data = [train_sizes_abs,train_scores_mean,train_scores_std,test_scores_mean,test_scores_std]
+        extended_result_ = pd.DataFrame(data,columns=['train_sizes_abs','train_scores_mean','train_scores_std','test_scores_mean','test_scores_std'])
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'train_sizes_abs':
+                self.Base.send[(self.iblock, token)] = [train_sizes_abs, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'train_scores':
+                self.Base.send[(self.iblock, token)] = [train_scores, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'test_scores':
+                self.Base.send[(self.iblock, token)] = [test_scores, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'extended_result_':
+                self.Base.send[(self.iblock, token)] = [extended_result_, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)

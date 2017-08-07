@@ -25,9 +25,8 @@ read_table
 :required parameters:
     | filepath_or_buffer 
     |
-    .. note:: All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found here_.
-
-    .. _here: http://pandas.pydata.org/pandas-docs/version/0.20/generated/pandas.read_table.html
+    .. note:: All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found
+        `here <http://pandas.pydata.org/pandas-docs/version/0.20/generated/pandas.read_table.html`_.
 
 :required packages:
     | Pandas_, version: 0.20.2

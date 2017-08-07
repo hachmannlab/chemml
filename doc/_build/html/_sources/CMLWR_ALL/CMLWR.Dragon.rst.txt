@@ -16,25 +16,25 @@ Dragon
     | Dragon
 
 :input tokens (receivers):
-    | ``molfile`` : pandas DataFrame, shape(n_samples, n_features), requied
-    |   input DataFrame
+    | ``molfile`` : string, requied
+    |   The path to the input molecule file
 
 :output tokens (senders):
-    | ``df`` : pandas DataFrame, shape(n_samples, n_features), requied
-    |   output DataFrame
+    | ``df`` : pandas DataFrame, shape(n_samples, n_features)
+    |   feature values matrix
 
 :required parameters:
-    | script  ( required for the block: string - 'new' or a path to the script file)
-    | output_directory  (  required for the block: string - '')
+    | script : string, required for the block : 'new' or a path to the script file
+    | output_directory : string, required for the block
     |
-    .. note:: The documentation for this function can be found here_
-
-    .. _here: :py:func:`cheml.chem.Dragon`
+    .. note:: The documentation for this function can be found here: :py:func:`cheml.chem.Dragon`
 
 :required packages:
     | :py:mod:`cheml`, version: 1.3.1
-    | Pandas_, version: 0.20.2\n\n    .. _Pandas: http://pandas.pydata.org
-    | Dragon_, version: 6 or 7\n\n    .. _Dragon: http://www.talete.mi.it/products/dragon_description.htm
+    | Pandas_, version: 0.20.2
+    .. _Pandas: http://pandas.pydata.org
+    | Dragon_, version: 6 or 7
+    .. _Dragon: http://www.talete.mi.it/products/dragon_description.htm
 
 :input file view:
     | ``## Prepare Data``
@@ -56,7 +56,7 @@ Dragon
     |   ``<< MaxAtomWalkPath  =  "2000"``
     |   ``<< LogPathWalk  =  True``
     |   ``<< LogEdge  =  True``
-    |   ``<< Weights  =  ["Mass"-"VdWVolume"-"Electronegativity"-"Polarizability"-"Ionization"-"I-State"]``
+    |   ``<< Weights  =  ["Mass"-"VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]``
     |   ``<< SaveOnlyData  =  False``
     |   ``<< SaveLabelsOnSeparateFile  =  False``
     |   ``<< SaveFormatBlock  =  "%b-%n.txt"``
@@ -72,7 +72,7 @@ Dragon
     |   ``<< SaveExclusionOptionsToVariables  =  False``
     |   ``<< SaveExcludeMisMolecules  =  False``
     |   ``<< SaveExcludeRejectedMolecules  =  False``
-    |   ``<< blocks  =  range(1-30)``
+    |   ``<< blocks  =  range(1,30)``
     |   ``<< molInput  =  "stdin"``
     |   ``<< molInputFormat  =  "SMILES"``
     |   ``<< molFile  =  None``
@@ -86,7 +86,7 @@ Dragon
     |   ``<< logFile  =  "Dragon_log.txt"``
     |   ``<< external  =  False``
     |   ``<< fileName  =  None``
-    |   ``<< delimiter  =  "-"``
+    |   ``<< delimiter  =  ","``
     |   ``<< consecutiveDelimiter  =  False``
     |   ``<< MissingValue  =  "NaN"``
     |   ``<< RejectDisconnectedStrucuture  =  False``
@@ -96,6 +96,7 @@ Dragon
     |   ``<< RoundWeights  =  True``
     |   ``<< RoundDescriptorValues  =  True``
     |   ``<< knimemode  =  False``
+    |
     |   ``>> id molfile``
     |   ``>> df id``
     |

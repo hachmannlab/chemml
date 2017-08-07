@@ -195,39 +195,41 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">molfile</span></code> : pandas DataFrame, shape(n_samples, n_features), requied</div>
+<div class="line"><code class="docutils literal"><span class="pre">molfile</span></code> : string, requied</div>
 <div class="line-block">
-<div class="line">input DataFrame</div>
+<div class="line">The path to the input molecule file</div>
 </div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas DataFrame, shape(n_samples, n_features), requied</div>
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas DataFrame, shape(n_samples, n_features)</div>
 <div class="line-block">
-<div class="line">output DataFrame</div>
+<div class="line">feature values matrix</div>
 </div>
 </div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">required parameters:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line">script  ( required for the block: string - &#8216;new&#8217; or a path to the script file)</div>
-<div class="line">output_directory  (  required for the block: string - &#8216;&#8217;)</div>
+<div class="line">script : string, required for the block : &#8216;new&#8217; or a path to the script file</div>
+<div class="line">output_directory : string, required for the block</div>
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The documentation for this function can be found <a class="reference external" href=":py:func:`cheml.chem.Dragon`">here</a></p>
+<p class="last">The documentation for this function can be found here: <code class="xref py py-func docutils literal"><span class="pre">cheml.chem.Dragon()</span></code></p>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
 <div class="line"><a class="reference internal" href="../cheml.html#module-cheml" title="cheml"><code class="xref py py-mod docutils literal"><span class="pre">cheml</span></code></a>, version: 1.3.1</div>
-<div class="line"><a href="#id2"><span class="problematic" id="id3">Pandas_</span></a>, version: 0.20.2nn    .. _Pandas: <a class="reference external" href="http://pandas.pydata.org">http://pandas.pydata.org</a></div>
-<div class="line"><a class="reference internal" href="#dragon">Dragon</a>, version: 6 or 7nn    .. _Dragon: <a class="reference external" href="http://www.talete.mi.it/products/dragon_description.htm">http://www.talete.mi.it/products/dragon_description.htm</a></div>
+<div class="line"><a class="reference external" href="http://pandas.pydata.org">Pandas</a>, version: 0.20.2</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id3"><span class="problematic" id="id4">Dragon_</span></a>, version: 6 or 7</div>
 </div>
 </td>
 </tr>
@@ -253,7 +255,7 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxAtomWalkPath</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;2000&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">LogPathWalk</span>&#160; <span class="pre">=</span>&#160; <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">LogEdge</span>&#160; <span class="pre">=</span>&#160; <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Weights</span>&#160; <span class="pre">=</span>&#160; <span class="pre">[&quot;Mass&quot;-&quot;VdWVolume&quot;-&quot;Electronegativity&quot;-&quot;Polarizability&quot;-&quot;Ionization&quot;-&quot;I-State&quot;]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Weights</span>&#160; <span class="pre">=</span>&#160; <span class="pre">[&quot;Mass&quot;-&quot;VdWVolume&quot;,&quot;Electronegativity&quot;,&quot;Polarizability&quot;,&quot;Ionization&quot;,&quot;I-State&quot;]</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveOnlyData</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveLabelsOnSeparateFile</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFormatBlock</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;%b-%n.txt&quot;</span></code></div>
@@ -269,7 +271,7 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExclusionOptionsToVariables</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeMisMolecules</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeRejectedMolecules</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">blocks</span>&#160; <span class="pre">=</span>&#160; <span class="pre">range(1-30)</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">blocks</span>&#160; <span class="pre">=</span>&#160; <span class="pre">range(1,30)</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInput</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;stdin&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInputFormat</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;SMILES&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molFile</span>&#160; <span class="pre">=</span>&#160; <span class="pre">None</span></code></div>
@@ -283,7 +285,7 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">logFile</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;Dragon_log.txt&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">external</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fileName</span>&#160; <span class="pre">=</span>&#160; <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delimiter</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;-&quot;</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delimiter</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;,&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">consecutiveDelimiter</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MissingValue</span>&#160; <span class="pre">=</span>&#160; <span class="pre">&quot;NaN&quot;</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RejectDisconnectedStrucuture</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
@@ -293,6 +295,7 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundWeights</span>&#160; <span class="pre">=</span>&#160; <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundDescriptorValues</span>&#160; <span class="pre">=</span>&#160; <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">knimemode</span>&#160; <span class="pre">=</span>&#160; <span class="pre">False</span></code></div>
+<div class="line"><br /></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molfile</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">df</span> <span class="pre">id</span></code></div>
 <div class="line"><br /></div>

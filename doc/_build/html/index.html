@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="#"/>
-        <link rel="next" title="cheml package" href="cheml.html"/> 
+        <link rel="next" title="Table of Contents" href="CMLWContentsTable.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,13 +83,16 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
 </ul>
 
             
@@ -170,61 +173,90 @@
 </style>
 <div class="section" id="welcome-to-the-chemml-s-documentation">
 <h1>Welcome to the ChemML&#8217;s documentation!<a class="headerlink" href="#welcome-to-the-chemml-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
+<p>ChemML is a machine learning and informatics program suite for the chemical and materials sciences.</p>
+<div class="section" id="code-design">
+<h2>Code Design:<a class="headerlink" href="#code-design" title="Permalink to this headline">¶</a></h2>
+<p>ChemML is being developed in the Python programming language and makes use of a host of data analysis and ML libraries
+(accessible through the Anaconda distribution), as well as domain-specific libraries.
+The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.</p>
+<p>The package consists of two python frameworks:</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+<li><dl class="first docutils">
+<dt>ChemML library (cheml):</dt>
+<dd><p class="first last">It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the well known libraries like Scikit-learn.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>ChemML wrapper:</dt>
+<dd><p class="first last">It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors:<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Mojtaba Haghighatlari (CBE department, SUNY Buffalo)</li>
+<li>Po-Han Chen (CBE department, SUNY Buffalo)</li>
+<li>Johannes Hachmann (CBE department, SUNY Buffalo)</li>
+<li>You can become a developer of ChemML! Feel free to fork and make pull-request to the &#8220;development&#8221; branch.</li>
+</ul>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies:<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. However, using other libraries
+that are available through ChemML wrapper is optional and depends on the client request.</p>
+</div>
+<div class="section" id="citation">
+<h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>Please cite the use of ChemML as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Haghighatlari</span> <span class="n">M</span><span class="p">,</span> <span class="n">Chen</span> <span class="n">P</span><span class="p">,</span> <span class="n">Hachmann</span> <span class="n">J</span> <span class="p">(</span><span class="mi">2017</span><span class="p">)</span> <span class="s2">&quot;ChemML: A machine learning and informatics program suite for the chemical and materials sciences&quot;</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bitbucket</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">hachmanngroup</span><span class="o">/</span><span class="n">cheml</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#cheml">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#sklearn">sklearn</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#input-file-structure">Input File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#specific-characters">Specific Characters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#general-rules">General Rules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#cheml">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#sklearn">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id1">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id2">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id3">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id4">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id5">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id6">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id7">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id8">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id9">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id10">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id11">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#id12">sklearn</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#matplotlib">matplotlib</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#seaborn">seaborn</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter-data">Enter Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare-data">Prepare Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#define-model">Define Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#define-search">Define Search</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#explore">Explore</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#search">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#mix">Mix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-contents">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
+<div class="section" id="license">
+<h2>License:<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>ChemML is open and freely shared with the community under 3-clause BSD license.</p>
+</div>
 </div>
 
 
@@ -234,7 +266,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.html" class="btn btn-neutral float-right" title="cheml package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWContentsTable.html" class="btn btn-neutral float-right" title="Table of Contents" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

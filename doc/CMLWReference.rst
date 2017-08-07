@@ -1,53 +1,53 @@
 .. _ChemML_Wrapper_Reference:
 
-ChemML Wrapper Reference
+API Reference
 =============
 
 This is the task/function reference of ChemML wrapper.
 
 
 =======================================================
-Enter Data
+Enter
 =======================================================
 
 .. toctree::
 
-    include_CMLWREnterData
+    include_CMLWR1Enter
 
 =======================================================
-Prepare Data
-=======================================================
-
-.. toctree::
-
-    include_CMLWRPrepareData
-
-=======================================================
-Define Model
+Prepare
 =======================================================
 
 .. toctree::
 
-    include_CMLWRDefineModel
-
+    include_CMLWR2Prepare
 
 =======================================================
-Define Search
+Model
 =======================================================
 
 .. toctree::
 
-    include_CMLWRDefineSearch
+    include_CMLWR3Model
+
+
+=======================================================
+Search
+=======================================================
+
+.. toctree::
+
+    include_CMLWR4Search
     CMLWReference.GridSearchCV
 
 
 =======================================================
-Explore
+Mix
 =======================================================
 
 .. toctree::
 
-    include_CMLWRExplore
+    include_CMLWR5Mix
 
 =======================================================
 Visualize
@@ -55,7 +55,7 @@ Visualize
 
 .. toctree::
 
-    include_CMLWRVisualize
+    include_CMLWR6Visualize
 
 =======================================================
 Store
@@ -63,4 +63,4 @@ Store
 
 .. toctree::
 
-    include_CMLWRStore
+    include_CMLWR7Store

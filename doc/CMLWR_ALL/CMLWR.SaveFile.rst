@@ -20,19 +20,18 @@ SaveFile
     |   input DataFrame
 
 :output tokens (senders):
-    | ``filepath`` : pandas DataFrame, shape(n_samples, n_features), requied
-    |   output DataFrame
+    | ``filepath`` : string
+    |   the saved file path
 
 :required parameters:
-    | filename  ( required for the function)
+    | filename : required for the function
     |
-    .. note:: The documentation for this function can be found here_
-
-    .. _here: :py:func:`cheml.initialization.SaveFile`
+    .. note:: The documentation for this function can be found here: :py:func:`cheml.initialization.SaveFile`
 
 :required packages:
     | :py:mod:`cheml`, version: 1.3.1
-    | Pandas_, version: 0.20.2\n\n    .. _Pandas: http://pandas.pydata.org
+    | Pandas_, version: 0.20.2
+    .. _Pandas: http://pandas.pydata.org
 
 :input file view:
     | ``## Store``

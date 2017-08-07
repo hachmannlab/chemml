@@ -23,12 +23,10 @@ read_excel
     |   output DataFrame
 
 :required parameters:
-    | io (required for the function)
+    | io : required for the function
     |
-    .. note:: All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found here_.
-
-    .. _here: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html#pandas.read_excel
-
+    .. note:: All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found
+        `here <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html#pandas.read_excel>`_.
 
 :required packages:
     | Pandas_, version: 0.20.2

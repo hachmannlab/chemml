@@ -170,10 +170,10 @@
 </style>
 <div class="section" id="ipython-notebook">
 <h1>Ipython Notebook<a class="headerlink" href="#ipython-notebook" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default"><div class="highlight"><pre>Hello World!
+<div class="highlight-default"><div class="highlight"><pre><span></span>Hello World!
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="n">w1</span> <span class="o">=</span> <span class="n">IntSlider</span><span class="p">()</span>
 <span class="n">display</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
@@ -181,42 +181,42 @@
 <span class="n">w2</span> <span class="o">=</span> <span class="n">Text</span><span class="p">()</span>
 <span class="n">display</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
 
-<span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">&quot;Submit&quot;</span><span class="p">)</span>
+<span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
-<span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;val&#39;</span><span class="p">:</span><span class="n">w1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="s">&#39;text&#39;</span><span class="p">:</span><span class="n">w2</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
+<span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span><span class="n">w1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">w2</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
 <span class="k">def</span> <span class="nf">on_button_clicked</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-<span class="c">#     print(dict)</span>
-    <span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;hi&#39;</span><span class="p">:</span>
-        <span class="n">w3</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;Hi there!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="c1">#     print(dict)</span>
+    <span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;hi&#39;</span><span class="p">:</span>
+        <span class="n">w3</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Hi there!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
         <span class="n">display</span><span class="p">(</span><span class="n">w3</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_submit</span><span class="p">(</span><span class="n">sender</span><span class="p">):</span>
-    <span class="nb">dict</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w2</span><span class="o">.</span><span class="n">value</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w2</span><span class="o">.</span><span class="n">value</span>
 <span class="k">def</span> <span class="nf">on_value_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="c">#print (change)</span>
-    <span class="nb">dict</span><span class="p">[</span><span class="s">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s">&#39;new&#39;</span><span class="p">]</span>
+    <span class="c1">#print (change)</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
 <span class="k">def</span> <span class="nf">on_text_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="c">#print (change)</span>
-    <span class="nb">dict</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s">&#39;new&#39;</span><span class="p">]</span>
+    <span class="c1">#print (change)</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
 
 
-<span class="c"># w2.on_submit(handle_submit)</span>
-<span class="n">w1</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_value_change</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="s">&#39;value&#39;</span><span class="p">)</span>
-<span class="n">w2</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_text_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s">&#39;value&#39;</span><span class="p">)</span>
+<span class="c1"># w2.on_submit(handle_submit)</span>
+<span class="n">w1</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_value_change</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="n">w2</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_text_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
 <span class="n">button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_clicked</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s">&#39;val&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">77</span><span class="p">:</span>
-    <span class="n">w4</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;We love number 7!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">77</span><span class="p">:</span>
+    <span class="n">w4</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;We love number 7!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">w4</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&quot;x&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s">&quot;y&quot;</span><span class="p">:[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s">&quot;z&quot;</span><span class="p">:[</span><span class="s">&quot;testing&quot;</span><span class="p">,</span><span class="s">&quot;pretty&quot;</span><span class="p">,</span><span class="s">&quot;tables&quot;</span><span class="p">],</span> <span class="s">&quot;f&quot;</span><span class="p">:[</span><span class="mf">0.023432</span><span class="p">,</span> <span class="mf">0.234321</span><span class="p">,</span><span class="mf">0.5555</span><span class="p">]})</span>
-<span class="k">print</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s">&#39;psql&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;y&quot;</span><span class="p">:[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;z&quot;</span><span class="p">:[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span><span class="s2">&quot;pretty&quot;</span><span class="p">,</span><span class="s2">&quot;tables&quot;</span><span class="p">],</span> <span class="s2">&quot;f&quot;</span><span class="p">:[</span><span class="mf">0.023432</span><span class="p">,</span> <span class="mf">0.234321</span><span class="p">,</span><span class="mf">0.5555</span><span class="p">]})</span>
+<span class="k">print</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;psql&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="o">+----+----------+-----+-----+---------+</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">+----+----------+-----+-----+---------+</span>
 <span class="o">|</span>    <span class="o">|</span>        <span class="n">f</span> <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>   <span class="n">y</span> <span class="o">|</span> <span class="n">z</span>       <span class="o">|</span>
 <span class="o">|----+----------+-----+-----+---------|</span>
 <span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span> <span class="mf">0.023432</span> <span class="o">|</span>   <span class="mi">1</span> <span class="o">|</span>   <span class="mi">6</span> <span class="o">|</span> <span class="n">testing</span> <span class="o">|</span>

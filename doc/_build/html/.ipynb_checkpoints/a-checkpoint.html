@@ -327,45 +327,45 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="highlight-default"><div class="highlight"><pre>Hello World!
+<div class="highlight-default"><div class="highlight"><pre><span></span>Hello World!
 </pre></div>
 </div>
 <div class="nbinput container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-In [3]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-from ipywidgets import *
-from IPython.display import display
-w1 = IntSlider()
-display(w1)
+<span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="n">w1</span> <span class="o">=</span> <span class="n">IntSlider</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
 
-w2 = Text()
-display(w2)
+<span class="n">w2</span> <span class="o">=</span> <span class="n">Text</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
 
-button = Button(description=&quot;Submit&quot;)
-display(button)
-dict = {&#39;val&#39;:w1.value,&#39;text&#39;:w2.value}
-def on_button_clicked(b):
-#     print(dict)
-    if dict[&#39;text&#39;]==&#39;hi&#39;:
-        w3 = Checkbox(value=False,description=&#39;Hi there!&#39;,disabled=False)
-        display(w3)
-def handle_submit(sender):
-    dict[&#39;text&#39;] = w2.value
-def on_value_change(change):
-    #print (change)
-    dict[&#39;val&#39;] = change[&#39;new&#39;]
-def on_text_change(change):
-    #print (change)
-    dict[&#39;text&#39;] = change[&#39;new&#39;]
+<span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+<span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span><span class="n">w1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">w2</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
+<span class="k">def</span> <span class="nf">on_button_clicked</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+<span class="c1">#     print(dict)</span>
+    <span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;hi&#39;</span><span class="p">:</span>
+        <span class="n">w3</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Hi there!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">w3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_submit</span><span class="p">(</span><span class="n">sender</span><span class="p">):</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w2</span><span class="o">.</span><span class="n">value</span>
+<span class="k">def</span> <span class="nf">on_value_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+    <span class="c1">#print (change)</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">on_text_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+    <span class="c1">#print (change)</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
 
 
-# w2.on_submit(handle_submit)
-w1.observe(on_value_change, names = &#39;value&#39;)
-w2.observe(on_text_change, names=&#39;value&#39;)
-button.on_click(on_button_clicked)
+<span class="c1"># w2.on_submit(handle_submit)</span>
+<span class="n">w1</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_value_change</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="n">w2</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_text_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="n">button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_clicked</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -389,26 +389,26 @@ button.on_click(on_button_clicked)
 </div>
 <div class="nbinput nblast container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-In [2]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-if dict[&#39;val&#39;]==77:
-    w4 = Checkbox(value=False,description=&#39;We love number 7!&#39;,disabled=True)
-    display(w4)
+<span></span><span class="k">if</span> <span class="nb">dict</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">77</span><span class="p">:</span>
+    <span class="n">w4</span> <span class="o">=</span> <span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;We love number 7!&#39;</span><span class="p">,</span><span class="n">disabled</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">w4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-In [1]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2"><div class="highlight"><pre>
-print &#39;5&#39;
-import pandas as pd
-#df = pd.DataFrame({&quot;x&quot;:[1,2,3], &quot;y&quot;:[6,4,3], &quot;z&quot;:[&quot;testing&quot;,&quot;pretty&quot;,&quot;tables&quot;], &quot;f&quot;:[0.023432, 0.234321,0.5555]})
-#df
+<span></span><span class="k">print</span> <span class="s1">&#39;5&#39;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="c1">#df = pd.DataFrame({&quot;x&quot;:[1,2,3], &quot;y&quot;:[6,4,3], &quot;z&quot;:[&quot;testing&quot;,&quot;pretty&quot;,&quot;tables&quot;], &quot;f&quot;:[0.023432, 0.234321,0.5555]})</span>
+<span class="c1">#df</span>
 </pre></div>
 </div>
 </div>

@@ -57,8 +57,8 @@ for i in range(df.shape[0]):
             file.write('    | %s'% item.strip().split('=')[0])
             file.write(' (%s)\n'%item.strip().split('=')[1])
         file.write('    |\n')
-        file.write('    .. note:: The documentation for this function can be found here_\n\n'\
-                   '    .. _here: %s\n'% df['param_doc'][i])
+        file.write('    .. note:: The documentation for this function can be found\n'\
+                   '        `here <%s>`_.\n'% df['param_doc'][i])
         file.write('\n')
 
         file.write(':required packages:\n')

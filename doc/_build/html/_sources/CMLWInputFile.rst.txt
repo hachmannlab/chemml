@@ -1,5 +1,5 @@
 =============================
-ChemML Wrapper input file
+Input File Format
 =============================
 
 The input file should be produced by using the Input builder available in the website. However, the file is a text file

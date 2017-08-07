@@ -10,40 +10,24 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 ## Enter Data
                 << host = pandas                 << function = read_table
 
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/dragon_1893.csv'
-                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HTT_bit.csv'
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/Morgan_bit.csv'
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HAP_bit.csv'
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/MACCS_bit.csv'
+                << filepath_or_buffer = 'benchmarks/DES/MP/descriptors/clean_dragon_2262v1130.csv'
+                < filepath_or_buffer = 'benchmarks/DES/MP/descriptors/HTT.csv'
                 << sep=','
-                < header = 0
-                << header = None
+                << header = 0
+                < header = None
                 << skiprows = 0
-                >> df 0
-
-## Prepare Data
-                        << host = cheml         << function = Constant
-
-                        >> 0 df
-                        >> df 1
+                >> df 1
 
 
 ## Enter Data
                 << host = pandas                 << function = read_table
 
-                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/pol_den_RI.csv'
+                << filepath_or_buffer = 'benchmarks/DES/MP/descriptors/clean_dragon_mp.csv'
+                < filepath_or_buffer = 'benchmarks/DES/MP/descriptors/HTT_mp.csv'
                 << sep=','
                 << header = 0
                 << skiprows = 0
-                >> df 222
-
-## Prepare Data
-                << host = cheml                 << function = Split
-                < selection = ['RI_LL']
-                << selection = ['Pol_DFT']
-                < selection = ['Den_MD']
-                >> 222 df   >> df1 2
-
+                >> df 2
 
 
 ## Script
@@ -70,11 +54,11 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 
 -------------------------- ML
-## Model
+# Model
                         << host = sklearn        << function = MLPRegressor
                         << func_method = None
-                        << hidden_layer_sizes = (100,50)
-                        << activation = 'tanh'
+                        < hidden_layer_sizes = (128,64,32)
+                        < activation = 'tanh'
                         << solver = 'adam'
                         < alpha = 0.0001
                         << batch_size = 'auto'
@@ -89,7 +73,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
                         >> api 101
 
-# Model
+## Model
                 << host = sklearn      << function = SVR
                             << func_method = None
                               << C = 1.0
@@ -123,21 +107,20 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         >> 2 df     >> df 22    >> api 44
 
 
+
 ## Search
                 << host = sklearn      << function = GridSearchCV
 
                               << estimator = '@estimator'
-                              < param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01,0.03,0.1,0.3),'epsilon':(0.0001, 0.001,0.01,0.03,0.1,0.3)}
-                              << param_grid = {'activation':('logistic', 'tanh'),'hidden_layer_sizes':((128,64,32),(128,32,64),(32,64,128),(32,128,64),(64,32,128),(64,128,32)),'alpha':(1,0.7,0.3,0.1,0.01,0.001,0.0001,0.00001)}
+                              << param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01,0.03,0.1,0.3),'epsilon':(0.0001, 0.001,0.01,0.03,0.1,0.3)}
 
-                              < 'hidden_layer_sizes':((128,64,32),(128,32,64),(),(),(),()), ,'alpha':(0.01,0.001,0.0001)
                               <{'C':(0.01,0.1,1,10), 'epsilon':(0.01,0.1,1),'kernel':('linear','rbf','poly','sigmoid')}
                               << scoring = None
                               << fit_params = None
-                              << n_jobs = 8
+                              << n_jobs = 16
                               << pre_dispatch = '2*n_jobs'
                               << iid = True
-                              << cv = 5
+                              << cv = None
                               << refit = True
                               << verbose = 0
                               << error_score = 'raise'
@@ -148,7 +131,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 
 ## Model
-                        << host = sklearn        << function = MLPRegressor
+                        << host = sklearn        << function = SVR
                         << func_method = 'predict'
 
 
@@ -225,14 +208,14 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         >> 11 dfx   >> 22 dfy     >> dfx_train 17  >> dfx_test 18  >> dfy_train 19  >> dfy_test 20
 
 ## Model
-                        << host = sklearn        << function = MLPRegressor
+                        << host = sklearn        << function = SVR
                         << func_method = 'fit'
 
                         >> 17 dfx   >> 19 dfy >> 102 api
                         >> api 777
 
 ## Model
-                        << host = sklearn        << function = MLPRegressor
+                        << host = sklearn        << function = SVR
                         << func_method = 'predict'
 
 

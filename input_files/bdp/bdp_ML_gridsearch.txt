@@ -10,24 +10,40 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 ## Enter Data
                 << host = pandas                 << function = read_table
 
-                < filepath_or_buffer = 'benchmarks/DES/MP/descriptors/clean_dragon.csv'
-                << filepath_or_buffer = 'benchmarks/DES/MP/descriptors/HTT.csv'
+                << filepath_or_buffer = 'benchmarks/BDP_project/clean_data.csv'
                 << sep=','
-                < header = 0
-                << header = None
+                << header = 0
                 << skiprows = 0
-                >> df 1
+                >> df 0
+
+#
+                << host = cheml                 << function = Split
+                < selection = ['G_ground']
+                < selection = ['delG (kcal)']
+                << selection = ['G_ts']
+
+                >> 0 df   >> df1 2
+
+
+## Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "df_out1 = pd.DataFrame(df1['G_ts']-df1['G_ground'],columns=['G_ts-G_g'])"
+                        << l1 = "print df_out1.describe()"
+
+                        >> 0 df1    >> df_out1 2
+
 
 
 ## Enter Data
                 << host = pandas                 << function = read_table
 
-                < filepath_or_buffer = 'benchmarks/DES/MP/descriptors/clean_dragon_mp.csv'
-                << filepath_or_buffer = 'benchmarks/DES/MP/descriptors/HTT_mp.csv'
+                < filepath_or_buffer = 'benchmarks/BDP_project/descriptors/1k/descriptor/Dragon_clean_1914.csv'
+                << filepath_or_buffer = 'benchmarks/BDP_project/descriptors/1k/descriptor/HTT.csv'
                 << sep=','
-                << header = 0
+                < header = 0
+                << header = None
                 << skiprows = 0
-                >> df 2
+                >> df 1
 
 
 ## Script
@@ -39,18 +55,6 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         << l4 = "print df2.describe()"
                         >> 1 df1    >> 2 df2
 
-# Preprocessor
-                        << host = cheml             << function = MissingValues
-                        << string_as_null = True    << missing_values = ['Nan']
-                        << inf_as_null = True       << strategy = 'ignore_column'
-                        >> 1 dfx >> 2 dfy  >> dfx 3  >> dfy 4
-
-# Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print 'dfx:', df1.shape"
-                        << l1 = "print 'dfy:', df2.shape"
-                        < l2 = "print df1.describe()"
-                        >> 3 df1 >> 4 df2
 
 
 -------------------------- ML
@@ -112,7 +116,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << host = sklearn      << function = GridSearchCV
 
                               << estimator = '@estimator'
-                              << param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01),'epsilon':(0.0001, 0.001,0.01)}
+                              << param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01,0.1,0.3,1),'epsilon':(0.0001, 0.001,0.01,0.1,0.3,1)}
 
                               <{'C':(0.01,0.1,1,10), 'epsilon':(0.01,0.1,1),'kernel':('linear','rbf','poly','sigmoid')}
                               << scoring = None
@@ -130,13 +134,31 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 >> best_estimator_ 102  >> cv_results_ 103
 
 
-## Model
+# Model
                         << host = sklearn        << function = SVR
                         << func_method = 'predict'
 
 
                         >> 11 dfx    >> 102 api
                         >> dfy_pred 3
+
+## Model
+                        << host = sklearn        << function = SVR
+                        << func_method = 'fit'
+
+                        >> 11 dfx   >> 22 dfy >> 102 api
+                        >> api 7777
+
+## Model
+                        << host = sklearn        << function = SVR
+                        << func_method = 'predict'
+
+
+                        >> 11 dfx   >> 7777 api
+                        >> dfy_pred 3
+
+
+
 
 ## Scaler
                         << host = sklearn             << function = StandardScaler

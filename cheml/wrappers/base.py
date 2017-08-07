@@ -121,14 +121,15 @@ class BASE(object):
             if py_type:
                 if not isinstance(slit0, py_type):
                     self._error_type(token)
-            self.manual(host_function = self.Base.graph_info[self.iblock], token=token, slit1=slit1)
+            else:
+                self.manual(host_function = self.Base.graph_info[self.iblock], token=token, slit1=slit1)
         return slit0, slit1
 
     def paramFROMinput(self):
         for param in self.parameters:
             if isinstance(self.parameters[param], str):
                 if self.parameters[param][0]=='@':
-                    token = self.parameters[param][1:]
+                    token = self.parameters[param][1:].strip()
                     if token in self.legal_inputs:
                         self.parameters[param] = self.legal_inputs[token][0]
                     else:
@@ -173,7 +174,7 @@ class BASE(object):
         """
         if isinstance(X, pd.DataFrame):
             if format_out == 'ar':
-                print '%s.ndim:'%token, X.values.ndim
+                print '%s.ndim:'%token, X.values.ndim, "; changing to %i-dimension ..." %ndim
                 header = X.columns
                 X = self._dim_check(token, X.values, ndim)
             else:
@@ -261,18 +262,30 @@ class LIBRARY(object):
         #                              'GridSearchCV','Evaluation',''],
         #                  'tf':[]}
 
+
+        # sklearn_regression_function
+        self.skl_regression_func = ['OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','ElasticNet', \
+                                    'MultiTaskElasticNet', 'Lars', 'LassoLars','BayesianRidge','ARDRegression', \
+                                    'LogisticRegression', 'SGDRegressor', 'SVR','NuSVR','LinearSVR','MLPRegressor']
+
         # general output formats
-        dfs = [('df','pandas','read_table'),\
-               ('df1','cheml','Split'), ('df2','cheml','Split'),\
-               ('df', 'cheml', 'Merge'), \
-               ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
-               ('df', 'cheml', 'Dragon'), ('df', 'cheml', 'RDKitFingerprint'), \
-               ('dfx', 'cheml', 'MissingValues'),('dfy', 'cheml', 'MissingValues'), \
-               ('df', 'cheml', 'Constant'), \
-               ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
-               ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
-               ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split'),\
-               ]
+        dfs = []
+        # dfs = [('df','pandas','read_table'),\
+        #        ('df1','cheml','Split'), ('df2','cheml','Split'),\
+        #        ('df', 'cheml', 'Merge'), \
+        #        ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
+        #        ('df', 'cheml', 'Dragon'), ('df', 'cheml', 'RDKitFingerprint'), \
+        #        ('dfx', 'cheml', 'MissingValues'),('dfy', 'cheml', 'MissingValues'), \
+        #        ('df', 'cheml', 'Constant'), \
+        #        ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
+        #        ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
+        #        ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split'), \
+        #        ('dfy_pred', 'sklearn', 'MLPRegressor'), \
+        #        ('evaluation_results_', 'sklearn', 'Evaluate_Regression'), \
+        #        ('cv_results_', 'sklearn', 'GridSearchCV'),('df','sklearn', 'StandardScaler'), \
+        #        ('df', 'pandas', 'corr'), \
+        #        ('dfy_pred', 'sklearn', 'SVR'), ('df','sklearn', 'Binarizer'), \
+        #        ('extended_result_', 'sklearn', 'learning_curve'), ('df','sklearn', 'Binarizer')]
 
         # {inputs: legal output formats}
         CMLWinfo = {
@@ -296,13 +309,22 @@ class LIBRARY(object):
             ('cheml','NN_PSGD'):{'dfx_train':dfs+[], 'dfy_train':dfs+[], 'dfx_test':dfs+[]},
             ('cheml',''):{'':[]},
             ('cheml',''):{'':[]},
+
             ('sklearn', 'SVR'): {},
-            ('sklearn', 'SVR'): {},
-            ('sklearn', 'Evaluate_static'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
+            ('sklearn', 'MLPRegressor'): {'dfx':dfs+[], 'dfy':dfs+[]},
+
+            ('sklearn', 'Evaluate_Regression'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
             ('sklearn', 'Train_Test_Split'): {'dfx':dfs+[], 'dfy':dfs+[]},
+            ('sklearn', 'ShuffleSplit'): {},
+            ('sklearn', 'StratifiedShuffleSplit'): {},
             ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
+            ('sklearn', 'learning_curve'): {'dfx':dfs+[], 'dfy':dfs+[], 'estimator':[], 'cv':[]},
+
+            ('sklearn', 'StandardScaler'): {'df':dfs+[]},
+            ('sklearn', 'Binarizer'): {'df':dfs+[]},
 
             ('pandas', 'read_table'): {'': []},
+            ('pandas', 'corr'): {'df': dfs+[]}
 
         }
         if token:
@@ -319,19 +341,77 @@ class LIBRARY(object):
             else:
                 return True
 
-class BIG_BANK(object):
-    def __init__(self):
-        self.info = {'Feature Representation':{'cheml':['RDKitFingerprint','Dragon','CoulombMatrix'],
-                                                   'sklearn':['PolynomialFeatures']
-                                                   },
-                         'Script':{'cheml':['PyScript']
+def BANK():
+    tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
+    info = {
+            'Enter':{
+                        'input_data':{
+                                    'pandas':['read_excel', 'read_csv'],
+                                     }
+                    },
+            'Prepare':{
+                        'descriptor': {'cheml': ['RDKitFingerprint', 'Dragon', 'CoulombMatrix'],
+                                       'sklearn': ['PolynomialFeatures', 'Binarizer','OneHotEncoder']
+                                       },
+                        'scaler': {
+                                    'sklearn': ['StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer']
+                                  },
+                        'feature selector': {
+                                                'sklearn': ['PCA','KernelPCA']
+                                            },
+                        'feature transformer': {
+                                                'cheml': ['TBFS']
+                                                },
+                        'basic operator': {
+                                        'cheml':['PyScript','Merge','Split', 'Constant','MissingValues','Trimmer','Uniformer'],
+                                        'sklearn': ['Imputer']
+                                          },
+                        'splitter': {
+                                        'sklearn': ['Train_Test_Split','KFold']
+                                    },
+                      },
+            'Model':{
+                        'regression':{
+                                        'cheml':['NN_PSGD','nn_dsgd'],
+                                        'sklearn':[
+                                                'OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','',
+                                                'ElasticNet','MultiTaskElasticNet','Lars','LassoLars',
+                                                'BayesianRidge', 'ARDRegression', 'LogisticRegression',
+                                                'SGDRegressor','SVR','NuSVR','LinearSVR','MLPRegressor',
+                                                ]
+                                        },
+                        'classification': {},
+                        'clustering': {},
+                    },
+            'Search':{
+                        'evolutionary': {
+                                        'cheml': ['GeneticAlgorithm_binary'],
+                                        'deep': []
+                                        },
+                        'swarm': {
+                                    'pyswarm': ['pso']
+                                 },
+                        'grid':{
+                                    'sklearn': ['GridSearchCV',]
+                                },
+                        'metrics':{
+                                        'sklearn':['Evaluate_Regression']
                                    },
-                         'IO':{'cheml':['ReadTable', 'Merge','Split', 'SaveFile']
-                               },
-                         'Preprocessor':{'cheml': ['MissingValues','Trimmer','Uniformer','Constant'],
-                                          'sklearn':['Imputer']
-                                         },
-                         'Feature Transformation':{},
-                         'Feature Selection':{},
-                         'Divider':{}
-                         }
+                     },
+            'Mix':{
+                    'A': {
+                            'sklearn': ['cross_val_score',]
+                          },
+                    'B': {}
+                  },
+            'Visualize':{
+                            'matplotlib': [],
+                            'seaborn': []
+                        },
+            'Store':{
+                        'output_data':{
+                                        'cheml': ['SaveFile'],
+                                      }
+                    }
+            }
+    return info, tasks

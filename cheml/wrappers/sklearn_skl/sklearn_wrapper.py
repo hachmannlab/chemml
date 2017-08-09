@@ -1030,7 +1030,7 @@ class cross_val_predict(BASE, LIBRARY):
 
 class learning_curve(BASE, LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None, 'cv':None}
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None, 'cv':None, 'scorer':None}
         self.legal_outputs = {'train_sizes_abs': None,'train_scores': None,'test_scores': None, \
                               'extended_result_': None}
         requirements = ['scikit_learn']
@@ -1044,27 +1044,25 @@ class learning_curve(BASE, LIBRARY):
 
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
+        estimator = self.parameters.pop('estimator')
+        if type(self.parameters['train_sizes']) is str:
+            self.parameters['train_sizes'] = eval(self.parameters['train_sizes'])
 
         # step3: check the dimension of input data frame
         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
-        dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
+        if dfy is not None:
+            dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
         # step4: import module and make APIs
         try:
             from sklearn.model_selection import learning_curve
-            train_sizes_abs, train_scores, test_scores = learning_curve(X=dfx,y=dfy,**self.parameters)
+            train_sizes_abs, train_scores, test_scores = learning_curve(estimator=estimator,X=dfx,y=dfy,**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
                 err).__name__ + ': ' + err.message
             raise TypeError(msg)
 
         # step5: process
-        train_scores_mean = np.mean(train_scores, axis=1)
-        train_scores_std = np.std(train_scores, axis=1)
-        test_scores_mean = np.mean(test_scores, axis=1)
-        test_scores_std = np.std(test_scores, axis=1)
-        data = [train_sizes_abs,train_scores_mean,train_scores_std,test_scores_mean,test_scores_std]
-        extended_result_ = pd.DataFrame(data,columns=['train_sizes_abs','train_scores_mean','train_scores_std','test_scores_mean','test_scores_std'])
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -1078,6 +1076,16 @@ class learning_curve(BASE, LIBRARY):
                 self.Base.send[(self.iblock, token)] = [test_scores, order.count(token),
                                                         (self.iblock, token, self.Host, self.Function)]
             elif token == 'extended_result_':
+                train_scores_mean = np.mean(train_scores, axis=1)
+                train_scores_std = np.std(train_scores, axis=1)
+                test_scores_mean = np.mean(test_scores, axis=1)
+                test_scores_std = np.std(test_scores, axis=1)
+                data = [train_sizes_abs, train_scores_mean, train_scores_std, test_scores_mean, test_scores_std]
+                cols = ['train_sizes', 'train_scores_mean', 'train_scores_std', 'test_scores_mean', 'test_scores_std']
+                extended_result_ = pd.DataFrame()
+                for i, col in enumerate(cols):
+                    extended_result_[col] = data[i]
+
                 self.Base.send[(self.iblock, token)] = [extended_result_, order.count(token),
                                                         (self.iblock, token, self.Host, self.Function)]
             else:
@@ -1134,6 +1142,45 @@ class Evaluate_Regression(BASE,LIBRARY,Evaluator):
 
         #step7: delete all inputs from memory
         del self.legal_inputs
+
+class scorer_regression(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {}
+        self.legal_outputs = {'scorer': None}
+        requirements = ['scikit_learn']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+        metric = self.parameters.pop('metric')
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            from sklearn.metrics import make_scorer
+            if metric == 'mae':
+                from sklearn.metrics import mean_absolute_error
+                scorer = make_scorer(mean_absolute_error,**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'scorer':
+                self.Base.send[(self.iblock, token)] = [scorer, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.SuperFunction, token)
+                raise NameError(msg)
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
 
 ##################################################################### 5 Explore
 

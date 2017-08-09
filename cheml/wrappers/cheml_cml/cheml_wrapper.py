@@ -5,7 +5,9 @@ import os
 
 from ..base import BASE, LIBRARY
 
-#####################################################################Script
+##################################################################### 2 Prepare Data
+
+# Script
 
 class PyScript(BASE, LIBRARY):
     def legal_IO(self):
@@ -49,7 +51,8 @@ class PyScript(BASE, LIBRARY):
                 raise NameError(msg)
         del self.legal_inputs
 
-#####################################################################DataRepresentation
+
+# Feature Representation
 
 class RDKitFingerprint(BASE,LIBRARY):
     def legal_IO(self):
@@ -239,7 +242,8 @@ class DistanceMatrix(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
-#####################################################################Preprocessor
+
+# Preprocessor
 
 class MissingValues(BASE, LIBRARY):
     def legal_IO(self):
@@ -361,56 +365,9 @@ class Uniformer(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
-class Constant(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'df': None, 'api': None, 'removed_columns_': None}
-        requirements = ['cheml', 'pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
-    def fit(self):
-        # step1: check inputs
-        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
 
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-
-        # step4: import module and make APIs
-        try:
-            from cheml.preprocessing import Constant
-            model = Constant()
-            df = model.fit_transform(df)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        #step5: process
-        #step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'removed_columns_':
-                val = pd.DataFrame(model.removed_columns_)
-                self.Base.send[(self.iblock, token)] = [val, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
-                    self.iblock + 1, self.SuperFunction, token)
-                raise NameError(msg)
-
-        #step7: delete all inputs from memory
-        del self.legal_inputs
-
-#####################################################################Input
+# Basic Operators
 
 class Merge(BASE, LIBRARY):
     def legal_IO(self):
@@ -497,13 +454,11 @@ class Split(BASE, LIBRARY):
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-#####################################################################Output
-
-class SaveFile(BASE, LIBRARY):
+class Constant(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'df': None}
-        self.legal_outputs = {'filepath': None}
-        requirements = ['cheml','pandas']
+        self.legal_outputs = {'df': None, 'api': None, 'removed_columns_': None}
+        requirements = ['cheml', 'pandas']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
     def fit(self):
@@ -514,30 +469,44 @@ class SaveFile(BASE, LIBRARY):
         self.paramFROMinput()
 
         # step3: check the dimension of input data frame
+        df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+
         # step4: import module and make APIs
         try:
-            from cheml.initialization import SaveFile
-            model = SaveFile(**self.parameters)
-            model.fit(self.legal_inputs['df'][0], self.Base.output_directory)
+            from cheml.preprocessing import Constant
+            model = Constant()
+            df = model.fit_transform(df)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                err).__name__ + ': ' + err.message
             raise TypeError(msg)
 
         # step5: process
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'filepath':
-                val = model.file_path
+            if token == 'df':
+                self.Base.send[(self.iblock, token)] = [df, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            elif token == 'removed_columns_':
+                val = pd.DataFrame(model.removed_columns_)
                 self.Base.send[(self.iblock, token)] = [val, order.count(token),
                                                         (self.iblock, token, self.Host, self.Function)]
+            elif token == 'api':
+                self.Base.send[(self.iblock, token)] = [model, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
             else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+                    self.iblock + 1, self.SuperFunction, token)
                 raise NameError(msg)
+
         # step7: delete all inputs from memory
         del self.legal_inputs
 
-#####################################################################Regression
+
+##################################################################### 3 Define Model
+
+# Regression
 
 class NN_PSGD(BASE, LIBRARY):
     def legal_IO(self):
@@ -637,7 +606,7 @@ class nn_dsgd(BASE):
                 raise NameError(msg)
         del self.legal_inputs
 
-##################################################################### Pool
+##################################################################### 6 Explore
 
 class kfold_pool(BASE,LIBRARY):
     def legal_IO(self):
@@ -682,4 +651,82 @@ class kfold_pool(BASE,LIBRARY):
                 raise NameError(msg)
 
         #step7: delete all inputs from memory
+        del self.legal_inputs
+
+##################################################################### 7 Store
+
+class SaveFile(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'df': None}
+        self.legal_outputs = {'filepath': None}
+        requirements = ['cheml','pandas']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            from cheml.initialization import SaveFile
+            model = SaveFile(**self.parameters)
+            model.fit(df, self.Base.output_directory)
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'filepath':
+                val = model.file_path
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
+                raise NameError(msg)
+        # step7: delete all inputs from memory
+        del self.legal_inputs
+
+class StoreFile(BASE, LIBRARY):
+    def legal_IO(self):
+        self.legal_inputs = {'input': None}
+        self.legal_outputs = {'filepath': None}
+        requirements = ['cheml']
+        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+
+    def fit(self):
+        # step1: check inputs
+        input, input_info = self.input_check('input', req=True)
+
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            from cheml.initialization import StoreFile
+            model = SaveFile(**self.parameters)
+            model.fit(input, self.Base.output_directory)
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token == 'filepath':
+                val = model.file_path
+                self.Base.send[(self.iblock, token)] = [val, order.count(token),
+                                                        (self.iblock, token, self.Host, self.Function)]
+            else:
+                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.SuperFunction,token)
+                raise NameError(msg)
+        # step7: delete all inputs from memory
         del self.legal_inputs

@@ -4,9 +4,13 @@ from cheml import run
 # run(INPUT_FILE = 'input_files/hrip/hrip_descriptor.txt',
 #     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/descriptors/out')
 # run(INPUT_FILE = 'input_files/hrip/hrip_NN_gridsearch.txt',
-#     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/mlp_k5_MACCS_pol_gridNet')
-run(INPUT_FILE = 'input_files/hrip/hrip_NN_learningCurve.txt',
-    OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_dragon_d_gridNet')
+#     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/model_selection/mlp_k10_MACCS_d_gridNet')
+# run(INPUT_FILE = 'input_files/hrip/hrip_NN_learningCurve.txt',
+#     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_Morgan_pol')
+# run(INPUT_FILE = 'input_files/hrip/hrip_delta_gridsearch.txt',
+#     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/delta_learn/mlp_k10_Morgan_ri_HTT')
+run(INPUT_FILE = 'input_files/hrip/hrip_calibrate_gridsearch.txt',
+    OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/calibrate/mlp_k5_linearSVR_calib_ri')
 
 ## Biodegradable polymers (BDP) project: H & G & Transition state
 # run(INPUT_FILE = 'input_files/bdp_descriptor.txt',

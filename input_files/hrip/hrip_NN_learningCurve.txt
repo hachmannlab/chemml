@@ -39,9 +39,11 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 ## Prepare Data
                 << host = cheml                 << function = Split
-                << selection = ['RI_LL']
-                < selection = ['Pol_DFT']
+
+                < selection = ['RI_LL']
+                << selection = ['Pol_DFT']
                 < selection = ['Den_MD']
+
                 >> 222 df   >> df1 2
 
 
@@ -55,57 +57,8 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         << l4 = "print df2.describe()"
                         >> 1 df1    >> 2 df2
 
-# Preprocessor
-                        << host = cheml             << function = MissingValues
-                        << string_as_null = True    << missing_values = ['Nan']
-                        << inf_as_null = True       << strategy = 'ignore_column'
-                        >> 1 dfx >> 2 dfy  >> dfx 3  >> dfy 4
-
-# Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print 'dfx:', df1.shape"
-                        << l1 = "print 'dfy:', df2.shape"
-                        < l2 = "print df1.describe()"
-                        >> 3 df1 >> 4 df2
-
 
 -------------------------- ML
-## Model
-                        << host = sklearn        << function = MLPRegressor
-                        << func_method = None
-                        << hidden_layer_sizes = (100,50)
-                        << activation = 'tanh'
-                        << solver = 'adam'
-                        < alpha = 0.0001
-                        << batch_size = 'auto'
-                        << learning_rate = 'invscaling'
-                        << max_iter = 100000
-                        << random_state = None
-                        << shuffle = True
-                        << tol = 1e-4
-                        << learning_rate_init = 0.001
-                        << power_t = 0.5
-                        << early_stopping = True
-
-                        >> api 101
-
-# Model
-                << host = sklearn      << function = SVR
-                            << func_method = None
-                              << C = 1.0
-                              << epsilon = 0.1
-                              << kernel = 'rbf'
-                              << degree = 3
-                              << gamma = 'auto'
-                              << coef0 = 0.0
-                              << tol = 1e-3
-                              << shrinking = True
-                              << cache_size = 6000
-                              << verbose = False
-                              << max_iter = -1
-
-                              >> api 101
-
 ## Scaler
                         << host = sklearn             << function = StandardScaler
                         << func_method = 'fit_transform'
@@ -123,28 +76,29 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         >> 2 df     >> df 22    >> api 44
 
 
-## Search
-                << host = sklearn      << function = GridSearchCV
+## Model
+                        << host = sklearn        << function = MLPRegressor
+                        << func_method = 'fit'
 
-                              << estimator = '@estimator'
-                              < param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01,0.03,0.1,0.3),'epsilon':(0.0001, 0.001,0.01,0.03,0.1,0.3)}
-                              << param_grid = {'activation':('logistic', 'tanh'),'hidden_layer_sizes':((128,64,32),(128,32,64),(32,64,128),(32,128,64),(64,32,128),(64,128,32)),'alpha':(1,0.7,0.3,0.1,0.01,0.001,0.0001,0.00001)}
+                        << hidden_layer_sizes = (128,64,32)
+                        << activation = 'tanh'
+                        < activation = 'logistic'
+                        < activation = 'identity'
+                        << alpha = 0.1
 
-                              < 'hidden_layer_sizes':((128,64,32),(128,32,64),(),(),(),()), ,'alpha':(0.01,0.001,0.0001)
-                              <{'C':(0.01,0.1,1,10), 'epsilon':(0.01,0.1,1),'kernel':('linear','rbf','poly','sigmoid')}
-                              << scoring = None
-                              << fit_params = None
-                              << n_jobs = 8
-                              << pre_dispatch = '2*n_jobs'
-                              << iid = True
-                              << cv = 5
-                              << refit = True
-                              << verbose = 0
-                              << error_score = 'raise'
-                              << return_train_score = True
+                        << solver = 'adam'
+                        << batch_size = 'auto'
+                        << learning_rate = 'invscaling'
+                        << max_iter = 100000
+                        << random_state = None
+                        << shuffle = True
+                        << tol = 1e-4
+                        << learning_rate_init = 0.001
+                        << power_t = 0.5
+                        << early_stopping = True
 
-                >> 11 dfx      >> 22 dfy   >> 101 estimator
-                >> best_estimator_ 102  >> cv_results_ 103
+                        >> 11 dfx  >> 22 dfy
+                        >> api 101
 
 
 ## Model
@@ -152,7 +106,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         << func_method = 'predict'
 
 
-                        >> 11 dfx    >> 102 api
+                        >> 11 dfx    >> 101 api
                         >> dfy_pred 3
 
 ## Scaler
@@ -164,6 +118,16 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                         >> 3 df      >> 44 api
                         >> df 33
 
+## Output
+                << host = cheml                 << function = SaveFile
+
+                << filename = 'y_all_pred'
+                << output_directory = 'results'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = True
+                >> 33 df
 
 ## Postprocessor
                 << host = sklearn      << function = Evaluate_Regression
@@ -205,10 +169,47 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << header = True
                 >> 1047 df
 
+
+
+------------------------ learning curve
+## Search
+                        << host = sklearn               << function = ShuffleSplit
+                        << n_splits = 10                << test_size = 0.1
+                        << train_size = None            << random_state = 99
+                        >> cv 100
+
+## Metric
+                << host = sklearn      << function = scorer_regression
+                << metric = 'mae'
+                << greater_is_better = False
+                << needs_proba = False
+                << needs_threshold = False
+                << sample_weight = None
+                << multioutput = 'raw_values'
+
+                >> scorer 98
+
+## Search
+                << host = sklearn      << function = learning_curve
+
+                              << estimator = '@estimator'
+                              << train_sizes = [95, 428, 760, 1092, 1425, 1758, 2090, 2422, 2755, 3088, 3420, 3752, 4085, 4418, 4750, 5700, 12079, 18457, 24836, 31214, 37593, 43971, 50350, 56729, 63107, 69486, 75864, 82243, 88621, 90000]
+                              < train_sizes = list(np.linspace(0.001, 0.05, 15)) + list(np.linspace(0.06, 1, 15))
+                              << cv = '@cv'
+                              << scoring = '@scorer'
+                              << exploit_incremental_learning = False
+                              << n_jobs = 7
+                              << pre_dispatch = 'all'
+                              << verbose = 0
+
+                >> 11 dfx      >> 22 dfy   >> 101 estimator  >> 100 cv  >> 98 scorer
+                >> train_scores 99  >> test_scores 102  >> extended_result_ 103
+
+
 ## Output
                 << host = cheml                 << function = SaveFile
 
-                << filename = 'cv_results'
+                << filename = 'extended_result'
                 << output_directory = 'results'
                 << record_time = False
                 << format ='csv'
@@ -216,87 +217,28 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << header = True
                 >> 103 df
 
+## Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'train_scores:', list(var1)"
+                        << l1 = "print 'test_scores:', list(var2)"
+                        >> 99 var1 >> 102 var2
 
+# Output
+                << host = cheml                 << function = StoreFile
 
-## Divider
-                        << host = sklearn             << function = Train_Test_Split
-                        << test_size = 0.1             << train_size = None
-                        << random_state = None          << stratify = None
-                        >> 11 dfx   >> 22 dfy     >> dfx_train 17  >> dfx_test 18  >> dfy_train 19  >> dfy_test 20
-
-## Model
-                        << host = sklearn        << function = MLPRegressor
-                        << func_method = 'fit'
-
-                        >> 17 dfx   >> 19 dfy >> 102 api
-                        >> api 777
-
-## Model
-                        << host = sklearn        << function = MLPRegressor
-                        << func_method = 'predict'
-
-
-                        >> 18 dfx   >> 777 api
-                        >> dfy_pred 21
-
-## Scaler
-                        << host = sklearn             << function = StandardScaler
-                        << func_method = 'inverse_transform'
-                        << copy = True          << with_mean = True
-                        << with_std = True
-
-                        >> 21 df      >>  44 api
-                        >> df 2121
-
-## Scaler
-                        << host = sklearn             << function = StandardScaler
-                        << func_method = 'inverse_transform'
-                        << copy = True          << with_mean = True
-                        << with_std = True
-
-                        >> 20 df      >>  44 api
-                        >> df 2020
-
-## Postprocessor
-                << host = sklearn      << function = Evaluate_Regression
-                              << r2_score = True
-                              << r2_sample_weight = None       << r2_multioutput = None
-
-                              << mean_absolute_error = True
-                              << mae_sample_weight = None       << mae_multioutput = "uniform_average"
-
-                              << median_absolute_error = True
-
-                              << mean_squared_error = True
-                              << mse_sample_weight = None       << mse_multioutput = "uniform_average"
-
-                              << root_mean_squared_error = True
-                              << rmse_sample_weight = None       << rmse_multioutput = "uniform_average"
-
-                              << explained_variance_score = True
-                              << ev_sample_weight = None       << ev_multioutput = "uniform_average"
-
-                > Note: can not pass multiple inputs
-                >> 2020 dfy     >> 2121 dfy_pred   >> evaluation_results_  227
-
-## Output
-                << host = cheml                 << function = SaveFile
-
-                << filename = 'svr_results_split9:1'
+                << filename = 'train_scores'
                 << output_directory = 'results'
                 << record_time = False
-                << format ='csv'
-                << index = True
-                << header = True
-                >> 227 df
+                << format ='txt'
+                >> 99 input
 
---------------------------------------------------------------------------
-# Scaler
-                        << host = sklearn             << function = StandardScaler
-                        << func_method = 'fit_transform'
-                        << copy = True          << with_mean = True
-                        << with_std = True
+# Output
+                << host = cheml                 << function = StoreFile
 
-                        >> 2 df     >> df 3    >> api 4
+                << filename = 'test_scores'
+                << output_directory = 'results'
+                << record_time = False
+                << format ='txt'
+                >> 102 input
 
 ---------------------------------

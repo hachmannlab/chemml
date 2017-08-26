@@ -12,10 +12,10 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/dragon_1893.csv'
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/dragon_110_polarizability.csv'
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HTT_bit.csv'
+                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HTT_bit.csv'
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/Morgan_bit.csv'
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HAP_bit.csv'
-                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/MACCS_bit.csv'
+                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/MACCS_bit.csv'
                 << sep=','
                 < header = 0
                 << header = None
@@ -36,38 +36,40 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << sep=','
                 << header = 0
                 << skiprows = 0
-                >> df 222
+                >> df 72
 
 ## Prepare Data
                 << host = cheml                 << function = Split
                 < selection = ['RI_LL']
                 < selection = ['Pol_DFT']
                 << selection = ['Den_MD']
-                >> 222 df   >> df1 2
+                >> 72 df   >> df1 73
 
+## Enter Data
+                << host = pandas                 << function = read_table
 
+                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_Morgan_ri/results/y_all_pred.csv'
+                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_HAP_pol/results/y_all_pred.csv'
+                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_HTT_d/results/y_all_pred.csv'
+                << sep=','
+                << header = 0
+                << skiprows = 0
+                >> df 74
+
+## Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "df_out1 = pd.DataFrame(df1[df1.columns[0]] - df2['0'])"
+                        << l1 = "print 'dfy_pred:', df2.describe()"
+                        << l2 = "print 'delta_dfy:', abs(df_out1).describe()"
+                        >> 73 df1 >> 74 df2
+                        >> df_out1 2
 
 ## Script
                         << host = cheml           << function = PyScript
                         << l0 = "print 'df:', df1.shape"
-                        < l1 = "print df1.columns"
-                        < l2 = "print df1.describe()"
                         << l3 = "print 'df2:', df2.shape"
                         << l4 = "print df2.describe()"
                         >> 1 df1    >> 2 df2
-
-# Preprocessor
-                        << host = cheml             << function = MissingValues
-                        << string_as_null = True    << missing_values = ['Nan']
-                        << inf_as_null = True       << strategy = 'ignore_column'
-                        >> 1 dfx >> 2 dfy  >> dfx 3  >> dfy 4
-
-# Script
-                        << host = cheml           << function = PyScript
-                        << l0 = "print 'dfx:', df1.shape"
-                        << l1 = "print 'dfy:', df2.shape"
-                        < l2 = "print df1.describe()"
-                        >> 3 df1 >> 4 df2
 
 
 -------------------------- ML
@@ -145,7 +147,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                               <{'C':(0.01,0.1,1,10), 'epsilon':(0.01,0.1,1),'kernel':('linear','rbf','poly','sigmoid')}
                               << scoring = '@scorer'
                               << fit_params = None
-                              << n_jobs = 8
+                              << n_jobs = 7
                               << pre_dispatch = '2*n_jobs'
                               << iid = True
                               << cv = 10

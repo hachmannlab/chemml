@@ -11,10 +11,11 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << host = pandas                 << function = read_table
 
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/dragon_1893.csv'
-                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HTT_bit.csv'
+                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/dragon_110_polarizability.csv'
+                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HTT_bit.csv'
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/Morgan_bit.csv'
                 < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/HAP_bit.csv'
-                < filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/MACCS_bit.csv'
+                << filepath_or_buffer = 'benchmarks/RI_project/liq_org/descriptors/MACCS_bit.csv'
                 << sep=','
                 < header = 0
                 << header = None
@@ -40,8 +41,8 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 ## Prepare Data
                 << host = cheml                 << function = Split
                 < selection = ['RI_LL']
-                << selection = ['Pol_DFT']
-                < selection = ['Den_MD']
+                < selection = ['Pol_DFT']
+                << selection = ['Den_MD']
                 >> 222 df   >> df1 2
 
 
@@ -122,28 +123,38 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
                         >> 2 df     >> df 22    >> api 44
 
+## Metric
+                << host = sklearn      << function = scorer_regression
+                << metric = 'mae'
+                << greater_is_better = False
+                << needs_proba = False
+                << needs_threshold = False
+                << sample_weight = None
+                << multioutput = 'raw_values'
+
+                >> scorer 98
 
 ## Search
                 << host = sklearn      << function = GridSearchCV
 
                               << estimator = '@estimator'
                               < param_grid = {'kernel':('linear','rbf','sigmoid'),'C':(0.0001, 0.001,0.005,0.01,0.03,0.1,0.3),'epsilon':(0.0001, 0.001,0.01,0.03,0.1,0.3)}
-                              << param_grid = {'activation':('logistic', 'tanh'),'hidden_layer_sizes':((128,64,32),(128,32,64),(32,64,128),(32,128,64),(64,32,128),(64,128,32)),'alpha':(1,0.7,0.3,0.1,0.01,0.001,0.0001,0.00001)}
+                              << param_grid = {'activation':('identity','logistic', 'tanh'),'hidden_layer_sizes':((128,64,32),(128,32,64),(32,64,128),(32,128,64),(64,32,128),(64,128,32)),'alpha':(1,0.7,0.3,0.1,0.01,0.001,0.0001,0.00001)}
 
                               < 'hidden_layer_sizes':((128,64,32),(128,32,64),(),(),(),()), ,'alpha':(0.01,0.001,0.0001)
                               <{'C':(0.01,0.1,1,10), 'epsilon':(0.01,0.1,1),'kernel':('linear','rbf','poly','sigmoid')}
-                              << scoring = None
+                              << scoring = '@scorer'
                               << fit_params = None
                               << n_jobs = 8
                               << pre_dispatch = '2*n_jobs'
                               << iid = True
-                              << cv = 5
+                              << cv = 10
                               << refit = True
                               << verbose = 0
                               << error_score = 'raise'
                               << return_train_score = True
 
-                >> 11 dfx      >> 22 dfy   >> 101 estimator
+                >> 11 dfx      >> 22 dfy   >> 101 estimator   >> 98 scorer
                 >> best_estimator_ 102  >> cv_results_ 103
 
 

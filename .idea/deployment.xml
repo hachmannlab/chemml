@@ -7,6 +7,9 @@
           <mappings>
             <mapping deploy="/projects/academic/hachmann/mojtaba/cheml/CheML" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/benchmarks" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>

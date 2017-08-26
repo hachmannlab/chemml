@@ -890,7 +890,7 @@ class regression(BASE, LIBRARY):
 
 class GridSearchCV(BASE, LIBRARY):
     def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None}
+        self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None, 'scorer':None}
         self.legal_outputs = {'cv_results_': None, 'api': None, 'best_estimator_': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]

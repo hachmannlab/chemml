@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+## Note: Pandas
 class BASE(object):
     """
     Do not instantiate this class
@@ -59,38 +60,6 @@ class BASE(object):
         msg = "@Task #%i(%s): The type of input '%s' is not valid" \
               % (self.iblock + 1, self.SuperFunction, token)
         raise IOError(msg)
-
-    def type_check(self, token, cheml_type, req=False, py_type=False):
-        if isinstance(self.legal_inputs[token], type(None)):
-            if req:
-                msg = "@Task #%i(%s): The input type with token '%s' is required." \
-                      % (self.iblock + 1, self.SuperFunction, token)
-                raise IOError(msg)
-            else:
-                return None
-        else:
-            slit0 = self.legal_inputs[token][0]
-            slit1 = self.legal_inputs[token][1]
-            if py_type:
-                if not isinstance(slit0, py_type):
-                    self._error_type(token)
-            # if cheml_type == 'df':
-            #     if not slit1[1][0:2] == 'df':
-            #         self._error_type(token)
-            # elif cheml_type == 'regressor':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['regressor']:
-            #         self._error_type(token)
-            # elif cheml_type == 'preprocessor':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['preprocessor']:
-            #         self._error_type(token)
-            # elif cheml_type == 'divider':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['divider']:
-            #         self._error_type(token)
-            # else:
-            #     msg = "@Task #%i(%s): The type of input with token '%s' must be %s not %s" \
-            #           % (self.iblock + 1, self.SuperFunction, token, str(py_type), str(type(slit0)))
-            #     raise IOError(msg)
-            return slit0
 
     def input_check(self, token, req=False, py_type=False):
         """
@@ -269,23 +238,6 @@ class LIBRARY(object):
                                     'LogisticRegression', 'SGDRegressor', 'SVR','NuSVR','LinearSVR','MLPRegressor']
 
         # general output formats
-        dfs = []
-        # dfs = [('df','pandas','read_table'),\
-        #        ('df1','cheml','Split'), ('df2','cheml','Split'),\
-        #        ('df', 'cheml', 'Merge'), \
-        #        ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
-        #        ('df', 'cheml', 'Dragon'), ('df', 'cheml', 'RDKitFingerprint'), \
-        #        ('dfx', 'cheml', 'MissingValues'),('dfy', 'cheml', 'MissingValues'), \
-        #        ('df', 'cheml', 'Constant'), \
-        #        ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
-        #        ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
-        #        ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split'), \
-        #        ('dfy_pred', 'sklearn', 'MLPRegressor'), \
-        #        ('evaluation_results_', 'sklearn', 'Evaluate_Regression'), \
-        #        ('cv_results_', 'sklearn', 'GridSearchCV'),('df','sklearn', 'StandardScaler'), \
-        #        ('df', 'pandas', 'corr'), \
-        #        ('dfy_pred', 'sklearn', 'SVR'), ('df','sklearn', 'Binarizer'), \
-        #        ('extended_result_', 'sklearn', 'learning_curve'), ('df','sklearn', 'Binarizer')]
 
         # {inputs: legal output formats}
         CMLWinfo = {
@@ -296,35 +248,36 @@ class LIBRARY(object):
             ('cheml','PyScript'):{'':[]},
 
             ('cheml','ReadTable'):{'':[]},
-            ('cheml','Merge'):{'df1':dfs+[], 'df2':dfs+[]},
-            ('cheml','Split'):{'df':dfs+[]},
-            ('cheml','SaveFile'):{'df':dfs+[('removed_columns_', 'cheml', 'Constant'),('dfy_pred', 'cheml', 'NN_PSGD'), \
-                                            ('evaluation_results_', 'sklearn', 'Evaluate_static')]},
+            ('cheml','Merge'):{'df1':[], 'df2':[]},
+            ('cheml','Split'):{'df':[]},
+            ('cheml','SaveFile'):{'df':[]},
+            ('cheml', 'StoreFile'): {},#{'input':[]},
 
-            ('cheml','MissingValues'):{'dfx':dfs+[], 'dfy':dfs+[]},
+            ('cheml','MissingValues'):{'dfx':[], 'dfy':[]},
             ('cheml','Trimmer'):{'':[]},
             ('cheml','Uniformer'):{'':[]},
-            ('cheml','Constant'):{'df':dfs+[]},
+            ('cheml','Constant'):{'df':[]},
             ('cheml','TBFS'):{'':[]},
-            ('cheml','NN_PSGD'):{'dfx_train':dfs+[], 'dfy_train':dfs+[], 'dfx_test':dfs+[]},
+            ('cheml','NN_PSGD'):{'dfx_train':[], 'dfy_train':[], 'dfx_test':[]},
             ('cheml',''):{'':[]},
             ('cheml',''):{'':[]},
 
             ('sklearn', 'SVR'): {},
-            ('sklearn', 'MLPRegressor'): {'dfx':dfs+[], 'dfy':dfs+[]},
+            ('sklearn', 'MLPRegressor'): {'dfx':[], 'dfy':[]},
 
-            ('sklearn', 'Evaluate_Regression'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
-            ('sklearn', 'Train_Test_Split'): {'dfx':dfs+[], 'dfy':dfs+[]},
+            ('sklearn', 'Evaluate_Regression'): {'dfy':[], 'dfy_pred':[]},
+            ('sklearn', 'scorer_regression'):{},
+            ('sklearn', 'Train_Test_Split'): {'dfx':[], 'dfy':[]},
             ('sklearn', 'ShuffleSplit'): {},
             ('sklearn', 'StratifiedShuffleSplit'): {},
-            ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
-            ('sklearn', 'learning_curve'): {'dfx':dfs+[], 'dfy':dfs+[], 'estimator':[], 'cv':[]},
+            ('sklearn', 'GridSearchCV'): {},
+            ('sklearn', 'learning_curve'): {'dfx':[], 'dfy':[]},
 
-            ('sklearn', 'StandardScaler'): {'df':dfs+[]},
-            ('sklearn', 'Binarizer'): {'df':dfs+[]},
+            ('sklearn', 'StandardScaler'): {'df':[]},
+            ('sklearn', 'Binarizer'): {'df':[]},
 
             ('pandas', 'read_table'): {'': []},
-            ('pandas', 'corr'): {'df': dfs+[]}
+            ('pandas', 'corr'): {'df': []}
 
         }
         if token:

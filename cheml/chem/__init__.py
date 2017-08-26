@@ -1,6 +1,6 @@
 """
-The 'cheml.chem' module includes Dragon, RDKFingerprint, CoulombMatrix
-last modified date: March 1, 2016
+Created on 01 March 2016
+@author: Mojtaba Haghighatlari
 """
 
 from .Dragon import Dragon

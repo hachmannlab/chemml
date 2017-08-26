@@ -205,7 +205,7 @@ class Parser(object):
             recv_all += block['recv'].items()
         # check send and recv
         if len(send_all) > len(recv_all):
-            msg = '@cehml script - number of sent tokens must be less or equal to number of received tokens'
+            msg = '@cheml script - number of sent tokens must be less or equal to number of received tokens'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all]
         recv_ids = [k[1] for k,v in recv_all]
@@ -214,7 +214,8 @@ class Parser(object):
                 msg = 'identified non unique send id (id#%i)'%id
                 raise NameError(msg)
         if set(send_ids) != set(recv_ids):
-            msg = 'missing pairs of send and receive id'
+            print set(send_ids),set(recv_ids)
+            msg = 'missing pairs of send and receive id:\n send IDs:%s\n recv IDs:%s\n'%(str(set(send_ids)),str(set(recv_ids)))
             raise ValueError(msg)
 
         # make graph
@@ -282,14 +283,14 @@ class Wrapper(LIBRARY):
         # legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
         #                         'FeatureTransformation','Divider','Regression','Classification','Postprocessor',
         #                         'Evaluation','Visualization','Optimizer']
-        legal_superfunctions = ['Enter Data','Prepare Data','Define Model','Define Search','Pool','Visualize','Store']
+        # legal_superfunctions = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
         # run over graph
         for iblock, block in enumerate(self.cmls):
             # check super function
             SuperFunction = block['SuperFunction']
-            if SuperFunction not in legal_superfunctions:
-                msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, SuperFunction,SuperFunction)
-                raise NameError(msg)
+            # if SuperFunction not in legal_superfunctions:
+            #     msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, SuperFunction,SuperFunction)
+            #     raise NameError(msg)
             # check parameters
             parameters = block['parameters']
             if 'host' not in parameters:
@@ -320,23 +321,21 @@ class Wrapper(LIBRARY):
             if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
-                if task == 'Define_Model':
-                    pass
-                elif function not in legal_functions:
-                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
-                    raise NameError(msg)
-                if task=='Define_Model':
+                if function in self.skl_regression_func:
                     self.references(host, function)  # check references
                     self.Base.graph_info[iblock] = (host, function)
                     cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'regression'][0]
-                    cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
+                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
+                    cmli.run()
+                elif function in legal_functions:
+                    self.references(host, function)  # check references
+                    self.Base.graph_info[iblock] = (host, function)
+                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == function][0]
+                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
                     cmli.run()
                 else:
-                    self.references(host,function) # check references
-                    self.Base.graph_info[iblock] = (host, function)
-                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0]==function][0]
-                    cmli = cml_interface(self.Base,parameters,iblock,task,function,host)
-                    cmli.run()
+                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
+                    raise NameError(msg)
             elif host == 'cheml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]
@@ -426,6 +425,9 @@ class Logger(object):
         self.terminal.write(message)
         self.log.write(message)
 
+    def flush(self):
+        pass
+
 class Error(object):
     def __init__(self,errorfile):
         self.terminal = sys.stderr
@@ -434,6 +436,9 @@ class Error(object):
     def write(self, message):
         self.terminal.write(message)
         self.err.write(message)
+
+    def flush(self):
+        pass
 
 
 def run(INPUT_FILE, OUTPUT_DIRECTORY):

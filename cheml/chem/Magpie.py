@@ -1,9 +1,9 @@
-# TODO: Add comments in function
 import sys
-import os
 import math
-import re
 import subprocess
+import numpy as np
+import pandas as pd
+import os.path
 
 class Magpie:
     """
@@ -13,11 +13,32 @@ class Magpie:
     """
 
     def __init__(self):
+        # Set path to Magpie.jar
         self.magpie_path = "../resources/magpie"
-        self.lookup_path = "../resources/magpie/lookup-data"
-        self.tol = 1E-10
 
-    def getFeatures(self, composition_file_str, verbose=False, file_type='csv'):
+        # Check if file Magpie.jar exists in magpie_path. Throw error otherwise.
+        magpie_jar = self.magpie_path+"/Magpie.jar"
+        if (not os.path.isfile(magpie_jar)):
+            print "File Magpie.jar not located at {}".format(magpie_jar)
+            print "Make sure it is located there before proceeding."
+            sys.exit(1)
+
+        # Set path to lookup-data directory
+        self.lookup_path = "../resources/magpie/lookup-data"
+
+        # Check if the directory lookup-data exists. Throw error otherwise.
+        if (not os.path.isdir(self.lookup_path)):
+            print "Directory lookup-data not located at {}".format(
+                self.lookup_path)
+            print "Make sure it is located there before proceeding."
+            sys.exit(1)
+
+        # Set tolerances
+        self.atol = 1E-10
+        self.rtol = 1E-6
+
+    def get_features(self, composition_file_str, file_type='csv',
+                     verbose=False):
         """
         This function computes the features as described in the article
         Ward, L., et. al.. npj Computational Materials. 2 (2016), 16028
@@ -54,197 +75,22 @@ class Magpie:
         String that denotes the type of file used as input for the function,
         i.e., the type of composition_file_str. Default is 'csv'.
 
-        :return: feature_headers, feature_values
-        Feature headers and values as python lists
+        :return: features
+        Feature headers and values as a pandas data frame
         """
 
-        # Add comments to explain what the script file does
-
-        script_str = "// This script shows to import data sets in Magpie\n"
-        script_str += "// and generate features. Lines starting with '//' are " \
-                      "comments.\n\n"
-
-        # Load data set
-        script_str += "// Load in a dataset of compounds\n"
-        script_str += "data = new data.materials.CompositionDataset\n"
-        composition_file_path = "{}/{}".format(self.magpie_path,
-                                               composition_file_str)
-        script_str += "data import {}\n\n".format(composition_file_path)
-
-        # Define where to find elemental property data
-        script_str += "// Define where to find elemental property data\n"
-        script_str += "data attributes properties directory {}/lookup-data\n".format(
-            self.magpie_path)
-
-        # Select which set of elemental properties to use for features
-        script_str += "// Select which set of elemental properties to use for " \
-                      "attributes\n"
-        script_str += "data attributes properties add set general\n\n"
-
-        # Generate new features
-        script_str += "// Generate new attributes\n"
-        script_str += "data attributes generate\n"
-
-        # Save features to csv file
-
-        split_str = ".{}".format(file_type)
-        tmp_words = composition_file_str.split(split_str)
-        composition_file_name = tmp_words[0]
-        features_str = composition_file_name + "_featuresPy"
-        script_str += "save data {}/{} csv\n\n".format(self.magpie_path,
-                                                       features_str)
-        script_str += "exit"
-
-        if (verbose):
-            print "Magpie input script file contents:"
-            print script_str
-
-        # Create input script file for magpie
-        input_str = "{}/{}.in".format(self.magpie_path, composition_file_name)
-        script_file = None
-        try:
-            script_file = open(input_str, 'w')
-        except IOError:
-            print "Error writing to file {}\n".format(script_str)
-        script_file.write(script_str)
-        script_file.close()
-
-        # Run magpie
-
-        cmd_str = "java -jar {}/Magpie.jar {}/{}.in".format(
-            self.magpie_path, self.magpie_path, composition_file_name)
-
-        if (verbose):
-            print "PWD:" + os.getcwd()
-            print "Java command:"
-            print cmd_str
-
-        ret_value = os.system(cmd_str)
-        if (ret_value != 0):
-            print "Something went wrong with the execution of the command:"
-            print cmd_str
-            sys.exit(1)
-
-        # Read features from features file
-        feature_file_name = self.magpie_path+"/"+features_str + ".csv"
-        feature_values = []
-        feature_headers = []
-        flag = False
-        with open(feature_file_name) as f1:
-            lines = [x.rstrip(',\n') for x in f1.readlines()]
-            for line in lines:
-                if (not flag):
-                    feature_headers = line.split(',')
-                    flag = True
-                else:
-                    words = map(float,line.split(','))
-                    feature_values.append(words)
-
-        return (feature_headers, feature_values)
-
-    def parse_input_file(composition_file_str, file_type='csv', verbose=False):
-        """
-        This function parses the input file that contains the information
-        regarding various materials for generating features as described by
-        Ward, L., et. al.. npj Computational Materials. 2 (2016), 16028
-        and Magpie (https://bitbucket.org/wolverton/magpie/).
-
-        :parameter composition_file_str:
-        Name of the input file that contains the compositions of materials
-        in a csv format. The file contains rows of composition information
-        about the materials. An example of the contents of a
-        composition_file_str is given below:
-
-        Fe,2.0,O,3.0
-        Na,1.0,Cl,1.0
-        Sc,4.0,Si,1.0,Al,1.0,C,1.0,N,1.0
-
-        :parameter file_type:
-        String that denotes the type of file used as input for the function,
-        i.e., the type of composition_file_str. Default is 'csv'.
-
-        :parameter verbose:
-        Flag to be used mainly for debugging purposes as it prints out a lot of
-        information. Default value is False.
-
-        :return: element_fractions:
-        List of dictionaries, one for each row of the input file, with element
-        names as keys and composition fractions as values.
-        """
-
-        list_dict = []
-        split_chr = ''
-
-        if (file_type == 'csv'):
-            split_chr = ','
-        elif (file_type == 'ssv'):
-            split_chr = '\s'
-        elif (file_type == 'tsv'):
-            split_chr = '\s+'
-        else:
-            print "Invalid input file type! Must be one of 'csv', 'ssv' or " \
-                  "'tsv'."
-            sys.exit(1)
-
-        with open(composition_file_str,'r') as f:
-            for line in f.readlines():
-                words = re.split(split_chr, line.strip())
-                l = len(words)
-                if (l % 2 != 0):
-                    print "Composition or value missing! Check input file " \
-                          "and try again."
-                    sys.exit(1)
-                else:
-                    element_fractions = {}
-                    for i in xrange(0,l,2):
-                        element_fractions[words[i]] = float(words[i + 1])
-                list_dict.append(element_fractions)
-
-        return list_dict
-
-    def get_features(self, composition_file_str, file_type='csv',
-                     verbose=False):
-        """
-        This function computes the features as described in the article
-        Ward, L., et. al.. npj Computational Materials. 2 (2016), 16028
-        and using Magpie (https://bitbucket.org/wolverton/magpie/). The
-        function reads the element compositions from the input file
-        composition_file_str located in the datasets subdirectory
-        within the magpie directory. The function creates a script file
-        that is used as input for magpie and saves it in the examples
-        subdirectory within the magpie directory. Then it runs magpie
-        with the input script file and generates corresponding features.
-        Features and feature headers are saved to a file as well as returned as
-        python lists.
-
-        :parameter composition_file_str:
-        Name of the input file that contains the compositions of materials
-        in a csv format. The file contains rows of composition information
-        about the materials. An example of the contents of a
-        composition_file_str is given below:
-
-        Fe,2.0,O,3.0
-        Na,1.0,Cl,1.0
-        Sc,4.0,Si,1.0,Al,1.0,C,1.0,N,1.0
-
-        :parameter file_type:
-        String that denotes the type of file used as input for the function,
-        i.e., the type of composition_file_str. Default is 'csv'.
-
-        :parameter verbose:
-        Flag to be used mainly for debugging purposes as it prints out a lot of
-        information. Default value is False.
-
-        :return: feature_headers, feature_values
-        Feature headers and values as python lists
-        """
+        # Set the java command
         cmd_str = "java -cp {0}/Magpie.jar example {0}/{1} {2}".format(
             self.magpie_path, composition_file_str, self.lookup_path)
 
+        # Add verbose flag if necessary
         if (verbose):
             cmd_str += " -v"
             print cmd_str
-        process = subprocess.Popen(cmd_str, stdout=subprocess.PIPE, shell=True)
+
+        # Pipe output of Java to python subprocess
+        process = subprocess.Popen(cmd_str, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, shell=True)
         out, err = process.communicate()
 
         feature_values = []
@@ -254,6 +100,7 @@ class Magpie:
             print "Printing from Python"
             print out
 
+        # Process output to extract feature headers and values
         lines = out.splitlines()
 
         for i in xrange(len(lines)):
@@ -265,22 +112,18 @@ class Magpie:
                     feature_values.append(map(float,lines[j].strip().split()))
                     j = j+1
                 break
-        return (feature_headers, feature_values)
-
-    def check_equal(self, f1, f2):
-        """
-        Function to check if two float values are equal. Returns True if (f1
-        - f2)^2 < tol.
-        :param f1: First float
-        :param f2: Second float
-        :return: Boolean
-        """
-        # print (f1 - f2)**2
-        return ((f1 - f2)**2 < self.tol)
+        features = pd.DataFrame.from_records(feature_values,
+                                             columns=feature_headers)
+        # print features
+        return features
 
     def test_example(self):
-        f1_headers, f1_values = self.get_features("example.csv",
-                                                  'csv', False)
+        # Use example.csv file to get features from magpie
+        f1_df = self.get_features("example.csv", 'csv', False)
+        f1_values = f1_df.values.tolist()
+        f1_headers = list(f1_df)
+
+        # Hard-coded values for example.csv and default magpie settings
         feat_headers = ['NComp', 'Comp_L2Norm', 'Comp_L3Norm', 'Comp_L5Norm',
                         'Comp_L7Norm', 'Comp_L10Norm', 'mean_Number',
                         'maxdiff_Number', 'dev_Number', 'max_Number',
@@ -4555,30 +4398,28 @@ class Magpie:
                         0.0000000e+00,3.8461538e-01,5.3846154e-01,
                         0.0000000e+00,float('nan'),float('nan')]]
 
+        # Check if headers are the same
         for i in xrange(len(f1_headers)):
             if (f1_headers[i] != feat_headers[i]):
                 print 'Test failed spectacularly!!!'
                 print i, f1_headers[i], feat_headers[i]
                 sys.exit(1)
 
+        # Check if the values are the same
         for i in xrange(len(f1_values)):
             for j in xrange(len(f1_values[i])):
-                if (math.isnan(feat_values[i][j]) and math.isnan(f1_values[
-                                                                     i][j])) \
-                        or (self.check_equal(f1_values[i][j], feat_values[i][
-                            j])):
-                    continue
-                else:
-                    print 'Test failed spectacularly!!!'
-                    print i,j,f1_values[i][j],feat_values[i][j]
-                    sys.exit(1)
+                pass
+            if (math.isnan(feat_values[i][j]) and math.isnan(f1_values[i][j])) \
+                    or (np.isclose(f1_values[i][j], feat_values[i][j]),
+                        self.rtol, self.atol, True):
+                continue
+            else:
+                print 'Test failed spectacularly!!!'
+                print i,j,f1_values[i][j],feat_values[i][j]
+                sys.exit(1)
 
+        # If code reaches this point that means, the test is successful.
         print 'Test passed successfully'
-
-        # if (f1_headers == feat_headers and f1_values == feat_values):
-        #     print "Test successfully passed!"
-        # else:
-        #     print "Test failed! Make sure you have the correct file."
 
 
 if __name__ == "__main__":

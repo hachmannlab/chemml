@@ -255,10 +255,7 @@ class BASE(object):
         self.InputScript = ''
         self.output_directory = '.'
         self.log = []
-        self.cheml_type = {'descriptor':[], 'interpreter':[], 'input':[], 'output':[],
-                           'selector':[],   'transformer':[], 'regressor':[],
-                           'preprocessor':[],   'divider':[], 'postprocessor':[],
-                           'classifier':[],   'evaluator':[], 'visualizer':[], 'optimizer':[]}
+
 
 class Wrapper(LIBRARY):
     """

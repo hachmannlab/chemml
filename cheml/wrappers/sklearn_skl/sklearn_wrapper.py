@@ -15,7 +15,7 @@ from .syntax import Preprocessor, Regressor, Evaluator
 class PolynomialFeatures(BASE,LIBRARY,Preprocessor):
     def legal_IO(self):
         self.legal_inputs = {'df': None, 'api':None}
-        self.legal_outputs = {'api':None, 'df':None}
+        self.legal_outputs = {'df':None, 'api':None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 
@@ -589,7 +589,7 @@ class KernelPCA(BASE, LIBRARY, Preprocessor):
 
 # splitter
 
-class Train_Test_Split(BASE, LIBRARY):
+class train_test_split(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None}
         self.legal_outputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
@@ -800,7 +800,7 @@ class regression(BASE, LIBRARY):
         if model is None:
             if method == 'fit' or method is None:
                 try:
-                    if self.Function == 'OLS':
+                    if self.Function == 'LinearRegression':
                         from sklearn.linear_model import LinearRegression
                         model = LinearRegression(**self.parameters)
                     elif self.Function == 'Ridge':
@@ -816,7 +816,7 @@ class regression(BASE, LIBRARY):
                         from sklearn.linear_model import MultiTaskLasso
                         model = MultiTaskLasso(**self.parameters)
                     elif self.Function == 'ElasticNet':
-                        from sklearn.kernel_ridge import ElasticNet
+                        from sklearn.linear_model import ElasticNet
                         model = ElasticNet(**self.parameters)
                     elif self.Function == 'MultiTaskElasticNet':
                         from sklearn.linear_model import MultiTaskElasticNet
@@ -825,7 +825,7 @@ class regression(BASE, LIBRARY):
                         from sklearn.linear_model import Lars
                         model = Lars(**self.parameters)
                     elif self.Function == 'LassoLars':
-                        from sklearn.kernel_ridge import LassoLars
+                        from sklearn.linear_model import LassoLars
                         model = LassoLars(**self.parameters)
                     elif self.Function == 'BayesianRidge':
                         from sklearn.linear_model import BayesianRidge
@@ -1031,7 +1031,7 @@ class cross_val_predict(BASE, LIBRARY):
 class learning_curve(BASE, LIBRARY):
     def legal_IO(self):
         self.legal_inputs = {'dfx': None, 'dfy': None, 'estimator': None, 'cv':None, 'scorer':None}
-        self.legal_outputs = {'train_sizes_abs': None,'train_scores': None,'test_scores': None, \
+        self.legal_outputs = {'train_sizes_abs': None,'train_scores': None,'test_scores': None,
                               'extended_result_': None}
         requirements = ['scikit_learn']
         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
@@ -1098,7 +1098,7 @@ class learning_curve(BASE, LIBRARY):
 
 # Metrics
 
-class Evaluate_Regression(BASE,LIBRARY,Evaluator):
+class evaluate_regression(BASE,LIBRARY,Evaluator):
     def legal_IO(self):
         self.legal_inputs = {'dfy': None, 'dfy_pred': None}
         self.legal_outputs = {'evaluation_results_': None, 'evaluator': None}
@@ -1154,7 +1154,11 @@ class scorer_regression(BASE, LIBRARY):
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
-        metric = self.parameters.pop('metric')
+        if 'metric' in self.parameters:
+            metric = self.parameters.pop('metric')
+        else:
+            metric = 'mae'
+        # Todo: add all the metrics for regression
 
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
@@ -1182,81 +1186,5 @@ class scorer_regression(BASE, LIBRARY):
         del self.legal_inputs
 
 
-##################################################################### 5 Explore
-
-class Old_Search(BASE, Regressor, Evaluator):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None, 'CV': None,'model': None, }
-        self.legal_outputs = {'results': None}
-        requirements = ['scikit_learn']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def scenario1(self, dfx_test, dfy_test):
-        # 0 CV
-        if self.X_scaler is not None:
-            dfx_test = self.X_scaler.transform(dfx_test)
-        if len(dfy_test.columns)==1:
-            col = dfy_test.columns[0]
-            dfy_test = np.array(dfy_test[col])
-        self.dfy_pred = self.predict(self.legal_inputs['model'], dfx_test)
-        if self.Y_scaler is not None:
-            self.dfy_pred = self.Y_scaler.inverse_transform(self.dfy_pred)
-        self.evaluate(dfy_test, self.dfy_pred)
-
-    def scenario2(self, dfx, dfy):
-        # 1 CV
-        self.model_info = {'r2_training':[], 'models':[], 'X_scaler':[], 'Y_scaler':[]}
-        for train, test in self.CV.split(dfx):
-            dfx_train = dfx.iloc[train]
-            dfy_train = dfy.iloc[train]
-            if dfy_train.shape[1]==1:
-                flag = True
-            else:
-                flag = False
-            dfx_test = dfx.iloc[test]
-            dfy_test = dfy.iloc[test]
-            if not isinstance(self.X_scaler, type(None)):
-                dfx_train = self.X_scaler.fit_transform(dfx_train)
-                dfx_test = self.X_scaler.transform(dfx_test)
-                self.model_info['X_scaler'].append(self.X_scaler)
-            if not isinstance(self.Y_scaler, type(None)):
-                dfy_train = self.Y_scaler.fit_transform(dfy_train)
-                self.model_info['Y_scaler'].append(self.Y_scaler)
-                print dfy_train.shape
-            if flag:
-                dfy_train = np.ravel(dfy_train)
-            model, r2 = self.train(self.legal_inputs['model'], dfx_train, dfy_train)
-            self.model_info['models'].append(model)
-            self.model_info['r2_training'].append(r2)
-            dfy_pred = self.predict(self.legal_inputs['model'], dfx_test)
-            if not isinstance(self.Y_scaler, type(None)):
-                dfy_pred = self.Y_scaler.inverse_transform(dfy_pred)
-            self.evaluate(dfy_test, dfy_pred)
-
-    def fit(self):
-        #Todo: add a function to read the model from file
-        dfx = self.type_check('dfx', cheml_type='df', req=True, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='df', req=True, py_type=pd.DataFrame)
-        model = self.type_check('model', cheml_type='model', req=True)
-        self.X_scaler = self.type_check('X_scaler', cheml_type='preprocessor', req=False)
-        self.Y_scaler = self.type_check('Y_scaler', cheml_type='preprocessor', req=False)
-        self.CV = self.type_check('CV', cheml_type='cv', req=False)
-
-        self._evaluation_params()
-        # Todo: check if we can have one sent variable for two inputs
-        if self.CV is None:
-            self.scenario1(dfx, dfy)
-        else:
-            self.scenario2(dfx, dfy)
-        del dfx
-        del dfy
-
-        order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
-        for token in set(order):
-            if token == 'results':
-                self.Base.send[(self.iblock, token)] = [pd.DataFrame(self.results), order.count(token)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
-                raise NameError(msg)
-        del self.legal_inputs
+##################################################################### 5 Mix
 

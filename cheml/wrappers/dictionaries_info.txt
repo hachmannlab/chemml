@@ -37,11 +37,11 @@ CompGraph = ((0, 'df', 1, 'df'), (1, 'df2', 2, 'df'), (1, 'df1', 3, 'df'), (3, '
 CompGraph = {(iblock_send,token,iblock_recv,token)}
 self.Base.graph = CompGraph
 
-self.legal_inputs = {token:(value,(i_send,token,module,function))}
+self.legal_inputs = {token:(value,(i_send,token,host,function))}
 
-self.Base.graph_info = {iblock:(module,function)}
+self.Base.graph_info = {iblock:(host,function)}
 
 self.Base.send = {(iblock_send,token) : [value, count]}
 
 
-#self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}
+#self.Base.cheml_type = {'model':[(host,function), ...], 'scaler':[], 'cv':[]}

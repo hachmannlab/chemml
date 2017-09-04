@@ -20,32 +20,7 @@
     <favorites_list name="cheml" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="main2.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/notebooks/main2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2370">
-              <caret line="203" column="30" selection-start-line="203" selection-start-column="30" selection-end-line="203" selection-end-column="30" />
-              <folding>
-                <element signature="e#3582#3610#0" expanded="true" />
-                <element signature="e#8612#9541#0" expanded="false" />
-                <element signature="e#9570#13527#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dictionaries_info.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wrappers/dictionaries_info.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="88" selection-start-line="2" selection-start-column="78" selection-end-line="2" selection-end-column="88" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -62,9 +37,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1280" />
-    <option name="y" value="-123" />
+    <option name="y" value="-161" />
     <option name="width" value="1920" />
-    <option name="height" value="745" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -211,6 +186,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FullScreen" value="true" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -433,10 +409,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="-123" width="1920" height="745" extended-state="0" />
-    <editor active="true" />
+    <frame x="1280" y="-161" width="1920" height="1080" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14802982" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14802982" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -474,14 +450,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wrappers/dictionaries_info.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="88" selection-start-line="2" selection-start-column="78" selection-end-line="2" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wrappers/cheml_cml/cheml_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -493,14 +461,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wrappers/dictionaries_info.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="88" selection-start-line="2" selection-start-column="78" selection-end-line="2" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/notebooks/main2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="203" column="30" selection-start-line="203" selection-start-column="30" selection-end-line="203" selection-end-column="30" />
+        <state relative-caret-position="205">
+          <caret line="290" column="65" selection-start-line="290" selection-start-column="65" selection-end-line="290" selection-end-column="65" />
           <folding>
             <element signature="e#3582#3610#0" expanded="true" />
+            <element signature="e#4964#8576#0" expanded="false" />
             <element signature="e#8612#9541#0" expanded="false" />
-            <element signature="e#9570#13527#0" expanded="false" />
           </folding>
         </state>
       </provider>

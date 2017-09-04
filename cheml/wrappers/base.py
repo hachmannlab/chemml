@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
-## Note: Pandas
+# todo: decorate some of the steps in the wrapeprs. e.g. sending out ouputs by finding all the connected edges in the graph
+# todo: use Input and Output classes to handle inputs and outputs
+
 class BASE(object):
     """
     Do not instantiate this class
@@ -28,7 +30,7 @@ class BASE(object):
             if edge[3] in self.legal_inputs:
                 count[edge[3]] += 1
                 if count[edge[3]] > 1:
-                    msg = '@Task #%i(%s): only one input per each available input path/token can be received.' % (
+                    msg = '@Task #%i(%s): only one input per each available input token can be received.' % (
                         self.iblock + 1, self.SuperFunction)
                     raise IOError(msg)
             else:
@@ -217,69 +219,7 @@ class LIBRARY(object):
                 file.write('\n')
 
     def manual(self, host_function, token=None, slit1=None):
-        # legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds',
-        #                           'PyScript','File','Merge','Split','SaveFile',
-        #                           'MissingValues','Trimmer','Uniformer','Constant','TBFS',
-        #                           'NN_PSGD','NN_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR'],
-        #                  'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler',
-        #                              'RobustScaler','Normalizer','Binarizer','OneHotEncoder',
-        #                              'VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr',
-        #                              'SelectFwe','RFE','RFECV','SelectFromModel',
-        #                              'PCA','KernelPCA','RandomizedPCA','LDA',
-        #                              'Train_Test_Split','KFold','','','',
-        #                              'SVR','','',
-        #                              'GridSearchCV','Evaluation',''],
-        #                  'tf':[]}
-
-
-        # sklearn_regression_function
-        self.skl_regression_func = ['OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','ElasticNet', \
-                                    'MultiTaskElasticNet', 'Lars', 'LassoLars','BayesianRidge','ARDRegression', \
-                                    'LogisticRegression', 'SGDRegressor', 'SVR','NuSVR','LinearSVR','MLPRegressor']
-
-        # general output formats
-
-        # {inputs: legal output formats}
-        CMLWinfo = {
-            ('cheml','RDKitFingerprint'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
-            ('cheml','Dragon'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
-            ('cheml','CoulombMatrix'):{'':[]},
-            ('cheml','BagofBonds'):{'':[]},
-            ('cheml','PyScript'):{'':[]},
-
-            ('cheml','ReadTable'):{'':[]},
-            ('cheml','Merge'):{'df1':[], 'df2':[]},
-            ('cheml','Split'):{'df':[]},
-            ('cheml','SaveFile'):{'df':[]},
-            ('cheml', 'StoreFile'): {},#{'input':[]},
-
-            ('cheml','MissingValues'):{'dfx':[], 'dfy':[]},
-            ('cheml','Trimmer'):{'':[]},
-            ('cheml','Uniformer'):{'':[]},
-            ('cheml','Constant'):{'df':[]},
-            ('cheml','TBFS'):{'':[]},
-            ('cheml','NN_PSGD'):{'dfx_train':[], 'dfy_train':[], 'dfx_test':[]},
-            ('cheml',''):{'':[]},
-            ('cheml',''):{'':[]},
-
-            ('sklearn', 'SVR'): {},
-            ('sklearn', 'MLPRegressor'): {'dfx':[], 'dfy':[]},
-
-            ('sklearn', 'Evaluate_Regression'): {'dfy':[], 'dfy_pred':[]},
-            ('sklearn', 'scorer_regression'):{},
-            ('sklearn', 'Train_Test_Split'): {'dfx':[], 'dfy':[]},
-            ('sklearn', 'ShuffleSplit'): {},
-            ('sklearn', 'StratifiedShuffleSplit'): {},
-            ('sklearn', 'GridSearchCV'): {},
-            ('sklearn', 'learning_curve'): {'dfx':[], 'dfy':[]},
-
-            ('sklearn', 'StandardScaler'): {'df':[]},
-            ('sklearn', 'Binarizer'): {'df':[]},
-
-            ('pandas', 'read_table'): {'': []},
-            ('pandas', 'corr'): {'df': []}
-
-        }
+        _ , _ , CMLWinfo = BANK()
         if token:
             if host_function in CMLWinfo:
                 if token in CMLWinfo[host_function]:
@@ -295,8 +235,27 @@ class LIBRARY(object):
                 return True
 
 def BANK():
+    # 7 tasks
     tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
-    info = {
+    # info = {'task':{'subtask':{'host':{'function':{ 'inputs': {'name':'df', 'required':True, 'value':None, 'allowed':[],
+    #                                                          'sender':(), 'py_type':pd.DataFrame
+    #                                                         }
+    #                                  'wrapper_params':{'param':{'required':False, 'value':None}
+    #                                                   }
+    #                                  'function_params':{'param': {'required': False, 'value': None}
+    #                                                    }
+    #                                }
+    #                      }
+    #                }
+    #       }
+    # }
+    # sklearn_regression_function
+    skl_regression_func = ['LinearRegression', 'Ridge', 'KernelRidge', 'Lasso', 'MultiTaskLasso', 'ElasticNet', \
+                                'MultiTaskElasticNet', 'Lars', 'LassoLars', 'BayesianRidge', 'ARDRegression', \
+                                'LogisticRegression', 'SGDRegressor', 'SVR', 'NuSVR', 'LinearSVR', 'MLPRegressor']
+
+    external_info = {('task', 'subtask'):('host', 'function')}
+    external_info = {
             'Enter':{
                         'input_data':{
                                     'pandas':['read_excel', 'read_csv'],
@@ -367,4 +326,66 @@ def BANK():
                                       }
                     }
             }
-    return info, tasks
+    internal_info = {('host','function'):{'inputs':{ 'token': 'Input_instance'},
+                                          'outputs':{'token': 'Output_instance'},
+                                          'wrapper_param':{'param':{'required':True, 'value':None}
+                                                           },
+                                          'function_param':{'param':{'required':True, 'value':None}
+                                                            },
+                                         }
+                    }
+
+    pddf = "<class 'pandas.core.frame.DataFrame'>"
+    internal_info = {
+        ('cheml', 'RDKitFingerprint'): {'inputs':{'molfile': str},'outputs':{}},
+        ('cheml', 'Dragon'): {'molfile': [('filepath', 'cheml', 'SaveFile'), ]},
+        ('cheml', 'CoulombMatrix'): {'': []},
+        ('cheml', 'BagofBonds'): {'': []},
+        ('cheml', 'PyScript'): {'df1': pddf, 'df2':pddf },
+
+        ('cheml', 'ReadTable'): {'': []},
+        ('cheml', 'Merge'): {'df1': [], 'df2': []},
+        ('cheml', 'Split'): {'df': []},
+        ('cheml', 'SaveFile'): {'df': []},
+        ('cheml', 'StoreFile'): {},  # {'input':[]},
+
+        ('cheml', 'MissingValues'): {'dfx': [], 'dfy': []},
+        ('cheml', 'Trimmer'): {'': []},
+        ('cheml', 'Uniformer'): {'': []},
+        ('cheml', 'Constant'): {'df': []},
+        ('cheml', 'TBFS'): {'': []},
+        ('cheml', 'NN_PSGD'): {'dfx_train': [], 'dfy_train': [], 'dfx_test': []},
+        ('cheml', ''): {'': []},
+        ('cheml', ''): {'': []},
+
+        ('sklearn', 'SVR'): {},
+        ('sklearn', 'MLPRegressor'): {'dfx': [], 'dfy': []},
+
+        ('sklearn', 'PolynomialFeatures'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.PolynomialFeatures'>"},
+        ('sklearn', 'Binarizer'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.Binarizer'>"},
+        ('sklearn', 'OneHotEncoder'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.data.OneHotEncoder'>"},
+        ('sklearn', 'Imputer'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.imputation.Imputer'>"},
+        ('sklearn', 'StandardScaler'): {'df': pddf, 'api':""},
+        ('sklearn', 'MinMaxScaler'): {'df': pddf, 'api':""},
+        ('sklearn', 'MaxAbsScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'Train_Test_Split'): {'dfx': [], 'dfy': []},
+        ('sklearn', 'KFold'): {},
+
+        ('sklearn', 'Evaluate_Regression'): {'dfy': [], 'dfy_pred': []},
+        ('sklearn', 'scorer_regression'): {},
+        ('sklearn', 'ShuffleSplit'): {},
+        ('sklearn', 'StratifiedShuffleSplit'): {},
+        ('sklearn', 'GridSearchCV'): {},
+        ('sklearn', 'learning_curve'): {'dfx': [], 'dfy': []},
+
+
+        ('pandas', 'read_table'): {'': []},
+        ('pandas', 'corr'): {'df': []}
+
+    }
+
+    return tasks, external_info, internal_info

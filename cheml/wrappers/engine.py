@@ -127,7 +127,7 @@ class Parser(object):
             block = blocks[item]
             function = self._functions(block[0])
             parameters, send, recv = self._parameters(block,item)
-            cmls.append({"SuperFunction": function,
+            cmls.append({"task": function,
                          "parameters": parameters,
                          "send": send,
                          "recv": recv})
@@ -137,7 +137,7 @@ class Parser(object):
         item = 0
         for block in cmls:
             item+=1
-            line = '%s\n' %(block['SuperFunction'])
+            line = '%s\n' %(block['task'])
             line = line.rstrip("\n")
             tmp_str =  '%i'%item+' '*(4-len(str(item)))+'Task: '+line
             print tmp_str
@@ -277,36 +277,36 @@ class Wrapper(LIBRARY):
         any possible typo in other params.
         """
         # get params
-        # legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
+        # legal_tasks = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
         #                         'FeatureTransformation','Divider','Regression','Classification','Postprocessor',
         #                         'Evaluation','Visualization','Optimizer']
-        # legal_superfunctions = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
+        # legal_tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
         # run over graph
         for iblock, block in enumerate(self.cmls):
             # check super function
-            SuperFunction = block['SuperFunction']
-            # if SuperFunction not in legal_superfunctions:
-            #     msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, SuperFunction,SuperFunction)
+            task = block['task']
+            # if task not in legal_tasks:
+            #     msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, task,task)
             #     raise NameError(msg)
             # check parameters
             parameters = block['parameters']
             if 'host' not in parameters:
-                msg = "@Task #%i(%s): no host name found" % (iblock + 1, SuperFunction)
+                msg = "@Task #%i(%s): no host name found" % (iblock + 1, task)
                 raise NameError(msg)
             if 'function' not in parameters:
-                msg = "@Task #%i(%s): no function name found" % (iblock + 1, SuperFunction)
+                msg = "@Task #%i(%s): no function name found" % (iblock + 1, task)
                 raise NameError(msg)
             # check host and function
             host_function = (block['parameters']['host'], block['parameters']['function'])
             if not self.manual(host_function = host_function):
-                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, SuperFunction, str(host_function) )
+                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, task, str(host_function) )
                 raise NameError(msg)
         return 'The input file is in a correct format.'
 
     def call(self):
         self.refs = {}
         for iblock in self.ImpOrder:
-            task = self.cmls[iblock]['SuperFunction']
+            task = self.cmls[iblock]['task']
             parameters = self.cmls[iblock]['parameters']
             host = parameters.pop('host')
             function = parameters.pop('function')

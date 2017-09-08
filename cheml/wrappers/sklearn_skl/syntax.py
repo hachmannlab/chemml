@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import warnings
+import inspect
 
 from ...utils.utilities import list_del_indices
 
@@ -34,11 +35,11 @@ class Preprocessor(object):
         elif method == 'transform':
             df = transformer.transform(df)
         else:
-            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform." % (self.iblock, self.SuperFunction)
+            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform." % (self.iblock, self.Task)
             raise NameError(msg)
         if df.shape[1] == 0:
             warnings.warn("@Task #%i(%s): empty dataframe: all columns have been removed" \
-                          %(self.iblock + 1, self.SuperFunction), Warning)
+                          %(self.iblock + 1, self.Task), Warning)
         else:
             stats = transformer.statistics_
             nan_ind = [i for i, val in enumerate(stats) if np.isnan(val)]
@@ -46,7 +47,7 @@ class Preprocessor(object):
             df = pd.DataFrame(df, columns=df_columns)
         return transformer, df
 
-    def fit_transform_inverse(self, api, df, method, available_methods, header=True):
+    def fit_transform_inverse(self, api, df, method, header=True):
         """ keep track of features (columns) that can be removed or changed in the
             preprocessor by transforming data back to pandas dataframe.
 
@@ -71,9 +72,7 @@ class Preprocessor(object):
         """
 
         df_columns = list(df.columns)
-        if method not in available_methods:
-            msg = "@Task #%i(%s): The passed method is not valid. It can be any of fit_transform, transform or inverse_transform." % (self.iblock, self.SuperFunction)
-            raise NameError(msg)
+
         if method == 'fit_transform':
             df = api.fit_transform(df)
         elif method == 'transform':
@@ -82,14 +81,14 @@ class Preprocessor(object):
             df = api.inverse_transform(df)
         if header:
             if df.shape[1] == 0:
-                warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed" \
-                              % (self.iblock + 1, self.SuperFunction), Warning)
+                warnings.warn("@Task #%i(%s): empty dataframe - all columns have been removed"
+                              % (self.iblock + 1, self.Task), Warning)
             if df.shape[1] == len(df_columns):
                 df = pd.DataFrame(df, columns=df_columns)
             else:
                 df = pd.DataFrame(df)
-                warnings.warn("@Task #%i(%s): headers untrackable - number of columns before and after transform doesn't match" \
-                    %(self.iblock + 1, self.SuperFunction), Warning)
+                warnings.warn("@Task #%i(%s): headers are untrackable - number of columns before and after transform doesn't match" \
+                    %(self.iblock + 1, self.Task), Warning)
         return api, df
 
     #unused
@@ -233,15 +232,74 @@ class Evaluator(object):
     def _reg_evaluate(self, Y, Y_pred, evaluator):
         if Y.shape[1]>1:
             msg = "@Task #%i(%s): be aware of 'multioutput' behavior of selected metrics" \
-                          %(self.iblock + 1, self.SuperFunction)
+                          %(self.iblock + 1, self.Task)
             warnings.warn(msg, Warning)
         self.results = {}
         for metric in evaluator:
             try:
                 self.results[metric] = [evaluator[metric](Y, Y_pred)]
             except Exception as err:
-                msg = '@Task #%i(%s): ' % (self.iblock + 1, self.SuperFunction) + type(
+                msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                     err).__name__ + ': ' + err.message
                 raise TypeError(msg)
 
 
+def Fit(fn):
+    def wrapper(self):
+        self.paramFROMinput()
+        if 'func_method' in self.parameters:
+            self.method = self.parameters.pop('func_method')
+        else:
+            self.method = None
+        available_methods = self.metadata.WParameters.func_method.options
+        if self.method not in available_methods:
+            msg = "@Task #%i(%s): The method '%s' is not available for the function '%s'." % (
+                self.iblock, self.Task,self.method,self.Function)
+            raise NameError(msg)
+        else:
+            if self.method is None:
+                try:
+                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    F = getattr(submodule, self.Function)
+                    api = F(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+                self.set_value('api', api)
+                fn(self)
+            elif self.method is 'fit_transform':
+                try:
+                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    F = getattr(submodule, self.Function)
+                    api = F(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+                self.required('df', req=True)
+                df = self.inputs['df'].value
+                df = api.fit_transform(df)
+                self.set_value('api', api)
+                self.set_value('df', df)
+                fn(self)
+            elif self.method is 'transform':
+                self.required('df', req=True)
+                self.required('api', req=True)
+                df = self.inputs['df'].value
+                api = self.inputs['api'].value
+                df = api.transform(df)
+                self.set_value('api', api)
+                self.set_value('df', df)
+                fn(self)
+            elif self.method is 'inverse_transform':
+                self.required('df', req=True)
+                self.required('api', req=True)
+                df = self.inputs['df'].value
+                api = self.inputs['api'].value
+                df = api.inverse_transform(df)
+                self.set_value('api', api)
+                self.set_value('df', df)
+            elif self.method is 'partial_fit':
+                pass
+
+        # delete all inputs
+        del self.inputs

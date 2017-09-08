@@ -21,7 +21,7 @@ class mask(object):
         """ Wrapper parameters"""
         func_method = Parameter('func_method', None, 'string')
 
-    class Fparametrs:
+    class Fparameters:
         """ Function parameters"""
         #
         pass
@@ -31,6 +31,7 @@ class PolynomialFeatures(object):
     subtask = 'feature representation'
     host = 'sklearn'
     function = 'PolynomialFeatures'
+    module = ('sklearn', 'preprocessing')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures"
 
@@ -47,11 +48,13 @@ class PolynomialFeatures(object):
     class WParameters:
         """ Wrapper parameters"""
         func_method = Parameter('func_method', None, 'string',
-                                options=('fit', 'fit_transform', 'transform', None))
+                                description = "fit_transform: always make a new api; transform: must receive an api; None: only make a new api ",
+                                options=('fit_transform', 'transform', None))
 
-    class Fparametrs:
+    class Fparameters:
         """ Function parameters"""
         #{'include_bias': True, 'interaction_only': False, 'degree': 2}
+        degree = Parameter('degree',2)
         pass
 
 class Binarizer(object):
@@ -59,6 +62,7 @@ class Binarizer(object):
     subtask = 'feature representation'
     host = 'sklearn'
     function = 'Binarizer'
+    module = ('sklearn', 'preprocessing')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer"
 
@@ -74,9 +78,9 @@ class Binarizer(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform',None))
-
-    class Fparametrs:
+                                description="fit_transform: always make a new api; transform: must receive an api; None: only make a new api ",
+                                options=('fit_transform', 'transform', None))
+    class Fparameters:
         #{'threshold': 0.0, 'copy': True}
         pass
 
@@ -85,6 +89,7 @@ class OneHotEncoder(object):
     subtask = 'feature representation'
     host = 'sklearn'
     function = 'OneHotEncoder'
+    module = ('sklearn', 'preprocessing')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder"
 
@@ -100,9 +105,9 @@ class OneHotEncoder(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform',None))
-
-    class Fparametrs:
+                                description="fit_transform: always make a new api; transform: must receive an api; None: only make a new api ",
+                                options=('fit_transform', 'transform', None))
+    class Fparameters:
         # {'dtype': np.float, 'handle_unknown': 'error', 'sparse': True, 'categorical_features': 'all', 'n_values': 'auto'}
         pass
 
@@ -111,6 +116,7 @@ class Imputer(object):
     subtask = 'preprocessor'
     host = 'sklearn'
     function = 'Imputer'
+    module = ('sklearn', 'preprocessing')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html#sklearn.preprocessing.Imputer"
 
@@ -126,9 +132,10 @@ class Imputer(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; None: only make a new api ",
+                                options=('fit_transform', 'transform', None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy': True, 'strategy': 'mean', 'axis': 0, 'verbose': 0, 'missing_values': 'NaN'}
         pass
 
@@ -137,6 +144,7 @@ class StandardScaler(object):
     subtask = 'scale'
     host = 'sklearn'
     function = 'StandardScaler'
+    module = ('sklearn', 'preprocessing')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler"
 
@@ -152,9 +160,10 @@ class StandardScaler(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy': True, 'with_mean': True, 'with_std': True}
         pass
 
@@ -178,9 +187,10 @@ class MinMaxScaler(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy': True, 'feature_range': (0, 1)}
         pass
 
@@ -204,9 +214,10 @@ class MaxAbsScaler(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy':True}
         pass
 
@@ -230,9 +241,10 @@ class RobustScaler(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'with_centering': True, 'quantile_range': (25.0, 75.0), 'copy': True, 'with_scaling': True}
         pass
 
@@ -256,9 +268,10 @@ class Normalizer(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api None: only make a new api ",
+                                options = ('fit_transform','transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy': True, 'norm': 'l2'}
         pass
 
@@ -282,9 +295,10 @@ class PCA(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'copy': True, 'norm': 'l2'}
         pass
 
@@ -308,9 +322,10 @@ class KernelPCA(object):
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
-                                options = ('fit','fit_transform','transform','inverse_transform',None))
+                                description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
+                                options = ('fit_transform','transform','inverse_transform',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'fit_inverse_transform': False, 'kernel': 'linear', 'n_jobs': 1, 'tol': 0, 'degree': 3, 'random_state': None, 'max_iter': None, 'kernel_params': None, 'remove_zero_eig': False, 'n_components': None, 'eigen_solver': 'auto', 'copy_X': True, 'alpha': 1.0, 'coef0': 1, 'gamma': None}
         pass
 
@@ -319,6 +334,7 @@ class train_test_split(object):
     subtask = 'split'
     host = 'sklearn'
     function = 'train_test_split'
+    module = ('sklearn','model_selection')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html"
 
@@ -335,7 +351,7 @@ class train_test_split(object):
     class WParameters:
         pass
 
-    class Fparametrs:
+    class Fparameters:
         #
         pass
 
@@ -344,20 +360,16 @@ class KFold(object):
     subtask = 'split'
     host = 'sklearn'
     function = 'KFold'
+    module = ('sklearn','model_selection')
     requirements = (req(0), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        api = Input('api', "instance of scikit-learn's KFold class",
-                    ("<class 'sklearn.model_selection._split.KFold'>"))
+        df = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
 
     class Outputs:
-        dfx_train = Output('dfx_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfx_test = Output('dfx_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_train = Output('dfy_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_test = Output('dfy_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        fold_gen = Output('cv_gen','Generator of indices to split data into training and test set',
+                        ("<type 'generator'>"))
         api = Output('api', "instance of scikit-learn's KFold class",
                     ("<class 'sklearn.model_selection._split.KFold'>"))
 
@@ -365,7 +377,7 @@ class KFold(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('split',None))
 
-    class Fparametrs:
+    class Fparameters:
         #n_splits=3, shuffle=False, random_state=None
         pass
 
@@ -395,7 +407,7 @@ class ShuffleSplit(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('split',None))
 
-    class Fparametrs:
+    class Fparameters:
         # n_splits=10, test_size='default', train_size=None, random_state=None
         pass
 
@@ -425,7 +437,7 @@ class StratifiedShuffleSplit(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('split',None))
 
-    class Fparametrs:
+    class Fparameters:
         # n_splits=10, test_size='default', train_size=None, random_state=None
         pass
 
@@ -452,7 +464,7 @@ class LinearRegression(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'fit_intercept': True, 'normalize': False, 'n_jobs': 1, 'copy_X': True}
         pass
 
@@ -479,7 +491,7 @@ class Ridge(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         # {'max_iter': None, 'normalize': False, 'tol': 0.001, 'alpha': 1.0, 'fit_intercept': True, 'copy_X': True, 'solver': 'auto', 'random_state': None}
         pass
 
@@ -506,7 +518,7 @@ class KernelRidge(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'gamma': None, 'coef0': 1, 'kernel_params': None, 'alpha': 1, 'degree': 3, 'kernel': 'linear'}
         pass
 
@@ -533,7 +545,7 @@ class Lasso(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'positive': False, 'max_iter': 1000, 'normalize': False, 'tol': 0.0001, 'selection': 'cyclic', 'alpha': 1.0,
         # 'fit_intercept': True, 'copy_X': True, 'precompute': False, 'warm_start': False, 'random_state': None}
         pass
@@ -561,7 +573,7 @@ class MultiTaskLasso(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'max_iter': 1000, 'normalize': False, 'tol': 0.0001, 'selection': 'cyclic', 'alpha': 1.0, 'fit_intercept': True,
         #  'copy_X': True, 'warm_start': False, 'random_state': None}
         pass
@@ -589,7 +601,7 @@ class ElasticNet(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'copy_X': True, 'tol': 0.0001, 'selection': 'cyclic', 'alpha': 1.0, 'fit_intercept': True, 'normalize': False,
         #  'random_state': None, 'max_iter': 1000, 'l1_ratio': 0.5, 'positive': False, 'precompute': False, 'warm_start': False}
         pass
@@ -617,7 +629,7 @@ class MultiTaskElasticNet(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'max_iter': 1000, 'copy_X': True, 'selection': 'cyclic', 'l1_ratio': 0.5, 'alpha': 1.0, 'fit_intercept': True, 'normalize': False, 'warm_start': False, 'random_state': None, 'tol': 0.0001}
         pass
 
@@ -644,7 +656,7 @@ class Lars(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'eps': 2.2204460492503131e-16, 'verbose': False, 'copy_X': True, 'positive': False, 'fit_intercept': True, 'normalize': True, 'precompute': 'auto', 'n_nonzero_coefs': 500, 'fit_path': True}
         pass
 
@@ -671,7 +683,7 @@ class LassoLars(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'eps': 2.2204460492503131e-16, 'max_iter': 500, 'copy_X': True, 'alpha': 1.0, 'fit_intercept': True,
         # 'normalize': True, 'precompute': 'auto', 'verbose': False, 'fit_path': True, 'positive': False}
         pass
@@ -699,7 +711,7 @@ class BayesianRidge(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'alpha_1': 1e-06, 'n_iter': 300, 'lambda_1': 1e-06, 'copy_X': True, 'tol': 0.001, 'normalize': False,
         # 'compute_score': False, 'fit_intercept': True, 'alpha_2': 1e-06, 'verbose': False, 'lambda_2': 1e-06}
         pass
@@ -727,7 +739,7 @@ class ARDRegression(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'alpha_2': 1e-06, 'copy_X': True, 'tol': 0.001, 'fit_intercept': True, 'verbose': False, 'alpha_1': 1e-06,
         # 'lambda_1': 1e-06, 'threshold_lambda': 10000.0, 'compute_score': False, 'n_iter': 300, 'normalize': False, 'lambda_2': 1e-06}
         pass
@@ -755,7 +767,7 @@ class LogisticRegression(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'class_weight': None, 'tol': 0.0001, 'dual': False, 'fit_intercept': True, 'solver': 'liblinear', 'random_state': None, 'multi_class': 'ovr', 'C': 1.0, 'max_iter': 100, 'verbose': 0, 'penalty': 'l2', 'n_jobs': 1, 'warm_start': False, 'intercept_scaling': 1}
         pass
 
@@ -782,7 +794,7 @@ class SGDRegressor(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'shuffle': True, 'loss': 'squared_loss', 'learning_rate': 'invscaling', 'alpha': 0.0001, 'fit_intercept': True,
         #  'epsilon': 0.1, 'random_state': None, 'penalty': 'l2', 'eta0': 0.01, 'l1_ratio': 0.15, 'verbose': 0, 'n_iter': 5, 'average': False, 'warm_start': False, 'power_t': 0.25}
         pass
@@ -810,7 +822,7 @@ class SVR(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'gamma': 'auto', 'coef0': 0.0, 'max_iter': -1, 'tol': 0.001, 'cache_size': 200, 'degree': 3, 'verbose': False,
         #  'C': 1.0, 'epsilon': 0.1, 'shrinking': True, 'kernel': 'rbf'}
         pass
@@ -838,7 +850,7 @@ class NuSVR(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'gamma': 'auto', 'coef0': 0.0, 'max_iter': -1, 'tol': 0.001, 'cache_size': 200, 'degree': 3, 'verbose': False,
         #  'C': 1.0, 'epsilon': 0.1, 'shrinking': True, 'kernel': 'rbf'}
         pass
@@ -866,7 +878,7 @@ class LinearSVR(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'fit_intercept': True, 'max_iter': 1000, 'loss': 'epsilon_insensitive', 'tol': 0.0001, 'dual': True, 'C': 1.0,
         #  'verbose': 0, 'epsilon': 0.0, 'intercept_scaling': 1.0, 'random_state': None}
         pass
@@ -894,7 +906,7 @@ class MLPRegressor(object):
         func_method = Parameter('func_method', None, 'string',
                                 options = ('fit','predict',None))
 
-    class Fparametrs:
+    class Fparameters:
         #{'beta_1': 0.9, 'warm_start': False, 'beta_2': 0.999, 'shuffle': True, 'verbose': False, 'nesterovs_momentum': True,
         #  'hidden_layer_sizes': (100,), 'epsilon': 1e-08, 'activation': 'relu', 'max_iter': 200, 'batch_size': 'auto',
         # 'power_t': 0.5, 'random_state': None, 'learning_rate_init': 0.001, 'tol': 0.0001, 'validation_fraction': 0.1,
@@ -925,8 +937,8 @@ class GridSearchCV(object):
     class WParameters:
         pass
 
-    class Fparametrs:
-        #estimator, param_grid, scoring=None, fit_params=None, n_jobs=1, iid=True, refit=True, cv=None, verbose=0, pre_dispatch=‘2*n_jobs’, error_score=’raise’, return_train_score=True
+    class Fparameters:
+        #estimator, param_grid, scoring=None, fit_params=None, n_jobs=1, iid=True, refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs', error_score='raise', return_train_score=True
         pass
 
 class cross_val_score(object):
@@ -950,7 +962,7 @@ class cross_val_score(object):
     class WParameters:
         pass
 
-    class Fparametrs:
+    class Fparameters:
         # estimator, X, y=None, groups=None, scoring=None, cv=None, n_jobs=1, verbose=0, fit_params=None, pre_dispatch='2*n_jobs'
         pass
 
@@ -975,7 +987,7 @@ class cross_val_predict(object):
     class WParameters:
         pass
 
-    class Fparametrs:
+    class Fparameters:
         # estimator, X, y=None, groups=None, cv=None, n_jobs=1, verbose=0, fit_params=None, pre_dispatch='2*n_jobs', method='predict'
         pass
 
@@ -1004,7 +1016,7 @@ class learning_curve(object):
     class WParameters:
         pass
 
-    class Fparametrs:
+    class Fparameters:
         # estimator, X, y, groups=None, train_sizes=array([ 0.1, 0.33, 0.55, 0.78, 1. ]), cv=None, scoring=None, exploit_incremental_learning=False, n_jobs=1, pre_dispatch='all', verbose=0, shuffle=False, random_state=None
         pass
 
@@ -1027,7 +1039,7 @@ class scorer_regression(object):
         metric = Parameter('metric', 'mae', "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics",
                                 options = ('mae','mse','rmse','r2'))
 
-    class Fparametrs:
+    class Fparameters:
         #score_func, greater_is_better=True, needs_proba=False, needs_threshold=False, **kwargs
         pass
 
@@ -1097,60 +1109,12 @@ class evaluate_regression(object):
                                  "http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score",
                                  options=('raw_values', 'uniform_average', 'variance_weighted'))
 
-    class Fparametrs:
+    class Fparameters:
         pass
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-internal_info = {
-        ('cheml', 'RDKitFingerprint'): {'inputs':{'molfile': str},'outputs':{}},
-        ('cheml', 'Dragon'): {'molfile': [('filepath', 'cheml', 'SaveFile'), ]},
-        ('cheml', 'CoulombMatrix'): {'': []},
-        ('cheml', 'BagofBonds'): {'': []},
-        ('cheml', 'PyScript'): {'df1': pd.DataFrame},
-
-        ('cheml', 'ReadTable'): {'': []},
-        ('cheml', 'Merge'): {'df1': [], 'df2': []},
-        ('cheml', 'Split'): {'df': []},
-        ('cheml', 'SaveFile'): {'df': []},
-        ('cheml', 'StoreFile'): {},  # {'input':[]},
-
-        ('cheml', 'MissingValues'): {'dfx': [], 'dfy': []},
-        ('cheml', 'Trimmer'): {'': []},
-        ('cheml', 'Uniformer'): {'': []},
-        ('cheml', 'Constant'): {'df': []},
-        ('cheml', 'TBFS'): {'': []},
-        ('cheml', 'NN_PSGD'): {'dfx_train': [], 'dfy_train': [], 'dfx_test': []},
-        ('cheml', ''): {'': []},
-        ('cheml', ''): {'': []},
-
-        ('sklearn', 'SVR'): {},
-        ('sklearn', 'MLPRegressor'): {'dfx': [], 'dfy': []},
-
-        ('sklearn', 'Evaluate_Regression'): {'dfy': [], 'dfy_pred': []},
-        ('sklearn', 'scorer_regression'): {},
-        ('sklearn', 'Train_Test_Split'): {'dfx': [], 'dfy': []},
-        ('sklearn', 'ShuffleSplit'): {},
-        ('sklearn', 'StratifiedShuffleSplit'): {},
-        ('sklearn', 'GridSearchCV'): {},
-        ('sklearn', 'learning_curve'): {'dfx': [], 'dfy': []},
-
-        ('sklearn', 'StandardScaler'): {'df': []},
-        ('sklearn', 'Binarizer'): {'df': []},
-
-        ('pandas', 'read_table'): {'': []},
-        ('pandas', 'corr'): {'df': []}
-
-    }
-
+# [klass[0] for klass in inspect.getmembers(sklearn_db)] =
+#['ARDRegression', 'BayesianRidge', 'Binarizer', 'ElasticNet', 'GridSearchCV', 'Imputer', 'Input', 'KFold', 'KernelPCA', 'KernelRidge', 'Lars', 'Lasso', 'LassoLars', 'LinearRegression', 'LinearSVR', 'LogisticRegression', 'MLPRegressor', 'MaxAbsScaler', 'MinMaxScaler', 'MultiTaskElasticNet', 'MultiTaskLasso', 'Normalizer', 'NuSVR', 'OneHotEncoder', 'Output', 'PCA', 'Parameter', 'PolynomialFeatures', 'Ridge', 'RobustScaler', 'SGDRegressor', 'SVR', 'ShuffleSplit', 'StandardScaler', 'StratifiedShuffleSplit', '__builtins__', '__doc__', '__file__', '__name__', '__package__', 'cross_val_predict', 'cross_val_score', 'cv_types', 'evaluate_regression', 'learning_curve', 'mask', 'np', 'regression_types', 'req', 'scorer_regression', 'train_test_split']
+# len = all + 5 '__' + 6 imported + 1 np + 1 mask

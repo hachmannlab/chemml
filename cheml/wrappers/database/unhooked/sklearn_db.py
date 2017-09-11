@@ -10,11 +10,11 @@ class mask(object):
     documentation = ""
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's X class",())
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's X class",())
 
     class WParameters:
@@ -36,14 +36,14 @@ class PolynomialFeatures(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's PolynomialFeatures class",
-                    ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>"))
+                    ["<class 'sklearn.preprocessing.data.PolynomialFeatures'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's PolynomialFeatures class",
-                    ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>"))
+                    ["<class 'sklearn.preprocessing.data.PolynomialFeatures'>"])
 
     class WParameters:
         """ Wrapper parameters"""
@@ -54,7 +54,6 @@ class PolynomialFeatures(object):
     class Fparameters:
         """ Function parameters"""
         #{'include_bias': True, 'interaction_only': False, 'degree': 2}
-        degree = Parameter('degree',2)
         pass
 
 class Binarizer(object):
@@ -67,14 +66,14 @@ class Binarizer(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Binarizer class",
-                    ("<class 'sklearn.preprocessing.data.Binarizer'>"))
+                    ["<class 'sklearn.preprocessing.data.Binarizer'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Binarizer class",
-                    ("<class 'sklearn.preprocessing.data.Binarizer'>"))
+                    ["<class 'sklearn.preprocessing.data.Binarizer'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -94,14 +93,14 @@ class OneHotEncoder(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's OneHotEncoder class",
-                    ("<class 'sklearn.preprocessing.data.OneHotEncoder'>"))
+                    ["<class 'sklearn.preprocessing.data.OneHotEncoder'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's OneHotEncoder class",
-                    ("<class 'sklearn.preprocessing.data.OneHotEncoder'>"))
+                    ["<class 'sklearn.preprocessing.data.OneHotEncoder'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -121,14 +120,14 @@ class Imputer(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html#sklearn.preprocessing.Imputer"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Imputer class",
-                    ("<class 'sklearn.preprocessing.imputation.Imputer'>"))
+                    ["<class 'sklearn.preprocessing.imputation.Imputer'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Imputer class",
-                    ("<class 'sklearn.preprocessing.imputation.Imputer'>"))
+                    ["<class 'sklearn.preprocessing.imputation.Imputer'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -149,14 +148,14 @@ class StandardScaler(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's StandardScaler class",
-                    ("<class 'sklearn.preprocessing.data.StandardScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.StandardScaler'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's StandardScaler class",
-                    ("<class 'sklearn.preprocessing.data.StandardScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.StandardScaler'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -176,14 +175,14 @@ class MinMaxScaler(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MinMaxScaler class",
-                    ("<class 'sklearn.preprocessing.data.MinMaxScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.MinMaxScaler'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MinMaxScaler class",
-                    ("<class 'sklearn.preprocessing.data.MinMaxScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.MinMaxScaler'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -203,14 +202,14 @@ class MaxAbsScaler(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MaxAbsScaler class",
-                    ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.MaxAbsScaler'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MaxAbsScaler class",
-                    ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.MaxAbsScaler'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -230,14 +229,14 @@ class RobustScaler(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's RobustScaler class",
-                    ("<class 'sklearn.preprocessing.data.RobustScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.RobustScaler'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's RobustScaler class",
-                    ("<class 'sklearn.preprocessing.data.RobustScaler'>"))
+                    ["<class 'sklearn.preprocessing.data.RobustScaler'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -257,14 +256,14 @@ class Normalizer(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Normalizer class",
-                    ("<class 'sklearn.preprocessing.data.Normalizer'>"))
+                    ["<class 'sklearn.preprocessing.data.Normalizer'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Normalizer class",
-                    ("<class 'sklearn.preprocessing.data.Normalizer'>"))
+                    ["<class 'sklearn.preprocessing.data.Normalizer'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -284,19 +283,20 @@ class PCA(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's PCA class",
-                    ("<class 'sklearn.decomposition.pca.PCA'>"))
+                    ["<class 'sklearn.decomposition.pca.PCA'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's PCA class",
-                    ("<class 'sklearn.decomposition.pca.PCA'>"))
+                    ["<class 'sklearn.decomposition.pca.PCA'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
                                 description="fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api ",
                                 options = ('fit_transform','transform','inverse_transform',None))
+
 
     class Fparameters:
         # {'copy': True, 'norm': 'l2'}
@@ -311,14 +311,14 @@ class KernelPCA(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA"
 
     class Inputs:
-        df = Input('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's KernelPCA class",
-                    ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>"))
+                    ["<class 'sklearn.decomposition.kernel_pca.KernelPCA'>"])
 
     class Outputs:
-        df = Output('df', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Output('df', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's KernelPCA class",
-                    ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>"))
+                    ["<class 'sklearn.decomposition.kernel_pca.KernelPCA'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -339,14 +339,14 @@ class train_test_split(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class Outputs:
-        dfx_train = Output('dfx_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfx_test = Output('dfx_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_train = Output('dfy_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_test = Output('dfy_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx_train = Output('dfx_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfx_test = Output('dfx_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_train = Output('dfy_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_test = Output('dfy_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class WParameters:
         pass
@@ -365,13 +365,13 @@ class KFold(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html"
 
     class Inputs:
-        df = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        df = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class Outputs:
         fold_gen = Output('cv_gen','Generator of indices to split data into training and test set',
-                        ("<type 'generator'>"))
+                        ["<type 'generator'>"])
         api = Output('api', "instance of scikit-learn's KFold class",
-                    ("<class 'sklearn.model_selection._split.KFold'>"))
+                    ["<class 'sklearn.model_selection._split.KFold'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -390,18 +390,18 @@ class ShuffleSplit(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn.model_selection.ShuffleSplit"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's ShuffleSplit class",
-                    ("<class 'sklearn.model_selection._split.ShuffleSplit'>"))
+                    ["<class 'sklearn.model_selection._split.ShuffleSplit'>"])
 
     class Outputs:
-        dfx_train = Output('dfx_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfx_test = Output('dfx_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_train = Output('dfy_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_test = Output('dfy_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx_train = Output('dfx_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfx_test = Output('dfx_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_train = Output('dfy_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_test = Output('dfy_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's ShuffleSplit class",
-                    ("<class 'sklearn.model_selection._split.ShuffleSplit'>"))
+                    ["<class 'sklearn.model_selection._split.ShuffleSplit'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -420,18 +420,18 @@ class StratifiedShuffleSplit(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's StratifiedShuffleSplit class",
-                    ("<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>"))
+                    ["<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>"])
 
     class Outputs:
-        dfx_train = Output('dfx_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfx_test = Output('dfx_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_train = Output('dfy_train', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy_test = Output('dfy_test', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx_train = Output('dfx_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfx_test = Output('dfx_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_train = Output('dfy_train', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy_test = Output('dfy_test', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's StratifiedShuffleSplit class",
-                    ("<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>"))
+                    ["<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -450,15 +450,15 @@ class LinearRegression(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's LinearRegression class",
-                    ("<class 'sklearn.linear_model.base.LinearRegression'>"))
+                    ["<class 'sklearn.linear_model.base.LinearRegression'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's LinearRegression class",
-                    ("<class 'sklearn.linear_model.base.LinearRegression'>"))
+                    ["<class 'sklearn.linear_model.base.LinearRegression'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -477,15 +477,15 @@ class Ridge(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Ridge class",
-                    ("<class 'sklearn.linear_model.ridge.Ridge'>"))
+                    ["<class 'sklearn.linear_model.ridge.Ridge'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's Ridge class",
-                    ("<class 'sklearn.linear_model.ridge.Ridge'>"))
+                    ["<class 'sklearn.linear_model.ridge.Ridge'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -504,15 +504,15 @@ class KernelRidge(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's KernelRidge class",
-                    ("<class 'sklearn.kernel_ridge.KernelRidge'>"))
+                    ["<class 'sklearn.kernel_ridge.KernelRidge'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's KernelRidge class",
-                    ("<class 'sklearn.kernel_ridge.KernelRidge'>"))
+                    ["<class 'sklearn.kernel_ridge.KernelRidge'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -531,15 +531,15 @@ class Lasso(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Lasso class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.Lasso'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.Lasso'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's Lasso class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.Lasso'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.Lasso'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -559,15 +559,15 @@ class MultiTaskLasso(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskLasso.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MultiTaskLasso class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's MultiTaskLasso class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -587,15 +587,15 @@ class ElasticNet(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's ElasticNet class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's ElasticNet class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -615,15 +615,15 @@ class MultiTaskElasticNet(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskElasticNet.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MultiTaskElasticNet class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's MultiTaskElasticNet class",
-                    ("<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>"))
+                    ["<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -642,15 +642,15 @@ class Lars(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lars.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's Lars class",
-                    ("<class 'sklearn.linear_model.least_angle.Lars'>"))
+                    ["<class 'sklearn.linear_model.least_angle.Lars'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's Lars class",
-                    ("<class 'sklearn.linear_model.least_angle.Lars'>"))
+                    ["<class 'sklearn.linear_model.least_angle.Lars'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -669,15 +669,15 @@ class LassoLars(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoLars.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's LassoLars class",
-                    ("<class 'sklearn.linear_model.least_angle.LassoLars'>"))
+                    ["<class 'sklearn.linear_model.least_angle.LassoLars'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's LassoLars class",
-                    ("<class 'sklearn.linear_model.least_angle.LassoLars'>"))
+                    ["<class 'sklearn.linear_model.least_angle.LassoLars'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -697,15 +697,15 @@ class BayesianRidge(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.BayesianRidge.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's BayesianRidge class",
-                    ("<class 'sklearn.linear_model.bayes.BayesianRidge'>"))
+                    ["<class 'sklearn.linear_model.bayes.BayesianRidge'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's BayesianRidge class",
-                    ("<class 'sklearn.linear_model.bayes.BayesianRidge'>"))
+                    ["<class 'sklearn.linear_model.bayes.BayesianRidge'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -725,15 +725,15 @@ class ARDRegression(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ARDRegression.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's ARDRegression class",
-                    ("<class 'sklearn.linear_model.bayes.ARDRegression'>"))
+                    ["<class 'sklearn.linear_model.bayes.ARDRegression'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's ARDRegression class",
-                    ("<class 'sklearn.linear_model.bayes.ARDRegression'>"))
+                    ["<class 'sklearn.linear_model.bayes.ARDRegression'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -753,15 +753,15 @@ class LogisticRegression(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's LogisticRegression class",
-                    ("<class 'sklearn.linear_model.logistic.LogisticRegression'>"))
+                    ["<class 'sklearn.linear_model.logistic.LogisticRegression'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's LogisticRegression class",
-                    ("<class 'sklearn.linear_model.logistic.LogisticRegression'>"))
+                    ["<class 'sklearn.linear_model.logistic.LogisticRegression'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -780,15 +780,15 @@ class SGDRegressor(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's SGDRegressor class",
-                    ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>"))
+                    ["<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's SGDRegressor class",
-                    ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>"))
+                    ["<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -808,15 +808,15 @@ class SVR(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's SVR class",
-                    ("<class 'sklearn.svm.classes.SVR'>"))
+                    ["<class 'sklearn.svm.classes.SVR'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's SVR class",
-                    ("<class 'sklearn.svm.classes.SVR'>"))
+                    ["<class 'sklearn.svm.classes.SVR'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -836,15 +836,15 @@ class NuSVR(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's NuSVR class",
-                    ("<class 'sklearn.svm.classes.NuSVR'>"))
+                    ["<class 'sklearn.svm.classes.NuSVR'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's NuSVR class",
-                    ("<class 'sklearn.svm.classes.NuSVR'>"))
+                    ["<class 'sklearn.svm.classes.NuSVR'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -864,15 +864,15 @@ class LinearSVR(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's LinearSVR class",
-                    ("<class 'sklearn.svm.classes.LinearSVR'>"))
+                    ["<class 'sklearn.svm.classes.LinearSVR'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's LinearSVR class",
-                    ("<class 'sklearn.svm.classes.LinearSVR'>"))
+                    ["<class 'sklearn.svm.classes.LinearSVR'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -892,15 +892,15 @@ class MLPRegressor(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Input('api', "instance of scikit-learn's MLPRegressor class",
-                    ("<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"))
+                    ["<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's MLPRegressor class",
-                    ("<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"))
+                    ["<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"])
 
     class WParameters:
         func_method = Parameter('func_method', None, 'string',
@@ -922,16 +922,16 @@ class GridSearchCV(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         estimator = Input('estimator', "instance of a machine learning class", regression_types())
         scorer = Input('scorer', "instance of scikit-learn's make_scorer class",
-                    ("<class 'sklearn.metrics.scorer._PredictScorer'>"))
+                    ["<class 'sklearn.metrics.scorer._PredictScorer'>"])
 
     class Outputs:
-        cv_results_ = Output('cv_results_', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        cv_results_ = Output('cv_results_', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         api = Output('api', "instance of scikit-learn's GridSearchCV class",
-                    ("<class 'sklearn.grid_search.GridSearchCV'>"))
+                    ["<class 'sklearn.grid_search.GridSearchCV'>"])
         best_estimator_ = Output('best_estimator_', "instance of a machine learning class",regression_types())
 
     class WParameters:
@@ -950,14 +950,14 @@ class cross_val_score(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         estimator = Input('estimator', "instance of a machine learning class", regression_types())
         scorer = Input('scorer', "instance of scikit-learn's make_scorer class",
-                    ("<class 'sklearn.metrics.scorer._PredictScorer'>"))
+                    ["<class 'sklearn.metrics.scorer._PredictScorer'>"])
 
     class Outputs:
-        scores = Output('scores', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        scores = Output('scores', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class WParameters:
         pass
@@ -975,14 +975,14 @@ class cross_val_predict(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         estimator = Input('estimator', "instance of a machine learning class", regression_types())
         scorer = Input('scorer', "instance of scikit-learn's make_scorer class",
-                    ("<class 'sklearn.metrics.scorer._PredictScorer'>"))
+                    ["<class 'sklearn.metrics.scorer._PredictScorer'>"])
 
     class Outputs:
-        dfy_predict = Output('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Output('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class WParameters:
         pass
@@ -1000,18 +1000,18 @@ class learning_curve(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html#sklearn.model_selection.learning_curve"
 
     class Inputs:
-        dfx = Input('dfx', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfx = Input('dfx', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
         estimator = Input('estimator', "instance of a machine learning class", regression_types())
         scorer = Input('scorer', "instance of scikit-learn's make_scorer class",
-                    ("<class 'sklearn.metrics.scorer._PredictScorer'>"))
+                    ["<class 'sklearn.metrics.scorer._PredictScorer'>"])
         cv = Input('cv', "instance of scikit-learn's cross validation generator", cv_types())
 
     class Outputs:
-        train_sizes_abs = Output('train_sizes_abs', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        train_scores = Output('train_scores', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        test_scores = Output('test_scores', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        extended_result_ = Output('extended_result_', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        train_sizes_abs = Output('train_sizes_abs', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        train_scores = Output('train_scores', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        test_scores = Output('test_scores', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        extended_result_ = Output('extended_result_', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class WParameters:
         pass
@@ -1033,7 +1033,7 @@ class scorer_regression(object):
 
     class Outputs:
         scorer = Output('scorer', 'Callable object that returns a scalar score',
-                        ("<class 'sklearn.metrics.scorer._PredictScorer'>"))
+                        ["<class 'sklearn.metrics.scorer._PredictScorer'>"])
 
     class WParameters:
         metric = Parameter('metric', 'mae', "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics",
@@ -1052,12 +1052,12 @@ class evaluate_regression(object):
     documentation = "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics"
 
     class Inputs:
-        dfy_predict = Input('dfy_predict', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        dfy = Input('dfy', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
+        dfy_predict = Input('dfy_predict', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        dfy = Input('dfy', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
 
     class Outputs:
-        evaluation_results_ = Output('evaluation_results_', 'pandas dataframe', ("<class 'pandas.core.frame.DataFrame'>"))
-        evaluator = Output('evaluator', "dictionary of metrics and their score function",("<type 'dict'>"))
+        evaluation_results_ = Output('evaluation_results_', 'pandas dataframe', ["<class 'pandas.core.frame.DataFrame'>"])
+        evaluator = Output('evaluator', "dictionary of metrics and their score function",["<type 'dict'>"])
 
     class WParameters:
         r2_score = Parameter('r2_score', False,

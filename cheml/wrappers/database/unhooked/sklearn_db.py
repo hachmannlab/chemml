@@ -1,5 +1,5 @@
 import numpy as np
-from .containers import Input, Output, Parameter, req, regression_types, cv_types
+from cheml.wrappers.database.containers import Input, Output, Parameter, req, regression_types, cv_types
 
 class mask(object):
     task = ""

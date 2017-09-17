@@ -247,6 +247,10 @@ class Evaluator(object):
 def Fit(fn):
     def wrapper(self):
         self.paramFROMinput()
+        if 'track_header' in self.parameters:
+            self.header = self.parameters.pop('track_header')
+        else:
+            self.header = True
         if 'func_method' in self.parameters:
             self.method = self.parameters.pop('func_method')
         else:
@@ -259,7 +263,8 @@ def Fit(fn):
         else:
             if self.method is None:
                 try:
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -269,7 +274,8 @@ def Fit(fn):
                 fn(self)
             elif self.method is 'fit_transform':
                 try:
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -298,8 +304,35 @@ def Fit(fn):
                 df = api.inverse_transform(df)
                 self.set_value('api', api)
                 self.set_value('df', df)
-            elif self.method is 'partial_fit':
-                pass
+            elif self.method is 'fit':
+                try:
+                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+                    F = getattr(submodule, self.Function)
+                    api = F(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+                self.required('dfx', req=True)
+                self.required('dfy', req=True)
+                dfx = self.inputs['dfx'].value
+                dfy = self.inputs['dfy'].value
+                api.fit(dfx,dfy)
+                dfy_predict = api.predict(dfx)
+                self.set_value('api', api)
+                self.set_value('dfy_predict', dfy_predict)
+                fn(self)
+            elif self.method is 'predict':
+                self.required('dfx', req=True)
+                self.required('api', req=True)
+                dfx = self.inputs['dfx'].value
+                api = self.inputs['api'].value
+                dfy_predict = api.predict(dfx)
+                self.set_value('api', api)
+                self.set_value('dfy_predict', dfy_predict)
+                fn(self)
+
+        self.Send()
 
         # delete all inputs
         del self.inputs

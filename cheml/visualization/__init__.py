@@ -1,10 +1,10 @@
 """
-The 'cheml.mix' module includes CV_DNN,
-last modified date: April 24, 2016
+The 'cheml.visualization' module includes matplotlib,
+last modified date: September 7, 2017
 """
 
 
 
 __all__ = [
-    'CV_DNN',
+    '',
 ]

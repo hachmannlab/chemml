@@ -1,8 +1,8 @@
 #value(val)
 cmls =
-[{'recv': {},             'SuperFunction': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
- {'recv': {('df', 0): 1}, 'SuperFunction': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
- {'recv': {('df', 2): 2}, 'SuperFunction': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
+[{'recv': {},             'task': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
+ {'recv': {('df', 0): 1}, 'task': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
+ {'recv': {('df', 2): 2}, 'task': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
 ]
 
 ImpOrder = (0, 1, 2)

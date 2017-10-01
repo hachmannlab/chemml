@@ -9,47 +9,45 @@ from ..base import BASE, LIBRARY
 
 # Script
 
-class PyScript(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {'df1':None,'df2':None,'api1':None, 'api2':None, 'var1': None, 'var2': None}
-        self.legal_outputs = {'df_out1':None,'df_out2':None,'api_out1':None,'api_out2':None,'var_out1':None,'var_out2':None}
-        requirements = []
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
+class PyScript(BASE, ):
     def fit(self):
         # step1: check inputs
-        df1, df1_info = self.input_check('df1', req=False, py_type=pd.DataFrame)
-        df2, df2_info = self.input_check('df2', req=False, py_type=pd.DataFrame)
-        inputs = [item for item in self.legal_inputs if not isinstance(self.legal_inputs[item], type(None))]
-        for item in inputs:
-            exec("%s = self.legal_inputs['%s'][0]"%(item,item))
+        inputs = [token for token in self.inputs if self.inputs[token].value is not None]
+        for token in inputs:
+            exec("%s = self.inputs['%s'].value"%(token,token))
         for line in sorted(self.parameters.keys()):
             exec(self.parameters[line])
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'df_out1':
-                self.Base.send[(self.iblock, token)] = [df_out1, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'df_out2':
-                self.Base.send[(self.iblock, token)] = [df_out2, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'api_out1':
-                self.Base.send[(self.iblock, token)] = [api_out1, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'api_out2':
-                self.Base.send[(self.iblock, token)] = [api_out2, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'var_out1':
-                self.Base.send[(self.iblock, token)] = [var_out1, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'var_out2':
-                self.Base.send[(self.iblock, token)] = [var_out2, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
+            if token == 'ov1':
+                self.set_value(token, ov1)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'ov2':
+                self.set_value(token, ov2)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'ov3':
+                self.set_value(token, ov3)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'ov4':
+                self.set_value(token, ov4)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'ov5':
+                self.set_value(token, ov5)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'ov6':
+                self.set_value(token, ov6)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
             else:
                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
                     self.iblock+1,self.SuperFunction,token)
                 raise NameError(msg)
-        del self.legal_inputs
+        del self.inputs
 
 
 # Feature Representation

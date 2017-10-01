@@ -1,7 +1,11 @@
+import copy
+
 import numpy as np
 import pandas as pd
-import copy
-from .database import sklearn_db, cheml_db
+
+from .database import sklearn_db
+from .database import cheml_db
+
 
 # todo: decorate some of the steps in the wrapeprs. e.g. sending out ouputs by finding all the connected edges in the graph
 # todo: use Input and Output classes to handle inputs and outputs
@@ -22,8 +26,7 @@ class BASE(object):
         self.IO()
         self.Receive()
         self.fit()
-        self.Send()
-    
+
     def IO(self):
         if self.Host == 'sklearn':
             self.metadata = getattr(sklearn_db, self.Function)()
@@ -58,7 +61,8 @@ class BASE(object):
                 if self.Base.send[key].count > 0:
                     value = self.Base.send[key].value
                     # Todo: add an option to deepcopy(value)
-                    if str(type(value)) in self.inputs[edge[3]].types:
+                    if str(type(value)) in self.inputs[edge[3]].types or \
+                               len(self.inputs[edge[3]].types)==0:
                         self.inputs[edge[3]].value = value
                         self.inputs[edge[3]].fro = self.Base.send[key].fro
                         self.Base.send[key].count -= 1
@@ -69,7 +73,7 @@ class BASE(object):
                 if self.Base.send[key].count == 0:
                     del self.Base.send[key]
             else:
-                msg = "@Task #%i(%s): no output has been received for the input token '%s'" % (
+                msg = "@Task #%i(%s): no output has been sent to the input token '%s'" % (
                     self.iblock + 1, self.Task, edge[3])
                 raise IOError(msg)
 
@@ -88,7 +92,7 @@ class BASE(object):
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
 
-    def Required(self, token, req=False):
+    def required(self, token, req=False):
         """
         Tasks:
             - check if input token is required
@@ -114,6 +118,16 @@ class BASE(object):
                         msg = "@Task #%i(%s): assigned an unknown token name - %s - to the parameter - %s - " \
                               % (self.iblock + 1, self.Task, token, param)
                         raise IOError(msg)
+
+    def set_value(self,token,value):
+        self.outputs[token].fro = (self.iblock,self.Host,self.Function)
+        if str(type(value)) in self.ouputs[token].types or \
+                    len(self.ouputs[token].types)==0:
+            self.ouputs[token].value = value
+        else:
+            msg = "@Task #%i(%s): The output token '%s' doesn't support the format"  % (
+                self.iblock, self.Host, token)
+            raise IOError(msg)
 
     def _dim_check(self, token, X, ndim):
         if (X.ndim == ndim < 3):

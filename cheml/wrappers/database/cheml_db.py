@@ -1,69 +1,42 @@
 import numpy as np
-import pandas as pd
+from .containers import Input, Output, Parameter, req, regression_types, cv_types
 
-class Input(object):
-    """Container class for inputs of a function"""
-    def __init__(self,name, info_short):
-        self.name = name
-        self.info_short = info_short
-        self.info_long = ''
-        self.value = None
-        self.type = None
-        self.sender = None
-    def set(self):
+class Binarizer(object):
+    task = 'Prepare'
+    subtask = 'python script'
+    host = 'cheml'
+    function = 'PyScript'
+    modules = ('cheml','')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        iv1 = Input("iv1","input variable, of any format", ())
+        iv2 = Input("iv2","input variable, of any format", ())
+        iv3 = Input("iv3","input variable, of any format", ())
+        iv4 = Input("iv4","input variable, of any format", ())
+        iv5 = Input("iv5","input variable, of any format", ())
+        iv6 = Input("iv6", "input variable, of any format", ())
+    class Outputs:
+        ov1 = Output("ov1","output variable, of any format", ())
+        ov2 = Output("ov2","output variable, of any format", ())
+        ov3 = Output("ov3","output variable, of any format", ())
+        ov4 = Output("ov4","output variable, of any format", ())
+        ov5 = Output("ov5","output variable, of any format", ())
+        ov6 = Output("ov6", "output variable, of any format", ())
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "fit_transform: always make a new api; transform: must receive an api; None: only make a new api ",
+                        options = ('fit_transform', 'transform', None))
+        track_header = Parameter('track_header', True,'Boolean',
+                        description = "if True, the input dataframe's header will be transformed to the output dataframe",
+                        options = (True, False))
+    class FParameters:
         pass
 
-class Output(object):
-    """Container class for outputs of a function"""
-    def __init__(self,name, info_short):
-        self.name = name
-        self.info_short = info_short
-        self.info_long = ''
-        self.value = None
-        self.type = None
-        self.count = 0
-        self.sender = None
-
-class HF(object):
-    """Container class for a function"""
-    def __init__(self):
-        self.task = None
-        self.subtask = None
-        self.host = None
-        self.function = None
-        self.inputs = {}
-        self.outputs = {}
-        self.wrapper_parameters = {}
-        self.function_parameters = {}
-        self.parameters_doc = None
-        self.requirements = []
 
 
-def cml_db():
-    internal_info = {('host','function'):{'inputs':{ 'token': Input},
-                                          'outputs':{'token': Output},
-                                          'wrapper_param':{'param':{'required':True, 'value':None}
-                                                           },
-                                          'function_param':{'param':{'required':True, 'value':None}
-                                                            },
-                                          'reqruirements':[]
-                                         }
-                    }
-
-    #('sklearn', 'PolynomialFeatures')
-    if True:
-        inp1 = Input('df', 'pandas dataframe')
-        inp1.type = ["<class 'pandas.core.frame.DataFrame'>"]
-        inp2 = Input('api', 'sklearn PolynomialFeatures class')
-        inp2.type = ["<class 'sklearn.preprocessing.data.PolynomialFeatures'>"]
-        hf = HF()
-        hf.inputs = {'df':inp1,'api':inp2}
-        hf.outputs = {'df':Output('df'),'api':Output('api')}
-        hf.wrapper_parameters = {'func_method':('fit','fit_transform','transform',None)}
-        hf.requirements+=['sklearn']
-        internal_info[('sklearn', 'PolynomialFeatures')] = hf
-
-    internal_info = {
+internal_info = {
         ('cheml', 'RDKitFingerprint'): {'inputs':{'molfile': str},'outputs':{}},
         ('cheml', 'Dragon'): {'molfile': [('filepath', 'cheml', 'SaveFile'), ]},
         ('cheml', 'CoulombMatrix'): {'': []},
@@ -103,5 +76,3 @@ def cml_db():
         ('pandas', 'corr'): {'df': []}
 
     }
-
-    return internal_info

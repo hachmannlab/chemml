@@ -1,0 +1,517 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "extensions": {
+     "jupyter_dashboards": {
+      "version": 1,
+      "views": {
+       "grid_default": {
+        "col": 0,
+        "height": 2,
+        "hidden": false,
+        "row": 0,
+        "width": 12
+       },
+       "report_default": {
+        "hidden": false
+       }
+      }
+     }
+    }
+   },
+   "source": [
+    "                                                  Hello World!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "extensions": {
+     "jupyter_dashboards": {
+      "version": 1,
+      "views": {
+       "grid_default": {
+        "col": 0,
+        "height": 7,
+        "hidden": false,
+        "row": 2,
+        "width": 8
+       },
+       "report_default": {
+        "hidden": false
+       }
+      }
+     }
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "1fc6728a83ec4079ad03d2aa7d6e7753"
+      }
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "4d9f758a251041658b75d3b3467c0590"
+      }
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "62b98a3a99e4404981649dd212495e18"
+      }
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from ipywidgets import *\n",
+    "from IPython.display import display\n",
+    "w1 = IntSlider()\n",
+    "display(w1)\n",
+    "\n",
+    "w2 = Text()\n",
+    "display(w2)\n",
+    "\n",
+    "button = Button(description=\"Submit\")\n",
+    "display(button)\n",
+    "dict = {'val':w1.value,'text':w2.value}\n",
+    "def on_button_clicked(b):\n",
+    "#     print(dict)\n",
+    "    if dict['text']=='hi':\n",
+    "        w3 = Checkbox(value=False,description='Hi there!',disabled=False)\n",
+    "        display(w3)\n",
+    "def handle_submit(sender):\n",
+    "    dict['text'] = w2.value\n",
+    "def on_value_change(change):\n",
+    "    #print (change)\n",
+    "    dict['val'] = change['new']\n",
+    "def on_text_change(change):\n",
+    "    #print (change)\n",
+    "    dict['text'] = change['new']\n",
+    "\n",
+    "\n",
+    "# w2.on_submit(handle_submit)\n",
+    "w1.observe(on_value_change, names = 'value')\n",
+    "w2.observe(on_text_change, names='value')\n",
+    "button.on_click(on_button_clicked)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": true,
+    "extensions": {
+     "jupyter_dashboards": {
+      "version": 1,
+      "views": {
+       "grid_default": {
+        "hidden": true
+       },
+       "report_default": {}
+      }
+     }
+    }
+   },
+   "outputs": [],
+   "source": [
+    "if dict['val']==77:\n",
+    "    w4 = Checkbox(value=False,description='We love number 7!',disabled=True)\n",
+    "    display(w4)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5\n"
+     ]
+    }
+   ],
+   "source": [
+    "print '5'\n",
+    "import pandas as pd\n",
+    "#df = pd.DataFrame({\"x\":[1,2,3], \"y\":[6,4,3], \"z\":[\"testing\",\"pretty\",\"tables\"], \"f\":[0.023432, 0.234321,0.5555]})\n",
+    "#df"
+   ]
+  }
+ ],
+ "metadata": {
+  "extensions": {
+   "jupyter_dashboards": {
+    "activeView": "grid_default",
+    "version": 1,
+    "views": {
+     "grid_default": {
+      "cellMargin": 10,
+      "defaultCellHeight": 20,
+      "maxColumns": 12,
+      "name": "grid",
+      "type": "grid"
+     },
+     "report_default": {
+      "name": "report",
+      "type": "report"
+     }
+    }
+   }
+  },
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.13"
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {
+     "07a214f529be4fd389c93beadd475405": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "0a3002ce585f43729d756daf86aa87b6": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "1ee790a40106469e8761da996e590f06": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "211edde3b2ce4f36974da2e04af6a94b": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "2b7c7949d53d4f6890792b96573f3963": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "description": "Submit",
+       "layout": "IPY_MODEL_591d2121006d47e2b2204e9a11d2d9e3",
+       "style": "IPY_MODEL_66056258343149e0af912d5c5af76a69"
+      }
+     },
+     "336142987dfd46f7a1b1b0d52d2a326c": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "IntSliderModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_e2f30155da3f4344b0670ac76a347dc3",
+       "style": "IPY_MODEL_57ab707e93214513b7855d380b8c7508"
+      }
+     },
+     "352d45d42bde4f269281471bdb89de92": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "description": "Submit",
+       "layout": "IPY_MODEL_e7b0d0caad7f432c80a8af7abdd7fc8f",
+       "style": "IPY_MODEL_1ee790a40106469e8761da996e590f06"
+      }
+     },
+     "37db4567f60048dd8bacd9ff4ff115d1": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "SliderStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "396a1a54f7f14b2194991d3641096554": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "SliderStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "3fd20880444f4762b476675c1878c243": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "TextModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_731ece27c98d4d0cbe8fe1e64f7bb841"
+      }
+     },
+     "3fedb121740046d7a4609acabf623122": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "408c36c5854941dab7e85da323d39160": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "TextModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_07a214f529be4fd389c93beadd475405"
+      }
+     },
+     "4148753650c645c9bfb65c2043cd5a9a": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "492c0edb393c469dbc13bc3acaebef5b": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "description": "Submit",
+       "layout": "IPY_MODEL_6c686f4c771c446694ca62408e7163b4",
+       "style": "IPY_MODEL_211edde3b2ce4f36974da2e04af6a94b"
+      }
+     },
+     "4a84a3ef654941bcb770918dccd7c67e": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "57ab707e93214513b7855d380b8c7508": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "SliderStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "591d2121006d47e2b2204e9a11d2d9e3": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "66056258343149e0af912d5c5af76a69": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "6c686f4c771c446694ca62408e7163b4": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "731ece27c98d4d0cbe8fe1e64f7bb841": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "8a48f1c0806a4d2c8519d4d7bebf9353": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "IntSliderModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_3fedb121740046d7a4609acabf623122",
+       "style": "IPY_MODEL_ea770315b1b24258b2ced1c9aaa099a0"
+      }
+     },
+     "96601849e3444f1d89479c6adb3f3b3a": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "9f5df386fab3484d95eef406d80298c8": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "IntSliderModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_aeb001cf482a42e9864db38baf3a8a85",
+       "style": "IPY_MODEL_396a1a54f7f14b2194991d3641096554"
+      }
+     },
+     "aeb001cf482a42e9864db38baf3a8a85": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "c6741cf8a1ca4bc2aa69b9a1d62e659e": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "TextModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_96601849e3444f1d89479c6adb3f3b3a"
+      }
+     },
+     "d8b020799f1d4efa9e10ce53d00cda24": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "IntSliderModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_e11c317abdc5485291c89f4bc214d699",
+       "style": "IPY_MODEL_37db4567f60048dd8bacd9ff4ff115d1"
+      }
+     },
+     "e11c317abdc5485291c89f4bc214d699": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "e2f30155da3f4344b0670ac76a347dc3": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "e7b0d0caad7f432c80a8af7abdd7fc8f": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "ea770315b1b24258b2ced1c9aaa099a0": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "SliderStyleModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4"
+      }
+     },
+     "ec8881e69d1142fc8609bb06cc843108": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "ButtonModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "description": "Submit",
+       "layout": "IPY_MODEL_4148753650c645c9bfb65c2043cd5a9a",
+       "style": "IPY_MODEL_4a84a3ef654941bcb770918dccd7c67e"
+      }
+     },
+     "f15ed8052b184e4da9f8e09b86b1b351": {
+      "model_module": "jupyter-js-widgets",
+      "model_module_version": "~2.1.4",
+      "model_name": "TextModel",
+      "state": {
+       "_model_module_version": "~2.1.4",
+       "_view_module_version": "~2.1.4",
+       "layout": "IPY_MODEL_0a3002ce585f43729d756daf86aa87b6"
+      }
+     }
+    },
+    "version_major": 1,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

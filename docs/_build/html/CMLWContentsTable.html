@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Table of Contents &mdash; ChemML 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 1 documentation" href="index.html"/>
+        <link rel="next" title="ChemML Wrapper Reference" href="CMLWReference.html"/>
+        <link rel="prev" title="ChemML Wrapper input file" href="CMLWInputFile.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Table of Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cheml">cheml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sklearn">sklearn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#script">Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Table of Contents</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/CMLWContentsTable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="table-of-contents">
+<h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
+<p>This is a complete list of all the methods that the ChemML Wrapper is interfacing with. The further details of each
+block, as the parameters and attributes of each block is provided in each function&#8217;s page.</p>
+<dl class="docutils">
+<dt>The table header provides information about:</dt>
+<dd><ul class="first last simple">
+<li>task and subtask: just for an easier classification of methods</li>
+<li>host: the main library/dependency required for using the method</li>
+<li>function: the method name</li>
+<li>input and output tokens: the only tokens that are responsible for sending or receiving information in each block</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="9%" />
+<col width="11%" />
+<col width="5%" />
+<col width="12%" />
+<col width="22%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">#</th>
+<th class="head">task</th>
+<th class="head">subtask</th>
+<th class="head">host</th>
+<th class="head">function</th>
+<th class="head">input tokens</th>
+<th class="head">output tokens</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>Enter Data</td>
+<td>input</td>
+<td>pandas</td>
+<td><a class="reference internal" href="include_CMLWREnterData.html#read-table"><span class="std std-ref">read_table</span></a></td>
+<td>no receiver</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>Enter Data</td>
+<td>input</td>
+<td>pandas</td>
+<td><a class="reference internal" href="include_CMLWREnterData.html#read-excel"><span class="std std-ref">read_excel</span></a></td>
+<td>no receiver</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#split"><span class="std std-ref">Split</span></a></td>
+<td>df</td>
+<td>df1, df2</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#merge"><span class="std std-ref">Merge</span></a></td>
+<td>df1, df2</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>Prepare Data</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="include_CMLWRPrepareData.html#pyscript"><span class="std std-ref">PyScript</span></a></td>
+<td>df1, df2, api1, api2, var1, var2</td>
+<td>df_out1, df_out2, api_out1, api_out2, var_out1, var_out2</td>
+</tr>
+</tbody>
+</table>
+<p>Data representation (features, descriptors, or latent variables) for chemical molecules and materials.</p>
+<div class="section" id="cheml">
+<h2>cheml<a class="headerlink" href="#cheml" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="39%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="CMLWReference.RDKFP.html#rdkfp"><span class="std std-ref">RDKitFingerprint</span></a></td>
+<td>molfile</td>
+<td>df, removed_rows</td>
+</tr>
+<tr class="row-odd"><td><span class="xref std std-ref">Dragon</span></td>
+<td>molfile</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRPrepareData.html#coulombmatrix"><span class="std std-ref">CoulombMatrix</span></a></td>
+<td>&nbsp;</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="include_CMLWRPrepareData.html#bagofbonds"><span class="std std-ref">BagofBonds</span></a></td>
+<td>&nbsp;</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="include_CMLWRPrepareData.html#distancematrix"><span class="std std-ref">DistanceMatrix</span></a></td>
+<td>df</td>
+<td>df</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sklearn">
+<h2>sklearn<a class="headerlink" href="#sklearn" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">block</th>
+<th class="head">Inputs</th>
+<th class="head">Outputs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PolynomialFeatures</td>
+<td>df</td>
+<td>api, df</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<div class="section" id="script">
+<h3>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CMLWReference.html" class="btn btn-neutral float-right" title="ChemML Wrapper Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CMLWInputFile.html" class="btn btn-neutral" title="ChemML Wrapper input file" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

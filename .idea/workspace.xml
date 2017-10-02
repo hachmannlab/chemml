@@ -1,290 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/.ipynb_checkpoints/a-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWContentsTable.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWInputFile.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWInputFileGenerator.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.BagofBonds.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Constant.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.CoulombMatrix.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.DistanceMatrix.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Dragon.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Merge.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.MissingValues.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.NN_PSGD.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.PyScript.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.RDKitFingerprint.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.SaveFile.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Split.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Trimmer.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Uniformer.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.read_excel.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.read_table.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWReference.GridSearchCV.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWReference.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/Makefile" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/.ipynb_checkpoints/a-checkpoint.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWContentsTable.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWInputFile.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWInputFileGenerator.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.BagofBonds.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Constant.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.CoulombMatrix.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.DistanceMatrix.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Dragon.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Merge.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.MissingValues.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.NN_PSGD.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.PyScript.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.RDKitFingerprint.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.SaveFile.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Split.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Trimmer.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Uniformer.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.read_excel.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.read_table.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.Dragon.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.GridSearchCV.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.RDKFP.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.SVR.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.SaveFile.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/a.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.chem.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.initialization.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.nn.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.nn.tensorflow.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.notebooks.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.opt.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.preprocessing.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.svm.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.tests.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.trash_smallapps.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.utils.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.cheml_cml.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.pandas_pd.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.sklearn_skl.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.tensorflow_tf.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR1Enter.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR2Prepare.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR3Model.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR4Search.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR5Mix.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR6Visualize.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR7Store.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRDefineModel.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRDefineSearch.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWREnterData.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRExplore.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRPrepareData.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRStore.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRVisualize.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/modules.doctree" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/.buildinfo" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/.ipynb_checkpoints/a-checkpoint.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWContentsTable.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWInputFile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWInputFileGenerator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.BagofBonds.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Constant.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.CoulombMatrix.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.DistanceMatrix.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Dragon.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Merge.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.MissingValues.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.NN_PSGD.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.PyScript.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.RDKitFingerprint.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.SaveFile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Split.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Trimmer.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Uniformer.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.read_excel.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.read_table.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.Dragon.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.GridSearchCV.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.RDKFP.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.SVR.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.SaveFile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/.ipynb_checkpoints/a-checkpoint.ipynb.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWContentsTable.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWInputFile.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWInputFileGenerator.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.BagofBonds.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Constant.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.CoulombMatrix.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.DistanceMatrix.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Dragon.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Merge.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.MissingValues.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.NN_PSGD.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.PyScript.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.RDKitFingerprint.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.SaveFile.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Split.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Trimmer.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Uniformer.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.read_excel.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.read_table.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.Dragon.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.GridSearchCV.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.RDKFP.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.SVR.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.SaveFile.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/a.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.chem.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.initialization.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.nn.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.nn.tensorflow.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.notebooks.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.opt.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.preprocessing.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.svm.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.tests.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.trash_smallapps.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.utils.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.cheml_cml.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.pandas_pd.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.sklearn_skl.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.tensorflow_tf.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR1Enter.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR2Prepare.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR3Model.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR4Search.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR5Mix.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR6Visualize.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR7Store.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRDefineModel.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRDefineSearch.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWREnterData.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRExplore.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRPrepareData.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRStore.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRVisualize.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/index.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/modules.rst.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/ajax-loader.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/basic.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment-bright.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment-close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/css/badge_only.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/css/theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/doctools.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/down-pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/down.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/file.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Inconsolata-Bold.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Inconsolata-Regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Lato-Bold.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Lato-Regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/RobotoSlab-Bold.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/RobotoSlab-Regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/jquery-3.1.0.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/jquery.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/js/modernizr.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/js/theme.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/minus.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/plus.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/pygments.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/searchtools.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/underscore-1.3.1.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/underscore.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/up-pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/up.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/websupport.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/a.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.chem.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.initialization.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.nn.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.nn.tensorflow.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.notebooks.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.opt.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.preprocessing.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.svm.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.tests.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.trash_smallapps.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.utils.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.cheml_cml.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.pandas_pd.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.sklearn_skl.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.tensorflow_tf.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/genindex.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR1Enter.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR2Prepare.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR3Model.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR4Search.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR5Mix.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR6Visualize.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR7Store.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRDefineModel.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRDefineSearch.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWREnterData.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRExplore.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRPrepareData.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRStore.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRVisualize.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/modules.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/objects.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/py-modindex.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/search.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/searchindex.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/a.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/a.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.chem.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.initialization.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.nn.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.nn.tensorflow.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.notebooks.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.opt.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.preprocessing.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.svm.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.tests.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.trash_smallapps.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.utils.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.cheml_cml.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.pandas_pd.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.sklearn_skl.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.tensorflow_tf.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/conf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/contents.xlsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/contents_parser.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR1Enter.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR2Prepare.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR3Model.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR4Search.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR5Mix.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR6Visualize.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR7Store.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/index.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/jupyterhub.sqlite" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/jupyterhub_cookie_secret" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/make.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/modules.rst" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CheML.iml" afterPath="$PROJECT_DIR$/.idea/CheML.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="" />
     <ignored path="CheML.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -1069,7 +786,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -1090,16 +807,29 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
       <pane id="ProjectPane">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CheML" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CheML" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CheML" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
     </panes>
   </component>
@@ -1444,10 +1174,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="-146" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17571884" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17571884" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32673267" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1" sideWeight="0.50479233" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />

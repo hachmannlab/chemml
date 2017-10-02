@@ -2,23 +2,288 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c37ef92-c956-49d9-b23e-44a56e76000b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cheml/opt/GA_NN_Constrained.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cheml/opt/GA_binary.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cheml/opt/GA_integer.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cheml/opt/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/.ipynb_checkpoints/a-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWContentsTable.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWInputFile.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWInputFileGenerator.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.BagofBonds.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Constant.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.CoulombMatrix.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.DistanceMatrix.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Dragon.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Merge.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.MissingValues.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.NN_PSGD.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.PyScript.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.RDKitFingerprint.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.SaveFile.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Split.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Trimmer.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.Uniformer.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.read_excel.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWR_ALL/CMLWR.read_table.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWReference.GridSearchCV.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/CMLWReference.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/.ipynb_checkpoints/a-checkpoint.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWContentsTable.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWInputFile.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWInputFileGenerator.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.BagofBonds.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Constant.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.CoulombMatrix.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.DistanceMatrix.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Dragon.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Merge.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.MissingValues.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.NN_PSGD.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.PyScript.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.RDKitFingerprint.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.SaveFile.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Split.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Trimmer.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.Uniformer.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.read_excel.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWR_ALL/CMLWR.read_table.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.Dragon.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.GridSearchCV.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.RDKFP.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.SVR.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.SaveFile.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/CMLWReference.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/a.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.chem.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.initialization.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.nn.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.nn.tensorflow.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.notebooks.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.opt.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.preprocessing.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.svm.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.tests.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.trash_smallapps.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.utils.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.cheml_cml.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.pandas_pd.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.sklearn_skl.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/cheml.wrappers.tensorflow_tf.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR1Enter.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR2Prepare.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR3Model.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR4Search.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR5Mix.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR6Visualize.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWR7Store.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRDefineModel.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRDefineSearch.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWREnterData.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRExplore.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRPrepareData.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRStore.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/include_CMLWRVisualize.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/doctrees/modules.doctree" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/.buildinfo" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/.ipynb_checkpoints/a-checkpoint.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWContentsTable.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWInputFile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWInputFileGenerator.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.BagofBonds.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Constant.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.CoulombMatrix.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.DistanceMatrix.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Dragon.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Merge.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.MissingValues.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.NN_PSGD.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.PyScript.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.RDKitFingerprint.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.SaveFile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Split.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Trimmer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.Uniformer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.read_excel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWR_ALL/CMLWR.read_table.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.Dragon.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.GridSearchCV.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.RDKFP.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.SVR.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.SaveFile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/CMLWReference.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/.ipynb_checkpoints/a-checkpoint.ipynb.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWContentsTable.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWInputFile.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWInputFileGenerator.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.BagofBonds.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Constant.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.CoulombMatrix.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.DistanceMatrix.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Dragon.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Merge.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.MissingValues.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.NN_PSGD.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.PyScript.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.RDKitFingerprint.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.SaveFile.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Split.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Trimmer.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.Uniformer.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.read_excel.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWR_ALL/CMLWR.read_table.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.Dragon.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.GridSearchCV.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.RDKFP.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.SVR.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.SaveFile.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/CMLWReference.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/a.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.chem.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.initialization.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.nn.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.nn.tensorflow.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.notebooks.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.opt.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.preprocessing.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.svm.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.tests.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.trash_smallapps.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.utils.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.cheml_cml.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.pandas_pd.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.sklearn_skl.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/cheml.wrappers.tensorflow_tf.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR1Enter.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR2Prepare.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR3Model.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR4Search.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR5Mix.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR6Visualize.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWR7Store.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRDefineModel.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRDefineSearch.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWREnterData.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRExplore.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRPrepareData.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRStore.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/include_CMLWRVisualize.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/index.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_sources/modules.rst.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/ajax-loader.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/basic.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment-bright.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment-close.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/comment.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/css/badge_only.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/css/theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/doctools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/down-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/down.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/file.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Inconsolata-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Inconsolata-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Lato-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/Lato-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/RobotoSlab-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/RobotoSlab-Regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/fonts/fontawesome-webfont.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/jquery-3.1.0.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/js/modernizr.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/js/theme.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/minus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/plus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/pygments.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/searchtools.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/underscore-1.3.1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/underscore.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/up-pressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/up.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/_static/websupport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/a.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.chem.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.initialization.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.nn.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.nn.tensorflow.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.notebooks.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.opt.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.preprocessing.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.svm.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.tests.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.trash_smallapps.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.utils.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.cheml_cml.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.pandas_pd.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.sklearn_skl.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/cheml.wrappers.tensorflow_tf.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/genindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR1Enter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR2Prepare.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR3Model.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR4Search.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR5Mix.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR6Visualize.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWR7Store.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRDefineModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRDefineSearch.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWREnterData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRExplore.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRPrepareData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRStore.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/include_CMLWRVisualize.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/modules.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/objects.inv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/py-modindex.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/search.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/_build/html/searchindex.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/a.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/a.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.chem.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.initialization.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.nn.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.nn.tensorflow.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.notebooks.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.opt.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.preprocessing.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.svm.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.tests.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.trash_smallapps.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.utils.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.cheml_cml.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.pandas_pd.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.sklearn_skl.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/cheml.wrappers.tensorflow_tf.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/conf.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/contents.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/contents_parser.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR1Enter.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR2Prepare.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR3Model.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR4Search.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR5Mix.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR6Visualize.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/include_CMLWR7Store.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/index.rst" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/jupyterhub.sqlite" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/jupyterhub_cookie_secret" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/make.bat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/modules.rst" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CheML.iml" afterPath="$PROJECT_DIR$/.idea/CheML.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/CMLW_InFileGenerator-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/CMLW_InFileGenerator-checkpoint.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMLW_InFileGenerator.ipynb" afterPath="$PROJECT_DIR$/CMLW_InFileGenerator.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/__init__.py" afterPath="$PROJECT_DIR$/cheml/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/visualization/__init__.py" afterPath="$PROJECT_DIR$/cheml/visualization/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/visualization/matplotlib.py" afterPath="$PROJECT_DIR$/cheml/visualization/matplotlib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/base.py" afterPath="$PROJECT_DIR$/cheml/wrappers/base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/cheml_cml/cheml_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/cheml_cml/cheml_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/database/cheml_db.py" afterPath="$PROJECT_DIR$/cheml/wrappers/database/cheml_db.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/database/containers.py" afterPath="$PROJECT_DIR$/cheml/wrappers/database/containers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt" afterPath="$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/sklearn_wrapper.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/sklearn_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/syntax.py" afterPath="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/syntax.py" />
     </list>
     <ignored path="CheML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,14 +306,14 @@
     <favorites_list name="CheML" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4858757">
+    <splitter split-orientation="horizontal" split-proportion="0.49034336">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="cheml_wrapper.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="cheml_wrapper.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/cheml_cml/cheml_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+                <state relative-caret-position="570">
+                  <caret line="503" column="0" selection-start-line="503" selection-start-column="0" selection-end-line="503" selection-end-column="0" />
                   <folding>
                     <element signature="e#221#2163#0" expanded="false" />
                     <element signature="e#665#2136#0" expanded="false" />
@@ -241,6 +506,16 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="165">
+                  <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="dictionaries_info.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/dictionaries_info.txt">
               <provider selected="true" editor-type-id="text-editor">
@@ -292,8 +567,8 @@
           <file leaf-file-name="sklearn_wrapper.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn_skl/sklearn_wrapper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1200">
-                  <caret line="283" column="32" selection-start-line="283" selection-start-column="32" selection-end-line="283" selection-end-column="32" />
+                <state relative-caret-position="270">
+                  <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                     <element signature="e#286#825#0" expanded="false" />
@@ -323,7 +598,7 @@
           <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/base.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="433">
+                <state relative-caret-position="480">
                   <caret line="86" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
@@ -413,9 +688,10 @@
           <file leaf-file-name="sklearn_db.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/database/sklearn_db.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="600">
-                  <caret line="781" column="0" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
+                <state relative-caret-position="-78">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding>
+                    <element signature="e#0#18#0" expanded="true" />
                     <element signature="e#131#1487#0" expanded="false" />
                     <element signature="e#480#684#0" expanded="false" />
                     <element signature="e#712#918#0" expanded="false" />
@@ -614,7 +890,7 @@
           <file leaf-file-name="cheml_db.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cheml/wrappers/database/cheml_db.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
+                <state relative-caret-position="285">
                   <caret line="20" column="25" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="25" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
@@ -700,7 +976,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/script_sklearn.txt" />
         <option value="$PROJECT_DIR$/cheml/chem/__init__.py" />
         <option value="$PROJECT_DIR$/cheml/chem/Dragon.py" />
         <option value="$PROJECT_DIR$/input_files/ri_prep_reg_eval.txt" />
@@ -751,6 +1026,7 @@
         <option value="$PROJECT_DIR$/cheml/wrappers/base.py" />
         <option value="$PROJECT_DIR$/cheml/wrappers/sklearn_skl/sklearn_wrapper.py" />
         <option value="$PROJECT_DIR$/cheml/wrappers/cheml_cml/cheml_wrapper.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -761,8 +1037,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="x" value="1280" />
+    <option name="y" value="-146" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -791,7 +1069,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -805,121 +1083,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wrappers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wrappers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wrappers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml_cml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CheML" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cheml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -927,138 +1090,22 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="External Dependencies">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="/">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Users">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="mojtabahaghighatlari">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Box Sync">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Hachmann_Group">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="cheml">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="cheml">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="preprocessing">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="cheml">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="notebooks">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="cheml">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="nn">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="CheML">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="cheml">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="nn">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="tensorflow">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.folding" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../molml" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
@@ -1195,6 +1242,24 @@
       <method />
     </configuration>
     <configuration default="true" type="docs" factoryName="Docutils task">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CheML" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -1378,15 +1443,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <frame x="1280" y="-146" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24313408" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17571884" sideWeight="0.4927396" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32673267" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1" sideWeight="0.50479233" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19041096" sideWeight="0.49520767" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19009902" sideWeight="0.49520767" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970297" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970297" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1449,34 +1514,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cheml/mix/CV_DNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="2" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/utils/validation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="13" column="1" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/preprocessing/skl_interface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/initialization/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/input_files/hrip/hrip_descriptor.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
@@ -1778,11 +1815,383 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/database/cheml_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#1148#1649#0" expanded="false" />
+            <element signature="e#1681#1685#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="86" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#334#379#1" expanded="false" />
+            <element signature="e#460#625#0" expanded="false" />
+            <element signature="e#733#1447#0" expanded="false" />
+            <element signature="e#945#1096#0" expanded="false" />
+            <element signature="e#1120#1269#0" expanded="false" />
+            <element signature="e#1293#1447#0" expanded="false" />
+            <element signature="e#1480#3461#0" expanded="false" />
+            <element signature="e#4263#4675#0" expanded="false" />
+            <element signature="e#4715#5289#0" expanded="false" />
+            <element signature="e#4757#5289#0" expanded="false" />
+            <element signature="e#4817#5289#0" expanded="false" />
+            <element signature="e#4872#5289#0" expanded="false" />
+            <element signature="e#5084#5289#0" expanded="false" />
+            <element signature="e#5336#5740#0" expanded="false" />
+            <element signature="e#5792#6230#0" expanded="false" />
+            <element signature="e#6039#6213#0" expanded="false" />
+            <element signature="e#6319#8537#0" expanded="false" />
+            <element signature="e#6319#7079#1" expanded="false" />
+            <element signature="e#7132#7642#0" expanded="false" />
+            <element signature="e#7171#7342#0" expanded="false" />
+            <element signature="e#7377#7642#0" expanded="false" />
+            <element signature="e#7408#7470#0" expanded="false" />
+            <element signature="e#7695#7883#0" expanded="false" />
+            <element signature="e#7734#7783#0" expanded="false" />
+            <element signature="e#7818#7883#0" expanded="false" />
+            <element signature="e#7910#8077#0" expanded="false" />
+            <element signature="e#8127#8281#0" expanded="false" />
+            <element signature="e#8330#8487#0" expanded="false" />
+            <element signature="e#8566#12337#0" expanded="false" />
+            <element signature="e#8566#8611#1" expanded="false" />
+            <element signature="e#8660#11226#0" expanded="false" />
+            <element signature="e#8694#8932#0" expanded="false" />
+            <element signature="e#8975#10628#0" expanded="false" />
+            <element signature="e#9206#9352#0" expanded="false" />
+            <element signature="e#9408#9692#0" expanded="false" />
+            <element signature="e#9755#10138#0" expanded="false" />
+            <element signature="e#10198#10628#0" expanded="false" />
+            <element signature="e#10668#11226#0" expanded="false" />
+            <element signature="e#11268#11576#0" expanded="false" />
+            <element signature="e#11347#11576#0" expanded="false" />
+            <element signature="e#11388#11576#0" expanded="false" />
+            <element signature="e#11647#12337#0" expanded="false" />
+            <element signature="e#11703#12202#0" expanded="false" />
+            <element signature="e#11749#12202#0" expanded="false" />
+            <element signature="e#11806#12202#0" expanded="false" />
+            <element signature="e#11882#12202#0" expanded="false" />
+            <element signature="e#12229#12337#0" expanded="false" />
+            <element signature="e#12355#20140#0" expanded="false" />
+            <element signature="e#12444#12562#0" expanded="false" />
+            <element signature="e#13216#13530#0" expanded="false" />
+            <element signature="e#13615#17074#0" expanded="false" />
+            <element signature="e#13637#13811#0" expanded="false" />
+            <element signature="e#13676#13789#0" expanded="false" />
+            <element signature="e#13835#15073#0" expanded="false" />
+            <element signature="e#13875#14076#0" expanded="false" />
+            <element signature="e#14112#14273#0" expanded="false" />
+            <element signature="e#14319#14445#0" expanded="false" />
+            <element signature="e#14494#14611#0" expanded="false" />
+            <element signature="e#14655#14891#0" expanded="false" />
+            <element signature="e#14929#15048#0" expanded="false" />
+            <element signature="e#15095#15878#0" expanded="false" />
+            <element signature="e#15134#15767#0" expanded="false" />
+            <element signature="e#15257#15725#0" expanded="false" />
+            <element signature="e#15901#16546#0" expanded="false" />
+            <element signature="e#15943#16115#0" expanded="false" />
+            <element signature="e#16150#16241#0" expanded="false" />
+            <element signature="e#16274#16374#0" expanded="false" />
+            <element signature="e#16410#16522#0" expanded="false" />
+            <element signature="e#16566#16731#0" expanded="false" />
+            <element signature="e#16593#16682#0" expanded="false" />
+            <element signature="e#16757#16872#0" expanded="false" />
+            <element signature="e#16894#17060#0" expanded="false" />
+            <element signature="e#16934#17038#0" expanded="false" />
+            <element signature="e#17095#17626#0" expanded="false" />
+            <element signature="e#17116#17604#0" expanded="false" />
+            <element signature="e#17296#17397#0" expanded="false" />
+            <element signature="e#17458#17560#0" expanded="false" />
+            <element signature="e#17699#20092#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn/sklearn_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#173#257#0" expanded="false" />
+            <element signature="e#339#2756#0" expanded="false" />
+            <element signature="e#367#599#0" expanded="false" />
+            <element signature="e#628#2753#0" expanded="false" />
+            <element signature="e#896#944#0" expanded="false" />
+            <element signature="e#1240#1882#0" expanded="false" />
+            <element signature="e#1286#1632#0" expanded="false" />
+            <element signature="e#1311#1429#0" expanded="false" />
+            <element signature="e#1491#1632#0" expanded="false" />
+            <element signature="e#1667#1872#0" expanded="false" />
+            <element signature="e#2207#2685#0" expanded="false" />
+            <element signature="e#2543#2675#0" expanded="false" />
+            <element signature="e#2819#5126#0" expanded="false" />
+            <element signature="e#2847#3079#0" expanded="false" />
+            <element signature="e#3108#5126#0" expanded="false" />
+            <element signature="e#3376#3424#0" expanded="false" />
+            <element signature="e#3741#4361#0" expanded="false" />
+            <element signature="e#3787#4111#0" expanded="false" />
+            <element signature="e#3812#3908#0" expanded="false" />
+            <element signature="e#3970#4111#0" expanded="false" />
+            <element signature="e#4146#4351#0" expanded="false" />
+            <element signature="e#4580#5058#0" expanded="false" />
+            <element signature="e#4916#5048#0" expanded="false" />
+            <element signature="e#5181#7648#0" expanded="false" />
+            <element signature="e#5209#5442#0" expanded="false" />
+            <element signature="e#5471#7648#0" expanded="false" />
+            <element signature="e#5739#5787#0" expanded="false" />
+            <element signature="e#6104#6759#0" expanded="false" />
+            <element signature="e#6150#6488#0" expanded="false" />
+            <element signature="e#6175#6285#0" expanded="false" />
+            <element signature="e#6347#6488#0" expanded="false" />
+            <element signature="e#6523#6749#0" expanded="false" />
+            <element signature="e#7104#7580#0" expanded="false" />
+            <element signature="e#7440#7570#0" expanded="false" />
+            <element signature="e#7701#10190#0" expanded="false" />
+            <element signature="e#7729#7962#0" expanded="false" />
+            <element signature="e#7991#10190#0" expanded="false" />
+            <element signature="e#8259#8307#0" expanded="false" />
+            <element signature="e#8624#9275#0" expanded="false" />
+            <element signature="e#8670#9004#0" expanded="false" />
+            <element signature="e#8695#8801#0" expanded="false" />
+            <element signature="e#8863#9004#0" expanded="false" />
+            <element signature="e#9039#9265#0" expanded="false" />
+            <element signature="e#9620#10122#0" expanded="false" />
+            <element signature="e#9655#9791#0" expanded="false" />
+            <element signature="e#9982#10112#0" expanded="false" />
+            <element signature="e#10243#12732#0" expanded="false" />
+            <element signature="e#10271#10504#0" expanded="false" />
+            <element signature="e#10533#12732#0" expanded="false" />
+            <element signature="e#10801#10849#0" expanded="false" />
+            <element signature="e#11166#11817#0" expanded="false" />
+            <element signature="e#11212#11546#0" expanded="false" />
+            <element signature="e#11237#11343#0" expanded="false" />
+            <element signature="e#11405#11546#0" expanded="false" />
+            <element signature="e#11581#11807#0" expanded="false" />
+            <element signature="e#12162#12664#0" expanded="false" />
+            <element signature="e#12197#12333#0" expanded="false" />
+            <element signature="e#12524#12654#0" expanded="false" />
+            <element signature="e#12785#15274#0" expanded="false" />
+            <element signature="e#12813#13046#0" expanded="false" />
+            <element signature="e#13075#15274#0" expanded="false" />
+            <element signature="e#13343#13391#0" expanded="false" />
+            <element signature="e#13708#14359#0" expanded="false" />
+            <element signature="e#13754#14088#0" expanded="false" />
+            <element signature="e#13779#13885#0" expanded="false" />
+            <element signature="e#13947#14088#0" expanded="false" />
+            <element signature="e#14123#14349#0" expanded="false" />
+            <element signature="e#14704#15206#0" expanded="false" />
+            <element signature="e#14739#14875#0" expanded="false" />
+            <element signature="e#15066#15196#0" expanded="false" />
+            <element signature="e#15325#17764#0" expanded="false" />
+            <element signature="e#15353#15585#0" expanded="false" />
+            <element signature="e#15614#17764#0" expanded="false" />
+            <element signature="e#15882#15930#0" expanded="false" />
+            <element signature="e#16247#16894#0" expanded="false" />
+            <element signature="e#16293#16623#0" expanded="false" />
+            <element signature="e#16318#16420#0" expanded="false" />
+            <element signature="e#16482#16623#0" expanded="false" />
+            <element signature="e#16658#16884#0" expanded="false" />
+            <element signature="e#17218#17696#0" expanded="false" />
+            <element signature="e#17554#17686#0" expanded="false" />
+            <element signature="e#17814#20251#0" expanded="false" />
+            <element signature="e#17842#18074#0" expanded="false" />
+            <element signature="e#18103#20251#0" expanded="false" />
+            <element signature="e#18371#18419#0" expanded="false" />
+            <element signature="e#18736#19381#0" expanded="false" />
+            <element signature="e#18782#19110#0" expanded="false" />
+            <element signature="e#18807#18907#0" expanded="false" />
+            <element signature="e#18969#19110#0" expanded="false" />
+            <element signature="e#19145#19371#0" expanded="false" />
+            <element signature="e#19705#20183#0" expanded="false" />
+            <element signature="e#20041#20173#0" expanded="false" />
+            <element signature="e#20305#22925#0" expanded="false" />
+            <element signature="e#20333#20565#0" expanded="false" />
+            <element signature="e#20594#22922#0" expanded="false" />
+            <element signature="e#20862#20910#0" expanded="false" />
+            <element signature="e#21227#21927#0" expanded="false" />
+            <element signature="e#21273#21639#0" expanded="false" />
+            <element signature="e#21298#21406#0" expanded="false" />
+            <element signature="e#21468#21639#0" expanded="false" />
+            <element signature="e#21674#21917#0" expanded="false" />
+            <element signature="e#22254#22854#0" expanded="false" />
+            <element signature="e#22289#22459#0" expanded="false" />
+            <element signature="e#22328#22459#0" expanded="false" />
+            <element signature="e#22508#22675#0" expanded="false" />
+            <element signature="e#22547#22675#0" expanded="false" />
+            <element signature="e#22710#22844#0" expanded="false" />
+            <element signature="e#22925#22943#0" expanded="false" />
+            <element signature="e#23013#25553#0" expanded="false" />
+            <element signature="e#23041#23273#0" expanded="false" />
+            <element signature="e#23302#25553#0" expanded="false" />
+            <element signature="e#23570#23618#0" expanded="false" />
+            <element signature="e#23935#24547#0" expanded="false" />
+            <element signature="e#23981#24297#0" expanded="false" />
+            <element signature="e#24006#24094#0" expanded="false" />
+            <element signature="e#24156#24297#0" expanded="false" />
+            <element signature="e#24332#24537#0" expanded="false" />
+            <element signature="e#24893#25485#0" expanded="false" />
+            <element signature="e#24928#25095#0" expanded="false" />
+            <element signature="e#24967#25095#0" expanded="false" />
+            <element signature="e#25144#25308#0" expanded="false" />
+            <element signature="e#25183#25308#0" expanded="false" />
+            <element signature="e#25343#25475#0" expanded="false" />
+            <element signature="e#25605#28219#0" expanded="false" />
+            <element signature="e#25633#25868#0" expanded="false" />
+            <element signature="e#25897#28217#0" expanded="false" />
+            <element signature="e#26165#26213#0" expanded="false" />
+            <element signature="e#26530#27201#0" expanded="false" />
+            <element signature="e#26576#26934#0" expanded="false" />
+            <element signature="e#26601#26701#0" expanded="false" />
+            <element signature="e#26763#26934#0" expanded="false" />
+            <element signature="e#26969#27191#0" expanded="false" />
+            <element signature="e#27549#28149#0" expanded="false" />
+            <element signature="e#27584#27754#0" expanded="false" />
+            <element signature="e#27623#27754#0" expanded="false" />
+            <element signature="e#27803#27970#0" expanded="false" />
+            <element signature="e#27842#27970#0" expanded="false" />
+            <element signature="e#28005#28139#0" expanded="false" />
+            <element signature="e#28219#28303#0" expanded="false" />
+            <element signature="e#28356#34989#0" expanded="false" />
+            <element signature="e#28384#28638#0" expanded="false" />
+            <element signature="e#28667#34979#0" expanded="false" />
+            <element signature="e#28870#29027#0" expanded="false" />
+            <element signature="e#29353#29401#0" expanded="false" />
+            <element signature="e#29486#33857#0" expanded="false" />
+            <element signature="e#29540#33592#0" expanded="false" />
+            <element signature="e#29565#33389#0" expanded="false" />
+            <element signature="e#29616#29733#0" expanded="false" />
+            <element signature="e#29809#29904#0" expanded="false" />
+            <element signature="e#29986#30093#0" expanded="false" />
+            <element signature="e#30169#30264#0" expanded="false" />
+            <element signature="e#30349#30462#0" expanded="false" />
+            <element signature="e#30543#30648#0" expanded="false" />
+            <element signature="e#30738#30861#0" expanded="false" />
+            <element signature="e#30936#31029#0" expanded="false" />
+            <element signature="e#31109#31212#0" expanded="false" />
+            <element signature="e#31296#31407#0" expanded="false" />
+            <element signature="e#31491#31602#0" expanded="false" />
+            <element signature="e#31691#31812#0" expanded="false" />
+            <element signature="e#31895#32004#0" expanded="false" />
+            <element signature="e#32078#32160#0" expanded="false" />
+            <element signature="e#32236#32322#0" expanded="false" />
+            <element signature="e#32402#32496#0" expanded="false" />
+            <element signature="e#32579#32690#0" expanded="false" />
+            <element signature="e#32782#32905#0" expanded="false" />
+            <element signature="e#33001#33132#0" expanded="false" />
+            <element signature="e#33183#33389#0" expanded="false" />
+            <element signature="e#33451#33592#0" expanded="false" />
+            <element signature="e#33627#33847#0" expanded="false" />
+            <element signature="e#33980#34055#0" expanded="false" />
+            <element signature="e#34208#34912#0" expanded="false" />
+            <element signature="e#34243#34410#0" expanded="false" />
+            <element signature="e#34282#34410#0" expanded="false" />
+            <element signature="e#34465#34734#0" expanded="false" />
+            <element signature="e#34600#34734#0" expanded="false" />
+            <element signature="e#34769#34903#0" expanded="false" />
+            <element signature="e#34989#35028#0" expanded="false" />
+            <element signature="e#35171#38425#0" expanded="false" />
+            <element signature="e#35199#35484#0" expanded="false" />
+            <element signature="e#35513#38425#0" expanded="false" />
+            <element signature="e#36019#36360#0" expanded="false" />
+            <element signature="e#36201#36360#0" expanded="false" />
+            <element signature="e#36406#36561#0" expanded="false" />
+            <element signature="e#36571#36587#0" expanded="false" />
+            <element signature="e#36739#38357#0" expanded="false" />
+            <element signature="e#36780#36952#0" expanded="false" />
+            <element signature="e#36819#36952#0" expanded="false" />
+            <element signature="e#37007#37179#0" expanded="false" />
+            <element signature="e#37046#37179#0" expanded="false" />
+            <element signature="e#37235#37679#0" expanded="false" />
+            <element signature="e#37271#37438#0" expanded="false" />
+            <element signature="e#37553#37679#0" expanded="false" />
+            <element signature="e#37734#38178#0" expanded="false" />
+            <element signature="e#37770#37937#0" expanded="false" />
+            <element signature="e#38052#38178#0" expanded="false" />
+            <element signature="e#38213#38347#0" expanded="false" />
+            <element signature="e#38459#39888#0" expanded="false" />
+            <element signature="e#38487#38689#0" expanded="false" />
+            <element signature="e#38718#39888#0" expanded="false" />
+            <element signature="e#38718#38739#0" expanded="false" />
+            <element signature="e#38854#38902#0" expanded="false" />
+            <element signature="e#38973#39059#0" expanded="false" />
+            <element signature="e#39105#39260#0" expanded="false" />
+            <element signature="e#39270#39286#0" expanded="false" />
+            <element signature="e#39438#39820#0" expanded="false" />
+            <element signature="e#39475#39642#0" expanded="false" />
+            <element signature="e#39514#39642#0" expanded="false" />
+            <element signature="e#39677#39811#0" expanded="false" />
+            <element signature="e#39929#42699#0" expanded="false" />
+            <element signature="e#39957#40246#0" expanded="false" />
+            <element signature="e#40275#42699#0" expanded="false" />
+            <element signature="e#40941#41039#0" expanded="false" />
+            <element signature="e#41085#41218#0" expanded="false" />
+            <element signature="e#41421#42632#0" expanded="false" />
+            <element signature="e#41468#41991#0" expanded="false" />
+            <element signature="e#41618#41797#0" expanded="false" />
+            <element signature="e#41853#41991#0" expanded="false" />
+            <element signature="e#42049#42240#0" expanded="false" />
+            <element signature="e#42088#42240#0" expanded="false" />
+            <element signature="e#42290#42455#0" expanded="false" />
+            <element signature="e#42329#42455#0" expanded="false" />
+            <element signature="e#42490#42622#0" expanded="false" />
+            <element signature="e#42743#44563#0" expanded="false" />
+            <element signature="e#42771#43017#0" expanded="false" />
+            <element signature="e#43046#44560#0" expanded="false" />
+            <element signature="e#43607#43728#0" expanded="false" />
+            <element signature="e#43774#43929#0" expanded="false" />
+            <element signature="e#43939#43955#0" expanded="false" />
+            <element signature="e#44107#44492#0" expanded="false" />
+            <element signature="e#44145#44313#0" expanded="false" />
+            <element signature="e#44184#44313#0" expanded="false" />
+            <element signature="e#44348#44482#0" expanded="false" />
+            <element signature="e#44629#46857#0" expanded="false" />
+            <element signature="e#44657#44921#0" expanded="false" />
+            <element signature="e#44950#46855#0" expanded="false" />
+            <element signature="e#45193#45326#0" expanded="false" />
+            <element signature="e#45336#45352#0" expanded="false" />
+            <element signature="e#45502#46788#0" expanded="false" />
+            <element signature="e#45543#45722#0" expanded="false" />
+            <element signature="e#45582#45722#0" expanded="false" />
+            <element signature="e#45788#46611#0" expanded="false" />
+            <element signature="e#46455#46611#0" expanded="false" />
+            <element signature="e#46646#46778#0" expanded="false" />
+            <element signature="e#46986#50496#0" expanded="false" />
+            <element signature="e#47014#47270#0" expanded="false" />
+            <element signature="e#47325#47783#0" expanded="false" />
+            <element signature="e#47476#47548#0" expanded="false" />
+            <element signature="e#47828#49226#0" expanded="false" />
+            <element signature="e#47982#49226#0" expanded="false" />
+            <element signature="e#48313#48490#0" expanded="false" />
+            <element signature="e#48565#48719#0" expanded="false" />
+            <element signature="e#49255#50496#0" expanded="false" />
+            <element signature="e#50173#50466#0" expanded="false" />
+            <element signature="e#50334#50466#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/database/sklearn_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="781" column="0" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
+        <state relative-caret-position="-78">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="e#0#18#0" expanded="true" />
             <element signature="e#131#1487#0" expanded="false" />
             <element signature="e#480#684#0" expanded="false" />
             <element signature="e#712#918#0" expanded="false" />
@@ -1977,110 +2386,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/database/cheml_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#1148#1649#0" expanded="false" />
-            <element signature="e#1681#1685#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cheml/wrappers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="86" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#334#379#1" expanded="false" />
-            <element signature="e#460#625#0" expanded="false" />
-            <element signature="e#733#1447#0" expanded="false" />
-            <element signature="e#945#1096#0" expanded="false" />
-            <element signature="e#1120#1269#0" expanded="false" />
-            <element signature="e#1293#1447#0" expanded="false" />
-            <element signature="e#1480#3461#0" expanded="false" />
-            <element signature="e#4263#4675#0" expanded="false" />
-            <element signature="e#4715#5289#0" expanded="false" />
-            <element signature="e#4757#5289#0" expanded="false" />
-            <element signature="e#4817#5289#0" expanded="false" />
-            <element signature="e#4872#5289#0" expanded="false" />
-            <element signature="e#5084#5289#0" expanded="false" />
-            <element signature="e#5336#5740#0" expanded="false" />
-            <element signature="e#5792#6230#0" expanded="false" />
-            <element signature="e#6039#6213#0" expanded="false" />
-            <element signature="e#6319#8537#0" expanded="false" />
-            <element signature="e#6319#7079#1" expanded="false" />
-            <element signature="e#7132#7642#0" expanded="false" />
-            <element signature="e#7171#7342#0" expanded="false" />
-            <element signature="e#7377#7642#0" expanded="false" />
-            <element signature="e#7408#7470#0" expanded="false" />
-            <element signature="e#7695#7883#0" expanded="false" />
-            <element signature="e#7734#7783#0" expanded="false" />
-            <element signature="e#7818#7883#0" expanded="false" />
-            <element signature="e#7910#8077#0" expanded="false" />
-            <element signature="e#8127#8281#0" expanded="false" />
-            <element signature="e#8330#8487#0" expanded="false" />
-            <element signature="e#8566#12337#0" expanded="false" />
-            <element signature="e#8566#8611#1" expanded="false" />
-            <element signature="e#8660#11226#0" expanded="false" />
-            <element signature="e#8694#8932#0" expanded="false" />
-            <element signature="e#8975#10628#0" expanded="false" />
-            <element signature="e#9206#9352#0" expanded="false" />
-            <element signature="e#9408#9692#0" expanded="false" />
-            <element signature="e#9755#10138#0" expanded="false" />
-            <element signature="e#10198#10628#0" expanded="false" />
-            <element signature="e#10668#11226#0" expanded="false" />
-            <element signature="e#11268#11576#0" expanded="false" />
-            <element signature="e#11347#11576#0" expanded="false" />
-            <element signature="e#11388#11576#0" expanded="false" />
-            <element signature="e#11647#12337#0" expanded="false" />
-            <element signature="e#11703#12202#0" expanded="false" />
-            <element signature="e#11749#12202#0" expanded="false" />
-            <element signature="e#11806#12202#0" expanded="false" />
-            <element signature="e#11882#12202#0" expanded="false" />
-            <element signature="e#12229#12337#0" expanded="false" />
-            <element signature="e#12355#20140#0" expanded="false" />
-            <element signature="e#12444#12562#0" expanded="false" />
-            <element signature="e#13216#13530#0" expanded="false" />
-            <element signature="e#13615#17074#0" expanded="false" />
-            <element signature="e#13637#13811#0" expanded="false" />
-            <element signature="e#13676#13789#0" expanded="false" />
-            <element signature="e#13835#15073#0" expanded="false" />
-            <element signature="e#13875#14076#0" expanded="false" />
-            <element signature="e#14112#14273#0" expanded="false" />
-            <element signature="e#14319#14445#0" expanded="false" />
-            <element signature="e#14494#14611#0" expanded="false" />
-            <element signature="e#14655#14891#0" expanded="false" />
-            <element signature="e#14929#15048#0" expanded="false" />
-            <element signature="e#15095#15878#0" expanded="false" />
-            <element signature="e#15134#15767#0" expanded="false" />
-            <element signature="e#15257#15725#0" expanded="false" />
-            <element signature="e#15901#16546#0" expanded="false" />
-            <element signature="e#15943#16115#0" expanded="false" />
-            <element signature="e#16150#16241#0" expanded="false" />
-            <element signature="e#16274#16374#0" expanded="false" />
-            <element signature="e#16410#16522#0" expanded="false" />
-            <element signature="e#16566#16731#0" expanded="false" />
-            <element signature="e#16593#16682#0" expanded="false" />
-            <element signature="e#16757#16872#0" expanded="false" />
-            <element signature="e#16894#17060#0" expanded="false" />
-            <element signature="e#16934#17038#0" expanded="false" />
-            <element signature="e#17095#17626#0" expanded="false" />
-            <element signature="e#17116#17604#0" expanded="false" />
-            <element signature="e#17296#17397#0" expanded="false" />
-            <element signature="e#17458#17560#0" expanded="false" />
-            <element signature="e#17699#20092#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/sklearn_skl/sklearn_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="283" column="32" selection-start-line="283" selection-start-column="32" selection-end-line="283" selection-end-column="32" />
+        <state relative-caret-position="270">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#286#825#0" expanded="false" />
@@ -2106,10 +2415,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="24" />
+          <folding>
+            <element signature="e#419#429#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cheml/wrappers/cheml_cml/cheml_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state relative-caret-position="570">
+          <caret line="503" column="0" selection-start-line="503" selection-start-column="0" selection-end-line="503" selection-end-column="0" />
           <folding>
             <element signature="e#221#2163#0" expanded="false" />
             <element signature="e#665#2136#0" expanded="false" />
@@ -2301,6 +2620,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -2318,6 +2645,6 @@
     </states>
   </component>
   <component name="webServersAuthStorage">
-    <data>AAAAsBVzlEqR1/9p22Z3V9//GCkvWAK0QYGOp/2Bmq1t2RJp9Ck/LiJ0zkMt0toZWsSX1NLg1n0SVRZf1R/dL9ZMSxWqfefpaJ2Fgk1tPTaA8ZH63RZawD/e2L07hObo1XPrGhLWz59UJr1Xy/rPtMG3RZdEPir++XOuFucgAZ77haFAaapms6hirQ7/MrwUjRMOzQFuCIn7bnJ2r5AWO0cQsAdypWcyy+2eYuvaM+O5x4kJCgzPXojBwg60HdhgzNVULg==</data>
+    <data>AAAAsH+Xa5zxVrzieDDqvECiJyOu9DGKXPo19Q/NYr/t0nhWiKGTO9SRjahHb1huHJd1JPjWgevAG+KzwpPH+v+oJmOkpvNIVqLIj14z8TbXZ45uFRBbnUup7F6l+9saogE54PN/nJsTUbig8Ud46QFHgLjjhfeFuiLyiZB6ozyeNm7I3qDF7YeVSSuoPASAQIFDnAuFcJvagTI1h+VDfpFISg47xsEg7y4OyjJqfOqFKe9LQH6pSh57Ohmh2cgU9U6Upg==</data>
   </component>
 </project>

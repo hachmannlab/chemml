@@ -1,9 +1,11 @@
 # Compiled python modules
 *.pyc
+*.iws
 
 # Setuptools distribution folder
 /dist/
-/.idea/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
 
 # huge files
 benchmarks/

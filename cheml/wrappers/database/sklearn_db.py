@@ -24,7 +24,10 @@ class Binarizer(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        threshold = Parameter('threshold', 0.0)
+        copy = Parameter('copy', True)
+
+
 class PolynomialFeatures(object):
     task = 'Prepare'
     subtask = 'feature representation'
@@ -48,7 +51,10 @@ class PolynomialFeatures(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        include_bias = Parameter('include_bias', True)
+        interaction_only = Parameter('interaction_only', False)
+        degree = Parameter('degree', 2)
+
 class OneHotEncoder(object):
     task = 'Prepare'
     subtask = 'feature representation'
@@ -72,7 +78,11 @@ class OneHotEncoder(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        dtype = Parameter('dtype', < type'numpy.float64' >)
+        n_values = Parameter('n_values', 'auto')
+        sparse = Parameter('sparse', True)
+        categorical_features = Parameter('categorical_features', 'all')
+        handle_unknown = Parameter('handle_unknown', 'error')
 
 class Imputer(object):
     task = 'Prepare'
@@ -97,7 +107,11 @@ class Imputer(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        missing_values = Parameter('missing_values', NaN)
+        copy = Parameter('copy', True)
+        verbose = Parameter('verbose', 0)
+        strategy = Parameter('strategy', mean)
+        axis = Parameter('axis', 0)
 
 class KernelPCA(object):
     task = 'Prepare'
@@ -122,7 +136,21 @@ class KernelPCA(object):
                         description = "Always False, the header of input dataframe is not equivalent with the transformed dataframe",
                         options = (False))
     class FParameters:
-        pass
+        fit_inverse_transform = Parameter('fit_inverse_transform', False)
+        kernel = Parameter('kernel', linear)
+        n_jobs = Parameter('n_jobs', 1)
+        remove_zero_eig = Parameter('remove_zero_eig', False)
+        degree = Parameter('degree', 3)
+        max_iter = Parameter('max_iter', None)
+        kernel_params = Parameter('kernel_params', None)
+        random_state = Parameter('random_state', None)
+        n_components = Parameter('n_components', None)
+        eigen_solver = Parameter('eigen_solver', auto)
+        tol = Parameter('tol', 0)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
+        coef0 = Parameter('coef0', 1)
+        gamma = Parameter('gamma', None)
 class PCA(object):
     task = 'Prepare'
     subtask = 'feature transformation'
@@ -146,7 +174,13 @@ class PCA(object):
                         description = "Always False, the header of input dataframe is not equivalent with the transformed dataframe",
                         options = (False))
     class FParameters:
-        pass
+        iterated_power = Parameter('iterated_power', auto)
+        random_state = Parameter('random_state', None)
+        whiten = Parameter('whiten', False)
+        n_components = Parameter('n_components', None)
+        tol = Parameter('tol', 0.0)
+        copy = Parameter('copy', True)
+        svd_solver = Parameter('svd_solver', auto)
 
 class Normalizer(object):
     task = 'Prepare'
@@ -171,7 +205,8 @@ class Normalizer(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        copy = Parameter('copy', True)
+        norm = Parameter('norm', l2)
 class StandardScaler(object):
     task = 'Prepare'
     subtask = 'scale'
@@ -195,7 +230,9 @@ class StandardScaler(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        copy = Parameter('copy', True)
+        with_mean = Parameter('with_mean', True)
+        with_std = Parameter('with_std', True)
 class MinMaxScaler(object):
     task = 'Prepare'
     subtask = 'scale'
@@ -219,7 +256,8 @@ class MinMaxScaler(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        copy = Parameter('copy', True)
+        feature_range = Parameter('feature_range', (0, 1))
 class MaxAbsScaler(object):
     task = 'Prepare'
     subtask = 'scale'
@@ -243,7 +281,7 @@ class MaxAbsScaler(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        copy = Parameter('copy', True)
 class RobustScaler(object):
     task = 'Prepare'
     subtask = 'scale'
@@ -267,7 +305,10 @@ class RobustScaler(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        with_centering = Parameter('with_centering', True)
+        copy = Parameter('copy', True)
+        with_scaling = Parameter('with_scaling', True)
+        quantile_range = Parameter('quantile_range', (25.0, 75.0))
 
 class ShuffleSplit(object):
     task = 'Prepare'
@@ -377,7 +418,18 @@ class ARDRegression(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        n_iter = Parameter('n_iter', 300)
+        verbose = Parameter('verbose', False)
+        lambda_1 = Parameter('lambda_1', 1e-06)
+        lambda_2 = Parameter('lambda_2', 1e-06)
+        fit_intercept = Parameter('fit_intercept', True)
+        threshold_lambda = Parameter('threshold_lambda', 10000.0)
+        alpha_2 = Parameter('alpha_2', 1e-06)
+        tol = Parameter('tol', 0.001)
+        alpha_1 = Parameter('alpha_1', 1e-06)
+        copy_X = Parameter('copy_X', True)
+        compute_score = Parameter('compute_score', False)
 class BayesianRidge(object):
     task = 'Model'
     subtask = 'regression'
@@ -402,7 +454,17 @@ class BayesianRidge(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        n_iter = Parameter('n_iter', 300)
+        verbose = Parameter('verbose', False)
+        lambda_1 = Parameter('lambda_1', 1e-06)
+        lambda_2 = Parameter('lambda_2', 1e-06)
+        fit_intercept = Parameter('fit_intercept', True)
+        alpha_2 = Parameter('alpha_2', 1e-06)
+        tol = Parameter('tol', 0.001)
+        alpha_1 = Parameter('alpha_1', 1e-06)
+        copy_X = Parameter('copy_X', True)
+        compute_score = Parameter('compute_score', False)
 class ElasticNet(object):
     task = 'Model'
     subtask = 'regression'
@@ -427,13 +489,24 @@ class ElasticNet(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        warm_start = Parameter('warm_start', False)
+        selection = Parameter('selection', cyclic)
+        fit_intercept = Parameter('fit_intercept', True)
+        l1_ratio = Parameter('l1_ratio', 0.5)
+        max_iter = Parameter('max_iter', 1000)
+        precompute = Parameter('precompute', False)
+        random_state = Parameter('random_state', None)
+        tol = Parameter('tol', 0.0001)
+        positive = Parameter('positive', False)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
 class KernelRidge(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'KernelRidge'
-    modules = ('sklearn','')
+    modules = ('sklearn','kernel_ridge')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html"
 
@@ -452,13 +525,18 @@ class KernelRidge(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        kernel = Parameter('kernel', linear)
+        degree = Parameter('degree', 3)
+        kernel_params = Parameter('kernel_params', None)
+        alpha = Parameter('alpha', 1)
+        coef0 = Parameter('coef0', 1)
+        gamma = Parameter('gamma', None)
 class Lars(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'Lars'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lars.html"
 
@@ -477,13 +555,21 @@ class Lars(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        n_nonzero_coefs = Parameter('n_nonzero_coefs', 500)
+        normalize = Parameter('normalize', True)
+        fit_path = Parameter('fit_path', True)
+        fit_intercept = Parameter('fit_intercept', True)
+        positive = Parameter('positive', False)
+        eps = Parameter('eps', 2.22044604925e-16)
+        precompute = Parameter('precompute', auto)
+        copy_X = Parameter('copy_X', True)
+        verbose = Parameter('verbose', False)
 class Lasso(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'Lasso'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html"
 
@@ -502,13 +588,23 @@ class Lasso(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        warm_start = Parameter('warm_start', False)
+        selection = Parameter('selection', cyclic)
+        fit_intercept = Parameter('fit_intercept', True)
+        positive = Parameter('positive', False)
+        max_iter = Parameter('max_iter', 1000)
+        precompute = Parameter('precompute', False)
+        random_state = Parameter('random_state', None)
+        tol = Parameter('tol', 0.0001)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
 class LassoLars(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'LassoLars'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoLars.html"
 
@@ -527,13 +623,22 @@ class LassoLars(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', True)
+        fit_path = Parameter('fit_path', True)
+        fit_intercept = Parameter('fit_intercept', True)
+        positive = Parameter('positive', False)
+        max_iter = Parameter('max_iter', 500)
+        eps = Parameter('eps', 2.22044604925e-16)
+        precompute = Parameter('precompute', auto)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
+        verbose = Parameter('verbose', False)
 class LinearRegression(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'LinearRegression'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"
 
@@ -552,13 +657,16 @@ class LinearRegression(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        copy_X = Parameter('copy_X', True)
+        normalize = Parameter('normalize', False)
+        n_jobs = Parameter('n_jobs', 1)
+        fit_intercept = Parameter('fit_intercept', True)
 class LinearSVR(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'LinearSVR'
-    modules = ('sklearn','')
+    modules = ('sklearn','svm')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html"
 
@@ -577,13 +685,22 @@ class LinearSVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        loss = Parameter('loss', epsilon_insensitive)
+        C = Parameter('C', 1.0)
+        intercept_scaling = Parameter('intercept_scaling', 1.0)
+        fit_intercept = Parameter('fit_intercept', True)
+        epsilon = Parameter('epsilon', 0.0)
+        max_iter = Parameter('max_iter', 1000)
+        random_state = Parameter('random_state', None)
+        dual = Parameter('dual', True)
+        tol = Parameter('tol', 0.0001)
+        verbose = Parameter('verbose', 0)
 class LogisticRegression(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'LogisticRegression'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html"
 
@@ -602,13 +719,26 @@ class LogisticRegression(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        warm_start = Parameter('warm_start', False)
+        C = Parameter('C', 1.0)
+        n_jobs = Parameter('n_jobs', 1)
+        verbose = Parameter('verbose', 0)
+        intercept_scaling = Parameter('intercept_scaling', 1)
+        fit_intercept = Parameter('fit_intercept', True)
+        max_iter = Parameter('max_iter', 100)
+        penalty = Parameter('penalty', l2)
+        multi_class = Parameter('multi_class', ovr)
+        random_state = Parameter('random_state', None)
+        dual = Parameter('dual', False)
+        tol = Parameter('tol', 0.0001)
+        solver = Parameter('solver', liblinear)
+        class_weight = Parameter('class_weight', None)
 class MLPRegressor(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'MLPRegressor'
-    modules = ('sklearn','')
+    modules = ('sklearn','neural_network')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor"
 
@@ -627,13 +757,33 @@ class MLPRegressor(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        beta_1 = Parameter('beta_1', 0.9)
+        warm_start = Parameter('warm_start', False)
+        beta_2 = Parameter('beta_2', 0.999)
+        shuffle = Parameter('shuffle', True)
+        verbose = Parameter('verbose', False)
+        nesterovs_momentum = Parameter('nesterovs_momentum', True)
+        hidden_layer_sizes = Parameter('hidden_layer_sizes', (100,))
+        epsilon = Parameter('epsilon', 1e-08)
+        activation = Parameter('activation', relu)
+        max_iter = Parameter('max_iter', 200)
+        batch_size = Parameter('batch_size', auto)
+        power_t = Parameter('power_t', 0.5)
+        random_state = Parameter('random_state', None)
+        learning_rate_init = Parameter('learning_rate_init', 0.001)
+        tol = Parameter('tol', 0.0001)
+        validation_fraction = Parameter('validation_fraction', 0.1)
+        alpha = Parameter('alpha', 0.0001)
+        solver = Parameter('solver', adam)
+        momentum = Parameter('momentum', 0.9)
+        learning_rate = Parameter('learning_rate', constant)
+        early_stopping = Parameter('early_stopping', False)
 class MultiTaskElasticNet(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'MultiTaskElasticNet'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskElasticNet.html"
 
@@ -652,13 +802,22 @@ class MultiTaskElasticNet(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        warm_start = Parameter('warm_start', False)
+        selection = Parameter('selection', cyclic)
+        fit_intercept = Parameter('fit_intercept', True)
+        l1_ratio = Parameter('l1_ratio', 0.5)
+        max_iter = Parameter('max_iter', 1000)
+        random_state = Parameter('random_state', None)
+        tol = Parameter('tol', 0.0001)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
 class MultiTaskLasso(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'MultiTaskLasso'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskLasso.html"
 
@@ -677,13 +836,21 @@ class MultiTaskLasso(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        warm_start = Parameter('warm_start', False)
+        selection = Parameter('selection', cyclic)
+        fit_intercept = Parameter('fit_intercept', True)
+        max_iter = Parameter('max_iter', 1000)
+        random_state = Parameter('random_state', None)
+        tol = Parameter('tol', 0.0001)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
 class NuSVR(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'NuSVR'
-    modules = ('sklearn','')
+    modules = ('sklearn','svm')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html"
 
@@ -702,13 +869,23 @@ class NuSVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        kernel = Parameter('kernel', rbf)
+        C = Parameter('C', 1.0)
+        verbose = Parameter('verbose', False)
+        degree = Parameter('degree', 3)
+        shrinking = Parameter('shrinking', True)
+        max_iter = Parameter('max_iter', -1)
+        tol = Parameter('tol', 0.001)
+        cache_size = Parameter('cache_size', 200)
+        coef0 = Parameter('coef0', 0.0)
+        nu = Parameter('nu', 0.5)
+        gamma = Parameter('gamma', auto)
 class Ridge(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'Ridge'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html"
 
@@ -727,13 +904,20 @@ class Ridge(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        normalize = Parameter('normalize', False)
+        fit_intercept = Parameter('fit_intercept', True)
+        max_iter = Parameter('max_iter', None)
+        random_state = Parameter('random_state', None)
+        tol = Parameter('tol', 0.001)
+        copy_X = Parameter('copy_X', True)
+        alpha = Parameter('alpha', 1.0)
+        solver = Parameter('solver', auto)
 class SGDRegressor(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'SGDRegressor'
-    modules = ('sklearn','')
+    modules = ('sklearn','linear_model')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html"
 
@@ -752,13 +936,27 @@ class SGDRegressor(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        warm_start = Parameter('warm_start', False)
+        loss = Parameter('loss', squared_loss)
+        eta0 = Parameter('eta0', 0.01)
+        verbose = Parameter('verbose', 0)
+        shuffle = Parameter('shuffle', True)
+        fit_intercept = Parameter('fit_intercept', True)
+        l1_ratio = Parameter('l1_ratio', 0.15)
+        average = Parameter('average', False)
+        n_iter = Parameter('n_iter', 5)
+        penalty = Parameter('penalty', l2)
+        power_t = Parameter('power_t', 0.25)
+        random_state = Parameter('random_state', None)
+        epsilon = Parameter('epsilon', 0.1)
+        alpha = Parameter('alpha', 0.0001)
+        learning_rate = Parameter('learning_rate', invscaling)
 class SVR(object):
     task = 'Model'
     subtask = 'regression'
     host = 'sklearn'
     function = 'SVR'
-    modules = ('sklearn','')
+    modules = ('sklearn','svm')
     requirements = (req(1), req(2))
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html"
 
@@ -777,7 +975,17 @@ class SVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        kernel = Parameter('kernel', rbf)
+        C = Parameter('C', 1.0)
+        verbose = Parameter('verbose', False)
+        degree = Parameter('degree', 3)
+        epsilon = Parameter('epsilon', 0.1)
+        shrinking = Parameter('shrinking', True)
+        max_iter = Parameter('max_iter', -1)
+        tol = Parameter('tol', 0.001)
+        cache_size = Parameter('cache_size', 200)
+        coef0 = Parameter('coef0', 0.0)
+        gamma = Parameter('gamma', auto)
 
 class GridSearchCV(object):
     task = 'Search'
@@ -802,7 +1010,19 @@ class GridSearchCV(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        scoring = Parameter('scoring', None)
+        n_jobs = Parameter('n_jobs', 1)
+        verbose = Parameter('verbose', 0)
+        fit_params = Parameter('fit_params', {})
+        refit = Parameter('refit', True)
+        return_train_score = Parameter('return_train_score', True)
+        iid = Parameter('iid', True)
+        estimator = Parameter('estimator', ())
+        error_score = Parameter('error_score',
+        raise)
+        pre_dispatch = Parameter('pre_dispatch', 2 * n_jobs)
+        param_grid = Parameter('param_grid', ())
+        cv = Parameter('cv', None)
 class cross_val_predict(object):
     task = 'Search'
     subtask = 'validate'

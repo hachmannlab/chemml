@@ -4,8 +4,11 @@
 
 # Setuptools distribution folder
 /dist/
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+../.idea
+**/../.idea
+**/.idea/
+.idea/
 
 # huge files
 benchmarks/
+

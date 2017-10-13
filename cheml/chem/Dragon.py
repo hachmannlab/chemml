@@ -50,7 +50,7 @@ class Dragon(object):
                 SaveStdDevThreshold = "0.0001",SaveExcludeCorrelated = False,SaveCorrThreshold = "0.95",
                 SaveExclusionOptionsToVariables = False,SaveExcludeMisMolecules = False,
                 SaveExcludeRejectedMolecules = False,blocks = range(1,30),molInput = "stdin",
-                molInputFormat = "SMILES",molFile = None,SaveStdOut = False,SaveProject = False,
+                molInputFormat = "SMILES",molFile = '* required',SaveStdOut = False,SaveProject = False,
                 SaveProjectFile = "Dragon_project.drp",SaveFile = True,SaveType = "singlefile",
                 SaveFilePath = "Dragon_descriptors.txt",logMode = "file",logFile = "Dragon_log.txt",
                 external = False,fileName = None,delimiter = ",",consecutiveDelimiter = False,MissingValue = "NaN",
@@ -106,7 +106,6 @@ class Dragon(object):
         self.delimiter = delimiter
         self.consecutiveDelimiter = consecutiveDelimiter
         self.MissingValue = MissingValue
-
         self.RejectDisconnectedStrucuture = RejectDisconnectedStrucuture
         self.RetainBiggestFragment = RetainBiggestFragment
         self.DisconnectedCalculationOption = DisconnectedCalculationOption

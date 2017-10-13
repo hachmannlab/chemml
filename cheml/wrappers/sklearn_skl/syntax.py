@@ -245,6 +245,7 @@ class Evaluator(object):
 
 
 def Fit(fn):
+    """ Fit with a wrapper """
     def wrapper(self):
         self.paramFROMinput()
         if 'track_header' in self.parameters:
@@ -262,25 +263,11 @@ def Fit(fn):
             raise NameError(msg)
         else:
             if self.method is None:
-                try:
-                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
-                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
-                    F = getattr(submodule, self.Function)
-                    api = F(**self.parameters)
-                except Exception as err:
-                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
-                    raise TypeError(msg)
+                api = self.import_sklearn()
                 self.set_value('api', api)
                 fn(self)
             elif self.method is 'fit_transform':
-                try:
-                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
-                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
-                    F = getattr(submodule, self.Function)
-                    api = F(**self.parameters)
-                except Exception as err:
-                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
-                    raise TypeError(msg)
+                api = self.import_sklearn()
                 self.required('df', req=True)
                 df = self.inputs['df'].value
                 df = api.fit_transform(df)
@@ -305,14 +292,7 @@ def Fit(fn):
                 self.set_value('api', api)
                 self.set_value('df', df)
             elif self.method is 'fit':
-                try:
-                    exec("from %s.%s import %s"%(self.metadata.modules[0],self.metadata.modules[1],self.Function))
-                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
-                    F = getattr(submodule, self.Function)
-                    api = F(**self.parameters)
-                except Exception as err:
-                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
-                    raise TypeError(msg)
+                api = self.import_sklearn()
                 self.required('dfx', req=True)
                 self.required('dfy', req=True)
                 dfx = self.inputs['dfx'].value

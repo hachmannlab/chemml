@@ -5,6 +5,9 @@ import copy
 from ..utils import choice
 from ..utils import check_input
 
+from sklearn.base import BaseEstimator, RegressorMixin, ClassifierMixin, ClusterMixin, TransformerMixin
+
+
 def act_funcs_from_string(input_act_funcs, n):
     """
     translate activation functions input from user
@@ -287,13 +290,45 @@ def train(X,Y,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_
     final_weights = _c_to_numpy_weights(cweights)
     return {'weights':final_weights,'act_funcs':input_act_funcs}
 
-if __name__ == '__main__':
-    # import matplotlib.pyplot as plt
-    N = 2000
-    X = (np.random.rand(N,1) - 0.5) * 10
-    Y = np.sin(X)
-    nnet = train(X,Y,[20,10],'tanh',validation_size=0.1,learn_rate=0.001,n_epochs=50000,n_cores=2)
-    print np.mean(np.abs(output(X[:N/2],nnet) - Y[:N/2]),axis=0)
-    # plt.plot(X_test[:,0],output(X_test,nnet)[:,0],'x')
-    # plt.plot(X_test[:,0],Y_test[:,0],'o')
-    # plt.show()
+class mlp_hogwild(BaseEstimator, RegressorMixin):
+    def __init__(self,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
+    batch_size=256,n_cores=1,n_hist=20,n_check=50,threshold=0.1, print_level=1):
+        self.nneurons = nneurons
+        self.input_act_funcs = input_act_funcs
+        self.validation_size = validation_size
+        self.learn_rate = learn_rate
+        self.rms_decay = rms_decay
+        self.n_epochs = n_epochs
+        self.batch_size = batch_size
+        self.n_cores = n_cores
+        self.n_hist = n_hist
+        self.n_check = n_check
+        self.threshold = threshold
+        self.print_level = print_level
+        # model will be defined only after fitting
+        self.model = None
+
+    def fit(self,X,y):
+        self.model = train(X,y,self.nneurons, self.input_act_funcs, self.validation_size, self.learn_rate, self.rms_decay,
+                           self.n_epochs, self.batch_size, self.n_cores, self.n_hist, self.n_check, self.threshold, self.print_level)
+    def predict(self, X):
+        if self.model is None:
+            msg = "This mlp_hogwild instance is not fitted yet. Call 'fit' with appropriate arguments before using this method."
+            raise RuntimeError(msg)
+        return output(X,self.model)
+    def score(self, X, y):
+        y_pred = self.predict(X)
+        return np.mean(np.abs(y - y_pred))
+
+
+# if __name__ == '__main__':
+#     # import matplotlib.pyplot as plt
+#     N = 2000
+#     X = (np.random.rand(N,1) - 0.5) * 10
+#     Y = np.sin(X)
+#     mlp = mlp_hogwild([20,10],'tanh',validation_size=0.1,learn_rate=0.001,n_epochs=50000,n_cores=2)
+#     mlp.fit(X,Y)
+#     print mlp.score(X[:N/2],Y[:N/2])
+#     # plt.plot(X_test[:,0],output(X_test,nnet)[:,0],'x')
+#     # plt.plot(X_test[:,0],Y_test[:,0],'o')
+#     # plt.show()

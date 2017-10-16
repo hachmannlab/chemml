@@ -169,12 +169,12 @@ class CoulombMatrix(object):
         if path:
             for root, directories, filenames in os.walk(path):
                 file_path = [os.path.join(root, filename) for filename in filenames]
-                for filename in fnmatch.filter(file_path, os.path.join(path, molfile)):
-                    mol = _file_reader(reader, filename, skip_lines)
+                for fn in fnmatch.filter(file_path, os.path.join(path, molfile)):
+                    mol = _file_reader(reader, fn, skip_lines)
                     self.max_nAtoms = max(self.max_nAtoms, len(mol))
                     self.molecules.append(mol)
         else:
-            mol = _file_reader(reader, filename, skip_lines)
+            mol = _file_reader(reader, file_name, skip_lines)
             self.max_nAtoms = max(self.max_nAtoms, len(mol))
             self.molecules.append(mol)
             

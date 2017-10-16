@@ -1,4 +1,5 @@
 import numpy as np
+# Todo: convert it to pandas dataframe for the consistency
 
 class DistanceMatrix(object):
     """ (distance_matrix)
@@ -45,6 +46,7 @@ class DistanceMatrix(object):
     def __init__(self,norm_type='fro', nCores=1):
         self.norm_type = norm_type
         self.nCores = nCores
+        # Todo: mpi code is required for the multiprocessing
 
     def transform(self,input_matrix):
         distance_matrix = []

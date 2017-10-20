@@ -20,7 +20,7 @@ class Output(object):
 
 class Parameter(object):
     """Container class for parameters of a function"""
-    def __init__(self,name,default,format,required=False,description="",options=[]):
+    def __init__(self,name,default,format='',required=False,description="",options=[]):
         self.name = name
         self.default = default
         self.format = format
@@ -32,7 +32,9 @@ def req(ind):
     all_req = { 0 : ('ChemML','0.1.0'),
                 1 : ('scikit-learn','0.19.0'),
                 2 : ('pandas', '0.20.3'),
-                3 : (),
+                3 : ('RDKit','2016.03.1'),
+                4 : ('Dragon','7 or 6'),
+                5 : ('lxml', '3.4.0'),
               }
     return all_req[ind]
 
@@ -57,9 +59,8 @@ def cv_types():
 
     return all_types
 
-
-
 ###########
+
 def merge_dicts(*dict_args):
     """
     Given any number of dicts, shallow copy and merge into a new dict,
@@ -70,81 +71,3 @@ def merge_dicts(*dict_args):
         result.update(dictionary)
     return result
 
-def DB():
-    # 7 tasks
-    tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
-    external_info = {
-            'Enter':{
-                        'input_data':{
-                                    'pandas':['read_excel', 'read_csv'],
-                                     }
-                    },
-            'Prepare':{
-                        'feature representation': {'cheml': ['RDKitFingerprint', 'Dragon', 'CoulombMatrix'],
-                                       'sklearn': ['PolynomialFeatures', 'Binarizer','OneHotEncoder']
-                                       },
-                        'scale': {
-                                    'sklearn': ['StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer']
-                                  },
-                        'feature selection': {
-                                                'sklearn': ['PCA','KernelPCA']
-                                            },
-                        'feature transformation': {
-                                                'cheml': ['TBFS']
-                                                },
-                        'basic operator': {
-                                        'cheml':['PyScript','Merge','Split', 'Constant','MissingValues','Trimmer','Uniformer'],
-                                        'sklearn': ['Imputer']
-                                          },
-                        'split': {
-                                        'sklearn': ['Train_Test_Split','KFold']
-                                    },
-                      },
-            'Model':{
-                        'regression':{
-                                        'cheml':['NN_PSGD','nn_dsgd'],
-                                        'sklearn':[
-                                                'OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','',
-                                                'ElasticNet','MultiTaskElasticNet','Lars','LassoLars',
-                                                'BayesianRidge', 'ARDRegression', 'LogisticRegression',
-                                                'SGDRegressor','SVR','NuSVR','LinearSVR','MLPRegressor',
-                                                ]
-                                        },
-                        'classification': {},
-                        'clustering': {},
-                    },
-            'Search':{
-                        'evolutionary': {
-                                        'cheml': ['GeneticAlgorithm_binary'],
-                                        'deep': []
-                                        },
-                        'swarm': {
-                                    'pyswarm': ['pso']
-                                 },
-                        'grid':{
-                                    'sklearn': ['GridSearchCV','learning_curve']
-                                },
-                        'validate': {'sklearn':['cross_val_score','cross_val_predict']
-                                     },
-                        'evaluate':{
-                                        'sklearn':['scorer_regression','evaluate_regression']
-                                   },
-                     },
-            'Mix':{
-                    'A': {
-                            'sklearn': ['cross_val_score',]
-                          },
-                    'B': {}
-                  },
-            'Visualize':{
-                            'matplotlib': [],
-                            'seaborn': []
-                        },
-            'Store':{
-                        'output_data':{
-                                        'cheml': ['SaveFile'],
-                                      }
-                    }
-            }
-
-    return tasks, external_info

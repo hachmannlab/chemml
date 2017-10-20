@@ -1,4 +1,3 @@
-import numpy as np
 from .containers import Input, Output, Parameter, req, regression_types, cv_types
 
 class Binarizer(object):
@@ -54,7 +53,6 @@ class PolynomialFeatures(object):
         include_bias = Parameter('include_bias', True)
         interaction_only = Parameter('interaction_only', False)
         degree = Parameter('degree', 2)
-
 class OneHotEncoder(object):
     task = 'Prepare'
     subtask = 'feature representation'
@@ -78,12 +76,11 @@ class OneHotEncoder(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        dtype = Parameter('dtype', < type'numpy.float64' >)
+        dtype = Parameter('dtype', "<type'numpy.float64'>")
         n_values = Parameter('n_values', 'auto')
         sparse = Parameter('sparse', True)
         categorical_features = Parameter('categorical_features', 'all')
         handle_unknown = Parameter('handle_unknown', 'error')
-
 class Imputer(object):
     task = 'Prepare'
     subtask = 'preprocessor'
@@ -107,10 +104,10 @@ class Imputer(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        missing_values = Parameter('missing_values', NaN)
+        missing_values = Parameter('missing_values', "NaN")
         copy = Parameter('copy', True)
         verbose = Parameter('verbose', 0)
-        strategy = Parameter('strategy', mean)
+        strategy = Parameter('strategy', 'mean')
         axis = Parameter('axis', 0)
 
 class KernelPCA(object):
@@ -137,7 +134,7 @@ class KernelPCA(object):
                         options = (False))
     class FParameters:
         fit_inverse_transform = Parameter('fit_inverse_transform', False)
-        kernel = Parameter('kernel', linear)
+        kernel = Parameter('kernel', 'linear')
         n_jobs = Parameter('n_jobs', 1)
         remove_zero_eig = Parameter('remove_zero_eig', False)
         degree = Parameter('degree', 3)
@@ -145,7 +142,7 @@ class KernelPCA(object):
         kernel_params = Parameter('kernel_params', None)
         random_state = Parameter('random_state', None)
         n_components = Parameter('n_components', None)
-        eigen_solver = Parameter('eigen_solver', auto)
+        eigen_solver = Parameter('eigen_solver', 'auto')
         tol = Parameter('tol', 0)
         copy_X = Parameter('copy_X', True)
         alpha = Parameter('alpha', 1.0)
@@ -174,13 +171,13 @@ class PCA(object):
                         description = "Always False, the header of input dataframe is not equivalent with the transformed dataframe",
                         options = (False))
     class FParameters:
-        iterated_power = Parameter('iterated_power', auto)
+        iterated_power = Parameter('iterated_power', 'auto')
         random_state = Parameter('random_state', None)
         whiten = Parameter('whiten', False)
         n_components = Parameter('n_components', None)
         tol = Parameter('tol', 0.0)
         copy = Parameter('copy', True)
-        svd_solver = Parameter('svd_solver', auto)
+        svd_solver = Parameter('svd_solver', 'auto')
 
 class Normalizer(object):
     task = 'Prepare'
@@ -206,7 +203,7 @@ class Normalizer(object):
                         options = (True, False))
     class FParameters:
         copy = Parameter('copy', True)
-        norm = Parameter('norm', l2)
+        norm = Parameter('norm', 'l2')
 class StandardScaler(object):
     task = 'Prepare'
     subtask = 'scale'
@@ -329,7 +326,11 @@ class ShuffleSplit(object):
                         description = "",
                         options = ('split', None))
     class FParameters:
-        pass
+        n_splits = Parameter('n_splits', 10)
+        test_size = Parameter('test_size', 'default')
+        train_size = Parameter('train_size', None)
+        random_state = Parameter('random_state', None)
+
 class StratifiedShuffleSplit(object):
     task = 'Prepare'
     subtask = 'split'
@@ -349,7 +350,10 @@ class StratifiedShuffleSplit(object):
                         description = "",
                         options = ('split', None))
     class FParameters:
-        pass
+        n_splits = Parameter('n_splits', 10)
+        test_size = Parameter('test_size', 'default')
+        train_size = Parameter('train_size', None)
+        random_state = Parameter('random_state', None)
 class train_test_split(object):
     task = 'Prepare'
     subtask = 'split'
@@ -372,7 +376,15 @@ class train_test_split(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        X = Parameter('X', '* required')
+        y = Parameter('y', None)
+        test_size = Parameter('test_size', 0.25)
+        train_size = Parameter('train_size', None)
+        random_state = Parameter('random_state', None)
+        shuffle = Parameter('shuffle', True)
+        stratify = Parameter('stratify', None)
+
+
 class KFold(object):
     task = 'Prepare'
     subtask = 'split'
@@ -392,8 +404,9 @@ class KFold(object):
                         description = "",
                         options = ('split', None))
     class FParameters:
-        pass
-
+        n_splits = Parameter('n_splits', 3)
+        random_state = Parameter('random_state', None)
+        shuffle = Parameter('shuffle', False)
 class ARDRegression(object):
     task = 'Model'
     subtask = 'regression'
@@ -491,7 +504,7 @@ class ElasticNet(object):
     class FParameters:
         normalize = Parameter('normalize', False)
         warm_start = Parameter('warm_start', False)
-        selection = Parameter('selection', cyclic)
+        selection = Parameter('selection', 'cyclic')
         fit_intercept = Parameter('fit_intercept', True)
         l1_ratio = Parameter('l1_ratio', 0.5)
         max_iter = Parameter('max_iter', 1000)
@@ -525,7 +538,7 @@ class KernelRidge(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        kernel = Parameter('kernel', linear)
+        kernel = Parameter('kernel', 'linear')
         degree = Parameter('degree', 3)
         kernel_params = Parameter('kernel_params', None)
         alpha = Parameter('alpha', 1)
@@ -561,7 +574,7 @@ class Lars(object):
         fit_intercept = Parameter('fit_intercept', True)
         positive = Parameter('positive', False)
         eps = Parameter('eps', 2.22044604925e-16)
-        precompute = Parameter('precompute', auto)
+        precompute = Parameter('precompute', 'auto')
         copy_X = Parameter('copy_X', True)
         verbose = Parameter('verbose', False)
 class Lasso(object):
@@ -590,7 +603,7 @@ class Lasso(object):
     class FParameters:
         normalize = Parameter('normalize', False)
         warm_start = Parameter('warm_start', False)
-        selection = Parameter('selection', cyclic)
+        selection = Parameter('selection', 'cyclic')
         fit_intercept = Parameter('fit_intercept', True)
         positive = Parameter('positive', False)
         max_iter = Parameter('max_iter', 1000)
@@ -629,7 +642,7 @@ class LassoLars(object):
         positive = Parameter('positive', False)
         max_iter = Parameter('max_iter', 500)
         eps = Parameter('eps', 2.22044604925e-16)
-        precompute = Parameter('precompute', auto)
+        precompute = Parameter('precompute', 'auto')
         copy_X = Parameter('copy_X', True)
         alpha = Parameter('alpha', 1.0)
         verbose = Parameter('verbose', False)
@@ -685,7 +698,7 @@ class LinearSVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        loss = Parameter('loss', epsilon_insensitive)
+        loss = Parameter('loss', 'epsilon_insensitive')
         C = Parameter('C', 1.0)
         intercept_scaling = Parameter('intercept_scaling', 1.0)
         fit_intercept = Parameter('fit_intercept', True)
@@ -726,12 +739,12 @@ class LogisticRegression(object):
         intercept_scaling = Parameter('intercept_scaling', 1)
         fit_intercept = Parameter('fit_intercept', True)
         max_iter = Parameter('max_iter', 100)
-        penalty = Parameter('penalty', l2)
-        multi_class = Parameter('multi_class', ovr)
+        penalty = Parameter('penalty', 'l2')
+        multi_class = Parameter('multi_class', 'ovr')
         random_state = Parameter('random_state', None)
         dual = Parameter('dual', False)
         tol = Parameter('tol', 0.0001)
-        solver = Parameter('solver', liblinear)
+        solver = Parameter('solver', 'liblinear')
         class_weight = Parameter('class_weight', None)
 class MLPRegressor(object):
     task = 'Model'
@@ -765,18 +778,18 @@ class MLPRegressor(object):
         nesterovs_momentum = Parameter('nesterovs_momentum', True)
         hidden_layer_sizes = Parameter('hidden_layer_sizes', (100,))
         epsilon = Parameter('epsilon', 1e-08)
-        activation = Parameter('activation', relu)
+        activation = Parameter('activation', 'relu')
         max_iter = Parameter('max_iter', 200)
-        batch_size = Parameter('batch_size', auto)
+        batch_size = Parameter('batch_size', 'auto')
         power_t = Parameter('power_t', 0.5)
         random_state = Parameter('random_state', None)
         learning_rate_init = Parameter('learning_rate_init', 0.001)
         tol = Parameter('tol', 0.0001)
         validation_fraction = Parameter('validation_fraction', 0.1)
         alpha = Parameter('alpha', 0.0001)
-        solver = Parameter('solver', adam)
+        solver = Parameter('solver', 'adam')
         momentum = Parameter('momentum', 0.9)
-        learning_rate = Parameter('learning_rate', constant)
+        learning_rate = Parameter('learning_rate', 'constant')
         early_stopping = Parameter('early_stopping', False)
 class MultiTaskElasticNet(object):
     task = 'Model'
@@ -804,7 +817,7 @@ class MultiTaskElasticNet(object):
     class FParameters:
         normalize = Parameter('normalize', False)
         warm_start = Parameter('warm_start', False)
-        selection = Parameter('selection', cyclic)
+        selection = Parameter('selection', 'cyclic')
         fit_intercept = Parameter('fit_intercept', True)
         l1_ratio = Parameter('l1_ratio', 0.5)
         max_iter = Parameter('max_iter', 1000)
@@ -838,7 +851,7 @@ class MultiTaskLasso(object):
     class FParameters:
         normalize = Parameter('normalize', False)
         warm_start = Parameter('warm_start', False)
-        selection = Parameter('selection', cyclic)
+        selection = Parameter('selection', 'cyclic')
         fit_intercept = Parameter('fit_intercept', True)
         max_iter = Parameter('max_iter', 1000)
         random_state = Parameter('random_state', None)
@@ -869,7 +882,7 @@ class NuSVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        kernel = Parameter('kernel', rbf)
+        kernel = Parameter('kernel', 'rbf')
         C = Parameter('C', 1.0)
         verbose = Parameter('verbose', False)
         degree = Parameter('degree', 3)
@@ -879,7 +892,7 @@ class NuSVR(object):
         cache_size = Parameter('cache_size', 200)
         coef0 = Parameter('coef0', 0.0)
         nu = Parameter('nu', 0.5)
-        gamma = Parameter('gamma', auto)
+        gamma = Parameter('gamma', 'auto')
 class Ridge(object):
     task = 'Model'
     subtask = 'regression'
@@ -911,7 +924,7 @@ class Ridge(object):
         tol = Parameter('tol', 0.001)
         copy_X = Parameter('copy_X', True)
         alpha = Parameter('alpha', 1.0)
-        solver = Parameter('solver', auto)
+        solver = Parameter('solver', 'auto')
 class SGDRegressor(object):
     task = 'Model'
     subtask = 'regression'
@@ -937,7 +950,7 @@ class SGDRegressor(object):
                         options = (True, False))
     class FParameters:
         warm_start = Parameter('warm_start', False)
-        loss = Parameter('loss', squared_loss)
+        loss = Parameter('loss', 'squared_loss')
         eta0 = Parameter('eta0', 0.01)
         verbose = Parameter('verbose', 0)
         shuffle = Parameter('shuffle', True)
@@ -945,12 +958,12 @@ class SGDRegressor(object):
         l1_ratio = Parameter('l1_ratio', 0.15)
         average = Parameter('average', False)
         n_iter = Parameter('n_iter', 5)
-        penalty = Parameter('penalty', l2)
+        penalty = Parameter('penalty', 'l2')
         power_t = Parameter('power_t', 0.25)
         random_state = Parameter('random_state', None)
         epsilon = Parameter('epsilon', 0.1)
         alpha = Parameter('alpha', 0.0001)
-        learning_rate = Parameter('learning_rate', invscaling)
+        learning_rate = Parameter('learning_rate', 'invscaling')
 class SVR(object):
     task = 'Model'
     subtask = 'regression'
@@ -975,7 +988,7 @@ class SVR(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        kernel = Parameter('kernel', rbf)
+        kernel = Parameter('kernel', 'rbf')
         C = Parameter('C', 1.0)
         verbose = Parameter('verbose', False)
         degree = Parameter('degree', 3)
@@ -985,7 +998,7 @@ class SVR(object):
         tol = Parameter('tol', 0.001)
         cache_size = Parameter('cache_size', 200)
         coef0 = Parameter('coef0', 0.0)
-        gamma = Parameter('gamma', auto)
+        gamma = Parameter('gamma', 'auto')
 
 class GridSearchCV(object):
     task = 'Search'
@@ -1013,15 +1026,14 @@ class GridSearchCV(object):
         scoring = Parameter('scoring', None)
         n_jobs = Parameter('n_jobs', 1)
         verbose = Parameter('verbose', 0)
-        fit_params = Parameter('fit_params', {})
+        fit_params = Parameter('fit_params', None)
         refit = Parameter('refit', True)
         return_train_score = Parameter('return_train_score', True)
         iid = Parameter('iid', True)
-        estimator = Parameter('estimator', ())
-        error_score = Parameter('error_score',
-        raise)
-        pre_dispatch = Parameter('pre_dispatch', 2 * n_jobs)
-        param_grid = Parameter('param_grid', ())
+        estimator = Parameter('estimator', '* required')
+        error_score = Parameter('error_score','raise')
+        pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
+        param_grid = Parameter('param_grid', '* required')
         cv = Parameter('cv', None)
 class cross_val_predict(object):
     task = 'Search'
@@ -1044,7 +1056,16 @@ class cross_val_predict(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        estimator = Parameter('estimator', '* required')
+        X = Parameter('X', '* required')
+        y = Parameter('y', None)
+        groups = Parameter('groups', None)
+        cv = Parameter('cv', None)
+        n_jobs = Parameter('n_jobs', 1)
+        verbose = Parameter('verbose', 0)
+        fit_params = Parameter('fit_params', None)
+        pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
+        method = Parameter('method', 'predict')
 class cross_val_score(object):
     task = 'Search'
     subtask = 'validate'
@@ -1066,7 +1087,16 @@ class cross_val_score(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        estimator = Parameter('estimator', '* required')
+        X = Parameter('X', '* required')
+        y = Parameter('y', None)
+        groups = Parameter('groups', None)
+        scoring = Parameter('scoring', None)
+        cv = Parameter('cv', None)
+        n_jobs = Parameter('n_jobs', 1)
+        verbose = Parameter('verbose', 0)
+        fit_params = Parameter('fit_params', None)
+        pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
 class learning_curve(object):
     task = 'Search'
     subtask = 'grid'
@@ -1092,7 +1122,19 @@ class learning_curve(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        estimator = Parameter('estimator', '* required')
+        X = Parameter('X', '* required')
+        y = Parameter('y', None)
+        groups = Parameter('groups', None)
+        train_sizes = Parameter('train_sizes', [ 0.1, 0.33, 0.55, 0.78,1.])
+        scoring = Parameter('scoring', None)
+        cv = Parameter('cv', None)
+        exploit_incremental_learning = Parameter('exploit_incremental_learning', False)
+        n_jobs = Parameter('n_jobs', 1)
+        pre_dispatch = Parameter('pre_dispatch', 'all')
+        verbose = Parameter('verbose', 0)
+        shuffle = Parameter('shuffle', False)
+        random_state = Parameter('random_state', None)
 class evaluate_regression(object):
     task = 'Search'
     subtask = 'evaluate'

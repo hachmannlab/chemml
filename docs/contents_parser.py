@@ -1,13 +1,14 @@
 import pandas as pd
 from tabulate import tabulate
 
-df = pd.read_excel('contents.xlsx',sheetname=0,header=0) 
+# df = pd.read_excel('contents.xlsx',sheetname=0,header=0)
 # print tabulate(df, headers='keys', tablefmt='psql')
 
 ###################
 dir = 'CMLWR_ALL'
 
-print df.shape
+
+# print df.shape
 for i in range(df.shape[0]):
     i+=1
     function = df['function'][i][6:-1]

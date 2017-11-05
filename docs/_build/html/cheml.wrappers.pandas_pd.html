@@ -82,13 +82,16 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">ChemML Wrapper input file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">ChemML Wrapper Reference</a></li>
+                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="a.html">Ipython Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
 </ul>
 
             
@@ -175,8 +178,24 @@
 <div class="section" id="module-cheml.wrappers.pandas_pd.pandas_wrapper">
 <span id="cheml-wrappers-pandas-pd-pandas-wrapper-module"></span><h2>cheml.wrappers.pandas_pd.pandas_wrapper module<a class="headerlink" href="#module-cheml.wrappers.pandas_pd.pandas_wrapper" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="cheml.wrappers.pandas_pd.pandas_wrapper.corr">
+<em class="property">class </em><code class="descclassname">cheml.wrappers.pandas_pd.pandas_wrapper.</code><code class="descname">corr</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>Task</em>, <em>Function</em>, <em>Host</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code>, <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.LIBRARY</span></code></p>
+<dl class="method">
+<dt id="cheml.wrappers.pandas_pd.pandas_wrapper.corr.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.corr.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.wrappers.pandas_pd.pandas_wrapper.corr.legal_IO">
+<code class="descname">legal_IO</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.corr.legal_IO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="cheml.wrappers.pandas_pd.pandas_wrapper.read_excel">
-<em class="property">class </em><code class="descclassname">cheml.wrappers.pandas_pd.pandas_wrapper.</code><code class="descname">read_excel</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em>, <em>Function</em>, <em>Host</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.read_excel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">cheml.wrappers.pandas_pd.pandas_wrapper.</code><code class="descname">read_excel</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>Task</em>, <em>Function</em>, <em>Host</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.read_excel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code>, <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.LIBRARY</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.pandas_pd.pandas_wrapper.read_excel.fit">
@@ -192,7 +211,7 @@
 
 <dl class="class">
 <dt id="cheml.wrappers.pandas_pd.pandas_wrapper.read_table">
-<em class="property">class </em><code class="descclassname">cheml.wrappers.pandas_pd.pandas_wrapper.</code><code class="descname">read_table</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>SuperFunction</em>, <em>Function</em>, <em>Host</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.read_table" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">cheml.wrappers.pandas_pd.pandas_wrapper.</code><code class="descname">read_table</code><span class="sig-paren">(</span><em>Base</em>, <em>parameters</em>, <em>iblock</em>, <em>Task</em>, <em>Function</em>, <em>Host</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.wrappers.pandas_pd.pandas_wrapper.read_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.BASE</span></code>, <code class="xref py py-class docutils literal"><span class="pre">cheml.wrappers.base.LIBRARY</span></code></p>
 <dl class="method">
 <dt id="cheml.wrappers.pandas_pd.pandas_wrapper.read_table.fit">

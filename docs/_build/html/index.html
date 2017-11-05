@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="#"/>
-        <link rel="next" title="Table of Contents" href="CMLWContentsTable.html"/> 
+        <link rel="next" title="Input File Format" href="CMLWInputFile.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,10 +85,10 @@
             
                 <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul>
@@ -198,16 +198,20 @@ The development follows a strictly modular and object-oriented design to make th
 <div class="section" id="contributors">
 <h2>Contributors:<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Mojtaba Haghighatlari (CBE department, SUNY Buffalo)</li>
-<li>Po-Han Chen (CBE department, SUNY Buffalo)</li>
-<li>Johannes Hachmann (CBE department, SUNY Buffalo)</li>
+<li>Mojtaba Haghighatlari, CBE department, SUNY Buffalo</li>
+<li>Po-Han Chen, CBE department, SUNY Buffalo (Docker image)</li>
+<li>Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie wrapper)</li>
+<li>Bhargava Urala, CSE department, SUNY Buffalo (Keras wrapper)</li>
+<li>Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap wrapper)</li>
+<li>Srirangaraj Setlur, CSE department, SUNY Buffalo (Co-PI)</li>
+<li>Johannes Hachmann, CBE department, SUNY Buffalo (PI)</li>
 <li>You can become a developer of ChemML! Feel free to fork and make pull-request to the &#8220;development&#8221; branch.</li>
 </ul>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies:<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. However, using other libraries
-that are available through ChemML wrapper is optional and depends on the client request.</p>
+that are available through ChemML wrapper is optional and depends on the user request.</p>
 </div>
 <div class="section" id="citation">
 <h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
@@ -218,17 +222,14 @@ that are available through ChemML wrapper is optional and depends on the client 
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#cheml">cheml</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html#sklearn">sklearn</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#input-file-structure">Input File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#specific-characters">Specific Characters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#general-rules">General Rules</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
@@ -239,7 +240,6 @@ that are available through ChemML wrapper is optional and depends on the client 
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -247,7 +247,7 @@ that are available through ChemML wrapper is optional and depends on the client 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -266,7 +266,7 @@ that are available through ChemML wrapper is optional and depends on the client 
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWContentsTable.html" class="btn btn-neutral float-right" title="Table of Contents" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWInputFile.html" class="btn btn-neutral float-right" title="Input File Format" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

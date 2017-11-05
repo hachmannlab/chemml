@@ -27,16 +27,20 @@ The package consists of two python frameworks:
 Contributors:
 +++++++++++++
 
-- Mojtaba Haghighatlari (CBE department, SUNY Buffalo)
-- Po-Han Chen (CBE department, SUNY Buffalo)
-- Johannes Hachmann (CBE department, SUNY Buffalo)
+- Mojtaba Haghighatlari, CBE department, SUNY Buffalo
+- Po-Han Chen, CBE department, SUNY Buffalo (Docker image)
+- Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie wrapper)
+- Bhargava Urala, CSE department, SUNY Buffalo (Keras wrapper)
+- Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap wrapper)
+- Srirangaraj Setlur, CSE department, SUNY Buffalo (Co-PI)
+- Johannes Hachmann, CBE department, SUNY Buffalo (PI)
 
 - You can become a developer of ChemML! Feel free to fork and make pull-request to the "development" branch.
 
 Dependencies:
 +++++++++++++
 ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. However, using other libraries
-that are available through ChemML wrapper is optional and depends on the client request.
+that are available through ChemML wrapper is optional and depends on the user request.
 
 Citation:
 +++++++++

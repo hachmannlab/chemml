@@ -87,10 +87,10 @@
             
                 <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul class="current">
@@ -112,7 +112,7 @@
 <li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -208,6 +208,84 @@
 </div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-cheml.initialization"></span><p>The &#8216;cheml.initialization&#8217; module includes ReadTable, Merge, Split, and SaveFile.
+last modified date: Nov. 19, 2015</p>
+<dl class="function">
+<dt id="cheml.initialization.Merge">
+<code class="descclassname">cheml.initialization.</code><code class="descname">Merge</code><span class="sig-paren">(</span><em>X1</em>, <em>X2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>todo: add more functionality for header overlaps
+Merge same length data frames.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X1</strong> &#8211; pandas data frame
+first data frame</li>
+<li><strong>X2</strong> &#8211; pandas data frame
+second data frame</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pandas data frame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.Split">
+<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>split data frame by columns</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> &#8211; integer or list (default = 1)
+integer: number of columns to be selected from the first of data as first data frame (X1)
+list: list of headers to be selected as first data frame (X1)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">two pandas data frame: X1 and X2</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="cheml.initialization.Split.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the split task to the input data frame</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> &#8211; pandas data frame</td>
+</tr>
+</tbody>
+</table>
+<p>original pandas data frame
+:return: two pandas data frame: X1 and X2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.initialization.SaveFile">
+<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Write DataFrame to a comma-seprated values(csv) file
+:param: output_directory: string, the output directory to save output files</p>
+<dl class="method">
+<dt id="cheml.initialization.SaveFile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write DataFrame to a comma-seprated values (csv) file
+:param: X: pandas DataFrame
+:param: main_directory: string, if there is any main directory for entire cheml project
+:return: nothing</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

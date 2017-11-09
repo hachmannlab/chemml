@@ -28,10 +28,10 @@ Contributors:
 +++++++++++++
 
 - Mojtaba Haghighatlari, CBE department, SUNY Buffalo
-- Po-Han Chen, CBE department, SUNY Buffalo (Docker image)
 - Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie wrapper)
 - Bhargava Urala, CSE department, SUNY Buffalo (Keras wrapper)
 - Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap wrapper)
+- Po-Han Chen, CBE department, SUNY Buffalo (Docker image)
 - Srirangaraj Setlur, CSE department, SUNY Buffalo (Co-PI)
 - Johannes Hachmann, CBE department, SUNY Buffalo (PI)
 

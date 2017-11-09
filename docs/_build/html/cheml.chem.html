@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
@@ -95,13 +101,13 @@
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cheml.html#Subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.chem package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-coulmat-module">cheml.chem.CoulMat module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-distmat-module">cheml.chem.DistMat module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-dragon-module">cheml.chem.Dragon module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-chem-rdkfp-module">cheml.chem.RDKFP module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml.chem.CoulMat-module">cheml.chem.CoulMat module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml.chem.DistMat-module">cheml.chem.DistMat module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml.chem.Dragon-module">cheml.chem.Dragon module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cheml.chem.RDKFP-module">cheml.chem.RDKFP module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
@@ -113,7 +119,7 @@
 <li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.html#Module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -128,8 +134,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ChemML</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
       </nav>
 
 
@@ -138,25 +146,42 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
           <li><a href="cheml.html">cheml package</a> &raquo;</li>
-      
-    <li>cheml.chem package</li>
+        
+      <li>cheml.chem package</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/cheml.chem.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -196,36 +221,467 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="cheml-chem-package">
-<h1>cheml.chem package<a class="headerlink" href="#cheml-chem-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml.chem-package">
+<h1>cheml.chem package<a class="headerlink" href="#cheml.chem-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Submodules">
+<h2>Submodules<a class="headerlink" href="#Submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cheml-chem-coulmat-module">
-<h2>cheml.chem.CoulMat module<a class="headerlink" href="#cheml-chem-coulmat-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml.chem.CoulMat-module">
+<h2>cheml.chem.CoulMat module<a class="headerlink" href="#cheml.chem.CoulMat-module" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.chem.CoulMat.CoulombMatrix">
+<em class="property">class </em><code class="descclassname">cheml.chem.CoulMat.</code><code class="descname">CoulombMatrix</code><span class="sig-paren">(</span><em>CMtype='SC'</em>, <em>nPerm=6</em>, <em>const=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>(CoulombMatrix) 
+The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL.</p>
+<dl class="docutils">
+<dt>CMtype: string, optional (default=’SC’)</dt>
+<dd><dl class="first last docutils">
+<dt>Available Coulomb Matrix (CM) representations:</dt>
+<dd><ul class="first last simple">
+<li>‘Eigenspectrum’ or ‘E’</li>
+<li>‘Sorted_Coulomb’ or ‘SC’</li>
+<li>‘Random_Coulomb’ or ‘RC’</li>
+<li>‘BagofBonds’ or ‘BB’</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>nPerm: integer, optional (default = 6)</dt>
+<dd>Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
+type of representation.</dd>
+<dt>const: float, optional (default = 1)</dt>
+<dd>The constant value for coordinates unit conversion to atomic unit
+example: atomic unit -&gt; const=1, Angstrom -&gt; const=0.529
+in action: const/<a href="#id21"><span class="problematic" id="id22">|Ri-Rj|</span></a>, which denominator is the euclidean distance 
+between atoms i and j coordinates</dd>
+</dl>
+<p>data set of Coulomb matrix similarities.</p>
+<dl class="method">
+<dt id="cheml.chem.CoulMat.CoulombMatrix.BagofBonds">
+<code class="descname">BagofBonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.BagofBonds" title="Permalink to this definition">¶</a></dt>
+<dd><p>(BagofBonds)
+The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.</p>
+<p>BBs_matrix : The matrix of bag of bonds for molecules.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.CoulMat.CoulombMatrix.Coulomb_Matrix">
+<code class="descname">Coulomb_Matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.Coulomb_Matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.CoulMat.CoulombMatrix.MolfromFile">
+<code class="descname">MolfromFile</code><span class="sig-paren">(</span><em>molfile, path=None, reader='auto', skip_lines=[2, 0], *arguments</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.CoulMat.CoulombMatrix.MolfromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(MolfromFile)
+Construct molecules from one or more input files.</p>
+<dl class="docutils">
+<dt>molfile: string</dt>
+<dd><p class="first">This is the place you define the file name and path. It can contain 
+any special character in the following list:</p>
+<blockquote>
+<div><ul class="simple">
+<li>: matches everything</li>
+</ul>
+<p>?       : matches any single character
+[seq]   : matches any character in seq
+[!seq]  : matches any character not in seq
+/       : filename seperator</p>
+</div></blockquote>
+<p class="last">The pattern matching is implemented by fnmatch - Unix filename pattern matching.
+Note: The pattern must include the extension at the end. The only acceptable
+extension is ‘.xyz’.</p>
+</dd>
+<dt>path: string, optional (default = None)            </dt>
+<dd>If path is None, this function tries to open the file as a single
+file (without any pattern matching). It is a fixed path to subdirectories 
+or files. Therefore, none of the above special characters except ‘/’ 
+can be used.    
+If not None, it determines the path that this function walk through
+and look for every file that matches the pattern in the file. To start
+walking from the curent directory, the path value should be ‘.’</dd>
+<dt>reader: string, optional (default = ‘auto’)</dt>
+<dd>Available options : ‘auto’ and ‘manual’
+If ‘auto’, the openbabel readstring function creat the molecule object. 
+The type of files for openbabel class has been set to ‘xyz’, thus the format
+of the file has to obey the extension as well. However, with ‘manual’
+reader you can skip some lines from the beginning or end of xyz files.</dd>
+<dt>skip_lines: list of two integers, optional (default = [2,0])</dt>
+<dd>Number of lines to skip (int) at the start and end of the xyz files, respectively. 
+Based on the original xyz format only 2 lines from top and zero from
+bottom of a file can be skipped. Thus, number of atoms in the first line 
+can also be ignored. 
+Only available for ‘manual’ reader.</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>arguments: integer</dt>
+<dd><p class="first">If sequences in the special characters should be a range of integers,
+you can easily pass the start and the end arguments of range as extra 
+arguments. But, notice that:</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>1- In this case remember to replace seq with %s. Then, you should </dt>
+<dd>have [%s] or [!%s] in the file pattern.</dd>
+<dt>2- for each %s you must pass two integers (always an even number </dt>
+<dd>of extra arguments must be passed). Also, the order is important
+and it should be in the same order of ‘%s’s.</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<blockquote>
+<div><p>(1)
+file: ‘Mydir/1f/1_opt.xyz’
+path: None
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.xyz’</p>
+<p>(2)
+file: ‘[1,2,3,4]?/<a href="#id3"><span class="problematic" id="id4">*</span></a>_opt.xyz’
+path: ‘Mydir’
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
+<p>(3)
+file: ‘[!1,2]?/<a href="#id5"><span class="problematic" id="id6">*</span></a>_opt.xyz’
+path: ‘.’
+&gt;&gt;&gt; sample files to be read: ‘./3f/3_opt.xyz’, ‘Mydir/7c/7_opt.xyz’, …</p>
+<p>(4)
+file: ‘<a href="#id7"><span class="problematic" id="id8">*</span></a>[‘f’,’c’]/<a href="#id9"><span class="problematic" id="id10">*</span></a>_opt.xyz’
+path: ‘Mydir’
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
+<p>(5)
+file: ‘[%s]?/[!%s]_opt.xyz’
+path: ‘Mydir/all’
+arguments: 1,4,7,10
+&gt;&gt;&gt; sample files to be read: ‘Mydir/all/1f/1_opt.xyz’, ‘Mydir/all/2c/2_opt.xyz’, …</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="cheml-chem-distmat-module">
-<h2>cheml.chem.DistMat module<a class="headerlink" href="#cheml-chem-distmat-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml.chem.DistMat-module">
+<h2>cheml.chem.DistMat module<a class="headerlink" href="#cheml.chem.DistMat-module" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.chem.DistMat.DistanceMatrix">
+<em class="property">class </em><code class="descclassname">cheml.chem.DistMat.</code><code class="descname">DistanceMatrix</code><span class="sig-paren">(</span><em>norm_type='fro'</em>, <em>nCores=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.DistMat.DistanceMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>(distance_matrix)
+This function finds the distance between rows of data in the input_matrix.
+The distance matrix can later be introduced to a custom kernel function.</p>
+<p>input_matrix: numpy array
+Each element (row) of input_matrix can be a vector, matrix or list of matrices.
+These three types of representation are originally based on possible outpts
+of Coulomb_Matrix function.</p>
+<dl class="docutils">
+<dt>norm_type: string or integer, optional (default = ‘fro’)</dt>
+<dd><p class="first">norm_type defines the type of norm of the difference of two rows of input
+matrix. Here is a list of available norms:</p>
+<blockquote class="last">
+<div><blockquote>
+<div><p>type          norm for matrices               norm for vectors
+—-          —————–               —————-
+‘l2’          Frobenius norm                  l2 norm for vector
+‘l1’          sum(sum(abs(x-y)))              -
+‘nuc’         nuclear norm                    -
+‘inf’         max(sum(abs(x-y), axis=1))      max(abs(x-y))
+‘-inf’        min(sum(abs(x-y), axis=1))      min(abs(x-y))
+0             -                               sum(x!=0)
+1             max(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)
+-1            min(sum(abs(x-y), axis=0))      sum(abs(x)**ord)**(1./ord)
+2             2-norm (largest singular value) sum(abs(x)**ord)**(1./ord)
+-2            smallest singular value         sum(abs(x)**ord)**(1./ord)</p>
+<blockquote>
+<div></div></blockquote>
+<p>‘avg’         avg(sum(d(x,y[l])+d(x[l],y))))
+‘max’         avg(max(d(x,y[l])+d(x[l],y))))</p>
+</div></blockquote>
+<ul class="simple">
+<li>most of these norms are provided by numpy.linalg.norm</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>nCores: integer, optional (default = 1)</dt>
+<dd>number of cores for multiprocessing.</dd>
+</dl>
+<p>distance matrix</p>
+<dl class="method">
+<dt id="cheml.chem.DistMat.DistanceMatrix.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.DistMat.DistanceMatrix.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="cheml-chem-dragon-module">
-<h2>cheml.chem.Dragon module<a class="headerlink" href="#cheml-chem-dragon-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml.chem.Dragon-module">
+<h2>cheml.chem.Dragon module<a class="headerlink" href="#cheml.chem.Dragon-module" title="Permalink to this headline">¶</a></h2>
+<p>Created on 01 March 2016
+&#64;author: Mojtaba Haghighatlari</p>
+<dl class="class">
+<dt id="cheml.chem.Dragon.Dragon">
+<em class="property">class </em><code class="descclassname">cheml.chem.Dragon.</code><code class="descname">Dragon</code><span class="sig-paren">(</span><em>version=6, CheckUpdates=True, SaveLayout=True, PreserveTemporaryProjects=True, ShowWorksheet=False, Decimal_Separator='.', Missing_String='NaN', DefaultMolFormat='1', HelpBrowser='/usr/bin/xdg-open', RejectUnusualValence=False, Add2DHydrogens=False, MaxSRforAllCircuit='19', MaxSR='35', MaxSRDetour='30', MaxAtomWalkPath='2000', LogPathWalk=True, LogEdge=True, Weights=['Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'], SaveOnlyData=False, SaveLabelsOnSeparateFile=False, SaveFormatBlock='%b-%n.txt', SaveFormatSubBlock='%b-%s-%n-%m.txt', SaveExcludeMisVal=False, SaveExcludeAllMisVal=False, SaveExcludeConst=False, SaveExcludeNearConst=False, SaveExcludeStdDev=False, SaveStdDevThreshold='0.0001', SaveExcludeCorrelated=False, SaveCorrThreshold='0.95', SaveExclusionOptionsToVariables=False, SaveExcludeMisMolecules=False, SaveExcludeRejectedMolecules=False, blocks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], molInput='stdin', molInputFormat='SMILES', molFile='* required', SaveStdOut=False, SaveProject=False, SaveProjectFile='Dragon_project.drp', SaveFile=True, SaveType='singlefile', SaveFilePath='Dragon_descriptors.txt', logMode='file', logFile='Dragon_log.txt', external=False, fileName=None, delimiter=',', consecutiveDelimiter=False, MissingValue='NaN', RejectDisconnectedStrucuture=False, RetainBiggestFragment=False, DisconnectedCalculationOption='0', RoundCoordinates=True, RoundWeights=True, RoundDescriptorValues=True, knimemode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.Dragon.Dragon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An interface to Dragon 6 and 7 software.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">version: int, optional (default=7)
+The version of available Dragon on the user’s machine. (available versions 6 or 7)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">Weights: list, optional (default=[“Mass”,”VdWVolume”,”Electronegativity”,”Polarizability”,”Ionization”,”I-State”])
+A list of weights to be used</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">blocks: list, optional (default=False)
+A list of descriptor blocks’ id. For all of them parameter SelectAll=”true” is given. 
+To select descriptors one by one based on descriptor names, use Script Wizard in Drgon GUI.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">external: boolean, optional (default=False)
+If True, include external variables at the end of each saved file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Dragon Script and descriptors.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="cheml.chem.Dragon.Dragon.printout">
+<code class="descname">printout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.Dragon.Dragon.printout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.Dragon.Dragon.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.Dragon.Dragon.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.Dragon.Dragon.script_wizard">
+<code class="descname">script_wizard</code><span class="sig-paren">(</span><em>script='new'</em>, <em>output_directory='./'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.Dragon.Dragon.script_wizard" title="Permalink to this definition">¶</a></dt>
+<dd><p>The script_wizard is designed to build a Dragon script file. The name and
+the functionality of this function is the same as available Script wizard 
+in the Dragon Graphic User Interface.
+Note: All reported nodes are mandatory, except the &lt;EXTERNAL&gt; tag
+Note: Script for version 7 doesn’t support fingerprints block</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">script: string, optional (default=”new”)
+If “new” start with a new script. If you want to load an existing script,
+pass the filename with drs format.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">output_directory: string, optional (default = ‘./’)
+the path to the working directory to store output files.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>:: dragon: xml element</dt>
+<dd>Dragon script in  xml format.</dd>
+<dt>:: drs: string</dt>
+<dd>Dragon script file name</dd>
+<dt>:: data_path: string</dt>
+<dd>The path+name of saved data file in any format. If saveType is ‘block’ 
+or ‘subblock’ data_path is just the path to the directory that all data 
+files have been saved.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">class parameters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="cheml-chem-rdkfp-module">
-<h2>cheml.chem.RDKFP module<a class="headerlink" href="#cheml-chem-rdkfp-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cheml.chem.RDKFP-module">
+<h2>cheml.chem.RDKFP module<a class="headerlink" href="#cheml.chem.RDKFP-module" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cheml.chem.RDKFP.RDKFingerprint">
+<em class="property">class </em><code class="descclassname">cheml.chem.RDKFP.</code><code class="descname">RDKFingerprint</code><span class="sig-paren">(</span><em>removeHs=True</em>, <em>FPtype='Morgan'</em>, <em>vector='bit'</em>, <em>nBits=1024</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.RDKFP.RDKFingerprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An interface to RDKit fingerprints.</p>
+<dl class="docutils">
+<dt>FPtype: string, optional (default=’Morgan’)</dt>
+<dd><dl class="first last docutils">
+<dt>Available fingerprint types:</dt>
+<dd><ul class="first last simple">
+<li>‘Hashed_atom_pair’ or ‘HAP’</li>
+<li>‘Atom_pair’ or ‘AP’</li>
+<li>‘MACCS’</li>
+<li>‘Morgan’</li>
+<li>‘Hashed_topological_torsion’ or ‘HTT’</li>
+<li>‘Topological_torsion’ or ‘TT’</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>vector: string, optional (default = ‘bit’)</dt>
+<dd><dl class="first last docutils">
+<dt>Available options for vector:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>‘int’ <span class="classifier-delimiter">:</span> <span class="classifier">including counts for each bit instead of just zeros and ones</span></dt>
+<dd>It is not available for ‘MACCS’.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>‘bit’ <span class="classifier-delimiter">:</span> <span class="classifier">only zeros and ones</span></dt>
+<dd>It is not available for ‘Topological_torsion’.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>nBits: integer, optional (default = 1024)</dt>
+<dd><p class="first">It sets number of bits in the specific type of fingerprint vectors. 
+Not availble for:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>‘MACCS’ (MACCS keys have a fixed length of 167 bits)</li>
+<li><dl class="first docutils">
+<dt>‘Atom_pair’ (In the Atom_pair we return only those bits that are </dt>
+<dd>non zero for at least one of the molecules. Thus, the size 
+will be significantly less compare to more than 8 million  
+available bits)</dd>
+</dl>
+</li>
+<li>‘Topological_torsion’</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>radius: integer, optional (default = 2)</dt>
+<dd>only availble for ‘Morgan’ fingerprint.</dd>
+<dt>removeHs: boolean, optional (default=True)</dt>
+<dd>If True, remove any hydrogen from the graph of a molecule.</dd>
+</dl>
+<p>data set of fingerprint vectors.</p>
+<dl class="method">
+<dt id="cheml.chem.RDKFP.RDKFingerprint.Fingerprint">
+<code class="descname">Fingerprint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.RDKFP.RDKFingerprint.Fingerprint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.RDKFP.RDKFingerprint.MolfromFile">
+<code class="descname">MolfromFile</code><span class="sig-paren">(</span><em>molfile</em>, <em>path=None</em>, <em>*arguments</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.RDKFP.RDKFingerprint.MolfromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>(MolfromFile)
+Construct molecules from one or more input files.</p>
+<dl class="docutils">
+<dt>molfile: string</dt>
+<dd><p class="first">This is the place you define molecules file name and path. It can contain 
+any special character in the following list:</p>
+<blockquote>
+<div><ul class="simple">
+<li>: matches everything</li>
+</ul>
+<p>?       : matches any single character
+[seq]   : matches any character in seq
+[!seq]  : matches any character not in seq
+/       : filename seperator</p>
+</div></blockquote>
+<p>The pattern matching is implemented by fnmatch - Unix filename pattern matching.
+Note: The pattern must include the extension at the end. A list of available 
+file extensions is provided here:</p>
+<blockquote class="last">
+<div>‘.mol’,’.mol2’  : molecule files 
+‘.pdb’          : protein data bank file
+‘.tpl’          : TPL file
+‘.smi’          : file of one or more lines of Smiles string
+‘.smarts’       : file of one or more lines of Smarts string</div></blockquote>
+</dd>
+<dt>path: string, optional (default = None)            </dt>
+<dd>If path is None, this function tries to open the file as a single
+file (without any pattern matching). Therefore, none of the above 
+special characters except ‘/’ are helpful when they are not part 
+of the file name or path.    
+If not None, it determines the path that this function walk through
+and look for every file that mathes the pattern in the file. To start
+walking from the current directory, the path value should be ‘.’</dd>
+<dt><a href="#id11"><span class="problematic" id="id12">*</span></a>arguments: integer</dt>
+<dd><p class="first">If sequences in the special characters should be a range of integers,
+you can easily pass the start and the end arguments of range as extra 
+arguments. But, notice that:</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>1- In this case remember to replace seq with %s. Then, you should </dt>
+<dd>have [%s] or [!%s] in the file pattern.</dd>
+<dt>2- for each %s you must pass two integers (always an even number </dt>
+<dd>of extra arguments must be passed). Also, the order is important
+and it should be in the same order of ‘%s’s.</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<blockquote>
+<div><p>(1)
+file: ‘Mydir/1f/1_opt.smi’
+path: None
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.smi’</p>
+<p>(2)
+file: ‘[1,2,3,4]?/<a href="#id13"><span class="problematic" id="id14">*</span></a>_opt.mol’
+path: ‘Mydir’
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.mol’, ‘Mydir/2c/2_opt.mol’, …</p>
+<p>(3)
+file: ‘[!1,2]?/<a href="#id15"><span class="problematic" id="id16">*</span></a>_opt.pdb’
+path: ‘.’
+&gt;&gt;&gt; sample files to be read: ‘./3f/3_opt.pdb’, ‘Mydir/7c/7_opt.pdb’, …</p>
+<p>(4)
+file: ‘<a href="#id17"><span class="problematic" id="id18">*</span></a>[‘f’,’c’]/<a href="#id19"><span class="problematic" id="id20">*</span></a>_opt.tpl’
+path: ‘Mydir’
+&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.tpl’, ‘Mydir/2c/2_opt.tpl’, …</p>
+<p>(5)
+file: ‘[%s]?/[!%s]_opt.mol2’
+arguments: 1,4,7,10
+path: ‘Mydir/all’
+&gt;&gt;&gt; sample files to be read: ‘Mydir/all/1f/1_opt.mol2’, ‘Mydir/all/2c/2_opt.mol2’, …</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.chem.RDKFP.RDKFingerprint.Similarity">
+<code class="descname">Similarity</code><span class="sig-paren">(</span><em>data=None</em>, <em>metric='Euclidean'</em>, <em>nCores=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.chem.RDKFP.RDKFingerprint.Similarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Similarity)
+Calculate molecular similarity matrix, while each row of data is a feature 
+vector of one molecule.</p>
+<dl class="docutils">
+<dt>data: pandas dataframe, optional (default = None)</dt>
+<dd>Each row of data represents corresponding features of one molecule (sample).</dd>
+<dt>metric: string, optional (default = ‘Euclidean’)</dt>
+<dd><p class="first">Similarity metric. Available similarity metrics include Euclidean,
+Tanimoto, Dice, Cosine, Sokal, Russel, Kulczynski, McConnaughey, and Tversky.</p>
+<dl class="last docutils">
+<dt>Note:</dt>
+<dd><p class="first">if data = None, all metrics except ‘Euclidean’ can be used. The 
+Fingerprint function must be called first. Thus, the similarity metrics 
+implemetned by RDKit will be used on calculated fingerprints.</p>
+<p class="last">if a dataframe has been passed for data, the only available metric
+is ‘Euclidean’.</p>
+</dd>
+</dl>
+</dd>
+<dt>nCores: integer, optional (default = 1)</dt>
+<dd>Number of cores for multiprocessing.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.initialization.html" class="btn btn-neutral float-right" title="cheml.initialization package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cheml.initialization.html" class="btn btn-neutral float-right" title="cheml.initialization package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.html" class="btn btn-neutral" title="cheml package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cheml.html" class="btn btn-neutral" title="cheml package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -259,7 +715,8 @@
             VERSION:'1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

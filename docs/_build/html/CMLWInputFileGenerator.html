@@ -138,45 +138,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-</style>
-<div class="section" id="input-file-generator">
+  <div class="section" id="input-file-generator">
 <h1>Input File Generator<a class="headerlink" href="#input-file-generator" title="Permalink to this headline">¶</a></h1>
 <p>The ChemML wrapper&#8217;s graphical user interface (GUI) facilitate the generation of the input files.
 You can run GUI locally in the Jupyter notebook with two lines of python code:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cheml</span> <span class="kn">import</span> <span class="n">wrapperGUI</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cheml</span> <span class="k">import</span> <span class="n">wrapperGUI</span>
 <span class="n">ui</span> <span class="o">=</span> <span class="n">wrapperGUI</span><span class="p">()</span>
 </pre></div>
 </div>

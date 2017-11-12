@@ -2,7 +2,7 @@ import inspect
 
 from cheml.wrappers.database.unhooked import sklearn_db
 
-file = open('skldb.py','w')
+file = open('sklearndb.py','w')
 
 fns = [klass[0] for klass in inspect.getmembers(sklearn_db)]
 extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_types']
@@ -32,7 +32,7 @@ for f in fns:
     block.append(line)
     line = "    function = '%s'"%F.function
     block.append(line)
-    line = "    modules = ('%s','')"%F.host
+    line = "    modules = ('%s','%s')"%(F.modules[0],F.modules[1])
     block.append(line)
     line = "    requirements = (req(0), req(2))"
     block.append(line)
@@ -55,7 +55,7 @@ for f in fns:
         block.append(line)
     line = "    class Outputs:"
     block.append(line)
-    if len(vars(F.Inputs).keys())>2:
+    if len(vars(F.Outputs).keys())>2:
         for item in vars(F.Outputs).keys():
             if item not in ('__module__', '__doc__'):
                 line = '        %s = Output("%s","%s", ('%(item, item,vars(F.Outputs)[item].short_description)
@@ -68,7 +68,7 @@ for f in fns:
         block.append(line)
     line = "    class WParameters:"
     block.append(line)
-    if len(vars(F.Inputs).keys())>2:
+    if len(vars(F.WParameters).keys())>2:
         for item in vars(F.WParameters).keys():
             if item not in ('__module__', '__doc__'):
                 dic = vars(F.WParameters)[item]

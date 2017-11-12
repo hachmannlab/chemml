@@ -1,5 +1,6 @@
 import sklearn_db
 import cheml_db
+import pandas_db
 import inspect
 
 def tshf():
@@ -9,9 +10,13 @@ def tshf():
     """
     # 7 tasks
     tasks = ['Enter', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
+    extras = ['np', '__builtins__', '__doc__', '__file__', '__name__', '__package__', 'mask', 'Input', 'Output',
+              'Parameter', 'req', 'regression_types', 'cv_types']
+
     combination = {task: {} for task in tasks}
     all_classes = [k[1] for k in inspect.getmembers(sklearn_db) if k[0][0:2]!='__']
     all_classes += [k[1] for k in inspect.getmembers(cheml_db) if k[0][0:2]!='__' ]
+    all_classes += [k[1] for k in inspect.getmembers(pandas_db) if k[0][0:2]!='__' ]
     for k in all_classes:
         vk = vars(k)
         if 'task' in vk and 'subtask' in vk:

@@ -1,5 +1,3 @@
-import numpy as np
-import pandas as pd
 from .containers import Input, Output, Parameter, req, regression_types, cv_types
 
 class PyScript(object):

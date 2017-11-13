@@ -1,27 +1,22 @@
 import pandas as pd
 
-from ..base import BASE, LIBRARY
+from ..base import BASE
 
 ##################################################################### 1 Enter Data
 
 # input
 
-class read_table(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {}
-        self.legal_outputs = {'df': None}
-        requirements = ['pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
+class read_table(BASE):
     def fit(self):
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
             df = pd.read_table(**self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
 
         # step5: process
@@ -32,86 +27,79 @@ class read_table(BASE, LIBRARY):
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
 
         # step7: delete all inputs from memory
-        del self.legal_inputs
+        del self.inputs
 
-class read_excel(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {}
-        self.legal_outputs = {'df': None}
-        requirements = ['pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
+class read_excel(BASE):
     def fit(self):
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
             df = pd.read_excel(**self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
 
         # step5: process
         print '(rows, columns): ', df.shape
-        if 'header' in self.parameters and self.parameters['header'] is not None:
-            print 'header: ', df.columns
+        # if 'header' in self.parameters and self.parameters['header'] is not None:
+        #     print 'header: ', df.columns
 
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
 
         # step7: delete all inputs from memory
-        del self.legal_inputs
+        del self.inputs
 
 
 
 # Search
-class corr(BASE, LIBRARY):
-    def legal_IO(self):
-        self.legal_inputs = {'df': None}
-        self.legal_outputs = {'df': None}
-        requirements = ['pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
+class corr(BASE):
     def fit(self):
         # step1: check inputs
-        df, df_info = self.input_check('df', req=True, py_type=pd.DataFrame)
-
+        self.required('df', True)
+        df = self.inputs['df'].value
         # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
             df_out = df.corr(**self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.SuperFunction) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
             raise TypeError(msg)
 
         # step5: process
-        print df_out
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
-            if token == 'df':
-                self.Base.send[(self.iblock, token)] = [df_out, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock+1, self.SuperFunction, token)
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df_out)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
 
         # step7: delete all inputs from memory
-        del self.legal_inputs
+        del self.inputs

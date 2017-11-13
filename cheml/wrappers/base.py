@@ -1,10 +1,12 @@
 import copy
+import warnings
 
 import numpy as np
 import pandas as pd
 
 from .database import sklearn_db
 from .database import cheml_db
+from .database import pandas_db
 
 
 # todo: decorate some of the steps in the wrapeprs. e.g. sending out ouputs by finding all the connected edges in the graph
@@ -32,12 +34,14 @@ class BASE(object):
             self.metadata = getattr(sklearn_db, self.Function)()
         elif self.Host == 'cheml':
             self.metadata = getattr(cheml_db, self.Function)()
+        elif self.Host == 'pandas':
+            self.metadata = getattr(pandas_db, self.Function)()
         self.inputs = {i:copy.deepcopy(vars(self.metadata.Inputs)[i]) for i in vars(self.metadata.Inputs).keys() if
                        i not in ('__module__','__doc__')}
-        self.outputs = {i:copy.deepcopy(vars(self.metadata.Outputs)[i]) for i in vars(self.metadata.Inputs).keys() if
+        self.outputs = {i:copy.deepcopy(vars(self.metadata.Outputs)[i]) for i in vars(self.metadata.Outputs).keys() if
                    i not in ('__module__', '__doc__')}
-        self.wparams = {i:copy.deepcopy(vars(self.metadata.WParameters)[i]) for i in vars(self.metadata.Inputs).keys() if
-                    i not in ('__module__', '__doc__')}
+        # self.wparams = {i:copy.deepcopy(vars(self.metadata.WParameters)[i]) for i in vars(self.metadata.WParameters).keys() if
+        #             i not in ('__module__', '__doc__')}
 
     def Receive(self):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
@@ -87,7 +91,7 @@ class BASE(object):
                 else:
                     msg = "@Task #%i(%s): not allowed to send out empty objects '%s'" % (
                         self.iblock + 1, self.Task, token)
-                    raise NameError(msg)
+                    warnings.warn(msg)
             else:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
@@ -121,13 +125,24 @@ class BASE(object):
 
     def set_value(self,token,value):
         self.outputs[token].fro = (self.iblock,self.Host,self.Function)
-        if str(type(value)) in self.ouputs[token].types or \
-                    len(self.ouputs[token].types)==0:
-            self.ouputs[token].value = value
+        if str(type(value)) in self.outputs[token].types or \
+                    len(self.outputs[token].types)==0:
+            self.outputs[token].value = value
         else:
-            msg = "@Task #%i(%s): The output token '%s' doesn't support the format"  % (
+            msg = "@Task #%i(%s): The output token '%s' doesn't support the type"  % (
                 self.iblock, self.Host, token)
             raise IOError(msg)
+
+    def import_sklearn(self):
+        try:
+            exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+            F = getattr(submodule, self.Function)
+            api = F(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        return api
 
     def _dim_check(self, token, X, ndim):
         if (X.ndim == ndim < 3):

@@ -246,7 +246,7 @@ class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
         self.graph_info = {}
-        self.send = {}      # {(iblock,token):[value,count]}
+        self.send = {}      # {(iblock,token):output class}
         self.requirements = ['pandas']
         self.start_time = time.time()
         self.block_time = 0
@@ -255,7 +255,6 @@ class BASE(object):
         self.InputScript = ''
         self.output_directory = '.'
         self.log = []
-
 
 class Wrapper(LIBRARY):
     """

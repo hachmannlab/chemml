@@ -49,7 +49,6 @@ class OneHotEncoder(BASE):
             self.outputs['df'].value = df
 
 
-
 # basic oprator
 
 class Imputer(BASE):
@@ -289,7 +288,10 @@ class GridSearchCV(BASE):
         # step6: send
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
-            if token == 'best_estimator_':
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'best_estimator_':
                 if self.parameters['refit']==True:
                     best_estimator_ = copy.deepcopy(api.best_estimator_)
                 else:
@@ -307,9 +309,6 @@ class GridSearchCV(BASE):
                 self.set_value('api',api)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            else:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
 
         # step7: delete inputs
         del self.inputs

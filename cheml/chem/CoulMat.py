@@ -1,9 +1,7 @@
 import pandas as pd
 import numpy as np
-import os
-import fnmatch
 import sys
-import scipy
+# import scipy
 
 
 def _add_range(file,start_end):
@@ -36,149 +34,39 @@ def _file_reader(reader, filename, skip_lines):
             molecule.append([Z[atom[0]], float(atom[1]), float(atom[2]), float(atom[3])])
         return np.array(molecule)
 
-class CoulombMatrix(object):
+class Coulomb_Matrix(object):
     """ (CoulombMatrix) 
-    The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL.
-    
+    The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL (3 different representations).
+
     Parameters
     ----------
     CMtype: string, optional (default='SC')
-        Available Coulomb Matrix (CM) representations:
+        The coulomb matrix type, one of the following types:
             * 'Eigenspectrum' or 'E' 
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
-            * 'BagofBonds' or 'BB'
-    
-    nPerm: integer, optional (default = 6)
+    max_n_atoms: integer or 'auto', optional (default = 'auto')
+        maximum number of atoms in a molecule. if 'auto' we find it based on the input molecules.
+
+    nPerm: integer, optional (default = 3)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
-        type of representation. 
+        type of representation.
 
     const: float, optional (default = 1)
             The constant value for coordinates unit conversion to atomic unit
             example: atomic unit -> const=1, Angstrom -> const=0.529
-            in action: const/|Ri-Rj|, which denominator is the euclidean distance 
-            between atoms i and j coordinates
- 
-    Returns
-    -------
-    data set of Coulomb matrix similarities.
-    """
-    def __init__(self, CMtype='SC', nPerm=6, const=1 ):
+            const/|Ri-Rj|, which denominator is the euclidean distance
+            between atoms i and j
+
+     """
+    def __init__(self, molecules, CMtype='SC', max_n_atoms = 'auto', nPerm=3, const=1):
+        self.molecules = molecules
         self.CMtype = CMtype
+        self.max_n_atoms = max_n_atoms
         self.nPerm = nPerm
         self.const = const
-        
-    def MolfromFile(self, molfile, path=None, reader = 'auto', skip_lines=[2,0], *arguments):
-        """ (MolfromFile)
-        Construct molecules from one or more input files.
-        
-        Parameters
-        ----------
-        molfile: string
-            This is the place you define the file name and path. It can contain 
-            any special character in the following list:
-            
-                *       : matches everything
-                ?       : matches any single character
-                [seq]   : matches any character in seq
-                [!seq]  : matches any character not in seq
-                /       : filename seperator
 
-            The pattern matching is implemented by fnmatch - Unix filename pattern matching.
-            Note: The pattern must include the extension at the end. The only acceptable
-            extension is '.xyz'.
-
-        path: string, optional (default = None)            
-            If path is None, this function tries to open the file as a single
-            file (without any pattern matching). It is a fixed path to subdirectories 
-            or files. Therefore, none of the above special characters except '/' 
-            can be used.    
-            If not None, it determines the path that this function walk through
-            and look for every file that matches the pattern in the file. To start
-            walking from the curent directory, the path value should be '.'
-
-        reader: string, optional (default = 'auto')
-            Available options : 'auto' and 'manual'
-            If 'auto', the openbabel readstring function creat the molecule object. 
-            The type of files for openbabel class has been set to 'xyz', thus the format
-            of the file has to obey the extension as well. However, with 'manual'
-            reader you can skip some lines from the beginning or end of xyz files.
-            
-        skip_lines: list of two integers, optional (default = [2,0])
-            Number of lines to skip (int) at the start and end of the xyz files, respectively. 
-            Based on the original xyz format only 2 lines from top and zero from
-            bottom of a file can be skipped. Thus, number of atoms in the first line 
-            can also be ignored. 
-            Only available for 'manual' reader. 
-            
-        *arguments: integer
-            If sequences in the special characters should be a range of integers,
-            you can easily pass the start and the end arguments of range as extra 
-            arguments. But, notice that:
-                1- In this case remember to replace seq with %s. Then, you should 
-                   have [%s] or [!%s] in the file pattern.
-                2- for each %s you must pass two integers (always an even number 
-                    of extra arguments must be passed). Also, the order is important
-                    and it should be in the same order of '%s's. 
-            
-        examples
-        --------
-            (1)
-            file: 'Mydir/1f/1_opt.xyz'
-            path: None
-            >>> sample files to be read: 'Mydir/1f/1_opt.xyz' 
-            
-            (2)
-            file: '[1,2,3,4]?/*_opt.xyz'
-            path: 'Mydir'
-            >>> sample files to be read: 'Mydir/1f/1_opt.xyz', 'Mydir/2c/2_opt.xyz', ... 
-            
-            (3)
-            file: '[!1,2]?/*_opt.xyz'
-            path: '.'
-            >>> sample files to be read: './3f/3_opt.xyz', 'Mydir/7c/7_opt.xyz', ... 
-
-            (4)
-            file: '*['f','c']/*_opt.xyz'
-            path: 'Mydir'
-            >>> sample files to be read: 'Mydir/1f/1_opt.xyz', 'Mydir/2c/2_opt.xyz', ... 
-
-            (5)
-            file: '[%s]?/[!%s]_opt.xyz'
-            path: 'Mydir/all'
-            arguments: 1,4,7,10
-            >>> sample files to be read: 'Mydir/all/1f/1_opt.xyz', 'Mydir/all/2c/2_opt.xyz', ... 
-        """
-        file_name, file_extension = os.path.splitext(molfile)
-        if file_extension == '':
-            msg = 'file extension not determined'
-            raise ValueError(msg)
-        elif file_extension!='xyz':
-            msg = "file extension '%s' not available"%file_extension
-            raise ValueError(msg)
-        start_end = [arg for arg in arguments]
-        if len(start_end) != file_name.count('%s')*2:
-            msg = "pass an even number of integers: 2 for each '%s'"
-            raise ValueError(msg)        
-        
-        if path and '%s' in molfile:
-            molfile = _add_range(molfile,start_end)
-        
-        self.molecules = []
-        self.max_nAtoms = 1
-        if path:
-            for root, directories, filenames in os.walk(path):
-                file_path = [os.path.join(root, filename) for filename in filenames]
-                for fn in fnmatch.filter(file_path, os.path.join(path, molfile)):
-                    mol = _file_reader(reader, fn, skip_lines)
-                    self.max_nAtoms = max(self.max_nAtoms, len(mol))
-                    self.molecules.append(mol)
-        else:
-            mol = _file_reader(reader, file_name, skip_lines)
-            self.max_nAtoms = max(self.max_nAtoms, len(mol))
-            self.molecules.append(mol)
-            
-    def _cal_coul_mat(self, mol):
+    def __cal_coul_mat(self, mol):
         cm = []
         for i in xrange(len(mol)):
             vect = []
@@ -189,80 +77,156 @@ class CoulombMatrix(object):
                     vect.append(0.5*mol[i,0]**2.4)
                 else:
                     vect.append((mol[i,0]*mol[j,0]*self.const)/np.linalg.norm(mol[i,1:]-mol[j,1:]))
-            for m in range(len(mol),self.max_nAtoms):
+            for m in range(len(mol),self.max_n_atoms):
                 vect.append(0.0)
             cm.append(vect)
-        for m in range(len(mol),self.max_nAtoms):
-            cm.append([0]*self.max_nAtoms)
-        return np.array(cm)
-    
-    def Coulomb_Matrix(self):
+        for m in range(len(mol),self.max_n_atoms):
+            cm.append([0]*self.max_n_atoms)
+        return np.array(cm) #shape nAtoms*nAtoms
+
+    def represent(self, molecules):
+        """
+        provides coulomb matrix representation for input molecules.
+
+        :param molecules: dictionary or numpy array
+            if dictionary: output of cheml.initialization.XYZreader
+            if numpy array: array of molecules, which each molecule is an array with shape (number of atoms, 4).
+            The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
+
+        :return: pandas DataFrame
+            shape of eigenspectrums (E): (n_molecules, max_n_atoms)
+            shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
+            shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)
+
+        """
+        if isinstance(molecules, dict):
+            molecules = np.array([molecules[i]['mol'] for i in molecules])
+        elif isinstance(molecules, pd.DataFrame):
+            molecules = molecules.values
+        if self.max_n_atoms == 'auto':
+            self.max_n_atoms = max([len(m) for m in molecules])
+
         if self.CMtype == 'Eigenspectrum' or self.CMtype == 'E':
             eigenspectrum = []
-            for mol in self.molecules:
-                cm = self._cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
+            for mol in molecules:
+                cm = self.__cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
                 eigenspectrum.append(np.linalg.eigvals(cm).sort()[::-1])
-            return np.array(eigenspectrum)
+            return pd.DataFrame(eigenspectrum)
             
         elif self.CMtype == 'Sorted_Coulomb' or self.CMtype == 'SC':
             sorted_cm = []
-            for mol in self.molecules:
-                cm = self._cal_coul_mat(mol)
+            for mol in molecules:
+                cm = self.__cal_coul_mat(mol)
                 lambdas = [np.linalg.norm(atom) for atom in cm]
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
-                sorted_cm.append(cm)
-            return np.array(sorted_cm)    
+                # sorted_cm.append(cm)
+                sorted_cm.append(cm[np.triu_indices(self.max_n_atoms)])
+            sorted_cm = pd.DataFrame(sorted_cm)
+            return sorted_cm
                     
         elif self.CMtype == 'Random_Coulomb' or self.CMtype == 'RC':
             random_cm = []
-            for nmol,mol in enumerate(self.molecules):
-                cm = self._cal_coul_mat(mol)
+            for nmol,mol in enumerate(molecules):
+                cm = self.__cal_coul_mat(mol)
                 lambdas = np.array([np.linalg.norm(atom) for atom in cm])
                 sort_indices = np.argsort(lambdas)
                 cm = cm[:,sort_indices][sort_indices,:]
                 cm_perms = []
                 for l in range(self.nPerm):
-                    mask = np.random.permutation(self.max_nAtoms)
-                    cm_perms.append(cm[:,mask][mask,:])
+                    mask = np.random.permutation(self.max_n_atoms)
+                    cm_mask = cm[:,mask][mask,:]
+                    # cm_perms.append(cm_mask)
+                    cm_perms += list(cm_mask[np.triu_indices(self.max_n_atoms)])
                 random_cm.append(np.array(cm_perms))
-            return  np.array(random_cm)
-        elif self.CMtype == 'BagofBonds' or self.CMtype == 'BB':
-            return self.BagofBonds()
+            return pd.DataFrame(random_cm)
 
-    def BagofBonds(self):
-        """ (BagofBonds)
-        The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.
-                
-        Returns
-        -------
-        BBs_matrix : The matrix of bag of bonds for molecules.
-        
+class Bag_of_Bonds(object):
+    """ (Bag_of_Bonds)
+    The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.
+
+    Parameters
+    ----------
+    const: float, optional (default = 1)
+            The constant value for coordinates unit conversion to atomic unit
+            if const=1, returns atomic unit
+            if const=0.529, returns Angstrom
+
+            const/|Ri-Rj|, which denominator is the euclidean distance
+            between atoms i and j
+
+    Attributes
+    ----------
+    headers: list of headers for the bag of bonds data frame
+        contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)
+    """
+    def __init__(self, const=1):
+        self.const = const
+
+    def represent(self, molecules):
         """
-        BBs_matrix = []
-        keys = []
-        for m,mol in enumerate(self.molecules):
-            bags = [[] for i in range(len(keys))]
+        provides bag og bonds representation for input molecules.
+
+        :param molecules: dictionary or numpy array
+            if dictionary: output of cheml.initialization.XYZreader
+            if numpy array: array of molecules, which each molecule is an array with shape (number of atoms, 4).
+            The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
+
+        :return: pandas data frame
+            shape of bag of bonds: (n_molecules, cumulative_length_of_combinations)
+
+        """
+        if isinstance(molecules, dict):
+            molecules = np.array([molecules[i]['mol'] for i in molecules])
+        elif isinstance(molecules, pd.DataFrame):
+            molecules = molecules.values
+
+
+        BBs_matrix = [] # list of dictionaries for each molecule
+        all_keys = {}   # dictionary of unique keys and their maximum length
+        for nmol,mol in enumerate(molecules):
+            bags = {}
             for i in xrange(len(mol)):
                 for j in xrange(i,len(mol)):
                     if i==j:
-                        key = mol[i,0]*1000+mol[i,0]
-                        Fc = 0.5*mol[i,0]**2.4
+                        key = (mol[i,0], mol[i,0])
+                        Fc = 0.5 * mol[i, 0] ** 2.4
+                        if key in bags:
+                            bags[key].append(Fc)
+                        else:
+                            bags[key] = [Fc]
                     else:
-                        key = max(mol[i,0],mol[j,0])*1000 + min(mol[i,0],mol[j,0])
+                        key = (max(mol[i,0],mol[j,0]),min(mol[i,0],mol[j,0]))
                         Fc = (mol[i,0]*mol[j,0]*self.const) / np.linalg.norm(mol[i,1:]-mol[j,1:])
-                    if key not in keys:
-                        keys.append(key)
-                        bags.append([Fc])
-                        for k in xrange(m):
-                            BBs_matrix[k].append([])
-                    else:
-                        bags[keys.index(key)].append(Fc)
+                        if key in bags:
+                            bags[key].append(Fc)
+                        else:
+                            bags[key] = [Fc]
+            for key in bags:
+                if key in all_keys:
+                    all_keys[key] = max(all_keys[key], len(bags[key]))
+                else:
+                    all_keys[key] = len(bags[key])
             BBs_matrix.append(bags)
-        max_len_bags = [max(len(bag) for bag in col) for col in zip(*BBs_matrix)]
-        for i,bags in enumerate(all_molecules):
-            bagofbags = []
-            for j,bag in enumerate(bags):
-                bagofbags += sorted(bag, reverse=True) + [0.0]*abs(len(bag)-max_len_bags[j])
-            BBs_matrix[i] = bagofbags
-        return BBs_matrix            
+
+        # extend bags with zero
+        for i, bags in enumerate(BBs_matrix):
+            for key in all_keys:
+                if key in bags:
+                    diff = all_keys[key] - len(bags[key])
+                    BBs_matrix[i][key] = sorted(BBs_matrix[i][key], reverse=True) + diff*[0]
+                else:
+                    BBs_matrix[i][key] = all_keys[key]*[0]
+        df = pd.DataFrame(BBs_matrix)
+        del BBs_matrix
+        order_headers = list(df.columns)
+        output = pd.DataFrame(list(df.sum(1)))
+        del df
+        self.headers = []
+        for key in order_headers:
+            if key[0]==key[1]:
+                k = key[0]
+            else:
+                k = key
+            self.headers += all_keys[key] * [k]
+        return output

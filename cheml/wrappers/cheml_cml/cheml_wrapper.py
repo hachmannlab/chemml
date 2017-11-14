@@ -6,6 +6,34 @@ from ..base import BASE
 
 ##################################################################### 2 Prepare Data
 
+# Enter
+
+class XYZreader(BASE):
+    def fit(self):
+        try:
+            from cheml.initialization import XYZreader
+            model = XYZreader(**self.parameters)
+            molecules = model.read()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'molecules':
+                self.set_value(token, molecules)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            # elif token == 'max_n_atoms':
+            #     self.set_value(token, model.max_n_atoms)
+            #     self.outputs[token].count = order.count(token)
+            #     self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+
 # Script
 
 class PyScript(BASE):
@@ -146,34 +174,15 @@ class Dragon(BASE):
         os.remove(model.output_directory + self.parameters['SaveFilePath'])
         del self.inputs
 
-class CoulombMatrix(BASE):
+class Coulomb_Matrix(BASE):
     def fit(self):
         self.paramFROMinput()
-        if 'molfile' in self.parameters:
-            molfile = self.parameters.pop('molfile')
-        else:
-            msg = "@Task #%i(%s): parameter molfile is required" % (self.iblock + 1, self.Task)
-            raise NameError(msg)
-        if 'path' in self.parameters:
-            path = self.parameters.pop('path')
-        else:
-            path = None
-        if 'reader' in self.parameters:
-            reader = self.parameters.pop('reader')
-        else:
-            reader = 'auto'
-        if 'skip_lines' in self.parameters:
-            skip_lines = self.parameters.pop('skip_lines')
-        else:
-            skip_lines = [2,0]
-        if 'arguments' in self.parameters:
-            arguments = self.parameters.pop('arguments')
-        else:
-            arguments = []
+        self.required('molecules', req=True)
+        molecules = self.inputs['molecules'].value
         try:
-            from cheml.chem import CoulombMatrix
-            model = CoulombMatrix(**self.parameters)
-            model.MolfromFile(molfile, path, reader, skip_lines,*arguments)
+            from cheml.chem import Coulomb_Matrix
+            model = Coulomb_Matrix(**self.parameters)
+            df = model.represent(molecules)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
@@ -183,10 +192,38 @@ class CoulombMatrix(BASE):
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
             elif token == 'df':
-                df = pd.DataFrame(model.Coulomb_Matrix())
                 self.set_value(token, df)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class Bag_of_Bonds(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('molecules', req=True)
+        molecules = self.inputs['molecules'].value
+        try:
+            from cheml.chem import Bag_of_Bonds
+            model = Coulomb_Matrix(**self.parameters)
+            df = model.represent(molecules)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            # elif token == 'headers':
+            #     self.set_value(token, model.headers)
+            #     self.outputs[token].count = order.count(token)
+            #     self.Base.send[(self.iblock, token)] = self.outputs[token]
+
         del self.inputs
 
 class DistanceMatrix(BASE):

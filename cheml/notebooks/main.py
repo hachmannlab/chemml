@@ -6,12 +6,11 @@ from graphviz import Digraph
 import copy
 import os
 
-# from ..wrappers.database import sklearn_db, cheml_db
-# from ..wrappers.database.TSHF import tshf
-# from ..utils import isint
+from ..wrappers.database import sklearn_db, cheml_db, pandas_db
+from ..wrappers.database.TSHF import tshf
+from ..utils import isint
 
 ##########################################################
-# Todo: custom function info on top
 # Todo: bring back receivers - no need another recursive function for bidR; (currentbids - bidS = bidR)
 # Todo: profile the cpu/clock time
 
@@ -80,9 +79,18 @@ class wrapperGUI(object):
         return filename
 
     def configurer(self):
+        def value(string):
+            try:
+                val =  eval(string)
+                if isinstance(val,str):
+                    val = '"' + val + '"'
+                return val
+            except NameError:
+                return '"' + string + '"'
+
         tab = '    '
         lines = []
-        uids = {}
+        uids = {}   #comp_graph : unique ids
         for i in range(len(self.comp_graph)):
             uids[self.comp_graph[i]] = i
         for ib in self.pages:
@@ -125,8 +133,8 @@ class wrapperGUI(object):
         )
         def on_selectT1_clicked(b):
             # template1.txt is a cheml wrapper config file
-            script = open('templates/template1.txt','r')
-            script = script.readlines()
+            from .templates import template1
+            script = template1()
             old = [i for i in self.pages]
             try:
                 self.parser(script)
@@ -160,7 +168,7 @@ class wrapperGUI(object):
             self.output_directory = outdir.value
             self.add_page()
 
-        t1 = widgets.Label(value="Template 1: check this paper for more information", layout=widgets.Layout(width='70%'))
+        t1 = widgets.Label(value="Template 1: read XYZ files --> generate Coulomb_Matrix --> store output", layout=widgets.Layout(width='70%'))
         selectT1 = widgets.Button(description="Select")
         selectT1.style.button_color = 'lightblue'
         selectT1.on_click(on_selectT1_clicked)
@@ -191,6 +199,21 @@ class wrapperGUI(object):
     def home_page_widgets(self):
         def on_selectN_clicked(b):
             self.output_directory = outdir.value
+            rm = [i for i in self.pages if i not in [0,1]]
+            for j in rm:
+                del self.pages[j]
+            self.comp_graph = []
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            # dot = Digraph(format='png')
+            # for edge in self.comp_graph:
+            #     dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+            #     dot.node('%i' % edge[2], label='%i %s' % (edge[2],self.pages[edge[2]].title))
+            #     dot.edge('%i' % edge[0], '%i'%edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            # self.graph = widgets.Image(value=dot.pipe(),format='png')
+            # display(self.graph)
+
             self.add_page()
 
         def on_selectE_clicked(b):
@@ -253,8 +276,7 @@ class wrapperGUI(object):
                 print "... Not saved!"
                 save.icon = 'remove'
 
-
-        header = widgets.Label(value='Choose how to start ...', layout=widgets.Layout(width='50%'))
+        header = widgets.Label(value='Choose how to start:', layout=widgets.Layout(width='50%'))
         # Tab: new script
         style = {'description_width': 'initial'}
         outdir = widgets.Text(
@@ -270,13 +292,13 @@ class wrapperGUI(object):
         selectN.on_click(on_selectN_clicked)
 
         line = widgets.HBox([],layout=widgets.Layout(height='0px', border='dotted black 1px',margin='20px 0px 0px 0px'))
-        note = widgets.HTML(value="<b>Note:</b> When you are finished, you can print the ChemML Wrapper's configuration script here or save it as a file:",
+        note = widgets.HTML(value="<b>Note:</b> Don't forget to print/save the ChemML Wrapper's input file (configuration script) when you are done with editing:",
                             layout=widgets.Layout(margin='10px 0px 0px 0px'))
-        show = widgets.Button(description="Show Script", layout=widgets.Layout(width= "120px",margin='10px 0px 0px 0px'))
+        show = widgets.Button(description="Print Script", layout=widgets.Layout(width= "120px",margin='10px 0px 0px 0px'))
         show.style.button_color = 'lightblue'
         show.on_click(on_show_clicked)
         txt = widgets.Textarea(
-            placeholder="Press the 'Show Script' button to print the ChemML Wrapper's configuration script here. Copy and save it for the future use.",
+            placeholder="Press the 'Print Script' button to print the ChemML Wrapper's configuration script here. Copy and save it for the future use.",
             disabled=False,
             layout=widgets.Layout(width='100%',margin='0px 0px 0px 10px'))
         hbox1 = widgets.HBox([show,txt],layout=widgets.Layout(margin='10px 0px 0px 0px',align_items='center', justify_content = 'center'))
@@ -295,7 +317,7 @@ class wrapperGUI(object):
             layout=widgets.Layout(margin='20px 0px 0px 20px'))
         hbox2 = widgets.HBox([save, filename],layout=widgets.Layout(margin='10px 0px 0px 0px',align_items='center', justify_content = 'center'))
 
-        vboxN = widgets.VBox([headerN,outdir,selectN,line,note,hbox1, hbox2])
+        vboxN = widgets.VBox([headerN,outdir,selectN])
         # Tab: existing script
         headerE = widgets.Label(value='Load an existing script', layout=widgets.Layout(width='50%'))
         txtarea = widgets.Textarea(
@@ -315,7 +337,7 @@ class wrapperGUI(object):
         tabs.set_title(1, 'Existing script')
         tabs.set_title(2, 'Template workflow')
 
-        self.home_page_VBox = widgets.VBox([header, tabs])
+        self.home_page_VBox = widgets.VBox([header, tabs,line,note,hbox1, hbox2])
 
     def home_page(self):
         id = 0
@@ -368,7 +390,7 @@ class wrapperGUI(object):
             _func_update()
 
         header = widgets.Label(value='Choose a method:', layout=widgets.Layout(width='50%'))
-        task_options = self.tasks[1:3]
+        task_options = self.tasks[0:4] + [self.tasks[6]]
         task_w = widgets.Dropdown(
             options=task_options,
             value=task_options[0],
@@ -413,6 +435,8 @@ class wrapperGUI(object):
             metadata = getattr(sklearn_db, function)()
         elif host == 'cheml':
             metadata = getattr(cheml_db, function)()
+        elif host == 'pandas':
+            metadata = getattr(pandas_db, function)()
         wparams = {i:copy.deepcopy(vars(metadata.WParameters)[i]) for i in vars(metadata.WParameters).keys() if
                      i not in ('__module__', '__doc__')}
         fparams = {i:copy.deepcopy(vars(metadata.FParameters)[i]) for i in vars(metadata.FParameters).keys() if
@@ -730,12 +754,14 @@ class wrapperGUI(object):
         wparams = self.pages[self.current_bid].block_params['wparams']
         wparams_boxes = []
         for item in wparams:
+            style = {'description_width': 'initial'}
             wp = widgets.Text(
                 value=str(wparams[item].default),
                 placeholder=str(wparams[item].options),
                 description=wparams[item].name,
                 disabled=False,
-                layout = widgets.Layout(width='40%'))
+                style = style,
+                layout = widgets.Layout(width='60%'))
             wparams[item].widget = wp
             # wp.observe(handle_param_change, names='value')
             wformat = widgets.Text(
@@ -820,10 +846,25 @@ class wrapperGUI(object):
 
             self.add_page()
 
-        # initialize
+        # initialize, only if fparams, inputs and ouputs are empty
         if len(self.pages[self.current_bid].block_params['fparams']) == len(self.pages[self.current_bid].block_params['inputs']) ==\
                 len(self.pages[self.current_bid].block_params['outputs']) == 0:
             self.set_default_params_IO()
+        # info
+        t = self.pages[self.current_bid].block_params['task']
+        s = self.pages[self.current_bid].block_params['subtask']
+        h = self.pages[self.current_bid].block_params['host']
+        f = self.pages[self.current_bid].block_params['function']
+        tshfTB = widgets.ToggleButtons(
+            options=[t, s, h, f],
+            disabled=False,
+            button_style='info',  # 'success', 'info', 'warning', 'danger' or ''
+            layout=widgets.Layout(margin='0px 0px 0px 180px'))
+        reqL = widgets.HTML(value="<b>Requirements:  </b>"+str(self.pages[self.current_bid].block_params['requirements']),
+                            layout=widgets.Layout(width='100%'))
+        docL = widgets.HTML(value="<b>Documentation: </b>"+self.pages[self.current_bid].block_params['documentation'],
+                            layout=widgets.Layout(width='100%'))
+
         # parameters widgets
         params_vbox = self.custom_function_params_w()
 
@@ -840,7 +881,7 @@ class wrapperGUI(object):
         custom_f_accordion.set_title(1, 'Input/Output')
         # custom_f_accordion.selected_index = 0
 
-        custom_f_vbox = widgets.VBox([custom_f_accordion, removeB],
+        custom_f_vbox = widgets.VBox([tshfTB, reqL, docL, custom_f_accordion, removeB],
                                      layout=widgets.Layout(justify_content='center', align_content='center'))
 
         return custom_f_vbox
@@ -1003,9 +1044,6 @@ class wrapperGUI(object):
         # make graph
         reformat_send = {k[1]:[v,k[0]] for k,v in send_all}
         self.comp_graph += [tuple(reformat_send[k[1]]+[v,k[0]]) for k,v in recv_all]
-
-
-gui = wrapperGUI()
 
 
 # examples for dictionaries' fomrat:

@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Input File Format</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-structure">Input File Structure</a></li>
@@ -111,8 +117,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ChemML</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
       </nav>
 
 
@@ -121,23 +129,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Input File Format</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Input File Format</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/CMLWInputFile.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -162,11 +187,11 @@ scratch with any text editor. As the input file could be quite complex, it is st
 <dl class="docutils">
 <dt>Here is a list of 7 available tasks in the ChemML Wrapper:</dt>
 <dd><ul class="first last simple">
-<li>Enter Data</li>
-<li>Prepare Data</li>
-<li>Define Model</li>
-<li>Define Search</li>
-<li>Explore</li>
+<li>Enter</li>
+<li>Prepare</li>
+<li>Model</li>
+<li>Search</li>
+<li>Mix</li>
 <li>Visualize</li>
 <li>Store</li>
 </ul>
@@ -192,7 +217,7 @@ in the workflow and single pound sign (#) put the entire block out.</p>
 <dt>Less-than sign (&lt;)</dt>
 <dd><p class="first">Less-than sign (&lt;) should be used for identifying parameters in the block. A parameter name comes right after this sign.
 A Double less-than sign (&lt;&lt;) keeps a parameter in the block and single less-than sign (&lt;) ignore the assigned value to that
-parameter. If you are going to ignore a parameter value make sure it&#8217;s not a required  parameter or at least have a default
+parameter. If you are going to ignore a parameter value make sure it’s not a required  parameter or at least have a default
 value.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
@@ -260,8 +285,8 @@ and should be followed by one of the input tokens (e.g. parameter = &#64;df).</p
 <p>Be aware of some general restrictions:</p>
 <blockquote>
 <div><ul class="simple">
-<li>You are not allowed to have two different specific charecters in one line of input file (except &#8216;=&#8217; and &#8216;&#64;&#8217; signs).</li>
-<li>The input tokens and output tokens for each block may be similar but they don&#8217;t have to have similar values.</li>
+<li>You are not allowed to have two different specific charecters in one line of input file (except ‘=’ and ‘&#64;’ signs).</li>
+<li>The input tokens and output tokens for each block may be similar but they don’t have to have similar values.</li>
 <li>Only one input per legal input token can be received.</li>
 <li>You are allowed to receive one sent token in several blocks.</li>
 <li>Avoid any type of short loop. A short loop will be made when inputs of any block_i are going to be received from one or a set of blocks that they also require the outputs from block_i.</li>
@@ -273,15 +298,18 @@ and should be followed by one of the input tokens (e.g. parameter = &#64;df).</p
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="CMLWInputFileGenerator.html" class="btn btn-neutral float-right" title="Input File Generator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CMLWInputFileGenerator.html" class="btn btn-neutral float-right" title="Input File Generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to the ChemML’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to the ChemML’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -315,7 +343,8 @@ and should be followed by one of the input tokens (e.g. parameter = &#64;df).</p
             VERSION:'1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

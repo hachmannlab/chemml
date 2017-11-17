@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
@@ -107,7 +113,9 @@
 <li class="toctree-l3"><a class="reference internal" href="cheml.nn.html">cheml.nn package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.trash_smallapps.html">cheml.trash_smallapps package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.wrappers.html">cheml.wrappers package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
@@ -125,8 +133,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ChemML</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
       </nav>
 
 
@@ -135,25 +145,42 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
           <li><a href="cheml.html">cheml package</a> &raquo;</li>
-      
-    <li>cheml.initialization package</li>
+        
+      <li>cheml.initialization package</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/cheml.initialization.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -172,7 +199,7 @@
 </div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-cheml.initialization"></span><p>The &#8216;cheml.initialization&#8217; module includes ReadTable, Merge, Split, and SaveFile.
+<span class="target" id="module-cheml.initialization"></span><p>The ‘cheml.initialization’ module includes ReadTable, Merge, Split, and SaveFile.
 last modified date: Nov. 19, 2015</p>
 <dl class="function">
 <dt id="cheml.initialization.Merge">
@@ -184,9 +211,9 @@ Merge same length data frames.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X1</strong> &#8211; pandas data frame
+<li><strong>X1</strong> – pandas data frame
 first data frame</li>
-<li><strong>X2</strong> &#8211; pandas data frame
+<li><strong>X2</strong> – pandas data frame
 second data frame</li>
 </ul>
 </td>
@@ -207,7 +234,7 @@ second data frame</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> &#8211; integer or list (default = 1)
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>select</strong> – integer or list (default = 1)
 integer: number of columns to be selected from the first of data as first data frame (X1)
 list: list of headers to be selected as first data frame (X1)</td>
 </tr>
@@ -223,7 +250,7 @@ list: list of headers to be selected as first data frame (X1)</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> &#8211; pandas data frame</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – pandas data frame</td>
 </tr>
 </tbody>
 </table>
@@ -255,15 +282,18 @@ list: list of headers to be selected as first data frame (X1)</td>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.nn.html" class="btn btn-neutral float-right" title="cheml.nn package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cheml.nn.html" class="btn btn-neutral float-right" title="cheml.nn package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.chem.html" class="btn btn-neutral" title="cheml.chem package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cheml.chem.html" class="btn btn-neutral" title="cheml.chem package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -297,7 +327,8 @@ list: list of headers to be selected as first data frame (X1)</td>
             VERSION:'1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

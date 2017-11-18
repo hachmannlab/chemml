@@ -41,9 +41,11 @@ class PyScript(BASE):
         # step1: check inputs
         inputs = [token for token in self.inputs if self.inputs[token].value is not None]
         for token in inputs:
-            exec("%s = self.inputs['%s'].value"%(token,token))
+            code = compile("%s = self.inputs['%s'].value"%(token,token), "<string>", "exec")
+            exec code
         for line in sorted(self.parameters.keys()):
-            exec(self.parameters[line])
+            code = compile(self.parameters[line], "<string>", "exec")
+            exec code
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'ov1':
@@ -103,8 +105,8 @@ class RDKitFingerprint(BASE):
 
         # step5: import module and make APIs
         try:
-            from cheml.chem import RDKFingerprint
-            model = RDKFingerprint(**self.parameters)
+            from cheml.chem import RDKitFingerprint
+            model = RDKitFingerprint(**self.parameters)
             model.MolfromFile(molfile,path,*arguments)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
@@ -133,6 +135,7 @@ class Dragon(BASE):
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
+        print 'molfile:', self.parameters['molFile']
 
         # step3: check the dimension of input data frame
         # step4: extract  parameters
@@ -140,11 +143,13 @@ class Dragon(BASE):
             script = self.parameters.pop('script')
         else:
             script = 'new'
-        if 'output_directory' in self.parameters:
-            output_directory = self.parameters.pop('output_directory')
-        else:
-            output_directory = ''
-        output_directory = self.Base.output_directory + '/' + output_directory
+        # if 'output_directory' in self.parameters:
+        #     output_directory = self.parameters.pop('output_directory')
+        # else:
+        #     output_directory = ''
+        output_directory = self.Base.output_directory #+ '/' + output_directory
+        if 'SaveFilePath' not in self.parameters:
+            self.parameters['SaveFilePath'] = "Dragon_descriptors.txt"
 
         # step5: import module and make APIs
         try:
@@ -205,7 +210,7 @@ class Bag_of_Bonds(BASE):
         molecules = self.inputs['molecules'].value
         try:
             from cheml.chem import Bag_of_Bonds
-            model = Coulomb_Matrix(**self.parameters)
+            model = Bag_of_Bonds(**self.parameters)
             df = model.represent(molecules)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message

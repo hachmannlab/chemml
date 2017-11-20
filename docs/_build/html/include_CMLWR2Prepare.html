@@ -1,0 +1,2569 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Constant &mdash; ChemML 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 1 documentation" href="index.html"/>
+        <link rel="up" title="API Reference" href="CMLWReference.html"/>
+        <link rel="next" title="mlp_hogwild" href="include_CMLWR3Model.html"/>
+        <link rel="prev" title="read_table" href="include_CMLWR1Enter.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="CMLWReference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coulombmatrix">CoulombMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distancematrix">DistanceMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dragon">Dragon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merge">Merge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#missingvalues">MissingValues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyscript">PyScript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rdkfingerprint">RDKFingerprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#split">Split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binarizer">Binarizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imputer">Imputer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kfold">KFold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernelpca">KernelPCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maxabsscaler">MaxAbsScaler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minmaxscaler">MinMaxScaler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#normalizer">Normalizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onehotencoder">OneHotEncoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pca">PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#polynomialfeatures">PolynomialFeatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#robustscaler">RobustScaler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shufflesplit">ShuffleSplit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#standardscaler">StandardScaler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stratifiedshufflesplit">StratifiedShuffleSplit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#train-test-split">train_test_split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#search">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#mix">Mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="CMLWReference.html">API Reference</a> &raquo;</li>
+      
+    <li>Constant</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/include_CMLWR2Prepare.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="constant">
+<span id="id1"></span><h1>Constant<a class="headerlink" href="#constant" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">preprocessing</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Constant</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of ChemML&#8217;s Constant class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;cheml.preprocessing.purge.Constant&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of ChemML&#8217;s Constant class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;cheml.preprocessing.purge.Constant&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">removed_columns_</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id2"><span class="problematic" id="id3">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Constant</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">removed_columns_</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="coulombmatrix">
+<span id="id4"></span><h1>CoulombMatrix<a class="headerlink" href="#coulombmatrix" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">CoulombMatrix</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">molfile</span></code> : the molecule file path</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;str&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id5"><span class="problematic" id="id6">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">CoulombMatrix</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">const</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molfile</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">CMtype</span> <span class="pre">=</span> <span class="pre">SC</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skip_lines</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">0]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">nPerm</span> <span class="pre">=</span> <span class="pre">6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">arguments</span> <span class="pre">=</span> <span class="pre">[]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">reader</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">path</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molfile</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="distancematrix">
+<span id="id7"></span><h1>DistanceMatrix<a class="headerlink" href="#distancematrix" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">DistanceMatrix</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id8"><span class="problematic" id="id9">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">DistanceMatrix</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">norm_type</span> <span class="pre">=</span> <span class="pre">fro</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">nCores</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dragon">
+<span id="id10"></span><h1>Dragon<a class="headerlink" href="#dragon" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Dragon</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">molfile</span></code> : the molecule file path</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;str&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+<div class="line">Dragon, 7 or 6</div>
+<div class="line">lxml, 3.4.0</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id11"><span class="problematic" id="id12">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Dragon</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeConst</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSR</span> <span class="pre">=</span> <span class="pre">35</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFilePath</span> <span class="pre">=</span> <span class="pre">Dragon_descriptors.txt</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">output_directory</span> <span class="pre">=</span> <span class="pre">./</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DisconnectedCalculationOption</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeNearConst</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Add2DHydrogens</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveProject</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Decimal_Separator</span> <span class="pre">=</span> <span class="pre">.</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveOnlyData</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">script</span> <span class="pre">=</span> <span class="pre">new</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RejectDisconnectedStrucuture</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExclusionOptionsToVariables</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">LogEdge</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">LogPathWalk</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveLabelsOnSeparateFile</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">version</span> <span class="pre">=</span> <span class="pre">6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DefaultMolFormat</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRDetour</span> <span class="pre">=</span> <span class="pre">30</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">HelpBrowser</span> <span class="pre">=</span> <span class="pre">/usr/bin/xdg-open</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeRejectedMolecules</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">knimemode</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RejectUnusualValence</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveProjectFile</span> <span class="pre">=</span> <span class="pre">Dragon_project.drp</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveStdOut</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFormatSubBlock</span> <span class="pre">=</span> <span class="pre">%b-%s-%n-%m.txt</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">blocks</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12,</span> <span class="pre">13,</span> <span class="pre">14,</span> <span class="pre">15,</span> <span class="pre">16,</span> <span class="pre">17,</span> <span class="pre">18,</span> <span class="pre">19,</span> <span class="pre">20,</span> <span class="pre">21,</span> <span class="pre">22,</span> <span class="pre">23,</span> <span class="pre">24,</span> <span class="pre">25,</span> <span class="pre">26,</span> <span class="pre">27,</span> <span class="pre">28,</span> <span class="pre">29]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeCorrelated</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molFile</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">consecutiveDelimiter</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInputFormat</span> <span class="pre">=</span> <span class="pre">SMILES</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxAtomWalkPath</span> <span class="pre">=</span> <span class="pre">2000</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeAllMisVal</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeStdDev</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Weights</span> <span class="pre">=</span> <span class="pre">['Mass',</span> <span class="pre">'VdWVolume',</span> <span class="pre">'Electronegativity',</span> <span class="pre">'Polarizability',</span> <span class="pre">'Ionization',</span> <span class="pre">'I-State']</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">external</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundWeights</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRforAllCircuit</span> <span class="pre">=</span> <span class="pre">19</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fileName</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundCoordinates</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Missing_String</span> <span class="pre">=</span> <span class="pre">NaN</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeMisVal</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">logFile</span> <span class="pre">=</span> <span class="pre">Dragon_log.txt</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">PreserveTemporaryProjects</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveLayout</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInput</span> <span class="pre">=</span> <span class="pre">stdin</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFormatBlock</span> <span class="pre">=</span> <span class="pre">%b-%n.txt</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MissingValue</span> <span class="pre">=</span> <span class="pre">NaN</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveCorrThreshold</span> <span class="pre">=</span> <span class="pre">0.95</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveType</span> <span class="pre">=</span> <span class="pre">singlefile</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">ShowWorksheet</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delimiter</span> <span class="pre">=</span> <span class="pre">,</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RetainBiggestFragment</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">CheckUpdates</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundDescriptorValues</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeMisMolecules</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveStdDevThreshold</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFile</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">logMode</span> <span class="pre">=</span> <span class="pre">file</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molfile</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="merge">
+<span id="id13"></span><h1>Merge<a class="headerlink" href="#merge" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">basic operators</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Merge</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df1</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">df2</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id14"><span class="problematic" id="id15">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Merge</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="missingvalues">
+<span id="id16"></span><h1>MissingValues<a class="headerlink" href="#missingvalues" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">preprocessor</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">MissingValues</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of ChemML&#8217;s MissingValues class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;cheml.preprocessing.handle_missing.missing_values&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of ChemML&#8217;s MissingValues class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;cheml.preprocessing.handle_missing.missing_values&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id17"><span class="problematic" id="id18">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MissingValues</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">strategy</span> <span class="pre">=</span> <span class="pre">ignore_row</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">inf_as_null</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">string_as_null</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">missing_values</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pyscript">
+<span id="id19"></span><h1>PyScript<a class="headerlink" href="#pyscript" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">python script</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">PyScript</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">iv4</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv5</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv6</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv1</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv2</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv3</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">ov2</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov3</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov1</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov6</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov4</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov5</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id20"><span class="problematic" id="id21">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">PyScript</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv4</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv5</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov4</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov5</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rdkfingerprint">
+<span id="id22"></span><h1>RDKFingerprint<a class="headerlink" href="#rdkfingerprint" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">RDKFingerprint</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">molfile</span></code> : the molecule file path</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;str&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">removed_rows</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+<div class="line">RDKit, 2016.03.1</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id23"><span class="problematic" id="id24">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">RDKFingerprint</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">nBits</span> <span class="pre">=</span> <span class="pre">1024</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molfile</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">removeHs</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">vector</span> <span class="pre">=</span> <span class="pre">bit</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">radius</span> <span class="pre">=</span> <span class="pre">2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">arguments</span> <span class="pre">=</span> <span class="pre">[]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">path</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">FPtype</span> <span class="pre">=</span> <span class="pre">Morgan</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molfile</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">removed_rows</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="split">
+<span id="id25"></span><h1>Split<a class="headerlink" href="#split" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">basic operators</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df1</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">df2</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id26"><span class="problematic" id="id27">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Split</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df2</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="binarizer">
+<span id="id28"></span><h1>Binarizer<a class="headerlink" href="#binarizer" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Binarizer</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Binarizer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.Binarizer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Binarizer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.Binarizer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id29"><span class="problematic" id="id30">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Binarizer</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">threshold</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="imputer">
+<span id="id31"></span><h1>Imputer<a class="headerlink" href="#imputer" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">preprocessor</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Imputer</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Imputer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.imputation.Imputer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Imputer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.imputation.Imputer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id32"><span class="problematic" id="id33">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Imputer</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">missing_values</span> <span class="pre">=</span> <span class="pre">NaN</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">strategy</span> <span class="pre">=</span> <span class="pre">mean</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">axis</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html#sklearn.preprocessing.Imputer">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html#sklearn.preprocessing.Imputer</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kfold">
+<span id="id34"></span><h1>KFold<a class="headerlink" href="#kfold" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">KFold</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s KFold class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.model_selection._split.KFold&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">fold_gen</span></code> : Generator of indices to split data into training and test set</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;generator&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (&#8216;split&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id35"><span class="problematic" id="id36">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">KFold</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">shuffle</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">fold_gen</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kernelpca">
+<span id="id37"></span><h1>KernelPCA<a class="headerlink" href="#kernelpca" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature transformation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">KernelPCA</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s KernelPCA class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.decomposition.kernel_pca.KernelPCA&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s KernelPCA class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.decomposition.kernel_pca.KernelPCA&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:False)</div>
+<div class="line-block">
+<div class="line">Always False, the header of input dataframe is not equivalent with the transformed dataframe</div>
+<div class="line">choose one of: False</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id38"><span class="problematic" id="id39">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">KernelPCA</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fit_inverse_transform</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">kernel</span> <span class="pre">=</span> <span class="pre">linear</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_jobs</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">eigen_solver</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">degree</span> <span class="pre">=</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">kernel_params</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_components</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">remove_zero_eig</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">coef0</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">gamma</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA">http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="maxabsscaler">
+<span id="id40"></span><h1>MaxAbsScaler<a class="headerlink" href="#maxabsscaler" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">scale</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">MaxAbsScaler</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s MaxAbsScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.MaxAbsScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s MaxAbsScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.MaxAbsScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id41"><span class="problematic" id="id42">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MaxAbsScaler</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="minmaxscaler">
+<span id="id43"></span><h1>MinMaxScaler<a class="headerlink" href="#minmaxscaler" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">scale</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">MinMaxScaler</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s MinMaxScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.MinMaxScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s MinMaxScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.MinMaxScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id44"><span class="problematic" id="id45">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MinMaxScaler</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">feature_range</span> <span class="pre">=</span> <span class="pre">(0,</span> <span class="pre">1)</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="normalizer">
+<span id="id46"></span><h1>Normalizer<a class="headerlink" href="#normalizer" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">scale</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Normalizer</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Normalizer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.Normalizer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s Normalizer class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.Normalizer&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id47"><span class="problematic" id="id48">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Normalizer</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">norm</span> <span class="pre">=</span> <span class="pre">l2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="onehotencoder">
+<span id="id49"></span><h1>OneHotEncoder<a class="headerlink" href="#onehotencoder" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">OneHotEncoder</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s OneHotEncoder class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.OneHotEncoder&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s OneHotEncoder class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.OneHotEncoder&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id50"><span class="problematic" id="id51">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">OneHotEncoder</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">dtype</span> <span class="pre">=</span> <span class="pre">&lt;type'numpy.float64'&gt;</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">categorical_features</span> <span class="pre">=</span> <span class="pre">all</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_values</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">sparse</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">handle_unknown</span> <span class="pre">=</span> <span class="pre">error</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pca">
+<span id="id52"></span><h1>PCA<a class="headerlink" href="#pca" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature transformation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">PCA</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s PCA class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.decomposition.pca.PCA&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s PCA class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.decomposition.pca.PCA&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:False)</div>
+<div class="line-block">
+<div class="line">Always False, the header of input dataframe is not equivalent with the transformed dataframe</div>
+<div class="line">choose one of: False</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id53"><span class="problematic" id="id54">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">PCA</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">svd_solver</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">iterated_power</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">whiten</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_components</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA">http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="polynomialfeatures">
+<span id="id55"></span><h1>PolynomialFeatures<a class="headerlink" href="#polynomialfeatures" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">PolynomialFeatures</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s PolynomialFeatures class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.PolynomialFeatures&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s PolynomialFeatures class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.PolynomialFeatures&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id56"><span class="problematic" id="id57">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">PolynomialFeatures</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">include_bias</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">interaction_only</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">degree</span> <span class="pre">=</span> <span class="pre">2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="robustscaler">
+<span id="id58"></span><h1>RobustScaler<a class="headerlink" href="#robustscaler" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">scale</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">RobustScaler</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s RobustScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.RobustScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s RobustScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.RobustScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id59"><span class="problematic" id="id60">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">RobustScaler</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">with_scaling</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">with_centering</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">quantile_range</span> <span class="pre">=</span> <span class="pre">(25.0,</span> <span class="pre">75.0)</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="shufflesplit">
+<span id="id61"></span><h1>ShuffleSplit<a class="headerlink" href="#shufflesplit" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">ShuffleSplit</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s ShuffleSplit class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.model_selection._split.ShuffleSplit&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">fold_gen</span></code> : Generator of indices to split data into training and test set</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;generator&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (&#8216;split&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id62"><span class="problematic" id="id63">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">ShuffleSplit</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">10</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">train_size</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">test_size</span> <span class="pre">=</span> <span class="pre">default</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">fold_gen</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn.model_selection.ShuffleSplit">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn.model_selection.ShuffleSplit</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="standardscaler">
+<span id="id64"></span><h1>StandardScaler<a class="headerlink" href="#standardscaler" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">scale</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">StandardScaler</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s StandardScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.StandardScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s StandardScaler class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.preprocessing.data.StandardScaler&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line-block">
+<div class="line">fit_transform: always make a new api; transform: must receive an api; inverse_transform: must receive an api; None: only make a new api</div>
+<div class="line">choose one of: (&#8216;fit_transform&#8217;, &#8216;transform&#8217;, &#8216;inverse_transform&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id65"><span class="problematic" id="id66">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">StandardScaler</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">with_mean</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">with_std</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="stratifiedshufflesplit">
+<span id="id67"></span><h1>StratifiedShuffleSplit<a class="headerlink" href="#stratifiedshufflesplit" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">StratifiedShuffleSplit</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">api</span></code> : instance of scikit-learn&#8217;s StratifiedShuffleSplit class</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;sklearn.model_selection._split.StratifiedShuffleSplit&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">fold_gen</span></code> : Generator of indices to split data into training and test set</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;generator&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (&#8216;split&#8217;, None)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id68"><span class="problematic" id="id69">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">StratifiedShuffleSplit</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">10</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">train_size</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">test_size</span> <span class="pre">=</span> <span class="pre">default</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">fold_gen</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="train-test-split">
+<span id="id70"></span><h1>train_test_split<a class="headerlink" href="#train-test-split" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">sklearn</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">train_test_split</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">dfx_test</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">dfy_train</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">dfy_test</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">dfx_train</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe&#8217;s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><a href="#id71"><span class="problematic" id="id72">``</span></a>## ``</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">train_test_split</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">shuffle</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">train_size</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">test_size</span> <span class="pre">=</span> <span class="pre">0.25</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">stratify</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx_test</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_train</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_test</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx_train</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="include_CMLWR3Model.html" class="btn btn-neutral float-right" title="mlp_hogwild" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="include_CMLWR1Enter.html" class="btn btn-neutral" title="read_table" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

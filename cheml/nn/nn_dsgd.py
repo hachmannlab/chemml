@@ -5,18 +5,15 @@ import multiprocessing
 import nn_psgd
 from ..utils import chunk
 
-def train(X,Y,nneurons,input_act_funcs,validation=0.1,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
+def train(X,Y,nneurons,input_act_funcs,validation_size=0.2,learn_rate=0.001,rms_decay=0.9,n_epochs=10000,
     batch_size=256,n_hist=20,n_check=50,threshold=0.1, print_level=1):
     """
     Main distributed memory function
     
     Parameters
     ----------
-    All available parameters for nn_psgd - n_cores + validation
-    
-    validation: float between zero and one, optional(default = 0.1)
-        The ratio of data set to be used for validation of trained network. The 
-        rest of data points will be used as training data.
+    All available parameters for nn_psgd - n_cores
+    The number of cores will be directly passed to the mpirun command
             
     Returns
     -------
@@ -52,12 +49,7 @@ def train(X,Y,nneurons,input_act_funcs,validation=0.1,learn_rate=0.001,rms_decay
         X = comm.recv(source=0, tag = 7)
         Y = comm.recv(source=0, tag = 77)
 
-    cut_ind = int(validation * len(X))
-    X_validation = X[:cut_ind]
-    Y_validation = Y[:cut_ind]
-    X = X[cut_ind:]
-    Y = Y[cut_ind:]
-    trained_network =  nn_psgd.train(X,X_validation,Y,Y_validation,nneurons=nneurons,
+    trained_network =  nn_psgd.train(X,Y,nneurons=nneurons,
     input_act_funcs=input_act_funcs,learn_rate=learn_rate,rms_decay=rms_decay,
     n_epochs=n_epochs,batch_size=batch_size,n_cores=multiprocessing.cpu_count(),n_hist=n_hist,
     n_check=n_check,threshold=threshold, print_level=print_level)
@@ -83,9 +75,9 @@ def output(X,nnets):
     predicted values in array type
     """
     #MPI
-    comm=MPI.COMM_WORLD
-    rank=comm.rank
-    size=comm.size
+    comm = MPI.COMM_WORLD
+    rank = comm.rank
+    size = comm.size
 
     if rank == 0:
         results = []

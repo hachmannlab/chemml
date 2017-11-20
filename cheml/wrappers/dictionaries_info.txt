@@ -1,8 +1,8 @@
 #value(val)
 cmls =
-[{'recv': {},             'SuperFunction': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
- {'recv': {('df', 0): 1}, 'SuperFunction': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
- {'recv': {('df', 2): 2}, 'SuperFunction': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
+[{'recv': {},             'task': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
+ {'recv': {('df', 0): 1}, 'task': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
+ {'recv': {('df', 2): 2}, 'task': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
 ]
 
 ImpOrder = (0, 1, 2)
@@ -37,11 +37,11 @@ CompGraph = ((0, 'df', 1, 'df'), (1, 'df2', 2, 'df'), (1, 'df1', 3, 'df'), (3, '
 CompGraph = {(iblock_send,token,iblock_recv,token)}
 self.Base.graph = CompGraph
 
-self.legal_inputs = {token:(value,(i_send,token,module,function))}
+self.legal_inputs = {token:(value,(i_send,token,host,function))}
 
-self.Base.graph_info = {iblock:(module,function)}
+self.Base.graph_info = {iblock:(host,function)}
 
 self.Base.send = {(iblock_send,token) : [value, count]}
 
 
-#self.Base.cheml_type = {'model':[(module,function), ...], 'scaler':[], 'cv':[]}
+#self.Base.cheml_type = {'model':[(host,function), ...], 'scaler':[], 'cv':[]}

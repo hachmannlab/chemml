@@ -9,15 +9,15 @@ import warnings
 import inspect
 import shutil
 
-from .pandas import pdw
-from .cheml import cmlw
-from .sklearn import sklw
-from .tf import tfw
+from .pandas_pd import pdw
+from .cheml_cml import cmlw
+from .sklearn_skl import sklw
+from .tensorflow_tf import tfw
 
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
 
-def banner(logfile):
+def banner():
     PROGRAM_NAME = "ChemML"
     PROGRAM_VERSION = "v1.3.1"
     REVISION_DATE = "2017-01-03"
@@ -38,12 +38,6 @@ def banner(logfile):
     print
     for line in str:
         print line
-        logfile.write(line+'\n')
-
-# def function_banner(end_time,iblock, host, function):
-#     print "### block#%i: invoke (host: %s - function: %s)" %(iblock+1,host,function)
-#     print end_time
-#     print "\n"
 
 class Parser(object):
     """
@@ -53,7 +47,7 @@ class Parser(object):
     def __init__(self, script):
         self.script = script
 
-    def fit(self,logfile):
+    def fit(self):
         """
         The main funtion for parsing cheml script.
         It starts with finding blocks and then runs other functions.
@@ -78,12 +72,10 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-        banner(logfile)
         tmp_str =  'Input File: \n'
-        logfile.write(tmp_str+'\n')
         print tmp_str
-        logfile = self._print_out(cmls,logfile)
-        return cmls, ImpOrder, CompGraph, logfile
+        self._print_out(cmls)
+        return cmls, ImpOrder, CompGraph
 
     def _functions(self, line):
         if '<' in line:
@@ -135,76 +127,65 @@ class Parser(object):
             block = blocks[item]
             function = self._functions(block[0])
             parameters, send, recv = self._parameters(block,item)
-            cmls.append({"SuperFunction": function,
+            cmls.append({"task": function,
                          "parameters": parameters,
                          "send": send,
                          "recv": recv})
         return cmls
 
-    def _print_out(self, cmls, logfile):
+    def _print_out(self, cmls):
         item = 0
         for block in cmls:
             item+=1
-            line = '%s\n' %(block['SuperFunction'])
+            line = '%s\n' %(block['task'])
             line = line.rstrip("\n")
             tmp_str =  '%i'%item+' '*(4-len(str(item)))+'Task: '+line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             line = '<<<<<<<'
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             if len(block['parameters']) > 0 :
                 for param in block['parameters']:
                     line = '%s = %s\n'%(param,block['parameters'][param])
                     line = line.rstrip("\n")
                     tmp_str =  '        '+line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :no parameter passed: set to default values if available'
                 line = line.rstrip("\n")
                 tmp_str =  '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             line = '>>>>>>>'
             line = line.rstrip("\n")
             tmp_str =  '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
             if len(block['send']) > 0:
                 for param in block['send']:
                     line = '%s -> send (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     tmp_str =  '        ' + line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to send:'
                 line = line.rstrip("\n")
                 tmp_str =  '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             if len(block['recv']) > 0:
                 for param in block['recv']:
                     line = '%s <- recv (id=%i)\n' %(param[0],param[1])
                     line = line.rstrip("\n")
                     tmp_str = '        ' + line
                     print tmp_str
-                    logfile.write(tmp_str+'\n')
             else:
                 line = ' :nothing to receive:'
                 line = line.rstrip("\n")
                 tmp_str = '        ' + line
                 print tmp_str
-                logfile.write(tmp_str+'\n')
             line = ''
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print tmp_str
-            logfile.write(tmp_str+'\n')
-        return logfile
 
     def transform(self, cmls):
         """
@@ -224,7 +205,7 @@ class Parser(object):
             recv_all += block['recv'].items()
         # check send and recv
         if len(send_all) > len(recv_all):
-            msg = '@cehml script - number of sent tokens must be less or equal to number of received tokens'
+            msg = '@cheml script - number of sent tokens must be less or equal to number of received tokens'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all]
         recv_ids = [k[1] for k,v in recv_all]
@@ -233,7 +214,8 @@ class Parser(object):
                 msg = 'identified non unique send id (id#%i)'%id
                 raise NameError(msg)
         if set(send_ids) != set(recv_ids):
-            msg = 'missing pairs of send and receive id'
+            print set(send_ids),set(recv_ids)
+            msg = 'missing pairs of send and receive id:\n send IDs:%s\n recv IDs:%s\n'%(str(set(send_ids)),str(set(recv_ids)))
             raise ValueError(msg)
 
         # make graph
@@ -264,7 +246,7 @@ class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
         self.graph_info = {}
-        self.send = {}      # {(iblock,token):[value,count]}
+        self.send = {}      # {(iblock,token):output class}
         self.requirements = ['pandas']
         self.start_time = time.time()
         self.block_time = 0
@@ -273,25 +255,18 @@ class BASE(object):
         self.InputScript = ''
         self.output_directory = '.'
         self.log = []
-        self.logfile = ''
-        self.cheml_type = {'descriptor':[], 'interpreter':[], 'input':[], 'output':[],
-                           'selector':[], 'transformer':[], 'regressor':[],
-                           'preprocessor':[], 'divider':[], 'postprocessor':[],
-                           'classifier':[], 'evaluator':[], 'visualizer':[], 'optimizer':[]}
 
 class Wrapper(LIBRARY):
     """
     Todo: documentation
     """
-    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory,logfile):
+    def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory):
         self.Base = BASE(CompGraph)
         self.Base.InputScript = InputScript
         self.Base.output_directory = output_directory
-        self.Base.logfile = logfile
         self.ImpOrder = ImpOrder
         self.cmls = cmls
         tmp_str = "=================================================\n"
-        self.Base.logfile.write(tmp_str+'\n')
         print tmp_str
         self._checker()
 
@@ -301,64 +276,62 @@ class Wrapper(LIBRARY):
         any possible typo in other params.
         """
         # get params
-        legal_superfunctions = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection','FeatureTransformation','Divider','Regression','Classification','Postprocessor','Evaluation','Visualization','Optimizer']
-
+        # legal_tasks = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
+        #                         'FeatureTransformation','Divider','Regression','Classification','Postprocessor',
+        #                         'Evaluation','Visualization','Optimizer']
+        # legal_tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
         # run over graph
         for iblock, block in enumerate(self.cmls):
             # check super function
-            SuperFunction = block['SuperFunction']
-            if SuperFunction not in legal_superfunctions:
-                msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, SuperFunction,SuperFunction)
-                raise NameError(msg)
+            task = block['task']
+            # if task not in legal_tasks:
+            #     msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, task,task)
+            #     raise NameError(msg)
             # check parameters
             parameters = block['parameters']
             if 'host' not in parameters:
-                msg = "@Task #%i(%s): no host name found" % (iblock + 1, SuperFunction)
+                msg = "@Task #%i(%s): no host name found" % (iblock + 1, task)
                 raise NameError(msg)
             if 'function' not in parameters:
-                msg = "@Task #%i(%s): no function name found" % (iblock + 1, SuperFunction)
+                msg = "@Task #%i(%s): no function name found" % (iblock + 1, task)
                 raise NameError(msg)
             # check host and function
             host_function = (block['parameters']['host'], block['parameters']['function'])
             if not self.manual(host_function = host_function):
-                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, SuperFunction, str(host_function) )
+                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, task, str(host_function) )
                 raise NameError(msg)
         return 'The input file is in a correct format.'
 
     def call(self):
         self.refs = {}
         for iblock in self.ImpOrder:
-            task = self.cmls[iblock]['SuperFunction']
+            task = self.cmls[iblock]['task']
             parameters = self.cmls[iblock]['parameters']
             host = parameters.pop('host')
             function = parameters.pop('function')
             start_time = time.time()
             tmp_str =  "======= block#%i: (%s, %s)" % (iblock + 1, host, function)
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = "| run ...\n"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
-                if task == 'Define_Model':
-                    pass
-                elif function not in legal_functions:
-                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
-                    raise NameError(msg)
-                if task=='Define_Model':
+                if function in self.skl_regression_func:
                     self.references(host, function)  # check references
                     self.Base.graph_info[iblock] = (host, function)
                     cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'regression'][0]
-                    cmli = cml_interface(self.Base, parameters, iblock,task,function,host)
+                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
+                    cmli.run()
+                elif function in legal_functions:
+                    self.references(host, function)  # check references
+                    self.Base.graph_info[iblock] = (host, function)
+                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == function][0]
+                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
                     cmli.run()
                 else:
-                    self.references(host,function) # check references
-                    self.Base.graph_info[iblock] = (host, function)
-                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0]==function][0]
-                    cmli = cml_interface(self.Base,parameters,iblock,task,function,host)
-                    cmli.run()
+                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
+                    raise NameError(msg)
             elif host == 'cheml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]
@@ -396,21 +369,15 @@ class Wrapper(LIBRARY):
             end_time = tot_exec_time_str(start_time)
             tmp_str = "| ... done!"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = '| '+end_time
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
             tmp_str = "=======\n\n"
             print tmp_str
-            self.Base.logfile.write(tmp_str+'\n')
         self._save_references()
         tmp_str = "Total " + tot_exec_time_str(self.Base.start_time)
         print tmp_str
-        self.Base.logfile.write(tmp_str+'\n')
         tmp_str = std_datetime_str() + '\n'
         print tmp_str
-        self.Base.logfile.write(tmp_str+'\n')
-        self.Base.logfile.close()
 
 class Settings(object):
     """
@@ -439,12 +406,36 @@ class Settings(object):
             i+=1
             self.output_directory = initial_output_dir + '%i'%i
         os.makedirs(self.output_directory)
-        # log_file = open(output_directory+'/'+logfile,'a',0)
-        # error_file = open(output_directory+'/'+errorfile,'a',0)
         if self.InputScript_copy:
             shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
         logfile = open(self.output_directory + '/log.txt', 'a', 0)
-        return self.output_directory, logfile
+        errorfile = open(self.output_directory + '/error.txt', 'a', 0)
+        return self.output_directory, logfile, errorfile
+
+class Logger(object):
+    def __init__(self,logfile):
+        self.terminal = sys.stdout
+        self.log = logfile
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        pass
+
+class Error(object):
+    def __init__(self,errorfile):
+        self.terminal = sys.stderr
+        self.err = errorfile
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.err.write(message)
+
+    def flush(self):
+        pass
+
 
 def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
@@ -453,15 +444,17 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     :return:
     """
     settings = Settings(OUTPUT_DIRECTORY)
-    OUTPUT_DIRECTORY, logfile = settings.fit(INPUT_FILE)
+    OUTPUT_DIRECTORY, logfile, errorfile= settings.fit(INPUT_FILE)
+    sys.stdout = Logger(logfile)
+    sys.stderr = Error(errorfile)
     script = open(INPUT_FILE, 'r')
     script = script.readlines()
-    cmls, ImpOrder, CompGraph, logfile = Parser(script).fit(logfile)
+    cmls, ImpOrder, CompGraph = Parser(script).fit()
     # print cmls
     # print ImpOrder
     # print CompGraph
     # sys.exit('this is how much you get till now!')
-    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY,logfile)
+    wrapper = Wrapper(cmls, ImpOrder, CompGraph, INPUT_FILE, OUTPUT_DIRECTORY)
     wrapper.call()
 
 

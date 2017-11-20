@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Table of Contents &mdash; ChemML 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ChemML 1 documentation" href="index.html"/>
+        <link rel="next" title="API Reference" href="CMLWReference.html"/>
+        <link rel="prev" title="Input File Generator" href="CMLWInputFileGenerator.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Table of Contents</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/CMLWContentsTable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="table-of-contents">
+<h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
+<p>This is a complete list of all the methods that the ChemML Wrapper is interfacing with. The further details of each
+block, as the parameters and attributes of each block is provided in each function&#8217;s page.</p>
+<dl class="docutils">
+<dt>The table header provides information about:</dt>
+<dd><ul class="first last simple">
+<li>task and subtask: just for an easier classification of methods</li>
+<li>host: the main library/dependency required for using the method</li>
+<li>function: the method name</li>
+<li>input and output tokens: the only tokens that are responsible for sending or receiving information in each block</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="9%" />
+<col width="11%" />
+<col width="5%" />
+<col width="12%" />
+<col width="22%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">#</th>
+<th class="head">task</th>
+<th class="head">subtask</th>
+<th class="head">host</th>
+<th class="head">function</th>
+<th class="head">input tokens</th>
+<th class="head">output tokens</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>Enter</td>
+<td>input</td>
+<td>pandas</td>
+<td><a class="reference internal" href="include_CMLWR1Enter.html#read-table"><span class="std std-ref">read_table</span></a></td>
+<td>no receiver</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>Enter</td>
+<td>input</td>
+<td>pandas</td>
+<td><a class="reference internal" href="include_CMLWR1Enter.html#read-excel"><span class="std std-ref">read_excel</span></a></td>
+<td>no receiver</td>
+<td>df</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="7%" />
+<col width="19%" />
+<col width="6%" />
+<col width="18%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">#</th>
+<th class="head">task</th>
+<th class="head">subtask</th>
+<th class="head">host</th>
+<th class="head">function</th>
+<th class="head">input tokens</th>
+<th class="head">output tokens</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>Prepare</td>
+<td>preprocessing</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.Constant.html#constant"><span class="std std-ref">Constant</span></a></td>
+<td>df, api</td>
+<td>df, api, <a href="#id1"><span class="problematic" id="id2">removed_columns_</span></a></td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.CoulombMatrix.html#coulombmatrix"><span class="std std-ref">CoulombMatrix</span></a></td>
+<td>molfile</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.DistanceMatrix.html#distancematrix"><span class="std std-ref">DistanceMatrix</span></a></td>
+<td>df</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.Dragon.html#dragon"><span class="std std-ref">Dragon</span></a></td>
+<td>molfile</td>
+<td>df</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>Prepare</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.Merge.html#merge"><span class="std std-ref">Merge</span></a></td>
+<td>df1, df2</td>
+<td>df</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>Prepare</td>
+<td>preprocessor</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.MissingValues.html#missingvalues"><span class="std std-ref">MissingValues</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>Prepare</td>
+<td>python script</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.PyScript.html#pyscript"><span class="std std-ref">PyScript</span></a></td>
+<td>iv4, iv5, iv6, iv1, iv2, iv3</td>
+<td>ov2, ov3, ov1, ov6, ov4, ov5</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.RDKFingerprint.html#rdkfingerprint"><span class="std std-ref">RDKFingerprint</span></a></td>
+<td>molfile</td>
+<td>df, removed_rows</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>Store</td>
+<td>file</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.SaveFile.html#savefile"><span class="std std-ref">SaveFile</span></a></td>
+<td>df</td>
+<td>filepath</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>Prepare</td>
+<td>basic operators</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.Split.html#split"><span class="std std-ref">Split</span></a></td>
+<td>df</td>
+<td>df1, df2</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>Model</td>
+<td>regression</td>
+<td>cheml</td>
+<td><a class="reference internal" href="wrapper_docs/cheml.mlp_hogwild.html#mlp-hogwild"><span class="std std-ref">mlp_hogwild</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="5%" />
+<col width="14%" />
+<col width="5%" />
+<col width="18%" />
+<col width="19%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">#</th>
+<th class="head">task</th>
+<th class="head">subtask</th>
+<th class="head">host</th>
+<th class="head">function</th>
+<th class="head">input tokens</th>
+<th class="head">output tokens</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.ARDRegression.html#ardregression"><span class="std std-ref">ARDRegression</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.BayesianRidge.html#bayesianridge"><span class="std std-ref">BayesianRidge</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Binarizer.html#binarizer"><span class="std std-ref">Binarizer</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.ElasticNet.html#elasticnet"><span class="std std-ref">ElasticNet</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>Search</td>
+<td>grid</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.GridSearchCV.html#gridsearchcv"><span class="std std-ref">GridSearchCV</span></a></td>
+<td>dfy, dfx, estimator, scorer</td>
+<td><a href="#id3"><span class="problematic" id="id4">cv_results_</span></a>, api, <a href="#id5"><span class="problematic" id="id6">best_estimator_</span></a></td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>Prepare</td>
+<td>preprocessor</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Imputer.html#imputer"><span class="std std-ref">Imputer</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>Prepare</td>
+<td>split</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.KFold.html#kfold"><span class="std std-ref">KFold</span></a></td>
+<td>df</td>
+<td>api, fold_gen</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>Prepare</td>
+<td>feature transformation</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.KernelPCA.html#kernelpca"><span class="std std-ref">KernelPCA</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.KernelRidge.html#kernelridge"><span class="std std-ref">KernelRidge</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Lars.html#lars"><span class="std std-ref">Lars</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Lasso.html#lasso"><span class="std std-ref">Lasso</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.LassoLars.html#lassolars"><span class="std std-ref">LassoLars</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.LinearRegression.html#linearregression"><span class="std std-ref">LinearRegression</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.LinearSVR.html#linearsvr"><span class="std std-ref">LinearSVR</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>14</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.LogisticRegression.html#logisticregression"><span class="std std-ref">LogisticRegression</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.MLPRegressor.html#mlpregressor"><span class="std std-ref">MLPRegressor</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>16</td>
+<td>Prepare</td>
+<td>scale</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.MaxAbsScaler.html#maxabsscaler"><span class="std std-ref">MaxAbsScaler</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>17</td>
+<td>Prepare</td>
+<td>scale</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.MinMaxScaler.html#minmaxscaler"><span class="std std-ref">MinMaxScaler</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-even"><td>18</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.MultiTaskElasticNet.html#multitaskelasticnet"><span class="std std-ref">MultiTaskElasticNet</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>19</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.MultiTaskLasso.html#multitasklasso"><span class="std std-ref">MultiTaskLasso</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>20</td>
+<td>Prepare</td>
+<td>scale</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Normalizer.html#normalizer"><span class="std std-ref">Normalizer</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>21</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.NuSVR.html#nusvr"><span class="std std-ref">NuSVR</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>22</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.OneHotEncoder.html#onehotencoder"><span class="std std-ref">OneHotEncoder</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>23</td>
+<td>Prepare</td>
+<td>feature transformation</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.PCA.html#pca"><span class="std std-ref">PCA</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-even"><td>24</td>
+<td>Prepare</td>
+<td>feature representation</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.PolynomialFeatures.html#polynomialfeatures"><span class="std std-ref">PolynomialFeatures</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>25</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.Ridge.html#ridge"><span class="std std-ref">Ridge</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>26</td>
+<td>Prepare</td>
+<td>scale</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.RobustScaler.html#robustscaler"><span class="std std-ref">RobustScaler</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>27</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.SGDRegressor.html#sgdregressor"><span class="std std-ref">SGDRegressor</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-even"><td>28</td>
+<td>Model</td>
+<td>regression</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.SVR.html#svr"><span class="std std-ref">SVR</span></a></td>
+<td>api, dfy, dfx</td>
+<td>api, dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>29</td>
+<td>Prepare</td>
+<td>split</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.ShuffleSplit.html#shufflesplit"><span class="std std-ref">ShuffleSplit</span></a></td>
+<td>df</td>
+<td>api, fold_gen</td>
+</tr>
+<tr class="row-even"><td>30</td>
+<td>Prepare</td>
+<td>scale</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.StandardScaler.html#standardscaler"><span class="std std-ref">StandardScaler</span></a></td>
+<td>df, api</td>
+<td>df, api</td>
+</tr>
+<tr class="row-odd"><td>31</td>
+<td>Prepare</td>
+<td>split</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.StratifiedShuffleSplit.html#stratifiedshufflesplit"><span class="std std-ref">StratifiedShuffleSplit</span></a></td>
+<td>df</td>
+<td>api, fold_gen</td>
+</tr>
+<tr class="row-even"><td>32</td>
+<td>Search</td>
+<td>validate</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.cross_val_predict.html#cross-val-predict"><span class="std std-ref">cross_val_predict</span></a></td>
+<td>dfy, dfx, estimator, scorer</td>
+<td>dfy_predict</td>
+</tr>
+<tr class="row-odd"><td>33</td>
+<td>Search</td>
+<td>validate</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.cross_val_score.html#cross-val-score"><span class="std std-ref">cross_val_score</span></a></td>
+<td>dfy, dfx, estimator, scorer</td>
+<td>scores</td>
+</tr>
+<tr class="row-even"><td>34</td>
+<td>Search</td>
+<td>evaluate</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.evaluate_regression.html#evaluate-regression"><span class="std std-ref">evaluate_regression</span></a></td>
+<td>dfy, dfy_predict</td>
+<td><a href="#id7"><span class="problematic" id="id8">evaluation_results_</span></a>, evaluator</td>
+</tr>
+<tr class="row-odd"><td>35</td>
+<td>Search</td>
+<td>grid</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.learning_curve.html#learning-curve"><span class="std std-ref">learning_curve</span></a></td>
+<td>dfy, dfx, estimator, scorer, cv</td>
+<td>train_sizes_abs, <a href="#id9"><span class="problematic" id="id10">extended_result_</span></a>, test_scores, train_scores</td>
+</tr>
+<tr class="row-even"><td>36</td>
+<td>Search</td>
+<td>evaluate</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.scorer_regression.html#scorer-regression"><span class="std std-ref">scorer_regression</span></a></td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>scorer</td>
+</tr>
+<tr class="row-odd"><td>37</td>
+<td>Prepare</td>
+<td>split</td>
+<td>sklearn</td>
+<td><a class="reference internal" href="wrapper_docs/sklearn.train_test_split.html#train-test-split"><span class="std std-ref">train_test_split</span></a></td>
+<td>dfy, dfx</td>
+<td>dfx_test, dfy_train, dfy_test, dfx_train</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CMLWReference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CMLWInputFileGenerator.html" class="btn btn-neutral" title="Input File Generator" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

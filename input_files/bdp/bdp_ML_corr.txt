@@ -1,0 +1,129 @@
+CheML date="2016-01-21" time="16:30:29" version="1.2.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+
+## Enter Data
+                << host = pandas                 << function = read_table
+
+                << filepath_or_buffer = 'benchmarks/BDP_project/clean_data.csv'
+                << sep=','
+                << header = 0
+                << skiprows = 0
+                >> df 0
+
+##
+                << host = cheml                 << function = Split
+                < selection = ['G_ground']
+                < selection = ['delG (kcal)']
+                << selection = ['G_ts']
+
+                >> 0 df   >> df1 2
+
+
+## Enter Data
+                << host = pandas                 << function = read_table
+
+                << filepath_or_buffer = 'benchmarks/BDP_project/descriptors/1k/descriptor/Dragon_clean_1914.csv'
+                << sep=','
+                << header = 0
+                << skiprows = 0
+                >> df 1
+
+
+## Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'df:', df1.shape"
+                        < l1 = "print df1.columns"
+                        < l2 = "print df1.describe()"
+                        << l3 = "print 'df2:', df2.shape"
+                        << l4 = "print df2.describe()"
+                        >> 1 df1    >> 2 df2
+
+# Preprocessor
+                        << host = cheml         << function = Constant
+                        >> 1 df >> df 5 > removed_columns_ 6
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'df after Constant check:', df1.shape"
+
+                        >> 5 df1
+
+# Preprocessor
+                        << host = cheml             << function = MissingValues
+                        << string_as_null = True    << missing_values = ['Nan']
+                        << inf_as_null = True       << strategy = 'ignore_column'
+                        >> 5 dfx    > 2 dfy  >> dfx 3  > dfy 4
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'dfx:', df1.shape"
+                        << l1 = "print 'dfy:', df2.shape"
+                        < l2 = "print df1.describe()"
+                        >> 3 df1 >> 2 df2
+
+# Preprocessor
+                        << host = cheml         << function = Constant
+                        >> 3 df >> df 5 >> removed_columns_ 6
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "print 'df1 after preprocess:', df1.shape"
+                        < l1 = "print var1"
+                        >> 5 df1   >> 6 var1
+
+# Output
+                << host = cheml                 << function = SaveFile
+
+                << filename = 'constant_features'
+                << output_directory = 'removed_features'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = False
+                >> 6 df
+
+
+-------------------------- correlation
+
+# Prepare Data
+                << host = cheml                 << function = Merge
+                >> 1 df1   >> 2 df2   >> df 3
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l1 = "print df1.shape"
+                        >> 3 df1
+
+
+# Search
+                << host = pandas                 << function = corr
+                << method = 'pearson'
+                << min_periods = 1
+
+                >> 3 df   >> df 4
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l0 = "l = df1['G_ts'].values"
+                        << l1 = "df_out1 = pd.DataFrame(l, columns=['G_ts'],index= list(df1.columns))"
+                        << l2 = "df_out1 = df_out1.sort(columns=['G_ts'],ascending=False)"
+                        >> 4 df1   >> df_out1 5
+
+# Output
+                << host = cheml                 << function = SaveFile
+
+                << filename = 'pearson_corr'
+                << output_directory = 'pearson'
+                << record_time = False
+                << format ='csv'
+                << index = True
+                << header = True
+                >> 5 df
+
+---------------------------------

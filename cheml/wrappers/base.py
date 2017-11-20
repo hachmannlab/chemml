@@ -1,140 +1,148 @@
+import copy
+import warnings
+
 import numpy as np
 import pandas as pd
+
+from .database import sklearn_db
+from .database import cheml_db
+from .database import pandas_db
+
+
+# todo: decorate some of the steps in the wrapeprs. e.g. sending out ouputs by finding all the connected edges in the graph
+# todo: use Input and Output classes to handle inputs and outputs
 
 class BASE(object):
     """
     Do not instantiate this class
     """
-    def __init__(self, Base, parameters, iblock, SuperFunction, Function, Host):
+    def __init__(self, Base, parameters, iblock, Task, Function, Host):
         self.Base = Base
         self.parameters = parameters
         self.iblock = iblock
-        self.SuperFunction = SuperFunction
+        self.Task = Task
         self.Function = Function
         self.Host = Host
 
     def run(self):
-        self.legal_IO()
-        self.receive()
+        self.IO()
+        self.Receive()
         self.fit()
 
-    def receive(self):
+    def IO(self):
+        if self.Host == 'sklearn':
+            self.metadata = getattr(sklearn_db, self.Function)()
+        elif self.Host == 'cheml':
+            self.metadata = getattr(cheml_db, self.Function)()
+        elif self.Host == 'pandas':
+            self.metadata = getattr(pandas_db, self.Function)()
+        self.inputs = {i:copy.deepcopy(vars(self.metadata.Inputs)[i]) for i in vars(self.metadata.Inputs).keys() if
+                       i not in ('__module__','__doc__')}
+        self.outputs = {i:copy.deepcopy(vars(self.metadata.Outputs)[i]) for i in vars(self.metadata.Outputs).keys() if
+                   i not in ('__module__', '__doc__')}
+        # self.wparams = {i:copy.deepcopy(vars(self.metadata.WParameters)[i]) for i in vars(self.metadata.WParameters).keys() if
+        #             i not in ('__module__', '__doc__')}
+
+    def Receive(self):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
         self.Base.graph = tuple([edge for edge in self.Base.graph if edge[2] != self.iblock])
         # check received tokens to: (1) be a legal input, and (2) be unique.
-        count = {token: 0 for token in self.legal_inputs}
+        count = {token: 0 for token in self.inputs}
         for edge in recv:
-            if edge[3] in self.legal_inputs:
+            if edge[3] in self.inputs:
                 count[edge[3]] += 1
                 if count[edge[3]] > 1:
-                    msg = '@Task #%i(%s): only one input per each available input path/token can be received.' % (
-                        self.iblock + 1, self.SuperFunction)
+                    msg = '@Task #%i(%s): only one input per each available input token can be received.' % (
+                        self.iblock + 1, self.Task)
                     raise IOError(msg)
             else:
-                msg = "@Task #%i(%s): received a non valid input token '%s', sent by function #%i" % (
-                    self.iblock + 1, self.SuperFunction, edge[3], edge[0] + 1)
+                msg = "@Task #%i(%s): received a non valid input token '%s', sent by block #%i" % (
+                    self.iblock + 1, self.Task, edge[3], edge[0] + 1)
                 raise IOError(msg)
         for edge in recv:
             key = edge[0:2]
             if key in self.Base.send:
-                if self.Base.send[key][1] > 0:
-                    value = self.Base.send[key][0]
-                    # value = copy.deepcopy(self.Base.send[key][0])
-                    # else:
-                    #     value = self.Base.send[key][0]
-                    # Todo: informative token should be a list of (int(edge[0]),edge[1])
-                    # informative_token = (int(edge[0]), edge[1]) + self.Base.graph_info[int(edge[0])]
-                    self.legal_inputs[edge[3]] = (value, self.Base.send[key][2])
-                    del value
-                    self.Base.send[key][1] -= 1
-                if self.Base.send[key][1] == 0:
+                if self.Base.send[key].count > 0:
+                    value = self.Base.send[key].value
+                    # Todo: add an option to deepcopy(value)
+                    if str(type(value)) in self.inputs[edge[3]].types or \
+                               len(self.inputs[edge[3]].types)==0:
+                        self.inputs[edge[3]].value = value
+                        self.inputs[edge[3]].fro = self.Base.send[key].fro
+                        self.Base.send[key].count -= 1
+                    else:
+                        msg = "@Task #%i(%s): The input token '%s' doesn't support the received format"  % (
+                            self.iblock + 1, self.Task, edge[3])
+                        raise IOError(msg)
+                if self.Base.send[key].count == 0:
                     del self.Base.send[key]
             else:
-                msg = '@Task #%i(%s): broken pipe in token %s - nothing has been sent' % (
-                    self.iblock + 1, self.SuperFunction, edge[3])
+                msg = "@Task #%i(%s): no output has been sent to the input token '%s'" % (
+                    self.iblock + 1, self.Task, edge[3])
                 raise IOError(msg)
-        return self.legal_inputs
 
-    def _error_type(self, token):
-        msg = "@Task #%i(%s): The type of input '%s' is not valid" \
-              % (self.iblock + 1, self.SuperFunction, token)
-        raise IOError(msg)
-
-    def type_check(self, token, cheml_type, req=False, py_type=False):
-        if isinstance(self.legal_inputs[token], type(None)):
-            if req:
-                msg = "@Task #%i(%s): The input type with token '%s' is required." \
-                      % (self.iblock + 1, self.SuperFunction, token)
-                raise IOError(msg)
+    def Send(self):
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token in self.outputs:
+                if self.outputs[token].value is not None:
+                    self.outputs[token].count = order.count(token)
+                    self.Base.send[(self.iblock, token)] = self.outputs[token]
+                else:
+                    msg = "@Task #%i(%s): not allowed to send out empty objects '%s'" % (
+                        self.iblock + 1, self.Task, token)
+                    warnings.warn(msg)
             else:
-                return None
-        else:
-            slit0 = self.legal_inputs[token][0]
-            slit1 = self.legal_inputs[token][1]
-            if py_type:
-                if not isinstance(slit0, py_type):
-                    self._error_type(token)
-            # if cheml_type == 'df':
-            #     if not slit1[1][0:2] == 'df':
-            #         self._error_type(token)
-            # elif cheml_type == 'regressor':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['regressor']:
-            #         self._error_type(token)
-            # elif cheml_type == 'preprocessor':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['preprocessor']:
-            #         self._error_type(token)
-            # elif cheml_type == 'divider':
-            #     if slit1[2] + '_' + slit1[3] not in self.Base.cheml_type['divider']:
-            #         self._error_type(token)
-            # else:
-            #     msg = "@Task #%i(%s): The type of input with token '%s' must be %s not %s" \
-            #           % (self.iblock + 1, self.SuperFunction, token, str(py_type), str(type(slit0)))
-            #     raise IOError(msg)
-            return slit0
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
 
-    def input_check(self, token, req=False, py_type=False):
+    def required(self, token, req=False):
         """
         Tasks:
             - check if input token is required
-            - check if python type is correct
-            - check if the input is acceptable (based on the original sender)
-
-        Note:
-            - always run with Library.manual
 
         :param token: string, name of the input
         :param req: Boolean, optional (default = False)
-        :param py_type: any python recognizable type, optional (default = False)
-        :return:
-            token value and token information (the sender info)
+
         """
-        if self.legal_inputs[token] is None:
+        if self.inputs[token].value is None:
             if req:
                 msg = "@Task #%i(%s): The input '%s' is required." \
-                      % (self.iblock + 1, self.SuperFunction, token)
+                      % (self.iblock + 1, self.Task, token)
                 raise IOError(msg)
-            else:
-                return None, None
-        else:
-            slit0 = self.legal_inputs[token][0]
-            slit1 = self.legal_inputs[token][1]
-            if py_type:
-                if not isinstance(slit0, py_type):
-                    self._error_type(token)
-            self.manual(host_function = self.Base.graph_info[self.iblock], token=token, slit1=slit1)
-        return slit0, slit1
 
     def paramFROMinput(self):
         for param in self.parameters:
             if isinstance(self.parameters[param], str):
                 if self.parameters[param][0]=='@':
-                    token = self.parameters[param][1:]
-                    if token in self.legal_inputs:
-                        self.parameters[param] = self.legal_inputs[token][0]
+                    token = self.parameters[param][1:].strip()
+                    if token in self.inputs:
+                        self.parameters[param] = self.inputs[token].value
                     else:
                         msg = "@Task #%i(%s): assigned an unknown token name - %s - to the parameter - %s - " \
-                              % (self.iblock + 1, self.SuperFunction, token, param)
+                              % (self.iblock + 1, self.Task, token, param)
                         raise IOError(msg)
+
+    def set_value(self,token,value):
+        self.outputs[token].fro = (self.iblock,self.Host,self.Function)
+        if str(type(value)) in self.outputs[token].types or \
+                    len(self.outputs[token].types)==0:
+            self.outputs[token].value = value
+        else:
+            msg = "@Task #%i(%s): The output token '%s' doesn't support the type"  % (
+                self.iblock, self.Host, token)
+            raise IOError(msg)
+
+    def import_sklearn(self):
+        try:
+            exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+            F = getattr(submodule, self.Function)
+            api = F(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        return api
 
     def _dim_check(self, token, X, ndim):
         if (X.ndim == ndim < 3):
@@ -145,7 +153,7 @@ class BASE(object):
             X = X.ravel()
         else:
             msg = "@Task #%i(%s): the %s is not or can not be converted to %i dimensional " \
-                  % (self.iblock + 1, self.SuperFunction, token, ndim)
+                  % (self.iblock + 1, self.Task, token, ndim)
             raise IOError(msg)
         return X
 
@@ -173,14 +181,14 @@ class BASE(object):
         """
         if isinstance(X, pd.DataFrame):
             if format_out == 'ar':
-                print '%s.ndim:'%token, X.values.ndim
+                print '%s.ndim:'%token, X.values.ndim, "; changing to %i-dimension ..." %ndim
                 header = X.columns
                 X = self._dim_check(token, X.values, ndim)
             else:
                 header = X.columns
             # if not np.can_cast(X.dtypes, np.float, casting='same_kind'):
             #     msg = "@Task #%i(%s): %s cannot be cast to floats" \
-            #           % (self.iblock + 1, self.SuperFunction, token)
+            #           % (self.iblock + 1, self.Task, token)
             #     raise Exception(msg)
         elif isinstance(X, np.ndarray):
             if format_out == 'df':
@@ -191,16 +199,16 @@ class BASE(object):
                 X = self._dim_check(token, X, ndim)
         else:
             msg = "@Task #%i(%s): %s needs to be either pandas dataframe or numpy array" \
-                  % (self.iblock + 1, self.SuperFunction, token)
+                  % (self.iblock + 1, self.Task, token)
             raise Exception(msg)
 
         if n0 and X.shape[0] != n0:
             msg = "@Task #%i(%s): %s has an invalid number of data entries" \
-                  % (self.iblock + 1, self.SuperFunction, token)
+                  % (self.iblock + 1, self.Task, token)
             raise Exception(msg)
         if n1 and X.shape[1] != n1:
             msg = "@Task #%i(%s): %s has an invalid number of feature entries" \
-                  % (self.iblock + 1, self.SuperFunction, token)
+                  % (self.iblock + 1, self.Task, token)
             raise Exception(msg)
         return X, header #X.astype(float), header
 
@@ -247,67 +255,14 @@ class LIBRARY(object):
                 file.write('\n')
 
     def manual(self, host_function, token=None, slit1=None):
-        # legal_modules = {'cheml':['RDKitFingerprint','Dragon','CoulombMatrix','BagofBonds',
-        #                           'PyScript','File','Merge','Split','SaveFile',
-        #                           'MissingValues','Trimmer','Uniformer','Constant','TBFS',
-        #                           'NN_PSGD','NN_DSGD','NN_MLP_Theano','NN_MLP_Tensorflow','SVR'],
-        #                  'sklearn': ['PolynomialFeatures','Imputer','StandardScaler','MinMaxScaler','MaxAbsScaler',
-        #                              'RobustScaler','Normalizer','Binarizer','OneHotEncoder',
-        #                              'VarianceThreshold','SelectKBest','SelectPercentile','SelectFpr','SelectFdr',
-        #                              'SelectFwe','RFE','RFECV','SelectFromModel',
-        #                              'PCA','KernelPCA','RandomizedPCA','LDA',
-        #                              'Train_Test_Split','KFold','','','',
-        #                              'SVR','','',
-        #                              'GridSearchCV','Evaluation',''],
-        #                  'tf':[]}
-
-        # general output formats
-        dfs = [('df','cheml','ReadTable'),\
-               ('df1','cheml','Split'), ('df2','cheml','Split'),\
-               ('df', 'cheml', 'Merge'), \
-               ('df_out1', 'cheml', 'PyScript'), ('df_out2', 'cheml', 'PyScript'), \
-               ('df', 'cheml', 'Dragon'), ('df', 'cheml', 'RDKitFingerprint'), \
-               ('dfx', 'cheml', 'MissingValues'),('dfy', 'cheml', 'MissingValues'), \
-               ('df', 'cheml', 'Constant'), \
-               ('dfy_train_pred','cheml','NN_PSGD'), ('dfy_test_pred','cheml','NN_PSGD'),\
-               ('dfx_train', 'sklearn', 'Train_Test_Split'), ('dfx_test', 'sklearn', 'Train_Test_Split'), \
-               ('dfy_train', 'sklearn', 'Train_Test_Split'), ('dfy_test', 'sklearn', 'Train_Test_Split')]
-
-        # {inputs: legal output formats}
-        CMLWinfo = {
-            ('cheml','RDKitFingerprint'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
-            ('cheml','Dragon'):{'molfile':[('filepath', 'cheml', 'SaveFile'),]},
-            ('cheml','CoulombMatrix'):{'':[]},
-            ('cheml','BagofBonds'):{'':[]},
-            ('cheml','PyScript'):{'':[]},
-
-            ('cheml','ReadTable'):{'':[]},
-            ('cheml','Merge'):{'df1':dfs+[], 'df2':dfs+[]},
-            ('cheml','Split'):{'df':dfs+[]},
-            ('cheml','SaveFile'):{'df':dfs+[('removed_columns_', 'cheml', 'Constant'),('dfy_pred', 'cheml', 'NN_PSGD'), \
-                                            ('evaluation_results_', 'sklearn', 'Evaluate_static')]},
-
-            ('cheml','MissingValues'):{'dfx':dfs+[], 'dfy':dfs+[]},
-            ('cheml','Trimmer'):{'':[]},
-            ('cheml','Uniformer'):{'':[]},
-            ('cheml','Constant'):{'df':dfs+[]},
-            ('cheml','TBFS'):{'':[]},
-            ('cheml','NN_PSGD'):{'dfx_train':dfs+[], 'dfy_train':dfs+[], 'dfx_test':dfs+[]},
-            ('cheml',''):{'':[]},
-            ('cheml',''):{'':[]},
-            ('sklearn', 'SVR'): {},
-            ('sklearn', 'SVR'): {},
-            ('sklearn', 'Evaluate_static'): {'dfy':dfs+[], 'dfy_pred':dfs+[]},
-            ('sklearn', 'Train_Test_Split'): {'dfx':dfs+[], 'dfy':dfs+[]},
-            ('sklearn', 'GridSearchCV'): {'model': [('model','sklearn','SVR'),],},
-        }
+        _ , _ , CMLWinfo = BANK()
         if token:
             if host_function in CMLWinfo:
                 if token in CMLWinfo[host_function]:
                     if slit1[1:] not in CMLWinfo[host_function][token]:
                         msg = "@Task #%i(%s): received an illegal input format - %s - for the token %s. " \
                               "The list of acceptable formats are: %s" \
-                              % (self.iblock + 1, self.SuperFunction, str(slit1[1:]), token, str(CMLWinfo[host_function][token]))
+                              % (self.iblock + 1, self.Task, str(slit1[1:]), token, str(CMLWinfo[host_function][token]))
                         raise IOError(msg)
         else:
             if host_function not in CMLWinfo:
@@ -315,19 +270,158 @@ class LIBRARY(object):
             else:
                 return True
 
-class BIG_BANK(object):
-    def __init__(self):
-        self.info = {'Feature Representation':{'cheml':['RDKitFingerprint','Dragon','CoulombMatrix'],
-                                                   'sklearn':['PolynomialFeatures']
-                                                   },
-                         'Script':{'cheml':['PyScript']
+def BANK():
+    # 7 tasks
+    tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
+    # info = {'task':{'subtask':{'host':{'function':{ 'inputs': {'name':'df', 'required':True, 'value':None, 'allowed':[],
+    #                                                          'sender':(), 'py_type':pd.DataFrame
+    #                                                         }
+    #                                  'wrapper_params':{'param':{'required':False, 'value':None}
+    #                                                   }
+    #                                  'function_params':{'param': {'required': False, 'value': None}
+    #                                                    }
+    #                                }
+    #                      }
+    #                }
+    #       }
+    # }
+    # sklearn_regression_function
+    skl_regression_func = ['LinearRegression', 'Ridge', 'KernelRidge', 'Lasso', 'MultiTaskLasso', 'ElasticNet', \
+                                'MultiTaskElasticNet', 'Lars', 'LassoLars', 'BayesianRidge', 'ARDRegression', \
+                                'LogisticRegression', 'SGDRegressor', 'SVR', 'NuSVR', 'LinearSVR', 'MLPRegressor']
+
+    external_info = {('task', 'subtask'):('host', 'function')}
+    external_info = {
+            'Enter':{
+                        'input_data':{
+                                    'pandas':['read_excel', 'read_csv'],
+                                     }
+                    },
+            'Prepare':{
+                        'descriptor': {'cheml': ['RDKitFingerprint', 'Dragon', 'CoulombMatrix'],
+                                       'sklearn': ['PolynomialFeatures', 'Binarizer','OneHotEncoder']
+                                       },
+                        'scaler': {
+                                    'sklearn': ['StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer']
+                                  },
+                        'feature selector': {
+                                                'sklearn': ['PCA','KernelPCA']
+                                            },
+                        'feature transformer': {
+                                                'cheml': ['TBFS']
+                                                },
+                        'basic operator': {
+                                        'cheml':['PyScript','Merge','Split', 'Constant','MissingValues','Trimmer','Uniformer'],
+                                        'sklearn': ['Imputer']
+                                          },
+                        'splitter': {
+                                        'sklearn': ['Train_Test_Split','KFold']
+                                    },
+                      },
+            'Model':{
+                        'regression':{
+                                        'cheml':['NN_PSGD','nn_dsgd'],
+                                        'sklearn':[
+                                                'OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','',
+                                                'ElasticNet','MultiTaskElasticNet','Lars','LassoLars',
+                                                'BayesianRidge', 'ARDRegression', 'LogisticRegression',
+                                                'SGDRegressor','SVR','NuSVR','LinearSVR','MLPRegressor',
+                                                ]
+                                        },
+                        'classification': {},
+                        'clustering': {},
+                    },
+            'Search':{
+                        'evolutionary': {
+                                        'cheml': ['GeneticAlgorithm_binary'],
+                                        'deep': []
+                                        },
+                        'swarm': {
+                                    'pyswarm': ['pso']
+                                 },
+                        'grid':{
+                                    'sklearn': ['GridSearchCV',]
+                                },
+                        'metrics':{
+                                        'sklearn':['Evaluate_Regression']
                                    },
-                         'IO':{'cheml':['ReadTable', 'Merge','Split', 'SaveFile']
-                               },
-                         'Preprocessor':{'cheml': ['MissingValues','Trimmer','Uniformer','Constant'],
-                                          'sklearn':['Imputer']
-                                         },
-                         'Feature Transformation':{},
-                         'Feature Selection':{},
-                         'Divider':{}
-                         }
+                     },
+            'Mix':{
+                    'A': {
+                            'sklearn': ['cross_val_score',]
+                          },
+                    'B': {}
+                  },
+            'Visualize':{
+                            'matplotlib': [],
+                            'seaborn': []
+                        },
+            'Store':{
+                        'output_data':{
+                                        'cheml': ['SaveFile'],
+                                      }
+                    }
+            }
+    internal_info = {('host','function'):{'inputs':{ 'token': 'Input_instance'},
+                                          'outputs':{'token': 'Output_instance'},
+                                          'wrapper_param':{'param':{'required':True, 'value':None}
+                                                           },
+                                          'function_param':{'param':{'required':True, 'value':None}
+                                                            },
+                                         }
+                    }
+
+    pddf = "<class 'pandas.core.frame.DataFrame'>"
+    internal_info = {
+        ('cheml', 'RDKitFingerprint'): {'inputs':{'molfile': str},'outputs':{}},
+        ('cheml', 'Dragon'): {'molfile': [('filepath', 'cheml', 'SaveFile'), ]},
+        ('cheml', 'CoulombMatrix'): {'': []},
+        ('cheml', 'BagofBonds'): {'': []},
+        ('cheml', 'PyScript'): {'df1': pddf, 'df2':pddf },
+
+        ('cheml', 'ReadTable'): {'': []},
+        ('cheml', 'Merge'): {'df1': [], 'df2': []},
+        ('cheml', 'Split'): {'df': []},
+        ('cheml', 'SaveFile'): {'df': []},
+        ('cheml', 'StoreFile'): {},  # {'input':[]},
+
+        ('cheml', 'MissingValues'): {'dfx': [], 'dfy': []},
+        ('cheml', 'Trimmer'): {'': []},
+        ('cheml', 'Uniformer'): {'': []},
+        ('cheml', 'Constant'): {'df': []},
+        ('cheml', 'TBFS'): {'': []},
+        ('cheml', 'NN_PSGD'): {'dfx_train': [], 'dfy_train': [], 'dfx_test': []},
+        ('cheml', ''): {'': []},
+        ('cheml', ''): {'': []},
+
+        ('sklearn', 'SVR'): {},
+        ('sklearn', 'MLPRegressor'): {'dfx': [], 'dfy': []},
+
+        ('sklearn', 'PolynomialFeatures'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.PolynomialFeatures'>"},
+        ('sklearn', 'Binarizer'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.Binarizer'>"},
+        ('sklearn', 'OneHotEncoder'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.data.OneHotEncoder'>"},
+        ('sklearn', 'Imputer'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.imputation.Imputer'>"},
+        ('sklearn', 'StandardScaler'): {'df': pddf, 'api':""},
+        ('sklearn', 'MinMaxScaler'): {'df': pddf, 'api':""},
+        ('sklearn', 'MaxAbsScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
+        ('sklearn', 'Train_Test_Split'): {'dfx': [], 'dfy': []},
+        ('sklearn', 'KFold'): {},
+
+        ('sklearn', 'Evaluate_Regression'): {'dfy': [], 'dfy_pred': []},
+        ('sklearn', 'scorer_regression'): {},
+        ('sklearn', 'ShuffleSplit'): {},
+        ('sklearn', 'StratifiedShuffleSplit'): {},
+        ('sklearn', 'GridSearchCV'): {},
+        ('sklearn', 'learning_curve'): {'dfx': [], 'dfy': []},
+
+
+        ('pandas', 'read_table'): {'': []},
+        ('pandas', 'corr'): {'df': []}
+
+    }
+
+    return tasks, external_info, internal_info

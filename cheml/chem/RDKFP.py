@@ -16,7 +16,7 @@ def _add_range(file,start_end):
     exec(s)
     return pattern
 
-class RDKFingerprint(object):
+class RDKitFingerprint(object):
     """ An interface to RDKit fingerprints.
     
     Parameters
@@ -36,7 +36,7 @@ class RDKFingerprint(object):
                     It is not available for 'MACCS'.
             - 'bit' : only zeros and ones
                     It is not available for 'Topological_torsion'.
- 
+
     nBits: integer, optional (default = 1024)
         It sets number of bits in the specific type of fingerprint vectors. 
         Not availble for: 

@@ -3,7 +3,7 @@ The 'cheml.notebooks' module includes ,
 last modified date: April 28, 2017
 """
 
-# from test import test
+from main import wrapperGUI
 
 
 __all__ = []

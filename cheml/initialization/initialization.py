@@ -160,11 +160,11 @@ class XYZreader(object):
 
     def __file_reader(self, filename):
         if self.reader == 'auto':
-            sys.path.insert(0, "/user/m27/pkg/openbabel/2.3.2/lib")
-            import pybel
-            import openbabel
+            # sys.path.insert(0, "/user/m27/pkg/openbabel/2.3.2/lib")
+            # import pybel
+            # import openbabel
             mol = open(filename, 'r').read()
-            mol = pybel.readstring("xyz", mol)
+            # mol = pybel.readstring("xyz", mol)
             molecule = [(a.OBAtom.GetAtomicNum(), a.OBAtom.x(), a.OBAtom.y(), a.OBAtom.z()) for a in mol.atoms]
             return np.array(molecule)
         elif self.reader == 'manual':
@@ -177,7 +177,7 @@ class XYZreader(object):
                 atom = atom.replace('\t', ' ')
                 atom = atom.strip().split(' ')
                 atom = list(filter(lambda x: x != '', atom))
-                molecule.append([Z[atom[0]], float(atom[1]), float(atom[2]), float(atom[3])])
+                molecule.append([self.Z[atom[0]], float(atom[1]), float(atom[2]), float(atom[3])])
             return np.array(molecule)
 
     def read(self):
@@ -397,3 +397,4 @@ def slurm_script(block):
         for line in file:
             script.write(line)
         script.close()
+

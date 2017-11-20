@@ -51,8 +51,12 @@ def isint(val):
 
 def value(string):
     try:
-        return eval(string)
-    except NameError:
+        val =  eval(string)
+        if type(val)==type:
+            return string
+        else:
+            return val
+    except:
         return string
 
 def check_input(X,name,n0=None,n1=None, format_out='df'):

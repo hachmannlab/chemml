@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "test.py", line 39, in <module>
+    OUTPUT_DIRECTORY = 'input_files/trash_outputs/test.out')
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/engine.py", line 455, in run
+    wrapper.call()
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/engine.py", line 331, in call
+    cmli.run()
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/base.py", line 30, in run
+    self.fit()
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/sklearn_skl/sklearn_wrapper.py", line 15, in fit
+    self.Fit_sklearn()
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/base.py", line 201, in Fit_sklearn
+    self.set_value('dfy_predict', dfy_predict)
+  File "/Users/mojtabahaghighatlari/Box Sync/Hachmann_Group/7_MLpackages/cheml/CheML/cheml/wrappers/base.py", line 134, in set_value
+    raise IOError(msg)
+IOError: @Task #2(sklearn): The output token 'dfy_predict' doesn't support the type

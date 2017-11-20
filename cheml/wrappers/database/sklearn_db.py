@@ -376,7 +376,7 @@ class train_test_split(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        X = Parameter('X', '* required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         test_size = Parameter('test_size', 0.25)
         train_size = Parameter('train_size', None)
@@ -1029,10 +1029,10 @@ class GridSearchCV(object):
         refit = Parameter('refit', True)
         return_train_score = Parameter('return_train_score', True)
         iid = Parameter('iid', True)
-        estimator = Parameter('estimator', '* required')
+        estimator = Parameter('estimator', 'required_required')
         error_score = Parameter('error_score','raise')
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
-        param_grid = Parameter('param_grid', '* required')
+        param_grid = Parameter('param_grid', 'required_required')
         cv = Parameter('cv', None)
 class cross_val_predict(object):
     task = 'Search'
@@ -1055,8 +1055,8 @@ class cross_val_predict(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         cv = Parameter('cv', None)
@@ -1086,8 +1086,8 @@ class cross_val_score(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         scoring = Parameter('scoring', None)
@@ -1121,8 +1121,8 @@ class learning_curve(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         train_sizes = Parameter('train_sizes', [ 0.1, 0.33, 0.55, 0.78,1.])

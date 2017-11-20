@@ -1,7 +1,7 @@
 from .containers import Input, Output, Parameter, req, regression_types, cv_types
 
 class PyScript(object):
-    task = 'Prepare'
+    task = 'Enter'
     subtask = 'python script'
     host = 'cheml'
     function = 'PyScript'
@@ -26,13 +26,32 @@ class PyScript(object):
     class WParameters:
         pass
     class FParameters:
-        pass
+        line01 = Parameter('line01', 'type python code')
+        line02 = Parameter('line02', 'input tokens are available as ... ')
+        line03 = Parameter('line03', '... python variables')
+        line04 = Parameter('line04', 'type python code')
+        line05 = Parameter('line05', 'type python code')
+        line06 = Parameter('line06', 'type python code')
+        line07 = Parameter('line07', 'type python code')
+        line08 = Parameter('line08', 'type python code')
+        line09 = Parameter('line09', 'type python code')
+        line10 = Parameter('line10', 'type python code')
+        line11 = Parameter('line11', 'type python code')
+        line12 = Parameter('line12', 'type python code')
+        line13 = Parameter('line13', 'type python code')
+        line14 = Parameter('line14', 'type python code')
+        line15 = Parameter('line15', 'type python code')
+        line16 = Parameter('line16', 'type python code')
+        line17 = Parameter('line17', 'type python code')
+        line18 = Parameter('line18', 'type python code')
+        line19 = Parameter('line19', 'type python code')
+        line20 = Parameter('line20', 'type python code')
 
-class RDKFingerprint(object):
+class RDKitFingerprint(object):
     task = 'Prepare'
     subtask = 'feature representation'
     host = 'cheml'
-    function = 'RDKFingerprint'
+    function = 'RDKitFingerprint'
     modules = ('cheml','chem')
     requirements = (req(0), req(2), req(3))
     documentation = ""
@@ -50,7 +69,7 @@ class RDKFingerprint(object):
         nBits = Parameter('nBits', 1024)
         radius = Parameter('radius', 2)
         removeHs = Parameter('removeHs', True)
-        molfile = Parameter('molfile', '* required')
+        molfile = Parameter('molfile', 'required_required')
         path = Parameter('path', None)
         arguments = Parameter('arguments', [])
 
@@ -68,14 +87,14 @@ class Dragon(object):
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
-        pass
+        script = Parameter('script', 'new')
     class FParameters:
         FPtype = Parameter('output_directory', './')
         script = Parameter('script', 'new')
 
         SaveStdOut = Parameter('SaveStdOut', False)
-        DisconnectedCalculationOption = Parameter('DisconnectedCalculationOption', "0", format="string")
-        MaxSR = Parameter('MaxSR', 35)
+        DisconnectedCalculationOption = Parameter('DisconnectedCalculationOption', "'0'", format="string")
+        MaxSR = Parameter('MaxSR', "'35'", format="string")
         SaveFilePath = Parameter('SaveFilePath', "Dragon_descriptors.txt")
         SaveExcludeMisMolecules = Parameter('SaveExcludeMisMolecules', False)
         SaveExcludeStdDev = Parameter('SaveExcludeStdDev', False)
@@ -94,18 +113,18 @@ class Dragon(object):
         LogPathWalk = Parameter('LogPathWalk', True)
         SaveLabelsOnSeparateFile = Parameter('SaveLabelsOnSeparateFile', False)
         version = Parameter('version', 6)
-        DefaultMolFormat = Parameter('DefaultMolFormat', "1", format='string')
-        molFile = Parameter('molFile', '* required')
+        DefaultMolFormat = Parameter('DefaultMolFormat', "'1'", format='string')
+        molFile = Parameter('molFile', 'required_required')
         HelpBrowser = Parameter('HelpBrowser', "/usr/bin/xdg-open")
         SaveExcludeRejectedMolecules = Parameter('SaveExcludeRejectedMolecules', False)
         knimemode = Parameter('knimemode', False)
         RejectUnusualValence = Parameter('RejectUnusualValence', False)
-        SaveStdDevThreshold = Parameter('SaveStdDevThreshold', "0.0001", format='string')
+        SaveStdDevThreshold = Parameter('SaveStdDevThreshold', "'0.0001'", format='string')
         SaveExcludeConst = Parameter('SaveExcludeConst', False)
         SaveFormatSubBlock = Parameter('SaveFormatSubBlock', "%b-%s-%n-%m.txt")
         Decimal_Separator = Parameter('Decimal_Separator','.')
         SaveExcludeCorrelated = Parameter('SaveExcludeCorrelated', False)
-        MaxSRDetour = Parameter('MaxSRDetour', "30", format='string')
+        MaxSRDetour = Parameter('MaxSRDetour', "'30'", format='string')
         consecutiveDelimiter = Parameter('consecutiveDelimiter', False)
         molInputFormat = Parameter('molInputFormat', "SMILES")
         SaveExcludeAllMisVal = Parameter('SaveExcludeAllMisVal', False)
@@ -113,7 +132,7 @@ class Dragon(object):
                             ['Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'])
         external = Parameter('external', False)
         RoundWeights = Parameter('RoundWeights', True)
-        MaxSRforAllCircuit = Parameter('MaxSRforAllCircuit', 19)
+        MaxSRforAllCircuit = Parameter('MaxSRforAllCircuit', "'19'",format="string")
         fileName = Parameter('fileName', None)
         RoundCoordinates = Parameter('RoundCoordinates', True)
         Missing_String = Parameter('Missing_String', "NaN")
@@ -122,16 +141,16 @@ class Dragon(object):
         RoundDescriptorValues = Parameter('RoundDescriptorValues', True)
         PreserveTemporaryProjects = Parameter('PreserveTemporaryProjects', True)
         SaveLayout = Parameter('SaveLayout', True)
-        molInput = Parameter('molInput', "stdin")
+        molInput = Parameter('molInput', "file")
         SaveFormatBlock = Parameter('SaveFormatBlock',"%b-%n.txt")
         SaveType = Parameter('SaveType', "singlefile")
         ShowWorksheet = Parameter('ShowWorksheet', False)
         delimiter = Parameter('delimiter',",")
         RetainBiggestFragment = Parameter('RetainBiggestFragment', False)
         CheckUpdates = Parameter('CheckUpdates', True)
-        MaxAtomWalkPath = Parameter('MaxAtomWalkPath', "2000", format='string')
+        MaxAtomWalkPath = Parameter('MaxAtomWalkPath', "'2000'", format='string')
         logMode = Parameter('logMode', "file")
-        SaveCorrThreshold = Parameter('SaveCorrThreshold', "0.95", format='string')
+        SaveCorrThreshold = Parameter('SaveCorrThreshold', "'0.95'", format='string')
         SaveFile = Parameter('SaveFile', True)
 
 class Coulomb_Matrix(object):
@@ -259,7 +278,7 @@ class Split(object):
 
 class Constant(object):
     task = 'Prepare'
-    subtask = 'preprocessing'
+    subtask = 'preprocessor'
     host = 'cheml'
     function = 'Constant'
     modules = ('cheml','preprocessing')
@@ -336,7 +355,7 @@ class SaveFile(object):
         format = Parameter('format', 'csv')
         output_directory = Parameter('output_directory', None)
         header = Parameter('header', True)
-        filename = Parameter('filename', '* required')
+        filename = Parameter('filename', 'required_required')
 
 class XYZreader(object):
     task = 'Enter'
@@ -356,7 +375,7 @@ class XYZreader(object):
     class WParameters:
         pass
     class FParameters:
-        path_pattern = Parameter('path_pattern', '* required')
+        path_pattern = Parameter('path_pattern', 'required_required')
         path_root = Parameter('path_root', None)
         Z = Parameter('Z', {'Ru': 44.0, 'Re': 75.0, 'Rf': 104.0, 'Rg': 111.0, 'Ra': 88.0, 'Rb': 37.0, 'Rn': 86.0, 'Rh': 45.0, 'Be': 4.0, 'Ba': 56.0, 'Bh': 107.0, 'Bi': 83.0, 'Bk': 97.0, 'Br': 35.0, 'H': 1.0, 'P': 15.0, 'Os': 76.0, 'Es': 99.0, 'Hg': 80.0, 'Ge': 32.0, 'Gd': 64.0, 'Ga': 31.0, 'Pr': 59.0, 'Pt': 78.0, 'Pu': 94.0, 'C': 6.0, 'Pb': 82.0, 'Pa': 91.0, 'Pd': 46.0, 'Cd': 48.0, 'Po': 84.0, 'Pm': 61.0, 'Hs': 108.0, 'Uup': 115.0, 'Uus': 117.0, 'Uuo': 118.0, 'Ho': 67.0, 'Hf': 72.0, 'K': 19.0, 'He': 2.0, 'Md': 101.0, 'Mg': 12.0, 'Mo': 42.0, 'Mn': 25.0, 'O': 8.0, 'Mt': 109.0, 'S': 16.0, 'W': 74.0, 'Zn': 30.0, 'Eu': 63.0, 'Zr': 40.0, 'Er': 68.0, 'Ni': 28.0, 'No': 102.0, 'Na': 11.0, 'Nb': 41.0, 'Nd': 60.0, 'Ne': 10.0, 'Np': 93.0, 'Fr': 87.0, 'Fe': 26.0, 'Fl': 114.0, 'Fm': 100.0, 'B': 5.0, 'F': 9.0, 'Sr': 38.0, 'N': 7.0, 'Kr': 36.0, 'Si': 14.0, 'Sn': 50.0, 'Sm': 62.0, 'V': 23.0, 'Sc': 21.0, 'Sb': 51.0, 'Sg': 106.0, 'Se': 34.0, 'Co': 27.0, 'Cn': 112.0, 'Cm': 96.0, 'Cl': 17.0, 'Ca': 20.0, 'Cf': 98.0, 'Ce': 58.0, 'Xe': 54.0, 'Lu': 71.0, 'Cs': 55.0, 'Cr': 24.0, 'Cu': 29.0, 'La': 57.0, 'Li': 3.0, 'Lv': 116.0, 'Tl': 81.0, 'Tm': 69.0, 'Lr': 103.0, 'Th': 90.0, 'Ti': 22.0, 'Te': 52.0, 'Tb': 65.0, 'Tc': 43.0, 'Ta': 73.0, 'Yb': 70.0, 'Db': 105.0, 'Dy': 66.0, 'Ds': 110.0, 'I': 53.0, 'U': 92.0, 'Y': 39.0, 'Ac': 89.0, 'Ag': 47.0, 'Uut': 113.0, 'Ir': 77.0, 'Am': 95.0, 'Al': 13.0, 'As': 33.0, 'Ar': 18.0, 'Au': 79.0, 'At': 85.0, 'In': 49.0})
         reader = Parameter('reader', 'auto')

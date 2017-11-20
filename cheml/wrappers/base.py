@@ -144,6 +144,70 @@ class BASE(object):
             raise TypeError(msg)
         return api
 
+    def Fit_sklearn(self):
+        self.paramFROMinput()
+        if 'track_header' in self.parameters:
+            self.header = self.parameters.pop('track_header')
+        else:
+            self.header = True
+        if 'func_method' in self.parameters:
+            self.method = self.parameters.pop('func_method')
+        else:
+            self.method = None
+
+        available_methods = self.metadata.WParameters.func_method.options
+        if self.method not in available_methods:
+            msg = "@Task #%i(%s): The method '%s' is not available for the function '%s'." % (
+                self.iblock, self.Task,self.method,self.Function)
+            raise NameError(msg)
+
+        # methods: fit, predict, None for regression
+        # methods: fit_transform, transform, inverse_transform, None for transformers
+        if self.method == None:
+            api = self.import_sklearn()
+            self.set_value('api', api)
+        elif self.method == 'fit_transform':
+            api = self.import_sklearn()
+            self.required('df', req=True)
+            df = self.inputs['df'].value
+            df = api.fit_transform(df)
+            self.set_value('api', api)
+            self.set_value('df', pd.DataFrame(df))
+        elif self.method == 'transform':
+            self.required('df', req=True)
+            self.required('api', req=True)
+            df = self.inputs['df'].value
+            api = self.inputs['api'].value
+            df = api.transform(df)
+            self.set_value('api', api)
+            self.set_value('df', pd.DataFrame(df))
+        elif self.method == 'inverse_transform':
+            self.required('df', req=True)
+            self.required('api', req=True)
+            df = self.inputs['df'].value
+            api = self.inputs['api'].value
+            df = api.inverse_transform(df)
+            self.set_value('api', api)
+            self.set_value('df', pd.DataFrame(df))
+        elif self.method == 'fit':
+            api = self.import_sklearn()
+            self.required('dfx', req=True)
+            self.required('dfy', req=True)
+            dfx = self.inputs['dfx'].value
+            dfy = self.inputs['dfy'].value
+            api.fit(dfx,dfy)
+            dfy_predict = api.predict(dfx)
+            self.set_value('api', api)
+            self.set_value('dfy_predict', pd.DataFrame(dfy_predict))
+        elif self.method == 'predict':
+            self.required('dfx', req=True)
+            self.required('api', req=True)
+            dfx = self.inputs['dfx'].value
+            api = self.inputs['api'].value
+            dfy_predict = api.predict(dfx)
+            self.set_value('api', api)
+            self.set_value('dfy_predict', pd.DataFrame(dfy_predict))
+
     def _dim_check(self, token, X, ndim):
         if (X.ndim == ndim < 3):
             pass

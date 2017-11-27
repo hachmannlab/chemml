@@ -28,12 +28,12 @@ Contributors:
 +++++++++++++
 
 - Mojtaba Haghighatlari, CBE department, SUNY Buffalo
-- Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie wrapper)
-- Bhargava Urala, CSE department, SUNY Buffalo (Keras wrapper)
-- Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap wrapper)
+- Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie's wrapper)
+- Bhargava Urala, CSE department, SUNY Buffalo (Keras' wrapper)
+- Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap's wrapper)
 - Po-Han Chen, CBE department, SUNY Buffalo (Docker image)
-- Srirangaraj Setlur, CSE department, SUNY Buffalo (Co-PI)
-- Johannes Hachmann, CBE department, SUNY Buffalo (PI)
+- Srirangaraj Setlur, CSE department, SUNY Buffalo
+- Johannes Hachmann, CBE department, SUNY Buffalo
 
 - You can become a developer of ChemML! Feel free to fork and make pull-request to the "development" branch.
 
@@ -48,7 +48,7 @@ Please cite the use of ChemML as:
 
 ::
 
-    Haghighatlari M, Chen P, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/cheml
+    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/cheml
 
 
 .. toctree::

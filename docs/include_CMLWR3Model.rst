@@ -1,8 +1,4 @@
-
-
 .. include:: wrapper_docs/cheml.mlp_hogwild.rst
-
-
 .. include:: wrapper_docs/sklearn.ARDRegression.rst
 .. include:: wrapper_docs/sklearn.BayesianRidge.rst
 .. include:: wrapper_docs/sklearn.ElasticNet.rst

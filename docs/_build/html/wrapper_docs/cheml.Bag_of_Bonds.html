@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bag_of_Bonds &mdash; ChemML 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="ChemML 1 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CMLWInputFile.html">Input File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CMLWInputFileGenerator.html">Input File Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CMLWReference.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheml.html">cheml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">ChemML</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Bag_of_Bonds</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/wrapper_docs/cheml.Bag_of_Bonds.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bag-of-bonds">
+<span id="id1"></span><h1>Bag_of_Bonds<a class="headerlink" href="#bag-of-bonds" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Prepare</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">feature representation</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">Bag_of_Bonds</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">molecules</span></code> : the molecule numpy array or data frame</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;, &#8220;&lt;type &#8216;numpy.ndarray&#8217;&gt;&#8221;, &#8220;&lt;type &#8216;dict&#8217;&gt;&#8221;)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Bag_of_Bonds</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">const</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molecules</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

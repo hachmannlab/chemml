@@ -23,6 +23,10 @@ Dragon
     | ``df`` : pandas dataframe
     |   ("<class 'pandas.core.frame.DataFrame'>",)
 
+:wrapper parameters:
+    | ``script`` : , (default:new)
+    |   
+    |   choose one of: []
 
 :required packages:
     | ChemML, 0.1.0
@@ -31,13 +35,14 @@ Dragon
     | lxml, 3.4.0
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = Dragon``
+    |   ``<< script = new``
     |   ``<< SaveExcludeConst = False``
-    |   ``<< MaxSR = 35``
+    |   ``<< MaxSR = '35'``
     |   ``<< SaveFilePath = Dragon_descriptors.txt``
     |   ``<< output_directory = ./``
-    |   ``<< DisconnectedCalculationOption = 0``
+    |   ``<< DisconnectedCalculationOption = '0'``
     |   ``<< SaveExcludeNearConst = False``
     |   ``<< Add2DHydrogens = False``
     |   ``<< SaveProject = False``
@@ -50,8 +55,8 @@ Dragon
     |   ``<< LogPathWalk = True``
     |   ``<< SaveLabelsOnSeparateFile = False``
     |   ``<< version = 6``
-    |   ``<< DefaultMolFormat = 1``
-    |   ``<< MaxSRDetour = 30``
+    |   ``<< DefaultMolFormat = '1'``
+    |   ``<< MaxSRDetour = '30'``
     |   ``<< HelpBrowser = /usr/bin/xdg-open``
     |   ``<< SaveExcludeRejectedMolecules = False``
     |   ``<< knimemode = False``
@@ -61,16 +66,16 @@ Dragon
     |   ``<< SaveFormatSubBlock = %b-%s-%n-%m.txt``
     |   ``<< blocks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]``
     |   ``<< SaveExcludeCorrelated = False``
-    |   ``<< molFile = * required``
+    |   ``<< molFile = required_required``
     |   ``<< consecutiveDelimiter = False``
     |   ``<< molInputFormat = SMILES``
-    |   ``<< MaxAtomWalkPath = 2000``
+    |   ``<< MaxAtomWalkPath = '2000'``
     |   ``<< SaveExcludeAllMisVal = False``
     |   ``<< SaveExcludeStdDev = False``
     |   ``<< Weights = ['Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State']``
     |   ``<< external = False``
     |   ``<< RoundWeights = True``
-    |   ``<< MaxSRforAllCircuit = 19``
+    |   ``<< MaxSRforAllCircuit = '19'``
     |   ``<< fileName = None``
     |   ``<< RoundCoordinates = True``
     |   ``<< Missing_String = NaN``
@@ -78,10 +83,10 @@ Dragon
     |   ``<< logFile = Dragon_log.txt``
     |   ``<< PreserveTemporaryProjects = True``
     |   ``<< SaveLayout = True``
-    |   ``<< molInput = stdin``
+    |   ``<< molInput = file``
     |   ``<< SaveFormatBlock = %b-%n.txt``
     |   ``<< MissingValue = NaN``
-    |   ``<< SaveCorrThreshold = 0.95``
+    |   ``<< SaveCorrThreshold = '0.95'``
     |   ``<< SaveType = singlefile``
     |   ``<< ShowWorksheet = False``
     |   ``<< delimiter = ,``
@@ -89,7 +94,7 @@ Dragon
     |   ``<< CheckUpdates = True``
     |   ``<< RoundDescriptorValues = True``
     |   ``<< SaveExcludeMisMolecules = False``
-    |   ``<< SaveStdDevThreshold = 0.0001``
+    |   ``<< SaveStdDevThreshold = '0.0001'``
     |   ``<< SaveFile = True``
     |   ``<< logMode = file``
     |   ``>> id molfile``

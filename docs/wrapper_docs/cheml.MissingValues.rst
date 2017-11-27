@@ -37,7 +37,7 @@ MissingValues
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = MissingValues``
     |   ``<< func_method = None``
     |   ``<< strategy = ignore_row``

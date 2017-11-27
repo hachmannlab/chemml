@@ -35,7 +35,7 @@ ShuffleSplit
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = ShuffleSplit``
     |   ``<< func_method = None``
     |   ``<< n_splits = 10``

@@ -35,8 +35,8 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
         <link rel="up" title="cheml package" href="cheml.html"/>
-        <link rel="next" title="cheml.preprocessing package" href="cheml.preprocessing.html"/>
-        <link rel="prev" title="cheml.initialization package" href="cheml.initialization.html"/> 
+        <link rel="next" title="cheml.nn.keras package" href="cheml.nn.keras.html"/>
+        <link rel="prev" title="cheml.mix package" href="cheml.mix.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -98,21 +98,20 @@
 <li class="toctree-l2 current"><a class="reference internal" href="cheml.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cheml.chem.html">cheml.chem package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.initialization.html">cheml.initialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.mix.html">cheml.mix package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">cheml.nn package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-sgd-shared-module">cheml.nn.nn_SGD_Shared module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_dsgd">cheml.nn.nn_dsgd module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-keras-module">cheml.nn.nn_keras module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-neurolab-module">cheml.nn.nn_neurolab module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-cheml.nn.nn_psgd">cheml.nn.nn_psgd module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-pybrain-module">cheml.nn.nn_pybrain module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cheml-nn-nn-tensorflow-module">cheml.nn.nn_tensorflow module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.search.html">cheml.search package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.svm.html">cheml.svm package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cheml.utils.html">cheml.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cheml.visualization.html">cheml.visualization package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cheml.html#module-cheml">Module contents</a></li>
@@ -166,11 +165,28 @@
             
   <div class="section" id="cheml-nn-package">
 <h1>cheml.nn package<a class="headerlink" href="#cheml-nn-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.nn.keras.html">cheml.nn.keras package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html#module-cheml.nn.keras.mlp">cheml.nn.keras.mlp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html#cheml-nn-keras-mlp-test-module">cheml.nn.keras.mlp_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html#module-cheml.nn.keras">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cheml.nn.tensorflow.html">cheml.nn.tensorflow package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.tensorflow.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.tensorflow.html#module-cheml.nn.tensorflow.mlp">cheml.nn.tensorflow.mlp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.tensorflow.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="cheml-nn-nn-sgd-shared-module">
-<h2>cheml.nn.nn_SGD_Shared module<a class="headerlink" href="#cheml-nn-nn-sgd-shared-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-cheml.nn.nn_dsgd">
 <span id="cheml-nn-nn-dsgd-module"></span><h2>cheml.nn.nn_dsgd module<a class="headerlink" href="#module-cheml.nn.nn_dsgd" title="Permalink to this headline">¶</a></h2>
@@ -204,12 +220,6 @@ The number of cores will be directly passed to the mpirun command</p>
 each node</p>
 </dd></dl>
 
-</div>
-<div class="section" id="cheml-nn-nn-keras-module">
-<h2>cheml.nn.nn_keras module<a class="headerlink" href="#cheml-nn-nn-keras-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="cheml-nn-nn-neurolab-module">
-<h2>cheml.nn.nn_neurolab module<a class="headerlink" href="#cheml-nn-nn-neurolab-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-cheml.nn.nn_psgd">
 <span id="cheml-nn-nn-psgd-module"></span><h2>cheml.nn.nn_psgd module<a class="headerlink" href="#module-cheml.nn.nn_psgd" title="Permalink to this headline">¶</a></h2>
@@ -373,12 +383,6 @@ size of data to be selected randomly for validation</li>
 </dd></dl>
 
 </div>
-<div class="section" id="cheml-nn-nn-pybrain-module">
-<h2>cheml.nn.nn_pybrain module<a class="headerlink" href="#cheml-nn-nn-pybrain-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="cheml-nn-nn-tensorflow-module">
-<h2>cheml.nn.nn_tensorflow module<a class="headerlink" href="#cheml-nn-nn-tensorflow-module" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-cheml.nn"></span><p>The &#8216;cheml.nn&#8217; module includes neural_net, 
@@ -393,10 +397,10 @@ last modified date: April 24, 2016</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.preprocessing.html" class="btn btn-neutral float-right" title="cheml.preprocessing package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cheml.nn.keras.html" class="btn btn-neutral float-right" title="cheml.nn.keras package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.initialization.html" class="btn btn-neutral" title="cheml.initialization package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cheml.mix.html" class="btn btn-neutral" title="cheml.mix package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

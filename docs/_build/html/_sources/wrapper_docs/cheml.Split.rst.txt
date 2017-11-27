@@ -31,7 +31,7 @@ Split
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = Split``
     |   ``<< selection = 1``
     |   ``>> id df``

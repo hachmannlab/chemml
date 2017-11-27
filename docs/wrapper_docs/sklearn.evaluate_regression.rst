@@ -85,7 +85,7 @@ evaluate_regression
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = evaluate_regression``
     |   ``<< mae_multioutput = uniform_average``
     |   ``<< r2_score = False``

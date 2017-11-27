@@ -41,7 +41,7 @@ train_test_split
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = train_test_split``
     |   ``<< track_header = True``
     |   ``<< shuffle = True``
@@ -49,7 +49,7 @@ train_test_split
     |   ``<< random_state = None``
     |   ``<< test_size = 0.25``
     |   ``<< y = None``
-    |   ``<< X = * required``
+    |   ``<< X = required_required``
     |   ``<< stratify = None``
     |   ``>> id dfy``
     |   ``>> id dfx``

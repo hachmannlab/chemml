@@ -40,7 +40,7 @@ StandardScaler
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = StandardScaler``
     |   ``<< track_header = True``
     |   ``<< func_method = None``

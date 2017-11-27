@@ -39,7 +39,7 @@ cross_val_predict
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = cross_val_predict``
     |   ``<< track_header = True``
     |   ``<< n_jobs = 1``
@@ -47,10 +47,10 @@ cross_val_predict
     |   ``<< fit_params = None``
     |   ``<< method = predict``
     |   ``<< pre_dispatch = 2 * n_jobs``
-    |   ``<< estimator = * required``
+    |   ``<< estimator = required_required``
     |   ``<< groups = None``
     |   ``<< y = None``
-    |   ``<< X = * required``
+    |   ``<< X = required_required``
     |   ``<< cv = None``
     |   ``>> id dfy``
     |   ``>> id dfx``

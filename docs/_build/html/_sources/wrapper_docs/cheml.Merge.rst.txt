@@ -31,7 +31,7 @@ Merge
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = Merge``
     |   ``>> id df1``
     |   ``>> id df2``

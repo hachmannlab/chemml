@@ -180,8 +180,18 @@
 </div>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">script</span></code> : , (default:new)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: []</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
 <div class="line">ChemML, 0.1.0</div>
 <div class="line">pandas, 0.20.3</div>
 <div class="line">Dragon, 7 or 6</div>
@@ -189,16 +199,17 @@
 </div>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id2"><span class="problematic" id="id3">``</span></a>## ``</div>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Dragon</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">script</span> <span class="pre">=</span> <span class="pre">new</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeConst</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSR</span> <span class="pre">=</span> <span class="pre">35</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSR</span> <span class="pre">=</span> <span class="pre">'35'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFilePath</span> <span class="pre">=</span> <span class="pre">Dragon_descriptors.txt</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">output_directory</span> <span class="pre">=</span> <span class="pre">./</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DisconnectedCalculationOption</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DisconnectedCalculationOption</span> <span class="pre">=</span> <span class="pre">'0'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeNearConst</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Add2DHydrogens</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveProject</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
@@ -211,8 +222,8 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">LogPathWalk</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveLabelsOnSeparateFile</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">version</span> <span class="pre">=</span> <span class="pre">6</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DefaultMolFormat</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRDetour</span> <span class="pre">=</span> <span class="pre">30</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">DefaultMolFormat</span> <span class="pre">=</span> <span class="pre">'1'</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRDetour</span> <span class="pre">=</span> <span class="pre">'30'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">HelpBrowser</span> <span class="pre">=</span> <span class="pre">/usr/bin/xdg-open</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeRejectedMolecules</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">knimemode</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
@@ -222,16 +233,16 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFormatSubBlock</span> <span class="pre">=</span> <span class="pre">%b-%s-%n-%m.txt</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">blocks</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12,</span> <span class="pre">13,</span> <span class="pre">14,</span> <span class="pre">15,</span> <span class="pre">16,</span> <span class="pre">17,</span> <span class="pre">18,</span> <span class="pre">19,</span> <span class="pre">20,</span> <span class="pre">21,</span> <span class="pre">22,</span> <span class="pre">23,</span> <span class="pre">24,</span> <span class="pre">25,</span> <span class="pre">26,</span> <span class="pre">27,</span> <span class="pre">28,</span> <span class="pre">29]</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeCorrelated</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molFile</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molFile</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">consecutiveDelimiter</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInputFormat</span> <span class="pre">=</span> <span class="pre">SMILES</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxAtomWalkPath</span> <span class="pre">=</span> <span class="pre">2000</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxAtomWalkPath</span> <span class="pre">=</span> <span class="pre">'2000'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeAllMisVal</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeStdDev</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Weights</span> <span class="pre">=</span> <span class="pre">['Mass',</span> <span class="pre">'VdWVolume',</span> <span class="pre">'Electronegativity',</span> <span class="pre">'Polarizability',</span> <span class="pre">'Ionization',</span> <span class="pre">'I-State']</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">external</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundWeights</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRforAllCircuit</span> <span class="pre">=</span> <span class="pre">19</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MaxSRforAllCircuit</span> <span class="pre">=</span> <span class="pre">'19'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fileName</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundCoordinates</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Missing_String</span> <span class="pre">=</span> <span class="pre">NaN</span></code></div>
@@ -239,10 +250,10 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">logFile</span> <span class="pre">=</span> <span class="pre">Dragon_log.txt</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">PreserveTemporaryProjects</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveLayout</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInput</span> <span class="pre">=</span> <span class="pre">stdin</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">molInput</span> <span class="pre">=</span> <span class="pre">file</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFormatBlock</span> <span class="pre">=</span> <span class="pre">%b-%n.txt</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">MissingValue</span> <span class="pre">=</span> <span class="pre">NaN</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveCorrThreshold</span> <span class="pre">=</span> <span class="pre">0.95</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveCorrThreshold</span> <span class="pre">=</span> <span class="pre">'0.95'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveType</span> <span class="pre">=</span> <span class="pre">singlefile</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">ShowWorksheet</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delimiter</span> <span class="pre">=</span> <span class="pre">,</span></code></div>
@@ -250,7 +261,7 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">CheckUpdates</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">RoundDescriptorValues</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveExcludeMisMolecules</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveStdDevThreshold</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveStdDevThreshold</span> <span class="pre">=</span> <span class="pre">'0.0001'</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">SaveFile</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">logMode</span> <span class="pre">=</span> <span class="pre">file</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molfile</span></code></div>

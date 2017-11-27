@@ -43,7 +43,7 @@ GridSearchCV
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = GridSearchCV``
     |   ``<< track_header = True``
     |   ``<< scoring = None``
@@ -53,10 +53,10 @@ GridSearchCV
     |   ``<< refit = True``
     |   ``<< return_train_score = True``
     |   ``<< iid = True``
-    |   ``<< estimator = * required``
+    |   ``<< estimator = required_required``
     |   ``<< error_score = raise``
     |   ``<< pre_dispatch = 2 * n_jobs``
-    |   ``<< param_grid = * required``
+    |   ``<< param_grid = required_required``
     |   ``<< cv = None``
     |   ``>> id dfy``
     |   ``>> id dfx``

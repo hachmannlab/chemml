@@ -47,7 +47,7 @@ learning_curve
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = learning_curve``
     |   ``<< track_header = True``
     |   ``<< scoring = None``
@@ -56,11 +56,11 @@ learning_curve
     |   ``<< groups = None``
     |   ``<< random_state = None``
     |   ``<< pre_dispatch = all``
-    |   ``<< estimator = * required``
+    |   ``<< estimator = required_required``
     |   ``<< exploit_incremental_learning = False``
     |   ``<< train_sizes = [0.1, 0.33, 0.55, 0.78, 1.0]``
     |   ``<< y = None``
-    |   ``<< X = * required``
+    |   ``<< X = required_required``
     |   ``<< cv = None``
     |   ``<< verbose = 0``
     |   ``>> id dfy``

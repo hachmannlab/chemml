@@ -21,11 +21,11 @@ Here is how a block of ChemML Wrapper workflow looks in the input file::
         >> id token
 
 Here is a list of 7 available tasks in the ChemML Wrapper:
-    - Enter Data
-    - Prepare Data
-    - Define Model
-    - Define Search
-    - Explore
+    - Enter
+    - Prepare
+    - Model
+    - Search
+    - Mix
     - Visualize
     - Store
 

@@ -7,7 +7,7 @@ Constant
     | Prepare
 
 :subtask:
-    | preprocessing
+    | preprocessor
 
 :host:
     | cheml
@@ -39,7 +39,7 @@ Constant
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = Constant``
     |   ``<< func_method = None``
     |   ``<< selection = 1``

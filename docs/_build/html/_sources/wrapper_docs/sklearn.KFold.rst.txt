@@ -35,7 +35,7 @@ KFold
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = KFold``
     |   ``<< func_method = None``
     |   ``<< random_state = None``

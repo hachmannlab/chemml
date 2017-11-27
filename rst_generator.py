@@ -1,9 +1,10 @@
+## run this file in the main directory ##
 import inspect
 import pandas as pd
 from tabulate import tabulate
 
 
-databases = ['cheml', 'sklearn', ]
+databases = ['cheml', 'sklearn', 'pd']
 directory = 'docs/wrapper_docs'
 direc = 'wrapper_docs'
 extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_types']
@@ -21,9 +22,11 @@ for h in databases:
         print h
         from  cheml.wrappers.database import cheml_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
-
+    elif h == 'pd':
+        print h
+        from  cheml.wrappers.database import pandas_db as db
+        classes = [klass[0] for klass in inspect.getmembers(db)]
     class_names = [c for c in classes if c not in extras]
-
     for n in class_names:
         ind += 1
         k = getattr(db, n)
@@ -39,23 +42,18 @@ for h in databases:
             line = '=' * max(4,len(function)+1)
             file.write('%s\n'%line)
             file.write('\n')
-
             file.write(':task:\n')
             file.write('    | %s\n'%k.task)
             file.write('\n')
-
             file.write(':subtask:\n')
             file.write('    | %s\n'% k.subtask)
             file.write('\n')
-
             file.write(':host:\n')
             file.write('    | %s\n'%host)
             file.write('\n')
-
             file.write(':function:\n')
             file.write('    | %s\n'%function)
             file.write('\n')
-
             inputs = {}
             if len(vars(k.Inputs)) > 2:
                 inputs = vars(k.Inputs)
@@ -69,7 +67,6 @@ for h in databases:
             else:
                 row.append('-')
             file.write('\n')
-
             outputs = {}
             if len(vars(k.Outputs)) > 2:
                 outputs = vars(k.Outputs)
@@ -83,7 +80,6 @@ for h in databases:
             else:
                 row.append('-')
             file.write('\n')
-
             wparams = {}
             if len(vars(k.WParameters)) > 2:
                 wparams = vars(k.WParameters)
@@ -94,19 +90,16 @@ for h in databases:
                         file.write('    |   %s\n'%str(wparams[item].description))
                         file.write('    |   choose one of: %s\n' % str(wparams[item].options))
             file.write('\n')
-
             file.write(':required packages:\n')
             for r in k.requirements:
                 file.write('    | %s, %s\n'%(r[0], r[1]))
             file.write('\n')
-
             file.write(':config file view:\n')
-            file.write('    | ``## ``\n')
+            file.write('    | ``##``\n')
             file.write('    |   ``<< host = %s    << function = %s``\n' %(host,function))
             for item in wparams:
                 if item not in ('__module__', '__doc__'):
                     file.write('    |   ``<< %s = %s``\n' % (wparams[item].name, wparams[item].default))
-
             if len(vars(k.FParameters)) > 2:
                 fparams = vars(k.FParameters)
                 for item in fparams:
@@ -122,15 +115,42 @@ for h in databases:
             file.write('    .. note:: The documentation page for function parameters: %s'%k.documentation)
             df.loc[ind] = row
 
-for i in info:
-    print '*** %s:'%i
-    for j in info[i]:
-        print j
-    print '\n'
+tasks = ['Enter', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
+for i,j in enumerate(tasks):
+    with open('docs/include_CMLWR%i%s.rst'%(i+1,j),'w') as f:
+        for fu in info[j]:
+            f.write(fu + '\n')
 
 print '********** contents tables **********'
-df = df.sort('task')
-print tabulate(df, headers='keys', tablefmt='psql')
-# g = df.groupby('task',0)
-# for f in g:
-#     print tabulate(f[1], headers='keys', tablefmt='psql')
+df = df.sort_values(['task','host'])
+df.index = range(1,len(df)+1)
+table = tabulate(df, headers='keys', tablefmt='psql')
+ls = table.split('\n')
+lines = []
+for i,l in enumerate(ls):
+    if i == 2:
+        lines.append(ls[0].replace('-','='))
+    else:
+        lines.append(l)
+    if i>2:
+        lines.append(ls[0])
+script = """
+=============================
+Table of Contents
+=============================
+
+This is a complete list of all the methods that the ChemML Wrapper is interfacing with. The further details of each
+block, as the parameters and attributes of each block is provided in each function's page.
+
+The table header provides information about:
+    - task and subtask: just for an easier classification of methods
+    - host: the main library/dependency required for using the method
+    - function: the method name
+    - input and output tokens: the only tokens that are responsible for sending or receiving information in each block
+"""
+with open('docs/CMLWContentsTable.rst','w') as f:
+    for s in script.split('\n'):
+        f.write(s+'\n')
+    f.write('\n')
+    for l in lines[:-2]:
+        f.write(l+'\n')

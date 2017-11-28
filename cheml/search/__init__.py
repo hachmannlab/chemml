@@ -3,7 +3,7 @@ The 'cheml.opt' module includes GA_nn,
 last modified date: May 9, 2016
 """
 
-# from GA_integer import GA_nn
+from ga_deap import GA_DEAP
 
 __all__ = [
     'GA_nn',

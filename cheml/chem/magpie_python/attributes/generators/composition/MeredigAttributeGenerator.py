@@ -15,11 +15,10 @@ class MeredigAttributeGenerator:
     attribute generators.
     """
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate attributes as described by Meredig et al.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -55,16 +54,16 @@ class MeredigAttributeGenerator:
         feat_headers.append("mean_NfValence")
 
         # Load all property tables.
-        mass = LookUpData.load_property("AtomicWeight", lookup_dir=lookup_path)
-        column = LookUpData.load_property("Column", lookup_dir=lookup_path)
-        row = LookUpData.load_property("Row", lookup_dir=lookup_path)
-        number = LookUpData.load_property("Number", lookup_dir=lookup_path)
-        radius = LookUpData.load_property("CovalentRadius", lookup_dir=lookup_path)
-        en = LookUpData.load_property("Electronegativity", lookup_dir=lookup_path)
-        s = LookUpData.load_property("NsValence", lookup_dir=lookup_path)
-        p = LookUpData.load_property("NpValence", lookup_dir=lookup_path)
-        d = LookUpData.load_property("NdValence", lookup_dir=lookup_path)
-        f = LookUpData.load_property("NfValence", lookup_dir=lookup_path)
+        mass = LookUpData.load_property("AtomicWeight")
+        column = LookUpData.load_property("Column")
+        row = LookUpData.load_property("Row")
+        number = LookUpData.load_property("Number")
+        radius = LookUpData.load_property("CovalentRadius")
+        en = LookUpData.load_property("Electronegativity")
+        s = LookUpData.load_property("NsValence")
+        p = LookUpData.load_property("NpValence")
+        d = LookUpData.load_property("NdValence")
+        f = LookUpData.load_property("NfValence")
 
         for entry in entries:
             tmp_list = []

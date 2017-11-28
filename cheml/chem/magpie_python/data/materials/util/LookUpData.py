@@ -80,16 +80,36 @@ class LookUpData:
                      "Bh": 12, "Hs": 13, "Mt": 14, "Ds": 15, "Rg": 16,
                      "Cn": 17}
 
+    # List of all the properties (except Abbreviation, IonizationEnergies,
+    # OxidationStates) present in the directory: lookup-data/
+    all_properties = ["AtomicVolume", "AtomicWeight",
+                      "BoilingTemp", "BoilingT", "BulkModulus", "Column",
+                      "CovalentRadius", "Density", "DipolePolarizability",
+                      "ElectronAffinity", "Electronegativity",
+                      "FirstIonizationEnergy", "FusionEnthalpy", "GSbandgap",
+                      "GSenergy_pa", "GSestBCClatcnt", "GSestFCClatcnt",
+                      "GSmagmom", "GSvolume_pa", "HeatCapacityMass",
+                      "HeatCapacityMolar", "HeatFusion", "HHIp", "HHIr",
+                      "ICSDVolume", "IsAlkali", "IsDBlock", "IsFBlock",
+                      "IsMetalloid", "IsMetal", "IsNonmetal", "MeltingT",
+                      "MendeleevNumber", "MiracleRadius", "NdUnfilled",
+                      "NdValence", "NfUnfilled", "NfValence", "NpUnfilled",
+                      "NpValence", "NsUnfilled", "NsValence", "Number",
+                      "NUnfilled", "NValance", "n_ws^third", "phi",
+                      "Polarizability", "Row", "ShearModulus",
+                      "SpaceGroupNumber", "ZungerPP-r_d", "ZungerPP-r_pi",
+                      "ZungerPP-r_p", "ZungerPP-r_sigma", "ZungerPP-r_s"]
+
     this_file_path = os.path.dirname(__file__)
-    rel_path = os.path.join(this_file_path, "../../../lookup-data/")
+    abs_path = os.path.join(this_file_path, "../../../lookup-data/")
+    pair_abs_path = abs_path+"pair/"
 
     @classmethod
-    def load_property(self, property, lookup_dir=rel_path):
+    def load_property(self, property):
         """
         Function to load a specific property from the directory containing
         all the lookup tables.
         :param property: Property whose values need to be loaded.
-        :param lookup_dir: Directory containing all the property value files.
         :return: values: A numpy array containing the property values for all
         the elements.
         """
@@ -97,15 +117,14 @@ class LookUpData:
         # IonizationEnergies and OxidationStates are 2-D arrays. So treat
         # them differently.
         if property == "IonizationEnergies" or property == "OxidationStates":
-            raise ValueError("Use special functions readIonizationEnergies or"
-                             " readOxidationStates to read these properties")
+            return self.load_special_property(property)
 
         # Initialize the numpy array.
         values = np.zeros(len(self.element_ids), dtype=np.float)
         values.fill(np.nan)
 
         # Property file name.
-        file = lookup_dir+property+".table"
+        file = self.abs_path + property + ".table"
         try:
             prop_file = open(file, 'r')
         except IOError:
@@ -115,18 +134,20 @@ class LookUpData:
         else:
             for i in xrange(values.size):
                 line = prop_file.readline().strip()
-                if line[0].isdigit():
+                try:
                     values[i] = float(line)
+                except ValueError:
+                    # Line is a string, which implies that data is missing.
+                    # So we let the value of NaN stay.
+                    continue
             prop_file.close()
         return values
 
     @classmethod
-    def load_pair_property(self, property,
-                           data_dir="../../../lookup-data/pair/"):
+    def load_pair_property(self, property):
         """
         Function to load property of a binary system.
         :param property: Property whose values need to be loaded.
-        :param data_dir: Directory containing all the property value files.
         :return: values: A 2-D numpy array containing the property values for
         all the elements.
         """
@@ -137,7 +158,7 @@ class LookUpData:
             values[i] = np.zeros(i, dtype=float)
 
         # Property file name.
-        file = data_dir + property + ".table"
+        file = self.pair_abs_path + property + ".table"
 
         try:
             prop_file = open(file, 'r')
@@ -163,14 +184,12 @@ class LookUpData:
         return values
 
     @classmethod
-    def load_pair_properties(self, properties,
-                             data_dir="../../../lookup-data/pair/"):
+    def load_pair_properties(self, properties):
         """
         Function to load multiple pair property values from the directory
         containing all the lookup tables.
         :param properties: A list of pair properties whose values need to be
         loaded.
-        :param data_dir: Directory containing all the pair property value files.
         :return: values: A dictionary containing <Property,Info> as <key,
         value> where Info is a numpy array containing the pair property values.
         """
@@ -179,16 +198,15 @@ class LookUpData:
         values = {}
 
         for prop in properties:
-            values[prop] = self.load_pair_property(prop, data_dir)
+            values[prop] = self.load_pair_property(prop)
         return values
 
     @classmethod
-    def load_properties(self, properties, lookup_dir=rel_path):
+    def load_properties(self, properties):
         """
         Function to load multiple property values from the directory
         containing all the lookup tables.
         :param properties: A list of properties whose values need to be loaded.
-        :param lookup_dir: Directory containing all the property value files.
         :return: values: A dictionary containing <Property,Info> as <key,
         value> where Info is a numpy array containing the property values.
         """
@@ -197,30 +215,20 @@ class LookUpData:
         values = {}
 
         for prop in properties:
-            values[prop] = self.load_property(prop, lookup_dir)
+            values[prop] = self.load_property(prop)
         return values
 
     @classmethod
-    def load_special_property(self, property,
-                              lookup_dir=rel_path):
+    def load_special_property(self, property):
         """
         Function to load the special property files related to
         IonizationEnergies and OxidationStates.
         :param property: Property whose values need to be loaded.
-        :param lookup_dir: Directory containing all the property value files.
         :return: values: A 2-D numpy array containing the property values
         whose dtype is object.
         """
-
-        # Make sure property is either IonizationEnergies or OxidationStates.
-        if not (property == "IonizationEnergies" or property ==
-            "OxidationStates"):
-            raise ValueError("Use load_property function. This function is "
-                              "used exclusively for IonizationEnergies and "
-                             "OxidationStates")
-
         # Property file name.
-        file = lookup_dir +property+".table"
+        file = self.abs_path + property + ".table"
 
         # Initialize the list.
         tmp_values = []

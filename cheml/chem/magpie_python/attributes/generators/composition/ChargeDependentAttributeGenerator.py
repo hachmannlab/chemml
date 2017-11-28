@@ -22,12 +22,11 @@ class ChargeDependentAttributeGenerator:
     for all features.
     """
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate the charge dependent features as mentioned in
         the class description.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -59,18 +58,15 @@ class ChargeDependentAttributeGenerator:
         feat_headers.append("AnionCationElectronegativityDiff")
 
         # Load properties here.
-        en = LookUpData.load_property("Electronegativity",
-                                      lookup_dir=lookup_path)
-        ea = LookUpData.load_property("ElectronAffinity",
-                                      lookup_dir=lookup_path)
-        ie = LookUpData.load_special_property("IonizationEnergies",
-                                              lookup_dir=lookup_path)
+        en = LookUpData.load_property("Electronegativity")
+        ea = LookUpData.load_property("ElectronAffinity")
+        ie = LookUpData.load_property("IonizationEnergies")
 
         # Instantiate and initialize oxidation state guesser.
         ox_guesser = OxidationStateGuesser()
         ox_guesser.set_electronegativity(en)
-        ox_guesser.set_oxidationstates(LookUpData.load_special_property(
-            "OxidationStates", lookup_dir=lookup_path))
+        ox_guesser.set_oxidationstates(LookUpData.load_property(
+            "OxidationStates"))
 
         missing_data = {}
         for entry in entries:
@@ -96,7 +92,8 @@ class ChargeDependentAttributeGenerator:
                 if len(ie[elem]) < tmp_charges[i]:
                     if elem not in missing_data:
                         missing_data[elem] = []
-                    missing_data[elem].append(possible_states[0][i])
+                    if possible_states[0][i] not in missing_data[elem]:
+                        missing_data[elem].append(possible_states[0][i])
                     any_missing = True
                     break
 
@@ -148,9 +145,9 @@ class ChargeDependentAttributeGenerator:
 
         # Issue warning to user about missing data here if it exists.
         if len(missing_data) > 0:
-            sys.stderr.write("WARNING: Missing ionization energy data for\n")
+            sys.stderr.write("WARNING: Missing ionization energy data for:\n")
             for elem in missing_data:
-                sys.stderr.write("\t" + str(elem) + ":")
+                sys.stderr.write("\t" + LookUpData.element_names[elem] + ":")
                 for state in missing_data[elem]:
                     sys.stderr.write(" +" + str(state))
                 sys.stderr.write("\n")

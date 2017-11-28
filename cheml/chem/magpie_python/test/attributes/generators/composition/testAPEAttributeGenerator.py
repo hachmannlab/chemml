@@ -1,13 +1,10 @@
 import unittest
-import os
 from attributes.generators.composition.APEAttributeGenerator import \
     APEAttributeGenerator
 from data.materials.CompositionEntry import CompositionEntry
 from data.materials.util.LookUpData import LookUpData
 
 class testAPEAttributeGenerator(unittest.TestCase):
-    this_file_path = os.path.dirname(__file__)
-    rel_path = os.path.join(this_file_path, "../../../../lookup-data/")
 
     def test_APECalculator(self):
         # Test ideal icosahedron.
@@ -81,8 +78,7 @@ class testAPEAttributeGenerator(unittest.TestCase):
 
     def test_optimal_solver(self):
         # Get the radii lookup table.
-        radii = LookUpData.load_property("MiracleRadius",
-                                         lookup_dir=self.rel_path)
+        radii = LookUpData.load_property("MiracleRadius")
 
         # Find the best Cu cluster.
         entry = CompositionEntry(composition="Cu")
@@ -106,7 +102,7 @@ class testAPEAttributeGenerator(unittest.TestCase):
         aag.set_n_nearest_to_eval([1, 3])
 
         # Compute features.
-        features = aag.generate_features(entries, lookup_path=self.rel_path)
+        features = aag.generate_features(entries)
 
         # Test results.
         self.assertEquals(4, features.size)
@@ -165,7 +161,7 @@ class testAPEAttributeGenerator(unittest.TestCase):
 
         aag = APEAttributeGenerator()
 
-        features = aag.generate_features(entries, lookup_path=self.rel_path)
+        features = aag.generate_features(entries)
         feat_values = features.values
 
         # Make sure the features are not identical.

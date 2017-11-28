@@ -21,12 +21,11 @@ class IonicityAttributeGenerator:
     element i and chi_x is the electronegativity of element x.
     """
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate the three "ionicity" based features as described
         in the description of the class.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -53,11 +52,10 @@ class IonicityAttributeGenerator:
         # Instantiate and initialize oxidation state guesser with
         # electronegativity and oxidation state values.
         ox_guesser = OxidationStateGuesser()
-        en = LookUpData.load_property("Electronegativity",
-                                      lookup_dir=lookup_path)
+        en = LookUpData.load_property("Electronegativity")
         ox_guesser.set_electronegativity(en)
-        ox_guesser.set_oxidationstates(LookUpData.load_special_property(
-            "OxidationStates", lookup_dir=lookup_path))
+        ox_guesser.set_oxidationstates(LookUpData.load_property(
+            "OxidationStates"))
 
         for entry in entries:
             tmp_list = []

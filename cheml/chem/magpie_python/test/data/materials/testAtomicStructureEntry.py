@@ -1,5 +1,5 @@
 import unittest
-from data.materials.AtomicStructureEntry import AtomicStructureEntry
+from data.materials.CrystalStructureEntry import CrystalStructureEntry
 from vassal.data.Atom import Atom
 from vassal.data.Cell import Cell
 
@@ -11,7 +11,7 @@ class testAtomicStructureEntry(unittest.TestCase):
         cell.add_atom(Atom([0.5, 0.5, 0.5], 1))
         cell.set_type_name(0, "Cu")
         cell.set_type_name(1, "Zr")
-        CuZr = AtomicStructureEntry(cell, "CuZr", None)
+        CuZr = CrystalStructureEntry(cell, "CuZr", None)
 
         # Run Voronoi tessellation.
         CuZr.compute_voronoi_tessellation()
@@ -54,7 +54,7 @@ class testAtomicStructureEntry(unittest.TestCase):
         cell.add_atom(Atom([0.5, 0.5, 0.5], 1))
         cell.set_type_name(0, "Cu")
         cell.set_type_name(1, "Zr")
-        CuZr = AtomicStructureEntry(cell, "B2", None)
+        CuZr = CrystalStructureEntry(cell, "B2", None)
 
         name = CuZr.__str__()
         print name

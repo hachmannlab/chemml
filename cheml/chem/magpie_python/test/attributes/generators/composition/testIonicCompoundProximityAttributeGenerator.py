@@ -1,5 +1,4 @@
 import unittest
-import os
 import numpy.testing as np_tst
 from attributes.generators.composition\
     .IonicCompoundProximityAttributeGenerator import \
@@ -18,9 +17,7 @@ class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
         ig.set_max_formula_unit(10)
 
         # Run the generator.
-        this_file_path = os.path.dirname(__file__)
-        rel_path = os.path.join(this_file_path, "../../../../lookup-data/")
-        features = ig.generate_features(entries, lookup_path=rel_path)
+        features = ig.generate_features(entries)
 
         # Test results.
         self.assertEquals(1, len(features.columns))
@@ -31,7 +28,7 @@ class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
         ig.set_max_formula_unit(2)
 
         # Run the generator.
-        features = ig.generate_features(entries, lookup_path=rel_path)
+        features = ig.generate_features(entries)
 
         # Test results.
         self.assertEquals(1, len(features.columns))

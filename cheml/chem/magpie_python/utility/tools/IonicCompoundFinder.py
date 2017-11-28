@@ -53,11 +53,10 @@ class IonicCompoundFinder:
         """
         self.max_formula_unit_size = size
 
-    def find_all_compounds(self, lookup_path):
+    def find_all_compounds(self):
         """
         Function to find all the compounds in the vicinity of the target
         composition.
-        :param lookup_path: Path to the file containing the property values.
         :return: accepted: A list of Composition Entry's.
         """
 
@@ -86,10 +85,8 @@ class IonicCompoundFinder:
 
             # See if it is ionically neutral.
             ox_g = OxidationStateGuesser()
-            en = LookUpData.load_property("Electronegativity",
-                                          lookup_dir=lookup_path)
-            os = LookUpData.load_special_property("OxidationStates",
-                                                  lookup_dir=lookup_path)
+            en = LookUpData.load_property("Electronegativity")
+            os = LookUpData.load_property("OxidationStates")
             ox_g.set_electronegativity(en)
             ox_g.set_oxidationstates(os)
             can_form_ionic = len(ox_g.get_possible_states(entry)) > 0

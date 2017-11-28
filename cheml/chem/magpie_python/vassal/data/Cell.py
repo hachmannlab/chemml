@@ -48,8 +48,8 @@ class Cell:
         Function to override the copy() method.
         :return: A new instance with the appropriate properties set.
         """
-
-        x = Cell()
+        x = type(self)(self.__class__)
+        x.__dict__.update(self.__dict__)
         x.atoms = []
         for atom in self.atoms:
             n_atom = atom.__copy__()

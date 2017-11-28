@@ -1,5 +1,4 @@
 import unittest
-import os
 import numpy as np
 import numpy.testing as np_tst
 from attributes.generators.composition.ChargeDependentAttributeGenerator import \
@@ -12,10 +11,8 @@ class testChargeDependentAttributeGenerator(unittest.TestCase):
             composition="Fe"), CompositionEntry(composition="ZrO2"),
                    CompositionEntry(composition="UF6"), CompositionEntry(
                 composition="Na2CoOSe")]
-        this_file_path = os.path.dirname(__file__)
-        rel_path = os.path.join(this_file_path, "../../../../lookup-data/")
         cg = ChargeDependentAttributeGenerator()
-        features = cg.generate_features(entries, lookup_path=rel_path)
+        features = cg.generate_features(entries)
 
         # NaCl.
         np_tst.assert_array_almost_equal([-1, 1, 2, 1.0, 0, 5.139076, 349,

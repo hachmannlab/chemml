@@ -1,7 +1,6 @@
 import types
 import numpy as np
 from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
 
 class CompositionDistanceFilter:
     """

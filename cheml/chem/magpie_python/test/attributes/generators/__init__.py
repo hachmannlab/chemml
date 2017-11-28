@@ -1,1 +1,1 @@
-__all__ = ["composition"]
+__all__ = ["composition", "crystal"]

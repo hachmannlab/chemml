@@ -1,5 +1,4 @@
 import unittest
-import os
 import numpy as np
 import numpy.testing as np_test
 from attributes.generators.composition.ElementalPropertyAttributeGenerator \
@@ -7,8 +6,6 @@ from attributes.generators.composition.ElementalPropertyAttributeGenerator \
 from data.materials.CompositionEntry import CompositionEntry
 
 class testElementalPropertyAttributeGenerator(unittest.TestCase):
-    this_file_path = os.path.dirname(__file__)
-    rel_path = os.path.join(this_file_path, "../../../../lookup-data/")
 
     def test_easy(self):
         # Make list of CompositionEntry's.
@@ -20,7 +17,7 @@ class testElementalPropertyAttributeGenerator(unittest.TestCase):
         el.add_elemental_property("Number")
 
         # Run generator.
-        features = el.generate_features(entries, lookup_path=self.rel_path)
+        features = el.generate_features(entries)
 
         # Test results.
         self.assertEquals(6, features.values[0].size)
@@ -44,7 +41,7 @@ class testElementalPropertyAttributeGenerator(unittest.TestCase):
         el.add_elemental_property("Row")
 
         # Run generator.
-        features = el.generate_features(entries, lookup_path=self.rel_path)
+        features = el.generate_features(entries)
 
         # Test results.
         self.assertEquals(18, features.values[0].size)

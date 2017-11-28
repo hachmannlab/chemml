@@ -1,7 +1,6 @@
 import types
 import pandas as pd
 from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
 from data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
 from utility.tools.IonicCompoundFinder import IonicCompoundFinder
@@ -34,11 +33,10 @@ class IonicCompoundProximityAttributeGenerator:
         """
         self.max_formula_unit = size
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate features as mentioned in the class description.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -79,8 +77,7 @@ class IonicCompoundProximityAttributeGenerator:
             else:
                 # Get the list of all ionic compounds in the system.
                 finder.set_nominal_composition(entry)
-                ionic_compounds = finder.find_all_compounds(
-                    lookup_path=lookup_path)
+                ionic_compounds = finder.find_all_compounds()
 
                 # Find the distance to the closest one. If no other
                 # compounds, set distance to be the maximum possible.

@@ -36,8 +36,8 @@ class testVASP5IO(unittest.TestCase):
     def test_parse_from_file(self):
         vio = VASP5IO()
         this_file_path = os.path.dirname(__file__)
-        rel_path = os.path.join(this_file_path, "../../test-files/")
-        cell = vio.parse_file(file_name=rel_path+"393-Ta1.vasp")
+        abs_path = os.path.join(this_file_path, "../../test-files/")
+        cell = vio.parse_file(file_name=abs_path+"393-Ta1.vasp")
         self.assertAlmostEquals(556.549, cell.volume(), delta=1e-2)
         self.assertAlmostEquals(10.218, cell.get_lattice_vectors()[0][0],
                                 delta=1e-2)

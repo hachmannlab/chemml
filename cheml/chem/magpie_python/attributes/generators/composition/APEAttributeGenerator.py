@@ -414,11 +414,10 @@ class APEAttributeGenerator:
 
         return output
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate features as mentioned in the class description.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -439,8 +438,7 @@ class APEAttributeGenerator:
                              "CompositionEntry's")
 
         # Get the atomic radii.
-        radii_lookup = LookUpData.load_property(self.radius_property,
-                                                lookup_dir=lookup_path)
+        radii_lookup = LookUpData.load_property(self.radius_property)
 
         # Insert header names here.
         for n in self.n_nearest_to_eval:

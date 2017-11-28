@@ -15,12 +15,11 @@ class ValenceShellAttributeGenerator:
     Meredig et al. Physical Review B (2015)
     """
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function that generates the attributes mentioned in the class
         description above.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -47,8 +46,7 @@ class ValenceShellAttributeGenerator:
         for i in range(len(shell)):
             s = shell[i]
             feat_headers.append("frac_"+s+"Valence")
-            n_valence[i] = LookUpData.load_property("N"+s+"Valence",
-                                                    lookup_dir=lookup_path)
+            n_valence[i] = LookUpData.load_property("N"+s+"Valence")
 
         for entry in entries:
             elems = entry.get_element_ids()

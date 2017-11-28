@@ -39,11 +39,10 @@ class YangOmegaAttributeGenerator:
     rather than those compiled by Kittel, as in the original work.
     """
 
-    def generate_features(self, entries, lookup_path, verbose=False):
+    def generate_features(self, entries, verbose=False):
         """
         Function to generate the features as mentioned in the class description.
         :param entries: A list of CompositionEntry's.
-        :param lookup_path: Path to the file containing the property values.
         :param verbose: Flag that is mainly used for debugging. Prints out a
         lot of information to the screen.
         :return features: Pandas data frame containing the names and values
@@ -68,16 +67,14 @@ class YangOmegaAttributeGenerator:
         feat_headers.append("Yang_delta")
 
         # Load property values here.
-        radii = LookUpData.load_property("MiracleRadius", lookup_dir=lookup_path)
-        meltingT = LookUpData.load_property("MeltingT", lookup_dir=lookup_path)
-        miedema = LookUpData.load_pair_property("MiedemaLiquidDeltaHf",
-                                                data_dir=lookup_path+"pair/")
+        radii = LookUpData.load_property("MiracleRadius")
+        meltingT = LookUpData.load_property("MeltingT")
+        miedema = LookUpData.load_pair_property("MiedemaLiquidDeltaHf")
 
         for entry in entries:
             tmp_list = []
             tmp_radii = []
             tmp_meltingT = []
-            tmp_miedema = []
 
             elem_fracs = entry.get_element_fractions()
             elem_ids = entry.get_element_ids()

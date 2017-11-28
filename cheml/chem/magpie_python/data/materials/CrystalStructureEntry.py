@@ -1,9 +1,12 @@
+from os.path import join, isfile
+from os import listdir
 from data.materials.CompositionEntry import CompositionEntry
 import numpy as np
 from data.materials.util.LookUpData import LookUpData
 from vassal.analysis.VoronoiCellBasedAnalysis import VoronoiCellBasedAnalysis
+from vassal.io.VASP5IO import VASP5IO
 
-class AtomicStructureEntry(CompositionEntry):
+class CrystalStructureEntry(CompositionEntry):
     """
     Class to represent a crystal structure.
     """
@@ -28,7 +31,7 @@ class AtomicStructureEntry(CompositionEntry):
         :param radii: Radii to use for each element (null to leave radii
         unchanged).
         """
-        super(AtomicStructureEntry, self).__init__()
+        super(CrystalStructureEntry, self).__init__()
         self.structure = structure
         self.name = name
         if structure.n_atoms() == 0:
@@ -91,8 +94,8 @@ class AtomicStructureEntry(CompositionEntry):
         Function to create a copy of this instance.
         :return: A copy.
         """
-        x = AtomicStructureEntry(self.structure.__copy__(), self.name,
-            self.radii)
+        x = CrystalStructureEntry(self.structure.__copy__(), self.name,
+                                  self.radii)
         x.element_ids = list(self.element_ids)
         x.fractions = list(self.fractions)
         x.voronoi = self.voronoi
@@ -104,9 +107,9 @@ class AtomicStructureEntry(CompositionEntry):
         :param other: The other instance.
         :return: Whether they are equal or not.
         """
-        if isinstance(other, AtomicStructureEntry):
+        if isinstance(other, CrystalStructureEntry):
             return self.structure.__eq__(other.structure) and \
-                   super(AtomicStructureEntry, self).__eq__(other)
+                   super(CrystalStructureEntry, self).__eq__(other)
         return False
 
     def __cmp__(self, other):
@@ -115,13 +118,13 @@ class AtomicStructureEntry(CompositionEntry):
         :param other: The other instance.
         :return: -1 if self < other , 1 if self > other or 0 if self = other.
         """
-        if isinstance(other, AtomicStructureEntry):
+        if isinstance(other, CrystalStructureEntry):
             # First: Check for equality.
             if self.__eq__(other):
                 return 0
 
             # Second: Check the composition / attributes.
-            super_comp = super(AtomicStructureEntry, self).__cmp__(other)
+            super_comp = super(CrystalStructureEntry, self).__cmp__(other)
             if super_comp != 0:
                 return super_comp
 
@@ -162,14 +165,14 @@ class AtomicStructureEntry(CompositionEntry):
                         c = +1
             raise Exception("These entries were supposed to be unequal.")
         else:
-            return super(AtomicStructureEntry, self).__cmp__(other)
+            return super(CrystalStructureEntry, self).__cmp__(other)
 
     def __hash__(self):
         """
         Function to compute the hashcode of this instance.
         :return: Hashcode.
         """
-        return super(AtomicStructureEntry, self).__hash__() ^ \
+        return super(CrystalStructureEntry, self).__hash__() ^ \
                self.structure.__hash__()
 
     def get_structure(self):
@@ -211,5 +214,24 @@ class AtomicStructureEntry(CompositionEntry):
         Function the generate the string representation of this instance.
         :return: String representation.
         """
-        comp = super(AtomicStructureEntry, self).__str__()
+        comp = super(CrystalStructureEntry, self).__str__()
         return self.name+":"+comp
+
+    @classmethod
+    def import_structures_list(self, dir_path):
+        structures_list = []
+        radii = LookUpData.load_property("CovalentRadius")
+
+        # Thanks to https://stackoverflow.com/questions/3207219/how-do-i-list
+        # -all-files-of-a-directory
+        only_files = [f for f in listdir(dir_path) if isfile(join(dir_path,
+                                                                  f))]
+        io = VASP5IO()
+        for f in only_files:
+            if f.endswith(".vasp"):
+                structure = io.parse_file(f)
+                name = f.split(".vasp")[0]
+                entry = CrystalStructureEntry(structure, name=name, radii=radii)
+                structures_list.append(entry)
+
+        return structures_list

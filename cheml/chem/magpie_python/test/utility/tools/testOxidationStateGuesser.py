@@ -1,19 +1,14 @@
 import unittest
 import numpy.testing as np
-import os
 from data.materials.CompositionEntry import CompositionEntry
 from data.materials.util.LookUpData import LookUpData
 from utility.tools.OxidationStateGuesser import OxidationStateGuesser
 
 class testOxidationStateGuesser(unittest.TestCase):
     def test_guesser(self):
-        this_file_path = os.path.dirname(__file__)
-        rel_path = os.path.join(this_file_path, "../../../lookup-data/")
         ox = OxidationStateGuesser()
-        ox.set_oxidationstates(LookUpData.load_special_property(
-            "OxidationStates", lookup_dir=rel_path))
-        ox.set_electronegativity(LookUpData.load_property(
-            "Electronegativity", lookup_dir=rel_path))
+        ox.set_oxidationstates(LookUpData.load_property("OxidationStates"))
+        ox.set_electronegativity(LookUpData.load_property("Electronegativity"))
 
         res = ox.get_possible_states(CompositionEntry(composition="NaCl"))
         self.assertEquals(1, len(res))

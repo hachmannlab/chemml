@@ -1,6 +1,7 @@
 import unittest
 from itertools import permutations
 import numpy.testing as np
+import os
 from data.materials.CompositionEntry import CompositionEntry
 
 class testCompositionEntry(unittest.TestCase):
@@ -232,8 +233,10 @@ class testCompositionEntry(unittest.TestCase):
                                          new_entry.get_element_fractions())
 
     def test_compare(self):
+        this_file_path = os.path.dirname(__file__)
+        abs_path = os.path.join(this_file_path, "../../test-files/")
         entries = CompositionEntry.import_composition_list(
-            "../../test-files/small_set_comp.txt")
+            abs_path+"small_set_comp.txt")
         for e1 in range(len(entries)):
             self.assertEquals(0, entries[e1].__cmp__(entries[e1]))
             for e2 in range(e1 + 1, len(entries)):

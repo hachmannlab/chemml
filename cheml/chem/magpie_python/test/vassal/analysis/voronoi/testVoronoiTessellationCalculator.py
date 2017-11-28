@@ -11,7 +11,7 @@ from vassal.io.VASP5IO import VASP5IO
 
 class testVoronoiTessellationCalculator(unittest.TestCase):
     this_file_path = os.path.dirname(__file__)
-    rel_path = os.path.join(this_file_path, "../../../test-files/")
+    abs_path = os.path.join(this_file_path, "../../../test-files/")
 
     def test_simple_cubic(self):
         # Create the simulation cell.
@@ -143,8 +143,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertEquals(12, poly_index[4])
 
     def test_Ta(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"393-Ta1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "393-Ta1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -158,8 +158,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                 delta=total_vol * 0.05)
 
     def test_Zr(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"1214-Zr1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "1214-Zr1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -173,8 +173,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                     delta=total_vol * 0.01)
 
     def test_C(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"1004-C1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "1004-C1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -188,8 +188,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                     delta=total_vol * 0.01)
 
     def test_C2(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"846-C1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path + "846-C1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -203,8 +202,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Ho(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"592-Ho1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "592-Ho1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -218,8 +217,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Si(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"399-Si1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "399-Si1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -233,8 +232,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Li(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"478-Li1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "478-Li1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -248,8 +247,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_B(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"673-B1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path + "673-B1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -266,8 +264,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         example = ["3315-Ge2Os2Th1", "1001-N1Y1", "11375-C2N1",
             "12012-Ge2Ru2Tb1", "3778-Sr1Zn2", "4746-Cd1Cu4Er1"]
         for e in example:
-            structure = VASP5IO.parse_file(file_name=self.rel_path+e+".vasp")
-
+            structure = VASP5IO.parse_file(file_name=self.abs_path + e +
+                                                     ".vasp")
             # Run tessellation.
             result = VoronoiTessellationCalculator.compute(structure,
                                                            radical=False)
@@ -281,9 +279,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Hg2K(self):
-        structure = VASP5IO.parse_file(
-            file_name=self.rel_path+"7823-Hg2K1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "7823-Hg2K1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -297,9 +294,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Ag2Pr1Si2(self):
-        structure = VASP5IO.parse_file(
-            file_name=self.rel_path+"8379-Ag2Pr1Si2.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "8379-Ag2Pr1Si2.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -313,8 +309,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
 
     def test_Sc(self):
-        structure = VASP5IO.parse_file(file_name=self.rel_path+"1565-Sc1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "1565-Sc1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)
@@ -411,9 +407,8 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                     run_time/1000.0, vol_error * 100)
 
     def test_layered_compound(self):
-        structure = VASP5IO.parse_file(
-            file_name=self.rel_path+"16234-O2Si1.vasp")
-
+        structure = VASP5IO.parse_file(file_name=self.abs_path +
+                                                 "16234-O2Si1.vasp")
         # Run tessellation.
         result = VoronoiTessellationCalculator.compute(structure,
                                                        radical=False)

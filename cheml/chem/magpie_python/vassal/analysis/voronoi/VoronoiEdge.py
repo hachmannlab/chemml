@@ -1,8 +1,6 @@
 import numpy as np
-import sys
 from numpy.linalg import norm
 from vassal.analysis.voronoi.VoronoiVertex import VoronoiVertex
-from vassal.data.Cell import Cell
 
 class VoronoiEdge:
     """

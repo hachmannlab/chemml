@@ -37,11 +37,10 @@ class Atom:
         Function to override the copy() method.
         :return: A new instance with the appropriate properties set.
         """
-        pos = self.position.copy()
-        t = self.type
-        x = Atom(pos, t)
+        x = type(self)(self.__class__)
+        x.__dict__.update(self.__dict__)
+        x.position = self.position.copy()
         x.position_cartesian = self.position_cartesian.copy()
-        x.id = self.id
         return x
 
     def __eq__(self, other):

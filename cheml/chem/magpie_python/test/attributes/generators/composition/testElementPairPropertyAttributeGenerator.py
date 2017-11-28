@@ -1,5 +1,4 @@
 import unittest
-import os
 import numpy as np
 import numpy.testing as np_tst
 from attributes.generators.composition.ElementPairPropertyAttributeGenerator \
@@ -19,10 +18,7 @@ class testElementPairPropertyAttributeGenerator(unittest.TestCase):
         el.add_elemental_pair_property("B2Volume")
 
         # Run the generator.
-        this_file_path = os.path.dirname(__file__)
-        rel_path = os.path.join(this_file_path,
-                                "../../../../lookup-data/pair/")
-        features = el.generate_features(entries, lookup_path=rel_path)
+        features = el.generate_features(entries)
 
         # Test results.
         self.assertEquals(5, len(features.columns))

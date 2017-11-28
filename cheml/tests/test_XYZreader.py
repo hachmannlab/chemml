@@ -33,6 +33,8 @@ from qml.representations import *
 from cheml.initialization import XYZreader
 from cheml.chem import Coulomb_Matrix
 import numpy as np
+import pandas as pd
+
 m = XYZreader(path_pattern='2/*.opt.xyz',path_root = 'benchmarks/RI_project/PI_R2_xyz',reader='manual',skip_lines=[0, 0])
 ms = m.read()
 n = ms[1]['mol'][:,0]
@@ -106,7 +108,6 @@ n = np.array([8, 1, 1])
 
 nu = n.reshape((3,1))
 nu = np.append(nu,c,1)
-import pandas as pd
-cml = Coulomb_Matrix('SC')
+cml = Coulomb_Matrix('E')
 mc = cml.represent(pd.DataFrame(nu))
 

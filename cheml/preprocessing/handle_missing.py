@@ -63,9 +63,8 @@ class missing_values(object):
     string_as_null: boolean, optional (default=True)
         If True non numeric elements are considered to be null in computations.
     
-    missing_values: list, optional (default=False)
-        The placeholder for missing values. It must be a list of one or more of
-        any type of string, float or integer values. 
+    missing_values: list, optional (default=None)
+        where you define specific formats of missing values. It is a list of string, float or integer values.
 
     inf_as_null: boolean, optional (default=True)
         If True inf and -inf elements are considered to be null in computations.
@@ -76,7 +75,7 @@ class missing_values(object):
     mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed
     """
     def __init__(self, strategy="ignore_row", string_as_null = True,
-                 inf_as_null = True, missing_values = False):
+                 inf_as_null = True, missing_values = None):
         self.strategy = strategy
         self.string_as_null = string_as_null
         self.inf_as_null = inf_as_null
@@ -102,7 +101,7 @@ class missing_values(object):
             df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
         if self.string_as_null == True:
             df = df.convert_objects(convert_numeric=True)
-        if self.missing_values and isinstance(self.missing_values, (list, tuple)):
+        if isinstance(self.missing_values, (list, tuple)):
             for pattern in self.missing_values:
                 df.replace(pattern, np.nan, True)
 
@@ -150,5 +149,5 @@ class missing_values(object):
         elif self.strategy == 'ignore_column':
             return df.loc[:,self.mask]
         else:
-            msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform your new dataframe with those methods."
+            msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform the new dataframe with those methods."
             warnings.warn(msg)

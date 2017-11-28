@@ -77,50 +77,55 @@ class Coulomb_Matrix(object):
             molecules = np.array([molecules[i]['mol'] for i in molecules])
         elif isinstance(molecules, pd.DataFrame):
             # only one molecule
-            molecules = [molecules.values]
+            molecules = np.array([molecules.values])
 
+        self.n_molecules = len(molecules)
         if self.max_n_atoms == 'auto':
             self.max_n_atoms = max([len(m) for m in molecules])
         if self.CMtype == "Unsorted_Matrix" or self.CMtype == 'UM':
-            cms = []
+            cms = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol)
-                cms.append(cm.ravel())
+                cms = np.append(cms, cm.ravel())
+            cms = cms.reshape(self.n_molecules, self.max_n_atoms**2)
             cms = pd.DataFrame(cms)
             return cms
 
-        if self.CMtype == "Unsorted_Triangular" or self.CMtype == 'UT':
-            cms = []
+        elif self.CMtype == "Unsorted_Triangular" or self.CMtype == 'UT':
+            cms = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol)
-                cms.append(cm[np.tril_indices(self.max_n_atoms)])
+                cms = np.append(cms, cm[np.tril_indices(self.max_n_atoms)])
+            cms = cms.reshape(self.n_molecules, self.max_n_atoms*(self.max_n_atoms+1)/2)
             cms = pd.DataFrame(cms)
             return cms
 
         elif self.CMtype == 'Eigenspectrum' or self.CMtype == 'E':
-            eigenspectrums = []
+            eigenspectrums = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
                 eig = np.linalg.eigvals(cm)
                 eig[::-1].sort()
-                eigenspectrums.append(eig)
+                eigenspectrums = np.append(eigenspectrums,eig)
+            eigenspectrums = eigenspectrums.reshape(self.n_molecules, self.max_n_atoms)
             eigenspectrums = pd.DataFrame(eigenspectrums)
             return eigenspectrums
             
         elif self.CMtype == 'Sorted_Coulomb' or self.CMtype == 'SC':
-            sorted_cm = []
+            sorted_cm = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol)
                 lambdas = np.linalg.norm(cm,2,1)
                 sort_indices = np.argsort(lambdas)[::-1]
                 cm = cm[:,sort_indices][sort_indices,:]
                 # sorted_cm.append(cm)
-                sorted_cm.append(cm[np.tril_indices(self.max_n_atoms)]) # lower-triangular
+                sorted_cm = np.append(sorted_cm, cm[np.tril_indices(self.max_n_atoms)]) # lower-triangular
+            sorted_cm = sorted_cm.reshape(self.n_molecules, self.max_n_atoms*(self.max_n_atoms+1)/2)
             sorted_cm = pd.DataFrame(sorted_cm)
             return sorted_cm
                     
         elif self.CMtype == 'Random_Coulomb' or self.CMtype == 'RC':
-            random_cm = []
+            random_cm = np.array([])
             for nmol,mol in enumerate(molecules):
                 cm = self.__cal_coul_mat(mol)
                 lambdas = np.linalg.norm(cm,2,1)
@@ -132,7 +137,8 @@ class Coulomb_Matrix(object):
                     cm_mask = cm[:,mask][mask,:]
                     # cm_perms.append(cm_mask)
                     cm_perms += list(cm_mask[np.tril_indices(self.max_n_atoms)]) # lower-triangular
-                random_cm.append(np.array(cm_perms))
+                random_cm = np.append(random_cm, cm_perms)
+            random_cm = random_cm.reshape(self.n_molecules, self.nPerm*self.max_n_atoms*(self.max_n_atoms+1)/2)
             return pd.DataFrame(random_cm)
 
 class Bag_of_Bonds(object):

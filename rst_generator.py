@@ -139,10 +139,10 @@ script = """
 Table of Contents
 =============================
 
-This is a complete list of all the methods that the ChemML Wrapper is interfacing with. The further details of each
-block, as the parameters and attributes of each block is provided in each function's page.
+This is a complete list of all the methods that are available through ChemML Wrapper interface. You can click on each function
+for further information.
 
-The table header provides information about:
+The table's description:
     - task and subtask: just for an easier classification of methods
     - host: the main library/dependency required for using the method
     - function: the method name

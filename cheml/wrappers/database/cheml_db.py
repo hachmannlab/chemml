@@ -27,7 +27,7 @@ class PyScript(object):
         pass
     class FParameters:
         line01 = Parameter('line01', 'type python code')
-        line02 = Parameter('line02', 'input tokens are available as ... ')
+        line02 = Parameter('line02', 'input tokens are available as ...')
         line03 = Parameter('line03', '... python variables')
         line04 = Parameter('line04', 'type python code')
         line05 = Parameter('line05', 'type python code')
@@ -229,14 +229,16 @@ class MissingValues(object):
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         api = Output("api","instance of ChemML's MissingValues class", ("<class 'cheml.preprocessing.handle_missing.missing_values'>",))
     class WParameters:
-        func_method = Parameter('func_method','None','string',
+        func_method = Parameter('func_method','None','String',
                         description = "",
                         options = ('fit_transform','transform', None))
     class FParameters:
-        strategy = Parameter('strategy', 'ignore_row')
-        string_as_null = Parameter('string_as_null', True)
-        inf_as_null = Parameter('inf_as_null', True)
-        missing_values = Parameter('missing_values', False)
+        strategy = Parameter('strategy', 'ignore_row',
+                             format='String',
+                             options = ['interpolate','zero','ignore_row','ignore_column'])
+        string_as_null = Parameter('string_as_null', True, format = 'Boolean')
+        inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
+        missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
 class Merge(object):
     task = 'Prepare'

@@ -48,7 +48,7 @@ def regression_types():
                  "<class 'sklearn.linear_model.bayes.ARDRegression'>", "<class 'sklearn.linear_model.logistic.LogisticRegression'>",
                  "<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>", "<class 'sklearn.svm.classes.SVR'>",
                  "<class 'sklearn.svm.classes.NuSVR'>", "<class 'sklearn.svm.classes.LinearSVR'>", "<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"]
-    cheml_types = []
+    cheml_types = ["<class 'cheml.nn.nn_psgd.mlp_hogwild'>"]
     all_types = tuple(sklearn_types+cheml_types)
     return all_types
 

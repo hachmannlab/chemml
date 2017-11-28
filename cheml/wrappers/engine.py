@@ -297,9 +297,9 @@ class Wrapper(LIBRARY):
                 raise NameError(msg)
             # check host and function
             host_function = (block['parameters']['host'], block['parameters']['function'])
-            if not self.manual(host_function = host_function):
-                msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, task, str(host_function) )
-                raise NameError(msg)
+            # if not self.manual(host_function = host_function):
+            #     msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, task, str(host_function) )
+            #     raise NameError(msg)
         return 'The input file is in a correct format.'
 
     def call(self):
@@ -317,21 +317,18 @@ class Wrapper(LIBRARY):
             if host == 'sklearn':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(sklw)]
-                if function in self.skl_regression_func:
-                    self.references(host, function)  # check references
-                    self.Base.graph_info[iblock] = (host, function)
-                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'regression'][0]
-                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
-                    cmli.run()
-                elif function in legal_functions:
+                if function in legal_functions:
                     self.references(host, function)  # check references
                     self.Base.graph_info[iblock] = (host, function)
                     cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == function][0]
                     cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
                     cmli.run()
                 else:
-                    msg = "function name '%s' in module '%s' is not available/valid"%(function,host)
-                    raise NameError(msg)
+                    self.references(host, function)  # check references
+                    self.Base.graph_info[iblock] = (host, function)
+                    cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'automatic_run'][0]
+                    cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
+                    cmli.run()
             elif host == 'cheml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>read_table &mdash; ChemML 1 documentation</title>
+  <title>PyScript &mdash; ChemML 1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="ChemML 1 documentation" href="index.html"/>
         <link rel="up" title="API Reference" href="CMLWReference.html"/>
-        <link rel="next" title="Constant" href="include_CMLWR2Prepare.html"/>
+        <link rel="next" title="Bag_of_Bonds" href="include_CMLWR2Prepare.html"/>
         <link rel="prev" title="API Reference" href="CMLWReference.html"/> 
 
   
@@ -92,8 +92,10 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="CMLWReference.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html#enter">Enter</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">read_table</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PyScript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xyzreader">XYZreader</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#read-excel">read_excel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-table">read_table</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
@@ -140,7 +142,7 @@
       
           <li><a href="CMLWReference.html">API Reference</a> &raquo;</li>
       
-    <li>read_table</li>
+    <li>PyScript</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -154,78 +156,205 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="read-table">
-<span id="id1"></span><h1>read_table<a class="headerlink" href="#read-table" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pyscript">
+<span id="id1"></span><h1>PyScript<a class="headerlink" href="#pyscript" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
-<div class="line">Enter Data</div>
+<div class="line">Enter</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
-<div class="line">input</div>
+<div class="line">python script</div>
 </div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
-<div class="line">pandas</div>
+<div class="line">cheml</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
-<div class="line">read_table</div>
+<div class="line">PyScript</div>
 </div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line">no receiver</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv4</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv5</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv6</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv1</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv2</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">iv3</span></code> : input variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas DataFrame, shape(n_samples, n_features)</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov2</span></code> : output variable, of any format</div>
 <div class="line-block">
-<div class="line">output DataFrame</div>
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov3</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov1</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov6</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov4</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
+</div>
+<div class="line"><code class="docutils literal"><span class="pre">ov5</span></code> : output variable, of any format</div>
+<div class="line-block">
+<div class="line">()</div>
 </div>
 </div>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">required parameters:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line">filepath_or_buffer</div>
-<div class="line"><br /></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found
-<a href="#id4"><span class="problematic" id="id5">`here &lt;http://pandas.pydata.org/pandas-docs/version/0.20/generated/pandas.read_table.html`_</span></a>.</p>
+<div class="line">ChemML, 0.1.0</div>
+<div class="line">pandas, 0.20.3</div>
 </div>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a class="reference external" href="http://pandas.pydata.org">Pandas</a>, version: 0.20.2</div>
-</div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input file view:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">##</span> <span class="pre">Enter</span> <span class="pre">Data</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">read_table</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">filepath_or_buffer</span>&#160; <span class="pre">=</span>&#160; <span class="pre">''</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">df</span> <span class="pre">id</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">PyScript</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line08</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line09</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line01</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line02</span> <span class="pre">=</span> <span class="pre">input</span> <span class="pre">tokens</span> <span class="pre">are</span> <span class="pre">available</span> <span class="pre">as</span> <span class="pre">...</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line03</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">python</span> <span class="pre">variables</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line04</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line05</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line20</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line07</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line06</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line17</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line16</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line15</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line14</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line13</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line12</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line11</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line10</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line19</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">line18</span> <span class="pre">=</span> <span class="pre">type</span> <span class="pre">python</span> <span class="pre">code</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv4</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv5</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">iv3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov4</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">ov5</span></code></div>
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The rest of parameters (if any) can be set the same way.</p>
+<p class="last">The documentation page for function parameters:</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xyzreader">
+<span id="id2"></span><h1>XYZreader<a class="headerlink" href="#xyzreader" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Enter</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">xyz</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">cheml</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">XYZreader</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">molecules</span></code> : dictionary of molecules with [&#8216;mol&#8217;, &#8216;file&#8217;] keys</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;type &#8216;dict&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">C, h</div>
+<div class="line">0, .</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">XYZreader</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">path_root</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skip_lines</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">0]</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">reader</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">path_pattern</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">Z</span> <span class="pre">=</span> <span class="pre">{'Ru':</span> <span class="pre">44.0,</span> <span class="pre">'Re':</span> <span class="pre">75.0,</span> <span class="pre">'Rf':</span> <span class="pre">104.0,</span> <span class="pre">'Rg':</span> <span class="pre">111.0,</span> <span class="pre">'Ra':</span> <span class="pre">88.0,</span> <span class="pre">'Rb':</span> <span class="pre">37.0,</span> <span class="pre">'Rn':</span> <span class="pre">86.0,</span> <span class="pre">'Rh':</span> <span class="pre">45.0,</span> <span class="pre">'Be':</span> <span class="pre">4.0,</span> <span class="pre">'Ba':</span> <span class="pre">56.0,</span> <span class="pre">'Bh':</span> <span class="pre">107.0,</span> <span class="pre">'Bi':</span> <span class="pre">83.0,</span> <span class="pre">'Bk':</span> <span class="pre">97.0,</span> <span class="pre">'Br':</span> <span class="pre">35.0,</span> <span class="pre">'H':</span> <span class="pre">1.0,</span> <span class="pre">'P':</span> <span class="pre">15.0,</span> <span class="pre">'Os':</span> <span class="pre">76.0,</span> <span class="pre">'Ge':</span> <span class="pre">32.0,</span> <span class="pre">'Gd':</span> <span class="pre">64.0,</span> <span class="pre">'Ga':</span> <span class="pre">31.0,</span> <span class="pre">'Pr':</span> <span class="pre">59.0,</span> <span class="pre">'Pt':</span> <span class="pre">78.0,</span> <span class="pre">'Pu':</span> <span class="pre">94.0,</span> <span class="pre">'C':</span> <span class="pre">6.0,</span> <span class="pre">'Pb':</span> <span class="pre">82.0,</span> <span class="pre">'Pa':</span> <span class="pre">91.0,</span> <span class="pre">'Pd':</span> <span class="pre">46.0,</span> <span class="pre">'Cd':</span> <span class="pre">48.0,</span> <span class="pre">'Po':</span> <span class="pre">84.0,</span> <span class="pre">'Pm':</span> <span class="pre">61.0,</span> <span class="pre">'Hs':</span> <span class="pre">108.0,</span> <span class="pre">'Uup':</span> <span class="pre">115.0,</span> <span class="pre">'Uus':</span> <span class="pre">117.0,</span> <span class="pre">'Uuo':</span> <span class="pre">118.0,</span> <span class="pre">'Ho':</span> <span class="pre">67.0,</span> <span class="pre">'Hf':</span> <span class="pre">72.0,</span> <span class="pre">'Hg':</span> <span class="pre">80.0,</span> <span class="pre">'He':</span> <span class="pre">2.0,</span> <span class="pre">'Md':</span> <span class="pre">101.0,</span> <span class="pre">'Mg':</span> <span class="pre">12.0,</span> <span class="pre">'K':</span> <span class="pre">19.0,</span> <span class="pre">'Mn':</span> <span class="pre">25.0,</span> <span class="pre">'O':</span> <span class="pre">8.0,</span> <span class="pre">'Mt':</span> <span class="pre">109.0,</span> <span class="pre">'S':</span> <span class="pre">16.0,</span> <span class="pre">'W':</span> <span class="pre">74.0,</span> <span class="pre">'Zn':</span> <span class="pre">30.0,</span> <span class="pre">'Eu':</span> <span class="pre">63.0,</span> <span class="pre">'Zr':</span> <span class="pre">40.0,</span> <span class="pre">'Er':</span> <span class="pre">68.0,</span> <span class="pre">'Ni':</span> <span class="pre">28.0,</span> <span class="pre">'No':</span> <span class="pre">102.0,</span> <span class="pre">'Na':</span> <span class="pre">11.0,</span> <span class="pre">'Nb':</span> <span class="pre">41.0,</span> <span class="pre">'Nd':</span> <span class="pre">60.0,</span> <span class="pre">'Ne':</span> <span class="pre">10.0,</span> <span class="pre">'Np':</span> <span class="pre">93.0,</span> <span class="pre">'Fr':</span> <span class="pre">87.0,</span> <span class="pre">'Fe':</span> <span class="pre">26.0,</span> <span class="pre">'Fl':</span> <span class="pre">114.0,</span> <span class="pre">'Fm':</span> <span class="pre">100.0,</span> <span class="pre">'B':</span> <span class="pre">5.0,</span> <span class="pre">'F':</span> <span class="pre">9.0,</span> <span class="pre">'Sr':</span> <span class="pre">38.0,</span> <span class="pre">'N':</span> <span class="pre">7.0,</span> <span class="pre">'Kr':</span> <span class="pre">36.0,</span> <span class="pre">'Si':</span> <span class="pre">14.0,</span> <span class="pre">'Sn':</span> <span class="pre">50.0,</span> <span class="pre">'Sm':</span> <span class="pre">62.0,</span> <span class="pre">'V':</span> <span class="pre">23.0,</span> <span class="pre">'Sc':</span> <span class="pre">21.0,</span> <span class="pre">'Sb':</span> <span class="pre">51.0,</span> <span class="pre">'Sg':</span> <span class="pre">106.0,</span> <span class="pre">'Se':</span> <span class="pre">34.0,</span> <span class="pre">'Co':</span> <span class="pre">27.0,</span> <span class="pre">'Cn':</span> <span class="pre">112.0,</span> <span class="pre">'Cm':</span> <span class="pre">96.0,</span> <span class="pre">'Cl':</span> <span class="pre">17.0,</span> <span class="pre">'Ca':</span> <span class="pre">20.0,</span> <span class="pre">'Cf':</span> <span class="pre">98.0,</span> <span class="pre">'Ce':</span> <span class="pre">58.0,</span> <span class="pre">'Xe':</span> <span class="pre">54.0,</span> <span class="pre">'Tm':</span> <span class="pre">69.0,</span> <span class="pre">'Cs':</span> <span class="pre">55.0,</span> <span class="pre">'Cr':</span> <span class="pre">24.0,</span> <span class="pre">'Cu':</span> <span class="pre">29.0,</span> <span class="pre">'La':</span> <span class="pre">57.0,</span> <span class="pre">'Li':</span> <span class="pre">3.0,</span> <span class="pre">'Lv':</span> <span class="pre">116.0,</span> <span class="pre">'Tl':</span> <span class="pre">81.0,</span> <span class="pre">'Lu':</span> <span class="pre">71.0,</span> <span class="pre">'Lr':</span> <span class="pre">103.0,</span> <span class="pre">'Th':</span> <span class="pre">90.0,</span> <span class="pre">'Ti':</span> <span class="pre">22.0,</span> <span class="pre">'Te':</span> <span class="pre">52.0,</span> <span class="pre">'Tb':</span> <span class="pre">65.0,</span> <span class="pre">'Tc':</span> <span class="pre">43.0,</span> <span class="pre">'Ta':</span> <span class="pre">73.0,</span> <span class="pre">'Yb':</span> <span class="pre">70.0,</span> <span class="pre">'Db':</span> <span class="pre">105.0,</span> <span class="pre">'Dy':</span> <span class="pre">66.0,</span> <span class="pre">'Ds':</span> <span class="pre">110.0,</span> <span class="pre">'At':</span> <span class="pre">85.0,</span> <span class="pre">'I':</span> <span class="pre">53.0,</span> <span class="pre">'In':</span> <span class="pre">49.0,</span> <span class="pre">'U':</span> <span class="pre">92.0,</span> <span class="pre">'Y':</span> <span class="pre">39.0,</span> <span class="pre">'Ac':</span> <span class="pre">89.0,</span> <span class="pre">'Ag':</span> <span class="pre">47.0,</span> <span class="pre">'Ir':</span> <span class="pre">77.0,</span> <span class="pre">'Am':</span> <span class="pre">95.0,</span> <span class="pre">'Al':</span> <span class="pre">13.0,</span> <span class="pre">'As':</span> <span class="pre">33.0,</span> <span class="pre">'Ar':</span> <span class="pre">18.0,</span> <span class="pre">'Au':</span> <span class="pre">79.0,</span> <span class="pre">'Es':</span> <span class="pre">99.0,</span> <span class="pre">'Uut':</span> <span class="pre">113.0,</span> <span class="pre">'Mo':</span> <span class="pre">42.0}</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">molecules</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters:</p>
 </div>
 </td>
 </tr>
@@ -233,18 +362,18 @@
 </table>
 </div>
 <div class="section" id="read-excel">
-<span id="id2"></span><h1>read_excel<a class="headerlink" href="#read-excel" title="Permalink to this headline">¶</a></h1>
+<span id="id3"></span><h1>read_excel<a class="headerlink" href="#read-excel" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
-<div class="line">Enter Data</div>
+<div class="line">Enter</div>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
-<div class="line">input</div>
+<div class="line">table</div>
 </div>
 </td>
 </tr>
@@ -258,52 +387,167 @@
 </div>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line">no receiver</div>
-</div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas DataFrame, shape(n_samples, n_features)</div>
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
-<div class="line">output DataFrame</div>
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
 </div>
-</div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">required parameters:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line">io : required for the function</div>
-<div class="line"><br /></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">All the parameters of this function in the documentation page (and only those) are available. The documentation for this function can be found
-<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html#pandas.read_excel">here</a>.</p>
 </div>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a class="reference external" href="http://pandas.pydata.org">Pandas</a>, version: 0.20.2</div>
+<div class="line">p, a</div>
+<div class="line">0, .</div>
 </div>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input file view:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><code class="docutils literal"><span class="pre">##</span> <span class="pre">Enter</span> <span class="pre">Data</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">read_excel</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">io</span>&#160; <span class="pre">=</span>&#160; <span class="pre">''</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">df</span> <span class="pre">id</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">engine</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">squeeze</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">index_col</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">date_parser</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">na_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">parse_dates</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">dtype</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skiprows</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">sheet_name</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skip_footer</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">convert_float</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">names</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">io</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">true_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">false_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">thousands</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">converters</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The rest of parameters (if any) can be set the same way.</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="read-table">
+<span id="id4"></span><h1>read_table<a class="headerlink" href="#read-table" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Enter</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">table</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">pandas</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">read_table</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">p, a</div>
+<div class="line">0, .</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">read_table</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">comment</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">escapechar</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">float_precision</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">na_filter</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">iterator</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">sep</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">mangle_dupe_cols</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skip_blank_lines</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">keep_default_na</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">false_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">infer</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">prefix</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">memory_map</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">names</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skipfooter</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">compact_ints</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">lineterminator</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">compression</span> <span class="pre">=</span> <span class="pre">infer</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">dayfirst</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">low_memory</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">encoding</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">parse_dates</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skip_footer</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">dtype</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">quotechar</span> <span class="pre">=</span> <span class="pre">&quot;</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">thousands</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">converters</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">warn_bad_lines</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">as_recarray</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">engine</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">dialect</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">chunksize</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">tupleize_cols</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">na_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">infer_datetime_format</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">keep_date_col</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">use_unsigned</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">nrows</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">true_values</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delim_whitespace</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">usecols</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">squeeze</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">buffer_lines</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">index_col</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skipinitialspace</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">decimal</span> <span class="pre">=</span> <span class="pre">.</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">skiprows</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">filepath_or_buffer</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">date_parser</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">delimiter</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">error_bad_lines</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">doublequote</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">quoting</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html</a></p>
 </div>
 </td>
 </tr>
@@ -318,7 +562,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="include_CMLWR2Prepare.html" class="btn btn-neutral float-right" title="Constant" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="include_CMLWR2Prepare.html" class="btn btn-neutral float-right" title="Bag_of_Bonds" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="CMLWReference.html" class="btn btn-neutral" title="API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

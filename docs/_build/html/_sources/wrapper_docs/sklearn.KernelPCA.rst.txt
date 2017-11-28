@@ -40,7 +40,7 @@ KernelPCA
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = KernelPCA``
     |   ``<< track_header = False``
     |   ``<< func_method = None``

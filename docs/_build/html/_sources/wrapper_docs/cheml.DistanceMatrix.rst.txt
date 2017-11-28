@@ -29,7 +29,7 @@ DistanceMatrix
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = DistanceMatrix``
     |   ``<< norm_type = fro``
     |   ``<< nCores = 1``

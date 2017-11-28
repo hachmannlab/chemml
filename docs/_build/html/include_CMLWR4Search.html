@@ -101,6 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#evaluate-regression">evaluate_regression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#learning-curve">learning_curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scorer-regression">scorer_regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#corr">corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CMLWReference.GridSearchCV.html">GridSearchCV</a></li>
 </ul>
 </li>
@@ -242,7 +243,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id2"><span class="problematic" id="id3">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">GridSearchCV</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
@@ -253,10 +254,10 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">refit</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">return_train_score</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">iid</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">error_score</span> <span class="pre">=</span> <span class="pre">raise</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">pre_dispatch</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">n_jobs</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">param_grid</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">param_grid</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">cv</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
@@ -278,7 +279,7 @@
 </table>
 </div>
 <div class="section" id="cross-val-predict">
-<span id="id4"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline">¶</a></h1>
+<span id="id2"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -352,7 +353,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id5"><span class="problematic" id="id6">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">cross_val_predict</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
@@ -361,10 +362,10 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fit_params</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">method</span> <span class="pre">=</span> <span class="pre">predict</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">pre_dispatch</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">n_jobs</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">groups</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">cv</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
@@ -384,7 +385,7 @@
 </table>
 </div>
 <div class="section" id="cross-val-score">
-<span id="id7"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline">¶</a></h1>
+<span id="id3"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -458,7 +459,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id8"><span class="problematic" id="id9">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">cross_val_score</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
@@ -467,10 +468,10 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">fit_params</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">pre_dispatch</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">n_jobs</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">groups</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">cv</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
@@ -490,7 +491,7 @@
 </table>
 </div>
 <div class="section" id="evaluate-regression">
-<span id="id10"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline">¶</a></h1>
+<span id="id4"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -640,7 +641,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id11"><span class="problematic" id="id12">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">evaluate_regression</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">mae_multioutput</span> <span class="pre">=</span> <span class="pre">uniform_average</span></code></div>
@@ -677,7 +678,7 @@
 </table>
 </div>
 <div class="section" id="learning-curve">
-<span id="id13"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline">¶</a></h1>
+<span id="id5"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -767,7 +768,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id14"><span class="problematic" id="id15">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">learning_curve</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
@@ -777,11 +778,11 @@
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">groups</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">pre_dispatch</span> <span class="pre">=</span> <span class="pre">all</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">estimator</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">exploit_incremental_learning</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">train_sizes</span> <span class="pre">=</span> <span class="pre">[0.1,</span> <span class="pre">0.33,</span> <span class="pre">0.55,</span> <span class="pre">0.78,</span> <span class="pre">1.0]</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">*</span> <span class="pre">required</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">X</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">cv</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
@@ -806,7 +807,7 @@
 </table>
 </div>
 <div class="section" id="scorer-regression">
-<span id="id16"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline">¶</a></h1>
+<span id="id6"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -864,7 +865,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
-<div class="line"><a href="#id17"><span class="problematic" id="id18">``</span></a>## ``</div>
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">scorer_regression</span></code></div>
 <div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
@@ -876,6 +877,78 @@
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer">http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="corr">
+<span id="id7"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<div class="line">Search</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+<div class="line">evaluate</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+<div class="line">pandas</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+<div class="line">corr</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">(&#8220;&lt;class &#8216;pandas.core.frame.DataFrame&#8217;&gt;&#8221;,)</div>
+</div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line">p, a</div>
+<div class="line">0, .</div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">corr</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">min_periods</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&lt;&lt;</span> <span class="pre">method</span> <span class="pre">=</span> <span class="pre">pearson</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The documentation page for function parameters: <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html</a></p>
 </div>
 </td>
 </tr>

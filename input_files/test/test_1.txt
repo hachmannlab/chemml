@@ -1,0 +1,52 @@
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/mp.csv
+    >> df 1
+
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/descriptor.csv
+    >> df 0
+
+## (Prepare,preprocessor)
+    << host = cheml
+    << function = MissingValues
+    << func_method = fit_transform
+    >> 0 df
+    >> api 2
+    >> df 4
+
+## (Prepare,preprocessor)
+    << host = cheml
+    << function = MissingValues
+    << func_method = transform
+    >> 1 df
+    >> 2 api
+    >> df 3
+    >> df 6
+
+## (Model,regression)
+    << host = sklearn
+    << function = Ridge
+    << func_method = fit
+    >> 3 dfy
+    >> 4 dfx
+    >> dfy_predict 5
+
+## (Search,evaluate)
+    << host = sklearn
+    << function = evaluate_regression
+    >> 5 dfy_predict
+    >> 6 dfy
+    >> evaluation_results_ 7
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1
+    >> 7 iv1
+

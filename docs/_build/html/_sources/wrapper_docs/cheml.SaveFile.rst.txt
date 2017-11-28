@@ -29,14 +29,14 @@ SaveFile
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = SaveFile``
     |   ``<< index = False``
     |   ``<< record_time = False``
     |   ``<< format = csv``
     |   ``<< output_directory = None``
     |   ``<< header = True``
-    |   ``<< filename = * required``
+    |   ``<< filename = required_required``
     |   ``>> id df``
     |   ``>> id filepath``
     |

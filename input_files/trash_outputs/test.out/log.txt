@@ -1,0 +1,81 @@
+Input File: 
+
+1   Task: (Enter,table)
+        <<<<<<<
+        function = read_table
+        filepath_or_buffer = benchmarks/sample_data/RI_data.csv
+        host = pandas
+        sep = ,
+        >>>>>>>
+        df -> send (id=0)
+         :nothing to receive:
+        
+2   Task: (Prepare,basic operators)
+        <<<<<<<
+        function = Split
+        host = cheml
+        selection = ['RI_LL']
+        >>>>>>>
+        df1 -> send (id=1)
+        df <- recv (id=0)
+        
+3   Task: (Model,regression)
+        <<<<<<<
+        function = Ridge
+        host = sklearn
+        func_method = fit
+        >>>>>>>
+        dfy_predict -> send (id=3)
+        dfx <- recv (id=2)
+        dfy <- recv (id=1)
+        
+4   Task: (Enter,table)
+        <<<<<<<
+        function = read_table
+        filepath_or_buffer = benchmarks/sample_data/RI_HTT.csv
+        host = pandas
+        sep = ,
+        >>>>>>>
+        df -> send (id=2)
+         :nothing to receive:
+        
+5   Task: (Enter,python script)
+        <<<<<<<
+        function = PyScript
+        line01 = print iv1.describe()
+        host = cheml
+        >>>>>>>
+         :nothing to send:
+        iv1 <- recv (id=3)
+        
+=================================================
+
+======= block#1: (pandas, read_table)
+| run ...
+
+(rows, columns):  (1000, 7)
+| ... done!
+| execution time: 0.14s (0h 0m 0.14s)
+=======
+
+
+======= block#2: (cheml, Split)
+| run ...
+
+| ... done!
+| execution time: 0.46s (0h 0m 0.46s)
+=======
+
+
+======= block#4: (pandas, read_table)
+| run ...
+
+(rows, columns):  (1000, 1024)
+| ... done!
+| execution time: 0.37s (0h 0m 0.37s)
+=======
+
+
+======= block#3: (sklearn, Ridge)
+| run ...
+

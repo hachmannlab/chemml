@@ -108,10 +108,12 @@ class wrapperGUI(object):
                 lines.append(tab+"<< function = %s\n"%function)
                 for param in self.pages[ib].block_params['wparams']:
                     container = self.pages[ib].block_params['wparams'][param]
-                    lines.append(tab+"<< %s = %s\n"%(container.name, str(container.widget.value)))
+                    if container.checker.value:
+                        lines.append(tab+"<< %s = %s\n"%(container.name, str(container.widget.value)))
                 for param in self.pages[ib].block_params['fparams']:
                     container = self.pages[ib].block_params['fparams'][param]
-                    lines.append(tab+"<< %s = %s\n"%(container.name, str(container.widget.value)))
+                    if container.checker.value:
+                        lines.append(tab+"<< %s = %s\n"%(container.name, str(container.widget.value)))
                 for e in edges:
                     if e[0] == ib:
                         lines.append(tab+">> %s %i\n"%(e[1],uids[e]))
@@ -753,7 +755,7 @@ class wrapperGUI(object):
         header = widgets.HTML(value='<b>Wrapper parameters:</b>', layout=widgets.Layout(width='50%'))
         wparams = self.pages[self.current_bid].block_params['wparams']
         wparams_boxes = []
-        for item in wparams:
+        for item in sorted(wparams):
             style = {'description_width': 'initial'}
             wp = widgets.Text(
                 value=str(wparams[item].default),
@@ -761,14 +763,32 @@ class wrapperGUI(object):
                 description=wparams[item].name,
                 disabled=False,
                 style = style,
-                layout = widgets.Layout(width='60%'))
+                )
             wparams[item].widget = wp
             # wp.observe(handle_param_change, names='value')
+            wp_checker = widgets.Checkbox(value=False,
+                                          description='Check to set',
+                                          disabled=False,
+                                          indent=False,
+                                          layout = widgets.Layout(margin='0px 0px 0px 10px')
+            )
+            if self.pages[self.current_bid].block_params['wparams'][item].default == 'required_required':
+                wp_checker.value = True
+            wparams[item].checker = wp_checker
+
             wformat = widgets.Text(
                 value=str(wparams[item].format),
                 description= 'Type:',
                 disabled=True)
-            hbox = widgets.HBox([wp,wformat])
+
+            hwp = widgets.Box([wp])
+            if self.pages[self.current_bid].block_params['wparams'][item].default == 'required_required':
+                hwp.layout = widgets.Layout(border='dotted red 1px')
+
+            hbox = widgets.HBox([hwp, wp_checker, wformat],)
+                                # layout=widgets.Layout(display='flex',
+                                #                       flex_flow='row',
+                                #                       align_items='stretch'))
             wparams_boxes.append(hbox)
         wparams_vbox = widgets.VBox([header]+ wparams_boxes)
         self.pages[self.current_bid].block_params['wparams'] = wparams
@@ -778,20 +798,43 @@ class wrapperGUI(object):
                               layout=widgets.Layout(width='50%',margin='20px 0px 0px 0px'))
         fparams = self.pages[self.current_bid].block_params['fparams']
         fparams_boxes = []
-        for item in fparams:
+        for item in sorted(fparams):
+            style = {'description_width': 'initial'}
             wp = widgets.Text(
                 value=str(fparams[item].default),
                 placeholder=str(fparams[item].options),
                 description=fparams[item].name,
                 disabled=False,
-                layout=widgets.Layout(width='40%'))
+                style = style,
+                )
             fparams[item].widget = wp
             # wp.observe(handle_param_change, names='value')
+            wp_checker = widgets.Checkbox(value=False,
+                                          description='Check to set',
+                                          disabled=False,
+                                          indent = False,
+                                          layout = widgets.Layout(margin='0px 0px 0px 10px')
+                                         )
+
+            if self.pages[self.current_bid].block_params['fparams'][item].default == 'required_required':
+                wp_checker.value = True
+            fparams[item].checker = wp_checker
+
             wformat = widgets.Text(
                 value=str(fparams[item].format),
                 description='Type:',
-                disabled=True)
-            hbox = widgets.HBox([wp, wformat])
+                disabled=True,
+                layout = widgets.Layout(width='40%'))
+
+            hwp = widgets.Box([wp])
+            if self.pages[self.current_bid].block_params['fparams'][item].default == 'required_required':
+                hwp.layout = widgets.Layout(border='dotted red 1px')
+
+
+            hbox = widgets.HBox([ hwp, wp_checker, wformat],)
+                                # layout=widgets.Layout(display='flex',
+                                #                       flex_flow='row',))
+                                                      # align_items='stretch'))
             fparams_boxes.append(hbox)
         fparams_vbox = widgets.VBox([header]+ fparams_boxes)
         self.pages[self.current_bid].block_params['fparams'] = fparams
@@ -1007,8 +1050,14 @@ class wrapperGUI(object):
                 if param not in ['host', 'function']:
                     if param in self.pages[bid].block_params['wparams']:
                         self.pages[bid].block_params['wparams'][param].widget.value = parameters[param]
+                        # checkbox if value is different from default
+                        if self.pages[bid].block_params['wparams'][param].default != parameters[param]:
+                            self.pages[bid].block_params['wparams'][param].checker.value = True
                     elif param in self.pages[bid].block_params['fparams']:
                         self.pages[bid].block_params['fparams'][param].widget.value = parameters[param]
+                        # checkbox if value is different from default
+                        if self.pages[bid].block_params['fparams'][param].default != parameters[param]:
+                            self.pages[bid].block_params['fparams'][param].checker.value = True
                     else:
                         msg = "(host: %s, function: %s): Not a valid parameter '%s'"%(host, function, param)
                         raise IOError(msg)

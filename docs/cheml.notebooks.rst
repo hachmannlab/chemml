@@ -12,10 +12,10 @@ cheml.notebooks.main module
     :undoc-members:
     :show-inheritance:
 
-cheml.notebooks.main2 module
-----------------------------
+cheml.notebooks.templates module
+--------------------------------
 
-.. automodule:: cheml.notebooks.main2
+.. automodule:: cheml.notebooks.templates
     :members:
     :undoc-members:
     :show-inheritance:

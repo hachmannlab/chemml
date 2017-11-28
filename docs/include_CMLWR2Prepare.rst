@@ -1,16 +1,12 @@
-
-
+.. include:: wrapper_docs/cheml.Bag_of_Bonds.rst
 .. include:: wrapper_docs/cheml.Constant.rst
-.. include:: wrapper_docs/cheml.CoulombMatrix.rst
+.. include:: wrapper_docs/cheml.Coulomb_Matrix.rst
 .. include:: wrapper_docs/cheml.DistanceMatrix.rst
 .. include:: wrapper_docs/cheml.Dragon.rst
 .. include:: wrapper_docs/cheml.Merge.rst
 .. include:: wrapper_docs/cheml.MissingValues.rst
-.. include:: wrapper_docs/cheml.PyScript.rst
-.. include:: wrapper_docs/cheml.RDKFingerprint.rst
+.. include:: wrapper_docs/cheml.RDKitFingerprint.rst
 .. include:: wrapper_docs/cheml.Split.rst
-
-
 .. include:: wrapper_docs/sklearn.Binarizer.rst
 .. include:: wrapper_docs/sklearn.Imputer.rst
 .. include:: wrapper_docs/sklearn.KFold.rst

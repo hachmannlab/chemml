@@ -40,7 +40,7 @@ PCA
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = PCA``
     |   ``<< track_header = False``
     |   ``<< func_method = None``

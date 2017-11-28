@@ -1,4 +1,4 @@
-CheML date="2016-01-21" time="16:30:29" version="1.2.0"
+ChemML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 # Note: don't mix parameters and send&recv tokens in one line
 # Note: don't make a short loop on only one function!

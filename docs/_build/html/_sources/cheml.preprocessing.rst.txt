@@ -19,6 +19,14 @@ cheml.preprocessing.handle_missing module
     :undoc-members:
     :show-inheritance:
 
+cheml.preprocessing.purge module
+--------------------------------
+
+.. automodule:: cheml.preprocessing.purge
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 cheml.preprocessing.skl_interface module
 ----------------------------------------
 

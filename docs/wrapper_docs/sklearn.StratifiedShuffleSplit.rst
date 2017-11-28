@@ -35,7 +35,7 @@ StratifiedShuffleSplit
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = StratifiedShuffleSplit``
     |   ``<< func_method = None``
     |   ``<< n_splits = 10``

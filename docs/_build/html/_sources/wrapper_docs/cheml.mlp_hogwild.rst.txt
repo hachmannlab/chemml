@@ -40,7 +40,7 @@ mlp_hogwild
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = cheml    << function = mlp_hogwild``
     |   ``<< func_method = None``
     |   ``<< rms_decay = 0.9``

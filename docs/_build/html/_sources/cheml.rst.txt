@@ -8,12 +8,13 @@ Subpackages
 
     cheml.chem
     cheml.initialization
+    cheml.mix
     cheml.nn
     cheml.preprocessing
+    cheml.search
     cheml.svm
-    cheml.trash_smallapps
     cheml.utils
-    cheml.wrappers
+    cheml.visualization
 
 Module contents
 ---------------

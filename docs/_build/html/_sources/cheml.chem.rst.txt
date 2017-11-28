@@ -1,6 +1,13 @@
 cheml.chem package
 ==================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    cheml.chem.examples
+
 Submodules
 ----------
 
@@ -28,6 +35,14 @@ cheml.chem.Dragon module
     :undoc-members:
     :show-inheritance:
 
+cheml.chem.Magpie module
+------------------------
+
+.. automodule:: cheml.chem.Magpie
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 cheml.chem.RDKFP module
 -----------------------
 
@@ -37,3 +52,10 @@ cheml.chem.RDKFP module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: cheml.chem
+    :members:
+    :undoc-members:
+    :show-inheritance:

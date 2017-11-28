@@ -40,7 +40,7 @@ Imputer
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = Imputer``
     |   ``<< track_header = True``
     |   ``<< func_method = None``

@@ -5,29 +5,33 @@ import sklearn
 import copy
 
 from ..base import BASE
-from .syntax import Preprocessor, Regressor, Evaluator, Fit
+from .syntax import Preprocessor, Regressor, Evaluator
 
 
 ##################################################################### 2 Prepare Data
 
 class automatic_run(BASE):
-    @Fit
     def fit(self):
-        tokens = ['df','dfy_predict']
-        for token in tokens:
-            if token in self.outputs:
-                if self.outputs[token] is not None:
-                    if self.header:
-                        df = self.outputs[token].value
-                        df = pd.DataFrame(df, columns=self.inputs[token[0:3]].value.columns)
-                        self.outputs[token].value = df
-                    else:
-                        self.outputs[token].value = pd.DataFrame(self.outputs[token].value)
+        self.Fit_sklearn()
+        # tokens = ['df','dfy_predict']
+        # for token in tokens:
+        #     if token in self.outputs:
+        #         if self.outputs[token].value is not None:
+        #             if self.header:
+        #                 df = self.outputs[token].value
+        #                 df = pd.DataFrame(df, columns=self.inputs[token[0:3]].value.columns)
+        #                 self.outputs[token].value = df
+        #             else:
+        #                 self.outputs[token].value = pd.DataFrame(self.outputs[token].value)
+        self.Send()
+        # delete all inputs
+        del self.inputs
+
 
 # feature representation
 class PolynomialFeatures(BASE):
-    @Fit
     def fit(self):
+        self.Fit_sklearn()
         # headers from class method: get_feature_names
         if self.method in ['fit_transform','transform']:
             if self.header:
@@ -39,35 +43,46 @@ class PolynomialFeatures(BASE):
                 df = pd.DataFrame(df)
                 self.outputs['df'].value = df
 
+        self.Send()
+        # delete all inputs
+        del self.inputs
+
+
 class OneHotEncoder(BASE):
-    @Fit
     def fit(self):
+        self.Fit_sklearn()
         # .toarray() is requied
         if self.method in ['fit_transform','transform']:
             df = self.outputs['df'].value.toarray()
             df = pd.DataFrame(df, columns = self.inputs['df'].value.columns)
             self.outputs['df'].value = df
+        self.Send()
+        # delete all inputs
+        del self.inputs
 
 
 # basic oprator
 
 class Imputer(BASE):
     def fit(self):
-        @Fit
-        def fit(self):
-            # headers from input df and based on the class attribute: statistics_
-            if self.method in ['fit_transform', 'transform']:
-                if self.header:
-                    df = self.outputs['df'].value
-                    api = self.outputs['api'].value
-                    stats = api.statistics_
-                    NOTnan_ind = [i for i, val in enumerate(stats) if not np.isnan(val)]
-                    df = pd.DataFrame(df, columns=self.inputs['df'].value.columns[NOTnan_ind])
-                    self.outputs['df'].value = df
-                else:
-                    df = self.outputs['df'].value
-                    df = pd.DataFrame(df)
-                    self.outputs['df'].value = df
+        self.Fit_sklearn()
+        # headers from input df and based on the class attribute: statistics_
+        if self.method in ['fit_transform', 'transform']:
+            if self.header:
+                df = self.outputs['df'].value
+                api = self.outputs['api'].value
+                stats = api.statistics_
+                NOTnan_ind = [i for i, val in enumerate(stats) if not np.isnan(val)]
+                df = pd.DataFrame(df, columns=self.inputs['df'].value.columns[NOTnan_ind])
+                self.outputs['df'].value = df
+            else:
+                df = self.outputs['df'].value
+                df = pd.DataFrame(df)
+                self.outputs['df'].value = df
+        self.Send()
+        # delete all inputs
+        del self.inputs
+
 
 # scaler
 

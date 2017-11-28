@@ -99,7 +99,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
                 << blocks = range(1,31)
 
                 << molInput = "file"                    << molInputFormat = "SMILES"
-                << molFile = "@molfile"
+                << molFile = "@molfile
 
                 << SaveStdOut = False
                 << SaveProject = False                  << SaveProjectFile = "Dragon_project.drp"

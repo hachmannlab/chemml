@@ -376,7 +376,7 @@ class train_test_split(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        X = Parameter('X', '* required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         test_size = Parameter('test_size', 0.25)
         train_size = Parameter('train_size', None)
@@ -1029,10 +1029,10 @@ class GridSearchCV(object):
         refit = Parameter('refit', True)
         return_train_score = Parameter('return_train_score', True)
         iid = Parameter('iid', True)
-        estimator = Parameter('estimator', '* required')
+        estimator = Parameter('estimator', 'required_required')
         error_score = Parameter('error_score','raise')
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
-        param_grid = Parameter('param_grid', '* required')
+        param_grid = Parameter('param_grid', 'required_required')
         cv = Parameter('cv', None)
 class cross_val_predict(object):
     task = 'Search'
@@ -1046,7 +1046,7 @@ class cross_val_predict(object):
     class Inputs:
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        estimator = Input("estimator","instance of a machine learning class", ("<class 'sklearn.linear_model.base.LinearRegression'>","<class 'sklearn.linear_model.ridge.Ridge'>","<class 'sklearn.kernel_ridge.KernelRidge'>","<class 'sklearn.linear_model.coordinate_descent.Lasso'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>","<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>","<class 'sklearn.linear_model.least_angle.Lars'>","<class 'sklearn.linear_model.least_angle.LassoLars'>","<class 'sklearn.linear_model.bayes.BayesianRidge'>","<class 'sklearn.linear_model.bayes.ARDRegression'>","<class 'sklearn.linear_model.logistic.LogisticRegression'>","<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>","<class 'sklearn.svm.classes.SVR'>","<class 'sklearn.svm.classes.NuSVR'>","<class 'sklearn.svm.classes.LinearSVR'>","<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>",))
+        estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
@@ -1055,8 +1055,8 @@ class cross_val_predict(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         cv = Parameter('cv', None)
@@ -1077,7 +1077,7 @@ class cross_val_score(object):
     class Inputs:
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        estimator = Input("estimator","instance of a machine learning class", ("<class 'sklearn.linear_model.base.LinearRegression'>","<class 'sklearn.linear_model.ridge.Ridge'>","<class 'sklearn.kernel_ridge.KernelRidge'>","<class 'sklearn.linear_model.coordinate_descent.Lasso'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>","<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>","<class 'sklearn.linear_model.least_angle.Lars'>","<class 'sklearn.linear_model.least_angle.LassoLars'>","<class 'sklearn.linear_model.bayes.BayesianRidge'>","<class 'sklearn.linear_model.bayes.ARDRegression'>","<class 'sklearn.linear_model.logistic.LogisticRegression'>","<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>","<class 'sklearn.svm.classes.SVR'>","<class 'sklearn.svm.classes.NuSVR'>","<class 'sklearn.svm.classes.LinearSVR'>","<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>",))
+        estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
     class Outputs:
         scores = Output("scores","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
@@ -1086,8 +1086,8 @@ class cross_val_score(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         scoring = Parameter('scoring', None)
@@ -1108,7 +1108,7 @@ class learning_curve(object):
     class Inputs:
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        estimator = Input("estimator","instance of a machine learning class", ("<class 'sklearn.linear_model.base.LinearRegression'>","<class 'sklearn.linear_model.ridge.Ridge'>","<class 'sklearn.kernel_ridge.KernelRidge'>","<class 'sklearn.linear_model.coordinate_descent.Lasso'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskLasso'>","<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>","<class 'sklearn.linear_model.coordinate_descent.MultiTaskElasticNet'>","<class 'sklearn.linear_model.least_angle.Lars'>","<class 'sklearn.linear_model.least_angle.LassoLars'>","<class 'sklearn.linear_model.bayes.BayesianRidge'>","<class 'sklearn.linear_model.bayes.ARDRegression'>","<class 'sklearn.linear_model.logistic.LogisticRegression'>","<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>","<class 'sklearn.svm.classes.SVR'>","<class 'sklearn.svm.classes.NuSVR'>","<class 'sklearn.svm.classes.LinearSVR'>","<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>",))
+        estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
         cv = Input("cv","instance of scikit-learn's cross validation generator", ("<class 'sklearn.model_selection._split.KFold'>","<class 'sklearn.model_selection._split.ShuffleSplit'>","<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>",))
     class Outputs:
@@ -1121,8 +1121,8 @@ class learning_curve(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '* required')
-        X = Parameter('X', '* required')
+        estimator = Parameter('estimator', 'required_required')
+        X = Parameter('X', 'required_required')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         train_sizes = Parameter('train_sizes', [ 0.1, 0.33, 0.55, 0.78,1.])

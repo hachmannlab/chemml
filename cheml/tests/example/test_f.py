@@ -13,7 +13,7 @@ class TestFactorial(unittest.TestCase):
         """
         res = fact(5)
         self.assertEqual(res, 120)
-	
+
     def test_error(self):
         """
         To test exception raise due to run time error

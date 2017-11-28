@@ -33,7 +33,7 @@ scorer_regression
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = scorer_regression``
     |   ``<< track_header = True``
     |   ``<< metric = mae``

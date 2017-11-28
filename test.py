@@ -9,8 +9,8 @@ from cheml import run
 #     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/learning_curve/mlp_k10_Morgan_pol')
 # run(INPUT_FILE = 'input_files/hrip/hrip_delta_gridsearch.txt',
 #     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/delta_learn/mlp_k10_Morgan_ri_HTT')
-run(INPUT_FILE = 'input_files/hrip/hrip_calibrate_gridsearch.txt',
-    OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/calibrate/mlp_k5_linearSVR_calib_ri')
+# run(INPUT_FILE = 'input_files/hrip/hrip_calibrate_gridsearch.txt',
+#     OUTPUT_DIRECTORY = 'benchmarks/RI_project/liq_org/results/calibrate/mlp_k5_linearSVR_calib_ri')
 
 ## Biodegradable polymers (BDP) project: H & G & Transition state
 # run(INPUT_FILE = 'input_files/bdp_descriptor.txt',
@@ -25,7 +25,6 @@ run(INPUT_FILE = 'input_files/hrip/hrip_calibrate_gridsearch.txt',
 # run(INPUT_FILE = 'input_files/bdp/bdp_ML_gridsearch.txt',
 #    OUTPUT_DIRECTORY = 'benchmarks/BDP_project/results/SVR_cv_HTT_dG')
 
-
 ## DES project
 # run(INPUT_FILE = 'input_files/des/des_descriptor.txt',
 #     OUTPUT_DIRECTORY = 'benchmarks/DES/MP/descriptors')
@@ -33,3 +32,8 @@ run(INPUT_FILE = 'input_files/hrip/hrip_calibrate_gridsearch.txt',
 #     OUTPUT_DIRECTORY = 'benchmarks/DES/MP/results/cv10_NN_dragon')
 # run(INPUT_FILE = 'input_files/des/des_classifier_gridsearch.txt',
 #     OUTPUT_DIRECTORY = 'benchmarks/DES/MP/results/test_class_dragon')
+
+
+## test
+run(INPUT_FILE = 'input_files/test/test_1.txt',
+    OUTPUT_DIRECTORY = 'test.out')

@@ -42,7 +42,7 @@ LassoLars
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = LassoLars``
     |   ``<< track_header = True``
     |   ``<< func_method = None``

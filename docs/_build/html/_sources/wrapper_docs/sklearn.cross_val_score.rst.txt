@@ -39,7 +39,7 @@ cross_val_score
     | pandas, 0.20.3
 
 :config file view:
-    | ``## ``
+    | ``##``
     |   ``<< host = sklearn    << function = cross_val_score``
     |   ``<< track_header = True``
     |   ``<< scoring = None``
@@ -47,10 +47,10 @@ cross_val_score
     |   ``<< verbose = 0``
     |   ``<< fit_params = None``
     |   ``<< pre_dispatch = 2 * n_jobs``
-    |   ``<< estimator = * required``
+    |   ``<< estimator = required_required``
     |   ``<< groups = None``
     |   ``<< y = None``
-    |   ``<< X = * required``
+    |   ``<< X = required_required``
     |   ``<< cv = None``
     |   ``>> id dfy``
     |   ``>> id dfx``

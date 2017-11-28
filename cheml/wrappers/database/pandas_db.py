@@ -17,8 +17,8 @@ class read_table(object):
     class WParameters:
         pass
     class FParameters:
-        filepath_or_buffer = Parameter('filepath_or_buffer', '* required')
-        sep = Parameter('sep', '\t')
+        filepath_or_buffer = Parameter('filepath_or_buffer', 'required_required')
+        sep = Parameter('sep', "required_required")
         delimiter = Parameter('delimiter', None)
         header = Parameter('header', 'infer')
         names = Parameter('names', None)
@@ -89,7 +89,7 @@ class read_excel(object):
     class WParameters:
         pass
     class FParameters:
-        io = Parameter('io', '* required')
+        io = Parameter('io', 'required_required')
         sheet_name = Parameter('sheet_name', 0)
         header = Parameter('header', 0)
         skiprows = Parameter('skiprows', None)

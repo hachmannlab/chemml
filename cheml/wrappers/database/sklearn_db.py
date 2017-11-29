@@ -383,7 +383,6 @@ class train_test_split(object):
         random_state = Parameter('random_state', None)
         shuffle = Parameter('shuffle', True)
         stratify = Parameter('stratify', None)
-
 class KFold(object):
     task = 'Prepare'
     subtask = 'split'
@@ -394,7 +393,7 @@ class KFold(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html"
 
     class Inputs:
-        df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class Outputs:
         api = Output("api","instance of scikit-learn's KFold class", ("<class 'sklearn.model_selection._split.KFold'>",))
         fold_gen = Output("fold_gen","Generator of indices to split data into training and test set", ("<type 'generator'>",))
@@ -406,6 +405,27 @@ class KFold(object):
         n_splits = Parameter('n_splits', 3)
         random_state = Parameter('random_state', None)
         shuffle = Parameter('shuffle', False)
+class LeaveOneOut(object):
+    task = 'Prepare'
+    subtask = 'split'
+    host = 'sklearn'
+    function = 'LeaveOneOut'
+    modules = ('sklearn','model_selection')
+    requirements = (req(1), req(2))
+    documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html"
+
+    class Inputs:
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class Outputs:
+        api = Output("api","instance of scikit-learn's LeaveOneOut class", ("<class 'sklearn.model_selection._split.LeaveOneOut'>",))
+        fold_gen = Output("fold_gen","Generator of indices to split data into training and test set", ("<type 'generator'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('split', None))
+    class FParameters:
+        pass
+
 class ARDRegression(object):
     task = 'Model'
     subtask = 'regression'
@@ -1079,6 +1099,8 @@ class cross_val_score(object):
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        cv = Input("cv", "cross-validation generator", ("<type 'generator'>",))
+
     class Outputs:
         scores = Output("scores","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -1150,18 +1172,27 @@ class evaluate_regression(object):
         evaluation_results_ = Output("evaluation_results_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         evaluator = Output("evaluator","dictionary of metrics and their score function", ("<type 'dict'>",))
     class WParameters:
-        mae_multioutput = Parameter('mae_multioutput','uniform_average','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
-                        description = "",
-                        options = ('raw_values', 'uniform_average'))
         r2_score = Parameter('r2_score','False','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score',
                         description = "",
                         options = (True, False))
-        mean_absolute_error = Parameter('mean_absolute_error','False','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
-                        description = "",
-                        options = (True, False))
+        r2_sample_weight = Parameter('r2_sample_weight', 'None',
+                                     'http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score',
+                                     description="",
+                                     options=[])
         multioutput = Parameter('multioutput','uniform_average','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score',
                         description = "",
                         options = ('raw_values', 'uniform_average', 'variance_weighted'))
+
+        mean_absolute_error = Parameter('mean_absolute_error','False','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
+                        description = "",
+                        options = (True, False))
+        mae_multioutput = Parameter('mae_multioutput','uniform_average','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
+                        description = "",
+                        options = ('raw_values', 'uniform_average'))
+        mae_sample_weight = Parameter('mae_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
+                        description = "",
+                        options = [])
+
         mse_sample_weight = Parameter('mse_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error',
                         description = "",
                         options = [])
@@ -1171,9 +1202,6 @@ class evaluate_regression(object):
         median_absolute_error = Parameter('median_absolute_error','False','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.median_absolute_error.html#sklearn.metrics.median_absolute_error',
                         description = "",
                         options = (True, False))
-        mae_sample_weight = Parameter('mae_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error',
-                        description = "",
-                        options = [])
         rmse_sample_weight = Parameter('rmse_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error',
                         description = "",
                         options = [])
@@ -1186,9 +1214,7 @@ class evaluate_regression(object):
         explained_variance_score = Parameter('explained_variance_score','False','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score',
                         description = "",
                         options = (True, False))
-        r2_sample_weight = Parameter('r2_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score',
-                        description = "",
-                        options = [])
+
         ev_sample_weight = Parameter('ev_sample_weight','None','http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score',
                         description = "",
                         options = [])
@@ -1219,13 +1245,18 @@ class scorer_regression(object):
         scorer = Output("scorer","Callable object that returns a scalar score", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
 
     class WParameters:
-        metric = Parameter('metric','mae','http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics',
-                        description = "",
+        metric = Parameter('metric','mae',
+                        description = "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics",
+                        format = "string: 'mae', 'mse', 'rmse', 'r2'",
                         options = ('mae', 'mse', 'rmse', 'r2'))
         track_header = Parameter('track_header', True,'Boolean',
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        pass
+        greater_is_better = Parameter('greater_is_better', True)
+        needs_proba = Parameter('needs_proba', False)
+        needs_threshold = Parameter('needs_threshold', False)
+        kwargs = Parameter('kwargs', {}, format = 'dictionary')
+
 
 

@@ -1,11 +1,12 @@
 import warnings
 import pandas as pd
 import numpy as np
-import sklearn
 import copy
 
-from ..base import BASE
+
 from .syntax import Preprocessor, Regressor, Evaluator
+from ..base import BASE
+from ...utils import value
 
 
 ##################################################################### 2 Prepare Data
@@ -109,7 +110,7 @@ class train_test_split(BASE):
         # step4: import module and make APIs
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
             train_test_split = F(dfx,**self.parameters)
             if dfy is None:
@@ -149,27 +150,67 @@ class KFold(BASE):
                 self.iblock, self.Task,method,self.Function)
             raise NameError(msg)
         else:
-            if method is None:
+            if method == None:
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.set_value('api', api)
-            elif method is 'split':
+            elif method == 'split':
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.required('dfx', req=True)
-                dfx = self.inputs['df'].value
+                dfx = self.inputs['dfx'].value
+                fold_gen = api.split(dfx)
+                self.set_value('api', api)
+                self.set_value('fold_gen', fold_gen)
+
+        self.Send()
+        del self.inputs
+
+class LeaveOneOut(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = None
+        if method not in self.metadata.WParameters.func_method.options:
+            msg = "@Task #%i(%s): The method '%s' is not available for the function '%s'." % (
+                self.iblock, self.Task,method,self.Function)
+            raise NameError(msg)
+        else:
+            if method == None:
+                try:
+                    exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+                    F = getattr(submodule, self.Function)
+                    api = F(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+                self.set_value('api', api)
+            elif method == 'split':
+                try:
+                    exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+                    F = getattr(submodule, self.Function)
+                    api = F(**self.parameters)
+                except Exception as err:
+                    msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+                    raise TypeError(msg)
+                self.required('dfx', req=True)
+                dfx = self.inputs['dfx'].value
                 fold_gen = api.split(dfx)
                 self.set_value('api', api)
                 self.set_value('fold_gen', fold_gen)
@@ -192,7 +233,7 @@ class ShuffleSplit(BASE):
             if method is None:
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -202,7 +243,7 @@ class ShuffleSplit(BASE):
             elif method is 'split':
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -232,7 +273,7 @@ class StratifiedShuffleSplit(BASE):
             if method is None:
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -242,7 +283,7 @@ class StratifiedShuffleSplit(BASE):
             elif method is 'split':
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-                    submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+                    submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
                     F = getattr(submodule, self.Function)
                     api = F(**self.parameters)
                 except Exception as err:
@@ -289,7 +330,7 @@ class GridSearchCV(BASE):
         # step4: import module and make API
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
             api = F(**self.parameters)
         except Exception as err:
@@ -343,8 +384,11 @@ class cross_val_score(BASE):
         # Note: estimator is a required parameter and can be received from the input stream
         # Note: scorer is not a required parameter but can be received from the input stream
         self.paramFROMinput()
-        if 'estimator' not in self.parameters and '@' not in estimator:
+        if 'estimator' not in self.parameters:
             self.parameters['estimator'] = estimator
+        if 'X' not in self.parameters:
+            self.parameters['X'] = dfx
+
 
         # step3: check the dimension of input data frame
         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
@@ -354,9 +398,9 @@ class cross_val_score(BASE):
         # step4: import module and make APIs
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
-            scores = F(X=dfx, y=dfy, **self.parameters)
+            scores = F(**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                 err).__name__ + ': ' + err.message
@@ -366,7 +410,7 @@ class cross_val_score(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0]==self.iblock]
         for token in set(order):
             if token == 'scores':
-                self.set_value(token, scores)
+                self.set_value(token, pd.DataFrame(scores))
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
             else:
@@ -402,7 +446,7 @@ class cross_val_predict(BASE):
         # step4: import module and make APIs
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
             dfy_pred = F(X=dfx, y=dfy, **self.parameters)
         except Exception as err:
@@ -452,7 +496,7 @@ class learning_curve(BASE):
         # step4: import module and make APIs
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
             train_sizes_abs, train_scores, test_scores = F(X=dfx,y=dfy,**self.parameters)
         except Exception as err:
@@ -525,8 +569,8 @@ class evaluate_regression(BASE,Evaluator):
                 self.required('dfy_predict', req=True)
                 dfy = self.inputs['dfy'].value
                 dfy_predict = self.inputs['dfy_predict'].value
-                print dfy
-                print dfy_predict
+                print 'y:',dfy
+                print 'yp:', dfy_predict
 
                 # step3: check the dimension of input data frame
                 dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
@@ -554,14 +598,19 @@ class scorer_regression(BASE):
             metric = self.parameters.pop('metric')
         else:
             metric = 'mae'
+        if 'kwargs' in self.parameters:
+            kwargs = self.parameters.pop('kwargs')
+            for item in kwargs:
+                self.parameters[item] = value(kwargs[item])
+
         # Todo: add all the metrics for regression
 
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
-            exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
-            submodule = getattr(__import__(self.metadata.module[0]), self.metadata.module[1])
-            F = getattr(submodule, self.Function)
+            exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], 'make_scorer'))
+            submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
+            F = getattr(submodule, 'make_scorer')
             if metric == 'mae':
                 from sklearn.metrics import mean_absolute_error
                 scorer = F(mean_absolute_error,**self.parameters)
@@ -569,7 +618,6 @@ class scorer_regression(BASE):
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                 err).__name__ + ': ' + err.message
             raise TypeError(msg)
-
         # step5: process
         # step6: send out
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]

@@ -522,14 +522,19 @@ class evaluate_regression(BASE,Evaluator):
             elif token == 'evaluation_results_':
                 # step1: check inputs
                 self.required('dfy', req=True)
-                self.required('dfy_pred', req=True)
+                self.required('dfy_predict', req=True)
+                dfy = self.inputs['dfy'].value
+                dfy_predict = self.inputs['dfy_predict'].value
+                print dfy
+                print dfy_predict
 
                 # step3: check the dimension of input data frame
                 dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
-                dfy_pred, _ = self.data_check('dfy_pred', dfy_pred, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
+                dfy_predict, _ = self.data_check('dfy_predict', dfy_predict, ndim=2, n0=dfy.shape[0], n1=None, format_out='df')
 
-                self._reg_evaluate(dfy, dfy_pred, self.evaluator)
+                self._reg_evaluate(dfy, dfy_predict, self.evaluator)
                 evaluation_results_ = pd.DataFrame(self.results)
+                print evaluation_results_
                 self.set_value(token, evaluation_results_)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]

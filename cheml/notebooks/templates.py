@@ -3,7 +3,7 @@ def template1():
     << host = pandas
     << function = read_table
     << sep = ,
-    << filepath_or_buffer = benchmarks/sample_data/RI_data.csv
+    << filepath_or_buffer = benchmarks/sample_data/RI/RI_data.csv
     >> df 0
 
 ## (Prepare,basic operators)

@@ -569,8 +569,6 @@ class evaluate_regression(BASE,Evaluator):
                 self.required('dfy_predict', req=True)
                 dfy = self.inputs['dfy'].value
                 dfy_predict = self.inputs['dfy_predict'].value
-                print 'y:',dfy
-                print 'yp:', dfy_predict
 
                 # step3: check the dimension of input data frame
                 dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=None, n1=None, format_out='df')
@@ -578,7 +576,6 @@ class evaluate_regression(BASE,Evaluator):
 
                 self._reg_evaluate(dfy, dfy_predict, self.evaluator)
                 evaluation_results_ = pd.DataFrame(self.results)
-                print evaluation_results_
                 self.set_value(token, evaluation_results_)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]

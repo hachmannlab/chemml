@@ -1,0 +1,146 @@
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/mp.csv
+    >> df 0
+    >> df 3
+    >> df 9
+
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/descriptor.csv
+    >> df 1
+    >> df 8
+    >> df 10
+
+## (Model,regression)
+    << host = sklearn
+    << function = Ridge
+    << func_method = fit
+    >> 0 dfy
+    >> 1 dfx
+    >> dfy_predict 2
+    >> api 7
+
+## (Search,evaluate)
+    << host = sklearn
+    << function = evaluate_regression
+    << r2_score = True
+    << mean_absolute_error = True
+    << track_header = True
+    << root_mean_squared_error = True
+    >> 2 dfy_predict
+    >> 3 dfy
+    >> evaluation_results_ 4
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1
+    << line02 = print "LOO" , iv2.describe()
+    << line03 = print list(iv2.values.reshape(146,))
+    >> 4 iv1
+    >> 5 iv2
+
+## (Prepare,split)
+    << host = sklearn
+    << function = LeaveOneOut
+    << func_method = split
+    >> fold_gen 6
+    >> 10 dfx
+
+## (Search,validate)
+    << host = sklearn
+    << function = cross_val_score
+    << scoring = @scorer
+    << y = @dfy
+    << estimator = @estimator
+    << X = @dfx
+    << cv = @cv
+    >> scores 5
+    >> 6 cv
+    >> 7 estimator
+    >> 8 dfx
+    >> 9 dfy
+    >> 11 scorer
+
+## (Search,evaluate)
+    << host = sklearn
+    << function = scorer_regression
+    << metric = mae
+    >> scorer 11
+
+#################################
+
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/mp.csv
+    >> df 1
+
+## (Enter,table)
+    << host = pandas
+    << function = read_table
+    << sep = ,
+    << filepath_or_buffer = benchmarks/sample_data/MP/DES/descriptor.csv
+    >> df 0
+
+## (Prepare,preprocessor)
+    << host = cheml
+    << function = MissingValues
+    << func_method = fit_transform
+    >> 0 df
+    >> api 2
+    >> df 4
+
+## (Prepare,preprocessor)
+    << host = cheml
+    << function = MissingValues
+    << func_method = transform
+    >> 1 df
+    >> 2 api
+    >> df 3
+    >> df 5
+
+## (Model,regression)
+    << host = sklearn
+    << function = Ridge
+    << func_method = fit
+    >> 3 dfy
+    >> 4 dfx
+    >> dfy_predict 7
+
+## (Search,evaluate)
+    << host = sklearn
+    << function = evaluate_regression
+    << mae_multioutput = uniform_average
+    << r2_score = True
+    << mean_absolute_error = True
+    << multioutput = uniform_average
+    << mse_sample_weight = None
+    << rmse_multioutput = uniform_average
+    << median_absolute_error = False
+    << mae_sample_weight = None
+    << rmse_sample_weight = None
+    << track_header = True
+    << mean_squared_error = False
+    << root_mean_squared_error = False
+    << explained_variance_score = False
+    << r2_sample_weight = None
+    << ev_sample_weight = None
+    << ev_multioutput = uniform_average
+    << mse_multioutput = uniform_average
+    >> 5 dfy
+    >> evaluation_results_ 6
+    >> 7 dfy_predict
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1
+    >> 6 iv1
+

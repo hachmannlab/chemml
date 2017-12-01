@@ -2,51 +2,65 @@
     << host = pandas
     << function = read_table
     << sep = ,
-    << filepath_or_buffer = benchmarks/sample_data/MP/DES/mp.csv
-    >> df 1
-
-## (Enter,table)
-    << host = pandas
-    << function = read_table
-    << sep = ,
-    << filepath_or_buffer = benchmarks/sample_data/MP/DES/descriptor.csv
+    << filepath_or_buffer = benchmarks/sample_data/RI/RI_data.csv
     >> df 0
 
-## (Prepare,preprocessor)
+## (Prepare,basic operators)
     << host = cheml
-    << function = MissingValues
-    << func_method = fit_transform
+    << function = Split
+    << selection = ['Mol_Smiles']
     >> 0 df
-    >> api 2
-    >> df 4
+    >> df1 1
+    >> df2 5
 
-## (Prepare,preprocessor)
+## (Store,file)
     << host = cheml
-    << function = MissingValues
-    << func_method = transform
+    << function = SaveFile
+    << format = smi
+    << header = False
+    << filename = smi
     >> 1 df
-    >> 2 api
+    >> filepath 2
+    >> filepath 4
+
+## (Prepare,feature representation)
+    << host = cheml
+    << function = Dragon
+    << molFile = @molfile
+    >> 2 molfile
     >> df 3
+
+## (Store,file)
+    << host = cheml
+    << function = SaveFile
+    << filename = dragon
+    >> 3 df
+
+## (Prepare,feature representation)
+    << host = cheml
+    << function = RDKitFingerprint
+    << molfile = @molfile
+    >> 4 molfile
     >> df 6
+
+## (Prepare,basic operators)
+    << host = cheml
+    << function = Split
+    << selection = ['RI_LL']
+    >> 5 df
+    >> df1 7
 
 ## (Model,regression)
     << host = sklearn
-    << function = Ridge
+    << function = MLPRegressor
     << func_method = fit
-    >> 3 dfy
-    >> 4 dfx
-    >> dfy_predict 5
-
-## (Search,evaluate)
-    << host = sklearn
-    << function = evaluate_regression
-    >> 5 dfy_predict
-    >> 6 dfy
-    >> evaluation_results_ 7
+    >> 6 dfx
+    >> 7 dfy
+    >> dfy_predict 8
 
 ## (Enter,python script)
     << host = cheml
     << function = PyScript
-    << line01 = print iv1
-    >> 7 iv1
+    << line01 = print iv1.describe()
+    >> 8 iv1
 

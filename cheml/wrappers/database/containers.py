@@ -18,6 +18,7 @@ class Output(object):
         self.fro = ('iblock', 'host', 'function')
         self.count = 0
 
+
 class Parameter(object):
     """Container class for parameters of a function"""
     def __init__(self,name,default,format='',required=False,description="",options=[]):

@@ -138,20 +138,26 @@ class wrapperGUI(object):
             from .templates import template1
             script = template1()
             old = [i for i in self.pages]
-            try:
-                self.parser(script)
-                # update the current_bid
-                self.block_id = max(self.pages)
-                selectT1.icon = 'check'
-            except Exception as err:
-                print "Invalid configuration file ..."
-                print "    IOError: %s"%err.message
-                print "... Not loaded!"
-                selectT1.icon = 'remove'
-                rm = [i for i in self.pages if i not in old]
-                for ib in rm:
-                    if ib in self.pages:
-                        del self.pages[ib]
+
+            self.parser(script)
+            # update the current_bid
+            self.block_id = max(self.pages)
+            selectT1.icon = 'check'
+
+            # try:
+            #     self.parser(script)
+            #     # update the current_bid
+            #     self.block_id = max(self.pages)
+            #     selectT1.icon = 'check'
+            # except Exception as err:
+            #     print "Invalid configuration file ..."
+            #     print "    IOError: %s"%err.message
+            #     print "... Not loaded!"
+            #     selectT1.icon = 'remove'
+            #     rm = [i for i in self.pages if i not in old]
+            #     for ib in rm:
+            #         if ib in self.pages:
+            #             del self.pages[ib]
 
             self.debut = False
             self.add_page()
@@ -462,27 +468,30 @@ class wrapperGUI(object):
                     remove_nodes_toSEND(n=e[0], remove_bids=remove_bids)
             return remove_bids
 
-        # def remove_nodes_toRECV(n = self.current_bid, remove_bids = set()):
-        #     # find all the nodes that the current node can not receive info from them
-        #     remove_bids.add(n)  # including itself
-        #     for e in self.comp_graph:
-        #         if e[0]==n:
-        #             remove_bids.add(e[2])
-        #             remove_nodes_toRECV(n=e[2], remove_bids=remove_bids)
-        #     return remove_bids
+        def remove_nodes_toRECV(n = self.current_bid, remove_bids = set()):
+            # find all the nodes that the current node can not receive info from them
+            remove_bids.add(n)  # including itself
+            for e in self.comp_graph:
+                if e[0]==n:
+                    remove_bids.add(e[2])
+                    remove_nodes_toRECV(n=e[2], remove_bids=remove_bids)
+            return remove_bids
 
         def refresh_tasks():
             if not self.debut:
                 self.current_bid = sorted(self.pages)[self.accordion.selected_index]
+
+            ### Senders
             ## block ids that can receive info from the current block
             bidS_options = [i for i in self.pages if i not in [0, 1]]
-            rm = remove_nodes_toSEND(self.current_bid,set())
-            for n in rm:
+            rm_n_2S = remove_nodes_toSEND(self.current_bid,set())
+            for n in rm_n_2S:
                 bidS_options.remove(n)
             bidS.options = sorted(bidS_options)
             if len(bidS_options)>0:
                 bidS.value = sorted(bidS_options)[0]
                 external_inputs = [token for token in self.pages[bidS.value].block_params['inputs']]
+                # remove input tokens that are already taken
                 rm = []
                 for t in external_inputs:
                     for e in self.comp_graph:
@@ -495,34 +504,40 @@ class wrapperGUI(object):
                     external_receivers.value = sorted(external_inputs)[0]
             else:
                 external_receivers.options = []
-            ## block ids that can send info to the current block
-            # bidR_options = [i for i in self.pages if i not in [0, 1]]
-            # rm = remove_nodes_toRECV(self.current_bid,set())
-            # for n in rm:
-            #     bidR_options.remove(n)
-            # bidR.options = bidR_options
+
+            ### Receivers
+            ## update input tokens to receive only once
+            input_tokens = [token for token in self.pages[self.current_bid].block_params['inputs']]
+            # remove input tokens that are already taken
+            rm = []
+            for t in input_tokens:
+                for e in self.comp_graph:
+                    if e[2:] == (self.current_bid, t):
+                        rm.append(t)
+            for token in rm:
+                input_tokens.remove(token)
+            receiver.options = sorted(input_tokens)
+            if len(input_tokens)>0:
+                receiver.value = sorted(input_tokens)[0]
+                # block ids that can send info to the current block
+                bidR_options = [i for i in self.pages if i not in [0, 1]]
+                rm = remove_nodes_toRECV(self.current_bid,set())
+                for n in rm:
+                    bidR_options.remove(n)
+                bidR.options = sorted(bidR_options)
+                if len(bidR_options)>0:
+                    bidR.value = sorted(bidR_options)[0]
+                    external_outputs = [token for token in self.pages[bidR.value].block_params['outputs']]
+                    external_senders.options = external_outputs
+                else:
+                    external_senders.options = []
+            else:
+                bidR.options = []
+                external_senders.options = []
 
             ## update pipes options from comp_graph
             ps = ["%i, %s      >>>      %i, %s" % (e[0], e[1], e[2], e[3]) for e in self.comp_graph if self.current_bid in e]
             pipes.options = sorted(ps)
-
-            ## update input tokens to receive only once
-            # input_tokens = [token for token in self.pages[self.current_bid].block_params['inputs']]
-            # rm = []
-            # for t in input_tokens:
-            #     for e in self.comp_graph:
-            #         if e[2:] == (self.current_bid, t):
-            #             rm.append(t)
-            # for token in rm:
-            #     input_tokens.remove(token)
-            # receiver.options = input_tokens
-
-            ## refresh external output tokens based on bidR value
-            # if bidR.value is not None:
-            #     external_outputs = [token for token in self.pages[bidR.value].block_params['outputs']]
-            #     external_senders.options = external_outputs
-            # else:
-            #     external_senders.options = []
 
         def display_graph():
             ## clear ouput and update the graph viz
@@ -555,20 +570,21 @@ class wrapperGUI(object):
             refresh_tasks()
             display_graph()
 
-        # def on_addR_clicked(b):
-        #     if not self.debut:
-        #         self.current_bid = sorted(self.pages)[self.accordion.selected_index]
-        #     if receiver.value is not None and bidR.value is not None and external_senders.value is not None:
-        #         output_type = set(self.pages[bidR.value].block_params['outputs'][external_senders.value].types)
-        #         input_type = set(self.pages[self.current_bid].block_params['inputs'][receiver.value].types)
-        #         if input_type.issubset(output_type) or output_type.issubset(input_type):
-        #             all_receivers = [e[2:] for e in self.comp_graph]
-        #             if (self.current_bid, receiver.value) not in all_receivers:
-        #                 edge = (bidR.value, external_senders.value, self.current_bid, receiver.value)
-        #                 if edge not in self.comp_graph:
-        #                     self.comp_graph.append(edge)
-        #     ## all refresh tasks:
-        #     refresh_tasks()
+        def on_addR_clicked(b):
+            if not self.debut:
+                self.current_bid = sorted(self.pages)[self.accordion.selected_index]
+            if receiver.value is not None and bidR.value is not None and external_senders.value is not None:
+                output_type = set(self.pages[bidR.value].block_params['outputs'][external_senders.value].types)
+                input_type = set(self.pages[self.current_bid].block_params['inputs'][receiver.value].types)
+                if input_type.issubset(output_type) or output_type.issubset(input_type):
+                    all_receivers = [e[2:] for e in self.comp_graph]
+                    if (self.current_bid, receiver.value) not in all_receivers:
+                        edge = (bidR.value, external_senders.value, self.current_bid, receiver.value)
+                        if edge not in self.comp_graph:
+                            self.comp_graph.append(edge)
+            ## all refresh tasks:
+            refresh_tasks()
+            display_graph()
 
         def bidS_value_change(change):
             if not self.debut:
@@ -588,14 +604,14 @@ class wrapperGUI(object):
             else:
                 external_receivers.options = []
 
-        # def bidR_value_change(change):
-        #     if not self.debut:
-        #         self.current_bid = sorted(self.pages)[self.accordion.selected_index]
-        #     if bidR.value is not None:
-        #         external_outputs = [token for token in self.pages[bidR.value].block_params['outputs']]
-        #         external_senders.options = external_outputs
-        #     else:
-        #         external_senders.options = []
+        def bidR_value_change(change):
+            if not self.debut:
+                self.current_bid = sorted(self.pages)[self.accordion.selected_index]
+            if bidR.value is not None:
+                external_outputs = [token for token in self.pages[bidR.value].block_params['outputs']]
+                external_senders.options = external_outputs
+            else:
+                external_senders.options = []
 
         def on_remove_clicked(b):
             if not self.debut:
@@ -627,8 +643,8 @@ class wrapperGUI(object):
                                                                margin='0px 0px 0px 10px'))
         toS = widgets.HTML(value='<b> >>> </b>')
         bidS_options = [i for i in self.pages if i not in [0, 1]]
-        rm = remove_nodes_toSEND(self.current_bid,set())
-        for n in rm:
+        rm_n_2S = remove_nodes_toSEND(self.current_bid,set())
+        for n in rm_n_2S:
             bidS_options.remove(n)
         bidS = widgets.Dropdown(
             options=sorted(bidS_options),
@@ -665,36 +681,36 @@ class wrapperGUI(object):
 
         ## Receiver
         note = widgets.HTML(value='<b> Note: </b> This page automatically avoid: (1) loops, (2) type inconsistency, and (3) more than one input per token.', layout=widgets.Layout(margin='20px 0px 0px 10px'))
-        headerR = widgets.HTML(value='<b> Receive <<< </b> (currently inactive)', layout=widgets.Layout(width='50%',margin='10px 0px 0px 10px'))
+        headerR = widgets.HTML(value='<b> Receive <<< </b>', layout=widgets.Layout(width='50%',margin='10px 0px 0px 10px'))
         input_tokens = [token for token in self.pages[self.current_bid].block_params['inputs']]
-        listR = widgets.HTML(value='input tokens: %s'%', '.join(sorted(input_tokens)),
-                             layout=widgets.Layout(margin='3px 0px 0px 20px'))
-        # rm = []
-        # for t in input_tokens:
-        #     for e in self.comp_graph:
-        #         if e[2:] == (self.current_bid, t):
-        #             rm.append(t)
-        # for token in rm:
-        #     input_tokens.remove(token)
+        # listR = widgets.HTML(value='input tokens: %s'%', '.join(sorted(input_tokens)),
+        #                      layout=widgets.Layout(margin='3px 0px 0px 20px'))
+        rm = []
+        for t in input_tokens:
+            for e in self.comp_graph:
+                if e[2:] == (self.current_bid, t):
+                    rm.append(t)
+        for token in rm:
+            input_tokens.remove(token)
         receiver = widgets.Dropdown(
             options=input_tokens,
-            # value=output_tokens[0],
-            disabled=True,
-            description='input token:')
+            # value=input_tokens[0],
+            disabled = False,
+            description = 'input token:')
         hbox1R = widgets.HBox([receiver],layout=widgets.Layout(height='40px', border='dotted black 1px',
                                                                align_items='center',  # justify_content = 'center',
                                                                margin='0px 0px 0px 10px'))
         fro = widgets.HTML(value='<b> <<< </b>')
         bidR_options = [i for i in self.pages if i not in [0, 1]]
-        # rm = remove_nodes_toRECV(self.current_bid,set())
-        # for n in rm:
-        #     bidR_options.remove(n)
+        rm = remove_nodes_toRECV(self.current_bid, set())
+        for n in rm:
+            bidR_options.remove(n)
         bidR = widgets.Dropdown(
-            options=bidR_options,
+            options = sorted(bidR_options),
             description='block#:',
-            disabled=True,
+            disabled=False,
             layout=widgets.Layout(width='140px'))
-        # bidR.observe(bidR_value_change,names='value')
+        bidR.observe(bidR_value_change,names='value')
         refresh = widgets.Button(icon='refresh',disabled=True, layout=widgets.Layout(width='40px'))
         # refresh.style.button_color = 'darkseagreen'
         refresh.on_click(on_refresh_clicked)
@@ -703,15 +719,15 @@ class wrapperGUI(object):
         else:
             external_outputs = []
         external_senders = widgets.Dropdown(
-            options = external_outputs,
-            disabled=True,
+            options = sorted(external_outputs),
+            disabled=False,
             description='output token:')
         hbox2R = widgets.HBox([bidR, refresh,external_senders],
                              layout=widgets.Layout(height='40px', border='dotted black 1px',
                                                    align_items='center', justify_content='center'))
-        addR = widgets.Button(description="Add", disabled=True, layout=widgets.Layout(width='60px', margin='0px 10px 0px 0px'))
+        addR = widgets.Button(description="Add", disabled=False, layout=widgets.Layout(width='60px', margin='0px 10px 0px 0px'))
         addR.style.button_color = 'lightblue'
-        # addR.on_click(on_addR_clicked)
+        addR.on_click(on_addR_clicked)
         hboxR = widgets.HBox([hbox1R, fro, hbox2R, addR],
                              layout=widgets.Layout(justify_content='space-between',
                                                    align_items='center',
@@ -729,7 +745,7 @@ class wrapperGUI(object):
         remove.on_click(on_remove_clicked)
         hbox4 = widgets.HBox([pipes, remove], margin='0px 0px 0px 100px')
 
-        IO_vbox = widgets.VBox([note, headerS, hboxS, headerR, listR, hboxR, hbox4])#, layout=widgets.Layout(border='solid darkslategray 1px'))
+        IO_vbox = widgets.VBox([note, headerS, hboxS, headerR, hboxR, hbox4])#, layout=widgets.Layout(border='solid darkslategray 1px'))
         return IO_vbox
 
     def custom_function_params_w(self):

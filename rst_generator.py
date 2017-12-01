@@ -91,7 +91,7 @@ for h in databases:
                         file.write('    |   choose one of: %s\n' % str(wparams[item].options))
             file.write('\n')
             file.write(':required packages:\n')
-            for r in k.requirements:
+            for r in list(k.requirements):
                 file.write('    | %s, %s\n'%(r[0], r[1]))
             file.write('\n')
             file.write(':config file view:\n')

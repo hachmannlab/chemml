@@ -6,7 +6,7 @@ class read_table(object):
     host = 'pandas'
     function = 'read_table'
     modules = ('pandas','')
-    requirements = (req(2))
+    requirements = (req(2),)
     documentation = "https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html"
 
     class Inputs:
@@ -78,7 +78,7 @@ class read_excel(object):
     host = 'pandas'
     function = 'read_excel'
     modules = ('pandas','')
-    requirements = (req(2))
+    requirements = (req(2),)
     documentation = "https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_excel.html"
 
     class Inputs:
@@ -115,7 +115,7 @@ class corr(object):
     host = 'pandas'
     function = 'corr'
     modules = ('pandas','')
-    requirements = (req(2))
+    requirements = (req(2),)
     documentation = "https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html"
 
     class Inputs:

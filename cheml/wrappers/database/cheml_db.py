@@ -365,7 +365,7 @@ class XYZreader(object):
     host = 'cheml'
     function = 'XYZreader'
     modules = ('cheml','initialization')
-    requirements = (req(0))
+    requirements = (req(0),)
     documentation = ""
 
     class Inputs:

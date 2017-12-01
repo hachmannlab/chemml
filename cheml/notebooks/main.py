@@ -131,33 +131,28 @@ class wrapperGUI(object):
             description='Output directory:',
             disabled=False,
             style = style,
-            layout = widgets.Layout(margin='30px 0px 30px 0px')
-        )
+            layout = widgets.Layout(margin='30px 0px 30px 0px'))
+
         def on_selectT1_clicked(b):
             # template1.txt is a cheml wrapper config file
             from .templates import template1
             script = template1()
             old = [i for i in self.pages]
 
-            self.parser(script)
-            # update the current_bid
-            self.block_id = max(self.pages)
-            selectT1.icon = 'check'
-
-            # try:
-            #     self.parser(script)
-            #     # update the current_bid
-            #     self.block_id = max(self.pages)
-            #     selectT1.icon = 'check'
-            # except Exception as err:
-            #     print "Invalid configuration file ..."
-            #     print "    IOError: %s"%err.message
-            #     print "... Not loaded!"
-            #     selectT1.icon = 'remove'
-            #     rm = [i for i in self.pages if i not in old]
-            #     for ib in rm:
-            #         if ib in self.pages:
-            #             del self.pages[ib]
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectT1.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectT1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
 
             self.debut = False
             self.add_page()
@@ -206,6 +201,7 @@ class wrapperGUI(object):
 
     def home_page_widgets(self):
         def on_selectN_clicked(b):
+            self.block_id = 1   #restart the block ids
             self.output_directory = outdir.value
             rm = [i for i in self.pages if i not in [0,1]]
             for j in rm:

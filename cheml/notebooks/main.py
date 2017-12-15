@@ -123,17 +123,22 @@ class wrapperGUI(object):
         return lines
 
     def templates_widgets(self):
-        headerT = widgets.Label(value='Start with a template workflow', layout=widgets.Layout(width='50%'))
-        style = {'description_width': 'initial'}
-        outdir = widgets.Text(
-            value='CMLWrapper.out',
-            placeholder='Type something',
-            description='Output directory:',
-            disabled=False,
-            style = style,
-            layout = widgets.Layout(margin='30px 0px 30px 0px'))
+        headerT = widgets.Label(value='Start with a template or tutorial workflow', layout=widgets.Layout(width='50%'))
+        # style = {'description_width': 'initial'}
+        # outdir = widgets.Text(
+        #     value='CMLWrapper.out',
+        #     placeholder='Type something',
+        #     description='Output directory:',
+        #     disabled=False,
+        #     style = style,
+        #     layout = widgets.Layout(margin='30px 0px 30px 0px'))
 
-        def on_selectT1_clicked(b):
+        ### Templates
+        headerTEMPLATES = widgets.HTML(value='<b> Templates: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES = [headerTEMPLATES]
+
+        ## Template1
+        def on_selectTe1_clicked(b):
             # template1.txt is a cheml wrapper config file
             from .templates import template1
             script = template1()
@@ -143,12 +148,12 @@ class wrapperGUI(object):
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
-                selectT1.icon = 'check'
+                selectTe1.icon = 'check'
             except Exception as err:
                 print "Invalid configuration file ..."
                 print "    IOError: %s"%err.message
                 print "... Not loaded!"
-                selectT1.icon = 'remove'
+                selectTe1.icon = 'remove'
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -167,36 +172,81 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        def on_viewT1_clicked(b):
-            self.output_directory = outdir.value
+        te1 = widgets.Label(value="Template 1: read XYZ files --> generate Coulomb_Matrix --> save features matrix")#, layout=widgets.Layout(width='70%'))
+        selectTe1 = widgets.Button(description="Select")
+        selectTe1.style.button_color = 'lightblue'
+        selectTe1.on_click(on_selectTe1_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe1 = widgets.HBox([te1, selectTe1],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe1)
+
+        ## Template2
+        def on_selectTe2_clicked(b):
+            self.output_directory = 'CMLWrapper.out'
             self.add_page()
 
-        t1 = widgets.Label(value="Template 1: read XYZ files --> generate Coulomb_Matrix --> store output", layout=widgets.Layout(width='70%'))
-        selectT1 = widgets.Button(description="Select")
-        selectT1.style.button_color = 'lightblue'
-        selectT1.on_click(on_selectT1_clicked)
-        viewT1 = widgets.Button(description="Overview")
-        viewT1.style.button_color = 'lightblue'
-        viewT1.on_click(on_viewT1_clicked)
-        hboxT1 = widgets.HBox([t1, selectT1, viewT1])
+        te2 = widgets.Label(value="Template 2: check the overview for more information", layout=widgets.Layout(width='70%'))
+        selectTe2 = widgets.Button(description="Select")
+        selectTe2.style.button_color = 'lightblue'
+        selectTe2.on_click(on_selectTe2_clicked)
+        hboxTe2 = widgets.HBox([te2, selectTe2],layout=widgets.Layout(border='dotted black 1px',justify_content = 'space-between'))
+        TEMPLATES.append(hboxTe2)
 
-        def on_selectT2_clicked(b):
-            self.output_directory = outdir.value
+
+        ### Tutorials
+        headerTUTORIALS = widgets.HTML(value='<b> Tutorials: </b>', layout=widgets.Layout(width='50%',margin='20px 0px 10px 0px'))
+        TUTORIALS = [headerTUTORIALS]
+
+        ## Tutorial1
+        def on_selectTu1_clicked(b):
+            # template1.txt is a cheml wrapper config file
+            from .tutorials import tutorial1
+            script = tutorial1()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTu1.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTu1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
             self.add_page()
-        def on_viewT2_clicked(b):
-            self.output_directory = outdir.value
-            self.add_page()
 
-        t2 = widgets.Label(value="Template 2: check the overview for more information", layout=widgets.Layout(width='70%'))
-        selectT2 = widgets.Button(description="Select")
-        selectT2.style.button_color = 'lightblue'
-        selectT2.on_click(on_selectT2_clicked)
-        viewT2 = widgets.Button(description="Overview")
-        viewT2.style.button_color = 'lightblue'
-        viewT2.on_click(on_viewT2_clicked)
-        hboxT2 = widgets.HBox([t2, selectT2, viewT2])
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
 
-        vb = widgets.VBox([headerT, outdir, hboxT1, hboxT2])
+        tu1 = widgets.Label(value="Tutorial 1: read data --> split molecules SMILES --> generate Dragon descriptors --> regression model")#, layout=widgets.Layout(width='70%'))
+        selectTu1 = widgets.Button(description="Select")
+        selectTu1.style.button_color = 'lightblue'
+        selectTu1.on_click(on_selectTu1_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTu1 = widgets.HBox([tu1, selectTu1],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+        TUTORIALS.append(hboxTu1)
+
+        vb = widgets.VBox([headerT]+TEMPLATES+TUTORIALS)
         return vb
 
     def home_page_widgets(self):
@@ -605,7 +655,9 @@ class wrapperGUI(object):
                 self.current_bid = sorted(self.pages)[self.accordion.selected_index]
             if bidR.value is not None:
                 external_outputs = [token for token in self.pages[bidR.value].block_params['outputs']]
-                external_senders.options = external_outputs
+                external_senders.options = sorted(external_outputs)
+                if len(external_outputs) > 0:
+                    external_senders.value = sorted(external_outputs)[0]
             else:
                 external_senders.options = []
 
@@ -679,8 +731,8 @@ class wrapperGUI(object):
         note = widgets.HTML(value='<b> Note: </b> This page automatically avoid: (1) loops, (2) type inconsistency, and (3) more than one input per token.', layout=widgets.Layout(margin='20px 0px 0px 10px'))
         headerR = widgets.HTML(value='<b> Receive <<< </b>', layout=widgets.Layout(width='50%',margin='10px 0px 0px 10px'))
         input_tokens = [token for token in self.pages[self.current_bid].block_params['inputs']]
-        # listR = widgets.HTML(value='input tokens: %s'%', '.join(sorted(input_tokens)),
-        #                      layout=widgets.Layout(margin='3px 0px 0px 20px'))
+        listR = widgets.HTML(value='all input tokens: %s'%', '.join(sorted(input_tokens)),
+                             layout=widgets.Layout(margin='0px 0px 0px 20px'))
         rm = []
         for t in input_tokens:
             for e in self.comp_graph:
@@ -707,7 +759,7 @@ class wrapperGUI(object):
             disabled=False,
             layout=widgets.Layout(width='140px'))
         bidR.observe(bidR_value_change,names='value')
-        refresh = widgets.Button(icon='refresh',disabled=True, layout=widgets.Layout(width='40px'))
+        refresh = widgets.Button(icon='refresh',disabled=False, layout=widgets.Layout(width='40px'))
         # refresh.style.button_color = 'darkseagreen'
         refresh.on_click(on_refresh_clicked)
         if bidR.value is not None:
@@ -741,7 +793,7 @@ class wrapperGUI(object):
         remove.on_click(on_remove_clicked)
         hbox4 = widgets.HBox([pipes, remove], margin='0px 0px 0px 100px')
 
-        IO_vbox = widgets.VBox([note, headerS, hboxS, headerR, hboxR, hbox4])#, layout=widgets.Layout(border='solid darkslategray 1px'))
+        IO_vbox = widgets.VBox([note, headerS, hboxS, headerR, listR, hboxR, hbox4])#, layout=widgets.Layout(border='solid darkslategray 1px'))
         return IO_vbox
 
     def custom_function_params_w(self):

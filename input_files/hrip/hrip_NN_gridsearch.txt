@@ -49,12 +49,12 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 ## Script
                         << host = cheml           << function = PyScript
-                        << l0 = "print 'df:', df1.shape"
-                        < l1 = "print df1.columns"
-                        < l2 = "print df1.describe()"
-                        << l3 = "print 'df2:', df2.shape"
-                        << l4 = "print df2.describe()"
-                        >> 1 df1    >> 2 df2
+                        << l0 = "print 'iv:', iv1.shape"
+                        < l1 = "print iv1.columns"
+                        < l2 = "print iv1.describe()"
+                        << l3 = "print 'iv2:', iv2.shape"
+                        << l4 = "print iv2.describe()"
+                        >> 1 iv1    >> 2 iv2
 
 # Preprocessor
                         << host = cheml             << function = MissingValues
@@ -201,9 +201,9 @@ CheML date="2016-01-21" time="16:30:29" version="1.2.0"
 
 ## Script
                         << host = cheml           << function = PyScript
-                        << l0 = "print var1"
+                        << l0 = "print iv1"
 
-                        >> 1047 var1
+                        >> 1047 iv1
 
 ## Output
                 << host = cheml                 << function = SaveFile

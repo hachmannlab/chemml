@@ -1,6 +1,6 @@
 __author__ = "Mojtaba Haghighatlari"
 
-from cheml.wrappers.engine import run
+from cheml.wrappers.engine import run as wrapperRUN
 from cheml.notebooks import wrapperGUI
 
 import sys

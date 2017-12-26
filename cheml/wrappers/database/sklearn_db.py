@@ -1067,7 +1067,7 @@ class cross_val_predict(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        cv = Input("cv","cross-validation generator", ("<type 'generator'>",))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:

@@ -611,6 +611,9 @@ class scorer_regression(BASE):
             if metric == 'mae':
                 from sklearn.metrics import mean_absolute_error
                 scorer = F(mean_absolute_error,**self.parameters)
+            elif metric =='r2':
+                from sklearn.metrics import r2_score
+                scorer = F(r2_score,**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                 err).__name__ + ': ' + err.message

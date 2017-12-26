@@ -63,7 +63,6 @@ class GA_DEAP(object):
             if i == 1:
                 self.n_integers += 1
 
-
     def chromosome_generator(self):
         A = []
         for i in range(self.chromosome_length):
@@ -72,7 +71,6 @@ class GA_DEAP(object):
             else:
                 A.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
         return A
-
 
     def fit(self):
         creator.create("FitnessMin", base.Fitness, weights=self.Weights)
@@ -115,8 +113,6 @@ class GA_DEAP(object):
         self.toolbox.register("evaluate", self.evaluate)
         self.toolbox.decorate("evaluate", tools.DeltaPenalty(feasibility, -100.0*self.Weights[0], distance))
 
-
-
     def custom_mutate(self, indi):
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 0:
@@ -128,7 +124,6 @@ class GA_DEAP(object):
                         indi[i] = random.randint(self.mut_int_param_1, self.mut_int_param_2)
                     else:
                         indi[i] = random.randint(self.mut_int_param_1[i], self.mut_int_param_2[i])
-
 
     def algorithm_1(self):
         """
@@ -236,7 +231,6 @@ class GA_DEAP(object):
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
         print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_ind)
         return best_ind_df, best_ind
-
 
     def algorithm_2(self, algo_param_1 = 0.4, algo_param_2 = 0.3):
         """
@@ -358,7 +352,6 @@ class GA_DEAP(object):
         print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_ind)
         return best_ind_df, best_ind
 
-
     def algorithm_3(self):
         """
         Initial population is instantiated.
@@ -443,7 +436,6 @@ class GA_DEAP(object):
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
 
-
             # Storing the best individuals after each generation
             best_individual = tools.selBest(total_pop, 1)[0]
             best_indi_per_gen.append(list(best_individual))
@@ -470,7 +462,6 @@ class GA_DEAP(object):
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
         print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_ind)
         return best_ind_df, best_ind
-
 
     def algorithm_4(self, algo_param_4):
         """

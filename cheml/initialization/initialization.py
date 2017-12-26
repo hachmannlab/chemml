@@ -32,7 +32,7 @@ class Split(object):
     """
     split data frame by columns
 
-    :param select: integer or list (default = 1)
+    :param: select: integer or list (default = 1)
         integer: number of columns to be selected from the first of data as first data frame (X1)
         list: list of headers to be selected as first data frame (X1)
     :return: two pandas data frame: X1 and X2

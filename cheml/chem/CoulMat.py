@@ -5,7 +5,8 @@ import sys
 
 
 class Coulomb_Matrix(object):
-    """ (CoulombMatrix) 
+
+    """ (CoulombMatrix)
     The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL (3 different representations).
 
     Parameters

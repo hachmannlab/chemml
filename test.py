@@ -1,4 +1,4 @@
-from cheml import run
+from cheml import wrapperRUN
 
 ## High refrective index polymers (HRIP) project: density & polarizability & RI
 # run(INPUT_FILE = 'input_files/hrip/hrip_descriptor.txt',
@@ -35,5 +35,5 @@ from cheml import run
 
 
 ## test
-run(INPUT_FILE = 'input_files/test/test_1.txt',
+wrapperRUN(INPUT_FILE = 'input_files/test/test_1.txt',
     OUTPUT_DIRECTORY = 'test.out')

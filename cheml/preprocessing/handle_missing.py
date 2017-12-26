@@ -117,7 +117,7 @@ class missing_values(object):
             dfi = df.index
             df.dropna(axis=0, how='any', inplace=True)
             mask=[i in df.index for i in dfi]
-            self.mask = pd.Series(mask, index=df.index)
+            self.mask = pd.Series(mask, index=dfi)
             # self.mask = pd.notnull(df).all(1)
             # df = df[self.mask]
             return df
@@ -125,7 +125,7 @@ class missing_values(object):
             dfc = df.columns
             df.dropna(axis=1, how='any', inplace=True)
             mask=[i in df.columns for i in dfc]
-            self.mask = pd.Series(mask, index=df.columns)
+            self.mask = pd.Series(mask, index=dfc)
             # self.mask = pd.notnull(df).all(0)
             # df = df.T[self.mask].T
             return df

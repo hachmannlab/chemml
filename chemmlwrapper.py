@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import argparse
-from cheml import run
+from cheml import wrapperRUN
 
 parser = argparse.ArgumentParser(description="ChemML will be started by specifying a script file as a todo list")
 parser.add_argument("-i", type=str, required=True,
@@ -12,5 +12,5 @@ args = parser.parse_args()
 SCRIPT_NAME = args.i
 output_directory = args.o
 
-run(INPUT_FILE = SCRIPT_NAME, OUTPUT_DIRECTORY = output_directory)
+wrapperRUN(INPUT_FILE = SCRIPT_NAME, OUTPUT_DIRECTORY = output_directory)
 

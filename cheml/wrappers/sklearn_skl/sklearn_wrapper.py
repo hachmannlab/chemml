@@ -457,7 +457,7 @@ class cross_val_predict(BASE):
         # step6: set outputs
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'dfy_pred':
+            if token == 'dfy_predict':
                 self.set_value(token, pd.DataFrame(dfy_pred))
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]

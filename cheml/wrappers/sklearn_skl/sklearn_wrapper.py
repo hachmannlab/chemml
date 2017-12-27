@@ -448,7 +448,7 @@ class cross_val_predict(BASE):
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
             submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
-            dfy_pred = F(X=dfx, y=dfy, **self.parameters)
+            dfy_pred = F(**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                 err).__name__ + ': ' + err.message
@@ -458,7 +458,7 @@ class cross_val_predict(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'dfy_pred':
-                self.set_value(token, dfy_pred)
+                self.set_value(token, pd.DataFrame(dfy_pred))
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
             else:

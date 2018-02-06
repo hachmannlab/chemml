@@ -206,7 +206,14 @@ class Dragon(object):
                         raise ValueError(msg) 
                     MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
                 elif self.molInput == "file":
-                    MOLFILES.append(objectify.Element("molFile", value = self.molFile)) 
+                    if isinstance(self.molFile,dict):
+                        for f in range(1,len(self.molFile)+1):
+                            MOLFILES.append(objectify.Element("molFile",value=self.molFile[f]['file']))
+                    elif isinstance(self.molFile,str):
+                        MOLFILES.append(objectify.Element("molFile", value=self.molFile))
+                    else:
+                        msg='Variable molInput can be either a string or a list'
+                        raise ValueError(msg)
                 else:
                     msg = "Enter a valid molInput: 'stdin' or 'file'"
                     raise ValueError(msg)
@@ -295,7 +302,14 @@ class Dragon(object):
                         raise ValueError(msg) 
                     MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
                 elif self.molInput == "file":
-                    MOLFILES.append(objectify.Element("molFile", value = self.molFile)) 
+                    if isinstance(self.molFile,dict):
+                        for f in range(1,len(self.molFile)+1):
+                            MOLFILES.append(objectify.Element("molFile",value=self.molFile[f]['file']))
+                    elif isinstance(self.molFile,str):
+                        MOLFILES.append(objectify.Element("molFile", value=self.molFile))
+                    else:
+                        msg='Variable molInput can be either a string or a list'
+                        raise ValueError(msg)
                 else:
                     msg = "Enter a valid molInput: 'stdin' or 'file'"
                     raise ValueError(msg)

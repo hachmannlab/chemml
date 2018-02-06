@@ -195,9 +195,9 @@ class XYZreader(object):
         """
         if isinstance(self.path_pattern, str):
             self.path_pattern = [self.path_pattern]
-
+        #Todo: change the molecules to a list of dictionaries
         molecules = {}
-        it = -1
+        it = 0
         max_nAtoms = 1
         for pattern in self.path_pattern:
             file_name, file_extension = os.path.splitext(pattern)

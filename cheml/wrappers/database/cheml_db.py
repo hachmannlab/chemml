@@ -83,7 +83,7 @@ class Dragon(object):
     documentation = ""
 
     class Inputs:
-        molfile = Input("molfile","the molecule file path", ("<type 'str'>",))
+        molfile = Input("molfile","the molecule file path", ("<type 'str'>","<type 'dict'>"))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:

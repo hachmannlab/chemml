@@ -232,6 +232,40 @@ class XYZreader(object):
         self.max_n_atoms = max_nAtoms
         return molecules
 
+class ConvertFile(object):
+
+    def __init__(self,file_path,from_format,to_format):
+        self.file_path=file_path
+        self.from_format=from_format
+        self.to_format=to_format
+
+    def convert(self):
+        converted_file_paths=[]
+        if not self.from_format == self.file_path[-len(self.from_format):]:
+            msg='file format is not the same as from_format'
+            raise ValueError(msg)
+
+        else:
+            ob_from_format='-i'+self.from_format
+            ob_to_format='-o'+self.to_format
+
+            if isinstance(self.file_path,str):
+                path=self.file_path[:self.file_path.rfind('.')+1]
+                command='babel ' + ob_from_format + ' ' + self.file_path + ' ' + ob_to_format + ' ' + path+self.to_format
+                print command
+                os.system(command)
+                converted_file_paths.append(path+self.to_format)
+
+            elif isinstance(self.file_path,dict):
+                for it in range(1,len(self.file_path)+1):
+                    fpath=self.file_path[it]['file']
+                    path=fpath[:fpath.rfind('.')+1]
+                    command = 'babel ' + ob_from_format + ' ' + self.filepath + ' ' + ob_to_format + ' ' + path + self.to_format
+                    os.system(command)
+                    converted_file_paths.append(path + self.to_format)
+
+        return converted_file_paths
+
 class SaveFile(object):
     """
     Write DataFrame to a comma-seprated values(csv) file

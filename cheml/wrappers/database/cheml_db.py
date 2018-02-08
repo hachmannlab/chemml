@@ -83,7 +83,7 @@ class Dragon(object):
     documentation = ""
 
     class Inputs:
-        molfile = Input("molfile","the molecule file path", ("<type 'str'>","<type 'dict'>"))
+        molfile = Input("molfile","the molecule file path", ("<type 'str'>","<type 'dict'>","<type 'list'>"))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -383,4 +383,24 @@ class XYZreader(object):
         reader = Parameter('reader', 'auto')
         skip_lines = Parameter('skip_lines', [2,0])
 
+class ConvertFile(object):
+    task = 'Enter'
+    subtask = 'Convert'
+    host = 'cheml'
+    function ='ConvertFile'
+    modules = ('cheml','initialization')
+    requirements = (req(0),req(6),)
+    documentation = "https://openbabel.org/wiki/Babel"
 
+    class Inputs:
+        file_path=Input("file_path","the path to the file that needs to be conferted",("<type 'str'>","<type 'dict'>"))
+
+    class Outputs:
+        converted_file_paths=Output("converted_file_paths","list of paths to the converted files","<type 'list'>")
+
+    class WParameters:
+        pass
+    class FParameters:
+        file_path=Parameter('file_path','required_required')
+        from_format = Parameter('from_format','required_required')
+        to_format = Parameter('to_format','required_required')

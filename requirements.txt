@@ -1,5 +1,4 @@
 # library
-python==2.7.0
 pandas==0.20.3
 numpy==1.13.1
 

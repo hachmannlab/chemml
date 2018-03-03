@@ -376,8 +376,6 @@ class train_test_split(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        X = Parameter('X', 'required_required')
-        y = Parameter('y', None)
         test_size = Parameter('test_size', 0.25)
         train_size = Parameter('train_size', None)
         random_state = Parameter('random_state', None)

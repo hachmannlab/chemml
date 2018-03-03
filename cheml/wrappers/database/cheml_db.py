@@ -383,4 +383,23 @@ class XYZreader(object):
         reader = Parameter('reader', 'auto')
         skip_lines = Parameter('skip_lines', [2,0])
 
+class load_cep_homo(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_cep_homo'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        smiles = Output("smiles","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy = Output("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        return_X_y = Parameter('return_X_y', False)
 

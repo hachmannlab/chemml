@@ -106,21 +106,19 @@ class train_test_split(BASE):
 
         # step3: check the dimension of input data frame
         dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
-
         # step4: import module and make APIs
         try:
             exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
             submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
             F = getattr(submodule, self.Function)
-            train_test_split = F(dfx,**self.parameters)
             if dfy is None:
-                tts_out = train_test_split(dfx, **self.parameters)
+                tts_out = F(dfx, **self.parameters)
                 dfx_train, dfx_test = tts_out
                 self.set_value('dfx_train', pd.DataFrame(dfx_train,columns=dfx.columns))
                 self.set_value('dfx_test',pd.DataFrame(dfx_test,columns=dfx.columns))
             else:
                 dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='df')
-                tts_out = train_test_split(dfx, dfy, **self.parameters)
+                tts_out = F(dfx, dfy, **self.parameters)
                 dfx_train, dfx_test, dfy_train, dfy_test = tts_out
                 self.set_value('dfx_train', pd.DataFrame(dfx_train,columns=dfx.columns))
                 self.set_value('dfx_test', pd.DataFrame(dfx_test,columns=dfx.columns))
@@ -348,7 +346,7 @@ class GridSearchCV(BASE):
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
             elif token == 'best_estimator_':
-                if self.parameters['refit']==True:
+                if api.get_params()['refit']:
                     best_estimator_ = copy.deepcopy(api.best_estimator_)
                 else:
                     best_estimator_ = copy.deepcopy(self.parameters['estimator'])
@@ -457,8 +455,8 @@ class cross_val_predict(BASE):
         # step6: set outputs
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'dfy_pred':
-                self.set_value(token, dfy_pred)
+            if token == 'dfy_predict':
+                self.set_value(token, pd.DataFrame(dfy_pred))
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
             else:

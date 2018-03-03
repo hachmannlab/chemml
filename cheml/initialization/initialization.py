@@ -217,7 +217,7 @@ class XYZreader(object):
                             max_nAtoms = max(max_nAtoms, len(mol))
                         else:
                             mol = None
-                            max_nAtoms = None
+                            max_nAtoms = max(max_nAtoms, 0)
                         it+=1
                         molecules[it] = {'file':fn, 'mol': mol}
             else:
@@ -226,7 +226,7 @@ class XYZreader(object):
                     max_nAtoms = max(max_nAtoms, len(mol))
                 else:
                     mol = None
-                    max_nAtoms = None
+                    max_nAtoms = max(max_nAtoms, 0)
                 it += 1
                 molecules[it] = {'file': file_name, 'mol': mol}
         self.max_n_atoms = max_nAtoms

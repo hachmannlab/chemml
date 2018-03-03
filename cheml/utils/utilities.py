@@ -102,7 +102,7 @@ def chunk(xs, n, X=None, Y=None):
     n is the number of chunks (#total_batch).
     """
     ys = list(xs)
-    random.shuffle(ys)
+    # random.shuffle(ys)
     size = len(ys) // n
     leftovers= ys[size*n:]
     for c in xrange(n):

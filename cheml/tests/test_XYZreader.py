@@ -15,7 +15,7 @@ class TestXYZreader(unittest.TestCase):
         print molecules
 
     def test_list(self):
-        reader = molecules= XYZreader(path_pattern = ['[1-2]/*.opt.xyz', '[11-12]/*.opt.xyz'],
+        reader = XYZreader(path_pattern = ['[1-2]/*.opt.xyz', '[11-12]/*.opt.xyz'],
                                            path_root = 'benchmarks/RI_project/PI_R2_xyz',
                                            reader='manual',
                                            skip_lines = [0, 0])

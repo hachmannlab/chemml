@@ -207,10 +207,8 @@ class RDKitFingerprint(object):
             elif self.vector == 'bit':
                 from rdkit.Chem.rdMolDescriptors import GetHashedAtomPairFingerprintAsBitVect
                 self.fps = [GetHashedAtomPairFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]
-                data = pd.DataFrame()
-                for i,fp in enumerate(self.fps):
-                    data[i] = [el for el in fp]
-                data = data.T
+                data = np.array(self.fps)
+                data = pd.DataFrame(data)
                 return data
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
@@ -229,14 +227,9 @@ class RDKitFingerprint(object):
             elif self.vector == 'bit':
                 from rdkit.Chem.AtomPairs.Pairs import GetAtomPairFingerprintAsBitVect
                 self.fps = [GetAtomPairFingerprintAsBitVect(m) for m in self.molecules]
+                data = np.array(self.fps)
+                data = pd.DataFrame(data)
 
-
-
-                data = pd.DataFrame()
-                print 'done' , data
-                for i,fp in enumerate(self.fps):
-                    data[i] = [el for el in fp]
-                data = data.T
                 print len(data.columns)
                 d_des = data.describe()
                 for i in data.columns:
@@ -263,10 +256,8 @@ class RDKitFingerprint(object):
             elif self.vector == 'bit':
                 from rdkit.Chem.MACCSkeys import GenMACCSKeys
                 self.fps = [GenMACCSKeys(mol) for mol in self.molecules]
-                data = pd.DataFrame()
-                for i,fp in enumerate(self.fps):
-                    data[i] = [el for el in fp]
-                data = data.T
+                data = np.array(self.fps)
+                data = pd.DataFrame(data)
                 return data
             else:
                 msg = "The vector argument can only be 'int' or 'bit'"
@@ -278,17 +269,15 @@ class RDKitFingerprint(object):
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 pairScores = []
                 for fp in dict_nonzero:
-                    pairScores += [key for key in fp]
+                    pairScores += list(fp)
                 data = pd.DataFrame(dict_nonzero,columns=list(set(pairScores)))
                 data.fillna(0, inplace = True)
                 return data
             elif self.vector == 'bit':
                 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
                 self.fps = [GetMorganFingerprintAsBitVect(mol, self.radius,nBits=self.nBits) for mol in self.molecules]
-                data = pd.DataFrame()
-                for i,fp in enumerate(self.fps):
-                    data[i] = [el for el in fp]
-                data = data.T
+                data = np.array(self.fps)
+                data = pd.DataFrame(data)
                 return data
             else:
                 msg = "The argument vector can only be 'int' or 'bit'"
@@ -304,10 +293,8 @@ class RDKitFingerprint(object):
             elif self.vector == 'bit':
                 from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprintAsBitVect
                 self.fps = [GetHashedTopologicalTorsionFingerprintAsBitVect(m,nBits=self.nBits) for m in self.molecules]
-                data = pd.DataFrame()
-                for i,fp in enumerate(self.fps):
-                    data[i] = [el for el in fp]
-                data = data.T
+                data = np.array(self.fps)
+                data = pd.DataFrame(data)
                 return data
             else:
                 msg = "The argument vector can be 'int' or 'bit'"
@@ -319,7 +306,7 @@ class RDKitFingerprint(object):
                 dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
                 pairScores = []
                 for fp in dict_nonzero:
-                    pairScores += [key for key in fp]
+                    pairScores += list(fp)
                 data = pd.DataFrame(dict_nonzero,columns=list(set(pairScores)))
                 data.fillna(0, inplace = True)
                 return data
@@ -361,8 +348,6 @@ class RDKitFingerprint(object):
         if data == None:
             if metric in ['Tanimoto','Dice','Cosine','Sokal','Russel','Kulczynski','McConnaughey','Tversky']:
                 from rdkit import DataStructs
-            
-            
             
             else:
                 msg = "The metric '%s' is not a valid metric type for "%metric

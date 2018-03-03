@@ -1,4 +1,0 @@
-ChemML:
-    paper: no publicatin
-    github: https://mhlari@bitbucket.org/hachmanngroup/cheml.git
-

@@ -4,8 +4,8 @@ numpy==1.13.1
 
 # wrapper GUI
 Jupyter
-Ipython
-Ipywidgets
+ipython
+ipywidgets
 Graphviz
 
 setuptools

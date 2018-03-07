@@ -4,4 +4,5 @@ jupyter nbextension enable python-markdown/main
 
 
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
+conda install graphviz
 

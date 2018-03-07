@@ -6,7 +6,7 @@ numpy==1.13.1
 Jupyter
 ipython
 ipywidgets
-Graphviz==2.40.1
+Graphviz
 
 setuptools
 

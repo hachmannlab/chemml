@@ -1,9 +1,9 @@
 name: ChemML
 dependencies:
-	- python=2.7
-	- numpy=1.13.1
-	- pandas=0.20.3
-	- Jupyter
-	- ipython
-	- ipywidgets
-	- Graphviz=2.40.1
+  - python=2.7
+  - numpy=1.13.1
+  - pandas=0.20.3
+  - Jupyter
+  - ipython
+  - ipywidgets
+  - Graphviz=2.40.1

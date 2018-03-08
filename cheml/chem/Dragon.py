@@ -4,11 +4,9 @@ Created on 01 March 2016
 """
 
 import pandas as pd
-import numpy as np
 from lxml import objectify, etree
-import subprocess
 import warnings
-import os 
+import os
 from ..utils.utilities import std_datetime_str
 
 
@@ -32,9 +30,9 @@ class Dragon(object):
         A list of weights to be used
 
     blocks: list, optional (default=False)
-        A list of descriptor blocks' id. For all of them parameter SelectAll="true" is given. 
+        A list of descriptor blocks' id. For all of them parameter SelectAll="true" is given.
         To select descriptors one by one based on descriptor names, use Script Wizard in Drgon GUI.
-                
+
     external: boolean, optional (default=False)
         If True, include external variables at the end of each saved file.
 
@@ -45,15 +43,19 @@ class Dragon(object):
         https://chm.kode-solutions.net/products_dragon_tutorial.php
 
     In the current version, we recommend the user to use this class with the following parameters:
-        molfile = path to the molecules file
+        molInput = 'file'
+        molfile = path to one SMILES representation file with .smi format or a dictionary of other formats
         script = 'new'
-    Attributes
-    ----------
 
-
-    Returns
-    -------
-    Dragon Script and descriptors.
+    Examples
+    --------
+        >>> from cheml.chem import Dragon
+        >>> drg = Dragon(**parameters)
+        >>> drg.script_wizard(script, output_directory)
+        >>> drg.run()
+        >>> df_path = model.data_path  # path to the output file
+        >>> df = pd.read_csv(df_path, sep=None, engine='python')
+        >>> df = df.drop(['No.','NAME'],axis=1)
     """
     def __init__(self, version = 6,CheckUpdates = True,SaveLayout = True, PreserveTemporaryProjects = True,
                 ShowWorksheet = False,Decimal_Separator = ".",Missing_String = "NaN",
@@ -130,34 +132,38 @@ class Dragon(object):
         self.RoundWeights = RoundWeights
         self.RoundDescriptorValues = RoundDescriptorValues
         self.knimemode = knimemode
-    
+
     def script_wizard(self, script='new', output_directory='./'):
         """
         The script_wizard is designed to build a Dragon script file. The name and
-        the functionality of this function is the same as available Script wizard 
+        the functionality of this function is the same as available Script wizard
         in the Dragon Graphic User Interface.
         Note: All reported nodes are mandatory, except the <EXTERNAL> tag
         Note: Script for version 7 doesn't support fingerprints block
 
-        :param: script: string, optional (default="new")
+        Parameters
+        ----------
+        script: string, optional (default="new")
             If "new" start with a new script. If you want to load an existing script,
             pass the filename with drs format.
 
-        :param: output_directory: string, optional (default = './')
+        output_directory: string, optional (default = './')
             the path to the working directory to store output files.
 
-        :: dragon: xml element
+        dragon: xml element
             Dragon script in  xml format.
-        
-        :: drs: string
+
+        drs: string
             Dragon script file name
-        
-        :: data_path: string
-            The path+name of saved data file in any format. If saveType is 'block' 
-            or 'subblock' data_path is just the path to the directory that all data 
-            files have been saved. 
-             
-        :return: class parameters
+
+        data_path: string
+            The path+name of saved data file in any format. If saveType is 'block'
+            or 'subblock' data_path is just the path to the directory that all data
+            files have been saved.
+
+        Returns
+        -------
+            class parameters
         """
         if output_directory[-1] == '/':
             self.output_directory = output_directory
@@ -189,7 +195,7 @@ class Dragon(object):
                 Weights = objectify.SubElement(OPTIONS, "Weights")
                 for weight in self.Weights:
                     if weight not in ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]:
-                        msg = "'%s' is not a valid weight type."%weight 
+                        msg = "'%s' is not a valid weight type."%weight
                         raise ValueError(msg)
                     Weights.append(objectify.Element('weight', name = weight))
                 OPTIONS.append(objectify.Element("SaveOnlyData", value = _bool_formatter(self.SaveOnlyData)))
@@ -207,21 +213,21 @@ class Dragon(object):
                 OPTIONS.append(objectify.Element("SaveExclusionOptionsToVariables", value = _bool_formatter(self.SaveExclusionOptionsToVariables)))
                 OPTIONS.append(objectify.Element("SaveExcludeMisMolecules", value = _bool_formatter(self.SaveExcludeMisMolecules)))
                 OPTIONS.append(objectify.Element("SaveExcludeRejectedMolecules", value = _bool_formatter(self.SaveExcludeRejectedMolecules)))
-         
+
                 DESCRIPTORS = objectify.SubElement(self.dragon, "DESCRIPTORS")
                 for i in self.blocks:
                     if i<1 or i>29:
                         msg = "block id must be in range 1 to 29."
                         raise ValueError(msg)
                     DESCRIPTORS.append(objectify.Element('block', id = "%i"%i, SelectAll = "true"))
-        
+
                 MOLFILES = objectify.SubElement(self.dragon, "MOLFILES")
                 MOLFILES.append(objectify.Element("molInput", value = self.molInput))
                 if self.molInput == "stdin":
                     if self.molInputFormat not in ['SYBYL','MDL','HYPERCHEM','SMILES','MACROMODEL']:
                         msg = "'%s' is not a valid molInputFormat. Formats:['SYBYL','MDL','HYPERCHEM','SMILES','MACROMODEL']"%self.molInputFormat
-                        raise ValueError(msg) 
-                    MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
+                        raise ValueError(msg)
+                    MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat))
                 elif self.molInput == "file":
                     if isinstance(self.molFile,dict):
                         for f in range(1,len(self.molFile)+1):
@@ -246,15 +252,15 @@ class Dragon(object):
                 OUTPUT.append(objectify.Element("logMode", value = self.logMode)) # value = [none/stderr/file]
                 if self.logMode == "file":
                     OUTPUT.append(objectify.Element("logFile", value = self.output_directory+self.logFile))
-            
+
                 if self.external:
-                    EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL") 
+                    EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL")
                     EXTERNAL.append(objectify.Element("fileName", value = self.fileName))
                     EXTERNAL.append(objectify.Element("delimiter", value = self.delimiter))
                     EXTERNAL.append(objectify.Element("consecutiveDelimiter", value = _bool_formatter(self.consecutiveDelimiter)))
                     EXTERNAL.append(objectify.Element("MissingValue", value = self.MissingValue))
                 self._save_script()
-            
+
             elif self.version == 7:
                 self.dragon = objectify.Element("DRAGON", version="%i.0.0"%self.version, description="Dragon7 - FP1 - MD5270", script_version="1", generation_date=std_datetime_str('date').replace('-','/'))
 
@@ -284,7 +290,7 @@ class Dragon(object):
                 Weights = objectify.SubElement(OPTIONS, "Weights")
                 for weight in self.Weights:
                     if weight not in ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]:
-                        msg = "'%s' is not a valid weight type."%weight 
+                        msg = "'%s' is not a valid weight type."%weight
                         raise ValueError(msg)
                     Weights.append(objectify.Element('weight', name = weight))
                 OPTIONS.append(objectify.Element("SaveOnlyData", value = _bool_formatter(self.SaveOnlyData)))
@@ -303,21 +309,21 @@ class Dragon(object):
                 OPTIONS.append(objectify.Element("SaveExcludeMisMolecules", value = _bool_formatter(self.SaveExcludeMisMolecules)))
                 OPTIONS.append(objectify.Element("SaveExcludeRejectedMolecules", value = _bool_formatter(self.SaveExcludeRejectedMolecules)))
                 OPTIONS.append(objectify.Element("RoundDescriptorValues", value = _bool_formatter(self.RoundDescriptorValues)))
-         
+
                 DESCRIPTORS = objectify.SubElement(self.dragon, "DESCRIPTORS")
                 for i in self.blocks:
                     if i<1 or i>30:
                         msg = "block id must be in range 1 to 30."
                         raise ValueError(msg)
                     DESCRIPTORS.append(objectify.Element('block', id = "%i"%i, SelectAll = "true"))
-        
+
                 MOLFILES = objectify.SubElement(self.dragon, "MOLFILES")
                 MOLFILES.append(objectify.Element("molInput", value = self.molInput))
                 if self.molInput == "stdin":
                     if self.molInputFormat not in ['SYBYL','MDL','HYPERCHEM','SMILES','CML','MACROMODEL']:
                         msg = "'%s' is not a valid molInputFormat. Formats:['SYBYL','MDL','HYPERCHEM','SMILES','CML','MACROMODEL']"%self.molInputFormat
-                        raise ValueError(msg) 
-                    MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
+                        raise ValueError(msg)
+                    MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat))
                 elif self.molInput == "file":
                     if isinstance(self.molFile,dict):
                         for f in range(1,len(self.molFile)+1):
@@ -343,19 +349,19 @@ class Dragon(object):
                 OUTPUT.append(objectify.Element("logMode", value = self.logMode)) # value = [none/stderr/file]
                 if self.logMode == "file":
                     OUTPUT.append(objectify.Element("logFile", value = self.output_directory+self.logFile))
-            
+
                 if self.external:
-                    EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL") 
+                    EXTERNAL = objectify.SubElement(self.dragon, "EXTERNAL")
                     EXTERNAL.append(objectify.Element("fileName", value = self.fileName))
                     EXTERNAL.append(objectify.Element("delimiter", value = self.delimiter))
                     EXTERNAL.append(objectify.Element("consecutiveDelimiter", value = _bool_formatter(self.consecutiveDelimiter)))
                     EXTERNAL.append(objectify.Element("MissingValue", value = self.MissingValue))
                 self._save_script()
-                
+
             else:
                 msg = "Only version 6 and version 7 (newest version) are available in this module."
                 warnings.warn(msg,Warning)
-        
+
         else:
             doc = etree.parse(script)
             self.dragon = etree.tostring(doc) 	# dragon script : dragon
@@ -373,8 +379,8 @@ class Dragon(object):
             self.drs = script
         self.data_path = self.dragon.OUTPUT.SaveFilePath.attrib['value']
         return self
-        
-    def _save_script(self): 
+
+    def _save_script(self):
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         self.drs_name = 'Dragon_script.drs'
@@ -385,9 +391,9 @@ class Dragon(object):
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         print(objectify.dump(self.dragon))
-        
+
     def run(self):
-        print "running Dragon%s ..."%self.version    
+        print "running Dragon%s ..."%self.version
         os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs_name))
-#         print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
+        # print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
         print "... Dragon job completed!"

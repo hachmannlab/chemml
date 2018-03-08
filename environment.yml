@@ -6,4 +6,5 @@ dependencies:
   - jupyter
   - ipython
   - ipywidgets
-  - graphviz
+  - pip:
+    - graphviz

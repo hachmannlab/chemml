@@ -1,4 +1,4 @@
-name: ChemML
+name: chemml_env
 dependencies:
   - python=2.7
   - numpy=1.13.1
@@ -6,4 +6,4 @@ dependencies:
   - Jupyter
   - ipython
   - ipywidgets
-  - Graphviz=2.40.1
+  - graphviz

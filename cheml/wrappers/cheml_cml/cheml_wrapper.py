@@ -34,7 +34,35 @@ class XYZreader(BASE):
         del self.inputs
 
 
-# Script
+class ConvertFile(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        # self.required('file_path',req=True)
+        # file_path=self.inputs['file_path'].value
+        print 'from:', self.parameters['from_format']
+        print 'to:', self.parameters['to_format']
+        # if 'file_path' not in self.parameters and '@' not in file_path:
+            # self.parameters['file_path']=file_path
+        try:
+            from cheml.initialization import ConvertFile
+            model = ConvertFile(**self.parameters)
+            converted_file_paths=model.convert()
+
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__+': ' +err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg="@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1,self.Task,token)
+                raise NameError(msg)
+            elif token == 'converted_file_paths':
+                self.set_value(token,converted_file_paths)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock,token)] = self.outputs[token]
+
+        del self.inputs
+            # Script
 
 class PyScript(BASE):
     def fit(self):
@@ -744,3 +772,4 @@ class StoreFile(BASE):
                 raise NameError(msg)
         # step7: delete all inputs from memory
         del self.legal_inputs
+

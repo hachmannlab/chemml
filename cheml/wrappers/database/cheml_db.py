@@ -415,12 +415,30 @@ class load_cep_homo(object):
     class Inputs:
         pass
     class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         smiles = Output("smiles","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy = Output("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        homo = Output("homo","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:
-        return_X_y = Parameter('return_X_y', False)
+        pass
 
+class load_organic_density(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_organic_density'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        smiles = Output("smiles","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        density = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        features = Output("features","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
 

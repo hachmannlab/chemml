@@ -7,7 +7,7 @@ Jupyter
 ipython
 ipywidgets
 Graphviz
-jupyter_contrib_nbextensions
+# jupyter_contrib_nbextensions
 
 setuptools
 

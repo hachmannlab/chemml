@@ -7,4 +7,3 @@ dependencies:
   - ipython
   - ipywidgets
   - graphviz
-  - nodefaults

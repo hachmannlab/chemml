@@ -1,0 +1,13 @@
+# library
+pandas==0.20.3
+numpy==1.13.1
+
+# wrapper GUI
+Jupyter
+ipython
+ipywidgets
+Graphviz
+jupyter_contrib_nbextensions
+
+setuptools
+

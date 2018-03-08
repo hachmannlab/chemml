@@ -7,4 +7,4 @@ jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
 
 # Notebooks w/ extensions that auto-run code must be "trusted" to work the first time
-jupyter trust wrapperGUI.ipynb
+#jupyter trust wrapperGUI.ipynb

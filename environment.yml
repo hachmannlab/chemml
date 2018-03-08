@@ -1,0 +1,10 @@
+name: chemml_env
+dependencies:
+  - python=2.7
+  - numpy=1.13.1
+  - pandas=0.20.3
+  - jupyter
+  - ipython
+  - ipywidgets
+  - pip:
+    - graphviz

@@ -186,10 +186,40 @@ class wrapperGUI(object):
 
         ## Template2
         def on_selectTe2_clicked(b):
-            self.output_directory = 'CMLWrapper.out'
+            # template2.txt is a cheml wrapper config file
+            from .templates import template2
+            script = template2()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe2.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s" % err.message
+                print "... Not loaded!"
+                selectTe1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
             self.add_page()
 
-        te2 = widgets.Label(value="Template 2: check the overview for more information", layout=widgets.Layout(width='70%'))
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te2 = widgets.Label(value="Template 2: split X,y --> scale --> gridsearchCV on MLPregressor", layout=widgets.Layout(width='70%'))
         selectTe2 = widgets.Button(description="Select")
         selectTe2.style.button_color = 'lightblue'
         selectTe2.on_click(on_selectTe2_clicked)
@@ -236,7 +266,7 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        tu1 = widgets.Label(value="Tutorial 1: read data --> split molecules SMILES --> generate Dragon descriptors --> regression model")#, layout=widgets.Layout(width='70%'))
+        tu1 = widgets.Label(value="Tutorial 1: read sample data --> save smiles --> fingerprint molecules")#, layout=widgets.Layout(width='70%'))
         selectTu1 = widgets.Button(description="Select")
         selectTu1.style.button_color = 'lightblue'
         selectTu1.on_click(on_selectTu1_clicked)
@@ -317,7 +347,7 @@ class wrapperGUI(object):
                     print "    config file path: %s" % path
                     print "    current directory: %s" % os.getcwd()
                     print "    what next? run the ChemML Wrapper using the config file with the following codes:"
-                    print "        >>> from cheml import run "
+                    print "        >>> from cheml import wrapperRUN"
                     print "        >>> run(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = '%s')" % outdir.value
                     print "... you can also create a python script of the above codes and run it on any cluster that ChemML is installed."
                     save.icon = 'check'

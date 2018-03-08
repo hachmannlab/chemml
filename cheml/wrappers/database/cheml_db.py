@@ -394,13 +394,33 @@ class ConvertFile(object):
 
     class Inputs:
         file_path=Input("file_path","the path to the file that needs to be conferted",("<type 'str'>","<type 'dict'>"))
-
     class Outputs:
-        converted_file_paths=Output("converted_file_paths","list of paths to the converted files","<type 'list'>")
-
+        converted_file_paths = Output("converted_file_paths", "list of paths to the converted files", "<type 'list'>")
     class WParameters:
         pass
     class FParameters:
-        file_path=Parameter('file_path','required_required')
-        from_format = Parameter('from_format','required_required')
-        to_format = Parameter('to_format','required_required')
+        file_path = Parameter('file_path', 'required_required')
+        from_format = Parameter('from_format', 'required_required')
+        to_format = Parameter('to_format', 'required_required')
+
+class load_cep_homo(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_cep_homo'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        smiles = Output("smiles","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy = Output("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        return_X_y = Parameter('return_X_y', False)
+
+

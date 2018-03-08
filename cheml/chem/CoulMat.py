@@ -20,18 +20,15 @@ class Coulomb_Matrix(object):
             * 'Random_Coulomb' or 'RC'
     max_n_atoms: integer or 'auto', optional (default = 'auto')
         maximum number of atoms in a molecule. if 'auto' we find it based on the input molecules.
-
     nPerm: integer, optional (default = 3)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation.
-
     const: float, optional (default = 1)
             The constant value for coordinates unit conversion to atomic unit
             example: atomic unit -> const=1, Angstrom -> const=0.529
             const/|Ri-Rj|, which denominator is the euclidean distance
             between atoms i and j
-
-     """
+    """
     def __init__(self, CMtype='SC', max_n_atoms = 'auto', nPerm=3, const=1):
         self.CMtype = CMtype
         self.max_n_atoms = max_n_atoms
@@ -60,13 +57,15 @@ class Coulomb_Matrix(object):
         """
         provides coulomb matrix representation for input molecules.
 
-        :param molecules: dictionary or numpy array or pandas data frame
+        Parameters
+        ----------
+        molecules: dictionary or numpy array or pandas data frame
             if dictionary: output of cheml.initialization.XYZreader
             if numpy array: an array of molecules, which each molecule (list or numpy array) has a shape of (number of atoms, 4)
             if pandas dataframe : only one molecule with shape (number of atoms, 4).
             The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
 
-        :return: pandas DataFrame
+        return: pandas DataFrame
             shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)
             shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
             shape of eigenspectrums (E): (n_molecules, max_n_atoms)
@@ -75,7 +74,7 @@ class Coulomb_Matrix(object):
 
         """
         if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in molecules])
+            molecules = np.array([molecules[i]['mol'] for i in xrange(len(molecules))])
         elif isinstance(molecules, pd.DataFrame):
             # only one molecule
             molecules = np.array([molecules.values])
@@ -168,12 +167,12 @@ class Bag_of_Bonds(object):
         """
         provides bag of bonds representation for input molecules.
 
-        :param molecules: dictionary or numpy array
+        molecules: dictionary or numpy array
             if dictionary: output of cheml.initialization.XYZreader
             if numpy array: array of molecules, which each molecule is an array with shape (number of atoms, 4).
             The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
 
-        :return: pandas data frame
+        return: pandas data frame
             shape of bag of bonds: (n_molecules, cumulative_length_of_combinations)
 
         """

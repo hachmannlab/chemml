@@ -1,13 +1,13 @@
 import unittest
 import numpy.testing as np_tst
 import pandas as pd
-from attributes.generators.composition.ElementFractionAttributeGenerator \
+from .....attributes.generators.composition.ElementFractionAttributeGenerator \
     import ElementFractionAttributeGenerator
-from attributes.generators.composition.MeredigAttributeGenerator import \
+from .....attributes.generators.composition.MeredigAttributeGenerator import \
     MeredigAttributeGenerator
-from attributes.generators.composition.ValenceShellAttributeGenerator import \
-    ValenceShellAttributeGenerator
-from data.materials.CompositionEntry import CompositionEntry
+from .....attributes.generators.composition.ValenceShellAttributeGenerator \
+    import ValenceShellAttributeGenerator
+from .....data.materials.CompositionEntry import CompositionEntry
 
 class testMeredigAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

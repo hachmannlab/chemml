@@ -1,11 +1,11 @@
 import unittest
 import math
 import numpy.testing as np_tst
-from attributes.generators.crystal.APRDFAttributeGenerator import \
+from .....attributes.generators.crystal.APRDFAttributeGenerator import \
     APRDFAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testAPRDFAttributeGenerator(unittest.TestCase):
     def test(self):

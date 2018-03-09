@@ -1,8 +1,8 @@
 import unittest
-from attributes.generators.composition.APEAttributeGenerator import \
+from .....attributes.generators.composition.APEAttributeGenerator import \
     APEAttributeGenerator
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
+from .....data.materials.CompositionEntry import CompositionEntry
+from .....data.materials.util.LookUpData import LookUpData
 
 class testAPEAttributeGenerator(unittest.TestCase):
 

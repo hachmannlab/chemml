@@ -1,28 +1,49 @@
 import types
 import numpy as np
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
 
 class MeredigAttributeGenerator:
-    """
-    Class to generate attributes as described by Meredig et al.
-    http://journals.aps.org/prb/abstract/10.1103/PhysRevB.89.094104
+    """Class to generate attributes as described by Meredig et al. [1].
+
+    Notes
+    -----
     This class is meant to be used in conjunction with
     ElementFractionAttributeGenerator and ValenceShellAttributeGenerator.
 
-    To match the attributes from the Meredig et al. paper, use all three
+    To match the attributes from the Meredig et al. [1] paper, use all three
     attribute generators.
+
+    References
+    ----------
+    .. [1] B. Meredig et al., "Combinatorial screening for new materials in
+    unconstrained composition space with machine learning," Physical Review
+    B, vol. 89, no. 9, Mar. 2014.
+
     """
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate attributes as described by Meredig et al.
-        :param entries: A list of CompositionEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
+
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -108,6 +129,4 @@ class MeredigAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

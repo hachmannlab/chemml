@@ -1,24 +1,43 @@
+# coding=utf-8
 from collections import OrderedDict
 from numpy.linalg import norm
 import numpy as np
-from vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
-from vassal.analysis.voronoi.VoronoiFace import VoronoiFace
-from vassal.data.AtomImage import AtomImage
+from ..voronoi.VoronoiEdge import VoronoiEdge
+from ..voronoi.VoronoiFace import VoronoiFace
+from ...data.AtomImage import AtomImage
 
 class VoronoiCell:
-    """
-    Class describing a single cell in a Voronoi tessellation.
+    """Class describing a single cell in a Voronoi tessellation.
+
+    Attributes
+    ----------
+    atom : Atom
+        Atom at center of cell.
+    radical : bool
+        Whether to add faces using the radical plane Voronoi tessellation
+        method.
+    faces : array-like
+        List of faces in this cell.
+    volume : float
+        Volume of this cell.
+
     """
     def __init__(self, atom, radical, faces=None):
-        """
-        Function to initialize a Voronoi cell for a specific atom. Creates a
-        parallelepiped around the atom defined by its interactions with the
-        periodic images across the cube face of the cell, or the walls of the
-        cell.
-        :param atom: Atom at center of cell.
-        :param radical: Whether to add faces using the radical plane Voronoi
-        tessellation method.
-        :param faces: List of faces in this cell.
+        """Function to initialize a Voronoi cell for a specific atom.
+
+        Creates a parallelepiped around the atom defined by its interactions
+        with the periodic images across the cube face of the cell, or the
+        walls of the cell.
+
+        Parameters
+        ----------
+        atom : Atom
+            Atom at center of cell.
+        radical : bool
+            Whether to add faces using the radical plane Voronoi tessellation
+            method.
+        faces : array-like
+            List of faces in this cell.
         """
 
         # Atom at the center of this cell.
@@ -34,38 +53,68 @@ class VoronoiCell:
         self.volume = np.nan
 
     def get_atom(self):
-        """
-        Function to get atom at center of this cell.
-        :return: Atom.
+        """Function to get atom at center of this cell.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        atom : Atom
         """
         return self.atom
 
     def get_faces(self):
-        """
-        Function to get all faces.
-        :return: List of faces.
+        """Function to get all faces.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        faces : array-like
+            List of faces.
         """
         return self.faces
 
     def n_faces(self):
-        """
-        Function to get the number of faces.
-        :return: Number of faces.
+        """Function to get the number of faces.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        type : int
+            Number of faces.
         """
         return len(self.faces)
 
     def get_vertices(self):
-        """
-        Function to get all vertices in this cell.
-        :return: List of vertices.
+        """Function to get all vertices in this cell.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        type : array-like
+            List of vertices.
+
         """
         return list(set([face.get_vertices() for face in self.faces]))
 
     def get_neighbor_types(self):
-        """
-        Function to get the number of neighbors of each type.
-        :return: Ordered dictionary with atom_type, number of neighbors as
-        key,value pairs.
+        """Function to get the number of neighbors of each type.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        type : OrderedDict
+            Ordered dictionary with atom_type, number of neighbors as key,
+            value pairs.
         """
         output = OrderedDict()
         for face in self.faces:
@@ -79,26 +128,52 @@ class VoronoiCell:
         return output
 
     def get_neighbors(self):
-        """
-        Function to get list of neighboring atoms. Identifies atoms by both
+        """Function to get list of neighboring atoms. Identifies atoms by both
         their ID and image location.
-        :return: List of atom images.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        type : array-like
+            List of AtomImage's.
         """
         return np.array([face.get_outside_atom() for face in self.faces])
 
     def get_neighbor_distances(self):
-        """
-        Function to get distances between central atom and each neighbor.
-        :return: List of distances in cartesian units.
+        """Function to get distances between central atom and each neighbor.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        type : array-like
+            List of distances in cartesian units.
         """
         return np.array([face.get_neighbor_distance() for face in self.faces])
 
     def get_neighbor_shells(self, cells, index):
-        """
-        Function to get list of atoms in all coordination cells.
-        :param cells: Voronoi cells of all other atoms (arranged by atom ID).
-        :param index: Index of largest neighbor shell to be considered.
-        :return: All neighbors in that.
+        """Function to get list of atoms in all coordination cells.
+
+        Parameters
+        ----------
+        cells : array-like
+            A list of VoronoiCell's of all other atoms (arranged by atom ID).
+        index : int
+            Index of largest neighbor shell to be considered.
+
+        Returns
+        -------
+        previous_shells : array-like
+            All neighbors in that. A list of list of AtomImage's.
+
+        Raises
+        ------
+        ValueError
+            If index is less than 0.
+
         """
         if index < 0:
             # Special case: Bad input.
@@ -139,14 +214,24 @@ class VoronoiCell:
             return previous_shells
 
     def get_extended_faces(self, cells, index):
-        """
-        Function to get faces on the outside of a polyhedron formed by the
+        """Function to get faces on the outside of a polyhedron formed by the
         Voronoi cells and its neighbors.
+
         Note: The coordinates of the center of each face may not be correct.
-        :param cells: Voronoi cells of all other atoms (arranged by Atom ID).
-        :param index: Index of largest neighbor shell to be included (0 ==
-        faces of atom, 1 == faces of atom + 1st nearest neighbor shell, etc.).
-        :return: List of faces on the outside.
+
+        Parameters
+        ----------
+        cells : array-like
+            A list of VoronoiCell's of all other atoms (arranged by Atom ID).
+        index : int
+            Index of largest neighbor shell to be included (0 == faces of
+            atom, 1 == faces of atom + 1st nearest neighbor shell, etc.).
+
+        Returns
+        -------
+        output : array-like
+            List of faces (VoronoiFace) on the outside.
+
         """
 
         if index == 0:
@@ -190,9 +275,9 @@ class VoronoiCell:
         return output
 
     def get_neighbors_by_walks(self, cells, shell):
-        """
-        Function to get the neighbors in a certain shell, along with weights
+        """Function to get the neighbors in a certain shell, along with weights
         defined by face sizes.
+
         The neighbor shell of an atom is typically defined as all atoms that
         can be reach ed in no fewer than a certain number of steps along the
         a network defined by faces of a Voronoi tessellation. While this works
@@ -220,10 +305,20 @@ class VoronoiCell:
         and therefore have 1/30 weight. Additionally, there are 12 atoms that
         can be reached by 2 different sets of two orthogonal steps (ex: 1,1,
         0) that, therefore, have a weight of 2/30.
-        :param cells: Voronoi cells of all other atoms (arranged by atom ID).
-        :param shell: Which neighbor shell to evaluate.
-        :return: List of atoms in that shell, and their path weights. Weights
-        will add up to 1.
+
+        Parameters
+        ----------
+        cells : array-like
+            A list of VoronoiCell's of all other atoms (arranged by atom ID).
+        shell : int
+            Which neighbor shell to evaluate.
+
+        Returns
+        -------
+        output : OrderedDict
+            Dictionary containing atoms in that shell as the keys (Atom),
+            and their path weights (float) as values. Weights will add up to 1.
+
         """
 
         # Gather all possible paths.
@@ -291,33 +386,54 @@ class VoronoiCell:
         return output
 
     def get_neighbor_shell(self, cells, index):
-        """
-        Function to get list of atoms in a certain coordination shell. A
-        neighbor shell includes all atoms that are a certain number of
+        """Function to get list of atoms in a certain coordination shell.
+
+        A neighbor shell includes all atoms that are a certain number of
         neighbors away that are not in any smaller neighbor shell (e.g. 2nd
         shell neighbors cannot also be 1st nearest neighbors).
-        :param cells: Voronoi cells of all other atoms (arranged by atom ID).
-        :param index: Index of neighbor shell.
-        :return: All neighbors in that.
+
+        Parameters
+        ----------
+        cells : array-like
+            A list of VoronoiCell's of all other atoms (arranged by Atom ID).
+        index : int
+            Index of neighbor shell.
+
+        Returns
+        -------
+        type : array-like
+            All neighbors in that. A list of AtomImage's.
+
         """
         return self.get_neighbor_shells(cells, index)[index]
 
     def get_num_shared_bonds(self, cell, direction, neighbors):
-        """
-        Function to compute number of shared bonds. Atoms are defined as
-        bonded if they share a face between their Voronoi cells.
+        """Function to compute number of shared bonds.
+
+        Atoms are defined as bonded if they share a face between their
+        Voronoi cells.
 
         This code determines how many common entries occur between a Voronoi
         cell and a list of neighbor IDs from this cell. Note that in order for
         bonds to be shared, they must connect to the same image of a certain
         atom. That is where the direction parameter comes into play.
-        :param cell: Voronoi cell of neighboring atom.
-        :param direction: Difference between image of neighboring atom and
-        this cell.
-        :param neighbors: IDs and Image Positions of all neighboring atoms to
-        this cell.
-        :return: Number of shared neighbors between this cell and the
-        neighboring atom.
+
+        Parameters
+        ----------
+        cell : VoronoiCell
+            Voronoi cell of neighboring atom.
+        direction : array-like
+            Difference between image of neighboring atom and this cell.
+        neighbors : array-like
+            A list of AtomImage's containing IDs and Image Positions of all
+            neighboring atoms to this cell.
+
+        Returns
+        -------
+        type : int
+            Number of shared neighbors between this cell and the neighboring
+            atom.
+
         """
         n_shared = 0
         for face in cell.get_faces():
@@ -336,18 +452,33 @@ class VoronoiCell:
         return n_shared
 
     def get_coordination_shell_shape(self, cells):
-        """
-        Function to get the shape of the coordination polyhedron around this
-        atom. This is determined by counting the number of "bonds" between
+        """Function to get the shape of the coordination polyhedron around this
+        atom.
+
+        This is determined by counting the number of "bonds" between
         first neighbor shell atoms. Here, atoms are "bonded" if their Voronoi
         cells share a face. This is similar to get_polyhedron_shape. See
-        section H of the paper listed below for more details.
+        section H of the paper listed in the References section for more
+        details.
 
-        http://journals.aps.org/prb/abstract/10.1103/PhysRevB.88.134205
-        Ward et al. PRB (2013).
-        :param cells: Voronoi cells of all other atoms (arranged by atom ID).
-        :return: Ordered dictionary containing the number of bonds, number of
-        first shell neighbors with that many bonds as key,value pairs.
+        Parameters
+        ----------
+        cells : array-like
+            VoronoiCell's of all other atoms (arranged by atom ID).
+
+        References
+        ----------
+        .. [1] L. Ward, D. Miracle, W. Windl, O. N. Senkov, and K. Flores,
+        “Structural evolution and kinetics in Cu-Zr metallic liquids from
+        molecular dynamics simulations,” Physical Review B, vol. 88, no. 13,
+        Oct. 2013.
+
+        Returns
+        -------
+        output : OrderedDict
+            Ordered dictionary containing the number of bonds, number of
+            first shell neighbors with that many bonds as key,value pairs.
+
         """
 
         # Get IDs of every neighbor.
@@ -366,16 +497,27 @@ class VoronoiCell:
         return output
 
     def get_polyhedron_shape(self):
-        """
-        Function to compute the polyhedron shape index. This shape is defined
-        by the "Voronoi Index", which is defined as the number of faces with
-        a certain number of sides. This is often expressed as
-        (n_3, n_4, n_5, n_6), where n_x is the number of faces with x number
-        of sides.
+        """Function to compute the polyhedron shape index.
+
+        This shape is defined by the "Voronoi Index", which is defined as the
+        number of faces with a certain number of sides. This is often
+        expressed as (n_3, n_4, n_5, n_6), where n_x is the number of faces
+        with x number of sides.
         http://rspa.royalsocietypublishing.org/cgi/doi/10.1098/rspa.1970.0190
         Finney (1970).
-        :return: Ordered dictionary containing number of edges, number of
-        faces with that edge count as key,value pairs.
+
+        References
+        ----------
+        .. [1] J. L. Finney, “Random Packings and the Structure of Simple
+        Liquids. II. The Molecular Geometry of Simple Liquids,” Proceedings
+        of the Royal Society A: Mathematical, Physical and Engineering
+        Sciences, vol. 319, no. 1539, pp. 495–507, Nov. 1970.
+
+        Returns
+        -------
+        output : OrderedDict
+            Ordered dictionary containing number of edges, number of faces
+            with that edge count as key,value pairs.
         """
         output = OrderedDict()
         for face in self.faces:
@@ -388,9 +530,12 @@ class VoronoiCell:
         return output
 
     def get_volume(self):
-        """
-        Function to get volume of this cell
-        :return: Volume.
+        """Function to get volume of this cell
+
+        Returns
+        -------
+        type : float
+            Volume.
         """
         if np.isnan(self.volume):
             self.volume = 0
@@ -407,17 +552,26 @@ class VoronoiCell:
         return self.volume
 
     def get_surface_area(self):
-        """
-        Function to get surface area of cell.
-        :return: Surface area.
+        """Function to get surface area of cell.
+
+        Returns
+        -------
+        type : float
+            Surface area.
         """
         return sum([face.get_area() for face in self.faces])
 
     def get_min_max_vertex_distance(self):
-        """
-        Function to get the minimum and maximum distance between any two
+        """Function to get the minimum and maximum distance between any two
         vertices.
-        :return: Minimum distance, maximum distance.
+
+        Returns
+        -------
+        min_dist : float
+            Minimum distance.
+        max_dist : float
+            Maximum distance.
+
         """
         vertices = self.get_vertices()
         l_v = len(vertices)
@@ -432,9 +586,13 @@ class VoronoiCell:
         return min_dist, max_dist
 
     def geometry_is_valid(self):
-        """
-        Function to determine whether the geometry of this structure is sound.
-        :return: True if valid, else False.
+        """Function to determine whether the geometry of this structure is
+        sound.
+
+        Returns
+        -------
+        type : bool
+            True if valid, else False.
         """
         for face in self.faces:
             if not face.is_closed():
@@ -446,11 +604,23 @@ class VoronoiCell:
         return True
 
     def compute_cell(self, image_finder, cutoff):
-        """
-        Function to compute cell, given ability to generate images.
-        :param image_finder: Tool to find images within a cutoff.
-        :param cutoff: Initial cutoff. Will be increased if too small.
-        :return:
+        """Function to compute cell, given ability to generate images.
+
+        Parameters
+        ----------
+        image_finder : PairDistanceAnalysis
+            Tool to find images within a cutoff.
+        cutoff : float
+            Initial cutoff. Will be increased if too small.
+
+        Returns
+        -------
+
+        Raises
+        ------
+        Exception
+            If cell fails to compute.
+
         """
         cur_cutoff = cutoff
         n_attempts = 0
@@ -473,12 +643,16 @@ class VoronoiCell:
         raise Exception("Cell failed to compute.")
 
     def compute_cell_helper(self, images):
+        """Function to compute the Voronoi cell, given list of images.
+
+        Parameters
+        ----------
+        images : array-like
+            List of images to consider, where key is the atomID
+            and value is the distance.
+
         """
-        Function to compute the Voronoi cell, given list of images.
-        :param images: List of images to consider, where key is the atomID
-        and value is the distance.
-        :return:
-        """
+
         # Clear cached volume.
         self.volume = np.nan
 
@@ -506,11 +680,23 @@ class VoronoiCell:
             self.compute_intersection(face)
 
     def compute_faces(self, images):
-        """
-        Function to compute the center of the face corresponding to each
+        """Function to compute the center of the face corresponding to each
         neighbor.
-        :param images: List of all images of this atom.
-        :return: List of faces.
+
+        Parameters
+        ----------
+        images : array-like
+            List of all images of this atom.
+
+        Returns
+        -------
+        output : array-like
+            List of faces.
+
+        Raises
+        ------
+        RuntimeError
+            If it fails to create face.
         """
 
         # Generate faces.
@@ -531,17 +717,29 @@ class VoronoiCell:
         return output
 
     def compute_direct_neighbors(self, faces):
-        """
-        Function to compute list of neighbors for the direct polyhedron and those that could
-        contribute to the Voronoi polyhedron.
+        """Function to compute list of neighbors for the direct polyhedron
+        and those that could contribute to the Voronoi polyhedron.
 
-        See page 85 http://linkinghub.elsevier.com/retrieve/pii
-        /0021999178901109
-        Brostow, Dessault, Fox. JCP (1978).
-        :param faces: List of faces to consider. After this operation,
-        any faces that are on the direct polyhedron will be removed and the
-        list will be sorted by distance from the center.
-        :return: List of faces that are on the direct polyhedron.
+        See page 85 of Ref. [1].
+
+        Parameters
+        ----------
+        faces : array-like
+            List of faces to consider. After this operation,
+            any faces that are on the direct polyhedron will be removed and the
+            list will be sorted by distance from the center.
+
+        References
+        ----------
+        .. [1] W. Brostow, J.-P. Dussault, and B. L. Fox, “Construction of
+        Voronoi polyhedra,” Journal of Computational Physics, vol. 29, no. 1,
+        pp. 81–92, Oct. 1978.
+
+        Returns
+        -------
+        direct_faces : array-like
+            List of faces that are on the direct polyhedron.
+
         """
 
         # Sort distance from face to the center.
@@ -571,11 +769,20 @@ class VoronoiCell:
         return direct_faces
 
     def compare_faces(self, a, b):
-        """
-        Function to compare two Voronoi faces.
-        :param a: Face a.
-        :param b: Face b.
-        :return: -1 if a < b, +1 if a > b, else 0.
+        """Function to compare two Voronoi faces.
+
+        Parameters
+        ----------
+        a : VoronoiFace
+            Face a.
+        b : VoronoiFace
+            Face b.
+
+        Returns
+        -------
+        type : int
+            1 if a < b, +1 if a > b, else 0.
+
         """
         d1 = a.get_face_distance()
         d2 = b.get_face_distance()
@@ -589,16 +796,24 @@ class VoronoiCell:
             return +1
 
     def compute_possible_indirect_neighbors(self, possible_faces):
-        """
-        Function to get list of faces that might possibly be indirect. You
-        must already have computed direct faces and all vertices of the
+        """Function to get list of faces that might possibly be indirect.
+
+        You must already have computed direct faces and all vertices of the
         direct polyhedron.
-        :param possible_faces: List of all possible non-direct faces sorted
-        in ascending order. This probably has already been computed by
-        compute_direct_neighbors.
-        :return: List of faces that might actually be indirect neighbors. Here,
-        we find if the face distance is less than the farthest vertex on the
-        direct polyhedron.
+
+        Parameters
+        ----------
+        possible_faces : array-like
+            List of all possible non-direct faces sorted in ascending order.
+            This probably has already been computed by compute_direct_neighbors.
+
+        Returns
+        -------
+        possible_indirect_faces : array-like
+            List of faces that might actually be indirect neighbors. Here,
+            we find if the face distance is less than the farthest vertex on the
+            direct polyhedron.
+
         """
 
         # Get list of faces that might be indirect neighbors.
@@ -616,11 +831,24 @@ class VoronoiCell:
         return possible_indirect_faces
 
     def compute_intersection(self, new_face):
-        """
-        Function to compute intersection between a potential face and this
+        """Function to compute intersection between a potential face and this
         cell.
-        :param new_face: Potential new face.
-        :return: Whether it intersected this cell.
+
+        Parameters
+        ----------
+        new_face : VoronoiFace
+            Potential new face.
+
+        Returns
+        -------
+        type : bool
+            Whether it intersected this cell.
+
+        Raises
+        ------
+        Exception
+            If not enough edges were formed.
+            If geometry is invalid.
         """
 
         # Clear cached result.
@@ -676,10 +904,17 @@ class VoronoiCell:
             return False
 
     def remove_face(self, to_remove):
-        """
-        Function to remove a face from this cell.
-        :param to_remove: Face to remove.
-        :return:
+        """Function to remove a face from this cell.
+
+        Parameters
+        ----------
+        to_remove : VoronoiFace
+            Face to remove.
+
+        Raises
+        ------
+        RuntimeError
+            If no such face exists.
         """
         if to_remove not in self.faces:
             raise RuntimeError("No such face exists.")

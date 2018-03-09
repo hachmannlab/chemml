@@ -1,13 +1,16 @@
 import pandas as pd
 import numpy as np
 import types
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class LatticeSimilarityAttributeGenerator:
-    """
-    Compute similarity of structure to several simple lattices. Determined by
-    comparing the shape of each coordination polyhedron in the structure (as
-    determined using a Voronoi tessellation) to those in a reference lattice.
+    """Compute similarity of structure to several simple lattices.
+
+    Notes
+    -----
+    Determined by comparing the shape of each coordination polyhedron in the
+    structure (as determined using a Voronoi tessellation) to those in a
+    reference lattice.
 
     Similarity is computed by summing the difference in the number of faces
     with each number of edges between a certain Voronoi cell and that of the
@@ -19,16 +22,30 @@ class LatticeSimilarityAttributeGenerator:
 
     For now we consider the BCC, FCC (which has the same coordination
     polyhedron shape as HCP), and SC lattices.
+
     """
 
-    def generate_features(self, entries, verbose=None):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Raise exception if input argument is not of type list of
@@ -69,8 +86,4 @@ class LatticeSimilarityAttributeGenerator:
             feat_values.append(temp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-
-        if verbose:
-            print features.head()
-
         return features

@@ -1,19 +1,49 @@
 from numpy.linalg import norm
 import numpy as np
-from vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
-from vassal.analysis.voronoi.VoronoiVertex import VoronoiVertex
-from vassal.geometry.Plane import Plane
+from ..voronoi.VoronoiEdge import VoronoiEdge
+from ..voronoi.VoronoiVertex import VoronoiVertex
+from ...geometry.Plane import Plane
 
 class VoronoiFace:
+    """Class to represent a face on a Voronoi diagram.
+
+    Attributes
+    ----------
+    inside_atom : Atom
+            Atom on "inside" of this face.
+    outside_atom : AtomImage
+        Image of atom "outside" this face.
+    face_plane : Plane
+        Plane of face.
+    intersecting_face : Plane
+        Plane defining the other face defining this edge.
+    face_normal : array-like
+        Normal of face.
+    edges : list
+        Edges defining this face.
+    vertices : list
+        Vertices associated with this face.
+    face_distance : float
+        Distance from cell center to face.
+    face_center : array-like
+        Center of face.
+    face_area : float
+        Face area. Cached result.
+    tol : float
+        Tolerance.
     """
-    Class to represent a face on a Voronoi diagram.
-    """
+
     def __init__(self, inside_atom, outside_atom, radical):
-        """
-        Function to initialize a Voronoi face.
-        :param inside_atom: Atom on "inside" of this face.
-        :param outside_atom: Image of atom "outside" this face.
-        :param radical: Whether this face is in a radical plane tessellation.
+        """Function to initialize a Voronoi face.
+
+        Parameters
+        ----------
+        inside_atom : Atom
+            Atom on "inside" of this face.
+        outside_atom : AtomImage
+            Image of atom "outside" this face.
+        radical : bool
+            Whether this face is in a radical plane tessellation.
         """
 
         # Atom on "inside" of this face.
@@ -25,10 +55,10 @@ class VoronoiFace:
         # Plane of face.
         self.face_plane = None
 
-        # Normal of face
+        # Normal of face.
         self.face_normal = None
 
-        # Edges defining this face
+        # Edges defining this face.
         self.edges = []
 
         # Vertices associated with this face.
@@ -61,21 +91,38 @@ class VoronoiFace:
         self.face_center = inside_pos - diff * self.face_distance / atom_dist
 
     def get_plane_distance(self, r1, r2, d):
-        """
-        Function to compute distance from the center to the closest-point on
+        """Function to compute distance from the center to the closest-point on
         a radical plane dividing two atoms.
-        :param r1: Radius of atom #1.
-        :param r2: Radius of atom #2.
-        :param d: Distance between atoms.
-        :return: Distance from atom #1 center to plane.
+
+        Parameters
+        ----------
+        r1 : float
+            Radius of atom #1.
+        r2 : float
+            Radius of atom #2.
+        d : float
+            Distance between atoms.
+
+        Returns
+        -------
+        value : float
+            Distance from atom #1 center to plane.
+
         """
         return (r1**2 - r2**2 + d**2)/ 2 / d
 
     def __eq__(self, other):
-        """
-        Function to check instance is equal to another face.
-        :param other: Other face.
-        :return: True if equal, else False.
+        """Function to check instance is equal to another face.
+
+        Parameters
+        ----------
+        other : VoronoiFace
+            Other face.
+
+        Returns
+        -------
+        value : bool
+            True if equal, else False.
         """
         if isinstance(other, VoronoiFace):
             return other.inside_atom.get_id() == self.inside_atom.get_id() \
@@ -83,9 +130,12 @@ class VoronoiFace:
         return False
 
     def __hash__(self):
-        """
-        Function to compute hash value of the instance.
-        :return: Hash value.
+        """Function to compute hash value of the instance.
+
+        Returns
+        -------
+        value : int
+            Hash value.
         """
         h = 7
         h = 19 + h * id(self.inside_atom)
@@ -93,10 +143,17 @@ class VoronoiFace:
         return h
 
     def __cmp__(self, other):
-        """
-        Function to compare instance with another face.
-        :param other: Other face.
-        :return: -1 if instance < other, +1 if instance > other, else 0.
+        """Function to compare instance with another face.
+
+        Parameters
+        ----------
+        other : VoronoiFace
+            Other face.
+
+        Returns
+        -------
+        value : int
+            -1 if instance < other, +1 if instance > other, else 0.
         """
         if self.inside_atom.get_id() == other.inside_atom.get_id():
             return self.outside_atom.__cmp__(other.outside_atom)
@@ -104,30 +161,43 @@ class VoronoiFace:
             return self.inside_atom.get_id() - other.inside_atom.get_id()
 
     def get_inside_atom(self):
-        """
-        Function to get inside atom.
-        :return: Inside atom.
+        """Function to get inside atom.
+
+        Returns
+        -------
+        inside_atom : Atom
+            Inside atom.
         """
         return self.inside_atom
 
     def get_face_center(self):
-        """
-        Function to get face center.
-        :return: Face center.
+        """Function to get face center.
+
+        Returns
+        -------
+        face_center : array-like
+            Face center.
+
         """
         return self.face_center
 
     def get_outside_atom(self):
-        """
-        Function to get outside atom image.
-        :return: Outside atom image.
+        """Function to get outside atom image.
+
+        Returns
+        -------
+        outside_atom : AtomImage
+            Outside atom image.
         """
         return self.outside_atom
 
     def get_plane(self):
-        """
-        Function to get plane on which this face lies.
-        :return: Face plane.
+        """Function to get plane on which this face lies.
+
+        Returns
+        -------
+        face_plane : Plane
+            Face plane.
         """
         if self.face_plane is None:
             inside_pos = self.inside_atom.get_position_cartesian()
@@ -137,25 +207,36 @@ class VoronoiFace:
         return self.face_plane
 
     def get_normal(self):
-        """
-        Function to get the normal to this face.
-        :return: Face normal.
+        """Function to get the normal to this face.
+
+        Returns
+        -------
+        face_normal : array-like
+            Face normal.
         """
         if self.face_normal is None:
             self.face_normal = self.get_plane().get_normal()
         return self.face_normal
 
     def n_edges(self):
-        """
-        Function to get the number of edges this face has.
-        :return: Number of edges.
+        """Function to get the number of edges this face has.
+
+        Returns
+        -------
+        value : int
+            Number of edges.
+
         """
         return len(self.edges)
 
     def get_area(self):
-        """
-        Function to determine the surface area of this face.
-        :return: Surface area.
+        """Function to determine the surface area of this face.
+
+        Returns
+        -------
+        surface_area : float
+            Surface area.
+
         """
         # If needed compute area.
         if not np.isinf(self.face_area):
@@ -178,54 +259,78 @@ class VoronoiFace:
         return self.face_area
 
     def get_centroid(self):
-        """
-        Function to get the centroid of this face.
-        :return: Coordinates of the centroid.
+        """Function to get the centroid of this face.
+
+        Returns
+        -------
+        centroid : array-like
+            Coordinates of the centroid.
+
         """
         return VoronoiVertex.get_centroid(self.vertices)
 
     def get_face_distance(self):
-        """
-        Function to get distance from center of the cell to this face.
-        :return: Distance.
+        """Function to get distance from center of the cell to this face.
+
+        Returns
+        -------
+        face_distance : float
+            Distance.
+
         """
         return self.face_distance
 
     def get_neighbor_distance(self):
-        """
-        Function to get distance between central atom and neighbor associated
+        """Function to get distance between central atom and neighbor associated
         with this face.
-        :return: Distance in Cartesian units.
+
+        Returns
+        -------
+        neighbor_distance : float
+            Distance in Cartesian units.
         """
 
         return norm(self.inside_atom.get_position_cartesian() -
                     self.outside_atom.get_position())
 
     def get_vertices(self):
-        """
-        Function to get the list of vertices describing this face.
-        :return: List of vertices.
+        """Function to get the list of vertices describing this face.
+
+        Returns
+        -------
+        value : list
+            List of vertices.
+
         """
         return list(self.vertices)
 
     def n_vertices(self):
-        """
-        Function to get the number of vertices this face has.
-        :return: Number of vertices.
+        """Function to get the number of vertices this face has.
+
+        Returns
+        -------
+        value : int
+            Number of vertices.
         """
         return len(self.vertices)
 
     def get_edges(self):
-        """
-        Function to get the list of edges describing this face.
-        :return: List of edges.
+        """Function to get the list of edges describing this face.
+
+        Returns
+        -------
+        value : list
+            List of edges.
         """
         return list(self.edges)
 
     def get_neighboring_faces(self):
-        """
-        Function to get all faces that share a vertex with this face.
-        :return: Set of neighboring faces as a list.
+        """Function to get all faces that share a vertex with this face.
+
+        Returns
+        -------
+        value : list
+            List of neighboring faces.
         """
         output = []
         for e in self.edges:
@@ -236,20 +341,36 @@ class VoronoiFace:
         return output
 
     def get_common_vertices(self, other_face):
-        """
-        Function to get number of common vertices between two faces.
-        :param other_face: Other face.
-        :return: set of common vertices.
+        """Function to get number of common vertices between two faces.
+
+        Parameters
+        ----------
+        other_face : VoronoiFace
+            Other face.
+
+        Returns
+        -------
+        output : set
+            Set of common vertices.
+
         """
         output = set(self.vertices)
         return output.intersection(other_face.vertices)
 
     def position_relative_to_face(self, point):
-        """
-        Function to get position of point with respect to face.
-        :param point: Point to check.
-        :return: -1 if inside of face (i.e. closer to cell center), 0 if on
-        the face, 1 if outside of the face.
+        """Function to get position of point with respect to face.
+
+        Parameters
+        ----------
+        point : array-like
+            Point to check.
+
+        Returns
+        -------
+        output : int
+            1 if inside of face (i.e. closer to cell center), 0 if on
+            the face, 1 if outside of the face.
+
         """
         plane = self.get_plane()
         if plane.contains(point):
@@ -261,21 +382,38 @@ class VoronoiFace:
             return -1
 
     def __str__(self):
-        """
-        Function to print the string representation of this face.
-        :return: String representation of this face.
+        """Function to print the string representation of this face.
+
+        Returns
+        -------
+        output : str
+            String representation of this face.
         """
         output = str(self.inside_atom.get_id()+"->"+self.outside_atom.__str__())
         return output
 
     def assemble_face_from_faces(self, faces):
-        """
-        Function to construct the edges, given a list of faces that will
-        intersect this face. Used to construct faces for the direct
-        polyhedron only! It assumes that face_center is inside the center of
-        the face.
-        :param faces: Other faces.
-        :return: Whether the face assembled correctly.
+        """Function to construct the edges, given a list of faces that will
+        intersect this face.
+
+        Used to construct faces for the direct polyhedron only! It assumes
+        that face_center is inside the center of the face.
+
+        Parameters
+        ----------
+        faces : array-like
+            Other faces.
+
+        Returns
+        -------
+        output : bool
+            Whether the face assembled correctly.
+
+        Raises
+        ------
+        Exception
+            If there are not enough edges to build faces.
+
         """
 
         # Generate a local copy of this list.
@@ -303,11 +441,20 @@ class VoronoiFace:
         return self.assemble_face_from_edges(available_edges)
 
     def edge_comp(self, a, b):
-        """
-        Function to compare two edges.
-        :param a: Edge 1.
-        :param b: Edge 2.
-        :return: -1 if a < b, +1 if a > b, else 0.
+        """Function to compare two edges.
+
+        Parameters
+        ----------
+        a : VoronoiEdge
+            Edge 1.
+        b : VoronoiEdge
+            Edge 2.
+
+        Returns
+        -------
+        output : int
+            1 if a < b, +1 if a > b, else 0.
+
         """
         d1 = a.get_line().distance(p=self.face_center)
         d2 = b.get_line().distance(p=self.face_center)
@@ -321,10 +468,22 @@ class VoronoiFace:
             return +1
 
     def assemble_face_from_edges(self, available_edges):
-        """
-        Function to assemble face, given a list of edges.
-        :param available_edges: List of edges.
-        :return: Whether face is closed.
+        """Function to assemble face, given a list of edges.
+
+        Parameters
+        ----------
+        available_edges : array-like
+            List of edges.
+
+        Returns
+        -------
+        output : bool
+            Whether face is closed.
+
+        Raises
+        ------
+        Exception
+            If face failed to build.
         """
 
         # Clear cached face area.
@@ -373,10 +532,13 @@ class VoronoiFace:
 
 
     def compute_vertices(self):
-        """
-        Function to recompute vertices. Should be run after each time the
+        """Function to recompute vertices. Should be run after each time the
         edges are updated.
-        :return:
+
+        Raises
+        ------
+        Exception
+            If an error occurs while computing vertex.
         """
         self.vertices = []
         for e in self.edges:
@@ -389,9 +551,12 @@ class VoronoiFace:
         self.get_area()
 
     def is_closed(self):
-        """
-        Function to check if face is closed.
-        :return: True if face is closed, else 0.
+        """Function to check if face is closed.
+
+        Returns
+        -------
+        output : bool
+            True if face is closed, else False.
         """
         if len(self.edges) < 3:
             return False
@@ -403,16 +568,34 @@ class VoronoiFace:
         return True
 
     def compute_intersection(self, new_face):
-        """
-        Function to compute intersection between this face and a new face. If
-        the face intersects, update the list of edges.
+        """Function to compute intersection between this face and a new face.
+
+        If the face intersects, update the list of edges.
         Special case: If a current edge of this face is completely on the new
         face (i.e., both vertices are on the face), that edge will be
         replaced with a new edge that is the result of the intersection
         between the new face and this face.
-        :param new_face: Face in consideration.
-        :return: If the new face intersect, return the pair of the edge that
-        was formed. Returns None if no edge was formed.
+
+        Parameters
+        ----------
+        new_face : VoronoiFace
+            Face in consideration.
+
+        Returns
+        -------
+        output : VoronoiEdge
+            If the new face intersect, return the pair of the edge that was
+            formed. Returns None if no edge was formed.
+
+        Raises
+        ------
+        Exception
+            If new face does not intersect this face.
+            If face was not closed to begin with.
+            If edge on the new face was not found.
+            If new face doesn't intersect this face.
+            If edge not found.
+            If new edge doesn't intersect current ones.
         """
 
         # Clear cached area.
@@ -537,11 +720,19 @@ class VoronoiFace:
         return new_edge.generate_pair()
 
     def reset_edges(self, edges):
-        """
-        Function to reset edges to a previous state. Used in case cell
+        """Function to reset edges to a previous state. Used in case cell
         intersection fails.
-        :param edges: Previous list of edges.
-        :return:
+
+        Parameters
+        ----------
+        edges : array-like
+            Previous list of edges.
+
+        Raises
+        ------
+        RuntimeError
+            If the stored state was in error.
+
         """
         try:
             l_e = len(edges)
@@ -555,10 +746,22 @@ class VoronoiFace:
 
 
     def get_cut_length(self, new_face):
-        """
-        Function to compute length of new edge created by intersection.
-        :param new_face: Face intersecting with this one.
-        :return: Cut length.
+        """Function to compute length of new edge created by intersection.
+
+        Parameters
+        ----------
+        new_face : VoronoiFace
+            Face intersecting with this one.
+
+        Returns
+        -------
+        output : float
+            Cut length.
+
+        Raises
+        ------
+        Exception
+            New face does not intersect this face.
         """
 
         # Find a single vertex that is outside the face.
@@ -614,11 +817,20 @@ class VoronoiFace:
 
 
     def is_contacted_by(self, other_face):
-        """
-        Function to check whether instance if contacted by another face. This
-        occurs if any of the vertices are outside or on the other face.
-        :param other_face: Other face.
-        :return: Whether it contacts instance.
+        """Function to check whether instance if contacted by another face.
+
+        This occurs if any of the vertices are outside or on the other face.
+
+        Parameters
+        ----------
+        other_face : VoronoiFace
+            Other face.
+
+        Returns
+        -------
+        output : bool
+            Whether it contacts instance.
+
         """
         for v in self.vertices:
             if other_face.position_relative_to_face(v.get_position()) >= 0:
@@ -626,12 +838,20 @@ class VoronoiFace:
         return False
 
     def is_completely_outside(self, other_face):
-        """
-        Function to check whether instance is completely outside of another
+        """Function to check whether instance is completely outside of another
         face.
-        :param other_face: Other face.
-        :return: Whether any vertex of instance is in outside or in contact
-        with the other face.
+
+        Parameters
+        ----------
+        other_face : VoronoiFace
+            Other face.
+
+        Returns
+        -------
+        output : bool
+            Whether any vertex of instance is in outside or in contact
+            with the other face.
+
         """
         for v in self.vertices:
             if other_face.position_relative_to_face(v.get_position()) < 0:
@@ -639,9 +859,17 @@ class VoronoiFace:
         return True
 
     def contains_vertex(self, v):
-        """
-        Function to check instance contains a vertex.
-        :param v: Vertex to check.
-        :return: True if instance contains v, else False.
+        """Function to check instance contains a vertex.
+
+        Parameters
+        ----------
+        v : VoronoiVertex
+            Vertex to check.
+
+        Returns
+        -------
+        output : bool
+            True if instance contains v, else False.
+
         """
         return v in self.vertices

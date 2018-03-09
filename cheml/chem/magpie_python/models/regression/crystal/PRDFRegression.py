@@ -1,21 +1,38 @@
+# coding=utf-8
 import math
 import numpy as np
-from data.materials.util.LookUpData import LookUpData
-from vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
+from ....data.materials.util.LookUpData import LookUpData
+from ....vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
 
 class PRDFRegression:
-    """
-    Class that uses the partial radial distribution function to perform
-    regression. Each material is represented by a matrix containing the PRDF
+    """Class that uses the partial radial distribution function to perform
+    regression.
+
+    Each material is represented by a matrix containing the PRDF
     between each element type. Distance between structures are computed as
     Frobenius norm of the difference between their PRDF matrices. If you use
-    this method, please cite Schutt, Glawe, et al. PRB (2015)
-    http://link.aps.org/doi/10.1103/PhysRevB.89.205118.
+    this method, please cite Schutt, Glawe, et al. [1].
+
+    Attributes
+    ----------
+    sigma : float
+        Normalization term in kernel function.
+    n_bins : int
+        Number of distance points to evaluate.
+    cut_off_distance : float
+        Cutoff distance for PRDF.
+
+    References
+    ----------
+    .. [1] K. T. Schütt, H. Glawe, F. Brockherde, A. Sanna, K. R. Müller,
+    and E. K. U. Gross, "How to represent crystal structures for machine
+    learning: Towards fast prediction of electronic properties," Physical
+    Review B, vol. 89, no. 20, May 2014.
+
     """
 
     def __init__(self):
-        """
-        Function to create instance and initialize fields.
+        """Function to create instance and initialize fields.
         """
 
         # Normalization term in kernel function.
@@ -28,39 +45,68 @@ class PRDFRegression:
         self.cut_off = 7.0
 
     def set_sigma(self, s):
-        """
-        Function to set the normalization parameter in the kernel function.
-        :param s: Desired normalization parameter.
-        :return:
+        """Function to set the normalization parameter in the kernel function.
+
+        Parameters
+        ----------
+        s : float
+            Desired normalization parameter.
+
         """
         self.sigma = s
 
     def set_n_bins(self, n_b):
-        """
-        Function to set the number of bins used when computing the PRDF.
-        :param n_b: Number of bins (>1)
-        :return:
+        """Function to set the number of bins used when computing the PRDF.
+
+        Parameters
+        ----------
+        n_b : int
+            Number of bins (>1)
+
+        Raises
+        ------
+        ValueError
+            If n_bins is less than 1.
+
         """
         if n_b < 1:
             raise ValueError("# bins must be greater than 1.")
         self.n_bins = n_b
 
     def set_cut_off(self, d):
-        """
-        Function to set the cutoff distance used when computing the PRDF.
-        :param d: Cutoff distance (>0 Angstrom)
-        :return:
+        """Function to set the cutoff distance used when computing the PRDF.
+
+        Parameters
+        ----------
+        d : float
+            Cutoff distance (>0 Angstrom)
+
+        Raises
+        ------
+        ValueError
+            If d is less than or equal to 0.
         """
         if d <= 0:
             raise ValueError("Distance must be positive.")
         self.cut_off = d
 
     def compute_similarity(self, structure1, structure2):
-        """
-        Function to compute similarity between two crystal structures.
-        :param structure1: Representation of structure #1.
-        :param structure2: Representation of structure #2.
-        :return: Similarity between the two structures.
+        """Function to compute similarity between two crystal structures.
+
+        Parameters
+        ----------
+        structure1 : dict
+            Representation of structure #1. Dictionary containing a tuple of
+            integers as the key and a list of floats as the values.
+        structure2 : dict
+            Representation of structure #2. Dictionary containing a tuple of
+            integers as the key and a list of floats as the values.
+
+        Returns
+        -------
+        output : float
+            Similarity between the two structures.
+
         """
         pairs = set()
 
@@ -87,10 +133,25 @@ class PRDFRegression:
         return math.exp(-1 * diff / self.sigma)
 
     def compute_representation(self, structure):
-        """
-        Function to compute the representation of the crystal structure.
-        :param structure: Crystal structure.
-        :return: Representation of the structure.
+        """Function to compute the representation of the crystal structure.
+
+        Parameters
+        ----------
+        structure : CrystalStructureEntry
+            Crystal structure.
+
+        Returns
+        -------
+        output : dict
+            Representation of the structure. Dictionary containing a tuple of
+            integers as the key and a list of floats as the values.
+
+        Raises
+        ------
+        Exception
+            If element name is invalid.
+        RuntimeError
+            If something goes wrong while analyzing structure.
         """
 
         # Get the atomic number of each type.

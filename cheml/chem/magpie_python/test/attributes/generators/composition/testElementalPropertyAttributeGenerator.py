@@ -1,9 +1,10 @@
 import unittest
 import numpy as np
 import numpy.testing as np_test
-from attributes.generators.composition.ElementalPropertyAttributeGenerator \
-    import ElementalPropertyAttributeGenerator
-from data.materials.CompositionEntry import CompositionEntry
+from .....attributes.generators.composition\
+    .ElementalPropertyAttributeGenerator import \
+    ElementalPropertyAttributeGenerator
+from .....data.materials.CompositionEntry import CompositionEntry
 
 class testElementalPropertyAttributeGenerator(unittest.TestCase):
 

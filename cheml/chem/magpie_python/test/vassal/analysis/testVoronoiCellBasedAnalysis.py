@@ -1,9 +1,10 @@
 import unittest
 import numpy as np
 import math
-from vassal.analysis.VoronoiCellBasedAnalysis import VoronoiCellBasedAnalysis
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from ....vassal.analysis.VoronoiCellBasedAnalysis import \
+    VoronoiCellBasedAnalysis
+from ....vassal.data.Atom import Atom
+from ....vassal.data.Cell import Cell
 import numpy.testing as np_tst
 
 class testVoronoiCellBasedAnalysis(unittest.TestCase):

@@ -1,11 +1,28 @@
 import re
 from itertools import izip
-from data.materials.util.LookUpData import LookUpData
+from ...data.materials.util.LookUpData import LookUpData
 
 class CompositionEntry(object):
-    """
-    Class that defines a composition entry object. Mainly used to store ids,
-    names and fractions of elements belonging to a single compound.
+    """Class that defines a CompositionEntry object.
+
+    Mainly used to store ids, names and fractions of elements belonging to a
+    single compound.
+
+    Attributes
+    ----------
+    lp_element_names : array-like
+        Names of each element. A list of string values.
+    lp_sorting_order : array-like
+        Rank of each element (used in display order). A list of int values.
+    element_ids : array-like
+        Element ids present in composition. A list of int values.
+    element_names : array-like
+        Element names present in composition. A list of string values.
+    fractions : array-like
+        Fraction of each element. A list of float values.
+    number_in_cell : float
+        Number of atoms in cell (used to convert when printing).
+
     """
 
     # Names of each element.
@@ -28,21 +45,33 @@ class CompositionEntry(object):
 
     def __init__(self, composition=None, element_ids=None,
                  element_names=None, fractions=None):
-        """
-        Make a new instance by paring the composition of an object, provided
-        by a string or list of element ids/names and fractions.
+        """Function to make a new instance by paring the composition of an
+        object, provided by a string or list of element ids/names and fractions.
 
+        Parameters
+        ----------
+        composition : str
+            The chemical formula of a material.
+        element_ids : array-like
+            List of integers denoting the element ids.
+        element_names : array-like
+            List of strings denoting the element names.
+        fractions : array-like
+            List of floats denoting the element fractions.
+
+        Raises
+        ------
+        RuntimeError
+            If composition parsing was unsuccessful.
+
+        Notes
+        -----
         First splits using the regex [A-Z][^A-Z] to separate each component
         of the alloy. This assumes that capitalization is used properly. Then
         splits each component into the alphabetical part (assumed to be
         element name) and the numeric part (amount of element). If no numeric
         part is present, 1 is assumed. An element can appear more than once.
 
-        :param composition: String containing the chemical formula of a
-        material.
-        :param element_ids: List of integers denoting the element ids.
-        :param element_names: List of strings denoting the element names.
-        :param fractions: List of floats denoting the element fractions.
         """
 
         # Parse composition if passed.
@@ -64,14 +93,29 @@ class CompositionEntry(object):
                                  element_names=element_names)
 
     def parse_composition(self, composition):
-        """
-        Function to parse a string containing the composition. Supports
-        parentheses and addition compounds (ex: Na_2CO_3-10H_2O). Note,
-        will not properly parse addition compounds inside parentheses (ex:
-        Na_2(CO_3 - 10H_2O)_1).
-        :param composition: String describing a composition.
-        :return: Dictionary containing element ids and fractions as keys and
-        values respectively.
+        """Function to parse a string containing the composition.
+
+        Supports parentheses and addition compounds (ex: Na_2CO_3-10H_2O).
+        Note, will not properly parse addition compounds inside parentheses
+        (ex: Na_2(CO_3 - 10H_2O)_1).
+
+        Parameters
+        ----------
+        composition : str
+            The chemical formula of a material.
+
+        Returns
+        -------
+        output : dict
+            Dictionary containing element ids and fractions as keys and
+            values respectively.
+
+        Raises
+        ------
+        ValueError
+            If closing parenthesis is missing.
+            If parenthesis is not recognized.
+
         """
 
         # Check for a guest structure (ex: Al2O3-2H20).
@@ -186,13 +230,25 @@ class CompositionEntry(object):
 
     def set_composition(self, amounts, element_ids=None, element_names=None,
                         to_sort=True):
-        """
-        Function to set the composition of this entry. Checks to make sure
-        all elements have positive amounts.
-        :param amounts: List of amounts for each element.
-        :param element_ids: List of element ids.
-        :param element_names: List of element names.
-        :return:
+        """Function to set the composition of this entry.
+
+        Checks to make sure all elements have positive amounts.
+
+        Parameters
+        ----------
+        amounts : array-like
+            List of amounts (float) for each element.
+        element_ids : array-like
+            List of element ids (integers).
+        element_names : array-like
+            List of element names (strings).
+
+        Raises
+        ------
+        ValueError
+            If either element names or ids are missing.
+            If lists have different lengths.
+
         """
 
         if element_ids is None and element_names is None:
@@ -214,20 +270,44 @@ class CompositionEntry(object):
         self.sort_and_normalize(to_sort)
 
     def __copy__(self):
-        x = CompositionEntry()
+        """Function to make a copy of this instance.
+
+        Returns
+        -------
+        x : CompositionEntry
+            A copy of this instance.
+
+        """
+
+        x = type(self)(self.__class__)
+        x.__dict__.update(self.__dict__)
         x.element_ids = list(self.element_ids)
         x.fractions = list(self.fractions)
         return x
 
     def parse_element_amounts(self, composition):
-        """
-        Function to compute fractions of element given a string of elements
+        """Function to compute fractions of element given a string of elements
         and amounts.
-        :param composition: Composition as a string.
-        :return: Dictionary containing element ids and fractions as keys and
-        values respectively.
+
+        Parameters
+        ----------
+        composition : str
+            Composition of a material.
+
+        Returns
+        -------
+        tmp_entry : dict
+            Dictionary containing element ids and fractions as keys and
+            values respectively.
+
+        Raises
+        ------
+        ValueError
+            If either element names or ids are not recognized.
+            If element amount is not a number.
 
         """
+
         # Create temporary entry.
         tmp_entry = {}
 
@@ -272,33 +352,55 @@ class CompositionEntry(object):
 
 
     def get_element_names(self):
+        """Function to get the element names in the composition.
+
+        Returns
+        -------
+        element_names : array-like
+            List of element names (strings).
         """
-        Function to get the element names in the composition.
-        :return: List of element names.
-        """
+
         return self.element_names
 
     def get_element_ids(self):
+        """Function to get the element ids in the composition.
+
+        Returns
+        -------
+        element_ids : array-like
+            List of element ids (int).
         """
-        Function to get the element ids in the composition.
-        :return: List of element ids.
-        """
+
         return self.element_ids
 
     def get_element_fractions(self):
+        """Function to get the element fractions in the composition.
+
+        Returns
+        -------
+        element_fractions : array-like
+            List of element fractions (float).
+
         """
-        Function to get the element fractions in the composition.
-        :return: List of element fractions.
-        """
+
         return self.fractions
 
     def get_element_fraction(self, name=None, id=None):
-        """
-        Function to get the element fraction given either the name or the id
+        """Function to get the element fraction given either the name or the id
         of the element.
-        :param name: Name of the element.
-        :param id: Id of the element.
-        :return: Elemental fraction.
+
+        Parameters
+        ----------
+        name : str
+            Name of the element.
+        id   : int
+            Id of the element.
+
+        Returns
+        -------
+        fraction : float
+            Elemental fraction.
+
         """
 
         e_id = id
@@ -313,11 +415,20 @@ class CompositionEntry(object):
         return 0.0
 
     def __cmp__(self, other):
+        """Function to compare two CompositionEntry objects.
+
+        Parameters
+        ----------
+        other : CompositionEntry
+            Other composition entry to compare.
+
+        Returns
+        -------
+        output : int
+            -1 if self < other , 1 if self > other or 0 if self = other.
+
         """
-        Function to compare two composition entries.
-        :param other: Other composition entry to compare.
-        :return: -1 if self < other , 1 if self > other or 0 if self = other.
-        """
+
         if isinstance(other, CompositionEntry):
             # If this has more elements, this is greater.
             if len(self.element_ids) != len(other.element_ids):
@@ -334,12 +445,17 @@ class CompositionEntry(object):
         return 0
 
     def __hash__(self):
-        """
-        Function to compute the hashcode of a given entry. Computes the
-        hashcode of the list of element ids and fractions separately. Then
-        does the logical XOR operation between the two hashcodes and 1 and
-        returns the result.
-        :return: Hashcode of the entry.
+        """Function to compute the hashcode of this instance.
+
+        Computes the hashcode of the list of element ids and fractions
+        separately. Then does the logical XOR operation between the two
+        hashcodes and 1 and returns the result.
+
+        Returns
+        -------
+        output : int
+            Hashcode of this instance.
+
         """
 
         h1 = h2 = 0
@@ -350,10 +466,19 @@ class CompositionEntry(object):
         return h1 ^ h2 ^ 1
 
     def __eq__(self, other):
-        """
-        Function to compare the equality between two composition entries.
-        :param other: Other composition entry to compare.
-        :return: True if they are equal and False otherwise.
+        """Function to compare the equality between two CompositionEntry
+        instances.
+
+        Parameters
+        ----------
+        other : CompositionEntry
+            Other composition entry to compare.
+
+        Returns
+        -------
+        output : bool
+            True if they are equal and False otherwise.
+
         """
 
         if isinstance(other, CompositionEntry):
@@ -365,11 +490,18 @@ class CompositionEntry(object):
         return False
 
     def sort_and_normalize(self, to_sort=True):
-        """
-        Function to sort the element ids based on their electronegativity
-        order and normalizes the fractions. Makes sure the entry is in a
-        proper format. Must be run from constructor.
-        :return:
+        """Function to sort the element ids based on their electronegativity
+        order and normalizes the fractions.
+
+        Makes sure the entry is in a proper format. Must be run from
+        constructor.
+
+        Parameters
+        ----------
+        to_sort : bool
+            Whether to sort as well as normalize or just normalize this
+            instance.
+
         """
 
         # Sort elements based on the electronegativity order.
@@ -398,12 +530,22 @@ class CompositionEntry(object):
                     self.fractions[idx] += f_
 
     def combine_compositions(self, total_comp, add_comp, multiplier):
-        """
-        Function to add one composition entry to another.
-        :param total_comp: Composition entry to be added to.
-        :param add_comp: Composition entry to add.
-        :param multiplier: Multiplier for the added part.
-        :return: Combined compositions.
+        """Function to add one CompositionEntry to another.
+
+        Parameters
+        ----------
+        total_comp : dict
+            Dictionary containing element ids and fractions as keys and
+            values respectively. Composition to be added to.
+        add_comp   : dict
+            Dictionary containing element ids and fractions as keys and
+            values respectively. Composition to add.
+        multiplier : float
+            Factor to multiply with.
+
+        Returns
+        -------
+
         """
 
         for e,f in add_comp.iteritems():
@@ -415,12 +557,21 @@ class CompositionEntry(object):
 
     @classmethod
     def print_number(self, fraction, n_in_formula_unit):
-        """
-        Function to print out the number of atoms in a formula unit for each
+        """Function to print out the number of atoms in a formula unit for each
         element given its fraction.
-        :param fraction: List of element fractions to be printed.
-        :param n_in_formula_unit: Number of atoms in a formula unit.
-        :return: Result formatted as a string.
+
+        Parameters
+        ----------
+        fraction : array-like
+            List of element fractions (floats) to be printed.
+        n_in_formula_unit : int
+            Number of atoms in a formula unit.
+
+        Returns
+        -------
+        output : str
+            Formatted fractions.
+
         """
 
         output = []
@@ -434,10 +585,15 @@ class CompositionEntry(object):
         return output
 
     def __str__(self):
+        """Function to print the composition entry in the proper format.
+
+        Returns
+        -------
+        output : str
+            Correctly formatted output.
+
         """
-        Function to print the composition entry in the proper format.
-        :return: Correctly formatted output.
-        """
+
         if not self.element_names:
             return "Elem_list not defined"
         else:
@@ -451,6 +607,19 @@ class CompositionEntry(object):
 
     @classmethod
     def import_composition_list(self, file_path):
+        """Function to read a list of compositions from a file.
+
+        Parameters
+        ----------
+        file_path : str
+            Path to the file containing the list of compositions.
+
+        Returns
+        -------
+        composition_list : array-like
+            A list of CompositionEntry's corresponding to the file contents.
+
+        """
         composition_list = []
         with open(file_path, 'r') as f:
             for line in f.readlines():
@@ -462,6 +631,23 @@ class CompositionEntry(object):
 
     @classmethod
     def import_values_list(self, file_path):
+        """Function to read a list of target property values from a file.
+
+        Target property values are used to develop machine learning models.
+
+        Parameters
+        ----------
+        file_path : str
+            Path to the file containing the list of compositions.
+
+        Returns
+        -------
+        property_list : array-like
+            A list of target property values (floats) corresponding to the
+            file contents.
+
+        """
+
         property_list = []
         with open(file_path, 'r') as f:
             for line in f.readlines():

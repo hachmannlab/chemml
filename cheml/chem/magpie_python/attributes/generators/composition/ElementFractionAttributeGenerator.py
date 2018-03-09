@@ -1,22 +1,34 @@
 import types
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
 
 class ElementFractionAttributeGenerator:
-    """
-    Class to set the element fractions as the features of materials.
+    """Class to set the element fractions as the features of materials.
     """
 
-    def generate_features(self, entries, verbose=False):
+    def generate_features(self, entries):
         """
-        Function to set element fractions as features of materials.
-        :param entries: A list of dictionaries containing <Element name,
-        fraction> as <key,value> pairs.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+        Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
+
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -50,6 +62,4 @@ class ElementFractionAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

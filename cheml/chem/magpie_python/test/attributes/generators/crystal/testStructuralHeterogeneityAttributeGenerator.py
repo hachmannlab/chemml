@@ -1,7 +1,7 @@
-from attributes.generators.crystal.StructuralHeterogeneityAttributeGenerator \
+from .....attributes.generators.crystal\
+    .StructuralHeterogeneityAttributeGenerator \
     import StructuralHeterogeneityAttributeGenerator
-from test.attributes.generators.crystal\
-    .testCoordinationNumberAttributeGenerator import \
+from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 
 class testStructuralHeterogeneityAttributeGenerator(

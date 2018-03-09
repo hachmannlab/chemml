@@ -1,18 +1,20 @@
 import types
 import pandas as pd
 import numpy as np
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class EffectiveCoordinationNumberAttributeGenerator:
-    """
-    Compute attributes based on the effective coordination number. The
-    effective coordination number can be thought of as a face-size-weighted
+    """Compute attributes based on the effective coordination number.
+
+    Notes
+    -----
+    The effective coordination number can be thought of as a face-size-weighted
     coordination number. It is computed by the formula
 
-    N_eff = 1 / sum[(f_i / SA)^2]
+    .. math:: N_{eff} = \displaystyle\frac{1}{\sum[(\frac{f_i}{SA})^2]}
 
-    where f_i is the area of face i and SA is the surface area of the entire
-    cell.
+    where :math: `f_i` is the area of face :math: `i` and :math: `SA` is the
+    surface area of the entire cell.
 
     The effective coordination number has major benefit: stability against the
     additional of a very small face. Small perturbations in atomic positions
@@ -34,22 +36,52 @@ class EffectiveCoordinationNumberAttributeGenerator:
     coordination number, than 14 reported by the conventional measure.
     Additional, for systems with equal-sized faces (e.g., FCC), this measure
     agrees exactly with conventional reports.
+
     """
 
     def mean_abs_dev(self, data):
+        """Function to compute the mean absolute deviation of an array-like
+        collection of numbers.
+
+        Parameters
+        ----------
+        data : array-like
+            A NumPy array of float values.
+
+        Returns
+        -------
+        output : float
+            The mean absolute deviation.
+
+        """
+
         n = float(len(data))
         mean = sum(data) / n
         diff = [abs(x - mean) for x in data]
-        return sum(diff) / n
+        output = sum(diff) / n
+        return output
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Raise exception if input argument is not of type list of
@@ -95,8 +127,4 @@ class EffectiveCoordinationNumberAttributeGenerator:
             feat_values.append(temp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-
-        if verbose:
-            print features.head()
-
         return features

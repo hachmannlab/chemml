@@ -1,9 +1,9 @@
 import unittest
 import numpy.testing as np_tst
-from attributes.generators.composition\
+from .....attributes.generators.composition\
     .IonicCompoundProximityAttributeGenerator import \
     IonicCompoundProximityAttributeGenerator
-from data.materials.CompositionEntry import CompositionEntry
+from .....data.materials.CompositionEntry import CompositionEntry
 
 class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

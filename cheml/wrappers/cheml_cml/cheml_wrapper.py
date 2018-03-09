@@ -38,7 +38,7 @@ class load_cep_homo(BASE):
     def fit(self):
         try:
             from cheml.datasets import load_cep_homo
-            smiles,homo = load_cep_homo()
+            output = load_cep_homo(**self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
@@ -47,42 +47,34 @@ class load_cep_homo(BASE):
             if token not in self.outputs:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
+            elif token == 'df':
+                if self.parameters['return_X_y']:
+                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=True. The output df is a list of both X and y'
+                    warnings.warn(msg)
+                self.set_value(token, output)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
             elif token == 'smiles':
-                self.set_value(token, smiles)
+                if not self.parameters['return_X_y']:
+                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output smiles is a dataframe of X and y'
+                    warnings.warn(msg)
+                    self.set_value(token, output)
+                else:
+                    self.set_value(token, output[0])
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'homo':
-                self.set_value(token, homo)
+            elif token == 'dfy':
+                if not self.parameters['return_X_y']:
+                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output dfy is a dataframe of X and y'
+                    warnings.warn(msg)
+                    self.set_value(token, output)
+                else:
+                    self.set_value(token, output[1])
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+
         del self.inputs
 
-class load_organic_density(BASE):
-    def fit(self):
-        try:
-            from cheml.datasets import load_organic_density
-            smiles,density,features = load_organic_density()
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'smiles':
-                self.set_value(token, smiles)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'density':
-                self.set_value(token, density)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'features':
-                self.set_value(token, features)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-        del self.inputs
 
 class ConvertFile(BASE):
     def fit(self):
@@ -332,6 +324,705 @@ class DistanceMatrix(BASE):
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
 
+class APEAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import APEAttributeGenerator
+            ape = APEAttributeGenerator()
+            if 'packing_threshold' in self.parameters:
+                if self.parameters['packing_threshold']:
+                    ape.set_packing_threshold(self.parameters['packing_threshold'])
+            if 'n_nearest_to_eval' in self.parameters:
+                if self.parameters['n_nearest_to_eval']:
+                    ape.set_n_nearest_to_eval(self.parameters['n_nearest_to_eval'])
+            if 'radius_property' in self.parameters:
+                if self.parameters['radius_property']:
+                    ape.set_radius_property(self.parameters['radius_property'])
+            df = ape.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ChargeDependentAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ChargeDependentAttributeGenerator
+            cd = ChargeDependentAttributeGenerator()
+            df = cd.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ElementalPropertyAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ElementalPropertyAttributeGenerator
+            ep = ElementalPropertyAttributeGenerator()
+            if 'elemental_properties' in self.parameters:
+                if self.parameters['elemental_properties']:
+                    ep.add_elemental_properties(self.parameters['elemental_properties'])
+            df = ep.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ElementFractionAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ElementFractionAttributeGenerator
+            ef = ElementFractionAttributeGenerator()
+            df = ef.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ElementPairPropertyAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ElementPairPropertyAttributeGenerator
+            epp = ElementPairPropertyAttributeGenerator()
+            if 'elemental_pair_properties' in self.parameters:
+                if self.parameters['elemental_pair_properties']:
+                    epp.add_elemental_pair_properties(
+                        self.parameters['elemental_pair_properties'])
+            df = epp.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class GCLPAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import GCLPAttributeGenerator
+            gclp = GCLPAttributeGenerator()
+            if 'count_phases' in self.parameters and self.parameters[
+                'count_phases']:
+                gclp.set_count_phases(self.parameters[
+                'count_phases'])
+            if 'phases' in self.parameters and self.parameters['phases'] and \
+                    'energies' in self.parameters and self.parameters[
+                'energies']:
+                gclp.set_phases(self.parameters['phases'], self.parameters[
+                    'energies'])
+            df = gclp.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class IonicCompoundProximityAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import IonicCompoundProximityAttributeGenerator
+            icp = IonicCompoundProximityAttributeGenerator()
+            if 'max_formula_unit' in self.parameters and self.parameters[
+                'max_formula_unit'] != 14:
+                icp.set_max_formula_unit(self.parameters['max_formula_unit'])
+            df = icp.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class IonicityAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import IonicityAttributeGenerator
+            ig = IonicityAttributeGenerator()
+            df = ig.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class MeredigAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import MeredigAttributeGenerator
+            ma = MeredigAttributeGenerator()
+            df = ma.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class StoichiometricAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import StoichiometricAttributeGenerator
+            sg = StoichiometricAttributeGenerator()
+            if 'p_norms' in self.parameters:
+                if self.parameters['p_norms']:
+                    sg.add_p_norms(self.parameters['p_norms'])
+            df = sg.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ValenceShellAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ValenceShellAttributeGenerator
+            vs = ValenceShellAttributeGenerator()
+            df = vs.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class YangOmegaAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import YangOmegaAttributeGenerator
+            yo = YangOmegaAttributeGenerator()
+            df = yo.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class APRDFAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import APRDFAttributeGenerator
+            aprdf = APRDFAttributeGenerator()
+            if 'cut_off_distance' in self.parameters:
+                if self.parameters['cut_off_distance'] != 10.0:
+                    aprdf.set_cut_off_distance(
+                        self.parameters['cut_off_distance'])
+            if 'num_points' in self.parameters:
+                if self.parameters['num_points'] != 6:
+                    aprdf.set_num_points(
+                        self.parameters['num_points'])
+            if 'smooth_parameter' in self.parameters:
+                if self.parameters['smooth_parameter'] != 4.0:
+                    aprdf.set_smoothing_parameter(
+                        self.parameters['smooth_parameter'])
+            aprdf.add_elemental_properties(self.parameters['elemental_properties'])
+            df = aprdf.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class ChemicalOrderingAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import ChemicalOrderingAttributeGenerator
+            co = ChemicalOrderingAttributeGenerator()
+            if 'shells' in self.parameters:
+                if self.parameters['shells']:
+                    co.set_shells(
+                        self.parameters['shells'])
+            if 'weighted' in self.parameters:
+                if self.parameters['weighted']:
+                    co.set_weighted(
+                        self.parameters['weighted'])
+
+            df = co.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class CoordinationNumberAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import CoordinationNumberAttributeGenerator
+            cn = CoordinationNumberAttributeGenerator()
+            df = cn.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class CoulombMatrixAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import CoulombMatrixAttributeGenerator
+            cm = CoulombMatrixAttributeGenerator()
+            if 'n_eigenvalues' in self.parameters:
+                if self.parameters['n_eigenvalues']:
+                    cm.set_n_eigenvalues(
+                        self.parameters['n_eigenvalues'])
+
+            df = cm.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class EffectiveCoordinationNumberAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import EffectiveCoordinationNumberAttributeGenerator
+            ecn = EffectiveCoordinationNumberAttributeGenerator()
+            df = ecn.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class LatticeSimilarityAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import LatticeSimilarityAttributeGenerator
+            ls = LatticeSimilarityAttributeGenerator()
+            df = ls.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class LocalPropertyDifferenceAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import LocalPropertyDifferenceAttributeGenerator
+            lpd = LocalPropertyDifferenceAttributeGenerator()
+            if 'shells' in self.parameters:
+                if not (len(self.parameters['shells']) == 1 and
+                            self.parameters['shells'][0] == 1):
+                    lpd.add_shells(self.parameters['shells'])
+            lpd.add_elemental_properties(
+                self.parameters['elemental_properties'])
+            df = lpd.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class LocalPropertyVarianceAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import LocalPropertyVarianceAttributeGenerator
+            lpv = LocalPropertyVarianceAttributeGenerator()
+            if 'shells' in self.parameters:
+                if not (len(self.parameters['shells']) == 1 and
+                                self.parameters['shells'][0] == 1):
+                    lpv.add_shells(self.parameters['shells'])
+            lpv.add_elemental_properties(
+                self.parameters['elemental_properties'])
+            df = lpv.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class PackingEfficiencyAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import PackingEfficiencyAttributeGenerator
+            pe = PackingEfficiencyAttributeGenerator()
+            df = pe.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class PRDFAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import PRDFAttributeGenerator
+            prdf = PRDFAttributeGenerator()
+            if 'cut_off_distance' in self.parameters:
+                if self.parameters['cut_off_distance'] != 10.0:
+                    prdf.set_cut_off_distance(
+                        self.parameters['cut_off_distance'])
+            if 'num_points' in self.parameters:
+                if self.parameters['num_points'] != 20:
+                    prdf.set_num_points(
+                        self.parameters['num_points'])
+            prdf.set_elements(entries)
+            df = prdf.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class StructuralHeterogeneityAttributeGenerator(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        self.required('entries', req=True)
+        entries = self.inputs['entries'].value
+        try:
+            from cheml.chem import StructuralHeterogeneityAttributeGenerator
+            sh = StructuralHeterogeneityAttributeGenerator()
+            df = sh.generate_features(entries)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
 
 # Preprocessor
 
@@ -392,7 +1083,8 @@ class Trimmer(BASE):
     def fit(self):
         from cheml.initializtion import Trimmer
         dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
+        dfy = self.lltype_check('dfy', cheml_type='dfy', req=True,
+                               py_type=pd.DataFrame)
         try:
             model = Trimmer(**self.parameters)
             dfx, dfy = model.fit_transform(dfx,dfy)

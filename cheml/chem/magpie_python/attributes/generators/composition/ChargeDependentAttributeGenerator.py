@@ -1,17 +1,20 @@
+# coding=utf-8
 import sys
 import types
 import numpy as np
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
-from utility.tools.OxidationStateGuesser import OxidationStateGuesser
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
+from ....utility.tools.OxidationStateGuesser import OxidationStateGuesser
 
 class ChargeDependentAttributeGenerator:
-    """
-    Class to generate attributes derived from the oxidation states of
-    elements in a material. Based on work by Deml et al.
-    http://journals.aps.org/prb/abstract/10.1103/PhysRevB.93.085142
-    Deml et al. PRB. 93 (2016), 085142
+    """Class to generate attributes derived from the oxidation states of
+    elements in a material.
+
+    Based on work by Deml et al.[1].
+
+    Notes
+    -----
     These features are based on the formal charges of materials determined
     using the OxidationStateGuesser. Currently implemented features:
     Statistics of formal charges (min, max, range, mean, variance)
@@ -20,17 +23,37 @@ class ChargeDependentAttributeGenerator:
 
     For materials that the algorithm fails to find charge states, NaN is set
     for all features.
+
+    References
+    ----------
+    .. [1] A. M. Deml, R. O’Hayre, C. Wolverton, and V. Stevanović,
+    "Predicting density functional theory total energies and enthalpies of
+    formation of metal-nonmetal compounds by linear regression," Physical
+    Review B, vol. 93, no. 8, Feb. 2016.
+
     """
 
-    def generate_features(self, entries, verbose=False):
+    def generate_features(self, entries):
         """
-        Function to generate the charge dependent features as mentioned in
-        the class description.
-        :param entries: A list of CompositionEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+        Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -153,6 +176,5 @@ class ChargeDependentAttributeGenerator:
                 sys.stderr.write("\n")
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
+
         return features

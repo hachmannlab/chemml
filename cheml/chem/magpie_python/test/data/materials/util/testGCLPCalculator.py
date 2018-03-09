@@ -1,9 +1,12 @@
 import unittest
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.GCLPCalculator import GCLPCalculator
-from data.materials.util.LookUpData import LookUpData
+import os
+from .....data.materials.CompositionEntry import CompositionEntry
+from .....data.materials.util.GCLPCalculator import GCLPCalculator
+from .....data.materials.util.LookUpData import LookUpData
 
 class testGCLPCalculator(unittest.TestCase):
+    this_file_path = os.path.dirname(__file__)
+    abs_path = os.path.join(this_file_path, "../../../test-files/")
     def setUp(self):
         self.calc = GCLPCalculator()
 
@@ -32,9 +35,9 @@ class testGCLPCalculator(unittest.TestCase):
 
         # Add many phases.
         entries = CompositionEntry.import_composition_list(
-            "../../test-files/small_set_comp.txt")
+            self.abs_path+"small_set_comp.txt")
         energies = CompositionEntry.import_values_list(
-            "../../test-files/small_set_delta_e.txt")
+            self.abs_path+"small_set_delta_e.txt")
         self.calc.add_phases(entries, energies)
 
         self.assertEquals(725, self.calc.get_num_phases(),

@@ -1,7 +1,7 @@
 import unittest
 from math import sqrt
-from data.materials.CompositionEntry import CompositionEntry
-from data.utilities.filters.CompositionDistanceFilter import \
+from .....data.materials.CompositionEntry import CompositionEntry
+from .....data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
 
 class testCompositionDistanceFilter(unittest.TestCase):

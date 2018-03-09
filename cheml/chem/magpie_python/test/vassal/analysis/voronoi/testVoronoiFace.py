@@ -1,10 +1,10 @@
 import unittest
 import numpy.testing as np_tst
-from vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
-from vassal.analysis.voronoi.VoronoiFace import VoronoiFace
-from vassal.data.Atom import Atom
-from vassal.data.AtomImage import AtomImage
-from vassal.data.Cell import Cell
+from .....vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
+from .....vassal.analysis.voronoi.VoronoiFace import VoronoiFace
+from .....vassal.data.Atom import Atom
+from .....vassal.data.AtomImage import AtomImage
+from .....vassal.data.Cell import Cell
 import math
 
 class testVoronoiFace(unittest.TestCase):

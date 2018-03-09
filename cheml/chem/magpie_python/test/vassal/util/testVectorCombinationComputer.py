@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import numpy.testing as np_tst
-from vassal.util.VectorCombinationComputer import VectorCombinationComputer
+from ....vassal.util.VectorCombinationComputer import VectorCombinationComputer
 import math
 
 class testVectorCombinationComputer(unittest.TestCase):

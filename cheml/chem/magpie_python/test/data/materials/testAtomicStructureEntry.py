@@ -1,7 +1,7 @@
 import unittest
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....vassal.data.Atom import Atom
+from ....vassal.data.Cell import Cell
 
 class testAtomicStructureEntry(unittest.TestCase):
     def test_replacement(self):

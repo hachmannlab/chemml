@@ -3,8 +3,8 @@ import unittest
 from numpy.linalg import norm
 import numpy as np
 import numpy.testing as np_tst
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from ....vassal.data.Atom import Atom
+from ....vassal.data.Cell import Cell
 
 class testCell(unittest.TestCase):
     cell = None

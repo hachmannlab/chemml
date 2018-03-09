@@ -1,36 +1,60 @@
 import numpy as np
 import math
-from data.materials.util.LookUpData import LookUpData
+from ....data.materials.util.LookUpData import LookUpData
 
 class CoulombSineMatrixRegression:
-    """
-    Class to perform regression based on the Coulomb Sine Matrix approach of
-    Faber et al. http://arxiv.org/abs/1503.07406.
+    """Class to perform regression based on the Coulomb Sine Matrix approach of
+    Faber et al. [1].
+
     LW 1Apr15: This method does not appear to be insensitive to basis cell
     selection.
+
+    Attributes
+    ----------
+    sigma : float
+        Normalization term in kernel function.
+
+    References
+    ----------
+    .. [1] F. Faber, A. Lindmaa, O. A. von Lilienfeld, and R. Armiento,
+    "Crystal structure representations for machine learning models of
+    formation energies," International Journal of Quantum Chemistry,
+    vol. 115, no. 16, pp. 1094--1101, Apr. 2015.
+
     """
+
     def __init__(self):
-        """
-        Function to create instance and initialize fields.
+        """Function to create instance and initialize fields.
         """
 
-        # Normalization term in kernel function
+        # Normalization term in kernel function.
         self.sigma = 1
 
     def set_sigma(self, s):
-        """
-        Function to set the normalization parameter in the kernel function.
-        :param s: Desired normalization parameter.
-        :return:
+        """Function to set the normalization parameter in the kernel function.
+
+        Parameters
+        ----------
+        s : float
+            Desired normalization parameter.
         """
         self.sigma = s
 
     def compute_similarity(self, structure1, structure2):
-        """
-        Function to compute similarity between two crystal structures.
-        :param structure1: Representation of structure #1.
-        :param structure2: Representation of structure #2.
-        :return: Similarity between the two structures.
+        """Function to compute similarity between two crystal structures.
+
+        Parameters
+        ----------
+        structure1 : array-like
+            Representation of structure #1.
+        structure2 : array-like
+            Representation of structure #2.
+
+        Returns
+        -------
+        output : float
+            Similarity between the two structures.
+
         """
         e1 = structure1.copy()
         e2 = structure2.copy()
@@ -53,10 +77,18 @@ class CoulombSineMatrixRegression:
         return math.exp(-1 * dist / self.sigma)
 
     def compute_representation(self, structure):
-        """
-        Function to compute the representation of the crystal structure.
-        :param structure: Crystal structure.
-        :return: Representation of the structure.
+        """Function to compute the representation of the crystal structure.
+
+        Parameters
+        ----------
+        structure : CrystalStructureEntry
+            Crystal structure.
+
+        Returns
+        -------
+        output : array-like
+            Representation of the structure.
+
         """
 
         # First generate the Coulomb matrix.
@@ -67,11 +99,23 @@ class CoulombSineMatrixRegression:
         return w
 
     def compute_coulomb_matrix(self, structure):
-        """
-        Function to compute the Coulomb sine matrix. Equation 24 of the paper
-        describing this method.
-        :param structure: Structure to be evaluated.
-        :return: Coulomb sine matrix.
+        """Function to compute the Coulomb sine matrix. Equation 24 of the
+        paper describing this method.
+
+        Parameters
+        ----------
+        structure : CrystalStructureEntry
+            Structure to be evaluated.
+
+        Returns
+        -------
+        output : array-like
+            Coulomb sine matrix.
+
+        Raises
+        ------
+        Exception
+            If element is not found.
         """
 
         # Get basis vectors.

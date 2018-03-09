@@ -3,8 +3,31 @@ import sys
 import os
 
 class LookUpData:
-    """
-    Class to look up properties of elements stored in files.
+    """Class to look up properties of elements stored in files.
+
+    Attributes
+    ----------
+    element_ids : dict
+        Dictionary containing element names (str) as the keys and index (int)
+        in the periodic table as the values. Index is computed as Z - 1,
+        where Z is the atomic number.
+    element_names : array-like
+        A list of abbreviated element names in the periodic table.
+    sorting_order : array-like
+        A list of electronegativity-based indices (int) used for printing the
+        composition in a pretty format.
+    element_order : dict
+        Dictionary containing element names (str) as the keys and the sorting
+        order (int) as values.
+    all_properties : array-like
+        A list of properties for which property-tables exist in
+        magpie_python/lookup-data/.
+    this_file_path : str
+        Path to this file.
+    abs_path : str
+        Absolute path to the lookup-data directory.
+    pair_abs_path : str
+        Absolute path to the pair properties lookup directory.
     """
 
     # Element indices of the periodic table.
@@ -106,12 +129,24 @@ class LookUpData:
 
     @classmethod
     def load_property(self, property):
-        """
-        Function to load a specific property from the directory containing
+        """Function to load a specific property from the directory containing
         all the lookup tables.
-        :param property: Property whose values need to be loaded.
-        :return: values: A numpy array containing the property values for all
-        the elements.
+
+        Parameters
+        ----------
+        property : str
+            Property whose values need to be loaded.
+
+        Returns
+        -------
+        values : array-like
+            A numpy array containing the property values for all the elements.
+
+        Raises
+        ------
+        IOError
+            If property table doesn't exist.
+
         """
 
         # IonizationEnergies and OxidationStates are 2-D arrays. So treat
@@ -145,11 +180,24 @@ class LookUpData:
 
     @classmethod
     def load_pair_property(self, property):
-        """
-        Function to load property of a binary system.
-        :param property: Property whose values need to be loaded.
-        :return: values: A 2-D numpy array containing the property values for
-        all the elements.
+        """Function to load property of a binary system.
+
+        Parameters
+        ----------
+        property : str
+            Property whose values need to be loaded.
+
+        Returns
+        -------
+        values : array-like
+            A 2-D numpy array containing the property values for all the
+            elements.
+
+        Raises
+        ------
+        IOError
+            If property table doesn't exist.
+
         """
 
         # Initialize the 2-D numpy array.
@@ -185,13 +233,20 @@ class LookUpData:
 
     @classmethod
     def load_pair_properties(self, properties):
-        """
-        Function to load multiple pair property values from the directory
+        """Function to load multiple pair property values from the directory
         containing all the lookup tables.
-        :param properties: A list of pair properties whose values need to be
-        loaded.
-        :return: values: A dictionary containing <Property,Info> as <key,
-        value> where Info is a numpy array containing the pair property values.
+
+        Parameters
+        ----------
+        properties : array-like
+            A list of pair properties whose values need to be loaded.
+
+        Returns
+        -------
+        values: dict
+            A dictionary containing property name (str) as the key and a
+            numpy array (float) containing the pair property values.
+
         """
 
         # Initialize the dictionary.
@@ -203,12 +258,20 @@ class LookUpData:
 
     @classmethod
     def load_properties(self, properties):
-        """
-        Function to load multiple property values from the directory
+        """Function to load multiple property values from the directory
         containing all the lookup tables.
-        :param properties: A list of properties whose values need to be loaded.
-        :return: values: A dictionary containing <Property,Info> as <key,
-        value> where Info is a numpy array containing the property values.
+
+        Parameters
+        ----------
+        properties : array-like
+            A list of properties whose values need to be loaded.
+
+        Returns
+        -------
+        values: dict
+            A dictionary containing property name (str) as the key and a
+            numpy array (float) containing the pair property values.
+
         """
 
         # Initialize the dictionary.
@@ -220,12 +283,25 @@ class LookUpData:
 
     @classmethod
     def load_special_property(self, property):
-        """
-        Function to load the special property files related to
+        """Function to load the special property files related to
         IonizationEnergies and OxidationStates.
-        :param property: Property whose values need to be loaded.
-        :return: values: A 2-D numpy array containing the property values
-        whose dtype is object.
+
+        Parameters
+        ----------
+        property : str
+            Property whose values need to be loaded.
+
+        Returns
+        -------
+        values : array-like
+            A 2-D numpy array containing the property values for all the
+            elements.
+
+        Raises
+        ------
+        IOError
+            If property table doesn't exist.
+
         """
         # Property file name.
         file = self.abs_path + property + ".table"

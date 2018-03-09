@@ -1,16 +1,35 @@
 import numpy as np
 
 class Atom:
-    """
-    Class that represents a single atom.
+    """Class that represents a single atom.
+
+    Attributes
+    ----------
+    position : array-like
+        Position in fractional coordinates.
+    position_cartesian : array-like
+        Position in cartesian coordinates.
+    type : int
+        Type of atom.
+    cell : Cell
+        Cell associated with this atom.
+    id : int
+        ID number of this atom.
+    radius : float
+        Radius of atom.
     """
 
     def __init__(self, position, type):
+        """Constructor to create a new instance of the object.
+
+        Attributes
+        ----------
+        position : array-like
+            Position in fractional coordinates.
+        type : int
+            Type of atom.
         """
-        Constructor to create a new instance of the object.
-        :param position: Position in fractional coordinates.
-        :param type: Atom type.
-        """
+
         # Position in fractional coordinates.
         self.position = None
 
@@ -35,7 +54,11 @@ class Atom:
     def __copy__(self):
         """
         Function to override the copy() method.
-        :return: A new instance with the appropriate properties set.
+
+        Returns
+        -------
+        output : Atom
+            A new instance with the appropriate properties set.
         """
         x = type(self)(self.__class__)
         x.__dict__.update(self.__dict__)
@@ -44,11 +67,18 @@ class Atom:
         return x
 
     def __eq__(self, other):
-        """
-        Function to override the check for equality with another object of
+        """Function to override the check for equality with another object of
         the same class.
-        :param other: Other object.
-        :return: True if equal, else False.
+
+        Parameters
+        ----------
+        other : Atom
+            Other object.
+
+        Returns
+        -------
+        output : bool
+            True if equal, else False.
         """
 
         if isinstance(other, Atom):
@@ -79,19 +109,25 @@ class Atom:
         return False
 
     def set_id(self, id):
-        """
-        Function to set the ID number of this atom.
-        :param id: Desired id.
-        :return:
+        """Function to set the ID number of this atom.
+
+        Parameters
+        ----------
+        id : int
+            Desired id.
+
         """
 
         self.id = id
 
     def set_type(self, type):
-        """
-        Function to set the type of atom.
-        :param type: Index of type.
-        :return:
+        """Function to set the type of atom.
+
+        Parameters
+        ----------
+        type : int
+            Index of type.
+
         """
 
         self.type = type
@@ -100,85 +136,112 @@ class Atom:
                 self.cell.add_type(None)
 
     def set_cell(self, cell):
-        """
-        Function to define the cell in which this atom is situated.
-        :param cell: Cell.
-        :return:
+        """Function to define the cell in which this atom is situated.
+
+        Parameters
+        ----------
+        cell : Cell
+            Cell.
+
         """
 
         self.cell = cell
         self.update_cartesian_coordinates()
 
     def update_cartesian_coordinates(self):
-        """
-        Function to recompute the cartesian coordinates of this atom.
-        :return:
+        """Function to recompute the cartesian coordinates of this atom.
+
         """
 
         self.position_cartesian = self.cell.convert_fractional_to_cartesian(
             self.position)
 
     def get_cell(self):
-        """
-        Function to get the cell that contains this atom.
-        :return: Link to the cell.
+        """Function to get the cell that contains this atom.
+
+        Returns
+        -------
+        output : Cell
+            Link to the cell.
+
         """
 
         return self.cell
 
     def get_position(self):
-        """
-        Function to get the fractional coordinates of this atom.
-        :return: Fractional coordinates.
+        """Function to get the fractional coordinates of this atom.
+
+        Returns
+        -------
+        output : array-like
+            Fractional coordinates.
         """
 
         return self.position
 
     def get_position_cartesian(self):
-        """
-        Function to get the fractional coordinates of this atom.
-        :return: Fractional coordinates.
+        """Function to get the cartesian coordinates of this atom.
+
+        Returns
+        -------
+        output : array-like
+            Cartesian coordinates.
         """
 
         return self.position_cartesian
 
     def set_radius(self, radius):
-        """
-        Function to set the radius of the atom.
-        :param radius: Desired radius.
-        :return:
+        """Function to set the radius of the atom.
+
+        Parameters
+        ----------
+        radius : float
+            Desired radius.
+
         """
 
         self.radius = radius
 
     def get_radius(self):
-        """
-        Function to get the radius of this atom.
-        :return: Radius.
+        """Function to get the radius of this atom.
+
+        Returns
+        -------
+        output : float
+            Radius.
         """
 
         return self.radius
 
     def get_id(self):
-        """
-        Function to get the ID number of this atom.
-        :return: ID number.
+        """Function to get the ID number of this atom.
+
+        Returns
+        -------
+        output : int
+            ID number.
         """
 
         return self.id
 
     def get_type(self):
-        """
-        Function to get the type of this atom.
-        :return: Type of atom.
+        """Function to get the type of this atom.
+
+        Returns
+        -------
+        output : int
+            Type of atom.
         """
 
         return self.type
 
     def get_type_name(self):
-        """
-        Function to get the name of this atom type.
-        :return: Name of this atom type.
+        """Function to get the name of this atom type.
+
+        Returns
+        -------
+        output : str
+            Name of the type of atom.
         """
 
         return self.cell.get_type_name(self.type)

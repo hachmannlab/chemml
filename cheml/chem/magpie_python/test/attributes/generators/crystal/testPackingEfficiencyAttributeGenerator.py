@@ -1,7 +1,6 @@
-from attributes.generators.crystal.PackingEfficiencyAttributeGenerator import \
-    PackingEfficiencyAttributeGenerator
-from test.attributes.generators.crystal\
-    .testCoordinationNumberAttributeGenerator import \
+from .....attributes.generators.crystal.PackingEfficiencyAttributeGenerator \
+    import PackingEfficiencyAttributeGenerator
+from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 
 class testPackingEfficiencyAttributeGenerator(

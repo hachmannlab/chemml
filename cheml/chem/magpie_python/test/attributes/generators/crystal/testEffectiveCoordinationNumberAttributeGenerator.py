@@ -1,8 +1,7 @@
-from attributes.generators.crystal\
+from .....attributes.generators.crystal\
     .EffectiveCoordinationNumberAttributeGenerator import \
     EffectiveCoordinationNumberAttributeGenerator
-from test.attributes.generators.crystal\
-    .testCoordinationNumberAttributeGenerator import \
+from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 
 class EffectiveCoordinationNumberAttributeGeneratorTest(

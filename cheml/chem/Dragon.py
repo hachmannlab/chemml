@@ -21,22 +21,39 @@ def _bool_formatter(bool):
 
 class Dragon(object):
     """
-    An interface to Dragon 6 and 7 software.
+    An interface to Dragon 6 and 7 chemoinformatics software.
 
-    :param: version: int, optional (default=7)
-        The version of available Dragon on the user's machine. (available versions 6 or 7)
-    
-    :param: Weights: list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
+    Parameters
+    ----------
+    version: int, optional (default=7)
+        The version of available Dragon on the user's system. (available versions: 6 or 7)
+
+    Weights: list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
         A list of weights to be used
 
-    :param: blocks: list, optional (default=False)
+    blocks: list, optional (default=False)
         A list of descriptor blocks' id. For all of them parameter SelectAll="true" is given. 
         To select descriptors one by one based on descriptor names, use Script Wizard in Drgon GUI.
                 
-    :param: external: boolean, optional (default=False)
+    external: boolean, optional (default=False)
         If True, include external variables at the end of each saved file.
 
-    :return: Dragon Script and descriptors.
+    Notes
+    -----
+    The documentation for the rest of parameters can be found in the following links:
+        http://www.talete.mi.it/help/dragon_help/index.html
+        https://chm.kode-solutions.net/products_dragon_tutorial.php
+
+    In the current version, we recommend the user to use this class with the following parameters:
+        molfile = path to the molecules file
+        script = 'new'
+    Attributes
+    ----------
+
+
+    Returns
+    -------
+    Dragon Script and descriptors.
     """
     def __init__(self, version = 6,CheckUpdates = True,SaveLayout = True, PreserveTemporaryProjects = True,
                 ShowWorksheet = False,Decimal_Separator = ".",Missing_String = "NaN",
@@ -206,7 +223,14 @@ class Dragon(object):
                         raise ValueError(msg) 
                     MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
                 elif self.molInput == "file":
-                    MOLFILES.append(objectify.Element("molFile", value = self.molFile)) 
+                    if isinstance(self.molFile,dict):
+                        for f in range(1,len(self.molFile)+1):
+                            MOLFILES.append(objectify.Element("molFile",value=self.molFile[f]['file']))
+                    elif isinstance(self.molFile,str):
+                        MOLFILES.append(objectify.Element("molFile", value=self.molFile))
+                    else:
+                        msg='Variable molInput can be either a string or a list'
+                        raise ValueError(msg)
                 else:
                     msg = "Enter a valid molInput: 'stdin' or 'file'"
                     raise ValueError(msg)
@@ -295,7 +319,14 @@ class Dragon(object):
                         raise ValueError(msg) 
                     MOLFILES.append(objectify.Element("molInputFormat", value = self.molInputFormat)) 
                 elif self.molInput == "file":
-                    MOLFILES.append(objectify.Element("molFile", value = self.molFile)) 
+                    if isinstance(self.molFile,dict):
+                        for f in range(1,len(self.molFile)+1):
+                            MOLFILES.append(objectify.Element("molFile",value=self.molFile[f]['file']))
+                    elif isinstance(self.molFile,str):
+                        MOLFILES.append(objectify.Element("molFile", value=self.molFile))
+                    else:
+                        msg='Variable molInput can be either a string or a list'
+                        raise ValueError(msg)
                 else:
                     msg = "Enter a valid molInput: 'stdin' or 'file'"
                     raise ValueError(msg)

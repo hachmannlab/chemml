@@ -10,6 +10,7 @@ from .initialization import XYZreader
 from .initialization import SaveFile
 from .initialization import StoreFile
 
+from .initialization import ConvertFile
 from .data import Trimmer
 from .data import Uniformer
 

@@ -19,6 +19,7 @@ def load_cep_homo(return_X_y=False):
     ----------
     return_X_y : boolean, default=False.
         If True, returns X (molecules) and y (property) separately.
+        Both X and y are in pandas dataframe format.
 
     Returns
     -------
@@ -27,7 +28,7 @@ def load_cep_homo(return_X_y=False):
 
     Examples
     --------
-    Let's say you want to know the header and shape  of the dataframe.
+    Let's say you want to know the header and shape of the dataframe.
     >>> from cheml.datasets import load_cep_homo
     >>> df = load_cep_homo()
     >>> list(df.columns)
@@ -42,3 +43,18 @@ def load_cep_homo(return_X_y=False):
         return pd.DataFrame(df['smiles'],columns=['smiles']), pd.DataFrame(df['homo_eV'],columns=['homo_eV'])
 
     return df
+
+def load_xyz_polarizability():
+    """Load and return xyz files and polarizability (Bohr^3)
+    The xyz coordinates of small organic molecules are optimized with BP86/def2svp level of theory.
+    Polarizability of the molecules are also calcualted in the same level of thoery.
+
+    Returns
+    -------
+    dictionary
+        the xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
+
+    """
+    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/xyz')
+
+

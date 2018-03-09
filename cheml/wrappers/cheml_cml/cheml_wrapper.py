@@ -38,7 +38,7 @@ class load_cep_homo(BASE):
     def fit(self):
         try:
             from cheml.datasets import load_cep_homo
-            output = load_cep_homo(**self.parameters)
+            smiles,homo = load_cep_homo()
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
@@ -47,34 +47,42 @@ class load_cep_homo(BASE):
             if token not in self.outputs:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
-            elif token == 'df':
-                if self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=True. The output df is a list of both X and y'
-                    warnings.warn(msg)
-                self.set_value(token, output)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
             elif token == 'smiles':
-                if not self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output smiles is a dataframe of X and y'
-                    warnings.warn(msg)
-                    self.set_value(token, output)
-                else:
-                    self.set_value(token, output[0])
+                self.set_value(token, smiles)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'dfy':
-                if not self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output dfy is a dataframe of X and y'
-                    warnings.warn(msg)
-                    self.set_value(token, output)
-                else:
-                    self.set_value(token, output[1])
+            elif token == 'homo':
+                self.set_value(token, homo)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-
         del self.inputs
 
+class load_organic_density(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_organic_density
+            smiles,density,features = load_organic_density()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'smiles':
+                self.set_value(token, smiles)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'density':
+                self.set_value(token, density)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'features':
+                self.set_value(token, features)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
 
 class ConvertFile(BASE):
     def fit(self):

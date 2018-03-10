@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 import fnmatch
-from rdkit import Chem
-import rdkit
 
 # TODO: AP/bit is time consuming - should be used directly with distance matrix
 
@@ -138,6 +136,7 @@ class RDKitFingerprint(object):
             path: 'Mydir/all'
             >>> sample files to be read: 'Mydir/all/1f/1_opt.mol2', 'Mydir/all/2c/2_opt.mol2', ... 
         """
+        from rdkit import Chem
         extensions = {'.mol':       Chem.MolFromMolFile,
                       '.mol2':      Chem.MolFromMol2File,
                       '.pdb':       Chem.MolFromPDBFile,
@@ -320,36 +319,36 @@ class RDKitFingerprint(object):
             msg = "The type argument '%s' is not a valid fingerprint type"%self.FPtype
             raise ValueError(msg)
     
-    def Similarity(self,data=None, metric='Euclidean', nCores = 1):
-        """(Similarity)
-        Calculate molecular similarity matrix, while each row of data is a feature 
-        vector of one molecule.
-        
-        Parameters
-        ----------
-        data: pandas dataframe, optional (default = None)
-            Each row of data represents corresponding features of one molecule (sample).
-        
-        metric: string, optional (default = 'Euclidean')
-            Similarity metric. Available similarity metrics include Euclidean,
-            Tanimoto, Dice, Cosine, Sokal, Russel, Kulczynski, McConnaughey, and Tversky.
-            
-            Note:
-                if data = None, all metrics except 'Euclidean' can be used. The 
-                Fingerprint function must be called first. Thus, the similarity metrics 
-                implemetned by RDKit will be used on calculated fingerprints.
-                
-                if a dataframe has been passed for data, the only available metric
-                is 'Euclidean'.
-                
-        nCores: integer, optional (default = 1)
-            Number of cores for multiprocessing.          
-        """
-        if data == None:
-            if metric in ['Tanimoto','Dice','Cosine','Sokal','Russel','Kulczynski','McConnaughey','Tversky']:
-                from rdkit import DataStructs
-            
-            else:
-                msg = "The metric '%s' is not a valid metric type for "%metric
-                raise ValueError(msg)
-        return sim_mat
+    # def Similarity(self,data=None, metric='Euclidean', nCores = 1):
+    #     """(Similarity)
+    #     Calculate molecular similarity matrix, while each row of data is a feature
+    #     vector of one molecule.
+    #
+    #     Parameters
+    #     ----------
+    #     data: pandas dataframe, optional (default = None)
+    #         Each row of data represents corresponding features of one molecule (sample).
+    #
+    #     metric: string, optional (default = 'Euclidean')
+    #         Similarity metric. Available similarity metrics include Euclidean,
+    #         Tanimoto, Dice, Cosine, Sokal, Russel, Kulczynski, McConnaughey, and Tversky.
+    #
+    #         Note:
+    #             if data = None, all metrics except 'Euclidean' can be used. The
+    #             Fingerprint function must be called first. Thus, the similarity metrics
+    #             implemetned by RDKit will be used on calculated fingerprints.
+    #
+    #             if a dataframe has been passed for data, the only available metric
+    #             is 'Euclidean'.
+    #
+    #     nCores: integer, optional (default = 1)
+    #         Number of cores for multiprocessing.
+    #     """
+    #     if data == None:
+    #         if metric in ['Tanimoto','Dice','Cosine','Sokal','Russel','Kulczynski','McConnaughey','Tversky']:
+    #             from rdkit import DataStructs
+    #
+    #         else:
+    #             msg = "The metric '%s' is not a valid metric type for "%metric
+    #             raise ValueError(msg)
+    #     return None

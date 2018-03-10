@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import sys
-# import scipy
 
 
 class Coulomb_Matrix(object):

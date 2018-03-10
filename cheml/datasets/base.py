@@ -83,13 +83,31 @@ def load_xyz_polarizability():
     """Load and return xyz files and polarizability (Bohr^3)
     The xyz coordinates of small organic molecules are optimized with BP86/def2svp level of theory.
     Polarizability of the molecules are also calcualted in the same level of thoery.
+    =================   ======================
+    rows                                    50
+    Columns                                  1
+    header                      polarizability
+    molecules rep.                         xyz
+    Features                                 0
+    Returns             1 dataframe and 1 dict
+    =================   ======================
 
     Returns
     -------
     dictionary
         the xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
-
+    dataframe
+        the polarizability of each molecule
     """
-    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/xyz')
+    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/organic_xyz')
+    print DATA_PATH
+    from ..initialization import XYZreader
+    reader = XYZreader(path_pattern=['[1-9]_opt.xyz', '[1-9][0-9]_opt.xyz'],
+                       path_root=DATA_PATH,
+                       reader='manual',
+                       skip_lines=[2, 0])
+    coordinates = reader.read()
+    df = pd.read_csv(DATA_PATH+'/pol.csv')
+    return coordinates, df
 
 

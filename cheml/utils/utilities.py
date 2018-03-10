@@ -1,5 +1,4 @@
 import datetime
-import random
 import numpy as np
 import sys
 
@@ -158,3 +157,9 @@ def return2Dshape(shape):
         return (shape[0],None)
     else:
         raise Exception('input dimension is greater than 2')
+
+def bool_formatter(bool):
+    if bool:
+        return("true")
+    else:
+        return("false")

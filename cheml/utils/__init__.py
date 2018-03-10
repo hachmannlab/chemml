@@ -10,6 +10,7 @@ from .utilities import slurm_script_exclusive
 from .utilities import chunk
 from .utilities import choice
 from .utilities import return2Dshape
+from .utilities import bool_formatter
 
 from .validation import string2nan
 from .validation import isfloat

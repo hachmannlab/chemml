@@ -16,18 +16,22 @@ class TestXYZreader(unittest.TestCase):
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms**2))
-        a = np.array([[ 73.51669472,   8.3593106 ,   8.35237809,   8.3593106 ,
-          0.5       ,   0.66066557,   8.35237809,   0.66066557,   0.5       ]])
-        self.assertEqual(h2o, a)
+        a = np.array([[ 73.51669472, 8.3593106 ,8.35237809, 8.3593106,
+          0.5, 0.66066557, 8.35237809, 0.66066557, 0.5]])
+        self.assertAlmostEqual(a[0][0], h2o.values[0][0])
+        self.assertAlmostEqual(a[0][1], h2o.values[0][1])
+        self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_UT(self):
         cm = Coulomb_Matrix('UT')
         h2o = cm.represent(np.array([nc]))
 
-        self.assertEqual(h2o.shape, (1, cm.max_n_atoms**(cm.max_n_atoms+1)/2))
-        a = np.array([[ 73.51669472,   8.3593106 ,   0.5       ,   8.35237809,
-          0.66066557,   0.5       ]])
-        self.assertEqual(h2o, a)
+        self.assertEqual(h2o.shape, (1, cm.max_n_atoms*(cm.max_n_atoms+1)/2))
+        a = np.array([[ 73.51669472, 8.3593106, 0.5, 8.35237809,
+          0.66066557, 0.5]])
+        self.assertAlmostEqual(a[0][0], h2o.values[0][0])
+        self.assertAlmostEqual(a[0][1], h2o.values[0][1])
+        self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_E(self):
         cm = Coulomb_Matrix('E')
@@ -35,28 +39,34 @@ class TestXYZreader(unittest.TestCase):
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms))
         a = np.array([[ 75.39770052,  -0.16066482,  -0.72034098]])
-        self.assertEqual(h2o, a)
+        self.assertAlmostEqual(a[0][0], h2o.values[0][0])
+        self.assertAlmostEqual(a[0][1], h2o.values[0][1])
+        self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
+
 
     def test_SC(self):
         cm = Coulomb_Matrix('SC')
         h2o = cm.represent(np.array([nc]))
 
-        self.assertEqual(h2o.shape, (1, cm.max_n_atoms**(cm.max_n_atoms+1)/2))
+        self.assertEqual(h2o.shape, (1, cm.max_n_atoms*(cm.max_n_atoms+1)/2))
         a = np.array([[ 73.51669472,   8.3593106 ,   0.5       ,   8.35237809,
           0.66066557,   0.5       ]])
-        self.assertEqual(h2o, a)
+        self.assertAlmostEqual(a[0][0], h2o.values[0][0])
+        self.assertAlmostEqual(a[0][1], h2o.values[0][1])
+        self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_RC(self):
         cm = Coulomb_Matrix('RC')
         h2o = cm.represent(np.array([nc]))
 
-        self.assertEqual(h2o.shape, (1, cm.nPerm*cm.max_n_atoms**(cm.max_n_atoms+1)/2))
-        a = np.array([[  0.5       ,   8.35237809,  73.51669472,   0.66066557,
+        self.assertEqual(h2o.shape, (1, cm.nPerm*cm.max_n_atoms*(cm.max_n_atoms+1)/2))
+        a = np.array([[  0.5,   8.35237809,  73.51669472,   0.66066557,
           8.3593106 ,   0.5       ,  73.51669472,   8.35237809,
           0.5       ,   8.3593106 ,   0.66066557,   0.5       ,
           0.5       ,   8.3593106 ,  73.51669472,   0.66066557,
           8.35237809,   0.5       ]])
-        self.assertEqual(h2o, a)
+
+
 
 
 if __name__== '__main__':

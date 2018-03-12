@@ -1,20 +1,17 @@
 """
-The 'cheml.preprocessing' module includes missing_values, Imputer_dataframe,
+The 'cheml.preprocessing' module includes MissingValues,
 last modified date: Dec. 19, 2015
 """
 
-from .handle_missing import missing_values
+from .handle_missing import MissingValues
 
-# from .skl_interface import Imputer_dataframe
-# from .skl_interface import transformer_dataframe
-# from .skl_interface import selector_dataframe
+from .purge import ConstantColumns
+from .purge import Outliers
 
-from .purge import Constant
 
 __all__ = [
-    'missing_values',
-    'Imputer_dataframe',
-    'transformer_dataframe',
-    'selector_dataframe',
+    'MissingValues',
+    'ConstantColumns',
+    'Outliers'
 
 ]

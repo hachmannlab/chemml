@@ -48,8 +48,8 @@ class PyScript(object):
         line20 = Parameter('line20', 'type python code')
 
 class RDKitFingerprint(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'RDKitFingerprint'
     modules = ('cheml','chem')
@@ -74,8 +74,8 @@ class RDKitFingerprint(object):
         arguments = Parameter('arguments', [])
 
 class Dragon(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Dragon'
     modules = ('cheml','chem')
@@ -154,8 +154,8 @@ class Dragon(object):
         SaveFile = Parameter('SaveFile', True)
 
 class Coulomb_Matrix(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Coulomb_Matrix'
     modules = ('cheml','chem')
@@ -176,8 +176,8 @@ class Coulomb_Matrix(object):
         const = Parameter('const', 1)
 
 class Bag_of_Bonds(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Bag_of_Bonds'
     modules = ('cheml','chem')
@@ -195,8 +195,8 @@ class Bag_of_Bonds(object):
         const = Parameter('const', 1)
 
 class DistanceMatrix(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'distance matrix'
     host = 'cheml'
     function = 'DistanceMatrix'
     modules = ('cheml','chem')
@@ -470,10 +470,10 @@ class load_xyz_polarizability(object):
 
 
 class APEAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'APEAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -492,10 +492,10 @@ class APEAttributeGenerator(object):
         radius_property = Parameter('radius_property', None)
 
 class ChargeDependentAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ChargeDependentAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -512,10 +512,10 @@ class ChargeDependentAttributeGenerator(object):
         pass
 
 class ElementalPropertyAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ElementalPropertyAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -532,10 +532,10 @@ class ElementalPropertyAttributeGenerator(object):
         elemental_properties = Parameter('elemental_properties', None)
 
 class ElementFractionAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ElementFractionAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -552,10 +552,10 @@ class ElementFractionAttributeGenerator(object):
         pass
 
 class ElementPairPropertyAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ElementPairPropertyAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -572,10 +572,10 @@ class ElementPairPropertyAttributeGenerator(object):
         elemental_pair_properties = Parameter('elemental_pair_properties', None)
 
 class GCLPAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'GCLPAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -594,10 +594,10 @@ class GCLPAttributeGenerator(object):
         energies = Parameter('energies', None, 'required_required')
 
 class IonicCompoundProximityAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'IonicCompoundProximityAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -614,10 +614,10 @@ class IonicCompoundProximityAttributeGenerator(object):
         max_formula_unit = Parameter('max_formula_unit', 14)
 
 class IonicityAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'IonicityAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -634,10 +634,10 @@ class IonicityAttributeGenerator(object):
         pass
 
 class MeredigAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'MeredigAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -650,10 +650,10 @@ class MeredigAttributeGenerator(object):
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
 
 class StoichiometricAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'StoichiometricAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -670,10 +670,10 @@ class StoichiometricAttributeGenerator(object):
         p_norms = Parameter('p_norms', None)
 
 class ValenceShellAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ValenceShellAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -690,10 +690,10 @@ class ValenceShellAttributeGenerator(object):
         pass
 
 class YangOmegaAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'YangOmegaAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -710,10 +710,10 @@ class YangOmegaAttributeGenerator(object):
         pass
 
 class APRDFAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'APRDFAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -735,10 +735,10 @@ class APRDFAttributeGenerator(object):
                                          'required_required')
 
 class ChemicalOrderingAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'ChemicalOrderingAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -757,10 +757,10 @@ class ChemicalOrderingAttributeGenerator(object):
         weighted = Parameter('weighted', True)
 
 class CoordinationNumberAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'CoordinationNumberAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -778,10 +778,10 @@ class CoordinationNumberAttributeGenerator(object):
         pass
 
 class CoulombMatrixAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'CoulombMatrixAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -799,10 +799,10 @@ class CoulombMatrixAttributeGenerator(object):
         n_eigenvalues = Parameter('n_eigenvalues', 30)
 
 class EffectiveCoordinationNumberAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'EffectiveCoordinationNumberAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -820,10 +820,10 @@ class EffectiveCoordinationNumberAttributeGenerator(object):
         pass
 
 class LatticeSimilarityAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'LatticeSimilarityAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -841,10 +841,10 @@ class LatticeSimilarityAttributeGenerator(object):
         pass
 
 class LocalPropertyDifferenceAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'LocalPropertyDifferenceAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -864,10 +864,10 @@ class LocalPropertyDifferenceAttributeGenerator(object):
                                          'required_required')
 
 class LocalPropertyVarianceAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'LocalPropertyVarianceAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -887,10 +887,10 @@ class LocalPropertyVarianceAttributeGenerator(object):
                                          'required_required')
 
 class PackingEfficiencyAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'PackingEfficiencyAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -908,10 +908,10 @@ class PackingEfficiencyAttributeGenerator(object):
         pass
 
 class PRDFAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'PRDFAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -930,10 +930,10 @@ class PRDFAttributeGenerator(object):
         n_points = Parameter('n_points', 20)
 
 class StructuralHeterogeneityAttributeGenerator(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
     host = 'cheml'
-    function = 'generate_features'
+    function = 'StructuralHeterogeneityAttributeGenerator'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""

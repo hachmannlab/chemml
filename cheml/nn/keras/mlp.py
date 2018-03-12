@@ -80,6 +80,16 @@ class MLP(object):
 
     def fit(self, X, y):
     """
+    Train the MLP for training data X and targets y
+    
+    Parameters
+    ----------
+    X: array_like, shape=[n_samples, n_features]
+        Training data
+        
+    y: array_like, shape=[n_samples,]
+        Training targets  
+                
     """    
         if len(self.layers) == 0:
             for i in xrange(self.nhidden):
@@ -106,11 +116,38 @@ class MLP(object):
 
     def predict(self, X):
     """
+    Return prediction for test data X
+    
+    Parameters
+    ----------
+    X: array_like, shape=[n_samples, n_features]
+        Testing data
+        
+    Returns
+    -------
+    float
+        Predicted value from model
+        
     """
         return self.model.predict(X).squeeze() if self.regression else np.argmax(self.model.predict(X).squeeze())
 
     def score(self, X, y):
     """
+    Predict results for test data X and compare with true targets y. Returns root mean square error if regression,
+    accuracy if classification 
+    
+    Parameters
+    ----------
+    X: array_like, shape=[n_samples, n_features]
+        Test data
+        
+    y: array_like, shape=[n_samples,]
+        True targets          
+        
+    Returns
+    -------
+    float
+        root mean square error if regression, accuracy if classification
     """
         prediction = self.model.predict(X).squeeze()
         if self.is_regression:
@@ -120,6 +157,20 @@ class MLP(object):
 
     def parse_layer_config(self, layer_config_file):
     """
+    Internal method to parse a layer config file
+    
+    Parameters
+    ----------
+    layer_config_file: str
+        Filepath that contains the layer configuration file - Refer MLP test to see a sample file
+        Refer MLP test to see a sample file and https://keras.io/layers/about-keras-layers/
+        for all possible types of layers and corresponding layer parameters
+        
+    Returns
+    -------
+    layers: list
+        List of tuples containing layer type and dictionary of layer parameter arguments        
+    
     """
         with open(layer_config_file, 'r') as f:
             layers = load(f)
@@ -127,18 +178,26 @@ class MLP(object):
 
     def parse_opt_config(self, opt_config_file):
     """
+    Internal method to parse a optimizer config file
+    
+    Parameters
+    ----------
+    opt_config_file: str
+        Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file
+        Refer MLP test to see a sample file and https://keras.io/optimizers/
+        for all possible types of optimizers and corresponding optimizer parameters
+        
+    Returns
+    -------
+    opt: keras.optimizers
+        keras optimizer created out of contents of optmizer configuration file        
+    
     """
         with open(opt_config_file, 'r') as f:
             opt_name, opt_params = load(f)
         keras_opt_module = import_module('keras.optimizers')
         opt = getattr(keras_opt_module, opt_name)(**opt_params)
         return opt
-
-
-
-
-
-
 
 
 

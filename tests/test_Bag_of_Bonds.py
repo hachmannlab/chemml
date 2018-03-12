@@ -13,7 +13,7 @@ c = np.array([[1.464, 0.707, 1.056],
 nc = n.reshape((3,1))
 nc = np.append(nc,c,1)
 
-class TestXYZreader(unittest.TestCase):
+class TestBag_of_Bonds(unittest.TestCase):
     def test_h2o(self):
         bob = Bag_of_Bonds(const=1.0)
         h2o = bob.represent(np.array([nc]))

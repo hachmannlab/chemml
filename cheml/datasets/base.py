@@ -1,4 +1,5 @@
 import pkg_resources
+import os
 import pandas as pd
 
 
@@ -32,7 +33,7 @@ def load_cep_homo():
     >>> print homo.shape
     (500, 1)
     """
-    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/cep_homo.csv')
+    DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('datasets','data','cep_homo.csv'))
     df = pd.read_csv(DATA_PATH)
 
     smi = pd.DataFrame(df['smiles'], columns=['smiles'])
@@ -69,7 +70,7 @@ def load_organic_density():
     >>> print features.shape
     (500, 200)
     """
-    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/moldescriptor_density_smiles.csv')
+    DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('datasets','data','moldescriptor_density_smiles.csv'))
     df = pd.read_csv(DATA_PATH)
 
     smi = pd.DataFrame(df['smiles'], columns=['smiles'])
@@ -99,15 +100,14 @@ def load_xyz_polarizability():
     dataframe
         the polarizability of each molecule
     """
-    DATA_PATH = pkg_resources.resource_filename('cheml', 'datasets/data/organic_xyz')
-    print DATA_PATH
+    DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('datasets','data','organic_xyz'))
     from ..initialization import XYZreader
     reader = XYZreader(path_pattern=['[1-9]_opt.xyz', '[1-9][0-9]_opt.xyz'],
                        path_root=DATA_PATH,
                        reader='manual',
                        skip_lines=[2, 0])
     coordinates = reader.read()
-    df = pd.read_csv(DATA_PATH+'/pol.csv')
+    df = pd.read_csv(os.path.join(DATA_PATH,'pol.csv'))
     return coordinates, df
 
 

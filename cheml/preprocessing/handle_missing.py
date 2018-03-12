@@ -1,55 +1,14 @@
-import pandas as pd
-import numpy as np
 import warnings
 
-from ..utils.validation import isfloat
-from ..utils.utilities import list_del_indices
-__all__ = [
-    'missing_values',
-]
+import pandas as pd
+import numpy as np
 
-def cut_df(col, df, paste_col=False, on_right=False):
-    """ 
-    To cut one or more columns from a dataframe as seprate dataframe.
-    paste_col sets optional columns for the resulted dataframe. Both col and 
-    paste_col must be lists.
-    on_right: select as many columns as length of 'col' from right side of 
-    dataframe. 
-    Notice: The order must had been considered in the 'paste_col'
-    """ 
-    if on_right:
-        n = len(col)
-        df_paste = df.iloc[:,-n:]
-        if paste_col:
-            df_paste.columns = paste_col
-        df = df.iloc[:,:-n]
-    else:
-        df_paste = df[col]
-        if paste_col:
-            df_paste.columns = paste_col
-        df.drop(col,axis=1, inplace=True)
-    return df, df_paste
-    
-def _check_object_col(df, name):
+from ..utils import check_object_col
+
+class MissingValues(object):
     """
-    Goals: 
-    - check if columns with type 'object' don't have elements that can be 
-      converted to numeric values.
-    - remove columns with all non numeric elements.
-    """
-    object_cols = [df.dtypes.index[i] for i, typ in enumerate(df.dtypes) if typ == "object"]
-    for col in object_cols:
-        for i, value in enumerate(df[col]):
-            if  isfloat(value):
-                raise ValueError("column '%s' in '%s' includes both string and float values." %(str(col),name))
-    # drop object columns
-    if len(object_cols)>0:
-        df = df.drop(object_cols,1)
-    return df
-    
-class missing_values(object):
-    """ Handle all the missing values.
-    
+    find missing values and interpolate/replace or remove them.
+
     Parameters
     ----------
     strategy: string, optional (default="ignore_row")
@@ -88,14 +47,17 @@ class missing_values(object):
             - drop columns with all nan values.
             - fill nan values with the specified strategy.
 
-        :param:
-            df: pandas data frame
-        :attribute:
-            mask: binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
-                mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
-                if the row/column in the same position has been removed or not.
-                The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
-                on that. The mask can later be used in the transform method to change other data frames in the same way.
+        Parameters
+        ----------
+        df: pandas data frame
+
+        Attributes
+        ----------
+        mask: binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
+            mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
+            if the row/column in the same position has been removed or not.
+            The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
+            on that. The mask can later be used in the transform method to change other data frames in the same way.
         """
         if self.inf_as_null == True:
             df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
@@ -105,7 +67,7 @@ class missing_values(object):
             for pattern in self.missing_values:
                 df.replace(pattern, np.nan, True)
 
-        df = _check_object_col(df, 'df')
+        df = check_object_col(df, 'df')
         # drop null columns
         df.dropna(axis=1, how='all', inplace=True)
 
@@ -141,8 +103,13 @@ class missing_values(object):
         """
         Only if the class is fitted with 'ignore_row' or 'ignore_column' strategies.
 
-        :param df: pandas dataframe
-        :return: transformed data frame based on the mask vector from fit_transform method.
+        Parameters
+        ----------
+        df: pandas dataframe
+
+        Returns
+        -------
+        transformed data frame based on the mask vector from fit_transform method.
         """
         if self.strategy == 'ignore_row':
             return df[self.mask]

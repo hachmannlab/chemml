@@ -213,9 +213,75 @@ class DistanceMatrix(object):
         norm_type = Parameter('norm_type', 'fro')
         nCores = Parameter('nCores', 1)
 
+class Split(object):
+    task = 'Prepare'
+    subtask = 'data manipulation'
+    host = 'cheml'
+    function = 'Split'
+    modules = ('cheml','initialization')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class Outputs:
+        df1 = Output("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df2 = Output("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        selection = Parameter('selection', 1)
+
+class ConstantColumns(object):
+    task = 'Prepare'
+    subtask = 'data cleaning'
+    host = 'cheml'
+    function = 'ConstantColumns'
+    modules = ('cheml','preprocessing')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit_transform','transform', None))
+    class FParameters:
+        pass
+
+class Outliers(object):
+    task = 'Prepare'
+    subtask = 'data cleaning'
+    host = 'cheml'
+    function = 'Outliers'
+    modules = ('cheml','preprocessing')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit_transform','transform', None))
+    class FParameters:
+        m = Parameter('m', 2.0)
+        strategy = Parameter('strategy', 'median')
+
 class MissingValues(object):
     task = 'Prepare'
-    subtask = 'preprocessor'
+    subtask = 'data cleaning'
     host = 'cheml'
     function = 'MissingValues'
     modules = ('cheml','preprocessing')
@@ -240,101 +306,41 @@ class MissingValues(object):
         inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
         missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
-class Merge(object):
-    task = 'Prepare'
-    subtask = 'basic operators'
-    host = 'cheml'
-    function = 'Merge'
-    modules = ('cheml','initialization')
-    requirements = (req(0), req(2))
-    documentation = ""
 
-    class Inputs:
-        df1 = Input("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Input("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class WParameters:
-        pass
-    class FParameters:
-        pass
-
-class Split(object):
-    task = 'Prepare'
-    subtask = 'basic operators'
-    host = 'cheml'
-    function = 'Split'
-    modules = ('cheml','initialization')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class Outputs:
-        df1 = Output("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Output("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class WParameters:
-        pass
-    class FParameters:
-        selection = Parameter('selection', 1)
-
-class Constant(object):
-    task = 'Prepare'
-    subtask = 'preprocessor'
-    host = 'cheml'
-    function = 'Constant'
-    modules = ('cheml','preprocessing')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Constant'>",))
-    class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Constant'>",))
-    class WParameters:
-        func_method = Parameter('func_method','None','string',
-                        description = "",
-                        options = ('fit_transform','transform', None))
-    class FParameters:
-        selection = Parameter('selection', 1)
-
-class mlp_hogwild(object):
-    task = 'Model'
-    subtask = 'regression'
-    host = 'cheml'
-    function = 'mlp_hogwild'
-    modules = ('cheml','nn')
-    requirements = (req(0), req(1), req(2))
-    documentation = ""
-
-    class Inputs:
-        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-    class Outputs:
-        dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-    class WParameters:
-        func_method = Parameter('func_method','None','string',
-                        description = "",
-                        options = ('fit', 'predict', None))
-    class FParameters:
-        rms_decay = Parameter('rms_decay', 0.9)
-        learn_rate = Parameter('learn_rate', 0.001)
-        input_act_funcs = Parameter('input_act_funcs', '*required')
-        nneurons = Parameter('nneurons', '*required')
-        batch_size = Parameter('batch_size', 256)
-        n_epochs = Parameter('n_epochs', 10000)
-        validation_size = Parameter('validation_size', 0.2)
-        print_level = Parameter('print_level', 1)
-        n_hist = Parameter('n_hist', 20)
-        threshold = Parameter('threshold', 0.1)
-        model = Parameter('model', None)
-        n_check = Parameter('n_check', 50)
-        n_cores = Parameter('n_cores', 1)
+# class mlp_hogwild(object):
+#     task = 'Model'
+#     subtask = 'regression'
+#     host = 'cheml'
+#     function = 'mlp_hogwild'
+#     modules = ('cheml','nn')
+#     requirements = (req(0), req(1), req(2))
+#     documentation = ""
+#
+#     class Inputs:
+#         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         api = Input("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
+#     class Outputs:
+#         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         api = Output("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
+#     class WParameters:
+#         func_method = Parameter('func_method','None','string',
+#                         description = "",
+#                         options = ('fit', 'predict', None))
+#     class FParameters:
+#         rms_decay = Parameter('rms_decay', 0.9)
+#         learn_rate = Parameter('learn_rate', 0.001)
+#         input_act_funcs = Parameter('input_act_funcs', '*required')
+#         nneurons = Parameter('nneurons', '*required')
+#         batch_size = Parameter('batch_size', 256)
+#         n_epochs = Parameter('n_epochs', 10000)
+#         validation_size = Parameter('validation_size', 0.2)
+#         print_level = Parameter('print_level', 1)
+#         n_hist = Parameter('n_hist', 20)
+#         threshold = Parameter('threshold', 0.1)
+#         model = Parameter('model', None)
+#         n_check = Parameter('n_check', 50)
+#         n_cores = Parameter('n_cores', 1)
 
 class SaveFile(object):
     task = 'Store'
@@ -389,11 +395,11 @@ class ConvertFile(object):
     host = 'cheml'
     function ='ConvertFile'
     modules = ('cheml','initialization')
-    requirements = (req(0),req(6),)
+    requirements = (req(0),req(6))
     documentation = "https://openbabel.org/wiki/Babel"
 
     class Inputs:
-        file_path=Input("file_path","the path to the file that needs to be conferted",("<type 'str'>","<type 'dict'>"))
+        file_path=Input("file_path","the path to the file that needs to be converted",("<type 'str'>","<type 'dict'>"))
     class Outputs:
         converted_file_paths = Output("converted_file_paths", "list of paths to the converted files", "<type 'list'>")
     class WParameters:
@@ -621,6 +627,22 @@ class MeredigAttributeGenerator(object):
                                       ("<type 'list'>"))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+class load_xyz_polarizability(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_xyz_polarizability'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
+                             ("<type 'dict'>",))
+        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:

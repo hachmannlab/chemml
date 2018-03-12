@@ -13,3 +13,5 @@
 benchmarks/
 _build/
 
+#ipynb
+.ipynb_checkpoints/

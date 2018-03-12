@@ -35,7 +35,7 @@ Contributors:
 - Srirangaraj Setlur, CSE department, SUNY Buffalo
 - Johannes Hachmann, CBE department, SUNY Buffalo
 
-- You can become a developer of ChemML! Feel free to fork and make pull-request to the "development" branch.
+- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 
 Dependencies:
 +++++++++++++

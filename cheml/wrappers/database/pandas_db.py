@@ -130,3 +130,32 @@ class corr(object):
         method = Parameter('method', 'pearson')
         min_periods = Parameter('min_periods', 1)
 
+class concat(object):
+    task = 'Prepare'
+    subtask = 'data manipulation'
+    host = 'pandas'
+    function = 'concat'
+    modules = ('pandas','')
+    requirements = (req(2),)
+    documentation = "http://pandas.pydata.org/pandas-docs/stable/generated/pandas.concat.html"
+
+    class Inputs:
+        df1 = Input("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df2 = Input("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df3 = Input("df3", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+    class WParameters:
+        pass
+    class FParameters:
+        join = Parameter('join', 'outer')
+        join_axes = Parameter('join_axes', None)
+        ignore_index = Parameter('ignore_index', False)
+        keys = Parameter('keys', None)
+        levels = Parameter('levels', None)
+        names = Parameter('names', None)
+        verify_integrity = Parameter('verify_integrity', False)
+        copy = Parameter('copy', True)
+

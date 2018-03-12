@@ -75,6 +75,28 @@ class load_cep_homo(BASE):
 
         del self.inputs
 
+class load_xyz_polarizability(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_xyz_polarizability
+            coordinates, pol = load_xyz_polarizability()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'smiles':
+                self.set_value(token, coordinates)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'density':
+                self.set_value(token, pol)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
 
 class ConvertFile(BASE):
     def fit(self):
@@ -101,9 +123,7 @@ class ConvertFile(BASE):
                 self.set_value(token,converted_file_paths)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock,token)] = self.outputs[token]
-
         del self.inputs
-            # Script
 
 class PyScript(BASE):
     def fit(self):
@@ -1036,11 +1056,11 @@ class MissingValues(BASE):
 
         # process
         try:
-            from cheml.preprocessing import missing_values
+            from cheml.preprocessing import MissingValues
             if method is None:
-                model = missing_values(**self.parameters)
+                model = MissingValues(**self.parameters)
             elif method == 'fit_transform':
-                model = missing_values(**self.parameters)
+                model = MissingValues(**self.parameters)
                 self.required('df', req=True)
                 df = self.inputs['df'].value
                 df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
@@ -1185,6 +1205,79 @@ class Merge(BASE):
 
         # step7: delete all inputs from memory
         del self.inputs
+=======
+# class Trimmer(BASE):
+#     def legal_IO(self):
+#         self.legal_inputs = {'dfx': None, 'dfy': None}
+#         self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
+#         requirements = ['cheml', 'pandas']
+#         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+#
+#     def fit(self):
+#         from cheml.initializtion import Trimmer
+#         dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
+#         dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
+#         try:
+#             model = Trimmer(**self.parameters)
+#             dfx, dfy = model.fit_transform(dfx,dfy)
+#         except Exception as err:
+#             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+#                 err).__name__ + ': ' + err.message
+#             raise TypeError(msg)
+#         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+#         for token in set(order):
+#             if token == 'dfx':
+#                 self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             elif token == 'dfy':
+#                 self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             elif token == 'api':
+#                 self.Base.send[(self.iblock, token)] = [model, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             else:
+#                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+#                     self.iblock + 1, self.Task, token)
+#                 raise NameError(msg)
+#         del self.legal_inputs
+
+# class Uniformer(BASE):
+#     def legal_IO(self):
+#         self.legal_inputs = {'dfx': None, 'dfy': None}
+#         self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
+#         requirements = ['cheml', 'pandas']
+#         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+#
+#     def fit(self):
+#         from cheml.initializtion import Uniformer
+#         dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
+#         dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
+#         try:
+#             model = Uniformer(**self.parameters)
+#             dfx, dfy = model.fit_transform(dfx, dfy)
+#         except Exception as err:
+#             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+#                 err).__name__ + ': ' + err.message
+#             raise TypeError(msg)
+#         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+#         for token in set(order):
+#             if token == 'dfx':
+#                 self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             elif token == 'dfy':
+#                 self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             elif token == 'api':
+#                 self.Base.send[(self.iblock, token)] = [model, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             else:
+#                 msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
+#                     self.iblock + 1, self.Task, token)
+#                 raise NameError(msg)
+#         del self.legal_inputs
+
+
+# data manipulation
 
 class Split(BASE):
     def fit(self):
@@ -1226,7 +1319,7 @@ class Split(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-class Constant(BASE):
+class ConstantColumns(BASE):
     def fit(self):
         # parameters
         self.paramFROMinput()
@@ -1236,11 +1329,11 @@ class Constant(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.preprocessing import Constant
+            from cheml.preprocessing import ConstantColumns
             if method is None:
-                model = Constant()
+                model = ConstantColumns()
             elif method == 'fit_transform':
-                model = Constant()
+                model = ConstantColumns()
                 self.required('df', req=True)
                 df = self.inputs['df'].value
                 df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
@@ -1286,111 +1379,111 @@ class Constant(BASE):
 
 # Regression
 
-class mlp_hogwild(BASE):
-    def fit(self):
-        # step1: check inputs
-        self.required('dfx_train', req=True)
-        dfx_train = self.inputs['dfx_train'].value
-        self.required('dfy_train', req=True)
-        dfy_train = self.inputs['dfy_train'].value
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-        method = self.parameters.pop('func_method')
-
-        # step3: check the dimension of input data frame
-        dfx_train, _ = self.data_check('dfx_train', dfx_train, ndim=2, n0=None, n1=None, format_out='ar')
-        dfy_train, _ = self.data_check('dfy_train', dfy_train, ndim=2, n0=dfx_train.shape[0], n1=None, format_out='ar')
-
-        # step4: import module and make APIs
-        try:
-            from cheml.nn import mlp_hogwild
-            if method is None:
-                model = mlp_hogwild(**self.parameters)
-            elif method == 'fit':
-                model = mlp_hogwild(**self.parameters)
-                self.required('dfx', req=True)
-                dfx = self.inputs['dfx'].value
-                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
-                self.required('dfy', req=True)
-                dfy = self.inputs['dfy'].value
-                dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=dfx.shape[0], n1=None, format_out='ar')
-                model.fit(dfx,dfy)
-            elif method == 'predict':
-                self.required('dfx', req=True)
-                self.required('api', req=True)
-                dfx = self.inputs['dfx'].value
-                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
-                api = self.inputs['api'].value
-                dfy_predict = api.predict(dfx)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                    err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'api':
-                self.set_value(token, model)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'dfy_predict':
-                self.set_value(token, dfy_predict)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-
-        # step7: delete all inputs from memory
-        del self.inputs
-
-class mlp_dsgd(BASE):
-    # must be run with slurm script
-    # Todo: first fix the slurm script function at cheml.initialization
-    # Todo: then embede the slurm commands in this class to run the slurm script
-    # Todo: or make the slurm script in this function too
-    def legal_IO(self):
-        self.legal_inputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
-        self.legal_outputs = {'dfy_train_pred': None, 'model': None}
-        requirements = ['cheml', 'pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from cheml.nn import nn_dsgd
-        cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-        self.Base.cheml_type['regressor'].append(cheml_type)
-        dfx_train = self.type_check('dfx_train', cheml_type='df', req=True, py_type=pd.DataFrame).values
-        dfx_test = self.type_check('dfx_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
-        dfy_train = self.type_check('dfy_train', cheml_type='df', req=True, py_type=pd.DataFrame)
-        dfy_header = dfy_train.columns
-        dfy_train = dfy_train.values
-        dfy_test = self.type_check('dfy_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
-
-        try:
-            model = nn_psgd.train(dfx_train,dfx_test,dfy_train,dfy_test,**self.parameters)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        dfy_pred = nn_psgd.output(dfx_train,model)
-        dfy_pred = pd.DataFrame(dfy_pred, columns=dfy_header)
-
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'model':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'dfy_train_pred':
-                self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-        del self.legal_inputs
+# class mlp_hogwild(BASE):
+#     def fit(self):
+#         # step1: check inputs
+#         self.required('dfx_train', req=True)
+#         dfx_train = self.inputs['dfx_train'].value
+#         self.required('dfy_train', req=True)
+#         dfy_train = self.inputs['dfy_train'].value
+#
+#         # step2: assign inputs to parameters if necessary (param = @token)
+#         self.paramFROMinput()
+#         method = self.parameters.pop('func_method')
+#
+#         # step3: check the dimension of input data frame
+#         dfx_train, _ = self.data_check('dfx_train', dfx_train, ndim=2, n0=None, n1=None, format_out='ar')
+#         dfy_train, _ = self.data_check('dfy_train', dfy_train, ndim=2, n0=dfx_train.shape[0], n1=None, format_out='ar')
+#
+#         # step4: import module and make APIs
+#         try:
+#             from cheml.nn import mlp_hogwild
+#             if method is None:
+#                 model = mlp_hogwild(**self.parameters)
+#             elif method == 'fit':
+#                 model = mlp_hogwild(**self.parameters)
+#                 self.required('dfx', req=True)
+#                 dfx = self.inputs['dfx'].value
+#                 dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+#                 self.required('dfy', req=True)
+#                 dfy = self.inputs['dfy'].value
+#                 dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=dfx.shape[0], n1=None, format_out='ar')
+#                 model.fit(dfx,dfy)
+#             elif method == 'predict':
+#                 self.required('dfx', req=True)
+#                 self.required('api', req=True)
+#                 dfx = self.inputs['dfx'].value
+#                 dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+#                 api = self.inputs['api'].value
+#                 dfy_predict = api.predict(dfx)
+#         except Exception as err:
+#             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+#                     err).__name__ + ': ' + err.message
+#             raise TypeError(msg)
+#
+#         # step5: process
+#         # step6: send out
+#         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+#         for token in set(order):
+#             if token not in self.outputs:
+#                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+#                 raise NameError(msg)
+#             elif token == 'api':
+#                 self.set_value(token, model)
+#                 self.outputs[token].count = order.count(token)
+#                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+#             elif token == 'dfy_predict':
+#                 self.set_value(token, dfy_predict)
+#                 self.outputs[token].count = order.count(token)
+#                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+#
+#         # step7: delete all inputs from memory
+#         del self.inputs
+#
+# class mlp_dsgd(BASE):
+#     # must be run with slurm script
+#     # Todo: first fix the slurm script function at cheml.initialization
+#     # Todo: then embede the slurm commands in this class to run the slurm script
+#     # Todo: or make the slurm script in this function too
+#     def legal_IO(self):
+#         self.legal_inputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
+#         self.legal_outputs = {'dfy_train_pred': None, 'model': None}
+#         requirements = ['cheml', 'pandas']
+#         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
+#
+#     def fit(self):
+#         from cheml.nn import nn_dsgd
+#         cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
+#         self.Base.cheml_type['regressor'].append(cheml_type)
+#         dfx_train = self.type_check('dfx_train', cheml_type='df', req=True, py_type=pd.DataFrame).values
+#         dfx_test = self.type_check('dfx_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
+#         dfy_train = self.type_check('dfy_train', cheml_type='df', req=True, py_type=pd.DataFrame)
+#         dfy_header = dfy_train.columns
+#         dfy_train = dfy_train.values
+#         dfy_test = self.type_check('dfy_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
+#
+#         try:
+#             model = nn_psgd.train(dfx_train,dfx_test,dfy_train,dfy_test,**self.parameters)
+#         except Exception as err:
+#             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+#                 err).__name__ + ': ' + err.message
+#             raise TypeError(msg)
+#
+#         dfy_pred = nn_psgd.output(dfx_train,model)
+#         dfy_pred = pd.DataFrame(dfy_pred, columns=dfy_header)
+#
+#         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+#         for token in set(order):
+#             if token == 'model':
+#                 self.Base.send[(self.iblock, token)] = [model, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             elif token == 'dfy_train_pred':
+#                 self.Base.send[(self.iblock, token)] = [dfy_pred, order.count(token),
+#                                                         (self.iblock, token, self.Host, self.Function)]
+#             else:
+#                 msg = "@Task #%i(%s): non valid output token '%s'" % (self.iblock + 1, self.Task, token)
+#                 raise NameError(msg)
+#         del self.legal_inputs
 
 ##################################################################### 6 Mix
 
@@ -1475,42 +1568,4 @@ class SaveFile(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-
-class StoreFile(BASE):
-    def legal_IO(self):
-        self.legal_inputs = {'input': None}
-        self.legal_outputs = {'filepath': None}
-        requirements = ['cheml']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        # step1: check inputs
-        input, input_info = self.input_check('input', req=True)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        # step4: import module and make APIs
-        try:
-            from cheml.initialization import StoreFile
-            model = SaveFile(**self.parameters)
-            model.fit(input, self.Base.output_directory)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'filepath':
-                val = model.file_path
-                self.Base.send[(self.iblock, token)] = [val, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.Task,token)
-                raise NameError(msg)
-        # step7: delete all inputs from memory
-        del self.legal_inputs
 

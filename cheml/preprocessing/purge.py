@@ -42,7 +42,7 @@ class ConstantColumns(object):
 
         Returns
         -------
-
+        transformed dataframe
         """
         df = df.drop(self.removed_columns_,1)
         return df

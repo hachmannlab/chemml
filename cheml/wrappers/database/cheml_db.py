@@ -448,6 +448,27 @@ class load_organic_density(object):
     class FParameters:
         pass
 
+class load_xyz_polarizability(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_xyz_polarizability'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
+                             ("<type 'dict'>",))
+        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+
 class APEAttributeGenerator(object):
     task = 'Prepare'
     subtask = 'feature representation'
@@ -627,26 +648,6 @@ class MeredigAttributeGenerator(object):
                                       ("<type 'list'>"))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-
-class load_xyz_polarizability(object):
-    task = 'Enter'
-    subtask = 'datasets'
-    host = 'cheml'
-    function = 'load_xyz_polarizability'
-    modules = ('cheml','datasets')
-    requirements = (req(0),req(2))
-    documentation = ""
-
-    class Inputs:
-        pass
-    class Outputs:
-        coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
-                             ("<type 'dict'>",))
-        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class WParameters:
-        pass
-    class FParameters:
-        pass
 
 class StoichiometricAttributeGenerator(object):
     task = 'Prepare'

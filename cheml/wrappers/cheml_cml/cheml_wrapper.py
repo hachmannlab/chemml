@@ -1093,78 +1093,6 @@ class MissingValues(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-class Trimmer(BASE):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
-        requirements = ['cheml', 'pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from cheml.initializtion import Trimmer
-        dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
-        dfy = self.lltype_check('dfy', cheml_type='dfy', req=True,
-                               py_type=pd.DataFrame)
-        try:
-            model = Trimmer(**self.parameters)
-            dfx, dfy = model.fit_transform(dfx,dfy)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'dfx':
-                self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'dfy':
-                self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
-                    self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-class Uniformer(BASE):
-    def legal_IO(self):
-        self.legal_inputs = {'dfx': None, 'dfy': None}
-        self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
-        requirements = ['cheml', 'pandas']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        from cheml.initializtion import Uniformer
-        dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
-        dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
-        try:
-            model = Uniformer(**self.parameters)
-            dfx, dfy = model.fit_transform(dfx, dfy)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'dfx':
-                self.Base.send[(self.iblock, token)] = [dfx, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'dfy':
-                self.Base.send[(self.iblock, token)] = [dfy, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            elif token == 'api':
-                self.Base.send[(self.iblock, token)] = [model, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (
-                    self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-        del self.legal_inputs
-
-
 
 # Basic Operators
 
@@ -1205,7 +1133,7 @@ class Merge(BASE):
 
         # step7: delete all inputs from memory
         del self.inputs
-=======
+
 # class Trimmer(BASE):
 #     def legal_IO(self):
 #         self.legal_inputs = {'dfx': None, 'dfy': None}

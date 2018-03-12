@@ -20,6 +20,7 @@ from .validation import isnpdot
 from .validation import isint
 from .validation import value
 from .validation import check_input
+from .validation import check_object_col
 
 from .lib_jcode import tot_exec_time_str
 

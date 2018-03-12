@@ -38,7 +38,7 @@ class load_cep_homo(BASE):
     def fit(self):
         try:
             from cheml.datasets import load_cep_homo
-            output = load_cep_homo(**self.parameters)
+            smiles,homo = load_cep_homo()
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
             raise TypeError(msg)
@@ -47,32 +47,41 @@ class load_cep_homo(BASE):
             if token not in self.outputs:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
-            elif token == 'df':
-                if self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=True. The output df is a list of both X and y'
-                    warnings.warn(msg)
-                self.set_value(token, output)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
             elif token == 'smiles':
-                if not self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output smiles is a dataframe of X and y'
-                    warnings.warn(msg)
-                    self.set_value(token, output)
-                else:
-                    self.set_value(token, output[0])
+                self.set_value(token, smiles)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'dfy':
-                if not self.parameters['return_X_y']:
-                    msg = 'parameter return_X_y, returns X and y separately: return_X_y=False. The output dfy is a dataframe of X and y'
-                    warnings.warn(msg)
-                    self.set_value(token, output)
-                else:
-                    self.set_value(token, output[1])
+            elif token == 'homo':
+                self.set_value(token, homo)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
 
+class load_organic_density(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_organic_density
+            smiles,density,features = load_organic_density()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'smiles':
+                self.set_value(token, smiles)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'density':
+                self.set_value(token, density)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'features':
+                self.set_value(token, features)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
 
 class load_xyz_polarizability(BASE):
@@ -1044,7 +1053,7 @@ class StructuralHeterogeneityAttributeGenerator(BASE):
 
         del self.inputs
 
-# Preprocessor
+# data manipulation
 
 class MissingValues(BASE):
     def fit(self):
@@ -1093,30 +1102,35 @@ class MissingValues(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-
-# Basic Operators
-
-class Merge(BASE):
+class ConstantColumns(BASE):
     def fit(self):
-        # step1: check inputs
-        self.required('df1', req=True)
-        df1 = self.inputs['df1'].value
-        self.required('df2', req=True)
-        df2 = self.inputs['df2'].value
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        # self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        df1, _ = self.data_check('df1', df1, ndim=2, n0=None, n1=None, format_out='df')
-        df2, _ = self.data_check('df2', df2, ndim=2, n0=df1.shape[0], n1=None, format_out='df')
+        # parameters
+        self.paramFROMinput()
+        method = self.parameters.pop('func_method')
+        # get df value only in case method is None, but output df is requested
+        df = self.inputs['df'].value
 
         # step4: import module and make APIs
         try:
-            from cheml.initialization import Merge
-            df = Merge(df1, df2)
+            from cheml.preprocessing import ConstantColumns
+            if method is None:
+                model = ConstantColumns()
+            elif method == 'fit_transform':
+                model = ConstantColumns()
+                self.required('df', req=True)
+                df = self.inputs['df'].value
+                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+                df = model.fit_transform(df)
+            elif method == 'transform':
+                self.required('df', req=True)
+                df = self.inputs['df'].value
+                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+                self.required('api', req=True)
+                model = self.inputs['api'].value
+                df = model.transform(df)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
             raise TypeError(msg)
 
         # step5: process
@@ -1130,9 +1144,74 @@ class Merge(BASE):
                 self.set_value(token, df)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'removed_columns_':
+                removed_columns_ = pd.DataFrame(model.removed_columns_)
+                self.set_value(token, removed_columns_)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'api':
+                self.set_value(token, model)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
 
         # step7: delete all inputs from memory
         del self.inputs
+
+class Outliers(BASE):
+    def fit(self):
+        # parameters
+        self.paramFROMinput()
+        method = self.parameters.pop('func_method')
+        # get df value only in case method is None, but output df is requested
+        df = self.inputs['df'].value
+
+        # step4: import module and make APIs
+        try:
+            from cheml.preprocessing import Outliers
+            if method is None:
+                model = Outliers(**self.parameters)
+            elif method == 'fit_transform':
+                model = Outliers(**self.parameters)
+                self.required('df', req=True)
+                df = self.inputs['df'].value
+                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+                df_out = model.fit_transform(df)
+            elif method == 'transform':
+                self.required('df', req=True)
+                df = self.inputs['df'].value
+                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
+                self.required('api', req=True)
+                model = self.inputs['api'].value
+                df_out = model.transform(df)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'df':
+                self.set_value(token, df_out)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'removed_rows_':
+                removed_columns_ = pd.DataFrame(model.removed_columns_)
+                self.set_value(token, removed_columns_)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'api':
+                self.set_value(token, model)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs
+
 
 # class Trimmer(BASE):
 #     def legal_IO(self):
@@ -1247,60 +1326,6 @@ class Split(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-class ConstantColumns(BASE):
-    def fit(self):
-        # parameters
-        self.paramFROMinput()
-        method = self.parameters.pop('func_method')
-        # get df value only in case method is None, but output df is requested
-        df = self.inputs['df'].value
-
-        # step4: import module and make APIs
-        try:
-            from cheml.preprocessing import ConstantColumns
-            if method is None:
-                model = ConstantColumns()
-            elif method == 'fit_transform':
-                model = ConstantColumns()
-                self.required('df', req=True)
-                df = self.inputs['df'].value
-                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-                df = model.fit_transform(df)
-            elif method == 'transform':
-                self.required('df', req=True)
-                df = self.inputs['df'].value
-                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-                self.required('api', req=True)
-                model = self.inputs['api'].value
-                df = model.transform(df)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'df':
-                self.set_value(token, df)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'removed_columns_':
-                removed_columns_ = pd.DataFrame(model.removed_columns_)
-                self.set_value(token, removed_columns_)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'api':
-                self.set_value(token, model)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-
-        # step7: delete all inputs from memory
-        del self.inputs
 
 
 ##################################################################### 3 Define Model

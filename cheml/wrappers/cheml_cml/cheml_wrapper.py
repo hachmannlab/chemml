@@ -84,6 +84,29 @@ class load_organic_density(BASE):
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
 
+class load_xyz_polarizability(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_xyz_polarizability
+            coordinates, pol = load_xyz_polarizability()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'smiles':
+                self.set_value(token, coordinates)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'density':
+                self.set_value(token, pol)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
 class ConvertFile(BASE):
     def fit(self):
         self.paramFROMinput()
@@ -109,9 +132,7 @@ class ConvertFile(BASE):
                 self.set_value(token,converted_file_paths)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock,token)] = self.outputs[token]
-
         del self.inputs
-            # Script
 
 class PyScript(BASE):
     def fit(self):
@@ -454,45 +475,7 @@ class Uniformer(BASE):
 
 
 
-# Basic Operators
-
-class Merge(BASE):
-    def fit(self):
-        # step1: check inputs
-        self.required('df1', req=True)
-        df1 = self.inputs['df1'].value
-        self.required('df2', req=True)
-        df2 = self.inputs['df2'].value
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        # self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        df1, _ = self.data_check('df1', df1, ndim=2, n0=None, n1=None, format_out='df')
-        df2, _ = self.data_check('df2', df2, ndim=2, n0=df1.shape[0], n1=None, format_out='df')
-
-        # step4: import module and make APIs
-        try:
-            from cheml.initialization import Merge
-            df = Merge(df1, df2)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'df':
-                self.set_value(token, df)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-
-        # step7: delete all inputs from memory
-        del self.inputs
+# data manipulation
 
 class Split(BASE):
     def fit(self):
@@ -783,42 +766,4 @@ class SaveFile(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-
-class StoreFile(BASE):
-    def legal_IO(self):
-        self.legal_inputs = {'input': None}
-        self.legal_outputs = {'filepath': None}
-        requirements = ['cheml']
-        self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
-
-    def fit(self):
-        # step1: check inputs
-        input, input_info = self.input_check('input', req=True)
-
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-
-        # step3: check the dimension of input data frame
-        # step4: import module and make APIs
-        try:
-            from cheml.initialization import StoreFile
-            model = SaveFile(**self.parameters)
-            model.fit(input, self.Base.output_directory)
-        except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token == 'filepath':
-                val = model.file_path
-                self.Base.send[(self.iblock, token)] = [val, order.count(token),
-                                                        (self.iblock, token, self.Host, self.Function)]
-            else:
-                msg = "@Task #%i(%s): asked to send a non valid output token '%s'" % (self.iblock+1,self.Task,token)
-                raise NameError(msg)
-        # step7: delete all inputs from memory
-        del self.legal_inputs
 

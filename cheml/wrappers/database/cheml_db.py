@@ -240,28 +240,9 @@ class MissingValues(object):
         inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
         missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
-class Merge(object):
-    task = 'Prepare'
-    subtask = 'basic operators'
-    host = 'cheml'
-    function = 'Merge'
-    modules = ('cheml','initialization')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df1 = Input("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Input("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class WParameters:
-        pass
-    class FParameters:
-        pass
-
 class Split(object):
     task = 'Prepare'
-    subtask = 'basic operators'
+    subtask = 'general functions'
     host = 'cheml'
     function = 'Split'
     modules = ('cheml','initialization')
@@ -389,11 +370,11 @@ class ConvertFile(object):
     host = 'cheml'
     function ='ConvertFile'
     modules = ('cheml','initialization')
-    requirements = (req(0),req(6),)
+    requirements = (req(0),req(6))
     documentation = "https://openbabel.org/wiki/Babel"
 
     class Inputs:
-        file_path=Input("file_path","the path to the file that needs to be conferted",("<type 'str'>","<type 'dict'>"))
+        file_path=Input("file_path","the path to the file that needs to be converted",("<type 'str'>","<type 'dict'>"))
     class Outputs:
         converted_file_paths = Output("converted_file_paths", "list of paths to the converted files", "<type 'list'>")
     class WParameters:

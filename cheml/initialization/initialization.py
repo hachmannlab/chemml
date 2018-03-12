@@ -216,22 +216,66 @@ class XYZreader(object):
         return molecules
 
 class ConvertFile(object):
-    """
-    An interface to babel -- a converter for chemistry and molecular modeling data files
-    https://openbabel.org/wiki/Babel
+    """(ConvertFile)
+    Specify file path, 'from_format' and 'to_format' to convert a file form 'from_format' to 'to_format'
+    using openbabel (https://openbabel.org/wiki/Babel).
 
-    Parameters
+    Parameters:
     ----------
-    file_path: str or dict
-        if dictionary, it should be in the same format of XYZreader's (cheml module) output.
-    from_format: str
-        input type
-    to_format: str
-        output type
+    file_path : string or dictionary
+        string or dictionary containing paths of files that need to be converted
+
+    from_format: string
+        String of letters that specify the format of the file that needs to be converted.
+        This will be checked against 'file_path' that is provided by the user.
+        If the file_path does not contain 'from_format' an error message will be raised.
+        List of possible 'from_format's are on https://openbabel.org/wiki/Babel
+
+    to_format: string
+        String of letters that specify the target file format or the desired format.
+        An openbabel command is generated which converts the files specified by 'file_path' to the target format.
+        List of possible 'to_format's are on https://openbabel.org/wiki/Babel
 
     Returns:
+    ------
+    converted_file_paths: dictionary
         dictionary of converted file paths, in the same format of XYZreader output: {index:{'file':""}}
+
+    Examples:
+    --------
+    >>> from cheml.datasets import load_xyz_polarizability
+    >>> coordinates,polarizability = load_xyz_polarizability()
+    >>> coordinates
+    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.xyz', ...
+    >>> from cheml.initialization import ConvertFile
+    >>> model = ConvertFile(file_path=coordinates,from_format='xyz',to_format='cml')
+    >>> converted_file_paths = model.convert()
+    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
+
+
+    (1)
+    inputs :
+        file_path: 'mydir/my_sub_dir/file.xyz'
+        from_format: 'xyz'
+        to_format: 'cml'
+        openbabel command: babel xyz mydir/my_sub_dir/file.xyz cml mydir/my_sub_dir/file.cml
+    returns:
+        converted_file_paths={'mydir/my_sub_dir/file.cml']
+
+    (2)
+    file_path: {1:{'file':'mydir/1.xyz'}, 2:{'file':'mydir/2.xyz'}, 3:{'file':'mydir/3.xyz'}}
+    from_format:'xyz'
+    to_format:'mol2'
+    >>> openbabel command: babel xyz mydir/1.xyz cml mydir/1.mol2 ...
+    >>> converted_file_paths=['mydir/1.mol2','mydir/2.mol2','mydir/3.mol2']
+
+    (3)
+    file_path:'mydir/my_sub_dir/file.cml'
+    from_format:'xyz'
+    to_format:'pdb'
+    >>> error message: 'file format is not the same as from_format'
     """
+
     def __init__(self,file_path,from_format,to_format):
         self.file_path=file_path
         self.from_format=from_format

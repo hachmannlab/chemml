@@ -1,5 +1,4 @@
 import os
-import sys
 import pandas as pd
 import numpy as np
 import warnings
@@ -8,34 +7,19 @@ import fnmatch
 from ..utils.utilities import std_datetime_str
 
 
-def Merge(X1, X2):
-    """
-    todo: add more functionality for header overlaps
-    Merge same length data frames.
-
-    :param X1: pandas data frame
-        first data frame
-    :param X2: pandas data frame
-        second data frame
-    :return: pandas data frame
-    """
-    if not isinstance(X1,pd.DataFrame) or not isinstance(X2,pd.DataFrame):
-        msg = 'both X1 and X2 must be pandas dataframe'
-        raise TypeError(msg)
-    if X1.shape[0] != X2.shape[0]:
-        msg= 'Two input data frames should be in the same length'
-        raise ValueError(msg)
-    X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
-    return X
-
 class Split(object):
     """
     split data frame by columns
 
-    :param: select: integer or list (default = 1)
+    Parameters
+    ----------
+    select: integer or list (default = 1)
         integer: number of columns to be selected from the first of data as first data frame (X1)
         list: list of headers to be selected as first data frame (X1)
-    :return: two pandas data frame: X1 and X2
+
+    Returns
+    -------
+    two pandas dataframes: X1 and X2
     """
     def __init__(self,selection=1):
         self.selection = selection
@@ -85,8 +69,8 @@ class XYZreader(object):
               However, the range is limited to a single character. That's why this parameter also accept a list of
               patterns for different length of characters. For example, range(1,30) = '[1-9]' and '[1-9][0-9]'
 
-        The pattern matching is implemented by fnmatch library- Unix filename pattern matching.
-        Note: The pattern must include the extension at the end. The only acceptable extension is '.xyz'.
+        The pattern matching is utilizes fnmatch library- Unix filename pattern matching.
+        Note: The pattern must include the file format at the end. The only acceptable extension is '.xyz'.
 
     path_root: string, optional (default = None)
         fixed (with no special character) part of the path.
@@ -95,10 +79,10 @@ class XYZreader(object):
         or files. Therefore, none of the above special characters except '/'
         can be used.
         If not None, it determines the path that this function walk through
-        and look for every file that matches the pattern in the file name. To start
-        walking from the curent directory, the path value should be '.'
+        and look for every file that matches the pattern. To start
+        walking from the curent directory, the path should be '.'
 
-    Z: dictionary
+    Z: dictionary, optional (default = {'Ru': 44.0, 'Re': 75.0, 'Rf': 104.0, 'Rg': 111.0, 'Ra': 88.0, 'Rb': 37.0, 'Rn': 86.0, 'Rh': 45.0, 'Be': 4.0, 'Ba': 56.0, 'Bh': 107.0, 'Bi': 83.0, 'Bk': 97.0, 'Br': 35.0, 'H': 1.0, 'P': 15.0, 'Os': 76.0, 'Es': 99.0, 'Hg': 80.0, 'Ge': 32.0, 'Gd': 64.0, 'Ga': 31.0, 'Pr': 59.0, 'Pt': 78.0, 'Pu': 94.0, 'C': 6.0, 'Pb': 82.0, 'Pa': 91.0, 'Pd': 46.0, 'Cd': 48.0, 'Po': 84.0, 'Pm': 61.0, 'Hs': 108.0, 'Uup': 115.0, 'Uus': 117.0, 'Uuo': 118.0, 'Ho': 67.0, 'Hf': 72.0, 'K': 19.0, 'He': 2.0, 'Md': 101.0, 'Mg': 12.0, 'Mo': 42.0, 'Mn': 25.0, 'O': 8.0, 'Mt': 109.0, 'S': 16.0, 'W': 74.0, 'Zn': 30.0, 'Eu': 63.0, 'Zr': 40.0, 'Er': 68.0, 'Ni': 28.0, 'No': 102.0, 'Na': 11.0, 'Nb': 41.0, 'Nd': 60.0, 'Ne': 10.0, 'Np': 93.0, 'Fr': 87.0, 'Fe': 26.0, 'Fl': 114.0, 'Fm': 100.0, 'B': 5.0, 'F': 9.0, 'Sr': 38.0, 'N': 7.0, 'Kr': 36.0, 'Si': 14.0, 'Sn': 50.0, 'Sm': 62.0, 'V': 23.0, 'Sc': 21.0, 'Sb': 51.0, 'Sg': 106.0, 'Se': 34.0, 'Co': 27.0, 'Cn': 112.0, 'Cm': 96.0, 'Cl': 17.0, 'Ca': 20.0, 'Cf': 98.0, 'Ce': 58.0, 'Xe': 54.0, 'Lu': 71.0, 'Cs': 55.0, 'Cr': 24.0, 'Cu': 29.0, 'La': 57.0, 'Li': 3.0, 'Lv': 116.0, 'Tl': 81.0, 'Tm': 69.0, 'Lr': 103.0, 'Th': 90.0, 'Ti': 22.0, 'Te': 52.0, 'Tb': 65.0, 'Tc': 43.0, 'Ta': 73.0, 'Yb': 70.0, 'Db': 105.0, 'Dy': 66.0, 'Ds': 110.0, 'I': 53.0, 'U': 92.0, 'Y': 39.0, 'Ac': 89.0, 'Ag': 47.0, 'Uut': 113.0, 'Ir': 77.0, 'Am': 95.0, 'Al': 13.0, 'As': 33.0, 'Ar': 18.0, 'Au': 79.0, 'At': 85.0, 'In': 49.0})
         A dictionary of nuclear charges with respect to the chemical symbols of all atom types in the xyz files.
 
     reader: string, optional (default = 'auto')
@@ -119,35 +103,34 @@ class XYZreader(object):
     ----------
     max_n_atoms: integer
         Maximum number of atoms in one molecule.
-        This can be useful if you want to set this parameter in the feature representation methods
-        like Coulomb_Matrix.
+        This can be useful if you want to set this parameter in the feature representation methods,
+        e.g. Coulomb_Matrix.
 
     Examples
     --------
         (1)
-        file: 'Mydir/1f/1_opt.xyz'
-        path: None
+        path_pattern: 'Mydir/1f/1_opt.xyz'
+        path_root: None
         >>> one file will be read: 'Mydir/1f/1_opt.xyz'
 
         (2)
-        file: '[1,2,3,4]?/*_opt.xyz'
-        path: 'Mydir'
+        path_pattern: '[1,2,3,4]?/*_opt.xyz'
+        path_root: 'Mydir'
         >>> sample files to be read: 'Mydir/1f/1_opt.xyz', 'Mydir/2c/2_opt.xyz', ...
 
         (3)
-        file: '[!1,2]?/*_opt.xyz'
-        path: '.'
+        path_pattern: '[!1,2]?/*_opt.xyz'
+        path_root: '.'
         >>> sample files to be read: './3f/3_opt.xyz', 'Mydir/7c/7_opt.xyz', ...
 
         (4)
-        file: '*['f','c']/*_opt.xyz'
-        path: 'Mydir'
+        path_pattern: '*['f','c']/*_opt.xyz'
+        path_root: 'Mydir'
         >>> sample files to be read: 'Mydir/1f/1_opt.xyz', 'Mydir/2c/2_opt.xyz', ...
 
         (5)
-        file: '[%s]?/[!%s]_opt.xyz'
-        path: 'Mydir/all'
-        arguments: 1,4,7,10
+        path_pattern: ['[2-5]_opt.xyz', '[1-9][2-5]_opt.xyz']
+        path_root: 'Mydir/all'
         >>> sample files to be read: 'Mydir/all/1f/1_opt.xyz', 'Mydir/all/2c/2_opt.xyz', ...
     """
     def __init__(self, path_pattern, path_root=None, Z = {'Ru': 44.0, 'Re': 75.0, 'Rf': 104.0, 'Rg': 111.0, 'Ra': 88.0, 'Rb': 37.0, 'Rn': 86.0, 'Rh': 45.0, 'Be': 4.0, 'Ba': 56.0, 'Bh': 107.0, 'Bi': 83.0, 'Bk': 97.0, 'Br': 35.0, 'H': 1.0, 'P': 15.0, 'Os': 76.0, 'Es': 99.0, 'Hg': 80.0, 'Ge': 32.0, 'Gd': 64.0, 'Ga': 31.0, 'Pr': 59.0, 'Pt': 78.0, 'Pu': 94.0, 'C': 6.0, 'Pb': 82.0, 'Pa': 91.0, 'Pd': 46.0, 'Cd': 48.0, 'Po': 84.0, 'Pm': 61.0, 'Hs': 108.0, 'Uup': 115.0, 'Uus': 117.0, 'Uuo': 118.0, 'Ho': 67.0, 'Hf': 72.0, 'K': 19.0, 'He': 2.0, 'Md': 101.0, 'Mg': 12.0, 'Mo': 42.0, 'Mn': 25.0, 'O': 8.0, 'Mt': 109.0, 'S': 16.0, 'W': 74.0, 'Zn': 30.0, 'Eu': 63.0, 'Zr': 40.0, 'Er': 68.0, 'Ni': 28.0, 'No': 102.0, 'Na': 11.0, 'Nb': 41.0, 'Nd': 60.0, 'Ne': 10.0, 'Np': 93.0, 'Fr': 87.0, 'Fe': 26.0, 'Fl': 114.0, 'Fm': 100.0, 'B': 5.0, 'F': 9.0, 'Sr': 38.0, 'N': 7.0, 'Kr': 36.0, 'Si': 14.0, 'Sn': 50.0, 'Sm': 62.0, 'V': 23.0, 'Sc': 21.0, 'Sb': 51.0, 'Sg': 106.0, 'Se': 34.0, 'Co': 27.0, 'Cn': 112.0, 'Cm': 96.0, 'Cl': 17.0, 'Ca': 20.0, 'Cf': 98.0, 'Ce': 58.0, 'Xe': 54.0, 'Lu': 71.0, 'Cs': 55.0, 'Cr': 24.0, 'Cu': 29.0, 'La': 57.0, 'Li': 3.0, 'Lv': 116.0, 'Tl': 81.0, 'Tm': 69.0, 'Lr': 103.0, 'Th': 90.0, 'Ti': 22.0, 'Te': 52.0, 'Tb': 65.0, 'Tc': 43.0, 'Ta': 73.0, 'Yb': 70.0, 'Db': 105.0, 'Dy': 66.0, 'Ds': 110.0, 'I': 53.0, 'U': 92.0, 'Y': 39.0, 'Ac': 89.0, 'Ag': 47.0, 'Uut': 113.0, 'Ir': 77.0, 'Am': 95.0, 'Al': 13.0, 'As': 33.0, 'Ar': 18.0, 'Au': 79.0, 'At': 85.0, 'In': 49.0},
@@ -217,7 +200,7 @@ class XYZreader(object):
                             max_nAtoms = max(max_nAtoms, len(mol))
                         else:
                             mol = None
-                            max_nAtoms = None
+                            max_nAtoms = max(max_nAtoms, 0)
                         it+=1
                         molecules[it] = {'file':fn, 'mol': mol}
             else:
@@ -226,7 +209,7 @@ class XYZreader(object):
                     max_nAtoms = max(max_nAtoms, len(mol))
                 else:
                     mol = None
-                    max_nAtoms = None
+                    max_nAtoms = max(max_nAtoms, 0)
                 it += 1
                 molecules[it] = {'file': file_name, 'mol': mol}
         self.max_n_atoms = max_nAtoms
@@ -234,59 +217,72 @@ class XYZreader(object):
 
 class ConvertFile(object):
     """(ConvertFile)
-        Specify file path, 'from_format' and 'to_format' to convert a file form 'from_format' to 'to_format'
-        using openbabel (https://openbabel.org/wiki/Babel).
+    Specify file path, 'from_format' and 'to_format' to convert a file form 'from_format' to 'to_format'
+    using openbabel (https://openbabel.org/wiki/Babel).
 
-        Parameters:
-        ----------
-        file_path : string or dictionary
-            string or dictionary containing paths of files that need to be converted
+    Parameters:
+    ----------
+    file_path : string or dictionary
+        string or dictionary containing paths of files that need to be converted
 
-        from_format: string
-            String of letters that specify the format of the file that needs to be converted.
-            This will be checked against 'file_path' that is provided by the user.
-            If the file_path does not contain 'from_format' an error message will be raised.
-            List of possible 'from_format's are on https://openbabel.org/wiki/Babel
+    from_format: string
+        String of letters that specify the format of the file that needs to be converted.
+        This will be checked against 'file_path' that is provided by the user.
+        If the file_path does not contain 'from_format' an error message will be raised.
+        List of possible 'from_format's are on https://openbabel.org/wiki/Babel
 
-        to_format: string
-            String of letters that specify the target file format or the desired format.
-            An openbabel command is generated which converts the files specified by 'file_path' to the target format.
-            List of possible 'to_format's are on https://openbabel.org/wiki/Babel
+    to_format: string
+        String of letters that specify the target file format or the desired format.
+        An openbabel command is generated which converts the files specified by 'file_path' to the target format.
+        List of possible 'to_format's are on https://openbabel.org/wiki/Babel
 
-        Output:
-        ------
-        converted_file_paths: list of strings
-            Contains a list of strings, where each string specifies the path of the converted file.
+    Returns:
+    ------
+    converted_file_paths: dictionary
+        dictionary of converted file paths, in the same format of XYZreader output: {index:{'file':""}}
 
-        Examples:
-        --------
-        (1)
+    Examples:
+    --------
+    >>> from cheml.datasets import load_xyz_polarizability
+    >>> coordinates,polarizability = load_xyz_polarizability()
+    >>> coordinates
+    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.xyz', ...
+    >>> from cheml.initialization import ConvertFile
+    >>> model = ConvertFile(file_path=coordinates,from_format='xyz',to_format='cml')
+    >>> converted_file_paths = model.convert()
+    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
+
+
+    (1)
+    inputs :
         file_path: 'mydir/my_sub_dir/file.xyz'
         from_format: 'xyz'
         to_format: 'cml'
-        >>> openbabel command: babel xyz mydir/my_sub_dir/file.xyz cml mydir/my_sub_dir/file.cml
-        >>> converted_file_paths=['mydir/my_sub_dir/file.cml']
+        openbabel command: babel xyz mydir/my_sub_dir/file.xyz cml mydir/my_sub_dir/file.cml
+    returns:
+        converted_file_paths={'mydir/my_sub_dir/file.cml']
 
-        (2)
-        file_path: {1:{'file':'mydir/1.xyz'}, 2:{'file':'mydir/2.xyz'}, 3:{'file':'mydir/3.xyz'}}
-        from_format:'xyz'
-        to_format:'mol2'
-        >>> openbabel command: babel xyz mydir/1.xyz cml mydir/1.mol2 ...
-        >>> converted_file_paths=['mydir/1.mol2','mydir/2.mol2','mydir/3.mol2']
+    (2)
+    file_path: {1:{'file':'mydir/1.xyz'}, 2:{'file':'mydir/2.xyz'}, 3:{'file':'mydir/3.xyz'}}
+    from_format:'xyz'
+    to_format:'mol2'
+    >>> openbabel command: babel xyz mydir/1.xyz cml mydir/1.mol2 ...
+    >>> converted_file_paths=['mydir/1.mol2','mydir/2.mol2','mydir/3.mol2']
 
-        (3)
-        file_path:'mydir/my_sub_dir/file.cml'
-        from_format:'xyz'
-        to_format:'pdb'
-        >>> error message: 'file format is not the same as from_format'
+    (3)
+    file_path:'mydir/my_sub_dir/file.cml'
+    from_format:'xyz'
+    to_format:'pdb'
+    >>> error message: 'file format is not the same as from_format'
     """
+
     def __init__(self,file_path,from_format,to_format):
         self.file_path=file_path
         self.from_format=from_format
         self.to_format=to_format
 
     def convert(self):
-        converted_file_paths=[]
+        converted_file_paths={}
         if isinstance(self.file_path,str):
             if not self.from_format == self.file_path[-len(self.from_format):]:
                 msg = 'file format is not the same as from_format'
@@ -299,7 +295,7 @@ class ConvertFile(object):
                 command='babel ' + ob_from_format + ' ' + self.file_path + ' ' + ob_to_format + ' ' + path+self.to_format
                 print command
                 os.system(command)
-                converted_file_paths.append(path+self.to_format)
+                converted_file_paths[1] = {'file':path+self.to_format}
 
         elif isinstance(self.file_path,dict):
             for it in range(1,len(self.file_path)+1):
@@ -313,7 +309,7 @@ class ConvertFile(object):
                     path=fpath[:fpath.rfind('.')+1]
                     command = 'babel ' + ob_from_format + ' ' + fpath + ' ' + ob_to_format + ' ' + path + self.to_format
                     os.system(command)
-                    converted_file_paths.append(path + self.to_format)
+                    converted_file_paths[it] = {'file':path+self.to_format}
 
         return converted_file_paths
 
@@ -335,9 +331,12 @@ class SaveFile(object):
     def fit(self, X, main_directory='.'):
         """
         Write DataFrame to a comma-seprated values (csv) file
-        :param: X: pandas DataFrame
-        :param: main_directory: string, if there is any main directory for entire cheml project
-        :return: nothing
+
+        Parameters
+        ----------
+        X: pandas DataFrame
+        main_directory: string
+            if there is any main directory for entire cheml project
         """
         if not isinstance(X, pd.DataFrame):
             msg = 'X must be a pandas dataframe'
@@ -396,97 +395,4 @@ class StoreFile(object):
                 self.file_path = '%s/%s.%s' %(main_directory,self.filename,self.format)
         with open(self.file_path, 'a') as file:
             file.write('%s\n' % str(X))
-
-def slurm_script(block):
-    """(slurm_script):
-        if part of your code must be run on a cluster and you need to make a slurm
-        script for that purpose, this function helps you to do so.
-
-    Parameters
-    ----------
-    style: string, optional(default=exclusive)
-        Available options:
-            - exclusive : makes the slurm script based on exclusive selection of cores per nodes.
-
-    nnodes: int, optional(default = 1)
-        number of available empty nodes in the cluster.
-
-    input_slurm_script: string, optional(default = None)
-        The file path to the prepared slurm script. We also locate place of
-        --nodes and -np in the script and make sure that provided numbers are
-        equal to number of nodes(nnodes). Also, the exclusive option must be
-        included in the script to have access to an entire node.
-
-    output_slurm_script: string, optional(default = 'script.slurm')
-        The path and name of the slurm script file that will be saved after
-        changes by this function.
-
-    Returns
-    -------
-    The function will write a slurm script file with the filename passed by
-    output_slurm_script.
-
-    """
-    style = block['parameters']['style'][1:-1]
-    pyscript_file = cmlnb["file_name"]
-    nnodes = int(block['parameters']['nnodes'])
-    input_slurm_script = block['parameters']['input_slurm_script'][1:-1]
-    output_slurm_script = block['parameters']['output_slurm_script'][1:-1]
-
-    cmlnb["run"] = "# how to run: sbatch %s" % output_slurm_script
-
-    if style == 'exclusive':
-        if input_slurm_script != 'None':
-            file = ['#!/bin/sh\n', '#SBATCH --time=99:00:00\n', '#SBATCH --job-name="nn"\n',
-                    '#SBATCH --output=nn.out\n', '#SBATCH --clusters=chemistry\n', '#SBATCH --partition=beta\n',
-                    '#SBATCH --account=pi-hachmann\n', '#SBATCH --exclusive\n', '#SBATCH --nodes=1\n', '\n',
-                    '# ====================================================\n', '# For 16-core nodes\n',
-                    '# ====================================================\n', '#SBATCH --constraint=CPU-E5-2630v3\n',
-                    '#SBATCH --tasks-per-node=1\n', '#SBATCH --mem=64000\n', '\n', '\n',
-                    'echo "SLURM job ID         = "$SLURM_JOB_ID\n',
-                    'echo "Working Dir          = "$SLURM_SUBMIT_DIR\n', 'echo "Temporary scratch    = "$SLURMTMPDIR\n',
-                    'echo "Compute Nodes        = "$SLURM_NODELIST\n', 'echo "Number of Processors = "$SLURM_NPROCS\n',
-                    'echo "Number of Nodes      = "$SLURM_NNODES\n', 'echo "Tasks per Node       = "$TPN\n',
-                    'echo "Memory per Node      = "$SLURM_MEM_PER_NODE\n', '\n', 'ulimit -s unlimited\n',
-                    'module load intel-mpi\n', 'module load python\n', 'module list\n',
-                    'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/projects/hachmann/packages/Anaconda:/projects/hachmann/packages/rdkit-Release_2015_03_1:/user/m27/pkg/openbabel/2.3.2/lib\n',
-                    'date\n', '\n', '\n', 'echo "Launch job"\n', 'export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so\n',
-                    'export I_MPI_FABRICS=shm:tcp\n', '\n', 'mpirun -np 2 python test.py\n']
-            file[8] = '#SBATCH --nodes=%i\n' % nnodes
-            file[-1] = 'mpirun -np %i python %s\n' % (nnodes, pyscript_file)
-        else:
-            file = open(input_slurm_script, 'r')
-            file = file.readlines()
-            exclusive_flag = False
-            nodes_flag = False
-            np_flag = False
-            for i, line in enumerate(file):
-                if '--exclusive' in line:
-                    exclusive_flag = True
-                elif '--nodes' in line:
-                    nodes_flag = True
-                    ind = line.index('--nodes')
-                    file[i] = line[:ind] + '--nodes=%i\n' % nnodes
-                elif '-np' in line:
-                    np_flag = True
-                    ind = line.index('--nodes')
-                    file[i] = line[:ind] + '--nodes=%i\n' % nnodes
-            if not exclusive_flag:
-                file = file[0] + ['#SBATCH --exclusive\n'] + file[1:]
-                msg = "The --exclusive option is not available in the slurm script. We added '#SBATCH --exclusive' to the first of file."
-                warnings.warn(msg, UserWarning)
-            if not nodes_flag:
-                file = file[0] + ['#SBATCH --nodes=%i\n' % nnodes] + file[1:]
-                msg = "The --nodes option is not available in the slurm script. We added '#SBATCH --nodes=%i' to the first of file." % nnodes
-                warnings.warn(msg, UserWarning)
-            if not np_flag:
-                file.append('mpirun -np %i python %s\n' % (nnodes, pyscript_file))
-                msg = "The -np option is not available in the slurm script. We added 'mpirun -np %i python %s'to the end of file." % (
-                nnodes, pyscript_file)
-                warnings.warn(msg, UserWarning)
-
-        script = open(output_slurm_script, 'w')
-        for line in file:
-            script.write(line)
-        script.close()
 

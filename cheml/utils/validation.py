@@ -109,3 +109,20 @@ def check_input(X,name,n0=None,n1=None, format_out='df'):
     if n1 and X.shape[1] != n1:
         raise Exception(name+' has an invalid number of feature entries')
     return X.astype(float), header
+
+def check_object_col(df, name):
+    """
+    Goals:
+    - check if columns with type 'object' don't have elements that can be
+      converted to numeric values.
+    - remove columns with all non numeric elements.
+    """
+    object_cols = [df.dtypes.index[i] for i, typ in enumerate(df.dtypes) if typ == "object"]
+    for col in object_cols:
+        for i, value in enumerate(df[col]):
+            if  isfloat(value):
+                raise ValueError("column '%s' in '%s' includes both string and float values." %(str(col),name))
+    # drop object columns
+    if len(object_cols)>0:
+        df = df.drop(object_cols,1)
+    return df

@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import sys
-# import scipy
 
 
 class Coulomb_Matrix(object):
@@ -59,9 +57,9 @@ class Coulomb_Matrix(object):
 
         Parameters
         ----------
-        molecules: dictionary or numpy array or pandas data frame
+        molecules: dictionary, numpy array or pandas data frame
             if dictionary: output of cheml.initialization.XYZreader
-            if numpy array: an array of molecules, which each molecule (list or numpy array) has a shape of (number of atoms, 4)
+            if numpy array: an array or list of molecules, which each molecule has a shape of (number of atoms, 4)
             if pandas dataframe : only one molecule with shape (number of atoms, 4).
             The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
 
@@ -147,40 +145,52 @@ class Bag_of_Bonds(object):
 
     Parameters
     ----------
-    const: float, optional (default = 1)
+    const: float, optional (default = 1.0)
             The constant value for coordinates unit conversion to atomic unit
-            if const=1, returns atomic unit
+            if const=1.0, returns atomic unit
             if const=0.529, returns Angstrom
 
             const/|Ri-Rj|, which denominator is the euclidean distance
-            between atoms i and j
+            between two atoms
 
     Attributes
     ----------
     header: list of header for the bag of bonds data frame
         contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)
+
+    Examples
+    --------
+    >>> from cheml.datasets import load_xyz_polarizability
+    >>> from cheml.chem import Bag_of_Bonds
+
+    >>> coordinates, y = load_xyz_polarizability()
+    >>> bob = Bag_of_Bonds(const= 1.0)
+    >>> X = bob.represent(coordinates)
     """
-    def __init__(self, const=1):
+    def __init__(self, const=1.0):
         self.const = const
 
     def represent(self, molecules):
         """
         provides bag of bonds representation for input molecules.
 
-        molecules: dictionary or numpy array
+        Parameters
+        ----------
+        molecules: dictionary,numpy array  or pandas data frame
             if dictionary: output of cheml.initialization.XYZreader
-            if numpy array: array of molecules, which each molecule is an array with shape (number of atoms, 4).
+            if numpy array: array or list of molecules, which each molecule is an array with shape (number of atoms, 4).
+            if pandas dataframe : only one molecule with shape (number of atoms, 4).
             The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
 
-        return: pandas data frame
-            shape of bag of bonds: (n_molecules, cumulative_length_of_combinations)
+        Returns
+        -------
+        pandas data frame, shape: (n_molecules, max_length_of_combinations)
 
         """
         if isinstance(molecules, dict):
             molecules = np.array([molecules[i]['mol'] for i in molecules])
         elif isinstance(molecules, pd.DataFrame):
             molecules = molecules.values
-
 
         BBs_matrix = [] # list of dictionaries for each molecule
         all_keys = {}   # dictionary of unique keys and their maximum length

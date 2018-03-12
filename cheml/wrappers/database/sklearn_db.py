@@ -83,7 +83,7 @@ class OneHotEncoder(object):
         handle_unknown = Parameter('handle_unknown', 'error')
 class Imputer(object):
     task = 'Prepare'
-    subtask = 'preprocessor'
+    subtask = 'data cleaning'
     host = 'sklearn'
     function = 'Imputer'
     modules = ('sklearn','preprocessing')
@@ -181,7 +181,7 @@ class PCA(object):
 
 class Normalizer(object):
     task = 'Prepare'
-    subtask = 'scale'
+    subtask = 'scaling'
     host = 'sklearn'
     function = 'Normalizer'
     modules = ('sklearn','preprocessing')
@@ -206,7 +206,7 @@ class Normalizer(object):
         norm = Parameter('norm', 'l2')
 class StandardScaler(object):
     task = 'Prepare'
-    subtask = 'scale'
+    subtask = 'scaling'
     host = 'sklearn'
     function = 'StandardScaler'
     modules = ('sklearn','preprocessing')
@@ -232,7 +232,7 @@ class StandardScaler(object):
         with_std = Parameter('with_std', True)
 class MinMaxScaler(object):
     task = 'Prepare'
-    subtask = 'scale'
+    subtask = 'scaling'
     host = 'sklearn'
     function = 'MinMaxScaler'
     modules = ('sklearn','preprocessing')
@@ -257,7 +257,7 @@ class MinMaxScaler(object):
         feature_range = Parameter('feature_range', (0, 1))
 class MaxAbsScaler(object):
     task = 'Prepare'
-    subtask = 'scale'
+    subtask = 'scaling'
     host = 'sklearn'
     function = 'MaxAbsScaler'
     modules = ('sklearn','preprocessing')
@@ -281,7 +281,7 @@ class MaxAbsScaler(object):
         copy = Parameter('copy', True)
 class RobustScaler(object):
     task = 'Prepare'
-    subtask = 'scale'
+    subtask = 'scaling'
     host = 'sklearn'
     function = 'RobustScaler'
     modules = ('sklearn','preprocessing')

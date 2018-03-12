@@ -287,6 +287,7 @@ class SaveFile(object):
     def fit(self, X, main_directory='.'):
         """
         Write DataFrame to a comma-seprated values (csv) file
+
         Parameters
         ----------
         X: pandas DataFrame

@@ -111,7 +111,7 @@ class Trimmer(object):
             return data, target
         else:
             raise ValueError("Not a valid type")
-      
+
 class Uniformer(object):
     """ select a uniform size of groups of target values
     

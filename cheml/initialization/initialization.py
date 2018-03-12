@@ -1,5 +1,4 @@
 import os
-import sys
 import pandas as pd
 import numpy as np
 import warnings
@@ -8,34 +7,19 @@ import fnmatch
 from ..utils.utilities import std_datetime_str
 
 
-def Merge(X1, X2):
-    """
-    todo: add more functionality for header overlaps
-    Merge same length data frames.
-
-    :param X1: pandas data frame
-        first data frame
-    :param X2: pandas data frame
-        second data frame
-    :return: pandas data frame
-    """
-    if not isinstance(X1,pd.DataFrame) or not isinstance(X2,pd.DataFrame):
-        msg = 'both X1 and X2 must be pandas dataframe'
-        raise TypeError(msg)
-    if X1.shape[0] != X2.shape[0]:
-        msg= 'Two input data frames should be in the same length'
-        raise ValueError(msg)
-    X = X1.join(X2,lsuffix='_X1',rsuffix='_X2')
-    return X
-
 class Split(object):
     """
     split data frame by columns
 
-    :param: select: integer or list (default = 1)
+    Parameters
+    ----------
+    select: integer or list (default = 1)
         integer: number of columns to be selected from the first of data as first data frame (X1)
         list: list of headers to be selected as first data frame (X1)
-    :return: two pandas data frame: X1 and X2
+
+    Returns
+    -------
+    two pandas dataframes: X1 and X2
     """
     def __init__(self,selection=1):
         self.selection = selection
@@ -232,14 +216,29 @@ class XYZreader(object):
         return molecules
 
 class ConvertFile(object):
+    """
+    An interface to babel -- a converter for chemistry and molecular modeling data files
+    https://openbabel.org/wiki/Babel
 
+    Parameters
+    ----------
+    file_path: str or dict
+        if dictionary, it should be in the same format of XYZreader's (cheml module) output.
+    from_format: str
+        input type
+    to_format: str
+        output type
+
+    Returns:
+        dictionary of converted file paths, in the same format of XYZreader output: {index:{'file':""}}
+    """
     def __init__(self,file_path,from_format,to_format):
         self.file_path=file_path
         self.from_format=from_format
         self.to_format=to_format
 
     def convert(self):
-        converted_file_paths=[]
+        converted_file_paths={}
         if isinstance(self.file_path,str):
             if not self.from_format == self.file_path[-len(self.from_format):]:
                 msg = 'file format is not the same as from_format'
@@ -252,7 +251,7 @@ class ConvertFile(object):
                 command='babel ' + ob_from_format + ' ' + self.file_path + ' ' + ob_to_format + ' ' + path+self.to_format
                 print command
                 os.system(command)
-                converted_file_paths.append(path+self.to_format)
+                converted_file_paths[1] = {'file':path+self.to_format}
 
         elif isinstance(self.file_path,dict):
             for it in range(1,len(self.file_path)+1):
@@ -266,7 +265,7 @@ class ConvertFile(object):
                     path=fpath[:fpath.rfind('.')+1]
                     command = 'babel ' + ob_from_format + ' ' + fpath + ' ' + ob_to_format + ' ' + path + self.to_format
                     os.system(command)
-                    converted_file_paths.append(path + self.to_format)
+                    converted_file_paths[it] = {'file':path+self.to_format}
 
         return converted_file_paths
 
@@ -288,9 +287,11 @@ class SaveFile(object):
     def fit(self, X, main_directory='.'):
         """
         Write DataFrame to a comma-seprated values (csv) file
-        :param: X: pandas DataFrame
-        :param: main_directory: string, if there is any main directory for entire cheml project
-        :return: nothing
+        Parameters
+        ----------
+        X: pandas DataFrame
+        main_directory: string
+            if there is any main directory for entire cheml project
         """
         if not isinstance(X, pd.DataFrame):
             msg = 'X must be a pandas dataframe'
@@ -349,97 +350,4 @@ class StoreFile(object):
                 self.file_path = '%s/%s.%s' %(main_directory,self.filename,self.format)
         with open(self.file_path, 'a') as file:
             file.write('%s\n' % str(X))
-
-def slurm_script(block):
-    """(slurm_script):
-        if part of your code must be run on a cluster and you need to make a slurm
-        script for that purpose, this function helps you to do so.
-
-    Parameters
-    ----------
-    style: string, optional(default=exclusive)
-        Available options:
-            - exclusive : makes the slurm script based on exclusive selection of cores per nodes.
-
-    nnodes: int, optional(default = 1)
-        number of available empty nodes in the cluster.
-
-    input_slurm_script: string, optional(default = None)
-        The file path to the prepared slurm script. We also locate place of
-        --nodes and -np in the script and make sure that provided numbers are
-        equal to number of nodes(nnodes). Also, the exclusive option must be
-        included in the script to have access to an entire node.
-
-    output_slurm_script: string, optional(default = 'script.slurm')
-        The path and name of the slurm script file that will be saved after
-        changes by this function.
-
-    Returns
-    -------
-    The function will write a slurm script file with the filename passed by
-    output_slurm_script.
-
-    """
-    style = block['parameters']['style'][1:-1]
-    pyscript_file = cmlnb["file_name"]
-    nnodes = int(block['parameters']['nnodes'])
-    input_slurm_script = block['parameters']['input_slurm_script'][1:-1]
-    output_slurm_script = block['parameters']['output_slurm_script'][1:-1]
-
-    cmlnb["run"] = "# how to run: sbatch %s" % output_slurm_script
-
-    if style == 'exclusive':
-        if input_slurm_script != 'None':
-            file = ['#!/bin/sh\n', '#SBATCH --time=99:00:00\n', '#SBATCH --job-name="nn"\n',
-                    '#SBATCH --output=nn.out\n', '#SBATCH --clusters=chemistry\n', '#SBATCH --partition=beta\n',
-                    '#SBATCH --account=pi-hachmann\n', '#SBATCH --exclusive\n', '#SBATCH --nodes=1\n', '\n',
-                    '# ====================================================\n', '# For 16-core nodes\n',
-                    '# ====================================================\n', '#SBATCH --constraint=CPU-E5-2630v3\n',
-                    '#SBATCH --tasks-per-node=1\n', '#SBATCH --mem=64000\n', '\n', '\n',
-                    'echo "SLURM job ID         = "$SLURM_JOB_ID\n',
-                    'echo "Working Dir          = "$SLURM_SUBMIT_DIR\n', 'echo "Temporary scratch    = "$SLURMTMPDIR\n',
-                    'echo "Compute Nodes        = "$SLURM_NODELIST\n', 'echo "Number of Processors = "$SLURM_NPROCS\n',
-                    'echo "Number of Nodes      = "$SLURM_NNODES\n', 'echo "Tasks per Node       = "$TPN\n',
-                    'echo "Memory per Node      = "$SLURM_MEM_PER_NODE\n', '\n', 'ulimit -s unlimited\n',
-                    'module load intel-mpi\n', 'module load python\n', 'module list\n',
-                    'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/projects/hachmann/packages/Anaconda:/projects/hachmann/packages/rdkit-Release_2015_03_1:/user/m27/pkg/openbabel/2.3.2/lib\n',
-                    'date\n', '\n', '\n', 'echo "Launch job"\n', 'export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so\n',
-                    'export I_MPI_FABRICS=shm:tcp\n', '\n', 'mpirun -np 2 python test.py\n']
-            file[8] = '#SBATCH --nodes=%i\n' % nnodes
-            file[-1] = 'mpirun -np %i python %s\n' % (nnodes, pyscript_file)
-        else:
-            file = open(input_slurm_script, 'r')
-            file = file.readlines()
-            exclusive_flag = False
-            nodes_flag = False
-            np_flag = False
-            for i, line in enumerate(file):
-                if '--exclusive' in line:
-                    exclusive_flag = True
-                elif '--nodes' in line:
-                    nodes_flag = True
-                    ind = line.index('--nodes')
-                    file[i] = line[:ind] + '--nodes=%i\n' % nnodes
-                elif '-np' in line:
-                    np_flag = True
-                    ind = line.index('--nodes')
-                    file[i] = line[:ind] + '--nodes=%i\n' % nnodes
-            if not exclusive_flag:
-                file = file[0] + ['#SBATCH --exclusive\n'] + file[1:]
-                msg = "The --exclusive option is not available in the slurm script. We added '#SBATCH --exclusive' to the first of file."
-                warnings.warn(msg, UserWarning)
-            if not nodes_flag:
-                file = file[0] + ['#SBATCH --nodes=%i\n' % nnodes] + file[1:]
-                msg = "The --nodes option is not available in the slurm script. We added '#SBATCH --nodes=%i' to the first of file." % nnodes
-                warnings.warn(msg, UserWarning)
-            if not np_flag:
-                file.append('mpirun -np %i python %s\n' % (nnodes, pyscript_file))
-                msg = "The -np option is not available in the slurm script. We added 'mpirun -np %i python %s'to the end of file." % (
-                nnodes, pyscript_file)
-                warnings.warn(msg, UserWarning)
-
-        script = open(output_slurm_script, 'w')
-        for line in file:
-            script.write(line)
-        script.close()
 

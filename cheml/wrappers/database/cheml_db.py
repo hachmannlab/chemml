@@ -480,7 +480,7 @@ class APEAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -502,7 +502,7 @@ class ChargeDependentAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -522,7 +522,7 @@ class ElementalPropertyAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -542,7 +542,7 @@ class ElementFractionAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -562,7 +562,7 @@ class ElementPairPropertyAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -582,7 +582,7 @@ class GCLPAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -604,7 +604,7 @@ class IonicCompoundProximityAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -624,7 +624,7 @@ class IonicityAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -644,9 +644,13 @@ class MeredigAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
 
 class StoichiometricAttributeGenerator(object):
     task = 'Represent'
@@ -660,7 +664,7 @@ class StoichiometricAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -680,7 +684,7 @@ class ValenceShellAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -700,7 +704,7 @@ class YangOmegaAttributeGenerator(object):
     class Inputs:
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -721,7 +725,7 @@ class APRDFAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -746,7 +750,7 @@ class ChemicalOrderingAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -768,7 +772,7 @@ class CoordinationNumberAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -789,7 +793,7 @@ class CoulombMatrixAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -810,7 +814,7 @@ class EffectiveCoordinationNumberAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -831,7 +835,7 @@ class LatticeSimilarityAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -852,7 +856,7 @@ class LocalPropertyDifferenceAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -875,7 +879,7 @@ class LocalPropertyVarianceAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -898,7 +902,7 @@ class PackingEfficiencyAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -919,7 +923,7 @@ class PRDFAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -941,7 +945,7 @@ class StructuralHeterogeneityAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CrystalStructureEntry "
                                   "class.",
-                                      ("<type 'list'>"))
+                                      ("<type 'list'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:

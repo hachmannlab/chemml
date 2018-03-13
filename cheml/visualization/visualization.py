@@ -1,8 +1,9 @@
+import matplotlib
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.mlab as mlab
 from matplotlib.ticker import FuncFormatter
-import matplotlib
 import os
 
 class Scatter_2D(object):
@@ -56,6 +57,7 @@ class Scatter_2D(object):
     >>> smiles,density,features=load_organic_density()
     >>> pl3=Scatter_2D(['MW'],['AMW'],nod=1,xlabel='MW',ylabel='AMW',sc=['bo'],title='MW vs AMW', kwargs={'markersize':0.5,'alpha':0.25},xmin=800,xmax=2000,ymin=800,ymax=2000)
     >>> fig=pl3.plot(features)
+    >>> # fig.show()
 
     """
     def __init__(self, xheader=['x'], yheader=['y'], nod=1,subplots=[1,1,1],legend=False,xmin=0,xmax=0,ymin=0,ymax=0,xlabel= 'x', ylabel='y',title='Plot',sc=[''],legend_titles=[],l_pos='best',kwargs={}):

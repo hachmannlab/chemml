@@ -1,5 +1,5 @@
 """
-The 'cheml.visualization' module includes matplotlib,
+The 'cheml.visualization' module includes visualization,
 last modified date: September 7, 2017
 """
 

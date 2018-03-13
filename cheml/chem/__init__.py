@@ -5,7 +5,7 @@ Created on 01 March 2016
 
 from .Dragon import Dragon
 from .RDKFP import RDKitFingerprint
-from .CoulMat import Coulomb_Matrix
+from .CoulMat import CoulombMatrix
 from .CoulMat import Bag_of_Bonds
 # from .DistMat import DistanceMatrix
 

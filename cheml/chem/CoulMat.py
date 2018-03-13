@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-class Coulomb_Matrix(object):
+class CoulombMatrix(object):
 
     """ (CoulombMatrix)
     The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL (3 different representations).
@@ -139,8 +139,8 @@ class Coulomb_Matrix(object):
             random_cm = random_cm.reshape(self.n_molecules, self.nPerm*self.max_n_atoms*(self.max_n_atoms+1)/2)
             return pd.DataFrame(random_cm)
 
-class Bag_of_Bonds(object):
-    """ (Bag_of_Bonds)
+class BagofBonds(object):
+    """ (BagofBonds)
     The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.
 
     Parameters
@@ -161,10 +161,10 @@ class Bag_of_Bonds(object):
     Examples
     --------
     >>> from cheml.datasets import load_xyz_polarizability
-    >>> from cheml.chem import Bag_of_Bonds
+    >>> from cheml.chem import BagofBonds
 
     >>> coordinates, y = load_xyz_polarizability()
-    >>> bob = Bag_of_Bonds(const= 1.0)
+    >>> bob = BagofBonds(const= 1.0)
     >>> X = bob.represent(coordinates)
     """
     def __init__(self, const=1.0):

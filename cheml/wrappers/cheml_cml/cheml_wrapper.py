@@ -360,14 +360,14 @@ class Dragon(BASE):
         os.remove(model.output_directory + self.parameters['SaveFilePath'])
         del self.inputs
 
-class Coulomb_Matrix(BASE):
+class CoulombMatrix(BASE):
     def fit(self):
         self.paramFROMinput()
         self.required('molecules', req=True)
         molecules = self.inputs['molecules'].value
         try:
-            from cheml.chem import Coulomb_Matrix
-            model = Coulomb_Matrix(**self.parameters)
+            from cheml.chem import CoulombMatrix
+            model = CoulombMatrix(**self.parameters)
             df = model.represent(molecules)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
@@ -384,14 +384,14 @@ class Coulomb_Matrix(BASE):
 
         del self.inputs
 
-class Bag_of_Bonds(BASE):
+class BagofBonds(BASE):
     def fit(self):
         self.paramFROMinput()
         self.required('molecules', req=True)
         molecules = self.inputs['molecules'].value
         try:
-            from cheml.chem import Bag_of_Bonds
-            model = Bag_of_Bonds(**self.parameters)
+            from cheml.chem import BagofBonds
+            model = BagofBonds(**self.parameters)
             df = model.represent(molecules)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message

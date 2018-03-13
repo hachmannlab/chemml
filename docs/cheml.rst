@@ -17,7 +17,7 @@ cheml library
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml
+.. .. automodule:: cheml
     :members:
     :undoc-members:
     :show-inheritance:

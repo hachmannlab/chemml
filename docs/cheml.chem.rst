@@ -1,52 +1,45 @@
-cheml.chem package
-==================
+cheml.chem module
+=================
 
 
-cheml.chem.CoulMat module
--------------------------
-
-.. automodule:: cheml.chem.CoulMat
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-cheml.chem.DistMat module
--------------------------
-
-.. automodule:: cheml.chem.DistMat
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-cheml.chem.Dragon module
+cheml.chem.CoulombMatrix
 ------------------------
+
+.. automodule:: cheml.chem.CoulombMatrix
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+cheml.chem.BagofBonds
+---------------------
+
+.. automodule:: cheml.chem.BagofBonds
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+cheml.chem.RDKitFingerprint
+---------------------------
+
+.. automodule:: cheml.chem.RDKitFingerprint
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+cheml.chem.Dragon
+-----------------
 
 .. automodule:: cheml.chem.Dragon
     :members:
     :undoc-members:
     :show-inheritance:
 
-cheml.chem.Magpie module
-------------------------
-
-.. automodule:: cheml.chem.Magpie
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-cheml.chem.RDKFP module
------------------------
-
-.. automodule:: cheml.chem.RDKFP
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
-.. automodule:: cheml.chem
+.. .. automodule:: cheml.chem
     :members:
     :undoc-members:
     :show-inheritance:

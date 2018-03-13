@@ -153,11 +153,11 @@ class Dragon(object):
         SaveCorrThreshold = Parameter('SaveCorrThreshold', "'0.95'", format='string')
         SaveFile = Parameter('SaveFile', True)
 
-class Coulomb_Matrix(object):
+class CoulombMatrix(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
     host = 'cheml'
-    function = 'Coulomb_Matrix'
+    function = 'CoulombMatrix'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -175,7 +175,7 @@ class Coulomb_Matrix(object):
         nPerm = Parameter('nPerm', 3)
         const = Parameter('const', 1)
 
-class Bag_of_Bonds(object):
+class BagofBonds(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
     host = 'cheml'

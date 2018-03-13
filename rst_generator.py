@@ -1,4 +1,6 @@
 ## run this file in the main directory ##
+import os
+import shutil
 import inspect
 import pandas as pd
 from tabulate import tabulate
@@ -6,6 +8,10 @@ from tabulate import tabulate
 
 databases = ['cheml', 'sklearn', 'pd']
 directory = 'docs/wrapper_docs'
+# first remove all files in the directory
+shutil.rmtree(directory)
+os.makedirs(directory)
+
 direc = 'wrapper_docs'
 extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_types']
 cols = ['task', 'subtask', 'host', 'function', 'input tokens', 'output tokens']
@@ -63,9 +69,11 @@ for h in databases:
                 for item in inputs:
                     if item not in ('__module__', '__doc__'):
                         file.write('    | ``%s`` : %s\n' % (inputs[item].name, inputs[item].short_description))
-                        file.write('    |   %s\n'%str(inputs[item].types))
+                        file.write('    |   types: %s\n'%str(inputs[item].types))
             else:
-                row.append('-')
+                file.write(':input tokens (receivers):\n')
+                file.write("    |   this block doesn't receive anything\n")
+                row.append("(doesn't receive anything)")
             file.write('\n')
             outputs = {}
             if len(vars(k.Outputs)) > 2:
@@ -76,9 +84,11 @@ for h in databases:
                 for item in outputs:
                     if item not in ('__module__', '__doc__'):
                         file.write('    | ``%s`` : %s\n' % (outputs[item].name, outputs[item].short_description))
-                        file.write('    |   %s\n'%str(outputs[item].types))
+                        file.write('    |   types: %s\n'%str(outputs[item].types))
             else:
-                row.append('-')
+                file.write(':input tokens (receivers):\n')
+                file.write("    |   this block doesn't send anything\n")
+                row.append("(doesn't send anything)")
             file.write('\n')
             wparams = {}
             if len(vars(k.WParameters)) > 2:
@@ -115,14 +125,21 @@ for h in databases:
             file.write('    .. note:: The documentation page for function parameters: %s'%k.documentation)
             df.loc[ind] = row
 
-tasks = ['Enter', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
+tasks = ['Enter', 'Represent', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
 for i,j in enumerate(tasks):
     with open('docs/include_CMLWR%i%s.rst'%(i+1,j),'w') as f:
         for fu in info[j]:
             f.write(fu + '\n')
 
 print '********** contents tables **********'
-df = df.sort_values(['task','host'])
+gdf = df.groupby('task')
+dfs = []
+for t in tasks:
+    for gr in gdf:
+        if gr[0] == t:
+            dfs.append(gr[1].sort_values(['host','subtask']))
+
+df = pd.concat(dfs,axis=0)
 df.index = range(1,len(df)+1)
 table = tabulate(df, headers='keys', tablefmt='psql')
 ls = table.split('\n')
@@ -142,11 +159,11 @@ Table of Contents
 This is a complete list of all the methods that are available through ChemML Wrapper interface. You can click on each function
 for further information.
 
-The table's description:
-    - task and subtask: just for an easier classification of methods
-    - host: the main library/dependency required for using the method
-    - function: the method name
-    - input and output tokens: the only tokens that are responsible for sending or receiving information in each block
+Table's columns describe:
+    - task and subtask: for an easier classification of methods
+    - host: the main library/dependency required for running a method
+    - function: the method name that determines a block/node of computation graph
+    - input and output tokens: available tokens in each block that collect specific information and send/receive it to/from other blocks
 """
 with open('docs/CMLWContentsTable.rst','w') as f:
     for s in script.split('\n'):

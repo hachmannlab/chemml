@@ -17,15 +17,15 @@ KernelPCA
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's KernelPCA class
-    |   ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>",)
+    |   types: ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's KernelPCA class
-    |   ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>",)
+    |   types: ("<class 'sklearn.decomposition.kernel_pca.KernelPCA'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:False)

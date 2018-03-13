@@ -4,10 +4,10 @@ Dragon
 =======
 
 :task:
-    | Prepare
+    | Represent
 
 :subtask:
-    | feature representation
+    | molecular descriptors
 
 :host:
     | cheml
@@ -17,11 +17,11 @@ Dragon
 
 :input tokens (receivers):
     | ``molfile`` : the molecule file path
-    |   ("<type 'str'>",)
+    |   types: ("<type 'str'>", "<type 'dict'>", "<type 'list'>")
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``script`` : , (default:new)
@@ -29,7 +29,7 @@ Dragon
     |   choose one of: []
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
     | Dragon, 7 or 6
     | lxml, 3.4.0

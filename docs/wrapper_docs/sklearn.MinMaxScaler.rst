@@ -7,7 +7,7 @@ MinMaxScaler
     | Prepare
 
 :subtask:
-    | scale
+    | scaling
 
 :host:
     | sklearn
@@ -17,15 +17,15 @@ MinMaxScaler
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's MinMaxScaler class
-    |   ("<class 'sklearn.preprocessing.data.MinMaxScaler'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.MinMaxScaler'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's MinMaxScaler class
-    |   ("<class 'sklearn.preprocessing.data.MinMaxScaler'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.MinMaxScaler'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

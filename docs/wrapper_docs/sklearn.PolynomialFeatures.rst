@@ -17,15 +17,15 @@ PolynomialFeatures
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's PolynomialFeatures class
-    |   ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's PolynomialFeatures class
-    |   ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.PolynomialFeatures'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

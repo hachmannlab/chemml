@@ -15,15 +15,16 @@ XYZreader
 :function:
     | XYZreader
 
+:input tokens (receivers):
+    |   this block doesn't receive anything
 
 :output tokens (senders):
     | ``molecules`` : dictionary of molecules with ['mol', 'file'] keys
-    |   ("<type 'dict'>",)
+    |   types: ("<type 'dict'>",)
 
 
 :required packages:
-    | C, h
-    | 0, .
+    | ChemML, 0.4.1
 
 :config file view:
     | ``##``

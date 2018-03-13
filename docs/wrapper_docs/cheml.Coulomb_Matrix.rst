@@ -4,10 +4,10 @@ Coulomb_Matrix
 ===============
 
 :task:
-    | Prepare
+    | Represent
 
 :subtask:
-    | feature representation
+    | molecular descriptors
 
 :host:
     | cheml
@@ -17,15 +17,15 @@ Coulomb_Matrix
 
 :input tokens (receivers):
     | ``molecules`` : the molecule numpy array or data frame
-    |   ("<class 'pandas.core.frame.DataFrame'>", "<type 'numpy.ndarray'>", "<type 'dict'>")
+    |   types: ("<class 'pandas.core.frame.DataFrame'>", "<type 'numpy.ndarray'>", "<type 'dict'>")
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

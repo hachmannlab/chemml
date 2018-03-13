@@ -17,13 +17,13 @@ ShuffleSplit
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's ShuffleSplit class
-    |   ("<class 'sklearn.model_selection._split.ShuffleSplit'>",)
+    |   types: ("<class 'sklearn.model_selection._split.ShuffleSplit'>",)
     | ``fold_gen`` : Generator of indices to split data into training and test set
-    |   ("<type 'generator'>",)
+    |   types: ("<type 'generator'>",)
 
 :wrapper parameters:
     | ``func_method`` : string, (default:None)

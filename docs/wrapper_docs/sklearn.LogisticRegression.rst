@@ -17,17 +17,17 @@ LogisticRegression
 
 :input tokens (receivers):
     | ``api`` : instance of scikit-learn's LogisticRegression class
-    |   ("<class 'sklearn.linear_model.logistic.LogisticRegression'>",)
+    |   types: ("<class 'sklearn.linear_model.logistic.LogisticRegression'>",)
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's LogisticRegression class
-    |   ("<class 'sklearn.linear_model.logistic.LogisticRegression'>",)
+    |   types: ("<class 'sklearn.linear_model.logistic.LogisticRegression'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

@@ -7,7 +7,7 @@ Normalizer
     | Prepare
 
 :subtask:
-    | scale
+    | scaling
 
 :host:
     | sklearn
@@ -17,15 +17,15 @@ Normalizer
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's Normalizer class
-    |   ("<class 'sklearn.preprocessing.data.Normalizer'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.Normalizer'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's Normalizer class
-    |   ("<class 'sklearn.preprocessing.data.Normalizer'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.Normalizer'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

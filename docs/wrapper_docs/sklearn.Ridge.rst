@@ -17,17 +17,17 @@ Ridge
 
 :input tokens (receivers):
     | ``api`` : instance of scikit-learn's Ridge class
-    |   ("<class 'sklearn.linear_model.ridge.Ridge'>",)
+    |   types: ("<class 'sklearn.linear_model.ridge.Ridge'>",)
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's Ridge class
-    |   ("<class 'sklearn.linear_model.ridge.Ridge'>",)
+    |   types: ("<class 'sklearn.linear_model.ridge.Ridge'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

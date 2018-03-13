@@ -7,7 +7,7 @@ MissingValues
     | Prepare
 
 :subtask:
-    | preprocessor
+    | data cleaning
 
 :host:
     | cheml
@@ -17,23 +17,23 @@ MissingValues
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
 
 :wrapper parameters:
-    | ``func_method`` : string, (default:None)
+    | ``func_method`` : String, (default:None)
     |   
     |   choose one of: ('fit_transform', 'transform', None)
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

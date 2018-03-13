@@ -7,7 +7,7 @@ MaxAbsScaler
     | Prepare
 
 :subtask:
-    | scale
+    | scaling
 
 :host:
     | sklearn
@@ -17,15 +17,15 @@ MaxAbsScaler
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's MaxAbsScaler class
-    |   ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's MaxAbsScaler class
-    |   ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>",)
+    |   types: ("<class 'sklearn.preprocessing.data.MaxAbsScaler'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

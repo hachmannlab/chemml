@@ -17,17 +17,17 @@ LassoLars
 
 :input tokens (receivers):
     | ``api`` : instance of scikit-learn's LassoLars class
-    |   ("<class 'sklearn.linear_model.least_angle.LassoLars'>",)
+    |   types: ("<class 'sklearn.linear_model.least_angle.LassoLars'>",)
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's LassoLars class
-    |   ("<class 'sklearn.linear_model.least_angle.LassoLars'>",)
+    |   types: ("<class 'sklearn.linear_model.least_angle.LassoLars'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

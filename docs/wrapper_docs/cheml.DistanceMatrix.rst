@@ -4,10 +4,10 @@ DistanceMatrix
 ===============
 
 :task:
-    | Prepare
+    | Represent
 
 :subtask:
-    | feature representation
+    | distance matrix
 
 :host:
     | cheml
@@ -17,15 +17,15 @@ DistanceMatrix
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

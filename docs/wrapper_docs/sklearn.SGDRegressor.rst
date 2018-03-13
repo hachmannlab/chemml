@@ -17,17 +17,17 @@ SGDRegressor
 
 :input tokens (receivers):
     | ``api`` : instance of scikit-learn's SGDRegressor class
-    |   ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>",)
+    |   types: ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>",)
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's SGDRegressor class
-    |   ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>",)
+    |   types: ("<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

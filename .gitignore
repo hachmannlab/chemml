@@ -11,7 +11,9 @@
 
 # huge files
 benchmarks/
+
+# documentation
 _build/
 
-#ipynb
+# ipynb
 .ipynb_checkpoints/

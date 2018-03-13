@@ -474,7 +474,7 @@ class wrapperGUI(object):
             _func_update()
 
         header = widgets.Label(value='Choose a method:', layout=widgets.Layout(width='50%'))
-        task_options = self.tasks[0:4] + [self.tasks[6]]
+        task_options = self.tasks[0:4] + self.tasks[6:8]
         task_w = widgets.Dropdown(
             options=task_options,
             value=task_options[0],

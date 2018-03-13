@@ -1,8 +1,8 @@
-cheml package
+cheml library
 =============
 
-Subpackages
------------
+.. Subpackages
+.. -----------
 
 .. toctree::
 
@@ -14,8 +14,8 @@ Subpackages
     cheml.search
     cheml.visualization
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml
     :members:

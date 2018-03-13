@@ -179,7 +179,7 @@ class BagofBonds(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
     host = 'cheml'
-    function = 'Bag_of_Bonds'
+    function = 'BagofBonds'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""

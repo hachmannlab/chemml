@@ -8,10 +8,10 @@ Subpackages
 
     cheml.chem
     cheml.initialization
-    cheml.nn
+    cheml.datasets
     cheml.preprocessing
+    cheml.nn
     cheml.search
-    cheml.utils
     cheml.visualization
 
 Module contents

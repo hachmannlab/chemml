@@ -30,13 +30,14 @@ class Parameter(object):
         self.options = options
 
 def req(ind):
-    all_req = { 0 : ('ChemML','0.1.0'),
+    all_req = { 0 : ('ChemML','0.4.1'),
                 1 : ('scikit-learn','0.19.0'),
                 2 : ('pandas', '0.20.3'),
                 3 : ('RDKit','2016.03.1'),
                 4 : ('Dragon','7 or 6'),
                 5 : ('lxml', '3.4.0'),
-                6 : ('openbabel', '')
+                6 : ('Babel', '2.3.4'),
+
               }
     return all_req[ind]
 

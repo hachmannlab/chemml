@@ -306,7 +306,6 @@ class MissingValues(object):
         inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
         missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
-
 # class mlp_hogwild(object):
 #     task = 'Model'
 #     subtask = 'regression'

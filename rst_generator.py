@@ -10,7 +10,7 @@ direc = 'wrapper_docs'
 extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_types']
 cols = ['task', 'subtask', 'host', 'function', 'input tokens', 'output tokens']
 df = pd.DataFrame(columns = cols)
-info = {'Enter':[], 'Prepare':[],'Model':[],'Search':[],'Mix':[],'Visualize':[],'Store':[]}
+info = {'Enter':[], 'Represent':[], 'Prepare':[],'Model':[],'Search':[],'Mix':[],'Visualize':[],'Store':[]}
 ind= 0
 
 for h in databases:

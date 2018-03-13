@@ -13,7 +13,7 @@ def _group_parser(indices, pop):
     return sel_ind
 
 class Trimmer(object):
-    """ cut unnecessary parts of data set
+    """ cut unnecessary parts of the data
     
     Parameters
     ----------

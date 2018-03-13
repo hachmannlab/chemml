@@ -36,7 +36,8 @@ def req(ind):
                 3 : ('RDKit','2016.03.1'),
                 4 : ('Dragon','7 or 6'),
                 5 : ('lxml', '3.4.0'),
-                6 : ('openbabel', '')
+                6 : ('openbabel', ''),
+                7 : ('matplotlib',''),
               }
     return all_req[ind]
 

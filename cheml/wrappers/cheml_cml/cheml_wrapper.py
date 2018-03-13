@@ -134,6 +134,89 @@ class ConvertFile(BASE):
                 self.Base.send[(self.iblock,token)] = self.outputs[token]
         del self.inputs
 
+class Scatter_2D(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        dflist=[]
+        dfs = ['df1','df2','df3','df4']
+        for f in dfs:
+            df = self.inputs[f].value
+            if isinstance(df,pd.DataFrame):
+                dflist.append(df)
+        if len(dflist) == 0:
+            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
+            raise IOError(msg)
+
+        try:
+            from cheml.visualization import Scatter_2D
+            model = Scatter_2D(**self.parameters)
+            fig=model.plot(dflist)
+
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, fig)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class hist(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        dflist=[]
+        dfs = ['df1','df2','df3','df4']
+        for f in dfs:
+            df = self.inputs[f].value
+            if isinstance(df,pd.DataFrame):
+                dflist.append(df)
+        if len(dflist) == 0:
+            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
+            raise IOError(msg)
+        try:
+            from cheml.visualization import hist
+            print self.parameters['kwargs']
+            model = hist(**self.parameters)
+            fig=model.plot(dflist)
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, fig)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class SaveFigure(BASE):
+    def fit(self):
+        self.required('fig', req=True)
+        fig = self.inputs['fig'].value
+        self.paramFROMinput()
+        try:
+            from cheml.visualization import SaveFigure
+            model = SaveFigure(fig,**self.parameters)
+            model.fit(self.Base.output_directory)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+
+        del self.inputs
+
 class PyScript(BASE):
     def fit(self):
         # step1: check inputs

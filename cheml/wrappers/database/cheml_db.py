@@ -384,6 +384,103 @@ class ConvertFile(object):
         from_format = Parameter('from_format', 'required_required')
         to_format = Parameter('to_format', 'required_required')
 
+class Scatter_2D(object):
+    task='Visualize'
+    subtask = 'Plot'
+    host = 'cheml'
+    function = 'Scatter_2D'
+    modules = ('cheml','visualization')
+    requirements = (req(0),req(2),req(7))
+    documentation = "https://matplotlib.org/users/index.html"
+
+    class Inputs:
+        df1=Input("df1","a pandas dataframe",("<class 'pandas.core.frame.DataFrame'>",))
+        df2 = Input("df2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df3 = Input("df3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df4 = Input("df4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+    class Outputs:
+        fig=Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
+
+    class WParameters:
+        pass
+
+    class FParameters:
+        legend = Parameter('legend','False')
+        legend_titles = Parameter('legend_titles',[])
+        sc = Parameter('sc',[])
+        nod = Parameter('nod',1)
+        subplots = Parameter('subplots',[1,1,1])
+        xmin = Parameter('xmin',0)
+        xmax = Parameter('xmax', 0)
+        ymin = Parameter('ymin', 0)
+        ymax = Parameter('ymax', 0)
+        xlabel = Parameter('xlabel','x')
+        ylabel = Parameter('ylabel','y')
+        title = Parameter('title','Plot')
+        xheader = Parameter('xheader',['x'])
+        yheader = Parameter('yheader',['y'])
+        l_pos = Parameter('lpos','Best')
+        kwargs = Parameter('kwargs',{})
+
+class hist(object):
+    task='Visualize'
+    subtask = 'Plot'
+    host = 'cheml'
+    function = 'hist'
+    modules = ('cheml','visualization')
+    requirements = (req(0),req(2),req(7))
+    documentation = "https://matplotlib.org/users/index.html"
+
+    class Inputs:
+        df1=Input("df1","a pandas dataframe",("<class 'pandas.core.frame.DataFrame'>",))
+        df2 = Input("df2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df3 = Input("df3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df4 = Input("df4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+    class Outputs:
+        fig=Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
+
+    class WParameters:
+        pass
+
+    class FParameters:
+        nbins=Parameter('nbins','required_required')
+        rwidth=Parameter('rwidth',1)
+        lineshapecolor=Parameter('lineshapecolor','')
+        bestfit=Parameter('bestfit','False')
+        isformatter=Parameter('isformatter','False')
+        formatter_type=Parameter('formatter_type','')
+        xmin = Parameter('xmin',0)
+        xmax = Parameter('xmax', 0)
+        xlabel = Parameter('xlabel','x')
+        ylabel = Parameter('ylabel','y')
+        title = Parameter('title','Histogram')
+        kwargs = Parameter('kwargs', {})
+
+class SaveFigure(object):
+    task='Store'
+    subtask = 'figure'
+    host = 'cheml'
+    function = 'SaveFigure'
+    modules = ('cheml','visualization')
+    requirements = (req(0),req(2),req(7))
+    documentation = "https://matplotlib.org/users/index.html"
+
+    class Inputs:
+        fig = Input('fig', "a matplotlib object", ("<class 'matplotlib.figure.Figure'>",))
+    class Outputs:
+        pass
+
+    class WParameters:
+        pass
+
+    class FParameters:
+        filename=Parameter('filename','required_required')
+        output_directory=Parameter('output_directory',None)
+        format=Parameter('format','png')
+        kwargs = Parameter('kwargs', {})
+
 class load_cep_homo(object):
     task = 'Enter'
     subtask = 'datasets'

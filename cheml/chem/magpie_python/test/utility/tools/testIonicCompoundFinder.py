@@ -1,6 +1,6 @@
 import unittest
-from data.materials.CompositionEntry import CompositionEntry
-from utility.tools.IonicCompoundFinder import IonicCompoundFinder
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....utility.tools.IonicCompoundFinder import IonicCompoundFinder
 
 class testIonicCompoundFinder(unittest.TestCase):
     def setUp(self):

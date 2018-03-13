@@ -1,17 +1,44 @@
 import numpy as np
 from numpy.linalg import norm
-from vassal.analysis.voronoi.VoronoiVertex import VoronoiVertex
+from ..voronoi.VoronoiVertex import VoronoiVertex
 
 class VoronoiEdge:
+    """Class describing an edge of a cell in a Voronoi tessellation.
+
+    Attributes
+    ----------
+    edge_face : Plane
+        Plane defining one face containing this edge.
+    intersecting_face : Plane
+        Plane defining the other face defining this edge.
+    line : Line
+        Line representing this edge.
+    direction : array-like
+        Direction of edge.
+    beginning : float
+        Point marking the beginning of this edge.
+    end : float
+        Point marking the end of this edge.
+    next_edge : VoronoiEdge
+        Edge after this edge.
+    previous_edge : VoronoiEdge
+        Edge before this edge.
     """
-    Class describing an edge of a cell in a Voronoi tessellation.
-    """
+
     def __init__(self, edge_face=None, intersecting_face=None):
-        """
-        Function to initialize an edge instance.
-        :param edge_face: Plane defining one face containing this edge.
-        :param intersecting_face: Plane defining the other face defining this
-        edge.
+        """Function to initialize an edge instance.
+
+        Parameters
+        ----------
+        edge_face : Plane
+            Plane defining one face containing this edge.
+        intersecting_face : Plane
+            Plane defining the other face defining this edge.
+
+        Raises
+        ------
+        Exception
+            Planes are parallel.
         """
 
         # EdgeFace on which this edge exists.
@@ -52,14 +79,25 @@ class VoronoiEdge:
             self.line = self.line.revert()
 
     def is_ccw(self, vec1=None, vec2=None, vec3=None, edge2=None):
-        """
-        Function to compute whether, given a face normal, edges with two
+        """Function to compute whether, given a face normal, edges with two
         directions are CCW.
-        :param vec1: Face normal.
-        :param vec2: Direction of edge a.
-        :param vec3: Direction of edge b.
-        :param edge2: Edge 2.
-        :return: Whether they are CCW.
+
+        Parameters
+        ----------
+        vec1 : array-like
+            Face normal. (Default value = None)
+        vec2 : array-like
+            Direction of edge a. (Default value = None)
+        vec3 : array-like
+            Direction of edge b. (Default value = None)
+        edge2 : VoronoiEdge
+            Edge 2. (Default value = None)
+
+        Returns
+        -------
+        type : bool
+            Whether they are CCW.
+
         """
         v0 = vec1
         v1 = vec2
@@ -84,8 +122,7 @@ class VoronoiEdge:
 
     @classmethod
     def compute_intersection(self, edge1, edge2, just_join=False):
-        """
-        Function to compute intersection between two edges or join them.
+        """Function to compute intersection between two edges or join them.
 
         Computes the intersection between two vectors. If they intersect,
         within the bounds of each edge, set new boundaries for each edge and
@@ -93,10 +130,26 @@ class VoronoiEdge:
 
         Will check orientation of edges to see if edge1 is the edge following
         edge2 (or vis versa), and join them accordingly.
-        :param edge1: First edge.
-        :param edge2: Second edge.
-        :param just_join: Whether to just join them or compute intersection.
-        :return: Whether two edges intersect or nothing depending on the input.
+
+        Parameters
+        ----------
+        edge1 : VoronoiEdge
+            First edge.
+        edge2 : VoronoiEdge
+            Second edge.
+        just_join : bool
+            Whether to just join them or compute intersection.
+            (Default value = False)
+
+        Returns
+        -------
+        output : bool or None
+            Whether two edges intersect or nothing depending on the input.
+
+        Raises
+        ------
+        Exception
+            Edges do not intersect.
         """
 
         # Determine the point at which the edges intersect.
@@ -143,10 +196,17 @@ class VoronoiEdge:
             return True
 
     def __eq__(self, other):
-        """
-        Function to check if instance is equal to another edge.
-        :param other: Other edge.
-        :return: True if instance equal to other, else False.
+        """Function to check if instance is equal to another edge.
+
+        Parameters
+        ----------
+        other : VoronoiEdge
+            Other edge.
+
+        Returns
+        -------
+        type : bool
+            True if instance equal to other, else False.
         """
         if isinstance(other, VoronoiEdge):
             return other.edge_face.__eq__(self.edge_face) and \
@@ -154,9 +214,12 @@ class VoronoiEdge:
         return False
 
     def __hash__(self):
-        """
-        Function to compute the hash value of instance.
-        :return: Hash value.
+        """Function to compute the hash value of instance.
+
+        Returns
+        -------
+        type : int
+            Hash value.
         """
         h = 5
         h = 43 * h + id(self.edge_face)
@@ -164,76 +227,118 @@ class VoronoiEdge:
         return h
 
     def __cmp__(self, other):
-        """
-        Function to compare instance and another edge.
-        :param other: Other edge.
-        :return: -1 if instance < other, +1 if instance > other, else 0.
+        """Function to compare instance and another edge.
+
+        Parameters
+        ----------
+        other : VoronoiEdge
+            Other edge.
+
+        Returns
+        -------
+        type : int
+            -1 if instance < other, +1 if instance > other, else 0.
         """
         if self.edge_face.__eq__(other.edge_face):
             return self.intersecting_face.__cmp__(other.intersecting_face)
         return self.edge_face.__cmp__(other.edge_face)
 
     def get_line(self):
-        """
-        Function to get the line defining this edge.
-        :return: Line.
+        """Function to get the line defining this edge.
+
+        Returns
+        -------
+        line : Line
+            Line representing this edge.
+
         """
         return self.line
 
     def get_edge_face(self):
-        """
-        Function to get the face containing this edge.
-        :return: Face containing this edge.
+        """Function to get the face containing this edge.
+
+        Returns
+        -------
+        edge_face : Plane
+            Face containing this edge.
         """
         return self.edge_face
 
     def get_intersecting_face(self):
-        """
-        Function to get the other face associated with this edge.
-        :return: Other face associated with this edge.
+        """Function to get the other face associated with this edge.
+
+        Returns
+        -------
+        intersecting_face : Plane
+            Other face associated with this edge.
         """
         return self.intersecting_face
 
     def get_next_edge(self):
-        """
-        Function to get the next edge on this face.
-        :return: Next edge (None if no such edge).
+        """Function to get the next edge on this face.
+
+        Returns
+        -------
+        next_edge : VoronoiEdge
+            Next edge (None if no such edge).
+
         """
         return self.next_edge
 
     def get_previous_edge(self):
-        """
-        Function to get the previous edge on this face.
-        :return: Previous edge (None if no such edge).
+        """Function to get the previous edge on this face.
+
+        Returns
+        -------
+        previous_edge : VoronoiEdge
+            Previous edge (None if no such edge).
+
         """
         return self.previous_edge
 
     def get_length(self):
-        """
-        Function to get the length of this edge.
-        :return: Length.
+        """Function to get the length of this edge.
+
+        Returns
+        -------
+        type : float
+            Length.
         """
         return norm((self.beginning - self.end) * self.direction)
 
     def __str__(self):
-        """
-        Function to get the string representation of instance.
-        :return: String representation of instance.
+        """Function to get the string representation of instance.
+
+        Returns
+        -------
+        output : str
+            String representation of instance.
+
         """
         output = "("+self.edge_face.__str__()+"," \
                         ""+self.intersecting_face.__str__()+")"
         return output
 
     def find_next_edge(self, candidates):
-        """
-        Function to find the edge that is likely to be "next" on a face that
-        contains this edge. This is computed by first computing all edges
+        """Function to find the edge that is likely to be "next" on a face that
+        contains this edge.
+
+        This is computed by first computing all edges
         that are oriented CCW to this edge. Next, the edge that is closest to
         the origin is found. If multiple edges intersect at the same point,
         the one with the greatest angle between the direction of this edge is
         selected.
-        :param candidates: All candidate edges.
-        :return: The next edge. None if no suitable candidate is found.
+
+        Parameters
+        ----------
+        candidates : array-like
+            All candidate edges.
+
+        Returns
+        -------
+        choice : VoronoiEdge
+            The next edge. None if no suitable candidate is found.
+
         """
 
         # Locate the ccw edges.
@@ -294,24 +399,41 @@ class VoronoiEdge:
         return choice
 
     def get_start_vertex(self):
-        """
-        Function to get the vertex at the beginning of this vector.
-        :return: Starting vertex.
+        """Function to get the vertex at the beginning of this vector.
+
+        Returns
+        -------
+        type : VoronoiVertex
+            Starting vertex.
+
         """
         return VoronoiVertex(edge1=self, edge2=self.previous_edge)
 
     def get_end_vertex(self):
-        """
-        Function to get the vertex at the end of this vector.
-        :return: End vertex.
+        """Function to get the vertex at the end of this vector.
+
+        Returns
+        -------
+        type : VoronoiVertex
+            End vertex.
+
         """
         return VoronoiVertex(edge1=self, edge2=self.next_edge)
 
     def generate_pair(self):
-        """
-        Function to generate the edge that corresponds to this edge on the
+        """Function to generate the edge that corresponds to this edge on the
         intersecting face.
-        :return: Newly instantiated edge.
+
+        Returns
+        -------
+        type : VoronoiEdge
+            Newly instantiated edge.
+
+        Raises
+        ------
+        Exception
+            If it is not possible to generate edge.
+
         """
         try:
             return VoronoiEdge(self.get_intersecting_face(),
@@ -320,18 +442,29 @@ class VoronoiEdge:
             raise Exception("Shouldn't be possible.")
 
     def angle_between(self, v1, v2):
-        """
+        """Function to compute the angular separation between two vectors.
+
         Documentation obtained from:
         http://commons.apache.org/proper/commons-math/javadocs/api-3.3/org
         /apache/commons/math3/geometry/euclidean/threed/Vector3D.html
-        Function to compute the angular separation between two vectors. This
-        method computes the angular separation between two vectors using the
-        dot product for well separated vectors and the cross product for
+
+        This method computes the angular separation between two vectors using
+        the dot product for well separated vectors and the cross product for
         almost aligned vectors. This allows to have a good accuracy in all
         cases, even for vectors very close to each other.
-        :param v1: First vector.
-        :param v2: Second vector.
-        :return: Angular separation between v1 and v2.
+
+        Parameters
+        ----------
+        v1 : array-like
+            First vector.
+        v2 : array-like
+            Second vector.
+
+        Returns
+        -------
+        type : float
+            Angular separation between v1 and v2.
+
         """
         norm_product = norm(v1) * norm(v2)
 
@@ -351,10 +484,9 @@ class VoronoiEdge:
             return np.math.acos(dp / norm_product)
 
     def print_properties(self):
-        """
-        Function to print different properties of the Voronoi Edge instance.
+        """Function to print different properties of the Voronoi Edge instance.
+
         Mainly used for debugging purposes.
-        :return:
         """
         print "Edge face:", self.edge_face.outside_atom.__str__(), \
             "Intersecting face:", self.intersecting_face.outside_atom.__str__()

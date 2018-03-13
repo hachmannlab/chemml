@@ -2,12 +2,12 @@ import unittest
 import os
 import numpy as np
 import time
-from vassal.analysis.voronoi.VoronoiTessellationCalculator import \
+from .....vassal.analysis.voronoi.VoronoiTessellationCalculator import \
     VoronoiTessellationCalculator
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 import numpy.testing as np_tst
-from vassal.io.VASP5IO import VASP5IO
+from .....vassal.io.VASP5IO import VASP5IO
 
 class testVoronoiTessellationCalculator(unittest.TestCase):
     this_file_path = os.path.dirname(__file__)

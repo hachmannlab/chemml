@@ -1,23 +1,46 @@
+# coding=utf-8
 import types
 import pandas as pd
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from data.materials.util.LookUpData import LookUpData
-from vassal.analysis.APRDFAnalysis import APRDFAnalysis
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.util.LookUpData import LookUpData
+from ....vassal.analysis.APRDFAnalysis import APRDFAnalysis
 
 class APRDFAttributeGenerator:
-    """
-    Class to generate attributes based on the Atomic Property Weighted Radial
-    Distribution Function (AP-RDF) approach of Fernandez et al.
-    http://pubs.acs.org/doi/abs/10.1021/jp404287t
+    """Class to generate attributes based on the Atomic Property Weighted
+    Radial Distribution Function (AP-RDF) approach of Fernandez et al. [1].
 
     User can specify the cutoff distance for the AP-RDF, the number of points
     to evaluate it, the smoothing factors for the RDF peaks, and the
     properties used for weighting. The recommended values of these
     parameters have yet to be determined, please contact Logan Ward or the
     authors of this paper if you have questions or ideas for these parameters.
+
+    Attributes
+    ----------
+    cut_off_distance : float
+        Cutoff distance for RDF.
+    num_points : int
+        Number of points to evaluate.
+    smooth_parameter : float
+        Smoothing parameter for AP-RDF.
+    elemental_properties : list
+        Elemental properties to be associated with this class for the
+        generation of features.
+
+    References
+    ----------
+    .. [1] M. Fernandez, N. R. Trefiak, and T. K. Woo, "Atomic Property
+    Weighted Radial Distribution Functions Descriptors of Metal–Organic
+    Frameworks for the Prediction of Gas Uptake Capacity," The Journal of
+    Physical Chemistry C, vol. 117, no. 27, pp. 14095--14105, Jul. 2013.
+
     """
 
     def __init__(self):
+        """Function to create instance and initialize fields.
+
+        """
+
         # Cutoff distance for RDF.
         self.cut_off_distance = 10.0
 
@@ -31,54 +54,98 @@ class APRDFAttributeGenerator:
         self.elemental_properties = []
 
     def set_smoothing_parameter(self, b):
+        """Function to set smoothing factor used when computing PRDF.
+
+        Parameters
+        ----------
+        b : float
+            Smoothing factor.
+
         """
-        Function to set smoothing factor used when computing PRDF.
-        :param b: Smoothing factor.
-        :return:
-        """
+
         self.smooth_parameter = b
 
     def set_cut_off_distance(self, d):
+        """Function to set cut off distance used when computing PRDF.
+
+        Parameters
+        ----------
+        d : float
+            Cut off distance.
+
         """
-        Function to set cut off distance used when computing PRDF.
-        :param d: Cut off distance.
-        :return:
-        """
+
         self.cut_off_distance = d
 
     def set_num_points(self, num_points):
+        """Function to set the number of points at which to evaluate AP-RDF.
+
+        Parameters
+        ----------
+        num_points : int
+            Desired number of windows.
+
         """
-        Function to set the number of points at which to evaluate AP-RDF.
-        :param num_points: Desired number of windows.
-        :return:
-        """
+
         self.num_points = num_points
 
     def add_elemental_property(self, property_name):
+        """Function to add an elemental property to `self.elemental_properties`
+        in order to be used to compute features.
+
+        Parameters
+        ----------
+        property : str
+            Property to be added.
+
         """
-        Function to add elemental property to set of those used for
-        generating attributes.
-        :param property_name: Name of property to be added.
-        :return:
-        """
+
         if property_name not in self.elemental_properties:
             self.elemental_properties.append(property_name)
 
+    def add_elemental_properties(self, properties):
+        """Function to provide a list of elemental properties to be used to
+        compute features.
+
+        Parameters
+        ----------
+        properties : array-like
+            Properties to be included. A list of strings containing property
+            names.
+
+        """
+
+        for prop in properties:
+            self.add_elemental_property(prop)
+
     def clear_elemental_properties(self):
+        """Function to clear the list of elemental properties.
+
         """
-        Function to clear the list of elemental properties.
-        :return:
-        """
+
         self.elemental_properties = []
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Initialize list of feature values for pandas data frame.
@@ -126,6 +193,4 @@ class APRDFAttributeGenerator:
                 feat_values.append(ap_rdf)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

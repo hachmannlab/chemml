@@ -17,35 +17,35 @@ PyScript
 
 :input tokens (receivers):
     | ``iv4`` : input variable, of any format
-    |   ()
+    |   types: ()
     | ``iv5`` : input variable, of any format
-    |   ()
+    |   types: ()
     | ``iv6`` : input variable, of any format
-    |   ()
+    |   types: ()
     | ``iv1`` : input variable, of any format
-    |   ()
+    |   types: ()
     | ``iv2`` : input variable, of any format
-    |   ()
+    |   types: ()
     | ``iv3`` : input variable, of any format
-    |   ()
+    |   types: ()
 
 :output tokens (senders):
     | ``ov2`` : output variable, of any format
-    |   ()
+    |   types: ()
     | ``ov3`` : output variable, of any format
-    |   ()
+    |   types: ()
     | ``ov1`` : output variable, of any format
-    |   ()
+    |   types: ()
     | ``ov6`` : output variable, of any format
-    |   ()
+    |   types: ()
     | ``ov4`` : output variable, of any format
-    |   ()
+    |   types: ()
     | ``ov5`` : output variable, of any format
-    |   ()
+    |   types: ()
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

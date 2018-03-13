@@ -4,7 +4,7 @@ from json import dump
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-from mlp import MLP
+from cheml.nn.keras import MLP
 
 (Xtr, ytr), (Xte, yte) = mnist.load_data()
 Xtr = Xtr.reshape(60000, 784).astype('float32')
@@ -35,35 +35,28 @@ def make_opt_config_file():
     return fpath
 
 def test_init_via_config():
-
-    print 'testing MLP by passing config files to constructor'
-
     mlp = MLP(regression=False, nclasses=10,
               nepochs=nepochs, batch_size=batch_size, loss='categorical_crossentropy',
               layer_config_file=make_layer_config_file(),
               opt_config_file=make_opt_config_file())
-
-    mlp.fit(Xtr, ytr)
-    print 'test accuracy', mlp.score(Xte, yte)
     mlp.model.summary()
+    mlp.fit(Xtr, ytr)
+    print('test accuracy', mlp.score(Xte, yte))
 
 def test_init_via_params():
-
-    print 'testing MLP by passing params to constructor'
 
     mlp = MLP(nhidden=2, nneurons=[512, 512], activations=['relu', 'relu'],
               learning_rate=0.1,
               nepochs=nepochs, batch_size=batch_size, loss='categorical_crossentropy',
               regression=False, nclasses=10)
-
-
-    mlp.fit(Xtr, ytr)
-    print mlp.score(Xte, yte)
     mlp.model.summary()
+    mlp.fit(Xtr, ytr)
+    print(mlp.score(Xte, yte))
 
 if __name__ == '__main__':
+    print('TEST KERAS_MLP - CONFIG INIT.. START')
     test_init_via_config()
-    raw_input()
+    print('TEST KERAS_MLP - CONFIG INIT.. PASSED')
+    print('TEST KERAS_MLP - PARAM INIT.. START')
     test_init_via_params()
-
-
+    print('TEST KERAS_MLP - PARAM INIT.. PASSED')

@@ -1,81 +1,127 @@
 import types
 import numpy as np
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
 
 class ElementPairPropertyAttributeGenerator:
-    """
-    Class to generate attributes based on the properties of constituent
-    binary systems. Computes the minimum, maximum and range of all pairs in
+    """Class to generate attributes based on the properties of constituent
+    binary systems.
+
+    Computes the minimum, maximum and range of all pairs in
     the material, and the fraction-weighted mean and variance of all pairs.
     Variance is defined as the mean absolute deviation from the mean over all
     pairs. If an entry has only one element, the value of NaN is used for all
     attributes.
+
+    Attributes
+    ----------
+    elemental_pair_properties : list
+        Elemental properties to be associated with this class for the generation of
+        features.
+    pair_lookup-data : dict
+        Dictionary containing the property name as the key and a list of floats as
+        the value.
+
     """
 
     elemental_pair_properties = []
     pair_lookup_data = {}
 
     def load_pair_lookup_data(self):
-        """
-        Function to load the property values into self.lookup_data for the
+        """Function to load the property values into `self.lookup_data` for the
         computation of features.
-        :return:
+
         """
+
         self.pair_lookup_data = LookUpData.load_pair_properties(
             self.elemental_pair_properties)
 
     def add_elemental_pair_property(self, property):
-        """
-        Function to provide an elemental pair property to be used to compute
+        """Function to add an elemental pair property to be used to compute
         features.
-        :param property: Property to be included.
-        :return:
+
+        Parameters
+        ----------
+        property : str
+            Property to be added.
+
         """
+
         if property not in self.elemental_pair_properties:
             self.elemental_pair_properties.append(property)
 
     def add_elemental_pair_properties(self, properties):
-        """
-        Function to provide a list of elemental pair properties to be used to
+        """Function to provide a list of elemental pair properties to be used to
         compute features.
-        :param properties: List of properties to be included.
-        :return:
+
+        Parameters
+        ----------
+        properties : array-like
+            Properties to be included. A list of strings containing property
+            names.
+
         """
+
         for prop in properties:
             self.add_elemental_pair_property(prop)
 
     def remove_elemental_pair_property(self, property):
+        """Function to remove an elemental pair property from the list of
+        elemental properties.
+
+        Parameters
+        ----------
+        property : str
+            Property to be removed.
+
         """
-        Function to remove an elemental pair property from the list of elemental
-        properties.
-        :param property: Property to be removed.
-        :return:
-        """
+
         if property in self.elemental_pair_properties:
             self.elemental_pair_properties.remove(property)
 
     def remove_elemental_pair_properties(self, properties):
+        """Function to remove a list of elemental pair properties from the
+        list of elemental properties.
+
+        Parameters
+        ----------
+        properties : array-like
+            Properties to be removed. A list of strings containing property
+            names.
+
         """
-        Function to remove a list of elemental pair properties from the list of
-        elemental properties.
-        :param properties: List of properties to be removed.
-        :return:
-        """
+
         for prop in properties:
             self.remove_elemental_pair_property(prop)
 
-    def generate_features(self, entries, verbose=False):
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If no elemental properties are set.
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
+
         """
-        Function to generate features of a binary material based on its
-        constituent element properties.
-        :param entries: A list of CompositionEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
-        """
+
+        # Initialize lists of feature values and headers for pandas data frame.
+        feat_values = []
+        feat_headers = []
 
         # Make sure that there is at least one elemental pair property provided.
         if not self.elemental_pair_properties:
@@ -86,10 +132,6 @@ class ElementPairPropertyAttributeGenerator:
         # load values into it.
         if not self.pair_lookup_data:
             self.load_pair_lookup_data()
-
-        # Initialize lists of feature values and headers for pandas data frame.
-        feat_values = []
-        feat_headers = []
 
         # Raise exception if input argument is not of type list of
         # Composition Entry's.
@@ -158,6 +200,4 @@ class ElementPairPropertyAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

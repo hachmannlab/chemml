@@ -1,19 +1,40 @@
 import numpy as np
 from numpy.linalg import norm
-from vassal.data.AtomImage import AtomImage
-from vassal.geometry.Plane import Plane
-from vassal.util.VectorCombinationComputer import VectorCombinationComputer
+from ..data.AtomImage import AtomImage
+from ..geometry.Plane import Plane
+from ..util.VectorCombinationComputer import VectorCombinationComputer
 
 class PairDistanceAnalysis:
-    """
-    Class to compute the distances between each pairs of atom. Determines the
+    """Class to compute the distances between each pairs of atom. Determines the
     distance between each of atoms (and any periodic image within a certain
     distance).
+
+    Attributes
+    ----------
+    structure : Cell
+        Link to structure being evaluated.
+    cut_off_distance : float
+        Cutoff distance. No pairs farther than this value are considered.
+    supercells : list
+        Periodic images to consider when searching for neighbors.
+    lattice_vectors : list
+        Lattice vectors corresponding to each image.
+
     """
 
     def __init__(self):
-        """
-        Function to instantiate the class.
+        """Function to instantiate the class.
+
+        Parameters
+        ----------
+        structure : Cell
+            Link to structure being evaluated.
+        cut_off_distance : float
+            Cutoff distance. No pairs farther than this value are considered.
+        supercells : list
+            Periodic images to consider when searching for neighbors.
+        lattice_vectors : list
+            Lattice vectors corresponding to each image.
         """
 
         # Cutoff distance. No pairs farther than this value are considered.
@@ -29,10 +50,9 @@ class PairDistanceAnalysis:
         self.structure = None
 
     def precompute(self):
-        """
-        Function to perform any kind of computations that should be performed
-        only once.
-        :return:
+        """Function to perform any kind of computations that should be
+        performed only once.
+
         """
 
         lat_vectors = self.structure.get_lattice_vectors()
@@ -79,31 +99,47 @@ class PairDistanceAnalysis:
         self.lattice_vectors = computer.get_vectors()
 
     def get_cutoff_distance(self):
-        """
-        Function to get the cutoff distance.
-        :return: Cutoff distance.
+        """Function to get the cutoff distance.
+
+        Returns
+        -------
+        cutoff_distance : float
+            Cutoff distance.
+
         """
         return self.cutoff_distance
 
     def set_cutoff_distance(self, d):
-        """
-        Function to set the cutoff distance.
-        :param d: Desired cutoff distance.
-        :return:
+        """Function to set the cutoff distance.
+
+        Parameters
+        ----------
+        d : float
+            Desired cutoff distance.
+
         """
         self.cutoff_distance = d
         if self.structure is not None:
             self.precompute()
 
     def find_all_images(self, center_atom, neighbor_atom):
-        """
-        Function to find all images of one atom that are within the cutoff
+        """Function to find all images of one atom that are within the cutoff
         distance of another atom.
-        :param center_atom: Atom at the center.
-        :param neighbor_atom: Neighboring atom.
-        :return: All images of neighbor_atom that within a cutoff distance of
-        center_atom, and their respective distances. List of tuples (
-        neighboring atom, distance).
+
+        Parameters
+        ----------
+        center_atom : int
+            Index of atom at the center.
+        neighbor_atom : int
+            Neighboring atom index.
+
+        Returns
+        -------
+        output : list
+            All images of neighbor_atom that within a cutoff distance of
+            center_atom, and their respective distances. List of tuples (
+            neighboring atom, distance).
+
         """
 
         # Get the two atoms.
@@ -136,10 +172,18 @@ class PairDistanceAnalysis:
         return output
 
     def get_all_neighbors_of_atom(self, index):
-        """
-        Function to compute all neighbors of a certain atom.
-        :param index: Index of atom being considered.
-        :return: List of tuples (neighboring atom, distance).
+        """Function to compute all neighbors of a certain atom.
+
+        Parameters
+        ----------
+        index : int
+            Index of atom being considered.
+
+        Returns
+        -------
+        output : list
+            List of tuples (neighboring atom, distance).
+
         """
         output = []
         for atom in self.structure.get_atoms():
@@ -147,12 +191,24 @@ class PairDistanceAnalysis:
         return output
 
     def compute_PRDF(self, n_bin):
-        """
-        Function to compute the pair radial distribution function.
-        :param n_bin: Number of bins in which to discretize PRDF (must be > 0)
-        :return: Pair radial distribution function between each type. Bin i,
-        j,k is the density of bonds between types i and j that are between k
-        * cutoff / nBin and (k + 1) * cutoff / nBin.
+        """Function to compute the pair radial distribution function.
+
+        Parameters
+        ----------
+        n_bin : int
+            Number of bins in which to discretize PRDF (must be > 0)
+
+        Returns
+        -------
+        output : array-like
+            Pair radial distribution function between each type. Bin i,
+            j,k is the density of bonds between types i and j that are between k
+            * cutoff / nBin and (k + 1) * cutoff / nBin.
+
+        Raises
+        ------
+        ValueError
+            If n_bin is less than or equal to 0.
         """
         if n_bin <= 0:
             raise ValueError("Number of bins must be 0.")
@@ -195,18 +251,20 @@ class PairDistanceAnalysis:
         return output
 
     def analyze_structure(self, s):
-        """
-        Function to analyze a specific structure. Once this completes,
+        """Function to analyze a specific structure. Once this completes,
         it is possible to retrieve results out of this object.
-        :param s: Structure to be analyzed.
-        :return:
+
+        Parameters
+        ----------
+        s : Cell
+            Structure to be analyzed.
+
         """
         self.structure = s
         self.precompute()
 
     def recompute(self):
-        """
-        Function to recompute structural information.
-        :return:
+        """Function to recompute structural information.
+
         """
         self.precompute()

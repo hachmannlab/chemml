@@ -1,9 +1,9 @@
 import unittest
-from attributes.generators.crystal.ChemicalOrderingAttributeGenerator import \
-    ChemicalOrderingAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....attributes.generators.crystal.ChemicalOrderingAttributeGenerator \
+    import ChemicalOrderingAttributeGenerator
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testChemicalOrderingAttributeGenerator(unittest.TestCase):
     def test_results(self):

@@ -1,9 +1,9 @@
 import unittest
-from attributes.generators.crystal.CoordinationNumberAttributeGenerator \
+from .....attributes.generators.crystal.CoordinationNumberAttributeGenerator \
     import CoordinationNumberAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testCoordinationNumberAttributeGenerator(unittest.TestCase):
     def get_generator(self):

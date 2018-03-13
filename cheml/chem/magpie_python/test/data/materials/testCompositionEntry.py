@@ -2,7 +2,7 @@ import unittest
 from itertools import permutations
 import numpy.testing as np
 import os
-from data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.CompositionEntry import CompositionEntry
 
 class testCompositionEntry(unittest.TestCase):
     def test_parsing(self):

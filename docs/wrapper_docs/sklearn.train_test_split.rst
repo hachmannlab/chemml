@@ -17,19 +17,19 @@ train_test_split
 
 :input tokens (receivers):
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``dfx_test`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfy_train`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfy_test`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx_train`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)
@@ -48,8 +48,6 @@ train_test_split
     |   ``<< train_size = None``
     |   ``<< random_state = None``
     |   ``<< test_size = 0.25``
-    |   ``<< y = None``
-    |   ``<< X = required_required``
     |   ``<< stratify = None``
     |   ``>> id dfy``
     |   ``>> id dfx``

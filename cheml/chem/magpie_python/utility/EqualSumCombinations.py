@@ -1,15 +1,24 @@
 import numpy as np
 
 class EqualSumCombinations:
-    """
-    Class to generate all combinations of non-negative integers that have
+    """Class to generate all combinations of non-negative integers that have
     equal sum.
+
     """
     def __init__(self, sum_, size):
-        """
-        Constructor to initialize the variables.
-        :param sum_: Desired sum (must be greater than 0).
-        :param size: Number of integers (must be greater than 1).
+        """Constructor to initialize the variables.
+
+        Parameters
+        ----------
+        sum_ : int
+            Desired sum (must be greater than 0).
+        size : int
+            Number of integers (must be greater than 1).
+
+        Raises
+        ------
+        ValueError
+            If sum is less than 2.
         """
         if sum_ <= 0:
             raise ValueError("Sum must be positive.")
@@ -20,13 +29,21 @@ class EqualSumCombinations:
         self.combs = self.get_combinations(sum_, size)
 
     def get_combinations(self, sum, n):
-        """
-        A recursive function to generate the list of all non-negative integer
-        combinations
-        of a given size that have a given sum.
-        :param sum: Desired sum.
-        :param n: Desired size.
-        :return: A list containing the lists of combinations.
+        """A recursive function to generate the list of all non-negative
+        integer combinations of a given size that have a given sum.
+
+        Parameters
+        ----------
+        sum : int
+            Desired sum.
+        n : int
+            Desired size.
+
+        Returns
+        -------
+        type : array-like
+            A list containing the lists of combinations.
+
         """
 
         # Check if the list of lists has already been generated. If yes,

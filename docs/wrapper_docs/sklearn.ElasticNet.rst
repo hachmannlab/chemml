@@ -17,17 +17,17 @@ ElasticNet
 
 :input tokens (receivers):
     | ``api`` : instance of scikit-learn's ElasticNet class
-    |   ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>",)
+    |   types: ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>",)
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's ElasticNet class
-    |   ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>",)
+    |   types: ("<class 'sklearn.linear_model.coordinate_descent.ElasticNet'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

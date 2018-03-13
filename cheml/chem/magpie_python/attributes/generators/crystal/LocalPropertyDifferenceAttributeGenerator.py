@@ -1,21 +1,33 @@
-import os
 import pandas as pd
 import numpy as np
 import types
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from data.materials.util.LookUpData import LookUpData
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.util.LookUpData import LookUpData
 
 class LocalPropertyDifferenceAttributeGenerator:
-    """
-    Class to compute attributes based on the difference in elemental
-    properties between neighboring atoms. For an atom, its "local property
-    difference" is computed by:
+    """Class to compute attributes based on the difference in elemental
+    properties between neighboring atoms.
 
-    sum_n f_n * |p_atom - p_n| / sum_n f_n
+    Attributes
+    ----------
+    elemental_properties : list
+        Elemental properties to be associated with this class for the
+        generation of features.
+    shells : array-like
+        Shells to consider. A list of int values.
+    attr_name : str
+        Property Name.
 
-    where f_n is the area of the face associated with neighbor n,
-    p_atom the the elemental property of the central atom, and
-    p_n is the elemental property of the neighbor atom.
+    Notes
+    -----
+    For an atom, its "local property difference" is computed by:
+
+    .. math:: \displaystyle\frac{\sum_n f_n * \left|p_{atom} - p_n\right|}{
+    \sum_n f_n}
+
+    where :math: `f_n` is the area of the face associated with neighbor
+    :math: `n, p_{atom}` is the elemental property of the central atom,
+    and :math: `p_n` is the elemental property of the neighbor atom.
 
     For shells past the 1st nearest neighbor shell, the neighbors are
     identified by finding all of the unique faces on the outside of the
@@ -28,11 +40,17 @@ class LocalPropertyDifferenceAttributeGenerator:
 
     This parameter is computed for all elemental properties stored in
     Composition Entry ElementalProperties.
+
     """
+
     def __init__(self, shells=None):
-        """
-        Function to create instance and initialize fields.
-        :param shells: List of shells to be considered.
+        """Function to create instance and initialize fields.
+
+        Parameters
+        ----------
+        shells : array-like
+            Shells to be considered. A list of int values.
+
         """
 
         # Elemental properties used to generate attributes.
@@ -49,87 +67,132 @@ class LocalPropertyDifferenceAttributeGenerator:
         # properties between an atom and neighbors"
 
     def clear_shells(self):
+        """Function to clear the list of shells.
+
         """
-        Function to clear the list of shells.
-        :return:
-        """
+
         self.shells = []
 
     def add_shell(self, shell):
+        """Function to add shell to the list used when computing attributes.
+
+        Parameters
+        ----------
+        shells : int
+            Index of nearest-neighbor shell.
+
+        Raises
+        ------
+        ValueError
+            If shell is negative.
+
         """
-        Function to add shell to the list used when computing attributes.
-        :param shell: Index of nearest-neighbor shell.
-        :return:
-        """
+
         if shell <= 0:
             raise ValueError("Shell index must be > 0.")
         if shell not in self.shells:
             self.shells.append(shell)
 
     def add_shells(self, shells):
+        """Function to add a list of shells to be used when computing
+        attributes.
+
+        Parameters
+        ----------
+        shells : array-like
+            Shells to be considered. A list of int values.
+
         """
-        Function to add a list of shells to be used when computing attributes.
-        :param shells: List of shells.
-        :return:
-        """
+
         for s in shells:
             self.add_shell(s)
 
     def add_elemental_property(self, prop):
+        """Function to add an elemental property to `self.elemental_properties`
+        in order to be used to compute features.
+
+        Parameters
+        ----------
+        property : str
+            Property to be added.
+
         """
-        Function to add elemental properties to be used when computing
-        attributes.
-        :param prop: Desired property.
-        :return:
-        """
+
         if prop not in self.elemental_properties:
             self.elemental_properties.append(prop)
 
     def add_elemental_properties(self, properties):
+        """Function to provide a list of elemental properties to be used to
+        compute features.
+
+        Parameters
+        ----------
+        properties : array-like
+            Properties to be included. A list of strings containing property
+            names.
+
         """
-        Function to add a list of elemental properties to be used when
-        computing attributes.
-        :param properties: List of desired properties.
-        :return:
-        """
+
         for p in properties:
             self.add_elemental_property(p)
 
-    def remove_elemental_property(self, prop):
+    def remove_elemental_property(self, property):
+        """Function to remove an elemental property from
+        `self.elemental_properties`.
+
+        Parameters
+        ----------
+        property : str
+            Property to be removed.
+
         """
-        Function to remove elemental properties to be used when computing
-        attributes.
-        :param prop: Desired property.
-        :return:
-        """
-        if prop in self.elemental_properties:
-            self.elemental_properties.remove(prop)
+
+        if property in self.elemental_properties:
+            self.elemental_properties.remove(property)
 
     def remove_elemental_properties(self, properties):
+        """Function to remove a list of elemental properties from the list of
+        elemental properties.
+
+        Parameters
+        ----------
+        properties : array-like
+            Properties to be removed. A list of strings containing property
+            names.
+
         """
-        Function to remove a list of elemental properties to be used when
-        computing attributes.
-        :param properties: List of desired properties.
-        :return:
-        """
-        for p in properties:
-            self.remove_elemental_property(p)
+
+        for prop in properties:
+            self.remove_elemental_property(prop)
 
     def clear_elemental_properties(self):
+        """Function to clear all the elemental properties.
+
         """
-        Function to clear all the elemental properties.
-        :return:
-        """
+
         self.elemental_properties = []
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Initialize list of feature values for pandas data frame.
@@ -192,18 +255,28 @@ class LocalPropertyDifferenceAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features
 
     def get_atom_properties(self, voro, shell, prop_values):
-        """
-        Function to compute the properties of a certain neighbor cell for
+        """Function to compute the properties of a certain neighbor cell for
         each atom, given the Voronoi tessellation and properties of each atom
         type.
-        :param voro: Voronoi tessellation.
-        :param shell: Index of shell.
-        :param prop_values: Properties of each atom type.
-        :return: Properties of each atom.
+
+        Parameters
+        ----------
+        voro : VoronoiCellBasedAnalysis
+            Analysis tool.
+        shell : int
+            Index of shell.
+        prop_values : array-like
+            Properties of each atom type. A list or NumPy array of float values.
+
+        Returns
+        -------
+        output : array-like
+            Properties of each atom. A list or NumPy array of float values.
+
         """
-        return voro.neighbor_property_differences(prop_values, shell)
+
+        output = voro.neighbor_property_differences(prop_values, shell)
+        return output

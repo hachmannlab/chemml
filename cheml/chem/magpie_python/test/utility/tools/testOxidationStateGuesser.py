@@ -1,8 +1,8 @@
 import unittest
 import numpy.testing as np
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
-from utility.tools.OxidationStateGuesser import OxidationStateGuesser
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
+from ....utility.tools.OxidationStateGuesser import OxidationStateGuesser
 
 class testOxidationStateGuesser(unittest.TestCase):
     def test_guesser(self):

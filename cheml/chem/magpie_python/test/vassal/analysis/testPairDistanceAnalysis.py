@@ -1,8 +1,8 @@
 import unittest
 from numpy.linalg import norm
-from vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from ....vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
+from ....vassal.data.Atom import Atom
+from ....vassal.data.Cell import Cell
 
 class testPairDistanceAnalysis(unittest.TestCase):
     def setUp(self):

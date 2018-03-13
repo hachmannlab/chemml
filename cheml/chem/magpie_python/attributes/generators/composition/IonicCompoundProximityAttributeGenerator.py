@@ -1,15 +1,22 @@
 import types
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.utilities.filters.CompositionDistanceFilter import \
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
-from utility.tools.IonicCompoundFinder import IonicCompoundFinder
+from ....utility.tools.IonicCompoundFinder import IonicCompoundFinder
 
 class IonicCompoundProximityAttributeGenerator:
-    """
-    Class to generate attributes based on the distance of a composition from
-    a compositions that can form charge-neutral ionic compounds. This
-    generator only computes a single feature: the L_1 distance between the
+    """Class to generate attributes based on the distance of a composition from
+    a compositions that can form charge-neutral ionic compounds.
+
+    Attributes
+    ----------
+    max_formula_unit : int
+        Maximum number of atoms per formula unit.
+
+    Notes
+    -----
+    This generator only computes a single feature: the L_1 distance between the
     composition of an entry and the nearest ionic compound (determined using
     IonicCompoundFinder). For a compound where it is not possible to form an
     ionic compound (e.g., only metallic elements), the entry is assigned
@@ -20,27 +27,45 @@ class IonicCompoundProximityAttributeGenerator:
     is for a compound with a 9+ and a 5- species, which has 14 atoms in the
     formula unit. Consequently, we recommend using 14 or larger for this
     parameter.
+
     """
 
     # Maximum number of atoms per formula unit.
     max_formula_unit = 14
 
     def set_max_formula_unit(self, size):
+        """Function to define the maximum number of atoms per formula unit.
+
+        Parameters
+        ----------
+        size : int
+            Desired size.
+
         """
-        Function to define the maximum number of atoms per formula unit.
-        :param size: Desired size.
-        :return:
-        """
+
         self.max_formula_unit = size
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CompositionEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
+
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -90,6 +115,4 @@ class IonicCompoundProximityAttributeGenerator:
                                         ionic_compounds[0], 1))
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

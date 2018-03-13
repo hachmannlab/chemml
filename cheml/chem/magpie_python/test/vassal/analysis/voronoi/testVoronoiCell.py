@@ -1,11 +1,12 @@
 import unittest
-from vassal.analysis.voronoi.VoronoiCell import VoronoiCell
-from vassal.analysis.voronoi.VoronoiFace import VoronoiFace
-from vassal.data.Atom import Atom
-from vassal.data.AtomImage import AtomImage
-from vassal.data.Cell import Cell
-from vassal.geometry.Plane import Plane
-from vassal.util.VectorCombinationComputer import VectorCombinationComputer
+from .....vassal.analysis.voronoi.VoronoiCell import VoronoiCell
+from .....vassal.analysis.voronoi.VoronoiFace import VoronoiFace
+from .....vassal.data.Atom import Atom
+from .....vassal.data.AtomImage import AtomImage
+from .....vassal.data.Cell import Cell
+from .....vassal.geometry.Plane import Plane
+from .....vassal.util.VectorCombinationComputer import \
+    VectorCombinationComputer
 
 class testVoronoiCell(unittest.TestCase):
     def test_supercell(self):

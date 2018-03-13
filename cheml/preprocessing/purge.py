@@ -42,7 +42,7 @@ class ConstantColumns(object):
 
         Returns
         -------
-
+        transformed dataframe
         """
         df = df.drop(self.removed_columns_,1)
         return df
@@ -69,7 +69,7 @@ class Outliers(object):
     -----
     We highly recommend you to remove constant columns first and then remove outliers.
     """
-    def __init__(self, m=2, strategy = 'median'):
+    def __init__(self, m=2.0, strategy = 'median'):
         self.m = m
         self.strategy = strategy
     def fit_transform(self,df):

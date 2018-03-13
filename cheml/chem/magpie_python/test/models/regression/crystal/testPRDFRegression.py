@@ -1,7 +1,7 @@
 import unittest
-from models.regression.crystal.PRDFRegression import PRDFRegression
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....models.regression.crystal.PRDFRegression import PRDFRegression
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testPRDFRegression(unittest.TestCase):
     def test_distance(self):

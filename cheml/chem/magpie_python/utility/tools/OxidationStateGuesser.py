@@ -1,37 +1,57 @@
 import itertools
 import numpy as np
-from data.materials.CompositionEntry import CompositionEntry
+from ...data.materials.CompositionEntry import CompositionEntry
 
 class OxidationStateGuesser:
-    """
-    Class to predict the likely oxidation states of a material, given its
+    """Class to predict the likely oxidation states of a material, given its
     input composition.
+
+    Attributes
+    ----------
+    electronegativity : array-like
+        A list of electronegativity values (float).
+    oxidation_states : array-like
+        A 2-D numpy array containing the property values for all the elements.
+
     """
     electronegativity = np.zeros(0)
     oxidationstates = np.zeros(0, dtype=object)
 
     def set_electronegativity(self, values):
-        """
-        Function to set the electronegativity values.
-        :param values: Numpy array containing electronegativity values for
-        all th elements.
-        :return:
+        """Function to set the electronegativity values.
+
+        Parameters
+        ----------
+        values : array-like
+            Numpy array containing electronegativity values for all the
+            elements.
+
+        Returns
+        -------
+
         """
         self.electronegativity = values
 
     def set_oxidationstates(self, values):
-        """
-        Function to set the oxidation states values.
-        :param values: 2-D numpy array containing oxidation states values for
-        all th elements.
-        :return:
+        """Function to set the oxidation states values.
+
+        Parameters
+        ----------
+        values : array-like
+            2-D numpy array containing oxidation states values for all the
+            elements.
+
+        Returns
+        -------
+
         """
         self.oxidationstates = values
 
     def get_possible_states(self, entry):
-        """
-        Function to compute all the possible oxidation states of a material,
-        given its input composition. The function works by finding all
+        """Function to compute all the possible oxidation states of a material,
+        given its input composition.
+
+        The function works by finding all
         combinations of non-zero oxidation states for each element, computing
         which are the most reasonable, and finding which of those have minimum
         value of
@@ -39,9 +59,25 @@ class OxidationStateGuesser:
         where chi_i is the electronegativity and c_i is the oxidation. This
         biases the selection towards the more electronegative elements being
         more negatively charged.
-        :param entry: A CompositionEntry object.
-        :return: output: A numpy array containing the list of possible
-        oxidation states arranged in the order mentioned above.
+
+        Parameters
+        ----------
+        entry : CompositionEntry
+            A CompositionEntry object.
+
+        Returns
+        -------
+        output : array-like
+            A numpy array containing the list of possible oxidation states
+            arranged in the order mentioned above.
+
+        Raises
+        ------
+        ValueError
+            If input is empty.
+            If input is not a CompositionEntry object.
+            If electronegativity or oxidationstates haven't been set.
+
         """
 
         # Make sure entry is not empty.

@@ -1,12 +1,13 @@
 import numpy as np
 import numpy.testing as np_tst
-from attributes.generators.crystal.LocalPropertyDifferenceAttributeGenerator import \
+from .....attributes.generators.crystal\
+    .LocalPropertyDifferenceAttributeGenerator import \
     LocalPropertyDifferenceAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from test.attributes.generators.crystal.testCoordinationNumberAttributeGenerator import \
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testLocalPropertyDifferenceAttributeGenerator(
     testCoordinationNumberAttributeGenerator):

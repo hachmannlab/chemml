@@ -2,17 +2,31 @@ import types
 from heapq import heappush, heappop
 import numpy as np
 import pandas as pd
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
-from data.utilities.filters.CompositionDistanceFilter import \
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
+from ....data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
-from utility.EqualSumCombinations import EqualSumCombinations
+from ....utility.EqualSumCombinations import EqualSumCombinations
 
 class APEAttributeGenerator:
-    """
-    Class to compute features using Atomic Packing Efficiency (APE) of nearby
-    clusters.The APE, as defined by Laws et al.
-    (http://www.nature.com/doifinder/10.1038/ncomms9123), is determined based
+    """Class to compute features using Atomic Packing Efficiency (APE) of
+    nearby clusters.
+
+    Attributes
+    ----------
+    packing_threshold : float
+        Threshold at which to define a cluster as efficiently packed.
+    n_nearest_to_eval : array_like
+        Number of nearest clusters to assess. An array or list of int values.
+        Default : [1, 3, 5]
+    max_n_types : int
+        Maximum number of types over which to search for clusters.
+    radius_property : str
+        Name of elemental property to use as atomic radius.
+
+    Notes
+    -----
+    The APE, as defined by Laws et al. [1], is determined based
     on the ideal and actual ratio between the central and shell atoms of an
     atomic cluster with a certain number of atoms. Often, the packing
     efficiency is described as a ratio between these two quantities:
@@ -22,8 +36,7 @@ class APEAttributeGenerator:
     The ideal ratio is determined based on the ratio between the size of a
     central atom and the neighboring atoms such that the packing around the
     central atom is maximized. These optimal ratios for clusters for
-    different numbers of atoms have been tabulated by Miracle et al.
-    (http://dx.doi.org/10.2320/matertrans.47.1737)
+    different numbers of atoms have been tabulated by Miracle et al. [2].
 
     The actual ratio is computed by dividing the radius of the central atom
     by the average of the central atoms.
@@ -41,12 +54,13 @@ class APEAttributeGenerator:
     the first nearest neighbor shell is equal to the composition of the
     system. Each atom type is surrounded by the number of atoms that
     maximizes the packing efficiency. As shown in recent work by Laws et al.
-    (http://www.nature.com/doifinder/10.1038/ncomms9123), bulk metallic
-    glasses are known to form when the clusters around all types of atom
-    have the same composition as the alloy and are efficiently packed. We
-    compute the average APE for each atom in the system, under this
+    [1], bulk metallic glasses are known to form when the clusters around all
+    types of atom have the same composition as the alloy and are efficiently
+    packed. We compute the average APE for each atom in the system, under this
     assumption, and the average deviation from perfect packing.
 
+    Advanced Notes
+    --------------
     This algorithm currently evaluates all possible clusters provided a list
     of elements. As the number of clusters scales with N!, the runtime of
     this algorithm scales with N!.
@@ -58,6 +72,19 @@ class APEAttributeGenerator:
     components. Many alloys >10 elements in the specification, but many are
     impurities that may not be present in large enough amounts to really
     affect the determination of efficiently packed clusters.
+
+    References
+    ----------
+    .. [1] K. J. Laws, D. B. Miracle, and M. Ferry, "A predictive structural
+    model for bulk metallic glasses," Nature Communications, vol. 6, p. 8123,
+    Sep. 2015.
+    .. [2] D. B. Miracle, E. A. Lord, and S. Ranganathan, "Candidate Atomic
+    Cluster Configurations in Metallic Glass Structures," MATERIALS
+    TRANSACTIONS, vol. 47, no. 7, pp. 1737 -- 1742, 2006.
+    .. [3] D. B. Miracle, D. V. Louzguine-Luzgin, L. V. Louzguina-Luzgina,
+    and A. Inoue, "An assessment of binary metallic glasses: correlations
+    between structure, glass forming ability and stability," International
+    Materials Reviews, vol. 55, no. 4, pp. 218--256, Jul. 2010.
 
     """
 
@@ -75,63 +102,94 @@ class APEAttributeGenerator:
     max_n_types = 6
 
     # Name of elemental property to use as atomic radius. By default,
-    # uses the radii from doi: 10.1179/095066010X12646898728200.
+    # uses the radii from Ref [3] (see references section above).
     radius_property = "MiracleRadius"
 
     def set_packing_threshold(self, threshold):
-        """
-        Function to define the threshold at which a cluster is considered
+        """Function to define the threshold at which a cluster is considered
         efficiently packed.
-        :param threshold: Desired threshold. Default: 0.01
-        :return:
+
+        Parameters
+        ----------
+        threshold : float
+            Desired threshold. Default: 0.01
+
+        Raises
+        ------
+        ValueError
+            If threshold value is negative.
+
         """
+
         if threshold < 0:
             raise ValueError("Threshold must be positive.")
         self.packing_threshold = threshold
 
     def set_n_nearest_to_eval(self, values):
-        """
-        Function to define the number of nearest neighbor clusters to
+        """Function to define the number of nearest neighbor clusters to
         evaluate when computing features.
-        :param values: A list containing the numbers of neighbor clusters.
-        Default: [1, 3, 5]
-        :return:
+
+        Parameters
+        ----------
+        values : array-like
+            Number of nearest clusters to assess. An array or list of int
+            values.
+
         """
+
         self.n_nearest_to_eval = values
 
     def set_radius_property(self, prop):
+        """Function to set the name of the elemental property used to define
+        radii.
+
+        By default uses the "MiracleRadius" property which is from an
+        assessment by Miracle et al. [2].
+
+        Parameters
+        ----------
+        prop : str
+            Name of property used to define radii.
+
         """
-        Function to set the name of the elemental property used to define
-        radii. By default uses the "MiracleRadius" property which is from an
-        assessment by Miracle et al.
-        (http://dx.doi.org/10.2320/matertrans.47.1737)
-        :param prop: Name of property used to define radii.
-        :return:
-        """
+
         self.radius_property = prop
 
     @classmethod
     def compute_APE(self, n_neighbors=None, center_radius=None,
-                    neigh_eff_radius=None,
-                    radii=None, center_type=None, shell_types=None):
-        """
-        Function to compute the APE of a cluster, given the identities of the
-        central and 1st neighbor atoms or just the number of neighbors and
-        the radii. Here, we follow the formulation given by Laws et al.
-        (http://www.nature.com/doifinder/10.1038/ncomms9123).
+                    neigh_eff_radius=None, radii=None, center_type=None,
+                    shell_types=None):
+        """Function to compute the APE of a cluster, given the identities of
+        the central and 1st neighbor atoms or just the number of neighbors and
+        the radii.
+
+        Here, we follow the formulation given by Laws et al. [1].
 
         APE = ideal radius ratio / (radius of central atom / effective radius
         of nearest neighbors)
 
-        :param n_neighbors: Number of 1st nearest neighbors in the cluster.
-        :param center_radius: Radius of the central atom.
-        :param neigh_eff_radius: Effective radius of the 1st shell. Usually
-        computed as the average radius of all atoms in the shell.
-        :param radii: Radius of each atom type.
-        :param center_type: Type of atom in the center.
-        :param shell_types: Number of atoms of each type in the outer shell.
-        Must be same length as radii.
-        :return: APE, as defined above, as a float.
+        Parameters
+        ----------
+        n_neighbors : int
+            Number of 1st nearest neighbors in the cluster.
+        center_radius : float
+            Radius of the central atom.
+        neigh_eff_radius : float
+            Effective radius of the 1st shell. Usually computed as the
+            average radius of all atoms in the shell.
+        radii : array-like
+            Radius of each atom type. A list of float values.
+        center_type : int
+            Type of atom in the center.
+        shell_types : array-like
+            Number of atoms of each type in the outer shell. Must be same
+            length as radii.
+
+        Returns
+        -------
+        output : float
+            APE, as defined in the function description.
+
         """
         n_n = n_neighbors
         c_r = center_radius
@@ -207,26 +265,38 @@ class APEAttributeGenerator:
             ideal_ratio = 1.65915
 
         actual_ratio = c_r / n_e_r
-        return ideal_ratio / actual_ratio
+        output = ideal_ratio / actual_ratio
+        return output
 
     @classmethod
     def get_cluster_range(self, radii, packing_threshold):
-        """
-        Function compute the maximum and minimum possible cluster sizes,
-        given a list of radii. The smallest possible cluster has the smallest
+        """Function compute the maximum and minimum possible cluster sizes,
+        given a list of radii.
+
+        The smallest possible cluster has the smallest
         atom in the center and the largest in the outside. The largest
         possible has the largest in the inside and the smallest in the outside.
 
-        :param radii: List of radii of elements in the system.
-        :param packing_threshold: APE defining maximum packing threshold.
-        :return: min_cluster_size, max_cluster_size as defined by number of
-        atoms in the shell.
+        Parameters
+        ----------
+        radii : array-like
+            Radii of elements in the system. A list of float values.
+        packing_threshold : float
+            APE defining maximum packing threshold.
+
+        Returns
+        ----------
+        min_cluster_size : int
+            Minimum cluster size as defined by number of atoms in the shell.
+        max_cluster_size : int
+            Maximum cluster size as defined by number of atoms in the shell.
         """
+
         l_r = len(radii)
 
         # Get the indices of the maximum and minimum radius.
-        biggest_radius = np.argmax(radii)
-        smallest_radius = np.nanargmin(radii)
+        biggest_radius = int(np.argmax(radii))
+        smallest_radius = int(np.nanargmin(radii))
 
         # Compute the smallest possible cluster.
         cluster = np.zeros(l_r)
@@ -260,17 +330,31 @@ class APEAttributeGenerator:
 
     def get_closest_compositions(self, target_composition,
                                  other_compositions, n_closest, p_norm):
-        """
-        Function to get closest compositions from a given target composition.
+        """Function to get closest compositions from a given target
+        composition.
 
-        :param target_composition: Composition from which to measure
-        distance.
-        :param other_compositions: A list of compositions whose distance from
-        the target will be ranked.
-        :param n_closest: Number of closest compounds to return.
-        :param p_norm: P-norm to use when computing distance.
-        :return: dist, comps containing a list of distances and compositions.
+        Parameters
+        ----------
+        target_composition : CompositionEntry
+            Composition from which to measure distance.
+        other_compositions : array-like
+            Compositions whose distance from the target will be ranked. A
+            list of CompositionEntry's.
+        n_closest : int
+            Number of closest compounds to return.
+        p_norm : int
+            P-norm to use when computing distance.
+
+        Returns
+        ----------
+        dist : array-like
+            Distances of the compositions from the target composition. A list
+            of float values.
+        comps : array-like
+            A list of CompositionEntry's.
+
         """
+
         tmp_list = []
         for comp in other_compositions:
             cdf = -CompositionDistanceFilter.compute_distance(comp,
@@ -289,18 +373,28 @@ class APEAttributeGenerator:
 
     @classmethod
     def find_efficiently_packed_clusters(self, radii, packing_threshold):
-        """
-        Function to find all clusters with better APE than a certain
-        threshold, given a list of atomic radii. The packing efficiency is
-        defined as abs(1 - APE).
+        """Function to find all clusters with better APE than a certain
+        threshold, given a list of atomic radii.
 
-        :param radii: Radii of elements.
-        :param packing_threshold: Desired packing limit threshold. A
-        "default" choice would be 0.05.
-        :return: A list of efficiently packed structures for each atom type
-        as the central atom. Ex: x[0][1] is the 2nd efficiently packed
-        cluster with atom type 0 as the central atom.
+        The packing efficiency is defined as abs(1 - APE).
+
+        Parameters
+        ----------
+        radii : array-like
+            Radii of elements. A list of float values.
+        packing_threshold : float
+            Desired packing limit threshold. A "default" choice would be 0.05.
+
+        Returns
+        ----------
+        output : array-like
+            A list of efficiently packed structures for each atom type as the
+            central atom. Ex: x[0][1] is the 2nd efficiently packed cluster
+            with atom type 0 as the central atom. A list containing a list of
+            int values.
+
         """
+
         output = []
         l_r = len(radii)
 
@@ -352,18 +446,29 @@ class APEAttributeGenerator:
 
     @classmethod
     def compute_cluster_compositions(self, e_ids, clusters):
-        """
-        Function to compute the compositions of a list of atomic clusters.
+        """Function to compute the compositions of a list of atomic clusters.
+
         The composition includes both atoms in the first nearest neighbor
         shell and the atom in the center of the cluster.
 
-        :param e_ids: Ids of the elements from which clusters are composed.
-        :param clusters:  Clusters to convert. List of identity shell
-        compositions for each type of central atom. Ex: clusters[1][2] is an
-        array defining the number of atoms of each type for clusters with an
-        atom of type 1 in the center.
-        :return:
+        Parameters
+        ----------
+        e_ids: array-like
+            Ids of the elements from which clusters are composed. A list of
+            int values.
+        clusters : array-like
+            Clusters to convert. List of identity shell compositions for each
+            type of central atom. Ex: clusters[1][2] is an array defining the
+            number of atoms of each type for clusters with an atom of type 1
+            in the center. A list containing a list of int values.
+
+        Returns
+        ----------
+        output : array-like
+            Compositions found in this cluster. A list of CompositionEntry's.
+
         """
+
         output = []
         l_c = len(clusters)
 
@@ -381,18 +486,33 @@ class APEAttributeGenerator:
     @classmethod
     def determine_optimal_APE(self, central_atom_type, shell_composition,
                               radii):
-        """
-        Function to compute the optimal APE for a cluster with a certain atom
-        type in the center and composition in the cell. This algorithm finds
-        the number of atoms in the shell such that the APE of the cluster is
-        closest to 1. Note: This calculation assumes that sites in the first
-        nearest-neighbor shell can be partially-occupied.
+        """Function to compute the optimal APE for a cluster with a certain
+        atom type in the center and composition in the cell.
 
-        :param central_atom_type: Element id (Z - 1) of th central atom.
-        :param shell_composition: Composition of the nearest-neighbor shell.
-        :param radii: Lookup table of elemental radii.
-        :return: output: The optimal APE.
+
+        Parameters
+        ----------
+        central_atom_type : int
+            Element id (Z - 1) of th central atom.
+        shell_composition : CompositionEntry
+            Composition of the nearest-neighbor shell.
+        radii : array-like
+            Lookup table of elemental radii. A list of float values.
+
+        Returns
+        ----------
+        output : float
+            The optimal APE.
+
+        Notes
+        -----
+        This algorithm finds the number of atoms in the shell such that the
+        APE of the cluster is closest to 1. Note: This calculation assumes
+        that sites in the first nearest-neighbor shell can be
+        partially-occupied.
+
         """
+
         # Initialize output.
         output = float("inf")
 
@@ -414,14 +534,27 @@ class APEAttributeGenerator:
 
         return output
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CompositionEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Compositions for which features are to be generated. A list of
+            CompositionEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
+
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -518,6 +651,4 @@ class APEAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

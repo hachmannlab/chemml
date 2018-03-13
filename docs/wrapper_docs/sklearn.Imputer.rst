@@ -7,7 +7,7 @@ Imputer
     | Prepare
 
 :subtask:
-    | preprocessor
+    | data cleaning
 
 :host:
     | sklearn
@@ -17,15 +17,15 @@ Imputer
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's Imputer class
-    |   ("<class 'sklearn.preprocessing.imputation.Imputer'>",)
+    |   types: ("<class 'sklearn.preprocessing.imputation.Imputer'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of scikit-learn's Imputer class
-    |   ("<class 'sklearn.preprocessing.imputation.Imputer'>",)
+    |   types: ("<class 'sklearn.preprocessing.imputation.Imputer'>",)
 
 :wrapper parameters:
     | ``track_header`` : Boolean, (default:True)

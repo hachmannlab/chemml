@@ -15,15 +15,16 @@ read_table
 :function:
     | read_table
 
+:input tokens (receivers):
+    |   this block doesn't receive anything
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 
 :required packages:
-    | p, a
-    | 0, .
+    | pandas, 0.20.3
 
 :config file view:
     | ``##``

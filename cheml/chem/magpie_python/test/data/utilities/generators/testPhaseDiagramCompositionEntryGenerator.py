@@ -1,6 +1,6 @@
 import unittest
-from data.utilities.generators.PhaseDiagramCompositionEntryGenerator import \
-    PhaseDiagramCompositionEntryGenerator
+from .....data.utilities.generators.PhaseDiagramCompositionEntryGenerator \
+    import PhaseDiagramCompositionEntryGenerator
 
 class testPhaseDiagramCompositionEntryGenerator(unittest.TestCase):
     def setUp(self):

@@ -17,15 +17,15 @@ evaluate_regression
 
 :input tokens (receivers):
     | ``dfy`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfy_predict`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``evaluation_results_`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``evaluator`` : dictionary of metrics and their score function
-    |   ("<type 'dict'>",)
+    |   types: ("<type 'dict'>",)
 
 :wrapper parameters:
     | ``mae_multioutput`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error, (default:uniform_average)
@@ -40,7 +40,7 @@ evaluate_regression
     | ``multioutput`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score, (default:uniform_average)
     |   
     |   choose one of: ('raw_values', 'uniform_average', 'variance_weighted')
-    | ``r2_sample_weight`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score, (default:None)
+    | ``mse_sample_weight`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error, (default:None)
     |   
     |   choose one of: []
     | ``rmse_multioutput`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error, (default:uniform_average)
@@ -67,7 +67,7 @@ evaluate_regression
     | ``explained_variance_score`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score, (default:False)
     |   
     |   choose one of: (True, False)
-    | ``mse_sample_weight`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error, (default:None)
+    | ``r2_sample_weight`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score, (default:None)
     |   
     |   choose one of: []
     | ``ev_sample_weight`` : http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score, (default:None)
@@ -91,7 +91,7 @@ evaluate_regression
     |   ``<< r2_score = False``
     |   ``<< mean_absolute_error = False``
     |   ``<< multioutput = uniform_average``
-    |   ``<< r2_sample_weight = None``
+    |   ``<< mse_sample_weight = None``
     |   ``<< rmse_multioutput = uniform_average``
     |   ``<< median_absolute_error = False``
     |   ``<< mae_sample_weight = None``
@@ -100,7 +100,7 @@ evaluate_regression
     |   ``<< mean_squared_error = False``
     |   ``<< root_mean_squared_error = False``
     |   ``<< explained_variance_score = False``
-    |   ``<< mse_sample_weight = None``
+    |   ``<< r2_sample_weight = None``
     |   ``<< ev_sample_weight = None``
     |   ``<< ev_multioutput = uniform_average``
     |   ``<< mse_multioutput = uniform_average``

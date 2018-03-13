@@ -1,21 +1,21 @@
-cheml package
+cheml library
 =============
 
-Subpackages
------------
+.. Subpackages
+.. -----------
 
 .. toctree::
 
     cheml.chem
     cheml.initialization
-    cheml.nn
+    cheml.datasets
     cheml.preprocessing
+    cheml.nn
     cheml.search
-    cheml.utils
     cheml.visualization
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml
     :members:

@@ -1,15 +1,6 @@
 cheml.chem package
 ==================
 
-Subpackages
------------
-
-.. toctree::
-
-    cheml.chem.examples
-
-Submodules
-----------
 
 cheml.chem.CoulMat module
 -------------------------

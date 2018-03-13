@@ -17,15 +17,15 @@ SaveFile
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``filepath`` : pandas dataframe
-    |   ("<type 'str'>",)
+    |   types: ("<type 'str'>",)
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

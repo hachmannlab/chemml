@@ -252,28 +252,6 @@ class ConvertFile(object):
     >>> converted_file_paths = model.convert()
     {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
 
-
-    (1)
-    inputs :
-        file_path: 'mydir/my_sub_dir/file.xyz'
-        from_format: 'xyz'
-        to_format: 'cml'
-        openbabel command: babel xyz mydir/my_sub_dir/file.xyz cml mydir/my_sub_dir/file.cml
-    returns:
-        converted_file_paths={'mydir/my_sub_dir/file.cml']
-
-    (2)
-    file_path: {1:{'file':'mydir/1.xyz'}, 2:{'file':'mydir/2.xyz'}, 3:{'file':'mydir/3.xyz'}}
-    from_format:'xyz'
-    to_format:'mol2'
-    >>> openbabel command: babel xyz mydir/1.xyz cml mydir/1.mol2 ...
-    >>> converted_file_paths=['mydir/1.mol2','mydir/2.mol2','mydir/3.mol2']
-
-    (3)
-    file_path:'mydir/my_sub_dir/file.cml'
-    from_format:'xyz'
-    to_format:'pdb'
-    >>> error message: 'file format is not the same as from_format'
     """
 
     def __init__(self,file_path,from_format,to_format):

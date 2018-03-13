@@ -9,7 +9,7 @@ def tshf():
     :return: combination, dictionary of the aforementioned combinations
     """
     # 7 tasks
-    tasks = ['Enter', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
+    tasks = ['Enter', 'Represent', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
     extras = ['np', '__builtins__', '__doc__', '__file__', '__name__', '__package__', 'mask', 'Input', 'Output',
               'Parameter', 'req', 'regression_types', 'cv_types']
 
@@ -29,6 +29,4 @@ def tshf():
                 else:
                     combination[task][subtask][host].append(function)
     return tasks, combination
-
-
 

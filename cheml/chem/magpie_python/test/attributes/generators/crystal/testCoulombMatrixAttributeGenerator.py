@@ -1,9 +1,9 @@
 import unittest
-from attributes.generators.crystal.CoulombMatrixAttributeGenerator import \
+from .....attributes.generators.crystal.CoulombMatrixAttributeGenerator import \
     CoulombMatrixAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testCoulombMatrixAttributeGenerator(unittest.TestCase):
     def test(self):

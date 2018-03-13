@@ -1,12 +1,12 @@
 import numpy.testing as np_tst
-from attributes.generators.crystal.LocalPropertyVarianceAttributeGenerator \
+from .....attributes.generators.crystal\
+    .LocalPropertyVarianceAttributeGenerator \
     import LocalPropertyVarianceAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from test.attributes.generators.crystal\
-    .testCoordinationNumberAttributeGenerator import \
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testLocalPropertyVarianceAttributeGenerator(
     testCoordinationNumberAttributeGenerator):

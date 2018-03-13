@@ -1,33 +1,33 @@
-.. _Constant:
+.. _Outliers:
 
-Constant
+Outliers
 =========
 
 :task:
     | Prepare
 
 :subtask:
-    | preprocessor
+    | data cleaning
 
 :host:
     | cheml
 
 :function:
-    | Constant
+    | Outliers
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   ("<class 'cheml.preprocessing.purge.Constant'>",)
+    |   types: ("<class 'cheml.preprocessing.purge.Outliers'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   ("<class 'cheml.preprocessing.purge.Constant'>",)
+    |   types: ("<class 'cheml.preprocessing.purge.Outliers'>",)
     | ``removed_columns_`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
     | ``func_method`` : string, (default:None)
@@ -35,14 +35,15 @@ Constant
     |   choose one of: ('fit_transform', 'transform', None)
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Constant``
+    |   ``<< host = cheml    << function = Outliers``
     |   ``<< func_method = None``
-    |   ``<< selection = 1``
+    |   ``<< m = 2.0``
+    |   ``<< strategy = median``
     |   ``>> id df``
     |   ``>> id api``
     |   ``>> id df``

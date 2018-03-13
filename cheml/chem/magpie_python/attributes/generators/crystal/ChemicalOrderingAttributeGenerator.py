@@ -1,14 +1,28 @@
 import numpy as np
 import pandas as pd
 import types
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class ChemicalOrderingAttributeGenerator:
-    """
-    Class to compute attributes based on chemical ordering of structure.
+    """Class to compute attributes based on chemical ordering of structure.
+
     Determines average Warren-Cowley ordering parameter for the bond network
     defined by the Voronoi tessellation of a structure.
 
+    Attributes
+    ----------
+    shells : list
+        Index of shells to compute features for.
+    weighted : bool
+        Whether to compute features using weighting or not.
+
+    See Also
+    --------
+    VoronoiCellBasedAnalysis.get_neighbor_ordering_parameters : Computes
+    Warren-Cowley ordering parameters.
+
+    Notes
+    -----
     For each atom in the structure, the average Warren-Cowley ordering
     parameter is determined by computing the average magnitude of ordering
     parameter for each type for all atoms in a structure. The ordering
@@ -25,13 +39,15 @@ class ChemicalOrderingAttributeGenerator:
     the introduction of small faces due to numerical problems inherent to the
     Voronoi tessellation. Full details is available in the Vassal
     documentation for VoronoiCellBasedAnalysis.getNeighborOrderingParameters().
+
     """
 
     def __init__(self):
-        """
-        Function to create instance and initialize fields. Will create the WC
-        parameters for the first, second and third nearest-neighbor shells by
-        default.
+        """Function to create instance and initialize fields.
+
+        Will create the WC parameters for the first, second and third
+        nearest-neighbor shells by default.
+
         """
 
         # Shells to compute the WC attribute for.
@@ -41,31 +57,52 @@ class ChemicalOrderingAttributeGenerator:
         self.weighted = True
 
     def set_shells(self, shells):
-        """
-        Function to set which nearest-neighbor shells to consider when
+        """Function to set which nearest-neighbor shells to consider when
         generating features.
-        :param shells: List of shell indices.
-        :return:
+
+        Parameters
+        ----------
+        shells: list
+            Desired shell indices.
+
         """
+
         self.shells = list(shells)
 
     def set_weighted(self, weighted):
-        """
-        Function to set whether to consider face sizes when computing
+        """Function to set whether to consider face sizes when computing
         ordering parameters.
-        :param weighted: Whether to weigh using face sizes.
-        :return:
+
+        Parameters
+        ----------
+        weighted: bool
+            Whether to weigh using face sizes.
+
         """
+
         self.weighted = weighted
 
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Initialize list of feature values for pandas data frame.
@@ -101,6 +138,4 @@ class ChemicalOrderingAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

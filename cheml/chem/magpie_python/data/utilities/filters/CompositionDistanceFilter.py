@@ -1,16 +1,23 @@
 import types
 import numpy as np
-from data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.CompositionEntry import CompositionEntry
 
 class CompositionDistanceFilter:
-    """
-    Class to filter compositions based on distance from a target composition.
+    """Class to filter compositions based on distance from a target composition.
     Filters any composition where the maximum change in any element is less
     than a certain value.
+
+    Attributes
+    ----------
+    target_composition : CompositionEntry
+        Composition of the target.
+    threshold : float
+        Threshold to be used.
+
+
     """
     def __init__(self):
-        """
-        Initialize field variables here.
+        """Initialize field variables here.
         """
 
         # Target composition.
@@ -20,33 +27,48 @@ class CompositionDistanceFilter:
         self.threshold = 0.0
 
     def set_target_composition(self, entry):
-        """
-        Function to define the target composition.
-        :param entry: Desired target composition.
-        :return:
+        """Function to define the target composition.
+
+        Parameters
+        ----------
+        entry : CompositionEntry
+            Desired target composition.
+
         """
         self.target_composition = entry
 
     def set_distance_threshold(self, distance):
-        """
-        Function to define the threshold composition distance. Here distance
+        """Function to define the threshold composition distance. Here distance
         is defined as the maximum change in the fraction of any element.
-        :param distance: Target threshold in %
-        :return:
+
+        Parameters
+        ----------
+        distance : float
+            Target threshold in %
+
+
         """
         self.threshold = distance / 100.0
 
     @classmethod
     def compute_distance(self, entry_1, entry_2, p):
-        """
-        Function to compute the distance between two entries. Distance is
+        """Function to compute the distance between two entries. Distance is
         defined as the L_p norm of the distance between element fractions.
-        :param entry_1: Dictionary 1 with element names and fractions as keys
-        and values respectively.
-        :param entry_2: Dictionary 1 with element names and fractions as keys
-        and values respectively.
-        :param p: Desired norm.
-        :return: dist: Distance between two entries.
+
+        Parameters
+        ----------
+        entry_1 : CompositionEntry
+            Composition of entry 1.
+        entry_2 : CompositionEntry
+            Composition of entry 2.
+        p : int
+            Desired norm.
+
+        Returns
+        -------
+        output : float
+            Distance between two entries.
+
         """
 
         # Get the set of common elements with fractions greater than zero to
@@ -78,12 +100,25 @@ class CompositionDistanceFilter:
         return dist**(1.0 / p)
 
     def label(self, entries):
-        """
-        Function to compute labels of composition entries indicating whether
+        """Function to compute labels of composition entries indicating whether
         or not they are within the threshold of the target composition.
-        :param entries: A list of CompositionEntry's.
-        :return: label: A numpy array containing True if the entry is within
-        bounds of the target composition and False otherwise.
+
+        Parameters
+        ----------
+        entries : array-like
+            A list of CompositionEntry's.
+
+        Returns
+        -------
+        label : array-like
+            A numpy array containing True if the entry is within bounds of
+            the target composition and False otherwise.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CompositionEntry instances.
         """
 
         # Raise exception if input argument is not of type list of

@@ -1,12 +1,11 @@
 from itertools import combinations as comb
 import numpy as np
-from utility.EqualSumCombinations import EqualSumCombinations
-from data.materials.CompositionEntry import CompositionEntry
-from data.materials.util.LookUpData import LookUpData
+from ....utility.EqualSumCombinations import EqualSumCombinations
+from ....data.materials.CompositionEntry import CompositionEntry
+from ....data.materials.util.LookUpData import LookUpData
 
 class PhaseDiagramCompositionEntryGenerator:
-    """
-    Class to generate composition entries at many points in many phase
+    """Class to generate composition entries at many points in many phase
     diagrams. Has two different ways of selecting compositions within phase
     diagrams.
 
@@ -17,6 +16,20 @@ class PhaseDiagramCompositionEntryGenerator:
     2. Simple Fractions: Compositions with the smallest denominator are
     selected (e.g. ABC, A2C, B2C, etc.). This method is most appropriate for
     phase diagrams that represent ordered crystalline compounds.
+
+    Attributes
+    ----------
+    e_ids : array-like
+        A list of int values denoting the list of elements to use.
+    min_order : int
+        Minimum number of constituents.
+    max_order : int
+        Maximum number of constituents.
+    even_spacing : bool
+        Whether to use even spacing or small integers.
+    size : int
+        Either number of stops in each direction or max denominator.
+
     """
 
     # List of elements to use (id is Z-1).
@@ -35,11 +48,19 @@ class PhaseDiagramCompositionEntryGenerator:
     size = 3
 
     def set_elements_by_index(self, indices):
-        """
-        Function to define the list of elements to be included in the phase
+        """Function to define the list of elements to be included in the phase
         diagrams.
-        :param indices: List of elements by index (Z-1).
-        :return:
+
+        Parameters
+        ----------
+        indices : array-like
+            List of elements by index (Z-1).
+
+        Raises
+        ------
+        ValueError
+            If an element index is out of the allowed range.
+
         """
         self.e_ids = []
         for i in indices:
@@ -49,11 +70,19 @@ class PhaseDiagramCompositionEntryGenerator:
                 raise ValueError("Index out of range: "+str(i))
 
     def set_elements_by_name(self, names):
-        """
-        Function to define the list of elements to be included in the phase
+        """Function to define the list of elements to be included in the phase
         diagrams.
-        :param names: List of element names.
-        :return:
+
+        Parameters
+        ----------
+        names : array-like
+            List of element names.
+
+        Raises
+        ------
+        ValueError
+            If an element name is not valid.
+
         """
 
         self.e_ids = []
@@ -64,11 +93,20 @@ class PhaseDiagramCompositionEntryGenerator:
                 raise ValueError("Element: "+name+" invalid!")
 
     def set_order(self, min_, max_):
-        """
-        Function to define the order of generated phase diagrams.
-        :param min_: Minimum number of constituents.
-        :param max_: Maximum number of constituents.
-        :return:
+        """Function to define the order of generated phase diagrams.
+
+        Parameters
+        ----------
+        min_ : int
+            Minimum number of constituents.
+        max_ : int
+            Maximum number of constituents.
+
+        Raises
+        ------
+        ValueError
+            If min_ or max_ is less than 1.
+
         """
         if min_ < 1 or max_ < 1:
             raise ValueError("Orders must be greater than 1.")
@@ -76,28 +114,38 @@ class PhaseDiagramCompositionEntryGenerator:
         self.max_order = max_
 
     def set_even_spacing(self, es):
-        """
-        Function to define whether to use evenly-spaced compositions (or
+        """Function to define whether to use evenly-spaced compositions (or
         low-denominator).
-        :param es: Boolean indicating the same.
-        :return:
+
+        Parameters
+        ----------
+        es : bool
+            Boolean indicating the same.
+
         """
         self.even_spacing = es
 
     def set_size(self, size):
-        """
-        Function to define the number of points per binary diagram (in using
+        """Function to define the number of points per binary diagram (in using
         even spacing) or the maximum denominator (for low-denominator).
-        :param size: Desired size parameter.
-        :return:
+
+        Parameters
+        ----------
+        size : int
+            Desired size parameter.
+
+        Raises
+        ------
+        ValueError
+            If input is less than 2.
+
         """
         if size < 2:
             raise ValueError("Size must be greater than 1.")
         self.size = size
 
     def generate_alloy_compositions(self):
-        """
-        Function to generate evenly-spaced compositions. Generates
+        """Function to generate evenly-spaced compositions. Generates
         compositions for all diagrams up to the user-specified Minimum order.
 
         For example: If the user wants ternary diagrams with a minimum
@@ -105,10 +153,15 @@ class PhaseDiagramCompositionEntryGenerator:
         1 -> ([1.0])
         2 -> ([0.25, 0.75], [0.5, 0.5], [0.75, 0.25])
         3 -> ([0.5, 0.25, 0.25], [0.25, 0.5, 0.25], [0.25, 0.25, 0.5])
-        :return: A dictionary containing <Order, Possible compositions> as
-        <key,value> pairs. Here, Order is the number of elements and Possible
-        compositions is a list of numpy arrays containing the fractions of
-        elements.
+
+        Returns
+        -------
+        output : dict
+            A dictionary containing <order, possible compositions> as <key,
+            value> pairs. Here, order is the number of elements and possible
+            compositions is a list of numpy arrays containing the fractions
+            of elements.
+
         """
 
         output = {}
@@ -135,8 +188,7 @@ class PhaseDiagramCompositionEntryGenerator:
         return output
 
     def generate_crystal_compositions(self):
-        """
-        Function to generate compositions with small denominators. Generates
+        """Function to generate compositions with small denominators. Generates
         compositions for all diagrams up to the user-specified Minimum order.
 
         For example: If the user wants ternary diagrams with a maximum
@@ -144,10 +196,15 @@ class PhaseDiagramCompositionEntryGenerator:
         1 -> ([1])
         2 -> ([1/3, 2/3], [1/2, 1/2], [2/3, 1/3])
         3 -> ([1/3, 1/3, 1/3])
-        :return: A dictionary containing <Order, Possible compositions> as
-        <key,value> pairs. Here, Order is the number of elements and Possible
-        compositions is a list of numpy arrays containing the fractions of
-        elements.
+
+        Returns
+        -------
+        output : dict
+            A dictionary containing <order, possible compositions> as <key,
+            value> pairs. Here, order is the number of elements and possible
+            compositions is a list of numpy arrays containing the fractions
+            of elements.
+
         """
 
         output = {}
@@ -188,11 +245,15 @@ class PhaseDiagramCompositionEntryGenerator:
         return output
 
     def generate_entries(self):
-        """
-        Function to generate the list of entries corresponding to the list of
+        """Function to generate the list of entries corresponding to the list of
         compositions, element names specified by the user and the mapping of
         number of elements to compositions.
-        :return: entries: A list of CompositionEntry's.
+
+        Returns
+        -------
+        entries: array-like
+            A list of CompositionEntry's.
+
         """
         entries = []
 

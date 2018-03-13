@@ -1,18 +1,20 @@
 import pandas as pd
 import numpy as np
 import types
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class StructuralHeterogeneityAttributeGenerator:
-    """
-    Class to compute attributes based on heterogeneity in structure. Measures
-    variance in bond lengths (both for a single atom and between different
-    atoms) and atomic volumes. Also considers the number of unique
+    """Class to compute attributes based on heterogeneity in structure.
+
+    Measures variance in bond lengths (both for a single atom and between
+    different atoms) and atomic volumes. Also considers the number of unique
     coordination polyhedron shapes.
 
     Bond lengths, atomic volumes, and coordination polyhedra are based on the
     Voronoi tessellation of the structure.
 
+    Notes
+    -----
     Current attributes:
     1. Mean absolute deviation in average bond length for each atom, normalized
     by mean for all atoms.
@@ -26,17 +28,33 @@ class StructuralHeterogeneityAttributeGenerator:
     volume.
 
     Here, bond length variation for a single atom is defined as:
-    l = <l_i - l*
-    where l_i is the distance between an atom and one of its neighbors.
+    .. math:: \hat{l} = <l_i - \bar{l}>
+    where :math: `l_i` is the distance between an atom and one of its
+    neighbors.
+
     """
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Initialize lists of feature values and headers for pandas data frame.
@@ -105,6 +123,4 @@ class StructuralHeterogeneityAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

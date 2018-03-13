@@ -16,14 +16,14 @@ KFold
     | KFold
 
 :input tokens (receivers):
-    | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``dfx`` : pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``api`` : instance of scikit-learn's KFold class
-    |   ("<class 'sklearn.model_selection._split.KFold'>",)
+    |   types: ("<class 'sklearn.model_selection._split.KFold'>",)
     | ``fold_gen`` : Generator of indices to split data into training and test set
-    |   ("<type 'generator'>",)
+    |   types: ("<type 'generator'>",)
 
 :wrapper parameters:
     | ``func_method`` : string, (default:None)
@@ -41,7 +41,7 @@ KFold
     |   ``<< random_state = None``
     |   ``<< shuffle = False``
     |   ``<< n_splits = 3``
-    |   ``>> id df``
+    |   ``>> id dfx``
     |   ``>> id api``
     |   ``>> id fold_gen``
     |

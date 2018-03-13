@@ -1,28 +1,45 @@
 import pandas as pd
 import numpy as np
 import types
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
+from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class PackingEfficiencyAttributeGenerator:
-    """
-    Class to compute attributes based on packing efficiency. Packing
-    efficiency is determined by finding the largest sphere that would fit
-    inside each Voronoi cell and comparing the volume of that sphere to the
+    """Class to compute attributes based on packing efficiency.
+
+    Packing efficiency is determined by finding the largest sphere that would
+    fit inside each Voronoi cell and comparing the volume of that sphere to the
     volume of the cell.
 
+    Notes
+    -----
     For now, the only attribute computed by this generator is the maximum
     packing efficiency for the entire cell. This is computed by summing the
     total volume of all spheres in all cells, and dividing by the volume of
     the unit cell.
+
     """
-    def generate_features(self, entries, verbose=False):
-        """
-        Function to generate features as mentioned in the class description.
-        :param entries: A list of CrystalStructureEntry's.
-        :param verbose: Flag that is mainly used for debugging. Prints out a
-        lot of information to the screen.
-        :return features: Pandas data frame containing the names and values
-        of the descriptors.
+
+    def generate_features(self, entries):
+        """Function to generate features as mentioned in the class description.
+
+        Parameters
+        ----------
+        entries : array-like
+            Crystal structures for which features are to be generated. A list
+            of CrystalStructureEntry's.
+
+        Returns
+        ----------
+        features : DataFrame
+            Features for the given entries. Pandas data frame containing the
+            names and values of the descriptors.
+
+        Raises
+        ------
+        ValueError
+            If input is not of type list.
+            If items in the list are not CrystalStructureEntry instances.
+
         """
 
         # Initialize list of feature values for pandas data frame.
@@ -54,6 +71,4 @@ class PackingEfficiencyAttributeGenerator:
             feat_values.append(tmp_list)
 
         features = pd.DataFrame(feat_values, columns=feat_headers)
-        if verbose:
-            print features.head()
         return features

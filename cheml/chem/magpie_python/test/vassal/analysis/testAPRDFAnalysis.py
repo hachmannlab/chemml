@@ -1,9 +1,9 @@
 import unittest
 import math
-from vassal.analysis.APRDFAnalysis import APRDFAnalysis
+from ....vassal.analysis.APRDFAnalysis import APRDFAnalysis
 import numpy.testing as np_tst
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from ....vassal.data.Atom import Atom
+from ....vassal.data.Cell import Cell
 
 class testAPRDFAnalysis(unittest.TestCase):
     def setUp(self):

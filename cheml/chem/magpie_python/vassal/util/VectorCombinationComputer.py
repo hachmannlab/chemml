@@ -3,18 +3,41 @@ from numpy.linalg import norm
 from scipy.linalg import lu_factor, lu_solve
 
 class VectorCombinationComputer:
-    """
-    Class to find all combinations of 3 vectors that are shorter than a
+    """Class to find all combinations of 3 vectors that are shorter than a
     certain length.
+
+    Attributes
+    ----------
+    input_vectors : array-like
+        Vectors to be added.
+    cutoff_dist_sq :  float
+        Square of cutoff distance.
+    include_zero : bool
+        Whether to include the zero vector in the list.
+    super_cells : list
+        x, y, z coordinates of each vector shorter than cutoff.
+    vectors : list
+        All vectors shorter then cutoff.
+
     """
     def __init__(self, in_vectors, cutoff_distance, include_zero=True):
-        """
-        Function to create the tool to compute all combinations of input
+        """Function to create the tool to compute all combinations of input
         vectors shorter than cutoff distance.
-        :param in_vectors: Vectors to be combined. Must be exactly 3
-        linearly-independent vectors.
-        :param cutoff_distance: Desired cutoff distance.
-        :param include_zero: Whether to include the zero vector in the list.
+
+        Parameters
+        ----------
+        in_vectors : array-like
+            Vectors to be combined. Must be exactly 3 linearly-independent
+            vectors.
+        cutoff_distance :  float
+            Desired cutoff distance.
+        include_zero : bool
+            Whether to include the zero vector in the list.
+
+        Raises
+        ------
+        ValueError
+            If length of in_vectors is not 3.
         """
 
         if len(in_vectors) != 3:
@@ -38,14 +61,24 @@ class VectorCombinationComputer:
         self.get_all_vectors()
 
     def compute_vector(self, x):
+        """Function to compute a certain combination of vectors stored in
+        this array.
+
+        Parameters
+        ----------
+        x : array-like
+
+        Returns
+        -------
+        output : array-like
+            Combination.
+        """
         i_v = np.array(self.input_vectors, dtype=float)
         return np.array([x.dot(y) for y in i_v.T])
 
 
     def get_all_vectors(self):
-        """
-        Function to compute all vectors shorter than cutoff distance.
-        :return:
+        """Function to compute all vectors shorter than cutoff distance.
         """
 
         # Create a matrix of basis vectors.
@@ -98,15 +131,22 @@ class VectorCombinationComputer:
                         self.vectors.append(l)
 
     def get_vectors(self):
-        """
-        Function to get the list of all vectors shorter than cutoff.
-        :return: List of vectors.
+        """Function to get the list of all vectors shorter than cutoff.
+
+        Returns
+        -------
+        output : array-like
+            List of vectors.
+
         """
         return list(self.vectors)
 
     def get_supercell_coordinates(self):
-        """
-        Function to get the list of all image coordinates of vectors.
-        :return: List of supercell coordinates.
+        """Function to get the list of all image coordinates of vectors.
+
+        Returns
+        -------
+        output : array-like
+            List of supercell coordinates.
         """
         return list(self.super_cells)

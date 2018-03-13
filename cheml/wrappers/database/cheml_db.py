@@ -48,8 +48,8 @@ class PyScript(object):
         line20 = Parameter('line20', 'type python code')
 
 class RDKitFingerprint(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'RDKitFingerprint'
     modules = ('cheml','chem')
@@ -74,8 +74,8 @@ class RDKitFingerprint(object):
         arguments = Parameter('arguments', [])
 
 class Dragon(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Dragon'
     modules = ('cheml','chem')
@@ -154,8 +154,8 @@ class Dragon(object):
         SaveFile = Parameter('SaveFile', True)
 
 class Coulomb_Matrix(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Coulomb_Matrix'
     modules = ('cheml','chem')
@@ -176,8 +176,8 @@ class Coulomb_Matrix(object):
         const = Parameter('const', 1)
 
 class Bag_of_Bonds(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'molecular descriptors'
     host = 'cheml'
     function = 'Bag_of_Bonds'
     modules = ('cheml','chem')
@@ -195,8 +195,8 @@ class Bag_of_Bonds(object):
         const = Parameter('const', 1)
 
 class DistanceMatrix(object):
-    task = 'Prepare'
-    subtask = 'feature representation'
+    task = 'Represent'
+    subtask = 'distance matrix'
     host = 'cheml'
     function = 'DistanceMatrix'
     modules = ('cheml','chem')
@@ -213,9 +213,75 @@ class DistanceMatrix(object):
         norm_type = Parameter('norm_type', 'fro')
         nCores = Parameter('nCores', 1)
 
+class Split(object):
+    task = 'Prepare'
+    subtask = 'data manipulation'
+    host = 'cheml'
+    function = 'Split'
+    modules = ('cheml','initialization')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class Outputs:
+        df1 = Output("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        df2 = Output("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        selection = Parameter('selection', 1)
+
+class ConstantColumns(object):
+    task = 'Prepare'
+    subtask = 'data cleaning'
+    host = 'cheml'
+    function = 'ConstantColumns'
+    modules = ('cheml','preprocessing')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit_transform','transform', None))
+    class FParameters:
+        pass
+
+class Outliers(object):
+    task = 'Prepare'
+    subtask = 'data cleaning'
+    host = 'cheml'
+    function = 'Outliers'
+    modules = ('cheml','preprocessing')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit_transform','transform', None))
+    class FParameters:
+        m = Parameter('m', 2.0)
+        strategy = Parameter('strategy', 'median')
+
 class MissingValues(object):
     task = 'Prepare'
-    subtask = 'preprocessor'
+    subtask = 'data cleaning'
     host = 'cheml'
     function = 'MissingValues'
     modules = ('cheml','preprocessing')
@@ -240,82 +306,40 @@ class MissingValues(object):
         inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
         missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
-class Split(object):
-    task = 'Prepare'
-    subtask = 'general functions'
-    host = 'cheml'
-    function = 'Split'
-    modules = ('cheml','initialization')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class Outputs:
-        df1 = Output("df1","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Output("df2","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-    class WParameters:
-        pass
-    class FParameters:
-        selection = Parameter('selection', 1)
-
-class Constant(object):
-    task = 'Prepare'
-    subtask = 'preprocessor'
-    host = 'cheml'
-    function = 'Constant'
-    modules = ('cheml','preprocessing')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Constant'>",))
-    class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Constant'>",))
-    class WParameters:
-        func_method = Parameter('func_method','None','string',
-                        description = "",
-                        options = ('fit_transform','transform', None))
-    class FParameters:
-        selection = Parameter('selection', 1)
-
-class mlp_hogwild(object):
-    task = 'Model'
-    subtask = 'regression'
-    host = 'cheml'
-    function = 'mlp_hogwild'
-    modules = ('cheml','nn')
-    requirements = (req(0), req(1), req(2))
-    documentation = ""
-
-    class Inputs:
-        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-    class Outputs:
-        dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-    class WParameters:
-        func_method = Parameter('func_method','None','string',
-                        description = "",
-                        options = ('fit', 'predict', None))
-    class FParameters:
-        rms_decay = Parameter('rms_decay', 0.9)
-        learn_rate = Parameter('learn_rate', 0.001)
-        input_act_funcs = Parameter('input_act_funcs', '*required')
-        nneurons = Parameter('nneurons', '*required')
-        batch_size = Parameter('batch_size', 256)
-        n_epochs = Parameter('n_epochs', 10000)
-        validation_size = Parameter('validation_size', 0.2)
-        print_level = Parameter('print_level', 1)
-        n_hist = Parameter('n_hist', 20)
-        threshold = Parameter('threshold', 0.1)
-        model = Parameter('model', None)
-        n_check = Parameter('n_check', 50)
-        n_cores = Parameter('n_cores', 1)
+# class mlp_hogwild(object):
+#     task = 'Model'
+#     subtask = 'regression'
+#     host = 'cheml'
+#     function = 'mlp_hogwild'
+#     modules = ('cheml','nn')
+#     requirements = (req(0), req(1), req(2))
+#     documentation = ""
+#
+#     class Inputs:
+#         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         api = Input("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
+#     class Outputs:
+#         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+#         api = Output("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
+#     class WParameters:
+#         func_method = Parameter('func_method','None','string',
+#                         description = "",
+#                         options = ('fit', 'predict', None))
+#     class FParameters:
+#         rms_decay = Parameter('rms_decay', 0.9)
+#         learn_rate = Parameter('learn_rate', 0.001)
+#         input_act_funcs = Parameter('input_act_funcs', '*required')
+#         nneurons = Parameter('nneurons', '*required')
+#         batch_size = Parameter('batch_size', 256)
+#         n_epochs = Parameter('n_epochs', 10000)
+#         validation_size = Parameter('validation_size', 0.2)
+#         print_level = Parameter('print_level', 1)
+#         n_hist = Parameter('n_hist', 20)
+#         threshold = Parameter('threshold', 0.1)
+#         model = Parameter('model', None)
+#         n_check = Parameter('n_check', 50)
+#         n_cores = Parameter('n_cores', 1)
 
 class SaveFile(object):
     task = 'Store'
@@ -520,3 +544,508 @@ class load_organic_density(object):
     class FParameters:
         pass
 
+class load_xyz_polarizability(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_xyz_polarizability'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
+                             ("<type 'dict'>",))
+        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+
+class APEAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'APEAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        packing_threshold = Parameter('packing_threshold', None)
+        n_nearest_to_eval = Parameter('n_nearest_to_eval', None)
+        radius_property = Parameter('radius_property', None)
+
+class ChargeDependentAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ChargeDependentAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class ElementalPropertyAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ElementalPropertyAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        use_default_properties = Parameter('use_default_properties', None)
+    class FParameters:
+        elemental_properties = Parameter('elemental_properties', None)
+
+class ElementFractionAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ElementFractionAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class ElementPairPropertyAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ElementPairPropertyAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        elemental_pair_properties = Parameter('elemental_pair_properties', None)
+
+class GCLPAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'GCLPAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        count_phases = Parameter('count_phases', None)
+        phases = Parameter('phases', None, 'required_required')
+        energies = Parameter('energies', None, 'required_required')
+
+class IonicCompoundProximityAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'IonicCompoundProximityAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        max_formula_unit = Parameter('max_formula_unit', 14)
+
+class IonicityAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'IonicityAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class MeredigAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'MeredigAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class StoichiometricAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'StoichiometricAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        use_default_norms = Parameter('use_default_norms', None)
+    class FParameters:
+        p_norms = Parameter('p_norms', None)
+
+class ValenceShellAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ValenceShellAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class YangOmegaAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'YangOmegaAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CompositionEntry class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class APRDFAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'APRDFAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        cut_off_distance = Parameter('cut_off_distance', 10.0)
+        num_points = Parameter('num_points', 6)
+        smooth_parameter = Parameter('smooth_parameter', 4.0)
+        elemental_properties = Parameter('elemental_properties',
+                                         'required_required')
+
+class ChemicalOrderingAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'ChemicalOrderingAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        shells = Parameter('shells', [1, 2, 3])
+        weighted = Parameter('weighted', True)
+
+class CoordinationNumberAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'CoordinationNumberAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class CoulombMatrixAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'CoulombMatrixAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        n_eigenvalues = Parameter('n_eigenvalues', 30)
+
+class EffectiveCoordinationNumberAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'EffectiveCoordinationNumberAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class LatticeSimilarityAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'LatticeSimilarityAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class LocalPropertyDifferenceAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'LocalPropertyDifferenceAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        shells = Parameter('shells', [1])
+        elemental_properties = Parameter('elemental_properties',
+                                         'required_required')
+
+class LocalPropertyVarianceAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'LocalPropertyVarianceAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        shells = Parameter('shells', [1])
+        elemental_properties = Parameter('elemental_properties',
+                                         'required_required')
+
+class PackingEfficiencyAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'PackingEfficiencyAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class PRDFAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'PRDFAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        cut_off_distance = Parameter('cut_off_distance', 10.0)
+        n_points = Parameter('n_points', 20)
+
+class StructuralHeterogeneityAttributeGenerator(object):
+    task = 'Represent'
+    subtask = 'inorganic descriptors'
+    host = 'cheml'
+    function = 'StructuralHeterogeneityAttributeGenerator'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        entries = Input("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass

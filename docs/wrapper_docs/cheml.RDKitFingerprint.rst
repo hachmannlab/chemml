@@ -4,10 +4,10 @@ RDKitFingerprint
 =================
 
 :task:
-    | Prepare
+    | Represent
 
 :subtask:
-    | feature representation
+    | molecular descriptors
 
 :host:
     | cheml
@@ -17,17 +17,17 @@ RDKitFingerprint
 
 :input tokens (receivers):
     | ``molfile`` : the molecule file path
-    |   ("<type 'str'>",)
+    |   types: ("<type 'str'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``removed_rows`` : output variable, of any format
-    |   ()
+    |   types: ()
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
     | RDKit, 2016.03.1
 

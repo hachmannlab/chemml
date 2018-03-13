@@ -1,9 +1,9 @@
 import unittest
-from attributes.generators.crystal.PRDFAttributeGenerator import \
+from .....attributes.generators.crystal.PRDFAttributeGenerator import \
     PRDFAttributeGenerator
-from data.materials.CrystalStructureEntry import CrystalStructureEntry
-from vassal.data.Atom import Atom
-from vassal.data.Cell import Cell
+from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from .....vassal.data.Atom import Atom
+from .....vassal.data.Cell import Cell
 
 class testPRDFAttributeGenerator(unittest.TestCase):
     def test(self):

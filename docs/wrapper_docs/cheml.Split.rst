@@ -7,7 +7,7 @@ Split
     | Prepare
 
 :subtask:
-    | basic operators
+    | data manipulation
 
 :host:
     | cheml
@@ -17,17 +17,17 @@ Split
 
 :input tokens (receivers):
     | ``df`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
     | ``df1`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``df2`` : pandas dataframe
-    |   ("<class 'pandas.core.frame.DataFrame'>",)
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 
 :required packages:
-    | ChemML, 0.1.0
+    | ChemML, 0.4.1
     | pandas, 0.20.3
 
 :config file view:

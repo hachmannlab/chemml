@@ -4,7 +4,7 @@ from json import dump
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-from cheml.nn.keras.mlp import MLP
+from cheml.nn.keras import MLP
 
 (Xtr, ytr), (Xte, yte) = mnist.load_data()
 Xtr = Xtr.reshape(60000, 784).astype('float32')

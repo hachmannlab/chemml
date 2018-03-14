@@ -22,7 +22,8 @@ setup(  name='chemml',
 
         packages = find_packages(exclude=['docs', 'rst_generator']),
 
-        scripts = ['bin/cheml'],
+        scripts = ['bin/cheml', 'chemmlwrapper'
+                   ],
 
         keywords=['Machine Learning', 'Data Mining', 'Quantum Chemistry', 'Materials Science', 'Informatics'],
         license='3-Clause BSD',

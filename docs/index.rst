@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
- |Beta|
+|Beta|
 
 Welcome to the ChemML's documentation!
 ======================================
@@ -12,7 +12,7 @@ ChemML is a machine learning and informatics program suite for the chemical and 
 
 Code Design:
 ++++++++++++
-ChemML is developed in the Python programming language and makes use of a host of data analysis and ML libraries
+ChemML is developed in the Python 2 programming language and makes use of a host of data analysis and ML libraries
 (accessible through the Anaconda distribution), as well as domain-specific libraries.
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
@@ -52,6 +52,11 @@ Please cite the use of ChemML as:
     Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/chemml
 
 
+License:
+++++++++
+ChemML is open and freely shared with the community under modified 3-clause BSD license.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: ChemML Wrapper documentation
@@ -67,10 +72,8 @@ Please cite the use of ChemML as:
 
    cheml
 
-License:
-++++++++
-ChemML is open and freely shared with the community under 3-clause BSD license.
 
 
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
    :width: 70 px
+   :target: https://mojtabah.github.io/ChemML

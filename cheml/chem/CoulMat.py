@@ -73,7 +73,7 @@ class CoulombMatrix(object):
 
         """
         if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in xrange(len(molecules))])
+            molecules = np.array([molecules[i]['mol'] for i in xrange(1, len(molecules)+1)])
         elif isinstance(molecules, pd.DataFrame):
             # only one molecule
             molecules = np.array([molecules.values])
@@ -189,7 +189,7 @@ class BagofBonds(object):
 
         """
         if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in molecules])
+            molecules = np.array([molecules[i]['mol'] for i in xrange(1,len(molecules)+1)])
         elif isinstance(molecules, pd.DataFrame):
             molecules = molecules.values
 

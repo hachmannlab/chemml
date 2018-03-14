@@ -558,7 +558,7 @@ class load_xyz_polarizability(object):
     class Outputs:
         coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
                              ("<type 'dict'>",))
-        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        pol = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:

@@ -123,7 +123,7 @@ class wrapperGUI(object):
         return lines
 
     def templates_widgets(self):
-        headerT = widgets.Label(value='Start with a template or tutorial workflow', layout=widgets.Layout(width='50%'))
+        headerT = widgets.Label(value='Start with a template workflow', layout=widgets.Layout(width='50%'))
         # style = {'description_width': 'initial'}
         # outdir = widgets.Text(
         #     value='CMLWrapper.out',
@@ -132,11 +132,19 @@ class wrapperGUI(object):
         #     disabled=False,
         #     style = style,
         #     layout = widgets.Layout(margin='30px 0px 30px 0px'))
+        TEMPLATES = []
 
-        ### Templates
-        headerTEMPLATES = widgets.HTML(value='<b> Templates: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
-        TEMPLATES = [headerTEMPLATES]
+        ### Datasets  (MOLDES)
+        headerMOLDES = widgets.HTML(value='<b> Molecular Descriptors: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES.append(headerMOLDES)
 
+
+
+        ### Molecular Descriptors (MOLDES)
+        headerMOLDES = widgets.HTML(value='<b> Molecular Descriptors: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES.append(headerMOLDES)
+        
+        ######################################################
         ## Template1
         def on_selectTe1_clicked(b):
             # template1.txt is a cheml wrapper config file
@@ -172,7 +180,7 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        te1 = widgets.Label(value="Template 1: read XYZ files --> generate Coulomb_Matrix --> save features matrix")#, layout=widgets.Layout(width='70%'))
+        te1 = widgets.Label(value="Template 1: read XYZ files --> generate CoulombMatrix features --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe1 = widgets.Button(description="Select")
         selectTe1.style.button_color = 'lightblue'
         selectTe1.on_click(on_selectTe1_clicked)
@@ -184,9 +192,10 @@ class wrapperGUI(object):
                                                                # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe1)
 
+        ######################################################
         ## Template2
         def on_selectTe2_clicked(b):
-            # template2.txt is a cheml wrapper config file
+            # template1.txt is a cheml wrapper config file
             from .templates import template2
             script = template2()
             old = [i for i in self.pages]
@@ -198,7 +207,7 @@ class wrapperGUI(object):
                 selectTe2.icon = 'check'
             except Exception as err:
                 print "Invalid configuration file ..."
-                print "    IOError: %s" % err.message
+                print "    IOError: %s"%err.message
                 print "... Not loaded!"
                 selectTe1.icon = 'remove'
                 rm = [i for i in self.pages if i not in old]
@@ -219,12 +228,253 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        te2 = widgets.Label(value="Template 2: split X,y --> scale --> gridsearchCV on MLPregressor", layout=widgets.Layout(width='70%'))
+        te2 = widgets.Label(value="Template 2: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe2 = widgets.Button(description="Select")
         selectTe2.style.button_color = 'lightblue'
         selectTe2.on_click(on_selectTe2_clicked)
-        hboxTe2 = widgets.HBox([te2, selectTe2],layout=widgets.Layout(border='dotted black 1px',justify_content = 'space-between'))
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe2 = widgets.HBox([te2, selectTe2],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe2)
+
+        ######################################################
+        ## Template3
+        def on_selectTe3_clicked(b):
+            # template3.txt is a cheml wrapper config file
+            from .templates import template3
+            script = template3()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe3.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTe1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te3 = widgets.Label(value="Template 3: get SMILES reperesentaion of molecules --> save them --> generate Morgan Fingerprints  --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe3 = widgets.Button(description="Select")
+        selectTe3.style.button_color = 'lightblue'
+        selectTe3.on_click(on_selectTe3_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe3 = widgets.HBox([te3, selectTe3],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe3)
+
+        ######################################################
+        ## Template4
+        def on_selectTe4_clicked(b):
+            # template4.txt is a cheml wrapper config file
+            from .templates import template4
+            script = template4()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe1.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTe4.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te4 = widgets.Label(value="Template 4: get SMILES reperesentaion of molecules --> save them --> generate Dragon descriptors  --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe4 = widgets.Button(description="Select")
+        selectTe4.style.button_color = 'lightblue'
+        selectTe4.on_click(on_selectTe4_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe4 = widgets.HBox([te4, selectTe4],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe4)
+
+        ######################################################
+        ## Template5
+        def on_selectTe5_clicked(b):
+            # template5.txt is a cheml wrapper config file
+            from .templates import template5
+            script = template5()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe5.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTe1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te5 = widgets.Label(value="Template 5: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe5 = widgets.Button(description="Select")
+        selectTe5.style.button_color = 'lightblue'
+        selectTe5.on_click(on_selectTe5_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe5 = widgets.HBox([te5, selectTe5],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe5)
+
+        ######################################################
+        ## TemplateMHL
+        def on_selectTeMHL_clicked(b):
+            # templateMHL.txt is a cheml wrapper config file
+            from .templates import templateMHL
+            script = templateMHL()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTeMHL.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTe1.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        teMHL = widgets.Label(value="Template MHL: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTeMHL = widgets.Button(description="Select")
+        selectTeMHL.style.button_color = 'lightblue'
+        selectTeMHL.on_click(on_selectTeMHL_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTeMHL = widgets.HBox([teMHL, selectTeMHL],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTeMHL)
+
+        ######################################################
+
+        # ## Template2
+        # def on_selectTe2_clicked(b):
+        #     # template2.txt is a cheml wrapper config file
+        #     from .templates import template2
+        #     script = template2()
+        #     old = [i for i in self.pages]
+        #
+        #     try:
+        #         self.parser(script)
+        #         # update the current_bid
+        #         self.block_id = max(self.pages)
+        #         selectTe2.icon = 'check'
+        #     except Exception as err:
+        #         print "Invalid configuration file ..."
+        #         print "    IOError: %s" % err.message
+        #         print "... Not loaded!"
+        #         selectTe1.icon = 'remove'
+        #         rm = [i for i in self.pages if i not in old]
+        #         for ib in rm:
+        #             if ib in self.pages:
+        #                 del self.pages[ib]
+        #
+        #     self.debut = False
+        #     self.add_page()
+        #
+        #     ## clear ouput and update the graph viz
+        #     self.graph.close()
+        #     dot = Digraph(format='png')
+        #     for edge in self.comp_graph:
+        #         dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+        #         dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+        #         dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+        #     self.graph = widgets.Image(value=dot.pipe(), format='png')
+        #     display(self.graph)
+        #
+        # te2 = widgets.Label(value="Template 2: split X,y --> scale --> gridsearchCV on MLPregressor", layout=widgets.Layout(width='70%'))
+        # selectTe2 = widgets.Button(description="Select")
+        # selectTe2.style.button_color = 'lightblue'
+        # selectTe2.on_click(on_selectTe2_clicked)
+        # hboxTe2 = widgets.HBox([te2, selectTe2],layout=widgets.Layout(border='dotted black 1px',justify_content = 'space-between'))
+        # TEMPLATES.append(hboxTe2)
 
 
         # ### Tutorials
@@ -346,9 +596,9 @@ class wrapperGUI(object):
                     print "\nThe ChemML Wrapper's config file has been successfully saved ..."
                     print "    config file path: %s" % path
                     print "    current directory: %s" % os.getcwd()
-                    print "    what next? run the ChemML Wrapper using the config file with the following codes:"
+                    print "    what's next? run the ChemML Wrapper using the config file with the following codes:"
                     print "        >>> from cheml import wrapperRUN"
-                    print "        >>> run(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = '%s')" % outdir.value
+                    print "        >>> wrapperRUN(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = '%s')" % outdir.value
                     print "... you can also create a python script of the above codes and run it on any cluster that ChemML is installed."
                     save.icon = 'check'
                 else:

@@ -227,56 +227,56 @@ class wrapperGUI(object):
         TEMPLATES.append(hboxTe2)
 
 
-        ### Tutorials
-        headerTUTORIALS = widgets.HTML(value='<b> Tutorials: </b>', layout=widgets.Layout(width='50%',margin='20px 0px 10px 0px'))
-        TUTORIALS = [headerTUTORIALS]
+        # ### Tutorials
+        # headerTUTORIALS = widgets.HTML(value='<b> Tutorials: </b>', layout=widgets.Layout(width='50%',margin='20px 0px 10px 0px'))
+        # TUTORIALS = [headerTUTORIALS]
+        #
+        # ## Tutorial1
+        # def on_selectTu1_clicked(b):
+        #     # template1.txt is a cheml wrapper config file
+        #     from .tutorials import tutorial1
+        #     script = tutorial1()
+        #     old = [i for i in self.pages]
+        #
+        #     try:
+        #         self.parser(script)
+        #         # update the current_bid
+        #         self.block_id = max(self.pages)
+        #         selectTu1.icon = 'check'
+        #     except Exception as err:
+        #         print "Invalid configuration file ..."
+        #         print "    IOError: %s"%err.message
+        #         print "... Not loaded!"
+        #         selectTu1.icon = 'remove'
+        #         rm = [i for i in self.pages if i not in old]
+        #         for ib in rm:
+        #             if ib in self.pages:
+        #                 del self.pages[ib]
+        #
+        #     self.debut = False
+        #     self.add_page()
+        #
+        #     ## clear ouput and update the graph viz
+        #     self.graph.close()
+        #     dot = Digraph(format='png')
+        #     for edge in self.comp_graph:
+        #         dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+        #         dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+        #         dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+        #     self.graph = widgets.Image(value=dot.pipe(), format='png')
+        #     display(self.graph)
+        #
+        # tu1 = widgets.Label(value="Tutorial 1: read sample data --> save smiles --> fingerprint molecules")#, layout=widgets.Layout(width='70%'))
+        # selectTu1 = widgets.Button(description="Select")
+        # selectTu1.style.button_color = 'lightblue'
+        # selectTu1.on_click(on_selectTu1_clicked)
+        # # viewT1 = widgets.Button(description="Overview")
+        # # viewT1.style.button_color = 'lightblue'
+        # # viewT1.on_click(on_viewT1_clicked)
+        # hboxTu1 = widgets.HBox([tu1, selectTu1],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+        # TUTORIALS.append(hboxTu1)
 
-        ## Tutorial1
-        def on_selectTu1_clicked(b):
-            # template1.txt is a cheml wrapper config file
-            from .tutorials import tutorial1
-            script = tutorial1()
-            old = [i for i in self.pages]
-
-            try:
-                self.parser(script)
-                # update the current_bid
-                self.block_id = max(self.pages)
-                selectTu1.icon = 'check'
-            except Exception as err:
-                print "Invalid configuration file ..."
-                print "    IOError: %s"%err.message
-                print "... Not loaded!"
-                selectTu1.icon = 'remove'
-                rm = [i for i in self.pages if i not in old]
-                for ib in rm:
-                    if ib in self.pages:
-                        del self.pages[ib]
-
-            self.debut = False
-            self.add_page()
-
-            ## clear ouput and update the graph viz
-            self.graph.close()
-            dot = Digraph(format='png')
-            for edge in self.comp_graph:
-                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
-                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
-                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
-            self.graph = widgets.Image(value=dot.pipe(), format='png')
-            display(self.graph)
-
-        tu1 = widgets.Label(value="Tutorial 1: read sample data --> save smiles --> fingerprint molecules")#, layout=widgets.Layout(width='70%'))
-        selectTu1 = widgets.Button(description="Select")
-        selectTu1.style.button_color = 'lightblue'
-        selectTu1.on_click(on_selectTu1_clicked)
-        # viewT1 = widgets.Button(description="Overview")
-        # viewT1.style.button_color = 'lightblue'
-        # viewT1.on_click(on_viewT1_clicked)
-        hboxTu1 = widgets.HBox([tu1, selectTu1],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
-        TUTORIALS.append(hboxTu1)
-
-        vb = widgets.VBox([headerT]+TEMPLATES+TUTORIALS)
+        vb = widgets.VBox([headerT]+TEMPLATES)#+TUTORIALS)
         return vb
 
     def home_page_widgets(self):

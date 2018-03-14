@@ -3,7 +3,6 @@ import numpy as np
 
 
 class CoulombMatrix(object):
-
     """ (CoulombMatrix)
     The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL (3 different representations).
 
@@ -63,7 +62,9 @@ class CoulombMatrix(object):
             if pandas dataframe : only one molecule with shape (number of atoms, 4).
             The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
 
-        return: pandas DataFrame
+        Returns
+        -------
+        pandas DataFrame
             shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)
             shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
             shape of eigenspectrums (E): (n_molecules, max_n_atoms)

@@ -1,6 +1,10 @@
 """
-The 'cheml.visualization' module includes visualization,
-last modified date: September 7, 2017
+The cheml.visualization module includes:
+    - Scatter_2D: :func:`~cheml.visualization.Scatter_2D`
+    - hist: :func:`~cheml.visualization.hist`
+    - SaveFigure: :func:`~cheml.visualization.SaveFigure`
+
+
 """
 
 from .visualization import Scatter_2D

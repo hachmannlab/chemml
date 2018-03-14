@@ -1,16 +1,6 @@
-cheml.visualization package
-===========================
+cheml.visualization module
+==========================
 
-Submodules
-----------
-
-cheml.visualization.matplotlib module
--------------------------------------
-
-.. automodule:: cheml.visualization.matplotlib
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 
 Module contents
@@ -18,5 +8,5 @@ Module contents
 
 .. automodule:: cheml.visualization
     :members:
-    :undoc-members:
+..    :undoc-members:
     :show-inheritance:

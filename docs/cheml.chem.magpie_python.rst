@@ -1,5 +1,5 @@
-cheml.chem module
-==================
+cheml.chem.magpie_python module
+===============================
 
 
 .. cheml.chem.CoulombMatrix
@@ -35,12 +35,10 @@ cheml.chem module
     :show-inheritance:
 
 
-
-Molecular Descriptors
+Inorganic Descriptors
 ---------------------
 
-.. automodule:: cheml.chem
+.. automodule:: cheml.chem.magpie_python
     :members:
 ..    :undoc-members:
     :show-inheritance:
-

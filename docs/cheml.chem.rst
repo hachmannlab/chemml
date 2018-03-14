@@ -36,8 +36,8 @@ cheml.chem module
 
 
 
-Molecular Descriptors
----------------------
+.. Molecular Descriptors
+.. ---------------------
 
 .. automodule:: cheml.chem
     :members:

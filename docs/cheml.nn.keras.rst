@@ -21,8 +21,8 @@ cheml.nn.keras module
     :show-inheritance:
 
 
-Neural Networks
----------------
+.. Neural Networks
+.. ---------------
 
 .. automodule:: cheml.nn.keras
     :members:

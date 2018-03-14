@@ -29,8 +29,8 @@ cheml.preprocessing module
 
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml.preprocessing
     :members:

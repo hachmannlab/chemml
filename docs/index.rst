@@ -12,14 +12,14 @@ ChemML is a machine learning and informatics program suite for the chemical and 
 
 Code Design:
 ++++++++++++
-ChemML is being developed in the Python programming language and makes use of a host of data analysis and ML libraries
+ChemML is developed in the Python programming language and makes use of a host of data analysis and ML libraries
 (accessible through the Anaconda distribution), as well as domain-specific libraries.
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
 The package consists of two python frameworks:
 
 - ChemML library (cheml):
-   It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the well known libraries like Scikit-learn.
+   It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the Scikit-learn library.
 
 - ChemML wrapper:
    It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
@@ -28,10 +28,11 @@ Contributors:
 +++++++++++++
 
 - Mojtaba Haghighatlari, CBE department, SUNY Buffalo
-- Ramachandran Subramanian, CSE department, SUNY Buffalo (Magpie's wrapper)
-- Bhargava Urala, CSE department, SUNY Buffalo (Keras' wrapper)
-- Gaurav Vishwakarma, CBE department, SUNY Buffalo (Deap's wrapper)
-- Po-Han Chen, CBE department, SUNY Buffalo (Docker image)
+- Ramachandran Subramanian, CSE department, SUNY Buffalo
+- Bhargava Urala, CSE department, SUNY Buffalo
+- Gaurav Vishwakarma, CBE department, SUNY Buffalo
+- Aditya Sonpal, CBE department, SUNY Buffalo
+- Po-Han Chen, CBE department, SUNY Buffalo
 - Srirangaraj Setlur, CSE department, SUNY Buffalo
 - Johannes Hachmann, CBE department, SUNY Buffalo
 
@@ -48,7 +49,7 @@ Please cite the use of ChemML as:
 
 ::
 
-    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/cheml
+    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/chemml
 
 
 .. toctree::

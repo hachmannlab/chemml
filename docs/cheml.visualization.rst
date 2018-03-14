@@ -3,8 +3,8 @@ cheml.visualization module
 
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml.visualization
     :members:

@@ -21,8 +21,8 @@ cheml.datasets module
     :show-inheritance:
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml.datasets
     :members:

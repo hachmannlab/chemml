@@ -35,8 +35,8 @@ cheml.chem.magpie_python module
     :show-inheritance:
 
 
-Inorganic Descriptors
----------------------
+.. Inorganic Descriptors
+.. ---------------------
 
 .. automodule:: cheml.chem.magpie_python
     :members:

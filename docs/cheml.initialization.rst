@@ -21,8 +21,8 @@ cheml.initialization module
     :show-inheritance:
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml.initialization
     :members:

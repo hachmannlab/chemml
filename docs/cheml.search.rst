@@ -21,8 +21,8 @@ cheml.search module
     :show-inheritance:
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: cheml.search
     :members:

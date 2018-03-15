@@ -137,20 +137,30 @@ class ConvertFile(BASE):
 class Scatter_2D(BASE):
     def fit(self):
         self.paramFROMinput()
-        dflist=[]
-        dfs = ['df1','df2','df3','df4']
-        for f in dfs:
+        dfx=[]
+        dfxs= ['dfx1','dfx2','dfx3','dfx4']
+        for f in dfxs:
             df = self.inputs[f].value
             if isinstance(df,pd.DataFrame):
-                dflist.append(df)
-        if len(dflist) == 0:
+                dfx.append(df)
+        if len(dfx) == 0:
+            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
+            raise IOError(msg)
+
+        dfy = []
+        dfys = ['dfy1', 'dfy2', 'dfy3', 'dfy4']
+        for f in dfys:
+            df = self.inputs[f].value
+            if isinstance(df, pd.DataFrame):
+                dfy.append(df)
+        if len(dfy) == 0:
             msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
             raise IOError(msg)
 
         try:
             from cheml.visualization import Scatter_2D
             model = Scatter_2D(**self.parameters)
-            fig=model.plot(dflist)
+            fig=model.plot(dfx,dfy)
 
         except Exception as err:
             msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message

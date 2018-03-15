@@ -418,10 +418,14 @@ class Scatter_2D(object):
     documentation = "https://matplotlib.org/users/index.html"
 
     class Inputs:
-        df1=Input("df1","a pandas dataframe",("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Input("df2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df3 = Input("df3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df4 = Input("df4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx1 = Input("dfx1", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx2 = Input("dfx2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx3 = Input("dfx3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx4 = Input("dfx4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy1 = Input("dfy1", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy2 = Input("dfy2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy3 = Input("dfy3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy4 = Input("dfy4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
 
     class Outputs:
         fig=Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
@@ -433,8 +437,6 @@ class Scatter_2D(object):
         legend = Parameter('legend','False')
         legend_titles = Parameter('legend_titles',[])
         sc = Parameter('sc',[])
-        nod = Parameter('nod',1)
-        subplots = Parameter('subplots',[1,1,1])
         xmin = Parameter('xmin',0)
         xmax = Parameter('xmax', 0)
         ymin = Parameter('ymin', 0)
@@ -444,7 +446,7 @@ class Scatter_2D(object):
         title = Parameter('title','Plot')
         xheader = Parameter('xheader',['x'])
         yheader = Parameter('yheader',['y'])
-        l_pos = Parameter('lpos','Best')
+        l_pos = Parameter('l_pos','Best')
         kwargs = Parameter('kwargs',{})
 
 class hist(object):

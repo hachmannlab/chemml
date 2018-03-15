@@ -18,10 +18,17 @@ class Scatter_2D(object):
         string or list of strings containing the names of column headers of the dataframe that needs to be plot.
 
     nod: integer, optional (default = 1)
-        number of data sets that need to be plot (determines the number of subplots)
+        number of data sets that need to be plot
 
-    subplots: list of length 3, optional (default = [1,1,1])
-        [number of rows, number of columns, number of plots]
+    dflist : pandas dataframe or list of pandas dataframes
+        specify the data that needs to be plot
+        provide this while calling the plot function
+
+    NOTE: x data and y data in the same dataframe ( specify xheaders and yheaders )
+        x data and y data in different
+        if dflist has 1 dataframe nod can be n; for example (dflist=[df1] ; nod = 1)
+        if dflist has n dataframes nod has to be n/2  (dflist=[df1,df2,df3,df4] ; nod=2)
+
 
     legend: Boolean, optional (default=False)
         True if a legend is required
@@ -60,19 +67,12 @@ class Scatter_2D(object):
     >>> # fig.show()
 
     """
-    def __init__(self, xheader=['x'], yheader=['y'], nod=1,subplots=[1,1,1],legend=False,xmin=0,xmax=0,ymin=0,ymax=0,xlabel= 'x', ylabel='y',title='Plot',sc=[''],legend_titles=[],l_pos='best',kwargs={}):
-        """
-        nod=number of data sets in a plot
-        subplots=[number of rows,number of columns, number of plots]
+    def __init__(self, xheader=['x'], yheader=['y'],legend=False,xmin=0,xmax=0,ymin=0,ymax=0,xlabel= 'x', ylabel='y',title='Plot',sc=[''],legend_titles=[],l_pos='best',kwargs={}):
 
-        """
         self.l_pos = l_pos
-
         self.legend=legend
         self.legend_titles=legend_titles
         self.sc=sc
-        self.nod=nod
-        self.subplots=subplots
         self.xmin=xmin
         self.xmax=xmax
         self.ymin=ymin
@@ -80,29 +80,86 @@ class Scatter_2D(object):
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.title = title
+        self.kwargs=kwargs
         self.xheader=xheader
         self.yheader=yheader
-        self.kwargs=kwargs
 
-    # self.plot(**kwargs)
+    def __fit(self,i,j):
 
-    def __fit(self,i):
-        if len(self.dflist)==1:
-            df=self.dflist[0]
-            if isinstance(self.xheader[i-1],str)==True:
-                if len(df[self.xheader[i-1]])==len(df[self.yheader[i-1]]):
-                    self.x=df[self.xheader[i-1]]
-                    self.y=df[self.yheader[i-1]]
-            elif isinstance(self.xheader[i-1],int)==True:
-                if len(df.iloc[:,self.xheader[i-1]])==len(df.iloc[:,self.yheader[i-1]]):
-                    self.x=df.iloc[:,self.xheader[i-1]]
-                    self.y=df.iloc[:,self.yheader[i-1]]
+        if j==1:
+            if len(self.dfx)==1:
+                dfx=self.dfx
+                for i in range(len(self.dfy)-1):
+                    dfx.append(self.dfx[0])
+                self.dfx=dfx
+            elif len(self.dfy)==1:
+                dfy=self.dfy
+                for i in range(len(self.dfx)-1):
+                    dfy.append(self.dfy[0])
+                self.dfy=dfy
+            else:
+                msg="length of dataframe lists (dfx and dfy) should be same, or one of them should be equal to 1"
+                raise IOError(msg)
+
+        elif j==2:
+            if len(self.dfx)==1:
+                dfx=self.dfx
+                for i in range(len(self.xheader)-1):
+                    dfx.append(self.dfx[0])
+                self.dfx=dfx
+            elif len(self.xheader)==1:
+                xheader=self.xheader
+                for i in range(len(self.dfx)-1):
+                    xheader.append(self.xheader[0])
+                self.xheader = xheader
+            else:
+                msg = "length of header list (xheader) should be same as dataframe list (dfx) or one of them should be equal to 1"
+                raise IOError(msg)
+
+        elif j==3:
+            if len(self.dfy)==1:
+                dfy=self.dfy
+                print 'here'
+                for i in range(len(self.yheader)-1):
+                    dfy.append(self.dfy[0])
+                self.dfy=dfy
+            elif len(self.yheader)==1:
+                yheader=self.yheader
+                for i in range(len(self.dfy)-1):
+                    yheader.append(self.yheader[0])
+                self.yheader = yheader
+            else:
+                msg = "length of header list (yheader) should be same as dataframe list (dfy) or one of them should be equal to 1"
+                raise IOError(msg)
+        elif j==4:
+            if len(self.xheader)==1:
+                xheader=self.xheader
+                for i in range(len(self.yheader)-1):
+                    xheader.append(self.xheader[0])
+                self.xheader=xheader
+            elif len(self.yheader)==1:
+                yheader=self.yheader
+                for i in range(len(self.xheader)-1):
+                    yheader.append(self.yheader[0])
+                self.yheader=yheader
+            else:
+                msg="length of header lists (xheader and yheader) should be the same or one of them should be equal to 1"
+                raise IOError(msg)
+
         else:
-            if len(self.dflist[i*2-2])==len(self.dflist[i*2-1]):
-                self.x=self.dflist[i*2-2]
-                self.y=self.dflist[i*2-1]
+            dfx=self.dfx[i]
+            dfy=self.dfy[i]
+            if isinstance(self.xheader[i], str):
+                self.x = dfx[self.xheader[i]]
+            else:
+                self.x = dfx.iloc[:, self.xheader[i]]
 
-    def plot(self,dflist):
+            if isinstance(self.yheader[i],str):
+                self.y = dfy[self.yheader[i]]
+            else:
+                self.y = dfy.iloc[:, self.yheader[i]]
+
+    def plot(self,dfx,dfy):
         """
         (plot)
         This is the main function to create a 2D plot from dflist
@@ -119,26 +176,40 @@ class Scatter_2D(object):
             returns the matplotlib object containing the plot information
 
         """
-        if not isinstance(dflist, list)==True:
-            self.dflist=[dflist]
-        else :
-            self.dflist=dflist
 
-        if self.nod==1:
+        self.dfx=dfx
+        self.dfy=dfy
+
+
+
+        if len(self.xheader)!=len(self.dfx):
+            self.__fit(-1,2)
+
+        if len(self.yheader)!=len(self.dfy):
+            self.__fit(-1,3)
+
+        if len(self.dfx)!=len(self.dfy):
+            self.__fit(-1, 1)
+
+        if len(self.xheader)!=len(self.yheader):
+            self.__fit(-1,4)
+
+        if len(self.dfx)==1:
             f=plt.figure()
-            self.__fit(self.nod)
-            if self.sc[0]=='':
+            self.__fit(0,0)
+            if self.sc==['']:
                 plt.plot(self.x,self.y,**self.kwargs)
             else:
-                plt.plot(self.x, self.y, self.sc[0], **self.kwargs)
-        elif self.nod>1:
+                plt.plot(self.x,self.y,self.sc[0],**self.kwargs)
+
+        else:
             f, ax = plt.subplots()
-            for i in range(1,self.nod+1):
-                self.__fit(i)
+            for i in range(len(self.dfx)):
+                self.__fit(i,0)
                 x1=self.x
                 y1=self.y
-                if len(self.sc)>1 and self.sc[0]!=' ':
-                    plt.plot(x1,y1,self.sc[i-1],**self.kwargs)
+                if self.sc[i]!='':
+                    plt.plot(x1,y1,self.sc[i],**self.kwargs)
                 else:
                     plt.plot(x1,y1,**self.kwargs)
 
@@ -211,15 +282,23 @@ class hist(object):
         self.xlabel=xlabel
         self.ylabel=ylabel
         self.kwargs=kwargs
-        #self.mean=[]
-        #self.std=[]
+        self.mean=[]
+        self.std=[]
 
     def __fit(self,df):
+        mean=[]
+        std=[]
         self.x=np.asarray(df)
-        #df.mean()
-        #dfnew=df.describe()
-        #self.mean.append(dfnew['mean'])
-        #self.std.append(dfnew['std'])
+        df.mean()
+        dfnew=df.describe()
+        mean.append(dfnew.loc['mean'])
+        std.append(dfnew.loc['std'])
+        self.mean=mean
+        self.std=std
+
+        print self.mean
+        print self.std
+
 
     def plot(self,dflist):
         """
@@ -239,11 +318,9 @@ class hist(object):
 
         """
         if not isinstance(dflist, list)==True:
-
             self.__fit(dflist)
             self.dflist=[dflist]
-
-        else :
+        else:
             for i in dflist:
                 self.__fit(i)
             self.dflist=dflist

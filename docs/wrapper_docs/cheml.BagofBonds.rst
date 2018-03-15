@@ -1,7 +1,7 @@
-.. _Bag_of_Bonds:
+.. _BagofBonds:
 
-Bag_of_Bonds
-=============
+BagofBonds
+===========
 
 :task:
     | Represent
@@ -13,7 +13,7 @@ Bag_of_Bonds
     | cheml
 
 :function:
-    | Bag_of_Bonds
+    | BagofBonds
 
 :input tokens (receivers):
     | ``molecules`` : the molecule numpy array or data frame
@@ -30,7 +30,7 @@ Bag_of_Bonds
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Bag_of_Bonds``
+    |   ``<< host = cheml    << function = BagofBonds``
     |   ``<< const = 1``
     |   ``>> id molecules``
     |   ``>> id df``

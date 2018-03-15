@@ -1,10 +1,10 @@
 """
-The 'cheml.opt' module includes GA_nn,
-last modified date: May 9, 2016
+The cheml.search module includes:
+    - GA_DEAP: :func:`~cheml.search.GA_DEAP`
 """
 
 from ga_deap import GA_DEAP
 
 __all__ = [
-    'GA_nn',
+    'GA_DEAP',
 ]

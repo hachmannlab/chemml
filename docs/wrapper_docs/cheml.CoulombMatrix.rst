@@ -1,7 +1,7 @@
-.. _Coulomb_Matrix:
+.. _CoulombMatrix:
 
-Coulomb_Matrix
-===============
+CoulombMatrix
+==============
 
 :task:
     | Represent
@@ -13,7 +13,7 @@ Coulomb_Matrix
     | cheml
 
 :function:
-    | Coulomb_Matrix
+    | CoulombMatrix
 
 :input tokens (receivers):
     | ``molecules`` : the molecule numpy array or data frame
@@ -30,7 +30,7 @@ Coulomb_Matrix
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Coulomb_Matrix``
+    |   ``<< host = cheml    << function = CoulombMatrix``
     |   ``<< const = 1``
     |   ``<< CMtype = SC``
     |   ``<< nPerm = 3``

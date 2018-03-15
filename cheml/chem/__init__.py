@@ -1,18 +1,25 @@
 """
-Created on 01 March 2016
-@author: Mojtaba Haghighatlari
+The cheml.chem module includes:
+    - CoulombMatrix: :func:`~cheml.chem.CoulombMatrix`
+    - BagofBonds: :func:`~cheml.chem.BagofBonds`
+    - RDKitFingerprint: :func:`~cheml.chem.RDKitFingerprint`
+    - Dragon: :func:`~cheml.chem.Dragon`
+    - DistanceMatrix: :func:`~cheml.chem.DistanceMatrix`
 """
 
-from .Dragon import Dragon
+
+from .CoulMat import CoulombMatrix
+from .CoulMat import BagofBonds
 from .RDKFP import RDKitFingerprint
-from .CoulMat import Coulomb_Matrix
-from .CoulMat import Bag_of_Bonds
-# from .DistMat import DistanceMatrix
+from .Dragon import Dragon
+from .DistMat import DistanceMatrix
 
 
 __all__ = [
-    'Dragon',
-    'RDKitFingerprint',
     'CoulombMatrix',
+    'BagofBonds',
+    'RDKitFingerprint',
+    'Dragon',
     'DistanceMatrix',
 ]
+

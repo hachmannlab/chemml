@@ -153,11 +153,11 @@ class Dragon(object):
         SaveCorrThreshold = Parameter('SaveCorrThreshold', "'0.95'", format='string')
         SaveFile = Parameter('SaveFile', True)
 
-class Coulomb_Matrix(object):
+class CoulombMatrix(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
     host = 'cheml'
-    function = 'Coulomb_Matrix'
+    function = 'CoulombMatrix'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -175,11 +175,11 @@ class Coulomb_Matrix(object):
         nPerm = Parameter('nPerm', 3)
         const = Parameter('const', 1)
 
-class Bag_of_Bonds(object):
+class BagofBonds(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
     host = 'cheml'
-    function = 'Bag_of_Bonds'
+    function = 'BagofBonds'
     modules = ('cheml','chem')
     requirements = (req(0), req(2))
     documentation = ""
@@ -560,7 +560,7 @@ class load_xyz_polarizability(object):
     class Outputs:
         coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
                              ("<type 'dict'>",))
-        df = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        pol = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:

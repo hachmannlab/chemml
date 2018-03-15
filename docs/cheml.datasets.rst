@@ -1,5 +1,5 @@
-cheml.initialization module
-===========================
+cheml.datasets module
+=====================
 
 .. Submodules
 .. ----------
@@ -24,7 +24,7 @@ cheml.initialization module
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml.initialization
+.. automodule:: cheml.datasets
     :members:
 ..    :undoc-members:
     :show-inheritance:

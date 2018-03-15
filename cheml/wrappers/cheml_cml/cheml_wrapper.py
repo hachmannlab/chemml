@@ -16,7 +16,7 @@ class XYZreader(BASE):
             model = XYZreader(**self.parameters)
             molecules = model.read()
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -40,7 +40,7 @@ class load_cep_homo(BASE):
             from cheml.datasets import load_cep_homo
             smiles,homo = load_cep_homo()
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -63,7 +63,7 @@ class load_organic_density(BASE):
             from cheml.datasets import load_organic_density
             smiles,density,features = load_organic_density()
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -90,18 +90,18 @@ class load_xyz_polarizability(BASE):
             from cheml.datasets import load_xyz_polarizability
             coordinates, pol = load_xyz_polarizability()
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token not in self.outputs:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
-            elif token == 'smiles':
+            elif token == 'coordinates':
                 self.set_value(token, coordinates)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'density':
+            elif token == 'pol':
                 self.set_value(token, pol)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
@@ -190,11 +190,10 @@ class hist(BASE):
             raise IOError(msg)
         try:
             from cheml.visualization import hist
-            print self.parameters['kwargs']
             model = hist(**self.parameters)
             fig=model.plot(dflist)
         except Exception as err:
-            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -217,7 +216,7 @@ class SaveFigure(BASE):
             model = SaveFigure(fig,**self.parameters)
             model.fit(self.Base.output_directory)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -300,7 +299,7 @@ class RDKitFingerprint(BASE):
             model = RDKitFingerprint(**self.parameters)
             model.MolfromFile(molfile,path,*arguments)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
 
         # step6: send out
@@ -349,7 +348,7 @@ class Dragon(BASE):
             model.script_wizard(script, output_directory)
             model.run()
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
 
         # step6: send out
@@ -370,17 +369,18 @@ class Dragon(BASE):
         os.remove(model.output_directory + self.parameters['SaveFilePath'])
         del self.inputs
 
-class Coulomb_Matrix(BASE):
+class CoulombMatrix(BASE):
     def fit(self):
         self.paramFROMinput()
         self.required('molecules', req=True)
         molecules = self.inputs['molecules'].value
         try:
-            from cheml.chem import Coulomb_Matrix
-            model = Coulomb_Matrix(**self.parameters)
+            from cheml.chem import CoulombMatrix
+            model = CoulombMatrix(**self.parameters)
             df = model.represent(molecules)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            print err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -394,17 +394,17 @@ class Coulomb_Matrix(BASE):
 
         del self.inputs
 
-class Bag_of_Bonds(BASE):
+class BagofBonds(BASE):
     def fit(self):
         self.paramFROMinput()
         self.required('molecules', req=True)
         molecules = self.inputs['molecules'].value
         try:
-            from cheml.chem import Bag_of_Bonds
-            model = Bag_of_Bonds(**self.parameters)
+            from cheml.chem import BagofBonds
+            model = BagofBonds(**self.parameters)
             df = model.represent(molecules)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -431,7 +431,7 @@ class DistanceMatrix(BASE):
             from cheml.chem import DistanceMatrix
             model = DistanceMatrix(**self.parameters)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -466,7 +466,7 @@ class APEAttributeGenerator(BASE):
             df = ape.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -493,7 +493,7 @@ class ChargeDependentAttributeGenerator(BASE):
             df = cd.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -523,7 +523,7 @@ class ElementalPropertyAttributeGenerator(BASE):
             df = ep.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -550,7 +550,7 @@ class ElementFractionAttributeGenerator(BASE):
             df = ef.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -581,7 +581,7 @@ class ElementPairPropertyAttributeGenerator(BASE):
             df = epp.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -617,7 +617,7 @@ class GCLPAttributeGenerator(BASE):
             df = gclp.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -647,7 +647,7 @@ class IonicCompoundProximityAttributeGenerator(BASE):
             df = icp.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -674,7 +674,7 @@ class IonicityAttributeGenerator(BASE):
             df = ig.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -701,7 +701,7 @@ class MeredigAttributeGenerator(BASE):
             df = ma.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -731,7 +731,7 @@ class StoichiometricAttributeGenerator(BASE):
             df = sg.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -758,7 +758,7 @@ class ValenceShellAttributeGenerator(BASE):
             df = vs.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -785,7 +785,7 @@ class YangOmegaAttributeGenerator(BASE):
             df = yo.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -825,7 +825,7 @@ class APRDFAttributeGenerator(BASE):
             df = aprdf.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -861,7 +861,7 @@ class ChemicalOrderingAttributeGenerator(BASE):
             df = co.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -888,7 +888,7 @@ class CoordinationNumberAttributeGenerator(BASE):
             df = cn.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -920,7 +920,7 @@ class CoulombMatrixAttributeGenerator(BASE):
             df = cm.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -947,7 +947,7 @@ class EffectiveCoordinationNumberAttributeGenerator(BASE):
             df = ecn.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -974,7 +974,7 @@ class LatticeSimilarityAttributeGenerator(BASE):
             df = ls.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1007,7 +1007,7 @@ class LocalPropertyDifferenceAttributeGenerator(BASE):
             df = lpd.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1040,7 +1040,7 @@ class LocalPropertyVarianceAttributeGenerator(BASE):
             df = lpv.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1067,7 +1067,7 @@ class PackingEfficiencyAttributeGenerator(BASE):
             df = pe.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1103,7 +1103,7 @@ class PRDFAttributeGenerator(BASE):
             df = prdf.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1130,7 +1130,7 @@ class StructuralHeterogeneityAttributeGenerator(BASE):
             df = sh.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if
                  edge[0] == self.iblock]
@@ -1175,7 +1175,7 @@ class MissingValues(BASE):
                 model = self.inputs['api'].value
                 df = model.transform(df)
         except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
 
         # step6: send out
@@ -1223,7 +1223,7 @@ class ConstantColumns(BASE):
                 df = model.transform(df)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
 
         # step5: process
@@ -1278,7 +1278,7 @@ class Outliers(BASE):
                 df_out = model.transform(df)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + err.message
+                err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
 
         # step5: process
@@ -1322,7 +1322,7 @@ class Outliers(BASE):
 #             dfx, dfy = model.fit_transform(dfx,dfy)
 #         except Exception as err:
 #             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-#                 err).__name__ + ': ' + err.message
+#                 err).__name__ + ': ' + str(err.message)
 #             raise TypeError(msg)
 #         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
 #         for token in set(order):
@@ -1357,7 +1357,7 @@ class Outliers(BASE):
 #             dfx, dfy = model.fit_transform(dfx, dfy)
 #         except Exception as err:
 #             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-#                 err).__name__ + ': ' + err.message
+#                 err).__name__ + ': ' + str(err.message)
 #             raise TypeError(msg)
 #         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
 #         for token in set(order):
@@ -1397,7 +1397,7 @@ class Split(BASE):
             split = Split(**self.parameters)
             df1, df2 = split.fit(df)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err.message)
             raise TypeError(msg)
 
         # step5: process
@@ -1464,7 +1464,7 @@ class Split(BASE):
 #                 dfy_predict = api.predict(dfx)
 #         except Exception as err:
 #             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-#                     err).__name__ + ': ' + err.message
+#                     err).__name__ + ': ' + str(err.message)
 #             raise TypeError(msg)
 #
 #         # step5: process
@@ -1512,7 +1512,7 @@ class Split(BASE):
 #             model = nn_psgd.train(dfx_train,dfx_test,dfy_train,dfy_test,**self.parameters)
 #         except Exception as err:
 #             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-#                 err).__name__ + ': ' + err.message
+#                 err).__name__ + ': ' + str(err.message)
 #             raise TypeError(msg)
 #
 #         dfy_pred = nn_psgd.output(dfx_train,model)
@@ -1548,7 +1548,7 @@ class kfold_pool(BASE):
         try:
             self._reg_evaluation_params()
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err.message)
             raise TypeError(msg)
 
         # step5: process
@@ -1596,7 +1596,7 @@ class SaveFile(BASE):
             model = SaveFile(**self.parameters)
             model.fit(df, self.Base.output_directory)
         except Exception as err:
-            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ err.message
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err.message)
             raise TypeError(msg)
 
         # step5: process

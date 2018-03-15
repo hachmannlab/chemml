@@ -2,16 +2,25 @@
 Input File Format
 =============================
 
-The input file should be produced by using the Input builder available in the website. However, the file is a text file
-that contains all the information needed for making the entire workflow. Thus the user can manually edit or build it from
-scratch with any text editor. As the input file could be quite complex, it is strongly suggested always to use the Input builder.
+An input file (configuration file) is required to run the ChemML Wrapper on any machine. An instruction to the ChemML Wrapper
+input file formats is provided here.
+
+Although you can generate an input file manually in a text editor, a graphical user interface is also available to facilitate this process (see :ref:`ChemML_Wrapper_InFileGen`).
+
 
 ----
 =======================================================
-Input File Structure
+Input File Overview
 =======================================================
 
-Here is how a block of ChemML Wrapper workflow looks in the input file::
+The input file consists of methods that are connected to each other and make a machine learning workflow. We call this workflow
+a computation graph. Thus, in this graph methods determine nodes
+and are connected to each other using edges. Edges represent the flow of data between nodes. To determine edges of a graph,
+fixed input and output tokens are defined for
+each node and you should connect them using unique random integers.
+
+
+Here you can see a pseudo node of ChemML Wrapper computation graph in the input file::
 
     ## Task
         << host = name        << function = name
@@ -20,8 +29,9 @@ Here is how a block of ChemML Wrapper workflow looks in the input file::
         >> token id
         >> id token
 
-Here is a list of 7 available tasks in the ChemML Wrapper:
+All the methods in the ChemML Wrapper are available under these 8 tasks:
     - Enter
+    - Represent
     - Prepare
     - Model
     - Search
@@ -30,7 +40,7 @@ Here is a list of 7 available tasks in the ChemML Wrapper:
     - Store
 
 
-.. note:: None of Tasks are mandatory, except a block of Enter Data to initialize the workflow with a data set.
+.. note:: you always need an Enter method in your workflow to initialize the computation graph with some data.
 
 ----
 =======================================================
@@ -40,56 +50,56 @@ Specific Characters
 Only five specific characters (#, <, =, >, @) are defined and can be used in the input files.
 
 - Pound sign (#)
-    Pound sign (#) is for starting a block and must be followed by the task name. A double pound sign (##) keeps a block
-    in the workflow and single pound sign (#) put the entire block out.
+    - Pound sign (#) determines a computation node.
+    - It must be used to separate different nodes from each other.
+    - A double pound sign (##) is for an active node and a single pound sign (#) keeps the node out of the graph.
+    - No other specific signs can be in the same line as pound sign. Having a task name or any other text after the pound sign is arbitrary.
 
 - Less-than sign (<)
-    Less-than sign (<) should be used for identifying parameters in the block. A parameter name comes right after this sign.
-    A Double less-than sign (<<) keeps a parameter in the block and single less-than sign (<) ignore the assigned value to that
-    parameter. If you are going to ignore a parameter value make sure it's not a required  parameter or at least have a default
-    value.
+    - Less-than sign (<) are used to pass the parameters' value.
+    - The parameter's name comes right after this sign.
+    - A Double less-than sign (<<) keeps a parameter in the block and single less-than sign (<) ignore the assigned value to that parameter.
+    - If you are going to ignore a parameter value make sure it's not a required parameter.
 
-    .. note:: two parameters are mandatory for all the blocks:
+    .. note:: two parameters are mandatory in all the nodes:
 
-                - **host**: to specify the python library that must be used for the task
-                - **function**: to specify the ChemML Wrapper function that makes binding with the main function in the specified library.
+                - **host**: to specify the main library/dependency that you want to get the method from
+                - **function**: to specify the ChemML Wrapper method
+                You can find a comprehensive list of the available methods in the :ref:`ChemML_Wrapper_Table`
+
 - Equals sign (=)
-    Equals sign (=) is for setting the value of parameters. It comes right after the parameter name and is followed by its
-    value. The parameter value should be in the same format as the python parameter. For example, the string format must always
-    be inside the quotation marks.
+    - Equals sign (=) is for setting the value of parameters.
+    - It comes right after the parameter name and is followed by its value.
+    - The parameter value should be in its python format.
 
 - Greater-than sign (>)
-    Greater-than sign (>) is all you need to design the send/receive stream ( to send outputs or to receive inputs). Thus, it facilitates connection
-    between different blocks. Every block includes some predefined tokens (container names) to receive information from other
-    blocks or to send a piece of information out. This way a workflow of blocks can be designed.
+    - Greater-than sign (>) is all you need to connect nodes to each other (to send outputs or to receive inputs).
+    - To keep track of inputs and outputs you have to assign a unique identification (ID) number to input/output tokens.
+    - The ID number can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input of another node through these unique IDs.
+    - Note that the tokens are predefined for each node and can be found in the :ref:`ChemML_Wrapper_Table`.
+    - To distinguish the send and receive actions you just need to switch the position of token and ID as described below:
 
-    To keep track of inputs and outputs you have to assign a unique identification (ID) number to each token. This number
-    can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input
-    of another block through these unique IDs. However the name of tokens are predefined by each block and can be found
-    in the :ref:`ChemML_Wrapper_Reference`. To distinguish the send and receive actions you just need to switch the position of token
-    and ID, in a way that:
+        - to send an output token:
+                        >> token  ID
+                e.g.    >> molfile 7
 
-    - to send:
-                    >> token  ID
-            e.g.    >> molfile 7
-
-    - to receive:
-                    >> ID token
-            e.g.    >> 7 molfile
+        - to receive an input token:
+                        >> ID token
+                e.g.    >> 7 molfile
 
 - At sign (@)
-    At sign (@) can be used to get a parameter value from the send/receive stream. It comes right after equals sign (=)
-    and should be followed by one of the input tokens (e.g. parameter = @df).
+    - At sign (@) can be used to get a parameter value from the input/output values.
+    - It comes right after equals sign (=) and should be followed by one of the input tokens (e.g. parameter = @df).
 
 ----
 =======================================================
 General Rules
 =======================================================
-Be aware of some general restrictions:
+A few general restrictions:
 
     - You are not allowed to have two different specific charecters in one line of input file (except '=' and '@' signs).
-    - The input tokens and output tokens for each block may be similar but they don't have to have similar values.
-    - Only one input per legal input token can be received.
-    - You are allowed to receive one sent token in several blocks.
-    - Avoid any type of short loop. A short loop will be made when inputs of any block_i are going to be received from one or a set of blocks that they also require the outputs from block_i.
+    - The input tokens and output tokens of each node may be similar but they might not have similar values.
+    - Only one input per an input token can be received.
+    - You are allowed to send output tokens to as many input tokens of different node as you want.
+    - Avoid any type of short loop. A short loop will be made when inputs of any node_i are received from one or a set of nodes that they require an output of node_i.
     - If you make a short loop any place inside your workflow your run will be aborted immediately.

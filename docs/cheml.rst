@@ -7,17 +7,21 @@ cheml library
 .. toctree::
 
     cheml.chem
+    cheml.chem.magpie_python
     cheml.initialization
     cheml.datasets
     cheml.preprocessing
-    cheml.nn
+    cheml.nn.keras
     cheml.search
     cheml.visualization
+..    cheml.nn
+
+
 
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml
+.. .. automodule:: cheml
     :members:
     :undoc-members:
     :show-inheritance:

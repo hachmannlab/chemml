@@ -1,26 +1,149 @@
 def template1():
-    script = """## (Enter,xyz)
-    << host = cheml
-    << function = XYZreader
-    << path_pattern = required_required
-    >> molecules 0
+    """CoulombMatrix"""
+    script = """
+                ## (Enter,datasets)
+                << host = cheml
+                << function = load_xyz_polarizability
+                >> coordinates 0
 
-## (Prepare,feature representation)
-    << host = cheml
-    << function = Coulomb_Matrix
-    >> 0 molecules
-    >> df 1
+                ## (Represent,molecular descriptors)
+                    << host = cheml
+                    << function = CoulombMatrix
+                    >> 0 molecules
+                    >> df 1
 
-## (Store,file)
-    << host = cheml
-    << function = SaveFile
-    << filename = required_required
-    >> 1 df
-
-"""
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << filename = CM_features
+                    >> 1 df
+            """
     return script.strip().split('\n')
 
 def template2():
+    """BagofBonds"""
+    script = """
+                ## (Enter,datasets)
+                    << host = cheml
+                    << function = load_xyz_polarizability
+                    >> coordinates 0
+
+                ## (Represent,molecular descriptors)
+                    << host = cheml
+                    << function = BagofBonds
+                    >> 0 molecules
+                    >> df 1
+
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << output_directory = descriptors
+                    << filename = BoB_features
+                    >> 1 df
+            """
+    return script.strip().split('\n')
+
+def template3():
+    """RDKitFingerprint"""
+    script = """
+                ## (Enter,datasets)
+                    << host = cheml
+                    << function = load_cep_homo
+                    >> smiles 2
+
+                ## (Represent,molecular descriptors)
+                    << host = cheml
+                    << function = RDKitFingerprint
+                    << molfile = @molfile
+                    >> 0 molfile
+                    >> df 1
+
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << format = smi
+                    << header = False
+                    << filename = smiles
+                    >> filepath 0
+                    >> 2 df
+
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << filename = Fingerprints
+                    >> 1 df
+            """
+    return script.strip().split('\n')
+
+def template4():
+    """Dragon"""
+    script = """
+                ## (Enter,datasets)
+                    << host = cheml
+                    << function = load_cep_homo
+                    >> smiles 0
+
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << format = smi
+                    << header = False
+                    << filename = smiles
+                    >> 0 df
+                    >> filepath 1
+
+                ## (Store,file)
+                    << host = cheml
+                    << function = SaveFile
+                    << output_directory = Dragon
+                    << filename = Dragon_features
+                    >> 2 df
+
+                ## (Represent,molecular descriptors)
+                    << host = cheml
+                    << function = Dragon
+                    << molFile = @molfile
+                    >> 1 molfile
+                    >> df 2
+            """
+    return script.strip().split('\n')
+
+
+def template7():
+    """Dragon"""
+    script = """
+                ## (Enter,datasets)
+                    << host = cheml
+                    << function = load_cep_homo
+                    >> homo 0
+                    >> smiles 1
+
+                ## (Visualize,Plot)
+                    << host = cheml
+                    << function = hist
+                    << nbins = 20
+                    << rwidth = 0.8
+                    << ylabel = numbers
+                    << xlabel = HOMO_eV
+                    >> 0 df1
+                    >> fig 2
+
+                ## (Enter,python script)
+                    << host = cheml
+                    << function = PyScript
+                    << line01 = print iv1.head()
+                    >> 1 iv1
+
+                ## (Store,figure)
+                    << host = cheml
+                    << function = SaveFigure
+                    << filename = homo_hist
+                    >> 2 fig
+
+            """
+    return script.strip().split('\n')
+
+def template20():
     script ="""
 
         ## (Prepare,split)

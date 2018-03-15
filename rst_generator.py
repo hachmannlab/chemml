@@ -122,7 +122,7 @@ for h in databases:
                 if item not in ('__module__', '__doc__'):
                     file.write('    |   ``>> id %s``\n'%outputs[item].name)
             file.write('    |\n')
-            file.write('    .. note:: The documentation page for function parameters: %s'%k.documentation)
+            file.write('    .. note:: The documentation page for function parameters: %s\n'%k.documentation)
             df.loc[ind] = row
 
 tasks = ['Enter', 'Represent', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']

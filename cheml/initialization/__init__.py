@@ -1,23 +1,25 @@
 """
-The 'cheml.initialization' module includes ReadTable, Merge, Split, and SaveFile.
-last modified date: Nov. 19, 2015
+The cheml.initialization module includes:
+    - XYZreader: :func:`~cheml.initialization.XYZreader`
+    - ConvertFile: :func:`~cheml.initialization.ConvertFile`
+    - Split: :func:`~cheml.initialization.Split`
+    - SaveFile: :func:`~cheml.initialization.SaveFile`
+
 """
 
 from .initialization import Split
 
 from .initialization import XYZreader
 from .initialization import SaveFile
-from .initialization import StoreFile
+# from .initialization import StoreFile
 
 from .initialization import ConvertFile
-from .data import Trimmer
-from .data import Uniformer
+# from .data import Trimmer
+# from .data import Uniformer
 
 __all__ = [
-    'ReadTable',
-    'Merge',
+    'XYZreader',
+    'ConvertFile',
     'Split',
     'SaveFile',
 ]
-
-from cheml.initialization import XYZreader

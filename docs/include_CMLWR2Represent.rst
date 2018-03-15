@@ -1,11 +1,11 @@
 .. include:: wrapper_docs/cheml.APEAttributeGenerator.rst
 .. include:: wrapper_docs/cheml.APRDFAttributeGenerator.rst
-.. include:: wrapper_docs/cheml.Bag_of_Bonds.rst
+.. include:: wrapper_docs/cheml.BagofBonds.rst
 .. include:: wrapper_docs/cheml.ChargeDependentAttributeGenerator.rst
 .. include:: wrapper_docs/cheml.ChemicalOrderingAttributeGenerator.rst
 .. include:: wrapper_docs/cheml.CoordinationNumberAttributeGenerator.rst
+.. include:: wrapper_docs/cheml.CoulombMatrix.rst
 .. include:: wrapper_docs/cheml.CoulombMatrixAttributeGenerator.rst
-.. include:: wrapper_docs/cheml.Coulomb_Matrix.rst
 .. include:: wrapper_docs/cheml.DistanceMatrix.rst
 .. include:: wrapper_docs/cheml.Dragon.rst
 .. include:: wrapper_docs/cheml.EffectiveCoordinationNumberAttributeGenerator.rst

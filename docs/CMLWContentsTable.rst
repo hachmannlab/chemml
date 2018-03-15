@@ -1,16 +1,16 @@
+.. _ChemML_Wrapper_Table:
 
-=============================
-Table of Contents
-=============================
+================
+Table of Methods
+================
 
-This is a complete list of all the methods that are available through ChemML Wrapper interface. You can click on each function
+This is a complete list of all the methods that are available through the ChemML Wrapper. You can click on each function name
 for further information.
 
-Table's columns describe:
-    - task and subtask: for an easier classification of methods
+    - task and subtask: methods are classified according to their potential role in a machine learning workflow
     - host: the main library/dependency required for running a method
-    - function: the method name that determines a block/node of computation graph
-    - input and output tokens: available tokens in each block that collect specific information and send/receive it to/from other blocks
+    - function: the method name that determines a node in the final computation graph
+    - input and output tokens: the only available containers in each block that send/receive related information to/from other blocks
 
 
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
@@ -80,9 +80,9 @@ Table's columns describe:
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
 | 32 | Represent | inorganic descriptors  | cheml   | :ref:`YangOmegaAttributeGenerator`                   | entries                         | df                                                           |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 33 | Represent | molecular descriptors  | cheml   | :ref:`Bag_of_Bonds`                                  | molecules                       | df                                                           |
+| 33 | Represent | molecular descriptors  | cheml   | :ref:`BagofBonds`                                    | molecules                       | df                                                           |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 34 | Represent | molecular descriptors  | cheml   | :ref:`Coulomb_Matrix`                                | molecules                       | df                                                           |
+| 34 | Represent | molecular descriptors  | cheml   | :ref:`CoulombMatrix`                                 | molecules                       | df                                                           |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
 | 35 | Represent | molecular descriptors  | cheml   | :ref:`Dragon`                                        | molfile                         | df                                                           |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+

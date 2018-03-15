@@ -82,7 +82,7 @@ class concat(BASE):
         dfs = ['df1','df2','df3']
         for f in dfs:
             df = self.inputs[f].value
-            if df:
+            if isinstance(df,pd.DataFrame):
                 objs.append(df)
         if len(objs) == 0:
             msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)

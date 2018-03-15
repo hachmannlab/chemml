@@ -180,11 +180,10 @@ class hist(BASE):
             raise IOError(msg)
         try:
             from cheml.visualization import hist
-            print self.parameters['kwargs']
             model = hist(**self.parameters)
             fig=model.plot(dflist)
         except Exception as err:
-            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):

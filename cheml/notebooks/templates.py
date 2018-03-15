@@ -109,6 +109,40 @@ def template4():
     return script.strip().split('\n')
 
 
+def template7():
+    """Dragon"""
+    script = """
+                ## (Enter,datasets)
+                    << host = cheml
+                    << function = load_cep_homo
+                    >> homo 0
+                    >> smiles 1
+
+                ## (Visualize,Plot)
+                    << host = cheml
+                    << function = hist
+                    << nbins = 20
+                    << rwidth = 0.8
+                    << ylabel = numbers
+                    << xlabel = HOMO_eV
+                    >> 0 df1
+                    >> fig 2
+
+                ## (Enter,python script)
+                    << host = cheml
+                    << function = PyScript
+                    << line01 = print iv1.head()
+                    >> 1 iv1
+
+                ## (Store,figure)
+                    << host = cheml
+                    << function = SaveFigure
+                    << filename = homo_hist
+                    >> 2 fig
+
+            """
+    return script.strip().split('\n')
+
 def template20():
     script ="""
 

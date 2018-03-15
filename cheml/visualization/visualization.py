@@ -1,5 +1,5 @@
 import matplotlib
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.mlab as mlab
@@ -262,8 +262,7 @@ class hist(object):
 
 
         if self.bestfit==True and self.lineshapecolor!='':
-            y = mlab.normpdf(bins, self.mean, self.std)
-            print 'lineshape'
+            y = mlab.normpdf(bins)#, self.mean, self.std)
             plt.plot(bins,y,self.lineshapecolor,**self.kwargs)
 
         plt.xlabel(self.xlabel)

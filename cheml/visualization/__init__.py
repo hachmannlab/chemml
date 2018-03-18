@@ -1,19 +1,21 @@
 """
 The cheml.visualization module includes:
-    - Scatter_2D: :func:`~cheml.visualization.Scatter_2D`
+    - scatter2D: :func:`~cheml.visualization.scatter2D`
     - hist: :func:`~cheml.visualization.hist`
-    - SaveFigure: :func:`~cheml.visualization.SaveFigure`
-
+    - decorator: :func:`~cheml.visualization.decorator`
+    - SavePlot: :func:`~cheml.visualization.SavePlot`
 
 """
 
-from .visualization import Scatter_2D
+from .visualization import scatter2D
 from .visualization import hist
-from .visualization import SaveFigure
+from .visualization import SavePlot
+from .visualization import decorator
 
 
 __all__ = [
-    'scatter_2D',
+    'scatter2D',
     'hist',
-    'SaveFigure',
+    'decorator',
+    'SavePlot',
 ]

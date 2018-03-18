@@ -159,3 +159,50 @@ class concat(object):
         verify_integrity = Parameter('verify_integrity', False)
         copy = Parameter('copy', True)
 
+class plot(object):
+    task = 'Visualize'
+    subtask = 'plot'
+    host = 'pandas'
+    function = 'plot'
+    modules = ('pandas','')
+    requirements = (req(2),req(7))
+    documentation = "https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.plot.html"
+
+    class Inputs:
+        df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+
+    class Outputs:
+        axes = Output("axes","matplotlib axes object", ("<class 'matplotlib.axes._subplots.AxesSubplot'>",))
+
+    class WParameters:
+        pass
+    class FParameters:
+        x = Parameter('x', None)
+        y = Parameter('y', None)
+        kind = Parameter('kind', 'line')
+        ax = Parameter('ax', None)
+        subplots = Parameter('subplots', False)
+        sharex = Parameter('sharex', None)
+        sharey = Parameter('sharey', False)
+        layout = Parameter('layout', None)
+        figsize = Parameter('figsize', None)
+        use_index = Parameter('use_index', True)
+        title = Parameter('title', None)
+        grid = Parameter('grid', None)
+        legend = Parameter('legend', True)
+        style = Parameter('style', None)
+        logx = Parameter('logx', False)
+        logy = Parameter('logy', False)
+        loglog = Parameter('loglog', False)
+        xticks = Parameter('xticks', None)
+        yticks = Parameter('yticks', None)
+        xlim = Parameter('xlim', None)
+        ylim = Parameter('ylim', None)
+        rot = Parameter('rot', None)
+        fontsize = Parameter('fontsize', None)
+        colormap = Parameter('colormap', None)
+        table = Parameter('table', False)
+        yerr = Parameter('yerr', None)
+        xerr = Parameter('xerr', None)
+        secondary_y = Parameter('secondary_y', False)
+        sort_columns = Parameter('sort_columns', False)

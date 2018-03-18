@@ -134,64 +134,27 @@ class ConvertFile(BASE):
                 self.Base.send[(self.iblock,token)] = self.outputs[token]
         del self.inputs
 
-class Scatter_2D(BASE):
+class scatter2D(BASE):
     def fit(self):
-        self.paramFROMinput()
-        dfx=[]
-        dfxs= ['dfx1','dfx2','dfx3','dfx4']
-        for f in dfxs:
-            df = self.inputs[f].value
-            if isinstance(df,pd.DataFrame):
-                dfx.append(df)
-        if len(dfx) == 0:
-            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
-            raise IOError(msg)
-
-        dfy = []
-        dfys = ['dfy1', 'dfy2', 'dfy3', 'dfy4']
-        for f in dfys:
-            df = self.inputs[f].value
-            if isinstance(df, pd.DataFrame):
-                dfy.append(df)
-        if len(dfy) == 0:
-            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
-            raise IOError(msg)
-
+        # self.paramFROMinput()
+        self.required('dfx', req=True)
+        dfx = self.inputs['dfx'].value
+        self.required('dfy', req=True)
+        dfy = self.inputs['dfy'].value
+        if 'x' in self.parameters:
+            x = self.parameters.pop('x')
+        else:
+            msg = "@Task #%i(%s): the x header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
+        if 'y' in self.parameters:
+            y = self.parameters.pop('y')
+        else:
+            msg = "@Task #%i(%s): the y header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
         try:
-            from cheml.visualization import Scatter_2D
-            model = Scatter_2D(**self.parameters)
-            fig=model.plot(dfx,dfy)
-
-        except Exception as err:
-            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
-            raise TypeError(msg)
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'fig':
-                self.set_value(token, fig)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-        del self.inputs
-
-class hist(BASE):
-    def fit(self):
-        self.paramFROMinput()
-        dflist=[]
-        dfs = ['df1','df2','df3','df4']
-        for f in dfs:
-            df = self.inputs[f].value
-            if isinstance(df,pd.DataFrame):
-                dflist.append(df)
-        if len(dflist) == 0:
-            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
-            raise IOError(msg)
-        try:
-            from cheml.visualization import hist
-            model = hist(**self.parameters)
-            fig=model.plot(dflist)
+            from cheml.visualization import scatter2D
+            sc = scatter2D(**self.parameters)
+            fig = sc.plot(dfx,dfy,x,y)
         except Exception as err:
             msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
@@ -206,15 +169,71 @@ class hist(BASE):
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
 
-class SaveFigure(BASE):
+class hist(BASE):
+    def fit(self):
+        # self.paramFROMinput()
+        self.required('dfx', req=True)
+        dfx = self.inputs['dfx'].value
+        if 'x' in self.parameters:
+            x = self.parameters.pop('x')
+        else:
+            msg = "@Task #%i(%s): the x header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
+        try:
+            from cheml.visualization import hist
+            hg = hist(**self.parameters)
+            fig = hg.plot(dfx, x)
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, fig)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class decorator(BASE):
+    def fit(self):
+        # self.paramFROMinput()
+        self.required('fig', req=True)
+        fig = self.inputs['fig'].value
+        font_params = {}
+        for p in ['family','size','weight','style','variant']:
+            if p in self.parameters:
+                font_params[p] = self.parameters.pop(p)
+        try:
+            from cheml.visualization import decorator
+            dec = decorator(**self.parameters)
+            dec.matplotlib_font(**font_params)
+            fig = dec.fit(fig)
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, fig)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class SavePlot(BASE):
     def fit(self):
         self.required('fig', req=True)
         fig = self.inputs['fig'].value
-        self.paramFROMinput()
+        # self.paramFROMinput()
         try:
-            from cheml.visualization import SaveFigure
-            model = SaveFigure(fig,**self.parameters)
-            model.fit(self.Base.output_directory)
+            from cheml.visualization import SavePlot
+            sp = SavePlot(**self.parameters)
+            sp.save(fig, self.Base.output_directory)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)

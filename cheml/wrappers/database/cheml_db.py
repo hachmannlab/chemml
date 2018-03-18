@@ -408,93 +408,103 @@ class ConvertFile(object):
         from_format = Parameter('from_format', 'required_required')
         to_format = Parameter('to_format', 'required_required')
 
-class Scatter_2D(object):
+class scatter2D(object):
     task='Visualize'
-    subtask = 'Plot'
+    subtask = 'plot'
     host = 'cheml'
-    function = 'Scatter_2D'
+    function = 'scatter2D'
     modules = ('cheml','visualization')
     requirements = (req(0),req(2),req(7))
-    documentation = "https://matplotlib.org/users/index.html"
+    documentation = ""
 
     class Inputs:
-        dfx1 = Input("dfx1", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfx2 = Input("dfx2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfx3 = Input("dfx3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfx4 = Input("dfx4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy1 = Input("dfy1", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy2 = Input("dfy2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy3 = Input("dfy3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        dfy4 = Input("dfy4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx = Input("dfx", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy = Input("dfy", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
 
     class Outputs:
-        fig=Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
+        fig=Output("fig","a matplotlib.Figure object",("<class 'matplotlib.figure.Figure'>",))
 
     class WParameters:
         pass
 
     class FParameters:
-        legend = Parameter('legend','False')
-        legend_titles = Parameter('legend_titles',[])
-        sc = Parameter('sc',[])
-        xmin = Parameter('xmin',0)
-        xmax = Parameter('xmax', 0)
-        ymin = Parameter('ymin', 0)
-        ymax = Parameter('ymax', 0)
-        xlabel = Parameter('xlabel','x')
-        ylabel = Parameter('ylabel','y')
-        title = Parameter('title','Plot')
-        xheader = Parameter('xheader',['x'])
-        yheader = Parameter('yheader',['y'])
-        l_pos = Parameter('l_pos','Best')
-        kwargs = Parameter('kwargs',{})
+        x = Parameter('x','required_required')
+        y = Parameter('y','required_required')
+        color = Parameter('color','b')
+        marker = Parameter('marker','.')
+        linestyle = Parameter('linestyle','')
+        linewidth = Parameter('linewidth', 2)
 
 class hist(object):
     task='Visualize'
-    subtask = 'Plot'
+    subtask = 'plot'
     host = 'cheml'
     function = 'hist'
     modules = ('cheml','visualization')
     requirements = (req(0),req(2),req(7))
-    documentation = "https://matplotlib.org/users/index.html"
+    documentation = ""
 
     class Inputs:
-        df1=Input("df1","a pandas dataframe",("<class 'pandas.core.frame.DataFrame'>",))
-        df2 = Input("df2", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df3 = Input("df3", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        df4 = Input("df4", "a pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx = Input("dfx","a pandas dataframe",("<class 'pandas.core.frame.DataFrame'>",))
 
     class Outputs:
-        fig=Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
+        fig = Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
 
     class WParameters:
         pass
 
     class FParameters:
-        nbins=Parameter('nbins','required_required')
-        rwidth=Parameter('rwidth',1)
-        lineshapecolor=Parameter('lineshapecolor','')
-        bestfit=Parameter('bestfit','False')
-        isformatter=Parameter('isformatter','False')
-        formatter_type=Parameter('formatter_type','')
-        xmin = Parameter('xmin',0)
-        xmax = Parameter('xmax', 0)
-        xlabel = Parameter('xlabel','x')
-        ylabel = Parameter('ylabel','y')
-        title = Parameter('title','Histogram')
-        kwargs = Parameter('kwargs', {})
+        x = Parameter('x','required_required')
+        bins=Parameter('bins',None)
+        color=Parameter('color',None)
+        kwargs=Parameter('kwargs',{})
 
-class SaveFigure(object):
+class decorator(object):
+    task='Visualize'
+    subtask = 'artist'
+    host = 'cheml'
+    function = 'decorator'
+    modules = ('cheml','visualization')
+    requirements = (req(0),req(2),req(7))
+    documentation = ""
+
+    class Inputs:
+        fig = Input("fig", "a matplotlib object", ("<class 'matplotlib.figure.Figure'>",))
+
+    class Outputs:
+        fig = Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
+
+    class WParameters:
+        pass
+
+    class FParameters:
+        title = ('title', '')
+        xlabel = ('xlabel', '')
+        ylabel = ('ylabel', '')
+        xlim = ('xlim', (None , None))
+        ylim = ('ylim', (None , None))
+        grid = ('grid', True)
+        grid_color = ('grid_color', 'k')
+        grid_linestyle = ('grid_linestyle', '--')
+        grid_linewidth = ('grid_linewidth', 0.5)
+        family = ('family', 'normal')
+        size = ('size', 18)
+        weight = ('weight', 'normal')
+        style = ('style', 'normal')
+        variant = ('variant', 'normal')
+
+class SavePlot(object):
     task='Store'
     subtask = 'figure'
     host = 'cheml'
-    function = 'SaveFigure'
+    function = 'SavePlot'
     modules = ('cheml','visualization')
     requirements = (req(0),req(2),req(7))
     documentation = "https://matplotlib.org/users/index.html"
 
     class Inputs:
-        fig = Input('fig', "a matplotlib object", ("<class 'matplotlib.figure.Figure'>",))
+        fig = Input('fig', "a matplotlib object", ("<class 'matplotlib.figure.Figure'>","<class 'matplotlib.axes._subplots.AxesSubplot'>"))
+
     class Outputs:
         pass
 

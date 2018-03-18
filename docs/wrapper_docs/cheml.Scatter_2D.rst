@@ -16,13 +16,21 @@ Scatter_2D
     | Scatter_2D
 
 :input tokens (receivers):
-    | ``df4`` : a pandas dataframe
+    | ``dfy1`` : a pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
-    | ``df1`` : a pandas dataframe
+    | ``dfx4`` : a pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
-    | ``df3`` : a pandas dataframe
+    | ``dfy2`` : a pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
-    | ``df2`` : a pandas dataframe
+    | ``dfx2`` : a pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``dfx3`` : a pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``dfx1`` : a pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``dfy3`` : a pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``dfy4`` : a pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
@@ -41,10 +49,8 @@ Scatter_2D
     |   ``<< ymax = 0``
     |   ``<< xheader = ['x']``
     |   ``<< title = Plot``
-    |   ``<< nod = 1``
     |   ``<< kwargs = {}``
-    |   ``<< lpos = Best``
-    |   ``<< subplots = [1, 1, 1]``
+    |   ``<< l_pos = Best``
     |   ``<< xmin = 0``
     |   ``<< legend_titles = []``
     |   ``<< xlabel = x``
@@ -54,10 +60,14 @@ Scatter_2D
     |   ``<< yheader = ['y']``
     |   ``<< ymin = 0``
     |   ``<< legend = False``
-    |   ``>> id df4``
-    |   ``>> id df1``
-    |   ``>> id df3``
-    |   ``>> id df2``
+    |   ``>> id dfy1``
+    |   ``>> id dfx4``
+    |   ``>> id dfy2``
+    |   ``>> id dfx2``
+    |   ``>> id dfx3``
+    |   ``>> id dfx1``
+    |   ``>> id dfy3``
+    |   ``>> id dfy4``
     |   ``>> id fig``
     |
     .. note:: The documentation page for function parameters: https://matplotlib.org/users/index.html

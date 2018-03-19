@@ -224,7 +224,7 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        te8 = widgets.Label(value="Template 2: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
+        te8 = widgets.Label(value="Template 2: load_organic_density --> plot feature AMW vs. density --> print 5 SMILES")#, layout=widgets.Layout(width='70%'))
         selectTe8 = widgets.Button(description="Select")
         selectTe8.style.button_color = 'lightblue'
         selectTe8.on_click(on_selectTe8_clicked)
@@ -237,23 +237,23 @@ class wrapperGUI(object):
         TEMPLATES.append(hboxTe8)
 
         ######################################################
-        ## TemplateMHL
-        def on_selectTeMHL_clicked(b):
-            # templateMHL.txt is a cheml wrapper config file
-            from .templates import templateMHL
-            script = templateMHL()
+        ## Template9
+        def on_selectTe9_clicked(b):
+            # template9.txt is a cheml wrapper config file
+            from .templates import template9
+            script = template9()
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
-                selectTeMHL.icon = 'check'
+                selectTe9.icon = 'check'
             except Exception as err:
                 print "Invalid configuration file ..."
                 print "    IOError: %s"%err.message
                 print "... Not loaded!"
-                selectTeMHL.icon = 'remove'
+                selectTe9.icon = 'remove'
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -272,17 +272,17 @@ class wrapperGUI(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
-        teMHL = widgets.Label(value="Template MHL: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
-        selectTeMHL = widgets.Button(description="Select")
-        selectTeMHL.style.button_color = 'lightblue'
-        selectTeMHL.on_click(on_selectTeMHL_clicked)
+        te9 = widgets.Label(value="Template 3: load_xyz_polarizability --> plot all 50 polarizabilities --> print first item of coordinates output")#, layout=widgets.Layout(width='70%'))
+        selectTe9 = widgets.Button(description="Select")
+        selectTe9.style.button_color = 'lightblue'
+        selectTe9.on_click(on_selectTe9_clicked)
         # viewT1 = widgets.Button(description="Overview")
         # viewT1.style.button_color = 'lightblue'
         # viewT1.on_click(on_viewT1_clicked)
-        hboxTeMHL = widgets.HBox([teMHL, selectTeMHL],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+        hboxTe9 = widgets.HBox([te9, selectTe9],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
                                                                # height='40px', align_items='center',   justify_content = 'space-between',
                                                                # margin='0px 0px 0px 10px'))
-        TEMPLATES.append(hboxTeMHL)
+        TEMPLATES.append(hboxTe9)
 
 
 
@@ -483,6 +483,61 @@ class wrapperGUI(object):
                                                                # height='40px', align_items='center',   justify_content = 'space-between',
                                                                # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe4)
+
+
+        #######################***********************#######################***********************
+        #######################:::::::::::::::::::::::#######################:::::::::::::::::::::::
+        ### Data Mining (DMine)
+        headerDMine = widgets.HTML(value='<b> Data Mining: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES.append(headerDMine)
+
+        ######################################################
+        ## Template11
+        def on_selectTe11_clicked(b):
+            # template11.txt is a cheml wrapper config file
+            from .templates import template11
+            script = template11()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe11.icon = 'check'
+            except Exception as err:
+                print "Invalid configuration file ..."
+                print "    IOError: %s"%err.message
+                print "... Not loaded!"
+                selectTe11.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te11 = widgets.Label(value="A complete machine learning workflow: read XYZ files --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe11 = widgets.Button(description="Select")
+        selectTe11.style.button_color = 'lightblue'
+        selectTe11.on_click(on_selectTe11_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe11 = widgets.HBox([te11, selectTe11],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe11)
 
         ######################################################
         ## TemplateMHL

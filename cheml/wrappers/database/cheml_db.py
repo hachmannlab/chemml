@@ -469,7 +469,8 @@ class decorator(object):
     documentation = ""
 
     class Inputs:
-        fig = Input("fig", "a matplotlib object", ("<class 'matplotlib.figure.Figure'>",))
+        fig = Input("fig", "a matplotlib object",
+                    ("<class 'matplotlib.figure.Figure'>","<class 'matplotlib.axes._subplots.AxesSubplot'>"))
 
     class Outputs:
         fig = Output("fig","a matplotlib object",("<class 'matplotlib.figure.Figure'>",))
@@ -478,20 +479,20 @@ class decorator(object):
         pass
 
     class FParameters:
-        title = ('title', '')
-        xlabel = ('xlabel', '')
-        ylabel = ('ylabel', '')
-        xlim = ('xlim', (None , None))
-        ylim = ('ylim', (None , None))
-        grid = ('grid', True)
-        grid_color = ('grid_color', 'k')
-        grid_linestyle = ('grid_linestyle', '--')
-        grid_linewidth = ('grid_linewidth', 0.5)
-        family = ('family', 'normal')
-        size = ('size', 18)
-        weight = ('weight', 'normal')
-        style = ('style', 'normal')
-        variant = ('variant', 'normal')
+        title = Parameter('title', '')
+        xlabel = Parameter('xlabel', '')
+        ylabel = Parameter('ylabel', '')
+        xlim = Parameter('xlim', (None , None))
+        ylim = Parameter('ylim', (None , None))
+        grid = Parameter('grid', True)
+        grid_color = Parameter('grid_color', 'k')
+        grid_linestyle = Parameter('grid_linestyle', '--')
+        grid_linewidth = Parameter('grid_linewidth', 0.5)
+        family = Parameter('family', 'normal')
+        size = Parameter('size', 18)
+        weight = Parameter('weight', 'normal')
+        style = Parameter('style', 'normal')
+        variant = Parameter('variant', 'normal')
 
 class SavePlot(object):
     task='Store'
@@ -503,7 +504,8 @@ class SavePlot(object):
     documentation = "https://matplotlib.org/users/index.html"
 
     class Inputs:
-        fig = Input('fig', "a matplotlib object", ("<class 'matplotlib.figure.Figure'>","<class 'matplotlib.axes._subplots.AxesSubplot'>"))
+        fig = Input('fig', "a matplotlib object",
+                    ("<class 'matplotlib.figure.Figure'>","<class 'matplotlib.axes._subplots.AxesSubplot'>"))
 
     class Outputs:
         pass
@@ -570,7 +572,7 @@ class load_xyz_polarizability(object):
     class Outputs:
         coordinates = Output("coordinates","dictionary of molecules represented by their xyz coordinates and atomic numbers",
                              ("<type 'dict'>",))
-        pol = Output("density","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        polarizability = Output("polarizability","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:

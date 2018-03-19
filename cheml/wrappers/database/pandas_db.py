@@ -172,7 +172,8 @@ class plot(object):
         df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
 
     class Outputs:
-        axes = Output("axes","matplotlib axes object", ("<class 'matplotlib.axes._subplots.AxesSubplot'>",))
+        fig = Output("fig","matplotlib figure or axes object",
+                      ("<class 'matplotlib.axes._subplots.AxesSubplot'>","<class 'matplotlib.figure.Figure'>"))
 
     class WParameters:
         pass

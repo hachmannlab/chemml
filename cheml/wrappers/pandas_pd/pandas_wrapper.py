@@ -168,7 +168,7 @@ class plot(BASE):
             if token not in self.outputs:
                 msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
                 raise NameError(msg)
-            elif token == 'axes':
+            elif token == 'fig':
                 self.set_value(token, ax)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]

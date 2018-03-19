@@ -101,7 +101,7 @@ class load_xyz_polarizability(BASE):
                 self.set_value(token, coordinates)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'pol':
+            elif token == 'polarizability':
                 self.set_value(token, pol)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]

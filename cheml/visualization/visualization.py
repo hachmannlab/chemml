@@ -1,6 +1,6 @@
 import os
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
@@ -61,21 +61,25 @@ class decorator(object):
 
         Parameters
         ----------
-        figure: matplotlib.figure.Figure object
-            the received figure with one axes object
+        figure: matplotlib.figure.Figure object or matplotlib.AxesSubplot object
+            this function only proceed with one set of axes in the figure.
 
         Returns
         -------
         matplotlib.figure.Figure object
 
         """
-        if str(type(figure)) != "<class 'matplotlib.figure.Figure'>":
-            msg = 'figure must be a matplotlib.figure object'
+        if str(type(figure)) == "<class 'matplotlib.axes._subplots.AxesSubplot'>":
+            ax = figure
+            figure = figure.figure
+        elif str(type(figure)) == "<class 'matplotlib.figure.Figure'>":
+            ax = figure.axes[0]
+        else:
+            msg = 'object must be a matplotlib.AxesSubplot or matplotlib.Figure object'
             raise TypeError(msg)
         if len(figure.axes) != 1:
             msg = 'matplotlib.figure object includes more than one axes'
             raise TypeError(msg)
-        ax = figure.axes[0]
         ax.set_title(self.title)
         ax.set_xlabel(self.xlabel)
         ax.set_ylabel(self.ylabel)
@@ -319,7 +323,7 @@ class SavePlot(object):
         elif str(type(obj)) == "<class 'matplotlib.figure.Figure'>":
             pass
         else:
-            msg = 'object must be a matplotlib.axes or matplotlib.figure object'
+            msg = 'object must be a matplotlib.AxesSubplot or matplotlib.Figure object'
             raise TypeError(msg)
 
         if self.output_directory:

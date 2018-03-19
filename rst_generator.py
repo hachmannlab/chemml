@@ -41,6 +41,7 @@ for h in databases:
         filename = '%s.%s'%(host,function)
         info[k.task].append('.. include:: %s/%s.rst'%(direc, filename))
         row = [k.task, k.subtask, host, ':ref:`%s`'%function]
+        # print function
         with open('%s/%s.rst'%(directory,filename), 'wb') as file:
             file.write('.. _%s:\n'%(function))
             file.write('\n')

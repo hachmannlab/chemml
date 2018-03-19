@@ -20,7 +20,7 @@ def load_cep_homo():
 
     Returns
     -------
-    two dataframes
+    returns two dataframes
         - first dataframe for SMILES representation of molecules, shape: (500,1)
         - second dataframe for HOMO energies of the molecules (eV), shape: (500,1)
 
@@ -57,9 +57,9 @@ def load_organic_density():
     Returns
     -------
     returns three dataframes
-        first dataframe for SMILES representation of molecules, shape: (500,1)
-        second dataframe for the density of molecules (Kg/m3), shape: (500,1)
-        third dataframe for the molecular descriptors of molecules, shape: (500,1)
+        - first dataframe for SMILES representation of molecules, shape: (500,1)
+        - second dataframe for the density of molecules (Kg/m3), shape: (500,1)
+        - third dataframe for the molecular descriptors of molecules, shape: (500,1)
 
     Examples
     --------
@@ -81,7 +81,7 @@ def load_organic_density():
 
 
 def load_xyz_polarizability():
-    """Load and return xyz files and polarizability (Bohr^3)
+    """Load and return xyz files and polarizability (Bohr^3).
     The xyz coordinates of small organic molecules are optimized with BP86/def2svp level of theory.
     Polarizability of the molecules are also calcualted in the same level of thoery.
 
@@ -97,8 +97,8 @@ def load_xyz_polarizability():
     Returns
     -------
     returns a dictionary and a dataframe
-        dictionary: the xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
-        dataframe: the polarizability of each molecule
+        - dictionary: the xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
+        - dataframe: the polarizability of each molecule
     """
     DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('datasets','data','organic_xyz'))
     from ..initialization import XYZreader

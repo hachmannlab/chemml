@@ -4,11 +4,9 @@ import sys
 import os
 import time
 import copy
-import argparse
-import warnings
 import inspect
-import shutil
 
+from .. import __version__, __author__
 from .pandas_pd import pdw
 from .cheml_cml import cmlw
 from .sklearn_skl import sklw
@@ -19,9 +17,9 @@ from .base import LIBRARY
 
 def banner():
     PROGRAM_NAME = "ChemML"
-    PROGRAM_VERSION = "v1.3.1"
-    REVISION_DATE = "2017-01-03"
-    AUTHORS = ["Johannes Hachmann (hachmann@buffalo.edu)","Mojtaba Haghighatlari (mojtabah@buffalo.edu)"]
+    PROGRAM_VERSION = __version__
+    REVISION_DATE = "2018-03-20"
+    AUTHORS = __author__
     CONTRIBUTORS = " "
     DESCRIPTION = "ChemML is a machine learning and informatics program suite for the chemical and materials sciences."
     str = []
@@ -72,8 +70,6 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-        tmp_str =  'Input File: \n'
-        print tmp_str
         self._print_out(cmls)
         return cmls, ImpOrder, CompGraph
 
@@ -261,7 +257,7 @@ class Wrapper(LIBRARY):
     Todo: documentation
     """
     def __init__(self, cmls, ImpOrder, CompGraph, InputScript, output_directory):
-        self.Base = BASE(CompGraph)
+        self.Base = BASE(CompGraph)     # initial and only instance of BASE during the entire wrapper run
         self.Base.InputScript = InputScript
         self.Base.output_directory = output_directory
         self.ImpOrder = ImpOrder
@@ -392,22 +388,24 @@ class Settings(object):
     -------
     output_directory
     """
-    def __init__(self,output_directory="CMLWrapper.out", InputScript_copy = True):
+    def __init__(self,output_directory="CMLWrapper.out"):
         self.output_directory = output_directory
-        self.InputScript_copy = InputScript_copy
 
-    def fit(self,InputScript):
+    def fit(self):
         initial_output_dir = copy.deepcopy(self.output_directory)
         i = 0
         while os.path.exists(self.output_directory):
             i+=1
             self.output_directory = initial_output_dir + '%i'%i
         os.makedirs(self.output_directory)
-        if self.InputScript_copy:
-            shutil.copyfile(InputScript, self.output_directory + '/InputScript.txt')
         logfile = open(self.output_directory + '/log.txt', 'a', 0)
         errorfile = open(self.output_directory + '/error.txt', 'a', 0)
         return self.output_directory, logfile, errorfile
+
+    def write_InputScript(self,InputScript):
+        with open(self.output_directory + '/InputScript.txt','w') as f:
+            for line in InputScript:
+                f.write("%s\n"%line)
 
 class Logger(object):
     def __init__(self,logfile):
@@ -437,15 +435,32 @@ class Error(object):
 def run(INPUT_FILE, OUTPUT_DIRECTORY):
     """
     this is the only callable method in this file
-    :param INPUT_FILE: path to the input file
+    :param INPUT_FILE: path to the input file or the actual input script
     :return:
     """
+    try:
+        script = open(INPUT_FILE, 'r')
+        script = script.readlines()
+        tmp_str = "parsing the input file: %s ..."%INPUT_FILE
+    except:
+        if isinstance(INPUT_FILE, list):
+            script = INPUT_FILE
+            tmp_str = "parsing the input file: received as a list of lines ..."
+        elif isinstance(INPUT_FILE, str):
+            if '##' in INPUT_FILE and '>>' in INPUT_FILE:
+                script = INPUT_FILE.split('\n')
+                tmp_str = "parsing the input file: received in string format ..."
+            else:
+                banner()
+                msg = "couldn't find the input file path or the input script is not valid"
+                raise IOError(msg)
     settings = Settings(OUTPUT_DIRECTORY)
-    OUTPUT_DIRECTORY, logfile, errorfile= settings.fit(INPUT_FILE)
+    OUTPUT_DIRECTORY, logfile, errorfile= settings.fit()
     sys.stdout = Logger(logfile)
     sys.stderr = Error(errorfile)
-    script = open(INPUT_FILE, 'r')
-    script = script.readlines()
+    banner()
+    print tmp_str + '\n'
+    settings.write_InputScript(script)
     cmls, ImpOrder, CompGraph = Parser(script).fit()
     # print cmls
     # print ImpOrder

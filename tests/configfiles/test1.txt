@@ -1,0 +1,39 @@
+## (Enter,datasets)
+    << host = cheml
+    << function = load_cep_homo
+    >> homo 0
+    >> smiles 3
+
+## (Visualize,plot)
+    << host = cheml
+    << function = hist
+    << color = green
+    << x = 0
+    << bins = 20
+    >> 0 dfx
+    >> fig 1
+
+## (Store,figure)
+    << host = cheml
+    << function = SavePlot
+    << kwargs = {'normed':True}
+    << output_directory = plots
+    << filename = homo_histogram
+    >> 2 fig
+
+## (Visualize,artist)
+    << host = cheml
+    << function = decorator
+    << title = CEP_HOMO
+    << grid_color = b
+    << xlabel = eHOMO (eV)
+    << ylabel = %
+    << grid = True
+    >> 1 fig
+    >> fig 2
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1.head()
+    >> 3 iv1

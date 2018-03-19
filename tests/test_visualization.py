@@ -34,7 +34,7 @@ class Testvisualization(unittest.TestCase):
     def test_SavePlot(self):
         sc = scatter2D('r', linestyle='--')
         fig = sc.plot(x,y,0,0)
-        sp = SavePlot('Sin', 'plots', 'eps', {'facecolor': 'w', 'dpi': 100, 'pad_inches': 0.1, 'bbox_inches': 'tight'})
+        sp = SavePlot('Sin', 'trash/plots', 'eps', {'facecolor': 'w', 'dpi': 100, 'pad_inches': 0.1, 'bbox_inches': 'tight'})
         sp.save(fig)
 
 

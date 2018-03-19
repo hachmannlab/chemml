@@ -1,7 +1,7 @@
-.. _SaveFigure:
+.. _SavePlot:
 
-SaveFigure
-===========
+SavePlot
+=========
 
 :task:
     | Store
@@ -13,11 +13,11 @@ SaveFigure
     | cheml
 
 :function:
-    | SaveFigure
+    | SavePlot
 
 :input tokens (receivers):
     | ``fig`` : a matplotlib object
-    |   types: ("<class 'matplotlib.figure.Figure'>",)
+    |   types: ("<class 'matplotlib.figure.Figure'>", "<class 'matplotlib.axes._subplots.AxesSubplot'>")
 
 :input tokens (receivers):
     |   this block doesn't send anything
@@ -30,7 +30,7 @@ SaveFigure
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = SaveFigure``
+    |   ``<< host = cheml    << function = SavePlot``
     |   ``<< format = png``
     |   ``<< output_directory = None``
     |   ``<< kwargs = {}``

@@ -1,7 +1,7 @@
-.. _hist:
+.. _scatter2D:
 
-hist
-=====
+scatter2D
+==========
 
 :task:
     | Visualize
@@ -13,14 +13,16 @@ hist
     | cheml
 
 :function:
-    | hist
+    | scatter2D
 
 :input tokens (receivers):
+    | ``dfy`` : a pandas dataframe
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : a pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
-    | ``fig`` : a matplotlib object
+    | ``fig`` : a matplotlib.Figure object
     |   types: ("<class 'matplotlib.figure.Figure'>",)
 
 
@@ -31,11 +33,14 @@ hist
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = hist``
-    |   ``<< color = None``
-    |   ``<< kwargs = {}``
+    |   ``<< host = cheml    << function = scatter2D``
+    |   ``<< color = b``
+    |   ``<< marker = .``
+    |   ``<< y = required_required``
     |   ``<< x = required_required``
-    |   ``<< bins = None``
+    |   ``<< linewidth = 2``
+    |   ``<< linestyle = ``
+    |   ``>> id dfy``
     |   ``>> id dfx``
     |   ``>> id fig``
     |

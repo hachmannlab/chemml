@@ -1,6 +1,7 @@
 # coding=utf-8
 from itertools import izip
 import numpy as np
+import pandas as pd
 from scipy.linalg import lu
 from scipy.optimize import linprog
 from .LookUpData import LookUpData
@@ -75,6 +76,19 @@ class GCLPCalculator:
             A list of energy values as floats.
 
         """
+        if isinstance(energies,pd.DataFrame):
+            if energies.shape[1] == 1:
+                energies = energies.values
+            else:
+                msg = "a dataframe with one column is required"
+                raise Exception(msg)
+        if isinstance(entries,pd.DataFrame):
+            if entries.shape[1] == 1:
+                entries = entries.values
+            else:
+                msg = "a dataframe with one column is required"
+                raise Exception(msg)
+
         for entry,energy in izip(entries, energies):
             # if has measurement
             self.add_phase(entry, energy)

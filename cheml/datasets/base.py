@@ -110,4 +110,51 @@ def load_xyz_polarizability():
     df = pd.read_csv(os.path.join(DATA_PATH,'pol.csv'))
     return coordinates, df
 
+def load_comp_energy():
+    """Load and return composition entries and formation energies (eV).
+    From Magpie https://bitbucket.org/wolverton/magpie
+
+    =================   ======================
+    rows                                   630
+    header                    formation_energy
+    molecules rep.                 composition
+    Features                                 0
+    Returns             1 dataframe and 1 list
+    =================   ======================
+
+    Returns
+    -------
+    returns a list and a dataframe
+        - list: the list of composition entries from CompositionEntry class.
+        - dataframe: the formation energy for each composition.
+    """
+    DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('chem','magpie_python','test','test-files','small_set_comp.txt'))
+    TARGET_PATH = pkg_resources.resource_filename('cheml', os.path.join('chem','magpie_python','test','test-files','small_set_delta_e.txt'))
+    from ..chem.magpie_python import CompositionEntry
+    entries = CompositionEntry.import_composition_list(DATA_PATH)
+    df = pd.read_csv(TARGET_PATH,header=None)
+    df.columns = ['formation_energy']
+    return entries, df
+
+def load_crystal_structures():
+    """Load and return crystal structure entries.
+    From Magpie https://bitbucket.org/wolverton/magpie
+
+    =================   ======================
+    length                                  18
+    header                    formation_energy
+    molecules rep.                 composition
+    Features                                 0
+    Returns                             1 list
+    =================   ======================
+
+    Returns
+    -------
+    returns a list
+        - list: the list of crystal structure entries from CrystalStructureEntry class.
+    """
+    DATA_PATH = pkg_resources.resource_filename('cheml', os.path.join('chem','magpie_python','test','test-files'))
+    from ..chem.magpie_python import CrystalStructureEntry
+    entries = CrystalStructureEntry.import_structures_list(DATA_PATH)
+    return entries
 

@@ -1,5 +1,5 @@
 """
-The cheml.initialization module includes:
+The cheml.initialization module includes (please click on links adjacent to function names for more information):
     - XYZreader: :func:`~cheml.initialization.XYZreader`
     - ConvertFile: :func:`~cheml.initialization.ConvertFile`
     - Split: :func:`~cheml.initialization.Split`

@@ -1,5 +1,5 @@
 """
-The cheml.visualization module includes:
+The cheml.visualization module includes (please click on links adjacent to function names for more information):
     - scatter2D: :func:`~cheml.visualization.scatter2D`
     - hist: :func:`~cheml.visualization.hist`
     - decorator: :func:`~cheml.visualization.decorator`

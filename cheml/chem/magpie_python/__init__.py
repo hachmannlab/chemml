@@ -1,5 +1,9 @@
 """
-The cheml.chem.magpie_python module includes:
+This module is adapted entirely from Magpie (https://bitbucket.org/wolverton/magpie).
+If you are using this module, please cite Magpie as:
+ L. Ward, A. Agrawal, A. Choudhary, and C. Wolverton, "A general-purpose machine learning framework for predicting properties of inorganic materials," npj Computational Materials, vol. 2, no. 1, Aug. 2016.
+For more information regarding the python version of Magpie, please see https://github.com/ramv2/magpie_python.
+The cheml.chem.magpie_python module includes (please click on links adjacent to function names for more information):
     - APEAttributeGenerator: :func:`~cheml.chem.magpie_python.APEAttributeGenerator`
     - ChargeDependentAttributeGenerator: :func:`~cheml.chem.magpie_python.ChargeDependentAttributeGenerator`
     - ElementalPropertyAttributeGenerator: :func:`~cheml.chem.magpie_python.ElementalPropertyAttributeGenerator`

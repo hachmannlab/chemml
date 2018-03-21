@@ -322,7 +322,7 @@ class CrystalStructureEntry(CompositionEntry):
         io = VASP5IO()
         for f in only_files:
             if f.endswith(".vasp"):
-                structure = io.parse_file(f)
+                structure = io.parse_file(join(dir_path,f))
                 name = f.split(".vasp")[0]
                 entry = CrystalStructureEntry(structure, name=name, radii=radii)
                 structures_list.append(entry)

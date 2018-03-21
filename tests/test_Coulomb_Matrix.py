@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from cheml.chem import Coulomb_Matrix
+from cheml.chem import CoulombMatrix
 
 # Oxygen, Hydrogen, Hydrogen
 n = np.array([8, 1, 1])
@@ -10,9 +10,9 @@ c = np.array([[1.464, 0.707, 1.056],
 nc = n.reshape((3,1))
 nc = np.append(nc,c,1)
 
-class TestCoulomb_Matrix(unittest.TestCase):
+class TestCoulombMatrix(unittest.TestCase):
     def test_UM(self):
-        cm = Coulomb_Matrix('UM')
+        cm = CoulombMatrix('UM')
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms**2))
@@ -23,7 +23,7 @@ class TestCoulomb_Matrix(unittest.TestCase):
         self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_UT(self):
-        cm = Coulomb_Matrix('UT')
+        cm = CoulombMatrix('UT')
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms*(cm.max_n_atoms+1)/2))
@@ -34,7 +34,7 @@ class TestCoulomb_Matrix(unittest.TestCase):
         self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_E(self):
-        cm = Coulomb_Matrix('E')
+        cm = CoulombMatrix('E')
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms))
@@ -45,7 +45,7 @@ class TestCoulomb_Matrix(unittest.TestCase):
 
 
     def test_SC(self):
-        cm = Coulomb_Matrix('SC')
+        cm = CoulombMatrix('SC')
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.max_n_atoms*(cm.max_n_atoms+1)/2))
@@ -56,7 +56,7 @@ class TestCoulomb_Matrix(unittest.TestCase):
         self.assertAlmostEqual(a[0][-1], h2o.values[0][-1])
 
     def test_RC(self):
-        cm = Coulomb_Matrix('RC')
+        cm = CoulombMatrix('RC')
         h2o = cm.represent(np.array([nc]))
 
         self.assertEqual(h2o.shape, (1, cm.nPerm*cm.max_n_atoms*(cm.max_n_atoms+1)/2))

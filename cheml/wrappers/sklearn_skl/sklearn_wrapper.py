@@ -84,7 +84,6 @@ class Imputer(BASE):
         # delete all inputs
         del self.inputs
 
-
 # scaler
 
 # feature selector
@@ -248,7 +247,7 @@ class ShuffleSplit(BASE):
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.required('dfx', req=True)
-                dfx = self.inputs['df'].value
+                dfx = self.inputs['dfx'].value
                 fold_gen = api.split(dfx)
                 self.set_value('api', api)
                 self.set_value('fold_gen', fold_gen)
@@ -288,7 +287,7 @@ class StratifiedShuffleSplit(BASE):
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.required('dfx', req=True)
-                dfx = self.inputs['df'].value
+                dfx = self.inputs['dfx'].value
                 fold_gen = api.split(dfx)
                 self.set_value('api', api)
                 self.set_value('fold_gen', fold_gen)
@@ -312,18 +311,20 @@ class GridSearchCV(BASE):
         dfx = self.inputs['dfx'].value
         dfy = self.inputs['dfy'].value
         estimator = self.inputs['estimator'].value
+        self.parameters['estimator'] = estimator
 
         # step2: check parameters
         # Note: estimator is a required parameter and can be received from the input stream
         # Note: scorer is not a required parameter but can be received from the input stream
         self.paramFROMinput()
-        if 'estimator' not in self.parameters and '@' not in estimator:
-            self.parameters['estimator'] = estimator
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
         if dfy is not None:
             dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
+
+        print dfx.shape
+        print dfy.shape
 
         # step4: import module and make API
         try:
@@ -389,7 +390,7 @@ class cross_val_score(BASE):
 
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
         if dfy is not None:
             dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
@@ -428,16 +429,14 @@ class cross_val_predict(BASE):
         dfx = self.inputs['dfx'].value
         dfy = self.inputs['dfy'].value
         estimator = self.inputs['estimator'].value
-
+        self.parameters['estimator'] = estimator
         # step2: check parameters
         # Note: estimator is a required parameter and can be received from the input stream
         # Note: scorer is not a required parameter but can be received from the input stream
         self.paramFROMinput()
-        if 'estimator' not in self.parameters and '@' not in estimator:
-            self.parameters['estimator'] = estimator
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
         if dfy is not None:
             dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
@@ -476,18 +475,17 @@ class learning_curve(BASE):
         dfx = self.inputs['dfx'].value
         dfy = self.inputs['dfy'].value
         estimator = self.inputs['estimator'].value
+        self.parameters['estimator'] = estimator
 
         # step2: check parameters
         # Note: estimator is a required parameter and can be received from the input stream
         # Note: scorer is not a required parameter but can be received from the input stream
         self.paramFROMinput()
-        if 'estimator' not in self.parameters and '@' not in estimator:
-            self.parameters['estimator'] = estimator
         if type(self.parameters['train_sizes']) is str:
             self.parameters['train_sizes'] = eval(self.parameters['train_sizes'])
 
         # step3: check the dimension of input data frame
-        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='df')
+        dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
         if dfy is not None:
             dfy, _ = self.data_check('dfy', dfy, ndim=1, n0=dfx.shape[0], n1=None, format_out='ar')
 
@@ -612,6 +610,9 @@ class scorer_regression(BASE):
             elif metric =='r2':
                 from sklearn.metrics import r2_score
                 scorer = F(r2_score,**self.parameters)
+            elif metric == 'mse':
+                from sklearn.metrics import mean_squared_error
+                scorer = F(mean_squared_error, **self.parameters)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
                 err).__name__ + ': ' + err.message

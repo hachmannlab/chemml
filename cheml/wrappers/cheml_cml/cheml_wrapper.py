@@ -101,11 +101,57 @@ class load_xyz_polarizability(BASE):
                 self.set_value(token, coordinates)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'pol':
+            elif token == 'polarizability':
                 self.set_value(token, pol)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
+
+class load_comp_energy(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_comp_energy
+            entries, df = load_comp_energy()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'entries':
+                self.set_value(token, entries)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'formation_energy':
+                self.set_value(token, df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class load_crystal_structures(BASE):
+    def fit(self):
+        try:
+            from cheml.datasets import load_crystal_structures
+            entries = load_crystal_structures()
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'entries':
+                self.set_value(token, entries)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+
+
 
 class ConvertFile(BASE):
     def fit(self):
@@ -134,26 +180,29 @@ class ConvertFile(BASE):
                 self.Base.send[(self.iblock,token)] = self.outputs[token]
         del self.inputs
 
-class Scatter_2D(BASE):
+class scatter2D(BASE):
     def fit(self):
-        self.paramFROMinput()
-        dflist=[]
-        dfs = ['df1','df2','df3','df4']
-        for f in dfs:
-            df = self.inputs[f].value
-            if isinstance(df,pd.DataFrame):
-                dflist.append(df)
-        if len(dflist) == 0:
-            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
-            raise IOError(msg)
-
+        # self.paramFROMinput()
+        self.required('dfx', req=True)
+        dfx = self.inputs['dfx'].value
+        self.required('dfy', req=True)
+        dfy = self.inputs['dfy'].value
+        if 'x' in self.parameters:
+            x = self.parameters.pop('x')
+        else:
+            msg = "@Task #%i(%s): the x header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
+        if 'y' in self.parameters:
+            y = self.parameters.pop('y')
+        else:
+            msg = "@Task #%i(%s): the y header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
         try:
-            from cheml.visualization import Scatter_2D
-            model = Scatter_2D(**self.parameters)
-            fig=model.plot(dflist)
-
+            from cheml.visualization import scatter2D
+            sc = scatter2D(**self.parameters)
+            fig = sc.plot(dfx,dfy,x,y)
         except Exception as err:
-            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -168,23 +217,20 @@ class Scatter_2D(BASE):
 
 class hist(BASE):
     def fit(self):
-        self.paramFROMinput()
-        dflist=[]
-        dfs = ['df1','df2','df3','df4']
-        for f in dfs:
-            df = self.inputs[f].value
-            if isinstance(df,pd.DataFrame):
-                dflist.append(df)
-        if len(dflist) == 0:
-            msg = "@Task #%i(%s): All the input dataframes are None objects" % (self.iblock + 1, self.Task)
-            raise IOError(msg)
+        # self.paramFROMinput()
+        self.required('dfx', req=True)
+        dfx = self.inputs['dfx'].value
+        if 'x' in self.parameters:
+            x = self.parameters.pop('x')
+        else:
+            msg = "@Task #%i(%s): the x header or position is required" % (self.iblock + 1, self.Task)
+            raise NameError(msg)
         try:
             from cheml.visualization import hist
-            print self.parameters['kwargs']
-            model = hist(**self.parameters)
-            fig=model.plot(dflist)
+            hg = hist(**self.parameters)
+            fig = hg.plot(dfx, x)
         except Exception as err:
-            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' +err.message
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
@@ -197,15 +243,43 @@ class hist(BASE):
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
         del self.inputs
 
-class SaveFigure(BASE):
+class decorator(BASE):
+    def fit(self):
+        # self.paramFROMinput()
+        self.required('fig', req=True)
+        fig = self.inputs['fig'].value
+        font_params = {}
+        for p in ['family','size','weight','style','variant']:
+            if p in self.parameters:
+                font_params[p] = self.parameters.pop(p)
+        try:
+            from cheml.visualization import decorator
+            dec = decorator(**self.parameters)
+            dec.matplotlib_font(**font_params)
+            fig = dec.fit(fig)
+        except Exception as err:
+            msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, fig)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+        del self.inputs
+
+class SavePlot(BASE):
     def fit(self):
         self.required('fig', req=True)
         fig = self.inputs['fig'].value
-        self.paramFROMinput()
+        # self.paramFROMinput()
         try:
-            from cheml.visualization import SaveFigure
-            model = SaveFigure(fig,**self.parameters)
-            model.fit(self.Base.output_directory)
+            from cheml.visualization import SavePlot
+            sp = SavePlot(**self.parameters)
+            sp.save(fig, self.Base.output_directory)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + str(err.message)
             raise TypeError(msg)
@@ -443,7 +517,7 @@ class APEAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import APEAttributeGenerator
+            from cheml.chem.magpie_python import APEAttributeGenerator
             ape = APEAttributeGenerator()
             if 'packing_threshold' in self.parameters:
                 if self.parameters['packing_threshold']:
@@ -479,7 +553,7 @@ class ChargeDependentAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ChargeDependentAttributeGenerator
+            from cheml.chem.magpie_python import ChargeDependentAttributeGenerator
             cd = ChargeDependentAttributeGenerator()
             df = cd.generate_features(entries)
         except Exception as err:
@@ -506,11 +580,12 @@ class ElementalPropertyAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ElementalPropertyAttributeGenerator
-            ep = ElementalPropertyAttributeGenerator()
+            from cheml.chem.magpie_python import ElementalPropertyAttributeGenerator
             if 'elemental_properties' in self.parameters:
-                if self.parameters['elemental_properties']:
-                    ep.add_elemental_properties(self.parameters['elemental_properties'])
+                elemental_properties = self.parameters.pop('elemental_properties')
+            ep = ElementalPropertyAttributeGenerator(**self.parameters)
+            if elemental_properties:
+                ep.add_elemental_properties(elemental_properties)
             df = ep.generate_features(entries)
         except Exception as err:
             msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
@@ -536,7 +611,7 @@ class ElementFractionAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ElementFractionAttributeGenerator
+            from cheml.chem.magpie_python import ElementFractionAttributeGenerator
             ef = ElementFractionAttributeGenerator()
             df = ef.generate_features(entries)
         except Exception as err:
@@ -563,7 +638,7 @@ class ElementPairPropertyAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ElementPairPropertyAttributeGenerator
+            from cheml.chem.magpie_python import ElementPairPropertyAttributeGenerator
             epp = ElementPairPropertyAttributeGenerator()
             if 'elemental_pair_properties' in self.parameters:
                 if self.parameters['elemental_pair_properties']:
@@ -594,7 +669,7 @@ class GCLPAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import GCLPAttributeGenerator
+            from cheml.chem.magpie_python import GCLPAttributeGenerator
             gclp = GCLPAttributeGenerator()
             if 'count_phases' in self.parameters and self.parameters[
                 'count_phases']:
@@ -630,7 +705,7 @@ class IonicCompoundProximityAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import IonicCompoundProximityAttributeGenerator
+            from cheml.chem.magpie_python import IonicCompoundProximityAttributeGenerator
             icp = IonicCompoundProximityAttributeGenerator()
             if 'max_formula_unit' in self.parameters and self.parameters[
                 'max_formula_unit'] != 14:
@@ -660,7 +735,7 @@ class IonicityAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import IonicityAttributeGenerator
+            from cheml.chem.magpie_python import IonicityAttributeGenerator
             ig = IonicityAttributeGenerator()
             df = ig.generate_features(entries)
         except Exception as err:
@@ -687,7 +762,7 @@ class MeredigAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import MeredigAttributeGenerator
+            from cheml.chem.magpie_python import MeredigAttributeGenerator
             ma = MeredigAttributeGenerator()
             df = ma.generate_features(entries)
         except Exception as err:
@@ -714,7 +789,7 @@ class StoichiometricAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import StoichiometricAttributeGenerator
+            from cheml.chem.magpie_python import StoichiometricAttributeGenerator
             sg = StoichiometricAttributeGenerator()
             if 'p_norms' in self.parameters:
                 if self.parameters['p_norms']:
@@ -744,7 +819,7 @@ class ValenceShellAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ValenceShellAttributeGenerator
+            from cheml.chem.magpie_python import ValenceShellAttributeGenerator
             vs = ValenceShellAttributeGenerator()
             df = vs.generate_features(entries)
         except Exception as err:
@@ -771,7 +846,7 @@ class YangOmegaAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import YangOmegaAttributeGenerator
+            from cheml.chem.magpie_python import YangOmegaAttributeGenerator
             yo = YangOmegaAttributeGenerator()
             df = yo.generate_features(entries)
         except Exception as err:
@@ -798,7 +873,7 @@ class APRDFAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import APRDFAttributeGenerator
+            from cheml.chem.magpie_python import APRDFAttributeGenerator
             aprdf = APRDFAttributeGenerator()
             if 'cut_off_distance' in self.parameters:
                 if self.parameters['cut_off_distance'] != 10.0:
@@ -838,7 +913,7 @@ class ChemicalOrderingAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import ChemicalOrderingAttributeGenerator
+            from cheml.chem.magpie_python import ChemicalOrderingAttributeGenerator
             co = ChemicalOrderingAttributeGenerator()
             if 'shells' in self.parameters:
                 if self.parameters['shells']:
@@ -874,7 +949,7 @@ class CoordinationNumberAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import CoordinationNumberAttributeGenerator
+            from cheml.chem.magpie_python import CoordinationNumberAttributeGenerator
             cn = CoordinationNumberAttributeGenerator()
             df = cn.generate_features(entries)
         except Exception as err:
@@ -901,7 +976,7 @@ class CoulombMatrixAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import CoulombMatrixAttributeGenerator
+            from cheml.chem.magpie_python import CoulombMatrixAttributeGenerator
             cm = CoulombMatrixAttributeGenerator()
             if 'n_eigenvalues' in self.parameters:
                 if self.parameters['n_eigenvalues']:
@@ -933,7 +1008,7 @@ class EffectiveCoordinationNumberAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import EffectiveCoordinationNumberAttributeGenerator
+            from cheml.chem.magpie_python import EffectiveCoordinationNumberAttributeGenerator
             ecn = EffectiveCoordinationNumberAttributeGenerator()
             df = ecn.generate_features(entries)
         except Exception as err:
@@ -960,7 +1035,7 @@ class LatticeSimilarityAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import LatticeSimilarityAttributeGenerator
+            from cheml.chem.magpie_python import LatticeSimilarityAttributeGenerator
             ls = LatticeSimilarityAttributeGenerator()
             df = ls.generate_features(entries)
         except Exception as err:
@@ -987,7 +1062,7 @@ class LocalPropertyDifferenceAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import LocalPropertyDifferenceAttributeGenerator
+            from cheml.chem.magpie_python import LocalPropertyDifferenceAttributeGenerator
             lpd = LocalPropertyDifferenceAttributeGenerator()
             if 'shells' in self.parameters:
                 if not (len(self.parameters['shells']) == 1 and
@@ -1020,7 +1095,7 @@ class LocalPropertyVarianceAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import LocalPropertyVarianceAttributeGenerator
+            from cheml.chem.magpie_python import LocalPropertyVarianceAttributeGenerator
             lpv = LocalPropertyVarianceAttributeGenerator()
             if 'shells' in self.parameters:
                 if not (len(self.parameters['shells']) == 1 and
@@ -1053,7 +1128,7 @@ class PackingEfficiencyAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import PackingEfficiencyAttributeGenerator
+            from cheml.chem.magpie_python import PackingEfficiencyAttributeGenerator
             pe = PackingEfficiencyAttributeGenerator()
             df = pe.generate_features(entries)
         except Exception as err:
@@ -1080,7 +1155,7 @@ class PRDFAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import PRDFAttributeGenerator
+            from cheml.chem.magpie_python import PRDFAttributeGenerator
             prdf = PRDFAttributeGenerator()
             if 'cut_off_distance' in self.parameters:
                 if self.parameters['cut_off_distance'] != 10.0:
@@ -1116,7 +1191,7 @@ class StructuralHeterogeneityAttributeGenerator(BASE):
         self.required('entries', req=True)
         entries = self.inputs['entries'].value
         try:
-            from cheml.chem import StructuralHeterogeneityAttributeGenerator
+            from cheml.chem.magpie_python import StructuralHeterogeneityAttributeGenerator
             sh = StructuralHeterogeneityAttributeGenerator()
             df = sh.generate_features(entries)
         except Exception as err:
@@ -1136,6 +1211,59 @@ class StructuralHeterogeneityAttributeGenerator(BASE):
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
 
         del self.inputs
+
+class CompositionEntry(BASE):
+    def fit(self):
+        # self.paramFROMinput()
+        # self.required('entries', req=True)
+        # entries = self.inputs['entries'].value
+        try:
+            from cheml.chem.magpie_python import CompositionEntry
+            composition_list = CompositionEntry.import_composition_list(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'entries':
+                self.set_value(token, composition_list)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
+class CrystalStructureEntry(BASE):
+    def fit(self):
+        # self.paramFROMinput()
+        # self.required('entries', req=True)
+        # entries = self.inputs['entries'].value
+        try:
+            from cheml.chem.magpie_python import CrystalStructureEntry
+            structures_list = CrystalStructureEntry.import_structures_list(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+        order = [edge[1] for edge in self.Base.graph if
+                 edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (
+                    self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'entries':
+                self.set_value(token, structures_list)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        del self.inputs
+
 
 # data manipulation
 
@@ -1415,6 +1543,114 @@ class Split(BASE):
 ##################################################################### 3 Define Model
 
 # Regression
+
+class MLP(BASE):
+    def fit(self):
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = None
+
+        # step4: import module and make APIs
+        try:
+            from cheml.nn.keras import MLP
+            if method is None:
+                model = MLP(**self.parameters)
+            elif method == 'fit':
+                model = MLP(**self.parameters)
+                self.required('dfx', req=True)
+                dfx = self.inputs['dfx'].value
+                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+                self.required('dfy', req=True)
+                dfy = self.inputs['dfy'].value
+                dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=dfx.shape[0], n1=None, format_out='ar')
+                model.fit(dfx,dfy)
+            elif method == 'predict':
+                self.required('dfx', req=True)
+                self.required('api', req=True)
+                dfx = self.inputs['dfx'].value
+                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+                model = self.inputs['api'].value
+                dfy_predict = model.predict(dfx)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                    err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'api':
+                self.set_value(token, model)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'dfy_predict':
+                self.set_value(token, pd.DataFrame(dfy_predict))
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs
+
+class MLP_sklearn(BASE):
+    def fit(self):
+        # step2: assign inputs to parameters if necessary (param = @token)
+        self.paramFROMinput()
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = None
+
+        # step4: import module and make APIs
+        try:
+            from cheml.nn.keras import MLP_sklearn
+            if method is None:
+                model = MLP_sklearn(**self.parameters)
+            elif method == 'fit':
+                model = MLP_sklearn(**self.parameters)
+                self.required('dfx', req=True)
+                dfx = self.inputs['dfx'].value
+                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+                self.required('dfy', req=True)
+                dfy = self.inputs['dfy'].value
+                dfy, _ = self.data_check('dfy', dfy, ndim=2, n0=dfx.shape[0], n1=None, format_out='ar')
+                model.fit(dfx,dfy)
+            elif method == 'predict':
+                self.required('dfx', req=True)
+                self.required('api', req=True)
+                dfx = self.inputs['dfx'].value
+                dfx, _ = self.data_check('dfx', dfx, ndim=2, n0=None, n1=None, format_out='ar')
+                model = self.inputs['api'].value
+                dfy_predict = model.predict(dfx)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                    err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'api':
+                self.set_value(token, model)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'dfy_predict':
+                self.set_value(token, pd.DataFrame(dfy_predict))
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs
 
 # class mlp_hogwild(BASE):
 #     def fit(self):

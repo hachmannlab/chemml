@@ -321,7 +321,7 @@ class SaveFile(object):
             raise TypeError(msg)
 
         if self.output_directory:
-            self.output_directory = main_directory + '/' + self.output_directory
+            self.output_directory = os.path.join(main_directory, self.output_directory)
             if not os.path.exists(self.output_directory):
                 os.makedirs(self.output_directory)
             if self.record_time:

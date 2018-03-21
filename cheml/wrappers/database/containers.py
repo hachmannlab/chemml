@@ -38,6 +38,9 @@ def req(ind):
                 5 : ('lxml', '3.4.0'),
                 6 : ('Babel', '2.3.4'),
                 7 : ('matplotlib','1.5.1'),
+                8 : ('keras', ''),
+                9 : ('tensorflow', ''),
+                10: ('deap', '1.2.2')
               }
     return all_req[ind]
 
@@ -51,14 +54,15 @@ def regression_types():
                  "<class 'sklearn.linear_model.bayes.ARDRegression'>", "<class 'sklearn.linear_model.logistic.LogisticRegression'>",
                  "<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>", "<class 'sklearn.svm.classes.SVR'>",
                  "<class 'sklearn.svm.classes.NuSVR'>", "<class 'sklearn.svm.classes.LinearSVR'>", "<class 'sklearn.neural_network.multilayer_perceptron.MLPRegressor'>"]
-    cheml_types = ["<class 'cheml.nn.nn_psgd.mlp_hogwild'>"]
+    cheml_types = ["<class 'cheml.nn.keras.mlp.MLP_sklearn'>"]
     all_types = tuple(sklearn_types+cheml_types)
     return all_types
 
-def cv_types():
+def cv_classes():
     """all objects to be used as a cross-validation generator"""
     all_types = ("<class 'sklearn.model_selection._split.KFold'>", "<class 'sklearn.model_selection._split.ShuffleSplit'>",
-                    "<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>")
+                    "<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>",
+                 "<class 'sklearn.model_selection._split.LeaveOneOut'>")
 
     return all_types
 

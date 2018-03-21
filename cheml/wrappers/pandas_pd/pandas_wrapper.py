@@ -145,6 +145,37 @@ class corr(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
+# Visualize
+class plot(BASE):
+    def fit(self):
+        # step1: check inputs
+        self.required('df', True)
+        df = self.inputs['df'].value
+        # step2: assign inputs to parameters if necessary (param = @token)
+        # self.paramFROMinput()
+        # step3: check the dimension of input data frame
+        # step4: import module and make APIs
+        try:
+            ax = df.plot(**self.parameters)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'fig':
+                self.set_value(token, ax)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs
+
 
 # Store
 class to_csv(BASE):

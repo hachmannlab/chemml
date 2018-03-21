@@ -1,4 +1,4 @@
-from .containers import Input, Output, Parameter, req, regression_types, cv_types
+from .containers import Input, Output, Parameter, req, regression_types, cv_classes
 
 class Binarizer(object):
     task = 'Prepare'
@@ -317,7 +317,7 @@ class ShuffleSplit(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn.model_selection.ShuffleSplit"
 
     class Inputs:
-        df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class Outputs:
         fold_gen = Output("fold_gen","Generator of indices to split data into training and test set", ("<type 'generator'>",))
         api = Output("api","instance of scikit-learn's ShuffleSplit class", ("<class 'sklearn.model_selection._split.ShuffleSplit'>",))
@@ -341,7 +341,7 @@ class StratifiedShuffleSplit(object):
     documentation = "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit"
 
     class Inputs:
-        df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class Outputs:
         fold_gen = Output("fold_gen","Generator of indices to split data into training and test set", ("<type 'generator'>",))
         api = Output("api","instance of scikit-learn's StratifiedShuffleSplit class", ("<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>",))
@@ -1030,7 +1030,9 @@ class GridSearchCV(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", tuple(["<type 'str'>"]+list(regression_types())))
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<type 'str'>","<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        cv = Input("cv", "instance of scikit-learn's cross validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
+
     class Outputs:
         cv_results_ = Output("cv_results_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         api = Output("api","instance of scikit-learn's GridSearchCV class", ("<class 'sklearn.grid_search.GridSearchCV'>",))
@@ -1047,11 +1049,12 @@ class GridSearchCV(object):
         refit = Parameter('refit', True)
         return_train_score = Parameter('return_train_score', True)
         iid = Parameter('iid', True)
-        estimator = Parameter('estimator', 'required_required')
+        estimator = Parameter('estimator', '@estimator')
         error_score = Parameter('error_score','raise')
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
         param_grid = Parameter('param_grid', 'required_required')
         cv = Parameter('cv', None)
+
 class cross_val_predict(object):
     task = 'Search'
     subtask = 'validate'
@@ -1065,7 +1068,8 @@ class cross_val_predict(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
-        cv = Input("cv","cross-validation generator", ("<type 'generator'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        cv = Input("cv","cross-validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
@@ -1073,8 +1077,8 @@ class cross_val_predict(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', 'required_required')
-        X = Parameter('X', 'required_required')
+        estimator = Parameter('estimator', '@estimator')
+        X = Parameter('X', '@dfx')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         cv = Parameter('cv', None)
@@ -1097,7 +1101,7 @@ class cross_val_score(object):
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
-        cv = Input("cv", "cross-validation generator", ("<type 'generator'>",))
+        cv = Input("cv", "cross-validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
 
     class Outputs:
         scores = Output("scores","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
@@ -1106,8 +1110,8 @@ class cross_val_score(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', 'required_required')
-        X = Parameter('X', 'required_required')
+        estimator = Parameter('estimator', '@estimator')
+        X = Parameter('X', '@dfx')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         scoring = Parameter('scoring', None)
@@ -1130,7 +1134,8 @@ class learning_curve(object):
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
         scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
-        cv = Input("cv","instance of scikit-learn's cross validation generator", ("<class 'sklearn.model_selection._split.KFold'>","<class 'sklearn.model_selection._split.ShuffleSplit'>","<class 'sklearn.model_selection._split.StratifiedShuffleSplit'>",))
+        cv = Input("cv","instance of scikit-learn's cross validation generator or instance object",
+                   tuple(["<type 'generator'>"] + list(cv_classes())))
     class Outputs:
         train_sizes_abs = Output("train_sizes_abs","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         extended_result_ = Output("extended_result_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
@@ -1141,8 +1146,8 @@ class learning_curve(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', 'required_required')
-        X = Parameter('X', 'required_required')
+        estimator = Parameter('estimator', '@estimator')
+        X = Parameter('X', '@dfx')
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         train_sizes = Parameter('train_sizes', [ 0.1, 0.33, 0.55, 0.78,1.])
@@ -1245,8 +1250,8 @@ class scorer_regression(object):
     class WParameters:
         metric = Parameter('metric','mae',
                         description = "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics",
-                        format = "string: 'mae', 'mse', 'rmse', 'r2'",
-                        options = ('mae', 'mse', 'rmse', 'r2'))
+                        format = "string: 'mae', 'mse', 'r2'",
+                        options = ('mae', 'mse', 'r2'))
         track_header = Parameter('track_header', True,'Boolean',
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))

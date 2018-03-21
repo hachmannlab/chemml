@@ -1,9 +1,12 @@
+import numpy as np
+
 from keras.models import Sequential
 from keras.optimizers import SGD
 
-import numpy as np
 from json import load
 from importlib import import_module
+
+from sklearn.base import BaseEstimator, RegressorMixin
 
 
 class MLP(object):
@@ -129,7 +132,7 @@ class MLP(object):
             Predicted value from model
 
         """
-        return self.model.predict(X).squeeze() if self.regression else np.argmax(self.model.predict(X).squeeze())
+        return self.model.predict(X).squeeze() if self.is_regression else np.argmax(self.model.predict(X).squeeze())
 
     def score(self, X, y):
         """
@@ -198,4 +201,140 @@ class MLP(object):
         keras_opt_module = import_module('keras.optimizers')
         opt = getattr(keras_opt_module, opt_name)(**opt_params)
         return opt
+
+class MLP_sklearn(BaseEstimator, RegressorMixin):
+    """
+    A Scikit_learn wrapper around Multi-Layer Perceptron (Neural Network) implemented in keras to be used as
+    part of your scikit_learn workflow.
+
+    Parameters
+    ----------
+    nhidden : int, optional, default: 1
+        The number of hidden layers in the neural network (excluding input and output)
+
+    nneurons: list, optional, default: [100] * nhidden
+        The number of nodes in each hidden layer. Must be of same length as nhidden
+
+    activations: list, optional, default: ['sigmoid'] * nhidden
+        The activation type for each hidden layer. Must be of same length as nhidden.
+        Refer https://keras.io/activations/ for list of valid activations
+
+    nepochs: int, optional, default: 100
+        Number of training epochs.
+
+    batch_size: int, optional, default: 100
+        Number of training samples in mini-batch
+
+    loss: str, optional, default: 'mean_squared_error'
+        Type of loss used to train the neural network.
+        Refer https://keras.io/losses/ for list of valid losses
+
+    regression: bool, optional, default: True
+        Decides whether we are training for regression or classification task
+
+    nclasses: int, optional, default: None
+        Number of classes labels needs to be specified if regression is False
+
+    layer_config_file: str, optional, default: None
+        Path to the file that specifies layer configuration
+        Refer MLP test to see a sample file
+
+    opt_config_file: str, optional, default: None
+        Path to the file that specifies optimizer configuration
+        Refer MLP test to see a sample file
+
+
+    Attributes
+    ----------
+
+    Methods
+    -------
+
+
+    """
+    def __init__(self, nhidden=1, nneurons=None, activations=None,
+                 learning_rate=0.01, lr_decay=0.0,
+                 nepochs=100, batch_size=100, loss='mean_squared_error',
+                 regression=True, nclasses=None,
+                 layer_config_file=None, opt_config_file=None):
+        self.layer_config_file = layer_config_file
+        self.opt_config_file = opt_config_file
+        self.layers = []
+        self.nhidden = nhidden
+        self.nneurons = nneurons
+        self.activations = activations
+        self.nepochs = nepochs
+        self.batch_size = batch_size
+        self.loss = loss
+        self.regression = regression
+        self.nclasses = nclasses
+        self.learning_rate = learning_rate
+        self.lr_decay = lr_decay
+        # model will be defined only after fitting
+        self.model = None
+
+    def fit(self, X, y):
+        """Train the MLP_sklearn for training data X and targets y
+
+        Parameters
+        ----------
+        X: array_like, shape=[n_samples, n_features]
+            Training data
+
+        y: array_like, shape=[n_samples,]
+            Training targets
+
+        """
+        self.model = MLP(nhidden=self.nhidden, nneurons=self.nneurons, activations=self.activations,
+                 learning_rate=self.learning_rate, lr_decay=self.lr_decay,
+                 nepochs=self.nepochs, batch_size=self.batch_size, loss=self.loss,
+                 regression=self.regression, nclasses=self.nclasses,
+                 layer_config_file=self.layer_config_file, opt_config_file=self.opt_config_file)
+
+        self.model.fit(X,y)
+
+
+    def predict(self, X):
+        """
+        Return prediction for test data X
+
+        Parameters
+        ----------
+        X: array_like, shape=[n_samples, n_features]
+            Testing data
+
+        Returns
+        -------
+        float
+            Predicted value from model
+
+        """
+        return self.model.predict(X)
+
+
+    def score(self, X, y, sample_weight=None):
+        """
+        Predict results for test data X and compare with true targets y. Returns root mean square error if regression,
+        accuracy if classification
+
+        Parameters
+        ----------
+        X: array_like, shape=[n_samples, n_features]
+            Test data
+
+        y: array_like, shape=[n_samples,]
+            True targets
+
+        Returns
+        -------
+        float
+            root mean square error if regression, accuracy if classification
+        """
+        prediction = self.predict(X)
+        if self.regression:
+            return np.mean((prediction - y) ** 2) ** 0.5
+        else:
+            return np.sum(np.argmax(prediction, axis=1) == y) * 100. / len(y)
+
+
 

@@ -1,16 +1,16 @@
-.. _ChemML_Wrapper_Table:
 
-================
-Table of Methods
-================
+=============================
+Table of Contents
+=============================
 
-This is a complete list of all the methods that are available through the ChemML Wrapper. You can click on each function name
+This is a complete list of all the methods that are available through ChemML Wrapper interface. You can click on each function
 for further information.
 
-    - task and subtask: methods are classified according to their potential role in a machine learning workflow
+Table's columns describe:
+    - task and subtask: for an easier classification of methods
     - host: the main library/dependency required for running a method
-    - function: the method name that determines a node in the final computation graph
-    - input and output tokens: the only available containers in each block that send/receive related information to/from other blocks
+    - function: the method name that determines a block/node of computation graph
+    - input and output tokens: available tokens in each block that collect specific information and send/receive it to/from other blocks
 
 
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
@@ -22,7 +22,7 @@ for further information.
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
 |  3 | Enter     | datasets               | cheml   | :ref:`load_organic_density`                          | (doesn't receive anything)      | smiles, features, density                                    |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-|  4 | Enter     | datasets               | cheml   | :ref:`load_xyz_polarizability`                       | (doesn't receive anything)      | df, coordinates                                              |
+|  4 | Enter     | datasets               | cheml   | :ref:`load_xyz_polarizability`                       | (doesn't receive anything)      | pol, coordinates                                             |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
 |  5 | Enter     | python script          | cheml   | :ref:`PyScript`                                      | iv4, iv5, iv6, iv1, iv2, iv3    | ov2, ov3, ov1, ov6, ov4, ov5                                 |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
@@ -178,11 +178,15 @@ for further information.
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
 | 81 | Search    | validate               | sklearn | :ref:`cross_val_score`                               | dfy, dfx, estimator, scorer, cv | scores                                                       |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 82 | Visualize | Plot                   | cheml   | :ref:`Scatter_2D`                                    | df4, df1, df3, df2              | fig                                                          |
+| 82 | Visualize | artist                 | cheml   | :ref:`decorator`                                     | fig                             | fig                                                          |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 83 | Visualize | Plot                   | cheml   | :ref:`hist`                                          | df4, df1, df3, df2              | fig                                                          |
+| 83 | Visualize | plot                   | cheml   | :ref:`hist`                                          | dfx                             | fig                                                          |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 84 | Store     | figure                 | cheml   | :ref:`SaveFigure`                                    | fig                             | (doesn't send anything)                                      |
+| 84 | Visualize | plot                   | cheml   | :ref:`scatter2D`                                     | dfy, dfx                        | fig                                                          |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
-| 85 | Store     | file                   | cheml   | :ref:`SaveFile`                                      | df                              | filepath                                                     |
+| 85 | Visualize | plot                   | pandas  | :ref:`plot`                                          | df                              | axes                                                         |
++----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
+| 86 | Store     | figure                 | cheml   | :ref:`SavePlot`                                      | fig                             | (doesn't send anything)                                      |
++----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+
+| 87 | Store     | file                   | cheml   | :ref:`SaveFile`                                      | df                              | filepath                                                     |
 +----+-----------+------------------------+---------+------------------------------------------------------+---------------------------------+--------------------------------------------------------------+

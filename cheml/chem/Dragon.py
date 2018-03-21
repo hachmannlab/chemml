@@ -30,11 +30,11 @@ class Dragon(object):
 
     Notes
     -----
-    The documentation for the rest of parameters can be found in the following links:
-        http://www.talete.mi.it/help/dragon_help/index.html
-        https://chm.kode-solutions.net/products_dragon_tutorial.php
+        The documentation for the rest of parameters can be found in the following links:
+            - http://www.talete.mi.it/help/dragon_help/index.html
+            - https://chm.kode-solutions.net/products_dragon_tutorial.php
 
-    In the current version, we recommend the user to use this class with the following parameters:
+        In the current version, we recommend the user to use this class with the following parameters:
         molInput = 'file'
         molfile = path to one SMILES representation file with .smi format or a dictionary of other formats
         script = 'new'

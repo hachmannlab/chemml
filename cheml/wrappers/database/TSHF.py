@@ -11,7 +11,7 @@ def tshf():
     # 7 tasks
     tasks = ['Enter', 'Represent', 'Prepare', 'Model', 'Search', 'Mix', 'Visualize', 'Store']
     extras = ['np', '__builtins__', '__doc__', '__file__', '__name__', '__package__', 'mask', 'Input', 'Output',
-              'Parameter', 'req', 'regression_types', 'cv_types']
+              'Parameter', 'req', 'regression_types', 'cv_classes']
 
     combination = {task: {} for task in tasks}
     all_classes = [k[1] for k in inspect.getmembers(sklearn_db) if k[0][0:2]!='__']

@@ -1,4 +1,4 @@
-from .containers import Input, Output, Parameter, req, regression_types, cv_types
+from .containers import Input, Output, Parameter, req, regression_types, cv_classes
 
 class PyScript(object):
     task = 'Enter'
@@ -341,6 +341,75 @@ class MissingValues(object):
 #         n_check = Parameter('n_check', 50)
 #         n_cores = Parameter('n_cores', 1)
 
+class MLP(object):
+    task = 'Model'
+    subtask = 'regression'
+    host = 'cheml'
+    function = 'MLP'
+    modules = ('cheml','nn.keras')
+    requirements = (req(0), req(8), req(9))
+    documentation = ""
+
+    class Inputs:
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of cheml.nn.keras.MLP class", ("<class 'cheml.nn.keras.mlp.MLP'>",))
+    class Outputs:
+        dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api", "instance of cheml.nn.keras.MLP class", ("<class 'cheml.nn.keras.mlp.MLP'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit', 'predict', None))
+    class FParameters:
+        nhidden = Parameter('nhidden', 1)
+        nneurons = Parameter('nneurons', 100)
+        activations = Parameter('activations', None)
+        learning_rate = Parameter('learning_rate', 0.01)
+        lr_decay = Parameter('lr_decay', 0.0)
+        nepochs = Parameter('nepochs', 100)
+        batch_size = Parameter('batch_size', 100)
+        loss = Parameter('loss', 'mean_squared_error')
+        regression = Parameter('regression', True)
+        nclasses = Parameter('nclasses', None)
+        layer_config_file = Parameter('layer_config_file', None)
+        opt_config_file = Parameter('opt_config_file', None)
+
+class MLP_sklearn(object):
+    task = 'Model'
+    subtask = 'regression'
+    host = 'cheml'
+    function = 'MLP_sklearn'
+    modules = ('cheml','nn.keras')
+    requirements = (req(0), req(1), req(8), req(9))
+    documentation = ""
+
+    class Inputs:
+        dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Input("api", "instance of cheml.nn.keras.MLP_sklearn class", ("<class 'cheml.nn.keras.mlp.MLP_sklearn'>",))
+    class Outputs:
+        dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        api = Output("api", "instance of cheml.nn.keras.MLP_sklearn class", ("<class 'cheml.nn.keras.mlp.MLP_sklearn'>",))
+    class WParameters:
+        func_method = Parameter('func_method','None','string',
+                        description = "",
+                        options = ('fit', 'predict', None))
+    class FParameters:
+        nhidden = Parameter('nhidden', 1)
+        nneurons = Parameter('nneurons', 100)
+        activations = Parameter('activations', None)
+        learning_rate = Parameter('learning_rate', 0.01)
+        lr_decay = Parameter('lr_decay', 0.0)
+        nepochs = Parameter('nepochs', 100)
+        batch_size = Parameter('batch_size', 100)
+        loss = Parameter('loss', 'mean_squared_error')
+        regression = Parameter('regression', True)
+        nclasses = Parameter('nclasses', None)
+        layer_config_file = Parameter('layer_config_file', None)
+        opt_config_file = Parameter('opt_config_file', None)
+
+
 class SaveFile(object):
     task = 'Store'
     subtask = 'file'
@@ -519,6 +588,9 @@ class SavePlot(object):
         format=Parameter('format','png')
         kwargs = Parameter('kwargs', {})
 
+
+
+####################################################
 class load_cep_homo(object):
     task = 'Enter'
     subtask = 'datasets'
@@ -578,7 +650,50 @@ class load_xyz_polarizability(object):
     class FParameters:
         pass
 
+class load_comp_energy(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_comp_energy'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
 
+    class Inputs:
+        pass
+    class Outputs:
+        entries = Output("entries","list of entries from "
+                                                      "CompositionEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+        formation_energy = Output("formation_energy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+class load_crystal_structures(object):
+    task = 'Enter'
+    subtask = 'datasets'
+    host = 'cheml'
+    function = 'load_crystal_structures'
+    modules = ('cheml','datasets')
+    requirements = (req(0),req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+    class Outputs:
+        entries = Output("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        pass
+
+####################################################
 class APEAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
@@ -637,9 +752,10 @@ class ElementalPropertyAttributeGenerator(object):
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
-        use_default_properties = Parameter('use_default_properties', None)
-    class FParameters:
         elemental_properties = Parameter('elemental_properties', None)
+
+    class FParameters:
+        use_default_properties = Parameter('use_default_properties', True)
 
 class ElementFractionAttributeGenerator(object):
     task = 'Represent'
@@ -694,14 +810,20 @@ class GCLPAttributeGenerator(object):
         entries = Input("entries","list of entries from "
                                                       "CompositionEntry class.",
                                       ("<type 'list'>",))
+        energies = Input("energies","to be passed to the parameter energies",
+                         ("<class 'pandas.core.frame.DataFrame'>",))
+
+        phases = Input("phases", "to be passed to the parameter phases",
+                     ("<class 'pandas.core.frame.DataFrame'>",))
+
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class WParameters:
         pass
     class FParameters:
         count_phases = Parameter('count_phases', None)
-        phases = Parameter('phases', None, 'required_required')
-        energies = Parameter('energies', None, 'required_required')
+        phases = Parameter('phases', 'required_required')
+        energies = Parameter('energies', 'required_required')
 
 class IonicCompoundProximityAttributeGenerator(object):
     task = 'Represent'
@@ -1063,3 +1185,51 @@ class StructuralHeterogeneityAttributeGenerator(object):
         pass
     class FParameters:
         pass
+
+class CompositionEntry(object):
+    task = 'Represent'
+    subtask = 'inorganic input'
+    host = 'cheml'
+    function = 'CompositionEntry'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+        # filepath = Input("filepath", "the file path", ("<type 'str'>",))
+
+    class Outputs:
+        entries = Output("entries","list of entries from "
+                                                      "CompositionEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        filepath = Parameter("filepath", "required_required")
+
+class CrystalStructureEntry(object):
+    task = 'Represent'
+    subtask = 'inorganic input'
+    host = 'cheml'
+    function = 'CrystalStructureEntry'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        pass
+        # directory_path = Input("directory_path", "path to the directory containing  VASP files", ("<type 'str'>",))
+
+    class Outputs:
+        entries = Output("entries","list of entries from "
+                                                      "CrystalStructureEntry "
+                                  "class.",
+                                      ("<type 'list'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        directory_path = Parameter("directory_path", "required_required")
+
+

@@ -1,4 +1,4 @@
-from .containers import Input, Output, Parameter, req, regression_types, cv_types
+from .containers import Input, Output, Parameter, req, regression_types, cv_classes
 
 class read_table(object):
     task = 'Enter'
@@ -151,6 +151,7 @@ class concat(object):
         pass
     class FParameters:
         join = Parameter('join', 'outer')
+        axis = Parameter('axis', 0)
         join_axes = Parameter('join_axes', None)
         ignore_index = Parameter('ignore_index', False)
         keys = Parameter('keys', None)

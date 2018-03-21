@@ -212,7 +212,7 @@ class BASE(object):
         if (X.ndim == ndim < 3):
             pass
         elif (X.ndim == 1) and (ndim == 2):
-            X = np.array([[i] for i in X])
+            X = X.reshape(-1,1)
         elif (X.ndim == 2) and (X.shape[1] == 1) and (ndim == 1):
             X = X.ravel()
         else:
@@ -245,7 +245,7 @@ class BASE(object):
         """
         if isinstance(X, pd.DataFrame):
             if format_out == 'ar':
-                print '%s.ndim:'%token, X.values.ndim, "; changing to %i-dimension ..." %ndim
+                # print '%s.ndim:'%token, X.values.ndim, "; changing to %i-dimension ..." %ndim
                 header = X.columns
                 X = self._dim_check(token, X.values, ndim)
             else:
@@ -267,11 +267,11 @@ class BASE(object):
             raise Exception(msg)
 
         if n0 and X.shape[0] != n0:
-            msg = "@Task #%i(%s): %s has an invalid number of data entries" \
+            msg = "@Task #%i(%s): %s has an inconsistant number of data entries" \
                   % (self.iblock + 1, self.Task, token)
             raise Exception(msg)
         if n1 and X.shape[1] != n1:
-            msg = "@Task #%i(%s): %s has an invalid number of feature entries" \
+            msg = "@Task #%i(%s): %s has an inconsistant number of feature entries" \
                   % (self.iblock + 1, self.Task, token)
             raise Exception(msg)
         return X, header #X.astype(float), header

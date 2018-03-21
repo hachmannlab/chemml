@@ -16,7 +16,7 @@ class TestConstantColumns(unittest.TestCase):
         mv = MissingValues(strategy = 'zero',
                            string_as_null = True,
                            inf_as_null = True,
-                           missing_values = False)
+                           missing_values = None)
         f = mv.fit_transform(df)
         t = mv.fit_transform(target)
         self.assertEqual((5,9), f.shape)

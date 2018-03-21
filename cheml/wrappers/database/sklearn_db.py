@@ -1049,10 +1049,10 @@ class GridSearchCV(object):
         refit = Parameter('refit', True)
         return_train_score = Parameter('return_train_score', True)
         iid = Parameter('iid', True)
-        estimator = Parameter('estimator', '@estimator')
+        estimator = Parameter('estimator', '@estimator', required=True)
         error_score = Parameter('error_score','raise')
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
-        param_grid = Parameter('param_grid', 'required_required')
+        param_grid = Parameter('param_grid', {}, required=True)
         cv = Parameter('cv', None)
 
 class cross_val_predict(object):
@@ -1077,8 +1077,8 @@ class cross_val_predict(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '@estimator')
-        X = Parameter('X', '@dfx')
+        estimator = Parameter('estimator', '@estimator', required=True)
+        X = Parameter('X', '@dfx', required=True)
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         cv = Parameter('cv', None)
@@ -1110,8 +1110,8 @@ class cross_val_score(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '@estimator')
-        X = Parameter('X', '@dfx')
+        estimator = Parameter('estimator', '@estimator', required=True)
+        X = Parameter('X', '@dfx', required=True)
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         scoring = Parameter('scoring', None)
@@ -1146,8 +1146,8 @@ class learning_curve(object):
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
                         options = (True, False))
     class FParameters:
-        estimator = Parameter('estimator', '@estimator')
-        X = Parameter('X', '@dfx')
+        estimator = Parameter('estimator', '@estimator', required=True)
+        X = Parameter('X', '@dfx', required=True)
         y = Parameter('y', None)
         groups = Parameter('groups', None)
         train_sizes = Parameter('train_sizes', [ 0.1, 0.33, 0.55, 0.78,1.])

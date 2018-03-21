@@ -38,8 +38,8 @@ def req(ind):
                 5 : ('lxml', '3.4.0'),
                 6 : ('Babel', '2.3.4'),
                 7 : ('matplotlib','1.5.1'),
-                8 : ('keras', ''),
-                9 : ('tensorflow', ''),
+                8 : ('keras', '2.1.2'),
+                9 : ('tensorflow', '1.4.1'),
                 10: ('deap', '1.2.2')
               }
     return all_req[ind]

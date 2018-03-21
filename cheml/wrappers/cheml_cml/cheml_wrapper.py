@@ -1271,7 +1271,10 @@ class MissingValues(BASE):
     def fit(self):
         # parameters
         self.paramFROMinput()
-        method = self.parameters.pop('func_method')
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = None
         # get df value only in case method is None, but output df is requested
         df = self.inputs['df'].value
 
@@ -1318,7 +1321,10 @@ class ConstantColumns(BASE):
     def fit(self):
         # parameters
         self.paramFROMinput()
-        method = self.parameters.pop('func_method')
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = None
         # get df value only in case method is None, but output df is requested
         df = self.inputs['df'].value
 
@@ -1805,7 +1811,71 @@ class kfold_pool(BASE):
         #step7: delete all inputs from memory
         del self.legal_inputs
 
-##################################################################### 7 Store
+##################################################################### 7 Search
+class GA_DEAP(BASE):
+    def fit(self):
+        # parameters
+        self.paramFROMinput()
+        # func_method default value
+        if 'func_method' in self.parameters:
+            method = self.parameters.pop('func_method')
+        else:
+            method = 'algorithm_1'
+        if 'init_pop_frac' in self.parameters:
+            init_pop_frac = self.parameters.pop('init_pop_frac')
+        else:
+            init_pop_frac = 0.35
+        if 'crossover_pop_frac' in self.parameters:
+            crossover_pop_frac = self.parameters.pop('crossover_pop_frac')
+        else:
+            crossover_pop_frac = 0.35
+
+        # step4: import module and make APIs
+        try:
+            from cheml.search import GA_DEAP
+            model = GA_DEAP(**self.parameters)
+            model.fit()
+            if method == 'algorithm_1':
+                best_ind_df, best_individual = model.algorithm_1()
+            elif method == 'algorithm_2':
+                best_ind_df, best_individual = model.algorithm_2(init_pop_frac=init_pop_frac,
+                                                                 crossover_pop_frac=crossover_pop_frac)
+            elif method == 'algorithm_3':
+                best_ind_df, best_individual = model.algorithm_3()
+            elif method == 'algorithm_4':
+                best_ind_df, best_individual = model.algorithm_4(crossover_pop_frac=crossover_pop_frac)
+            else:
+                msg = "@Task #%i(%s): the func_method is not valid. try one of these methods: ('algorithm_1', " \
+                      "'algorithm_2', 'algorithm_3', 'algorithm_4')"% (self.iblock + 1, self.Task)
+                raise Exception(msg)
+        except Exception as err:
+            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
+                err).__name__ + ': ' + str(err.message)
+            raise TypeError(msg)
+
+        # step5: process
+        # step6: send out
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'best_ind_df':
+                self.set_value(token, best_ind_df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'best_individual':
+                removed_columns_ = pd.DataFrame(list(best_individual))
+                self.set_value(token, removed_columns_)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs
+
+
+
+##################################################################### 8 Store
 
 class SaveFile(BASE):
     def fit(self):

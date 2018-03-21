@@ -588,6 +588,46 @@ class SavePlot(object):
         format=Parameter('format','png')
         kwargs = Parameter('kwargs', {})
 
+class GA_DEAP(object):
+    task='Search'
+    subtask = 'genetic algorithm'
+    host = 'cheml'
+    function = 'GA_DEAP'
+    modules = ('cheml','search')
+    requirements = (req(0),req(2),req(10))
+    documentation = ""
+
+    class Inputs:
+        evaluate = Input('evaluate', "a function that receives a list of individuals and returns the score",
+                    ("<type 'function'>",))
+
+    class Outputs:
+        best_ind_df = Output('best_ind_df',"pandas dataframe of best individuals after each iteration", ("<class 'pandas.core.frame.DataFrame'>",))
+        best_individual = Output('best_individual', "pandas dataframe of the best individual",("<class 'pandas.core.frame.DataFrame'>",))
+
+    class WParameters:
+        func_method = Parameter('func_method','algorithm_1','string',
+                        description = "a method of the GA_DEAP class that should be applied",
+                        options = ('algorithm_1', 'algorithm_2', 'algorithm_3', 'algorithm_4'))
+
+    class FParameters:
+        Evaluate = Parameter('Evaluate', '@evaluate', required=True)
+        Weights = Parameter('Weights', (-1.0,))
+        chromosome_length = Parameter('chromosome_length', 1)
+        chromosome_type = Parameter('chromosome_type', (1,))
+        bit_limits = Parameter('bit_limits', ((0, 10),))
+        pop_size = Parameter('pop_size', 50)
+        crossover_prob = Parameter('crossover_prob', 0.4)
+        crossover_type = Parameter('crossover_type', 'Blend')
+        mutation_prob = Parameter('mutation_prob', 0.4)
+        mut_float_mean = Parameter('mut_float_mean', 0)
+        mut_float_dev = Parameter('mut_float_dev', 1)
+        mut_int_lower = Parameter('mut_int_lower', (1,))
+        mut_int_upper = Parameter('mut_int_upper', (10,))
+        n_generations = Parameter('n_generations', 20)
+
+        init_pop_frac = Parameter('init_pop_frac', 0.35,'float, only for algorithm 2')
+        crossover_pop_frac = Parameter('crossover_pop_frac', 0.35, 'float, only for algorithms 2 and 4')
 
 
 ####################################################
@@ -822,8 +862,8 @@ class GCLPAttributeGenerator(object):
         pass
     class FParameters:
         count_phases = Parameter('count_phases', None)
-        phases = Parameter('phases', 'required_required')
-        energies = Parameter('energies', 'required_required')
+        phases = Parameter('phases', [], required=True)
+        energies = Parameter('energies', [], required=True)
 
 class IonicCompoundProximityAttributeGenerator(object):
     task = 'Represent'
@@ -968,7 +1008,7 @@ class APRDFAttributeGenerator(object):
         num_points = Parameter('num_points', 6)
         smooth_parameter = Parameter('smooth_parameter', 4.0)
         elemental_properties = Parameter('elemental_properties',
-                                         'required_required')
+                                         'required_required', required=True)
 
 class ChemicalOrderingAttributeGenerator(object):
     task = 'Represent'
@@ -1097,7 +1137,7 @@ class LocalPropertyDifferenceAttributeGenerator(object):
     class FParameters:
         shells = Parameter('shells', [1])
         elemental_properties = Parameter('elemental_properties',
-                                         'required_required')
+                                         'required_required', required=True)
 
 class LocalPropertyVarianceAttributeGenerator(object):
     task = 'Represent'
@@ -1120,7 +1160,7 @@ class LocalPropertyVarianceAttributeGenerator(object):
     class FParameters:
         shells = Parameter('shells', [1])
         elemental_properties = Parameter('elemental_properties',
-                                         'required_required')
+                                         'required_required', required=True)
 
 class PackingEfficiencyAttributeGenerator(object):
     task = 'Represent'
@@ -1207,7 +1247,7 @@ class CompositionEntry(object):
     class WParameters:
         pass
     class FParameters:
-        filepath = Parameter("filepath", "required_required")
+        filepath = Parameter("filepath", "required_required", required=True)
 
 class CrystalStructureEntry(object):
     task = 'Represent'
@@ -1230,6 +1270,6 @@ class CrystalStructureEntry(object):
     class WParameters:
         pass
     class FParameters:
-        directory_path = Parameter("directory_path", "required_required")
+        directory_path = Parameter("directory_path", "required_required", required=True)
 
 

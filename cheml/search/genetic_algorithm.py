@@ -306,7 +306,7 @@ class GA_DEAP(object):
             b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
             b3 = pd.Series(timer, name = 'Time')
             best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            best_ind_df.to_csv('best_ind.csv',index=False)
+            # best_ind_df.to_csv('best_ind.csv',index=False)
 
         # best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
@@ -422,7 +422,7 @@ class GA_DEAP(object):
             b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
             b3 = pd.Series(timer, name = 'Time')
             best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            best_ind_df.to_csv('best_ind.csv',index=False)
+            # best_ind_df.to_csv('best_ind.csv',index=False)
 
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
@@ -533,7 +533,7 @@ class GA_DEAP(object):
             b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
             b3 = pd.Series(timer, name = 'Time')
             best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            best_ind_df.to_csv('best_ind.csv',index=False)
+            # best_ind_df.to_csv('best_ind.csv',index=False)
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
@@ -649,7 +649,7 @@ class GA_DEAP(object):
             b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
             b3 = pd.Series(timer, name = 'Time')
             best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            best_ind_df.to_csv('best_ind.csv',index=False)
+            # best_ind_df.to_csv('best_ind.csv',index=False)
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df

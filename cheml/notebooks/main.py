@@ -1331,7 +1331,7 @@ class wrapperGUI(object):
                                           indent=False,
                                           layout = widgets.Layout(margin='0px 0px 0px 10px')
             )
-            if self.pages[self.current_bid].block_params['wparams'][item].default == 'required_required':
+            if self.pages[self.current_bid].block_params['wparams'][item].required:
                 wp_checker.value = True
             wparams[item].checker = wp_checker
 
@@ -1341,7 +1341,7 @@ class wrapperGUI(object):
                 disabled=True)
 
             hwp = widgets.Box([wp])
-            if self.pages[self.current_bid].block_params['wparams'][item].default == 'required_required':
+            if self.pages[self.current_bid].block_params['wparams'][item].required:
                 hwp.layout = widgets.Layout(border='dotted red 1px')
 
             hbox = widgets.HBox([hwp, wp_checker, wformat],)
@@ -1375,7 +1375,7 @@ class wrapperGUI(object):
                                           layout = widgets.Layout(margin='0px 0px 0px 10px')
                                          )
 
-            if self.pages[self.current_bid].block_params['fparams'][item].default == 'required_required':
+            if self.pages[self.current_bid].block_params['fparams'][item].required:
                 wp_checker.value = True
             fparams[item].checker = wp_checker
 
@@ -1386,7 +1386,7 @@ class wrapperGUI(object):
                 layout = widgets.Layout(width='40%'))
 
             hwp = widgets.Box([wp])
-            if self.pages[self.current_bid].block_params['fparams'][item].default == 'required_required':
+            if self.pages[self.current_bid].block_params['fparams'][item].required:
                 hwp.layout = widgets.Layout(border='dotted red 1px')
 
 

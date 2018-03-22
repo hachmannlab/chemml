@@ -292,10 +292,7 @@ class Wrapper(LIBRARY):
                 msg = "@Task #%i(%s): no function name found" % (iblock + 1, task)
                 raise NameError(msg)
             # check host and function
-            host_function = (block['parameters']['host'], block['parameters']['function'])
-            # if not self.manual(host_function = host_function):
-            #     msg = '@Task #%i(%s): not a valid (host,function) passed: %s' % (iblock + 1, task, str(host_function) )
-            #     raise NameError(msg)
+            # host_function = (block['parameters']['host'], block['parameters']['function'])
         return 'The input file is in a correct format.'
 
     def call(self):

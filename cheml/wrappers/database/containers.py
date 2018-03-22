@@ -44,6 +44,9 @@ def req(ind):
               }
     return all_req[ind]
 
+#conda install -c conda-forge -c rdkit numpy pandas scikit-learn tensorflow keras rdkit babel deap matplotlib lxml ipywidgets lxml
+
+
 def regression_types():
     """all the regression classes that follow the sklearn format"""
     sklearn_types = ["<class 'sklearn.linear_model.base.LinearRegression'>","<class 'sklearn.linear_model.ridge.Ridge'>",

@@ -281,13 +281,25 @@ class LIBRARY(object):
     Do not instantiate this class
     """
     def references(self,host,function):
+        from ..chem.magpie_python import __all__ as magpie_all
+        from ..visualization import __all__ as matplotlib_all
+
+        # numpy
+        ref_g = "https://github.com/numpy/numpy"
+        ref_p = "Travis E, Oliphant. A guide to NumPy, USA: Trelgol Publishing, (2006)."
+        self.refs['NumPy'] = {'github': ref_g, 'paper': ref_p}
+        # pandas
+        ref_g = "https://github.com/pandas-dev/pandas"
+        ref_p = "Wes McKinney. Data Structures for Statistical Computing in Python, Proceedings of the 9th Python in Science Conference, 51-56 (2010)"
+        self.refs['Pandas'] = {'github': ref_g, 'paper': ref_p}
+
         if host == 'sklearn':
             ref_g = "https://github.com/scikit-learn/scikit-learn"
             ref_p = "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011."
             self.refs['scikit-learn'] = {'github':ref_g, 'paper':ref_p}
         elif host == 'cheml':
-            ref_g = "https://mhlari@bitbucket.org/hachmanngroup/cheml.git"
-            ref_p = "no publicatin"
+            ref_g = "https://github.com/hachmannlab/ChemML"
+            ref_p = "Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017), ChemML: A machine learning and informatics program suite for the chemical and materials sciences, https://github.com/hachmannlab/ChemML"
             self.refs['ChemML'] =  {'github': ref_g, 'paper': ref_p}
             if function == 'RDKitFingerprint':
                 ref_g = "https://github.com/rdkit"
@@ -305,6 +317,44 @@ class LIBRARY(object):
                 ref_g = "no software package"
                 ref_p = "Hansen, K.; Biegler, F.; Ramakrishnan, R.; Pronobis, W.; von Lilienfeld, O. A.; Muller, K.-R.; Tkatchenko, A. Machine Learning Predictions of Molecular Properties: Accurate Many-Body Potentials and Nonlocality in Chemical Space J. Phys. Chem. Lett. 2015, 6, 2326 2331, DOI: 10.1021/acs.jpclett.5b00831"
                 self.refs['BagofBonds'] = {'url': ref_g, 'paper': ref_p}
+            elif function in ['MLP','MLP_sklearn']:
+                ref_g = "https://github.com/fchollet/keras"
+                ref_p = "@misc{chollet2015keras,title={Keras},author={Chollet, Fran\c{c}ois and others},year={2015},publisher={GitHub},howpublished={\url{https://github.com/keras-team/keras}},}"
+                self.refs['keras'] = {'url': ref_g, 'paper': ref_p}
+            elif function in ['GA_DEAP']:
+                ref_g = "https://github.com/deap/deap"
+                ref_p = """@article{DEAP_JMLR2012,
+                                author    = " F\'elix-Antoine Fortin and Fran\c{c}ois-Michel {De Rainville} and Marc-Andr\'e Gardner and Marc Parizeau and Christian Gagn\'e ",
+                                title     = { {DEAP}: Evolutionary Algorithms Made Easy },
+                                pages    = { 2171--2175 },
+                                volume    = { 13 },
+                                month     = { jul },
+                                year      = { 2012 },
+                                journal   = { Journal of Machine Learning Research }
+                            }"""
+                self.refs['deap'] = {'url': ref_g, 'paper': ref_p}
+            elif function in magpie_all:
+                ref_g = "https://bitbucket.org/wolverton/magpie"
+                ref_p = "L. Ward, A. Agrawal, A. Choudhary, and C. Wolverton, A general-purpose machine learning framework for predicting properties of inorganic materials, npj Computational Materials, vol. 2, no. 1, Aug. 2016."
+                self.refs['magpie'] = {'url': ref_g, 'paper': ref_p}
+            elif function in matplotlib_all:
+                ref_g = "https://bitbucket.org/wolverton/magpie"
+                ref_p = """@Article{Hunter:2007,
+                              Author    = {Hunter, J. D.},
+                              Title     = {Matplotlib: A 2D graphics environment},
+                              Journal   = {Computing In Science \& Engineering},
+                              Volume    = {9},
+                              Number    = {3},
+                              Pages     = {90--95},
+                              abstract  = {Matplotlib is a 2D graphics package used for Python
+                              for application development, interactive scripting, and
+                              publication-quality image generation across user
+                              interfaces and operating systems.},
+                              publisher = {IEEE COMPUTER SOC},
+                              doi       = {10.1109/MCSE.2007.55},
+                              year      = 2007
+                        }"""
+                self.refs['matplotlib'] = {'url': ref_g, 'paper': ref_p}
         elif host == 'tf':
             ref_g = "https://github.com/tensorflow/tensorflow"
             ref_p = "M. Abadi,  P. Barham,  J. Chen,  Z. Chen,A. Davis, J. Dean, M. Devin, S. Ghemawat,G. Irving, M. Isard, M. Kudlur, J. Levenberg,R. Monga, S. Moore, D. G. Murray, B. Steiner,P. Tucker, V. Vasudevan, P. Warden, M. Wicke,Y. Yu, X. Zheng, Tensorflow:  A system forlarge-scale machine learning, in: 12th USENIXSymposium on Operating Systems Design andImplementation (OSDI 16), USENIX Associa-tion, GA, 2016, pp. 265-283"
@@ -317,175 +367,3 @@ class LIBRARY(object):
                 for source in self.refs[module]:
                     file.write('    '+source+': '+self.refs[module][source]+'\n')
                 file.write('\n')
-
-    def manual(self, host_function, token=None, slit1=None):
-        _ , _ , CMLWinfo = BANK()
-        if token:
-            if host_function in CMLWinfo:
-                if token in CMLWinfo[host_function]:
-                    if slit1[1:] not in CMLWinfo[host_function][token]:
-                        msg = "@Task #%i(%s): received an illegal input format - %s - for the token %s. " \
-                              "The list of acceptable formats are: %s" \
-                              % (self.iblock + 1, self.Task, str(slit1[1:]), token, str(CMLWinfo[host_function][token]))
-                        raise IOError(msg)
-        else:
-            if host_function not in CMLWinfo:
-                return False
-            else:
-                return True
-
-def BANK():
-    # 7 tasks
-    tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
-    # info = {'task':{'subtask':{'host':{'function':{ 'inputs': {'name':'df', 'required':True, 'value':None, 'allowed':[],
-    #                                                          'sender':(), 'py_type':pd.DataFrame
-    #                                                         }
-    #                                  'wrapper_params':{'param':{'required':False, 'value':None}
-    #                                                   }
-    #                                  'function_params':{'param': {'required': False, 'value': None}
-    #                                                    }
-    #                                }
-    #                      }
-    #                }
-    #       }
-    # }
-    # sklearn_regression_function
-    skl_regression_func = ['LinearRegression', 'Ridge', 'KernelRidge', 'Lasso', 'MultiTaskLasso', 'ElasticNet', \
-                                'MultiTaskElasticNet', 'Lars', 'LassoLars', 'BayesianRidge', 'ARDRegression', \
-                                'LogisticRegression', 'SGDRegressor', 'SVR', 'NuSVR', 'LinearSVR', 'MLPRegressor']
-
-    external_info = {('task', 'subtask'):('host', 'function')}
-    external_info = {
-            'Enter':{
-                        'input_data':{
-                                    'pandas':['read_excel', 'read_csv'],
-                                     }
-                    },
-            'Prepare':{
-                        'descriptor': {'cheml': ['RDKitFingerprint', 'Dragon', 'CoulombMatrix'],
-                                       'sklearn': ['PolynomialFeatures', 'Binarizer','OneHotEncoder']
-                                       },
-                        'scaler': {
-                                    'sklearn': ['StandardScaler','MinMaxScaler','MaxAbsScaler','RobustScaler','Normalizer']
-                                  },
-                        'feature selector': {
-                                                'sklearn': ['PCA','KernelPCA']
-                                            },
-                        'feature transformer': {
-                                                'cheml': ['TBFS']
-                                                },
-                        'basic operator': {
-                                        'cheml':['PyScript','Merge','Split', 'Constant','MissingValues','Trimmer','Uniformer'],
-                                        'sklearn': ['Imputer']
-                                          },
-                        'splitter': {
-                                        'sklearn': ['Train_Test_Split','KFold']
-                                    },
-                      },
-            'Model':{
-                        'regression':{
-                                        'cheml':['NN_PSGD','nn_dsgd'],
-                                        'sklearn':[
-                                                'OLS','Ridge','KernelRidge','Lasso','MultiTaskLasso','',
-                                                'ElasticNet','MultiTaskElasticNet','Lars','LassoLars',
-                                                'BayesianRidge', 'ARDRegression', 'LogisticRegression',
-                                                'SGDRegressor','SVR','NuSVR','LinearSVR','MLPRegressor',
-                                                ]
-                                        },
-                        'classification': {},
-                        'clustering': {},
-                    },
-            'Search':{
-                        'evolutionary': {
-                                        'cheml': ['GeneticAlgorithm_binary'],
-                                        'deep': []
-                                        },
-                        'swarm': {
-                                    'pyswarm': ['pso']
-                                 },
-                        'grid':{
-                                    'sklearn': ['GridSearchCV',]
-                                },
-                        'metrics':{
-                                        'sklearn':['Evaluate_Regression']
-                                   },
-                     },
-            'Mix':{
-                    'A': {
-                            'sklearn': ['cross_val_score',]
-                          },
-                    'B': {}
-                  },
-            'Visualize':{
-                            'matplotlib': [],
-                            'seaborn': []
-                        },
-            'Store':{
-                        'output_data':{
-                                        'cheml': ['SaveFile'],
-                                      }
-                    }
-            }
-    internal_info = {('host','function'):{'inputs':{ 'token': 'Input_instance'},
-                                          'outputs':{'token': 'Output_instance'},
-                                          'wrapper_param':{'param':{'required':True, 'value':None}
-                                                           },
-                                          'function_param':{'param':{'required':True, 'value':None}
-                                                            },
-                                         }
-                    }
-
-    pddf = "<class 'pandas.core.frame.DataFrame'>"
-    internal_info = {
-        ('cheml', 'RDKitFingerprint'): {'inputs':{'molfile': str},'outputs':{}},
-        ('cheml', 'Dragon'): {'molfile': [('filepath', 'cheml', 'SaveFile'), ]},
-        ('cheml', 'CoulombMatrix'): {'': []},
-        ('cheml', 'BagofBonds'): {'': []},
-        ('cheml', 'PyScript'): {'df1': pddf, 'df2':pddf },
-
-        ('cheml', 'ReadTable'): {'': []},
-        ('cheml', 'Merge'): {'df1': [], 'df2': []},
-        ('cheml', 'Split'): {'df': []},
-        ('cheml', 'SaveFile'): {'df': []},
-        ('cheml', 'StoreFile'): {},  # {'input':[]},
-
-        ('cheml', 'MissingValues'): {'dfx': [], 'dfy': []},
-        ('cheml', 'Trimmer'): {'': []},
-        ('cheml', 'Uniformer'): {'': []},
-        ('cheml', 'Constant'): {'df': []},
-        ('cheml', 'TBFS'): {'': []},
-        ('cheml', 'NN_PSGD'): {'dfx_train': [], 'dfy_train': [], 'dfx_test': []},
-        ('cheml', ''): {'': []},
-        ('cheml', ''): {'': []},
-
-        ('sklearn', 'SVR'): {},
-        ('sklearn', 'MLPRegressor'): {'dfx': [], 'dfy': []},
-
-        ('sklearn', 'PolynomialFeatures'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.PolynomialFeatures'>"},
-        ('sklearn', 'Binarizer'): {'df':pddf, 'api':"<class 'sklearn.preprocessing.data.Binarizer'>"},
-        ('sklearn', 'OneHotEncoder'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.data.OneHotEncoder'>"},
-        ('sklearn', 'Imputer'): {'df': pddf, 'api': "<class 'sklearn.preprocessing.imputation.Imputer'>"},
-        ('sklearn', 'StandardScaler'): {'df': pddf, 'api':""},
-        ('sklearn', 'MinMaxScaler'): {'df': pddf, 'api':""},
-        ('sklearn', 'MaxAbsScaler'): {'df': pddf, 'api': ""},
-        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
-        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
-        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
-        ('sklearn', 'RobustScaler'): {'df': pddf, 'api': ""},
-        ('sklearn', 'Train_Test_Split'): {'dfx': [], 'dfy': []},
-        ('sklearn', 'KFold'): {},
-
-        ('sklearn', 'Evaluate_Regression'): {'dfy': [], 'dfy_pred': []},
-        ('sklearn', 'scorer_regression'): {},
-        ('sklearn', 'ShuffleSplit'): {},
-        ('sklearn', 'StratifiedShuffleSplit'): {},
-        ('sklearn', 'GridSearchCV'): {},
-        ('sklearn', 'learning_curve'): {'dfx': [], 'dfy': []},
-
-
-        ('pandas', 'read_table'): {'': []},
-        ('pandas', 'corr'): {'df': []}
-
-    }
-
-    return tasks, external_info, internal_info

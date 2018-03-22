@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
+import cheml
 
 here = path.abspath(path.dirname(__file__))
 
@@ -7,23 +8,21 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-setup(  name='chemml',
-        version='0.4.1',
-        author='Mojtaba Haghighatlari',
-        author_email='mojtabah@buffalo.edu',
-        url='https://bitbucket.org/hachmanngroup/chemml',
+setup(  name = 'chemml',
+        version = cheml.__version__,
+        author=['Mojtaba Haghighatlari', 'Johannes Hachmann'],
+        author_email=['mojtabah@buffalo.edu','hachmann@buffalo.edu'],
+        url='https://github.com/hachmannlab/chemml',
         project_urls={
-            'Source': 'https://bitbucket.org/hachmanngroup/chemml',
-            'github': 'https://github.com/mojtabah/ChemML',
-            'url': 'https://mojtabah.github.io/ChemML/'
+            'Source': 'https://github.com/hachmannlab/chemml',
+            'url': 'https://hachmannlab.github.io/chemml/'
         },
         description='A Machine Learning and Informatics Program Suite for the Chemical and Materials Sciences',
         long_description=long_description,
 
         packages = find_packages(exclude=['docs', 'rst_generator']),
 
-        scripts = ['bin/cheml', 'chemmlwrapper'
-                   ],
+        py_modules = ['chemmlwrapper'],
 
         keywords=['Machine Learning', 'Data Mining', 'Quantum Chemistry', 'Materials Science', 'Informatics'],
         license='3-Clause BSD',
@@ -33,8 +32,17 @@ setup(  name='chemml',
                    'License :: OSI Approved :: 3-Clause BSD License',
                   ],
 
-        install_requires = ['numpy>=1.13', 'pandas>=0.20.3'],
+        python_requires = '==2.7',
+
+        install_requires = ['numpy>=1.13', 'pandas>=0.20.3', 'tensorflow>=1.4.1', 'keras>=2.1.2',
+                            'scikit-learn>=0.18.1', 'babel>=2.3.4', 'matplotlib>=1.5.1', 'deap>=1.2.2',
+                            'lxml','ipywidgets','graphviz'],
         extras_require={
                 'gui': ['ipywidgets', 'graphviz'],
+                'ml': ['scikit-learn>=0.18.1','tensorflow>=1.4.1', 'keras>=2.1.2'],
+                'viz': ['matplotlib>=1.5.1'],
+                'ga': ['deap>=1.2.2'],
+
+
             },
      )

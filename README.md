@@ -35,7 +35,7 @@ that are available through ChemML Wrapper will be imported on demand. Thus, the 
 Please cite the use of ChemML as:
 
 
-    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/chemml
+    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://github.com/hachmannlab/chemml
 
 
 ## License:

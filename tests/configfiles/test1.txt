@@ -1,39 +1,26 @@
-## (Enter,datasets)
+## (Search,genetic algorithm)
     << host = cheml
-    << function = load_cep_homo
-    >> homo 0
-    >> smiles 3
-
-## (Visualize,plot)
-    << host = cheml
-    << function = hist
-    << color = green
-    << x = 0
-    << bins = 20
-    >> 0 dfx
-    >> fig 1
-
-## (Store,figure)
-    << host = cheml
-    << function = SavePlot
-    << kwargs = {'normed':True}
-    << output_directory = plots
-    << filename = homo_histogram
-    >> 2 fig
-
-## (Visualize,artist)
-    << host = cheml
-    << function = decorator
-    << title = CEP_HOMO
-    << grid_color = b
-    << xlabel = eHOMO (eV)
-    << ylabel = %
-    << grid = True
-    >> 1 fig
-    >> fig 2
+    << function = GA_DEAP
+    << chromosome_type = (1,1)
+    << Evaluate = @evaluate
+    << chromosome_length = 2
+    << Weights = (1.0,)
+    << bit_limits = ((0,10), (0,5))
+    << mut_int_lower = (0,0)
+    << mut_int_upper = (10,5)
+    >> 0 evaluate
+    >> best_individual 1
 
 ## (Enter,python script)
     << host = cheml
     << function = PyScript
-    << line01 = print iv1.head()
-    >> 3 iv1
+    << line01 = def f(ind): return sum(ind),
+    << line02 = ov1 = f
+    >> ov1 0
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1
+    >> 1 iv1
+

@@ -59,6 +59,9 @@ class Testwrapper(unittest.TestCase):
         script = template12()
         wrapperRUN(script, 'trash/test.out')
 
+    def test_test1(self):
+        wrapperRUN('configfiles/test1', 'trash/test.out')
+
 
 if __name__== '__main__':
     unittest.main()

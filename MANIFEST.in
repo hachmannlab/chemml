@@ -1,0 +1,14 @@
+include README.md
+include cheml/datasets/data/*.csv
+include cheml/datasets/data/organic_xyz/*.xyz
+include cheml/datasets/data/organic_xyz/*.csv
+
+include cheml/tests/data/*.csv
+include cheml/tests/data/11/*.xyz
+include cheml/tests/data/12/*.xyz
+include cheml/tests/data/2/*.xyz
+include cheml/tests/data/3/*.xyz
+include cheml/tests/configfiles/*.txt
+
+include cheml/chem/magpie_python/test/test-files/*.vasp
+include cheml/chem/magpie_python/test/test-files/*.txt

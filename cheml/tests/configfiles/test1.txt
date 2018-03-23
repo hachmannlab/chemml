@@ -1,0 +1,26 @@
+## (Search,genetic algorithm)
+    << host = cheml
+    << function = GA_DEAP
+    << chromosome_type = (1,1)
+    << Evaluate = @evaluate
+    << chromosome_length = 2
+    << Weights = (1.0,)
+    << bit_limits = ((0,10), (0,5))
+    << mut_int_lower = (0,0)
+    << mut_int_upper = (10,5)
+    >> 0 evaluate
+    >> best_individual 1
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = def f(ind): return sum(ind),
+    << line02 = ov1 = f
+    >> ov1 0
+
+## (Enter,python script)
+    << host = cheml
+    << function = PyScript
+    << line01 = print iv1
+    >> 1 iv1
+

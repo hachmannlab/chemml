@@ -2,7 +2,7 @@
 __version__ = "0.4.1"
 __author__ = ["Mojtaba Haghighatlari (mojtabah@buffalo.edu)", "Johannes Hachmann (hachmann@buffalo.edu)"]
 
-from cheml.wrappers.engine import run as wrapperRUN
+from .wrappers.engine import run as wrapperRUN
 # from cheml.notebooks import wrapperGUI
 
 import sys

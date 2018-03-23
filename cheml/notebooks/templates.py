@@ -109,7 +109,7 @@ def template4():
     return script.strip().split('\n')
 
 def template5():
-    """Dragon"""
+    """composition"""
     script = """
                 ## (Enter,datasets)
                     << host = cheml
@@ -158,7 +158,7 @@ def template5():
     return script.strip().split('\n')
 
 def template6():
-    """Dragon"""
+    """crystal"""
     script = """
                 ## (Enter,datasets)
                     << host = cheml

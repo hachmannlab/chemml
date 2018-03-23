@@ -44,7 +44,7 @@ def req(ind):
               }
     return all_req[ind]
 
-#conda install -c conda-forge -c rdkit numpy pandas scikit-learn tensorflow keras rdkit babel deap matplotlib lxml ipywidgets lxml
+#conda install -c conda-forge -c rdkit numpy pandas scikit-learn tensorflow keras rdkit babel deap matplotlib lxml ipywidgets graphviz
 
 
 def regression_types():

@@ -18,3 +18,5 @@ dependencies:
   - ipython
   - ipywidgets
   - graphviz
+  - pip:
+    - graphviz

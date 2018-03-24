@@ -338,6 +338,7 @@ def template9():
     return script.strip().split('\n')
 
 
+
 def template11():
     """Model selection"""
     script ="""
@@ -381,27 +382,28 @@ def template11():
                     << host = sklearn
                     << function = scorer_regression
                     << greater_is_better = False
-                    >> scorer 6
+                    >> scorer 8
 
                 ## (Search,grid)
                     << host = sklearn
                     << function = GridSearchCV
                     << scoring = @scorer
-                    << param_grid = {'nhidden':[1,2]}
+                    << estimator = @estimator
+                    << param_grid = {'alpha':[1,0.3,0.1,0.03,0.01]}
                     << cv = @cv
                     >> 5 dfy
-                    >> 6 scorer
+                    >> 6 cv
                     >> 7 dfx
-                    >> cv_results_ 8
+                    >> 8 scorer
                     >> cv_results_ 9
-                    >> 10 estimator
-                    >> 11 cv
+                    >> cv_results_ 10
+                    >> 11 estimator
 
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
                     << line01 = print iv1.head(10)
-                    >> 8 iv1
+                    >> 9 iv1
 
                 ## (Store,file)
                     << host = cheml
@@ -410,17 +412,18 @@ def template11():
                     << output_directory = gridsearch
                     << header = True
                     << filename = GridSearchCV_results
-                    >> 9 df
-
-                ## (Model,regression)
-                    << host = cheml
-                    << function = MLP_sklearn
-                    >> api 10
+                    >> 10 df
 
                 ## (Prepare,split)
                     << host = sklearn
                     << function = KFold
+                    >> api 6
+
+                ## (Model,regression)
+                    << host = sklearn
+                    << function = MLPRegressor
                     >> api 11
+
             """
     return script.strip().split('\n')
 

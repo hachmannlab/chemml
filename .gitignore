@@ -4,6 +4,7 @@
 
 # Setuptools distribution folder
 /dist/
+/build/
 ../.idea
 **/../.idea
 **/.idea/

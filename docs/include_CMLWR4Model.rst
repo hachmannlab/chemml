@@ -1,3 +1,5 @@
+.. include:: wrapper_docs/cheml.MLP.rst
+.. include:: wrapper_docs/cheml.MLP_sklearn.rst
 .. include:: wrapper_docs/sklearn.ARDRegression.rst
 .. include:: wrapper_docs/sklearn.BayesianRidge.rst
 .. include:: wrapper_docs/sklearn.ElasticNet.rst

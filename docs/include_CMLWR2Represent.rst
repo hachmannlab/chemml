@@ -3,9 +3,11 @@
 .. include:: wrapper_docs/cheml.BagofBonds.rst
 .. include:: wrapper_docs/cheml.ChargeDependentAttributeGenerator.rst
 .. include:: wrapper_docs/cheml.ChemicalOrderingAttributeGenerator.rst
+.. include:: wrapper_docs/cheml.CompositionEntry.rst
 .. include:: wrapper_docs/cheml.CoordinationNumberAttributeGenerator.rst
 .. include:: wrapper_docs/cheml.CoulombMatrix.rst
 .. include:: wrapper_docs/cheml.CoulombMatrixAttributeGenerator.rst
+.. include:: wrapper_docs/cheml.CrystalStructureEntry.rst
 .. include:: wrapper_docs/cheml.DistanceMatrix.rst
 .. include:: wrapper_docs/cheml.Dragon.rst
 .. include:: wrapper_docs/cheml.EffectiveCoordinationNumberAttributeGenerator.rst

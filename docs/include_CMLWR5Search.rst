@@ -1,3 +1,4 @@
+.. include:: wrapper_docs/cheml.GA_DEAP.rst
 .. include:: wrapper_docs/sklearn.GridSearchCV.rst
 .. include:: wrapper_docs/sklearn.cross_val_predict.rst
 .. include:: wrapper_docs/sklearn.cross_val_score.rst

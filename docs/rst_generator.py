@@ -13,7 +13,7 @@ shutil.rmtree(directory)
 os.makedirs(directory)
 
 direc = 'wrapper_docs'
-extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_types']
+extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_classes']
 cols = ['task', 'subtask', 'host', 'function', 'input tokens', 'output tokens']
 df = pd.DataFrame(columns = cols)
 info = {'Enter':[], 'Represent':[], 'Prepare':[],'Model':[],'Search':[],'Mix':[],'Visualize':[],'Store':[]}
@@ -26,11 +26,11 @@ for h in databases:
         classes = [klass[0] for klass in inspect.getmembers(db)]
     elif h == 'cheml':
         print h
-        from  cheml.wrappers.database import cheml_db as db
+        from cheml.wrappers.database import cheml_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
     elif h == 'pd':
         print h
-        from  cheml.wrappers.database import pandas_db as db
+        from cheml.wrappers.database import pandas_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
     class_names = [c for c in classes if c not in extras]
     for n in class_names:

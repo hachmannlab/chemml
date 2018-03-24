@@ -24,7 +24,7 @@ ElementalPropertyAttributeGenerator
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :wrapper parameters:
-    | ``use_default_properties`` : , (default:None)
+    | ``elemental_properties`` : , (default:None)
     |   
     |   choose one of: []
 
@@ -35,8 +35,8 @@ ElementalPropertyAttributeGenerator
 :config file view:
     | ``##``
     |   ``<< host = cheml    << function = ElementalPropertyAttributeGenerator``
-    |   ``<< use_default_properties = None``
     |   ``<< elemental_properties = None``
+    |   ``<< use_default_properties = True``
     |   ``>> id entries``
     |   ``>> id df``
     |

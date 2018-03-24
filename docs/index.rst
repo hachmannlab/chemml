@@ -9,6 +9,8 @@ Welcome to the ChemML's documentation!
 ======================================
 ChemML is a machine learning and informatics program suite for the chemical and materials sciences.
 
+    - source: https://github.com/hachmannlab/chemml
+    - documentation: https://hachmannlab.github.io/chemml
 
 Code Design:
 ++++++++++++
@@ -23,6 +25,40 @@ The package consists of two python frameworks:
 
 - ChemML wrapper:
    It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
+   The wrapper is not just an interface for the cheml, but it is our main contribution to the broader dissemination of available methods/tools as they are.
+
+Installation and Dependencies:
+++++++++++++++++++++++++++++++
+You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7
+and it can be installed on Linux and OSX operating systems.
+
+.. code:: bash
+
+    pip install chemml --user -U
+
+ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. Using other libraries
+that are available through ChemML wrapper is optional and depends on the user request. However, we also install some of the libraries
+that ChemML is interfacing with, only if they can be easily and freely installed via pip.
+
+Here is a list of external libraries and their version that will be installed with chemml:
+    - numpy>=1.13
+    - pandas>=0.20.3
+    - tensorflow==1.1.0
+    - keras==2.1.5
+    - scikit-learn==0.19.1
+    - babel>=2.3.4
+    - matplotlib>=1.5.1
+    - deap>=1.2.2
+    - lxml
+    - ipywidgets
+    - graphviz
+
+you can test the installation with:
+
+.. code:: bash
+
+    nosetests -v cheml.tests
+
 
 Contributors:
 +++++++++++++
@@ -38,10 +74,6 @@ Contributors:
 
 - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 
-Dependencies:
-+++++++++++++
-ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. However, using other libraries
-that are available through ChemML wrapper is optional and depends on the user request.
 
 Citation:
 +++++++++
@@ -49,7 +81,7 @@ Please cite the use of ChemML as:
 
 ::
 
-    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://bitbucket.org/hachmanngroup/chemml
+    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://github.com/hachmannlab/chemml
 
 
 License:

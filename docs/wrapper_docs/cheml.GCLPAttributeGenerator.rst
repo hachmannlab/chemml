@@ -16,6 +16,10 @@ GCLPAttributeGenerator
     | GCLPAttributeGenerator
 
 :input tokens (receivers):
+    | ``energies`` : to be passed to the parameter energies
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
+    | ``phases`` : to be passed to the parameter phases
+    |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``entries`` : list of entries from CompositionEntry class.
     |   types: ("<type 'list'>",)
 
@@ -32,8 +36,10 @@ GCLPAttributeGenerator
     | ``##``
     |   ``<< host = cheml    << function = GCLPAttributeGenerator``
     |   ``<< count_phases = None``
-    |   ``<< energies = None``
-    |   ``<< phases = None``
+    |   ``<< energies = []``
+    |   ``<< phases = []``
+    |   ``>> id energies``
+    |   ``>> id phases``
     |   ``>> id entries``
     |   ``>> id df``
     |

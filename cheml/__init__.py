@@ -1,5 +1,5 @@
 # __name__ = "cheml"
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 __author__ = ["Mojtaba Haghighatlari (mojtabah@buffalo.edu)", "Johannes Hachmann (hachmann@buffalo.edu)"]
 
 from .wrappers.engine import run as wrapperRUN

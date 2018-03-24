@@ -25,7 +25,7 @@ The package consists of two python frameworks:
 
 - ChemML wrapper:
    It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
-   The wrapper is not just an interface for the cheml, but it is our main contribution to the broader dissemination of available methods/tools as they are.
+   The wrapper is not just an interface for the cheml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
@@ -41,17 +41,27 @@ that are available through ChemML wrapper is optional and depends on the user re
 that ChemML is interfacing with, only if they can be easily and freely installed via pip.
 
 Here is a list of external libraries and their version that will be installed with chemml:
-    - numpy>=1.13
-    - pandas>=0.20.3
-    - tensorflow==1.1.0
-    - keras==2.1.5
-    - scikit-learn==0.19.1
-    - babel>=2.3.4
-    - matplotlib>=1.5.1
-    - deap>=1.2.2
-    - lxml
-    - ipywidgets
-    - graphviz
+   - numpy>=1.13
+   - pandas>=0.20.3
+   - tensorflow==1.1.0
+   - keras==2.1.5
+   - scikit-learn==0.19.1
+   - babel>=2.3.4
+   - matplotlib>=1.5.1
+   - deap>=1.2.2
+   - lxml
+   - ipywidgets
+   - graphviz
+
+Since some of the dependencies are accompanied by an exact version number, we recommend installation of ChemML in a virtual environment.
+If you have Anaconda installed on your system, you can enter:
+
+.. code:: bash
+
+   codna create --name my_chemml_env python=2.7
+   source activate my_chemml_env
+   pip install chemml --user -U
+
 
 you can test the installation with:
 

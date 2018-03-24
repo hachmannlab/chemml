@@ -10,8 +10,8 @@ with open(path.join(here, 'README.md')) as f:
 
 setup(  name = 'chemml',
         version = cheml.__version__,
-        author=['Mojtaba Haghighatlari', 'Johannes Hachmann'],
-        author_email=['mojtabah@buffalo.edu','hachmann@buffalo.edu'],
+        author='Mojtaba Haghighatlari, Johannes Hachmann',
+        author_email='mojtabah@buffalo.edu, hachmann@buffalo.edu',
         url='https://github.com/hachmannlab/chemml',
         project_urls={
             'Source': 'https://github.com/hachmannlab/chemml',
@@ -29,7 +29,6 @@ setup(  name = 'chemml',
         classifiers=['Development Status :: 4 - Beta',
                    'Natural Language :: English',
                    'Programming Language :: Python :: 2.7',
-                   'License :: OSI Approved :: 3-Clause BSD License',
                   ],
 
         python_requires = '>=2.7, <3',

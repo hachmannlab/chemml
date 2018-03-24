@@ -12,7 +12,7 @@ setup(  name = 'chemml',
         version = cheml.__version__,
         author='Mojtaba Haghighatlari, Johannes Hachmann',
         author_email='mojtabah@buffalo.edu, hachmann@buffalo.edu',
-        url='https://github.com/hachmannlab/chemml',
+        # url='https://github.com/hachmannlab/chemml',
         project_urls={
             'Source': 'https://github.com/hachmannlab/chemml',
             'url': 'https://hachmannlab.github.io/chemml/'

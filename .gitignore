@@ -5,6 +5,7 @@
 # Setuptools distribution folder
 /dist/
 /build/
+/conda_recipe/
 ../.idea
 **/../.idea
 **/.idea/

@@ -32,24 +32,6 @@ Version:
 Program Version: 0.4.2
 Release Date: March 25, 2018
 
-(C) 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
-University at Buffalo - The State University of New York (UB)
-Contact: hachmann@buffalo.edu
-
-
-With contributions by:
-
-- Ramachandran Subramanian (UB): Magpie descriptor library port
-- Gaurav Vishwakarma (UB): automated model optimization
-- Bhargava Urala Kota (UB): library database
-- Aditya Sonpal (UB): debugging
-- Srirangaraj Setlur (UB): scientific advice
-- Venugopal Govindaraju (UB): scientific advice
-- Krishna Rajan (UB): scientific advice
-
-- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
-
-
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
 You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7
@@ -133,6 +115,26 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
    :caption: ChemML library documentation
 
    cheml
+
+
+About us:
+++++++++
+(C) 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+University at Buffalo - The State University of New York (UB)
+Contact: hachmann@buffalo.edu
+
+
+With contributions by:
+
+- Ramachandran Subramanian (UB): Magpie descriptor library port
+- Gaurav Vishwakarma (UB): automated model optimization
+- Bhargava Urala Kota (UB): library database
+- Aditya Sonpal (UB): debugging
+- Srirangaraj Setlur (UB): scientific advice
+- Venugopal Govindaraju (UB): scientific advice
+- Krishna Rajan (UB): scientific advice
+
+- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 
 
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg

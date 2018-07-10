@@ -7,7 +7,7 @@
 
 Welcome to the ChemML's documentation!
 ======================================
-ChemML is a machine learning and informatics program suite for the chemical and materials sciences.
+ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 
     - source: https://github.com/hachmannlab/chemml
     - documentation: https://hachmannlab.github.io/chemml
@@ -26,6 +26,29 @@ The package consists of two python frameworks:
 - ChemML wrapper:
    It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
    The wrapper is not just an interface for the cheml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.
+
+Version:
+++++++++
+Program Version: 0.4.2
+Release Date: March 25, 2018
+
+(C) 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+University at Buffalo - The State University of New York (UB)
+Contact: hachmann@buffalo.edu
+
+
+With contributions by:
+
+- Ramachandran Subramanian (UB): Magpie descriptor library port
+- Gaurav Vishwakarma (UB): automated model optimization
+- Bhargava Urala Kota (UB): library database
+- Aditya Sonpal (UB): debugging
+- Srirangaraj Setlur (UB): scientific advice
+- Venugopal Govindaraju (UB): scientific advice
+- Krishna Rajan (UB): scientific advice
+
+- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
+
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
@@ -71,33 +94,25 @@ you can test the installation with:
     nosetests -v cheml.tests
 
 
-Contributors:
-+++++++++++++
-
-- Mojtaba Haghighatlari, CBE department, SUNY Buffalo
-- Ramachandran Subramanian, CSE department, SUNY Buffalo
-- Bhargava Urala, CSE department, SUNY Buffalo
-- Gaurav Vishwakarma, CBE department, SUNY Buffalo
-- Aditya Sonpal, CBE department, SUNY Buffalo
-- Po-Han Chen, CBE department, SUNY Buffalo
-- Srirangaraj Setlur, CSE department, SUNY Buffalo
-- Johannes Hachmann, CBE department, SUNY Buffalo
-
-- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
-
-
 Citation:
 +++++++++
-Please cite the use of ChemML as:
+Please cite ChemML as follows:
 
 ::
 
-    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://github.com/hachmannlab/chemml
+   (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
+   (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
+   (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+
+
+ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867. It was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193. M. Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
+
 
 
 License:
 ++++++++
-ChemML is open and freely shared with the community under modified 3-clause BSD license.
+ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
+ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 
 .. toctree::

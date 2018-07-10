@@ -87,16 +87,6 @@ Please cite ChemML as follows:
    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
 
 
-ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867. It was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193. M. Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
-
-
-
-License:
-++++++++
-ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
-ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
-
-
 .. toctree::
    :maxdepth: 2
    :caption: ChemML Wrapper documentation
@@ -115,6 +105,12 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
    :caption: ChemML library documentation
 
    cheml
+
+
+License:
+++++++++
+ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
+ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 
 About us:
@@ -136,6 +132,7 @@ With contributions by:
 
 - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 
+ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867. It was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193. M. Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
 
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
    :width: 70 px

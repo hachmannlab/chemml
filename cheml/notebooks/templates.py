@@ -338,7 +338,6 @@ def template9():
     return script.strip().split('\n')
 
 
-
 def template11():
     """Model selection"""
     script ="""

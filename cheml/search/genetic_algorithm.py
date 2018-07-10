@@ -5,103 +5,96 @@ import time
 import math
 
 class GA_DEAP(object):
+    """
+    A genetic algorithm class for search or optimization problems, built on top of the
+    Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
+    algorithm selection methods. The methods are described individually in each algorithm's documentation.
 
+    Parameters
+    ----------
+    Evaluate: function
+        The objective function that has to be optimized. The first parameter of the objective function should be
+        an object of type <chromosome_type>. Objective function should return a tuple
+
+    Weights: tuple of integer(s), optional (default = (-1.0, ) )
+        A tuple containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
+        for minimizing a single objective function
+
+    chromosome_length: integer, optional (default = 1)
+        An integer which specifies the length of chromosome/individual
+
+    chromosome_type: tuple of <chromosome_length> integers, optional (default = (1,) )
+        A tuple of integers of length <chromosome_length> describing the type of each bit of the chromosome.
+        0 for floating type and 1 for integer type. All integer types first followed by the floating types
+
+    bit_limits: tuple of <chromosome_length> tuples, optional (default = (0,10) )
+        A tuple of <chromosome_length> tuples containing the lower and upper bounds for each bit of individual
+
+    pop_size: integer, optional (default = 50)
+        An integer which denotes the size of the population
+
+    crossover_prob: real number, optional (default = 0.4)
+        A number that denotes the probability of crossover
+
+    crossover_type: string, optional (default = "Blend")
+        A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform
+
+    mutation_prob: real number, optional (default = 0.4)
+        A number that denotes the probability of mutation.
+
+    mut_float_mean: real number, optional (default = 0)
+        Value of the mean of the Gaussian distribution for Gaussian type mutation
+
+    mut_float_dev: real number, optional (default = 1)
+        Value of the standard deviation of the Gaussian distribution for Gaussian type mutation
+
+    mut_int_lower: tuple of integers, optional (default = 1)
+        A tuple of integers of length (total number of integers in the chromosome) containing lower limit(s)
+        (inclusive) for integer type mutation
+
+    mut_int_upper: tuple of integers, optional (default = 10)
+        A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
+        (inclusive) for integer type mutation
+
+    n_generations: integer, optional (default = 20)
+        An integer for the number of generations for evolving the population
+
+    Examples
+    --------
+    >>> from cheml.search import GA_DEAP
+    >>> def sum_func(individual): return (sum(individual),)
+    >>> ga_search = GA_DEAP(Evaluate = sum_func, Weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
+    >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
+    >>> ga_search.fit()
+    >>> best_ind_df, best_individual = ga_search.algorithm_1()
+    Best Individuals of each generation are:
+       Best_individual_per_gen  Fitness_values          Time
+    0                   [8, 5]            13.0  4.444453e-06
+    1                  [10, 4]            14.0  5.000035e-06
+    2                  [10, 4]            14.0  0.000000e+00
+    3                  [10, 4]            14.0  4.166696e-06
+    4                  [10, 4]            14.0  4.444387e-06
+    5                  [10, 5]            15.0  4.444453e-06
+    6                  [10, 5]            15.0  4.166696e-06
+    7                  [10, 5]            15.0  4.444453e-06
+    8                  [10, 5]            15.0  0.000000e+00
+    9                  [10, 5]            15.0  8.333392e-07
+    10                 [10, 5]            15.0  4.444453e-06
+    11                 [10, 5]            15.0  4.166696e-06
+    12                 [10, 5]            15.0  4.444453e-06
+    13                 [10, 5]            15.0  4.444453e-06
+    14                 [10, 5]            15.0  0.000000e+00
+    15                 [10, 5]            15.0  0.000000e+00
+    16                 [10, 5]            15.0  8.333392e-07
+    17                 [10, 5]            15.0  4.444453e-06
+    18                 [10, 5]            15.0  4.444453e-06
+    19                 [10, 5]            15.0  4.166630e-06
+    ((0, 10), (0, 5))
+     Best individual after 20 evolutions is [10, 5]
+    """
     def __init__(self, Evaluate, Weights = (-1.0,), chromosome_length = 1, chromosome_type = (1,), bit_limits = ((0,10),), \
                  pop_size = 50, crossover_prob = 0.4, crossover_type = "Blend", mutation_prob = 0.4, \
                  mut_float_mean = 0, mut_float_dev = 1, mut_int_lower = (1,), mut_int_upper = (10,), n_generations = 20):
-
-        """
-        A genetic algorithm class for search or optimization problems, built on top of the
-        Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
-        algorithm selection methods. The methods are described individually in each algorithm's documentation.
-
-        Parameters
-        ----------
-        Evaluate: function
-            The objective function that has to be optimized. The first parameter of the objective function should be
-            an object of type <chromosome_type>. Objective function should return a tuple
-
-        Weights: tuple of integer(s), optional (default = (-1.0, ) )
-            A tuple containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
-            for minimizing a single objective function
-
-        chromosome_length: integer, optional (default = 1)
-            An integer which specifies the length of chromosome/individual
-
-        chromosome_type: tuple of <chromosome_length> integers, optional (default = (1,) )
-            A tuple of integers of length <chromosome_length> describing the type of each bit of the chromosome.
-            0 for floating type and 1 for integer type. All integer types first followed by the floating types
-
-        bit_limits: tuple of <chromosome_length> tuples, optional (default = (0,10) )
-            A tuple of <chromosome_length> tuples containing the lower and upper bounds for each bit of individual
-
-        pop_size: integer, optional (default = 50)
-            An integer which denotes the size of the population
-
-        crossover_prob: real number, optional (default = 0.4)
-            A number that denotes the probability of crossover
-
-        crossover_type: string, optional (default = "Blend")
-            A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform
-
-        mutation_prob: real number, optional (default = 0.4)
-            A number that denotes the probability of mutation.
-
-        mut_float_mean: real number, optional (default = 0)
-            Value of the mean of the Gaussian distribution for Gaussian type mutation
-
-        mut_float_dev: real number, optional (default = 1)
-            Value of the standard deviation of the Gaussian distribution for Gaussian type mutation
-
-        mut_int_lower: tuple of integers, optional (default = 1)
-            A tuple of integers of length (total number of integers in the chromosome) containing lower limit(s)
-            (inclusive) for integer type mutation
-
-        mut_int_upper: tuple of integers, optional (default = 10)
-            A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
-            (inclusive) for integer type mutation
-
-        n_generations: integer, optional (default = 20)
-            An integer for the number of generations for evolving the population
-
-        Examples
-        --------
-        >>> from cheml.search import GA_DEAP
-        >>> def sum_func(individual): return (sum(individual),)
-        >>> ga_search = GA_DEAP(Evaluate = sum_func, Weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
-        >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
-        >>> ga_search.fit()
-        >>> best_ind_df, best_individual = ga_search.algorithm_1()
-        Best Individuals of each generation are:
-
-           Best_individual_per_gen  Fitness_values          Time
-        0                   [8, 5]            13.0  4.444453e-06
-        1                  [10, 4]            14.0  5.000035e-06
-        2                  [10, 4]            14.0  0.000000e+00
-        3                  [10, 4]            14.0  4.166696e-06
-        4                  [10, 4]            14.0  4.444387e-06
-        5                  [10, 5]            15.0  4.444453e-06
-        6                  [10, 5]            15.0  4.166696e-06
-        7                  [10, 5]            15.0  4.444453e-06
-        8                  [10, 5]            15.0  0.000000e+00
-        9                  [10, 5]            15.0  8.333392e-07
-        10                 [10, 5]            15.0  4.444453e-06
-        11                 [10, 5]            15.0  4.166696e-06
-        12                 [10, 5]            15.0  4.444453e-06
-        13                 [10, 5]            15.0  4.444453e-06
-        14                 [10, 5]            15.0  0.000000e+00
-        15                 [10, 5]            15.0  0.000000e+00
-        16                 [10, 5]            15.0  8.333392e-07
-        17                 [10, 5]            15.0  4.444453e-06
-        18                 [10, 5]            15.0  4.444453e-06
-        19                 [10, 5]            15.0  4.166630e-06
-
-
-        ((0, 10), (0, 5))
-
-         Best individual after 20 evolutions is [10, 5]
-
-        """
 
         self.Weights = Weights
         self.chromosome_length = chromosome_length

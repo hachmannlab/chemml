@@ -1,11 +1,9 @@
-=============================
-Input File Generator Tutorial
-=============================
+====================
+Input File Templates
+====================
 
-An input file (configuration file) is required to run the ChemML Wrapper on any machine. An instruction to the ChemML Wrapper
-input file formats is provided here.
+We present some of the input file templates in this section. They are available through the ChemML Wrapper GUI as well.
 
-Although you can generate an input file manually in a text editor, a graphical user interface is also available to facilitate this process (see :ref:`ChemML_Wrapper_InFileGen`).
 
 
 ----

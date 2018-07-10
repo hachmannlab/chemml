@@ -1,4 +1,5 @@
 import os
+import sys
 import pandas as pd
 import numpy as np
 import warnings
@@ -145,10 +146,10 @@ class XYZreader(object):
     def __file_reader(self, filename):
         if self.reader == 'auto':
             # sys.path.insert(0, "/user/m27/pkg/openbabel/2.3.2/lib")
-            # import pybel
+            import pybel
             # import openbabel
             mol = open(filename, 'r').read()
-            # mol = pybel.readstring("xyz", mol)
+            mol = pybel.readstring("xyz", mol)
             molecule = [(a.OBAtom.GetAtomicNum(), a.OBAtom.x(), a.OBAtom.y(), a.OBAtom.z()) for a in mol.atoms]
             return np.array(molecule)
         elif self.reader == 'manual':

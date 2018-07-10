@@ -41,16 +41,17 @@ that are available through ChemML wrapper is optional and depends on the user re
 that ChemML is interfacing with, only if they can be easily and freely installed via pip.
 
 Here is a list of external libraries and their version that will be installed with chemml:
-   - numpy>=1.13
-   - pandas>=0.20.3
-   - tensorflow==1.1.0
-   - keras==2.1.5
-   - scikit-learn==0.19.1
-   - babel>=2.3.4
-   - matplotlib>=1.5.1
-   - deap>=1.2.2
+   - numpy (>=1.13)
+   - pandas (>=0.20.3)
+   - tensorflow (==1.1.0)
+   - keras (==2.1.5)
+   - scikit-learn (==0.19.1)
+   - babel (>=2.3.4)
+   - matplotlib (>=1.5.1)
+   - deap (>=1.2.2)
    - lxml
-   - ipywidgets
+   - ipywidgets (>=7.1)
+   - widgetsnbextension (>=3.1)
    - graphviz
 
 Since some of the dependencies are accompanied by an exact version number, we recommend installation of ChemML in a virtual environment.
@@ -58,7 +59,7 @@ If you have Anaconda installed on your system, you can enter:
 
 .. code:: bash
 
-   codna create --name my_chemml_env python=2.7
+   conda create --name my_chemml_env python=2.7
    source activate my_chemml_env
    pip install chemml --user -U
 
@@ -103,17 +104,20 @@ ChemML is open and freely shared with the community under modified 3-clause BSD 
    :maxdepth: 2
    :caption: ChemML Wrapper documentation
 
+   CMLWTutorial
    CMLWInputFile
    CMLWInputFileGenerator
    CMLWContentsTable
    CMLWReference
+..   CMLWInputFileTutorial
+..   CMLWInputFileTemplates
+
 
 .. toctree::
    :maxdepth: 2
    :caption: ChemML library documentation
 
    cheml
-
 
 
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg

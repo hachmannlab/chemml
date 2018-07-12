@@ -29,8 +29,8 @@ The package consists of two python frameworks:
 
 Version:
 ++++++++
-- Program Version: 0.4.2
-- Release Date: March 25, 2018
+- Program Version: 0.4.3
+- Release Date: July 12, 2018
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++

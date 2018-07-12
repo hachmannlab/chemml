@@ -112,7 +112,7 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ["/Users/mojtabahaghighatlari/anaconda/lib/python2.7/site-packages"]
+html_theme_path = ["/anaconda2/lib/python2.7/site-packages"]
 # html_static_path = ['_static']
 
 

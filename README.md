@@ -15,8 +15,8 @@ The package consists of two Python frameworks:
 
 
 ## Version:
-- Program Version: 0.4.2
-- Release Date: March 25, 2018
+- Program Version: 0.4.3
+- Release Date: July 12, 2018
 
 ## Installation and Dependencies:
 You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7

@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to the ChemML’s documentation! &mdash; ChemML 0.4.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ChemML Wrapper Tutorial" href="CMLWTutorial.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to the ChemML’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p><a class="reference external" href="https://mojtabah.github.io/ChemML"><img alt="Beta" src="http://stlth.io/images/stlth-beta.jpg" style="width: 70px;" /></a></p>
+<div class="section" id="welcome-to-the-chemml-s-documentation">
+<h1>Welcome to the ChemML’s documentation!<a class="headerlink" href="#welcome-to-the-chemml-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.</p>
+<blockquote>
+<div><ul class="simple">
+<li>source: <a class="reference external" href="https://github.com/hachmannlab/chemml">https://github.com/hachmannlab/chemml</a></li>
+<li>documentation: <a class="reference external" href="https://hachmannlab.github.io/chemml">https://hachmannlab.github.io/chemml</a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="code-design">
+<h2>Code Design:<a class="headerlink" href="#code-design" title="Permalink to this headline">¶</a></h2>
+<p>ChemML is developed in the Python 2 programming language and makes use of a host of data analysis and ML libraries
+(accessible through the Anaconda distribution), as well as domain-specific libraries.
+The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.</p>
+<p>The package consists of two python frameworks:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>ChemML library (cheml):</dt>
+<dd>It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the Scikit-learn library.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>ChemML wrapper:</dt>
+<dd>It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
+The wrapper is not just an interface for the cheml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="version">
+<h2>Version:<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Program Version: 0.4.3</li>
+<li>Release Date: July 12, 2018</li>
+</ul>
+</div>
+<div class="section" id="installation-and-dependencies">
+<h2>Installation and Dependencies:<a class="headerlink" href="#installation-and-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7
+and it can be installed on Linux and OSX operating systems.</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">chemml</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">U</span>
+</pre></div>
+</div>
+<p>ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. Using other libraries
+that are available through ChemML wrapper is optional and depends on the user request. However, we also install some of the libraries
+that ChemML is interfacing with, only if they can be easily and freely installed via pip.</p>
+<dl class="docutils">
+<dt>Here is a list of external libraries and their version that will be installed with chemml:</dt>
+<dd><ul class="first last simple">
+<li>numpy (&gt;=1.13)</li>
+<li>pandas (&gt;=0.20.3)</li>
+<li>tensorflow (==1.1.0)</li>
+<li>keras (==2.1.5)</li>
+<li>scikit-learn (==0.19.1)</li>
+<li>babel (&gt;=2.3.4)</li>
+<li>matplotlib (&gt;=1.5.1)</li>
+<li>deap (&gt;=1.2.2)</li>
+<li>lxml</li>
+<li>ipywidgets (&gt;=7.1)</li>
+<li>widgetsnbextension (&gt;=3.1)</li>
+<li>graphviz</li>
+</ul>
+</dd>
+</dl>
+<p>Since some of the dependencies are accompanied by an exact version number, we recommend installation of ChemML in a virtual environment.
+If you have Anaconda installed on your system, you can enter:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_chemml_env</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span>
+<span class="n">source</span> <span class="n">activate</span> <span class="n">my_chemml_env</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">chemml</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">U</span>
+</pre></div>
+</div>
+<p>you can test the installation with:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nosetests</span> <span class="o">-</span><span class="n">v</span> <span class="n">cheml</span><span class="o">.</span><span class="n">tests</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="citation">
+<h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>Please cite ChemML as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
+(2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
+(3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWTutorial.html#step-1-prepare-an-input-file">Step #1: prepare an input file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWTutorial.html#step-2-run-chemml-wrapper">Step #2: run ChemML Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWTutorial.html#step-3-check-the-output-directory">Step #3: check the output directory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#input-file-overview">Input File Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#specific-characters">Specific Characters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWInputFile.html#general-rules">General Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#search">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#mix">Mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.html">cheml.chem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.magpie_python.html">cheml.chem.magpie_python module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html">cheml.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.datasets.html">cheml.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html">cheml.nn.keras module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.search.html">cheml.search module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.visualization.html">cheml.visualization module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="license">
+<h2>License:<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
+ChemML is distributed under 3-Clause BSD License (<a class="reference external" href="https://opensource.org/licenses/BSD-3-Clause">https://opensource.org/licenses/BSD-3-Clause</a>).</p>
+</div>
+<div class="section" id="about-us">
+<h2>About us:<a class="headerlink" href="#about-us" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Maintainers:</th><td class="field-body"><ul class="first simple">
+<li>Johannes Hachmann, <a class="reference external" href="mailto:hachmann&#37;&#52;&#48;buffalo&#46;edu">hachmann<span>&#64;</span>buffalo<span>&#46;</span>edu</a></li>
+<li>Mojtaba Haghighatlari</li>
+</ul>
+<p>University at Buffalo - The State University of New York (UB)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Contributors:</th><td class="field-body"><ul class="first simple">
+<li>Ramachandran Subramanian (UB): Magpie descriptor library port</li>
+<li>Gaurav Vishwakarma (UB): automated model optimization</li>
+<li>Bhargava Urala Kota (UB): library database</li>
+<li>Aditya Sonpal (UB): debugging</li>
+<li>Srirangaraj Setlur (UB): scientific advice</li>
+<li>Venugopal Govindaraju (UB): scientific advice</li>
+<li>Krishna Rajan (UB): scientific advice</li>
+<li>We encourage any contributions and feedback. Feel free to fork and make pull-request to the “development” branch.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Acknowledgements:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li>ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.</li>
+<li>ChemML was also supported by start-up funds provided by UB’s School of Engineering and Applied Science and UB’s Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.</li>
+<li>Mojtaba Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CMLWTutorial.html" class="btn btn-neutral float-right" title="ChemML Wrapper Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.4.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Input File GUI &mdash; ChemML 0.4.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Table of Contents" href="CMLWContentsTable.html" />
+    <link rel="prev" title="Input File Manual" href="CMLWInputFile.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Input File GUI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/CMLWInputFileGenerator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="input-file-gui">
+<span id="chemml-wrapper-infilegen"></span><h1>Input File GUI<a class="headerlink" href="#input-file-gui" title="Permalink to this headline">¶</a></h1>
+<p>The ChemML wrapper’s graphical user interface (GUI) facilitate the generation of the input files.
+You can run GUI locally in the Jupyter notebook with two lines of python code:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cheml.notebooks</span> <span class="k">import</span> <span class="n">wrapperGUI</span>
+<span class="n">ui</span> <span class="o">=</span> <span class="n">wrapperGUI</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Requirements:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>Jupyter notebook</dt>
+<dd><ul class="first last">
+<li>installation: <a class="reference external" href="http://jupyter.org/install.html">http://jupyter.org/install.html</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>ipywidgets and widgetsnbextension</dt>
+<dd><ul class="first last">
+<li>installation: <a class="reference external" href="https://github.com/jupyter-widgets/ipywidgets/blob/master/docs/source/user_install.md">https://github.com/jupyter-widgets/ipywidgets/blob/master/docs/source/user_install.md</a></li>
+<li>ipywidgets and widgetsnbextension will be installed accompanied by chemml via pip.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>graphviz</dt>
+<dd><ul class="first last">
+<li>installation: <a class="reference external" href="https://graphviz.readthedocs.io/en/stable/manual.html#installation">https://graphviz.readthedocs.io/en/stable/manual.html#installation</a></li>
+<li>Using graphviz library, you will see a graphical visualization of your project’s workflow simultaneously.</li>
+<li>graphviz will be installed accompanied by chemml via pip.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>We recommend downloading and installing Anaconda for python 2. This way Jupyter will be installed automatically.
+If you are using anaconda and you plan to use a virtual environment, please run the following commands to
+install ChemML and wrapperGUI (the first and third lines are unnecessary if you have already installed chemml):</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_chemml_env</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span>
+<span class="n">source</span> <span class="n">activate</span> <span class="n">my_chemml_env</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">chemml</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">U</span>
+
+<span class="n">jupyter</span> <span class="n">nbextension</span> <span class="n">enable</span> <span class="o">--</span><span class="n">sys</span><span class="o">-</span><span class="n">prefix</span> <span class="o">--</span><span class="n">py</span> <span class="n">widgetsnbextension</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">nb_conda_kernels</span>
+</pre></div>
+</div>
+<p>The last command installs nb_conda_kernels, which provides a seprate Jupyter kernel for each conda environment. You need it to run
+a Jupyter notebook with a kernel pointing to ‘my_chemml_env’ environment.</p>
+<p>To run a notebook, you just need to run the following command in the Terminal:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span>
+</pre></div>
+</div>
+<p>This will consequently open a notebook dashboard in your browser.
+Now if you click on the ‘New’ button in the top right corner and select the
+‘python: my_chemml_env’, an empty notebook will be opened in a new tab.
+Please type the two above-mentioned lines of python code
+and press Ctrl+Enter to run the wrapperGUI.</p>
+<p>A link to the web application of this GUI will be posted here soon.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CMLWContentsTable.html" class="btn btn-neutral float-right" title="Table of Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CMLWInputFile.html" class="btn btn-neutral" title="Input File Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.4.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

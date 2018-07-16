@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.search module &mdash; ChemML 0.4.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cheml.visualization module" href="cheml.visualization.html" />
+    <link rel="prev" title="cheml.nn.keras module" href="cheml.nn.keras.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.html">cheml.chem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.magpie_python.html">cheml.chem.magpie_python module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html">cheml.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.datasets.html">cheml.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html">cheml.nn.keras module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">cheml.search module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.visualization.html">cheml.visualization module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cheml.html">cheml library</a> &raquo;</li>
+        
+      <li>cheml.search module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/cheml.search.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cheml-search-module">
+<h1>cheml.search module<a class="headerlink" href="#cheml-search-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-cheml.search"></span><dl class="docutils">
+<dt>The cheml.search module includes (please click on links adjacent to function names for more information):</dt>
+<dd><ul class="first last simple">
+<li>GA_DEAP: <a class="reference internal" href="#cheml.search.GA_DEAP" title="cheml.search.GA_DEAP"><code class="xref py py-func docutils literal notranslate"><span class="pre">GA_DEAP()</span></code></a></li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="cheml.search.GA_DEAP">
+<em class="property">class </em><code class="descclassname">cheml.search.</code><code class="descname">GA_DEAP</code><span class="sig-paren">(</span><em>Evaluate</em>, <em>Weights=(-1.0</em>, <em>)</em>, <em>chromosome_length=1</em>, <em>chromosome_type=(1</em>, <em>)</em>, <em>bit_limits=((0</em>, <em>10)</em>, <em>)</em>, <em>pop_size=50</em>, <em>crossover_prob=0.4</em>, <em>crossover_type='Blend'</em>, <em>mutation_prob=0.4</em>, <em>mut_float_mean=0</em>, <em>mut_float_dev=1</em>, <em>mut_int_lower=(1</em>, <em>)</em>, <em>mut_int_upper=(10</em>, <em>)</em>, <em>n_generations=20</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP" title="Permalink to this definition">¶</a></dt>
+<dd><p>A genetic algorithm class for search or optimization problems, built on top of the
+Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
+algorithm selection methods. The methods are described individually in each algorithm’s documentation.</p>
+<dl class="docutils">
+<dt>Evaluate: function</dt>
+<dd>The objective function that has to be optimized. The first parameter of the objective function should be
+an object of type &lt;chromosome_type&gt;. Objective function should return a tuple</dd>
+<dt>Weights: tuple of integer(s), optional (default = (-1.0, ) )</dt>
+<dd>A tuple containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
+for minimizing a single objective function</dd>
+<dt>chromosome_length: integer, optional (default = 1)</dt>
+<dd>An integer which specifies the length of chromosome/individual</dd>
+<dt>chromosome_type: tuple of &lt;chromosome_length&gt; integers, optional (default = (1,) )</dt>
+<dd>A tuple of integers of length &lt;chromosome_length&gt; describing the type of each bit of the chromosome.
+0 for floating type and 1 for integer type. All integer types first followed by the floating types</dd>
+<dt>bit_limits: tuple of &lt;chromosome_length&gt; tuples, optional (default = (0,10) )</dt>
+<dd>A tuple of &lt;chromosome_length&gt; tuples containing the lower and upper bounds for each bit of individual</dd>
+<dt>pop_size: integer, optional (default = 50)</dt>
+<dd>An integer which denotes the size of the population</dd>
+<dt>crossover_prob: real number, optional (default = 0.4)</dt>
+<dd>A number that denotes the probability of crossover</dd>
+<dt>crossover_type: string, optional (default = “Blend”)</dt>
+<dd>A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform</dd>
+<dt>mutation_prob: real number, optional (default = 0.4)</dt>
+<dd>A number that denotes the probability of mutation.</dd>
+<dt>mut_float_mean: real number, optional (default = 0)</dt>
+<dd>Value of the mean of the Gaussian distribution for Gaussian type mutation</dd>
+<dt>mut_float_dev: real number, optional (default = 1)</dt>
+<dd>Value of the standard deviation of the Gaussian distribution for Gaussian type mutation</dd>
+<dt>mut_int_lower: tuple of integers, optional (default = 1)</dt>
+<dd>A tuple of integers of length (total number of integers in the chromosome) containing lower limit(s)
+(inclusive) for integer type mutation</dd>
+<dt>mut_int_upper: tuple of integers, optional (default = 10)</dt>
+<dd>A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
+(inclusive) for integer type mutation</dd>
+<dt>n_generations: integer, optional (default = 20)</dt>
+<dd>An integer for the number of generations for evolving the population</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cheml.search</span> <span class="k">import</span> <span class="n">GA_DEAP</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">sum_func</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">individual</span><span class="p">),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ga_search</span> <span class="o">=</span> <span class="n">GA_DEAP</span><span class="p">(</span><span class="n">Evaluate</span> <span class="o">=</span> <span class="n">sum_func</span><span class="p">,</span> <span class="n">Weights</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">chromosome_length</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">chromosome_type</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">bit_limits</span> <span class="o">=</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">)),</span> <span class="n">mut_int_lower</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">mut_int_upper</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ga_search</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_ind_df</span><span class="p">,</span> <span class="n">best_individual</span> <span class="o">=</span> <span class="n">ga_search</span><span class="o">.</span><span class="n">algorithm_1</span><span class="p">()</span>
+<span class="go">Best Individuals of each generation are:</span>
+<span class="go">   Best_individual_per_gen  Fitness_values          Time</span>
+<span class="go">0                   [8, 5]            13.0  4.444453e-06</span>
+<span class="go">1                  [10, 4]            14.0  5.000035e-06</span>
+<span class="go">2                  [10, 4]            14.0  0.000000e+00</span>
+<span class="go">3                  [10, 4]            14.0  4.166696e-06</span>
+<span class="go">4                  [10, 4]            14.0  4.444387e-06</span>
+<span class="go">5                  [10, 5]            15.0  4.444453e-06</span>
+<span class="go">6                  [10, 5]            15.0  4.166696e-06</span>
+<span class="go">7                  [10, 5]            15.0  4.444453e-06</span>
+<span class="go">8                  [10, 5]            15.0  0.000000e+00</span>
+<span class="go">9                  [10, 5]            15.0  8.333392e-07</span>
+<span class="go">10                 [10, 5]            15.0  4.444453e-06</span>
+<span class="go">11                 [10, 5]            15.0  4.166696e-06</span>
+<span class="go">12                 [10, 5]            15.0  4.444453e-06</span>
+<span class="go">13                 [10, 5]            15.0  4.444453e-06</span>
+<span class="go">14                 [10, 5]            15.0  0.000000e+00</span>
+<span class="go">15                 [10, 5]            15.0  0.000000e+00</span>
+<span class="go">16                 [10, 5]            15.0  8.333392e-07</span>
+<span class="go">17                 [10, 5]            15.0  4.444453e-06</span>
+<span class="go">18                 [10, 5]            15.0  4.444453e-06</span>
+<span class="go">19                 [10, 5]            15.0  4.166630e-06</span>
+<span class="go">((0, 10), (0, 5))</span>
+<span class="go"> Best individual after 20 evolutions is [10, 5]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cheml.search.GA_DEAP.algorithm_1">
+<code class="descname">algorithm_1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP.algorithm_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial population is instantiated.
+Roulette wheel selection is used for selecting individuals for crossover and mutation.
+The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
+n members are selected as the initial population for the next generation, where n is the size of population.</p>
+<dl class="docutils">
+<dt>best_ind_df:  pandas dataframe</dt>
+<dd>A pandas dataframe of best individuals of each generation</dd>
+<dt>best_ind:  list of &lt;chromosome_length&gt; numbers</dt>
+<dd>The best individual after the last generation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.search.GA_DEAP.algorithm_2">
+<code class="descname">algorithm_2</code><span class="sig-paren">(</span><em>init_pop_frac=0.35</em>, <em>crossover_pop_frac=0.35</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP.algorithm_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial population is instantiated.
+Roulette wheel selection is used for selecting individuals for crossover and mutation.
+The initial population, crossovered and mutated individuals form 3 different pools of individuals. Based on
+input parameters 1 and 2, members are selected from each of these pools to form the initial population for the
+next generation. Fraction of mutated members to select for next generation is decided based on the 2 input
+parameters and the size of initial population.</p>
+<dl class="docutils">
+<dt>init_pop_frac: float, optional (default = 0.4)</dt>
+<dd>Fraction of initial population to select for next generation</dd>
+<dt>crossover_pop_frac: float, optional (default = 0.3)</dt>
+<dd>Fraction of crossover population to select for next generation</dd>
+</dl>
+<dl class="docutils">
+<dt>best_ind_df:  pandas dataframe</dt>
+<dd>A pandas dataframe of best individuals of each generation</dd>
+<dt>best_ind:  list of &lt;chromosome_length&gt; numbers</dt>
+<dd>The best individual after the last generation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.search.GA_DEAP.algorithm_3">
+<code class="descname">algorithm_3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP.algorithm_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial population is instantiated.
+Roulette wheel selection is used for selecting individuals for crossover and mutation.
+The initial population, crossovered and mutated individuals form the pool of individuals from which n members
+are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next
+generation, as the initial population for the next generation, where n is the size of population.</p>
+<dl class="docutils">
+<dt>best_ind_df:  pandas dataframe</dt>
+<dd>A pandas dataframe of best individuals of each generation</dd>
+<dt>best_ind:  list of &lt;chromosome_length&gt; numbers</dt>
+<dd>The best individual after the last generation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.search.GA_DEAP.algorithm_4">
+<code class="descname">algorithm_4</code><span class="sig-paren">(</span><em>crossover_pop_frac=0.4</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP.algorithm_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial population is instantiated.
+Roulette wheel selection is used for selecting individuals for crossover. For mutation, fraction of individuals
+are selected from the crossover population based on input parameter.
+The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
+n members are selected as the initial population for the next generation, where n is the size of population.</p>
+<dl class="docutils">
+<dt>crossover_pop_frac: float, optional (default = 0.4)</dt>
+<dd>Fraction of crossover population to select for mutation</dd>
+</dl>
+<dl class="docutils">
+<dt>best_ind_df:  pandas dataframe</dt>
+<dd>A pandas dataframe of best individuals of each generation</dd>
+<dt>best_ind:  list of &lt;chromosome_length&gt; numbers</dt>
+<dd>The best individual after the last generation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.search.GA_DEAP.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.search.GA_DEAP.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setting up the DEAP - genetic algorithm parameters and functions.</p>
+<p>Must call this function before calling any algorithm.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.visualization.html" class="btn btn-neutral float-right" title="cheml.visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.nn.keras.html" class="btn btn-neutral" title="cheml.nn.keras module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.4.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ChemML Wrapper Tutorial &mdash; ChemML 0.4.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input File Manual" href="CMLWInputFile.html" />
+    <link rel="prev" title="Welcome to the ChemML’s documentation!" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-prepare-an-input-file">Step #1: prepare an input file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-run-chemml-wrapper">Step #2: run ChemML Wrapper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#method-one-running-in-the-terminal">method one: Running in the Terminal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method-two-running-in-any-python-interpreter">method two: Running in any Python Interpreter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-check-the-output-directory">Step #3: check the output directory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>ChemML Wrapper Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/CMLWTutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chemml-wrapper-tutorial">
+<h1>ChemML Wrapper Tutorial<a class="headerlink" href="#chemml-wrapper-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>ChemML Wrapper carry out a workflow of operations hosted by different
+open-source or commercial libraries/software.
+The workflow is similar to a directed graph and it can be designed in a text file.
+An input file (configuration file) is required to run the ChemML Wrapper.</p>
+<p>In this section we walk you through all the required steps to run an input file.</p>
+<div class="section" id="step-1-prepare-an-input-file">
+<h2>Step #1: prepare an input file<a class="headerlink" href="#step-1-prepare-an-input-file" title="Permalink to this headline">¶</a></h2>
+<p>ChemML Wrapper requires an input file to configure and run an arbitrary workflow.
+This file must be a text file in any arbitrary format.
+If you want to create or modify an input file manually,
+see <a class="reference internal" href="CMLWInputFile.html#input-file-manual"><span class="std std-ref">Input File Manual</span></a> for more information.
+You can also create, modify, and even visualize an
+input file using the graphical interface,
+<a class="reference internal" href="CMLWInputFileGenerator.html#chemml-wrapper-infilegen"><span class="std std-ref">Input File GUI</span></a>.</p>
+<p>The input file consists of methods that are connected to each other and make a data mining workflow.
+Here you can see a simple input script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## (Enter,datasets)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">load_xyz_polarizability</span>
+    <span class="o">&gt;&gt;</span> <span class="n">coordinates</span> <span class="mi">0</span>
+    <span class="o">&gt;&gt;</span> <span class="n">polarizability</span> <span class="mi">4</span>
+    <span class="o">&gt;&gt;</span> <span class="n">polarizability</span> <span class="mi">5</span>
+
+<span class="c1">## (Represent,molecular descriptors)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">CoulombMatrix</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">0</span> <span class="n">molecules</span>
+    <span class="o">&gt;&gt;</span> <span class="n">df</span> <span class="mi">1</span>
+    <span class="o">&gt;&gt;</span> <span class="n">df</span> <span class="mi">6</span>
+
+<span class="c1">## (Store,file)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">SaveFile</span>
+    <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">CM_features</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">1</span> <span class="n">df</span>
+
+<span class="c1">## (Store,figure)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">SavePlot</span>
+    <span class="o">&lt;&lt;</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;normed&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">}</span>
+    <span class="o">&lt;&lt;</span> <span class="n">output_directory</span> <span class="o">=</span> <span class="n">plots</span>
+    <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">performance</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">2</span> <span class="n">fig</span>
+
+<span class="c1">## (Visualize,artist)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span>
+    <span class="o">&lt;&lt;</span> <span class="n">title</span> <span class="o">=</span> <span class="n">training</span> <span class="n">performance</span>
+    <span class="o">&lt;&lt;</span> <span class="n">grid_color</span> <span class="o">=</span> <span class="n">g</span>
+    <span class="o">&lt;&lt;</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="n">predicted</span> <span class="n">polarizability</span> <span class="p">(</span><span class="n">Bohr</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="n">calculated</span> <span class="n">polarizability</span> <span class="p">(</span><span class="n">Bohr</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">grid</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="o">&lt;&lt;</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="o">&gt;&gt;</span> <span class="n">fig</span> <span class="mi">2</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">3</span> <span class="n">fig</span>
+
+<span class="c1">## (Visualize,plot)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">scatter2D</span>
+    <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="o">&lt;&lt;</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">o</span>
+    <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="o">&gt;&gt;</span> <span class="n">fig</span> <span class="mi">3</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">4</span> <span class="n">dfy</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">7</span> <span class="n">dfx</span>
+
+<span class="c1">## (Model,regression)</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sklearn</span>
+    <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">KernelRidge</span>
+    <span class="o">&lt;&lt;</span> <span class="n">func_method</span> <span class="o">=</span> <span class="n">fit</span>
+    <span class="o">&lt;&lt;</span> <span class="n">kernel</span> <span class="o">=</span> <span class="n">rbf</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">5</span> <span class="n">dfy</span>
+    <span class="o">&gt;&gt;</span> <span class="mi">6</span> <span class="n">dfx</span>
+    <span class="o">&gt;&gt;</span> <span class="n">dfy_predict</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>Let’s create a text file with name ‘tutorial.config’ and copy the above input script into that file.
+If we copy this script into ‘existing script’ tab of the <a class="reference internal" href="CMLWInputFileGenerator.html#chemml-wrapper-infilegen"><span class="std std-ref">Input File GUI</span></a>, a graphical visualization of the workflow will be presented as follow:</p>
+<img alt="_images/tut_graph.png" src="_images/tut_graph.png" />
+</div>
+<div class="section" id="step-2-run-chemml-wrapper">
+<h2>Step #2: run ChemML Wrapper<a class="headerlink" href="#step-2-run-chemml-wrapper" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have prepared an input script/file, we can run it using any of the following ways.</p>
+<div class="section" id="method-one-running-in-the-terminal">
+<h3>method one: Running in the Terminal<a class="headerlink" href="#method-one-running-in-the-terminal" title="Permalink to this headline">¶</a></h3>
+<p>Let’s say you saved your script with the name ‘tutorial.config’ in your Desktop folder (name and format are both arbitrary).
+In the Terminal, navigate to the Desktop folder and enter the following command:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chemmlwrapper</span> <span class="o">-</span><span class="n">i</span> <span class="n">tutorial</span><span class="o">.</span><span class="n">config</span> <span class="o">-</span><span class="n">o</span> <span class="n">output_directory</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-two-running-in-any-python-interpreter">
+<h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this headline">¶</a></h3>
+<p>You can also run your input script with python codes as a python script or interactively, using:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
+<span class="kn">from</span> <span class="nn">cheml</span> <span class="k">import</span> <span class="n">wrapperRUN</span>
+<span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            ## (Enter,datasets)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = load_xyz_polarizability</span>
+<span class="s2">                &gt;&gt; coordinates 0</span>
+<span class="s2">                &gt;&gt; polarizability 4</span>
+<span class="s2">                &gt;&gt; polarizability 5</span>
+
+<span class="s2">            ## (Represent,molecular descriptors)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = CoulombMatrix</span>
+<span class="s2">                &gt;&gt; 0 molecules</span>
+<span class="s2">                &gt;&gt; df 1</span>
+<span class="s2">                &gt;&gt; df 6</span>
+
+<span class="s2">            ## (Store,file)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = SaveFile</span>
+<span class="s2">                &lt;&lt; filename = CM_features</span>
+<span class="s2">                &gt;&gt; 1 df</span>
+
+<span class="s2">            ## (Store,figure)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = SavePlot</span>
+<span class="s2">                &lt;&lt; kwargs = {&#39;normed&#39;:True, &#39;bbox_inches&#39;:&#39;tight&#39;}</span>
+<span class="s2">                &lt;&lt; output_directory = plots</span>
+<span class="s2">                &lt;&lt; filename = performance</span>
+<span class="s2">                &gt;&gt; 2 fig</span>
+
+<span class="s2">            ## (Visualize,artist)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = decorator</span>
+<span class="s2">                &lt;&lt; title = training performance</span>
+<span class="s2">                &lt;&lt; grid_color = g</span>
+<span class="s2">                &lt;&lt; xlabel = predicted polarizability (Bohr^3)</span>
+<span class="s2">                &lt;&lt; ylabel = calculated polarizability (Bohr^3)</span>
+<span class="s2">                &lt;&lt; grid = True</span>
+<span class="s2">                &lt;&lt; size = 12</span>
+<span class="s2">                &gt;&gt; fig 2</span>
+<span class="s2">                &gt;&gt; 3 fig</span>
+
+<span class="s2">            ## (Visualize,plot)</span>
+<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; function = scatter2D</span>
+<span class="s2">                &lt;&lt; y = 0</span>
+<span class="s2">                &lt;&lt; marker = o</span>
+<span class="s2">                &lt;&lt; x = 0</span>
+<span class="s2">                &gt;&gt; fig 3</span>
+<span class="s2">                &gt;&gt; 4 dfy</span>
+<span class="s2">                &gt;&gt; 7 dfx</span>
+
+<span class="s2">            ## (Model,regression)</span>
+<span class="s2">                &lt;&lt; host = sklearn</span>
+<span class="s2">                &lt;&lt; function = KernelRidge</span>
+<span class="s2">                &lt;&lt; func_method = fit</span>
+<span class="s2">                &lt;&lt; kernel = rbf</span>
+<span class="s2">                &gt;&gt; 5 dfy</span>
+<span class="s2">                &gt;&gt; 6 dfx</span>
+<span class="s2">                &gt;&gt; dfy_predict 7</span>
+
+<span class="s2">         &quot;&quot;&quot;</span>
+<span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="n">script</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Although you can run your script interactively, we recommend using the first method
+along with ‘nohup’ command to prevent Terminal disconnection from killing your job.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">in all these methods if your arbitrary name of ouput_directory already exists,
+chemML Wrapper automatically creates a folder with sequential number.</p>
+</div>
+</div>
+</div>
+<div class="section" id="step-3-check-the-output-directory">
+<h2>Step #3: check the output directory<a class="headerlink" href="#step-3-check-the-output-directory" title="Permalink to this headline">¶</a></h2>
+<p>After running ChemML Wrapper you can collect all your saved files by navigating to the output directory.
+These saved files can be any type of results and fugures from your workflow,
+or default files, e.g. error file, log file, a copy of input file,
+and citation file.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CMLWInputFile.html" class="btn btn-neutral float-right" title="Input File Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to the ChemML’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.4.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cheml.preprocessing module &mdash; ChemML 0.4.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cheml.nn.keras module" href="cheml.nn.keras.html" />
+    <link rel="prev" title="cheml.datasets module" href="cheml.datasets.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.html">cheml.chem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.chem.magpie_python.html">cheml.chem.magpie_python module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html">cheml.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.datasets.html">cheml.datasets module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">cheml.preprocessing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html">cheml.nn.keras module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.search.html">cheml.search module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cheml.visualization.html">cheml.visualization module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="cheml.html">cheml library</a> &raquo;</li>
+        
+      <li>cheml.preprocessing module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/cheml.preprocessing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cheml-preprocessing-module">
+<h1>cheml.preprocessing module<a class="headerlink" href="#cheml-preprocessing-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-cheml.preprocessing"></span><dl class="docutils">
+<dt>The cheml.preprocessing module includes (please click on links adjacent to function names for more information):</dt>
+<dd><ul class="first last simple">
+<li>MissingValues: <a class="reference internal" href="#cheml.preprocessing.MissingValues" title="cheml.preprocessing.MissingValues"><code class="xref py py-func docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></li>
+<li>ConstantColumns: <a class="reference internal" href="#cheml.preprocessing.ConstantColumns" title="cheml.preprocessing.ConstantColumns"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></li>
+<li>Outliers: <a class="reference internal" href="#cheml.preprocessing.Outliers" title="cheml.preprocessing.Outliers"><code class="xref py py-func docutils literal notranslate"><span class="pre">Outliers()</span></code></a></li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="cheml.preprocessing.MissingValues">
+<em class="property">class </em><code class="descclassname">cheml.preprocessing.</code><code class="descname">MissingValues</code><span class="sig-paren">(</span><em>strategy='ignore_row'</em>, <em>string_as_null=True</em>, <em>inf_as_null=True</em>, <em>missing_values=None</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.MissingValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>find missing values and interpolate/replace or remove them.</p>
+<p>strategy: string, optional (default=”ignore_row”)</p>
+<blockquote>
+<div>list of strategies:
+- interpolate: interpolate based on sorted target values
+- zero: set to the zero
+- ignore_row: remove the entire row in data and target
+- ignore_column: remove the entire column in data and target</div></blockquote>
+<dl class="docutils">
+<dt>string_as_null: boolean, optional (default=True)</dt>
+<dd>If True non numeric elements are considered to be null in computations.</dd>
+<dt>missing_values: list, optional (default=None)</dt>
+<dd>where you define specific formats of missing values. It is a list of string, float or integer values.</dd>
+<dt>inf_as_null: boolean, optional (default=True)</dt>
+<dd>If True inf and -inf elements are considered to be null in computations.</dd>
+</dl>
+<p>data frame
+mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed</p>
+<dl class="method">
+<dt id="cheml.preprocessing.MissingValues.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.MissingValues.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>use fit_transform for:</dt>
+<dd><ul class="first last simple">
+<li>replace missing values with nan.</li>
+<li>drop columns with all nan values.</li>
+<li>fill nan values with the specified strategy.</li>
+</ul>
+</dd>
+</dl>
+<p>df: pandas data frame</p>
+<dl class="docutils">
+<dt>mask: binary pandas series, only if strategy = ‘ignore_row’ or ‘ignore_column’</dt>
+<dd>mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
+if the row/column in the same position has been removed or not.
+The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
+on that. The mask can later be used in the transform method to change other data frames in the same way.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.preprocessing.MissingValues.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.MissingValues.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only if the class is fitted with ‘ignore_row’ or ‘ignore_column’ strategies.</p>
+<p>df: pandas dataframe</p>
+<p>transformed data frame based on the mask vector from fit_transform method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.preprocessing.ConstantColumns">
+<em class="property">class </em><code class="descclassname">cheml.preprocessing.</code><code class="descname">ConstantColumns</code><a class="headerlink" href="#cheml.preprocessing.ConstantColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove constant columns</p>
+<p>removed_columns: list of column headers that have been removed</p>
+<p>df: pandas dataframe</p>
+<dl class="method">
+<dt id="cheml.preprocessing.ConstantColumns.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.ConstantColumns.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the method to the input dataframe and change it accordingly</p>
+<dl class="docutils">
+<dt>df: pandas dataframe</dt>
+<dd>input dataframe</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.preprocessing.ConstantColumns.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.ConstantColumns.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>find and remove headers that are in the <a href="#id1"><span class="problematic" id="id2">removed_columns_</span></a> attribute of the previous fit_transform method</p>
+<dl class="docutils">
+<dt>df: pandas dataframe</dt>
+<dd>input dataframe</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cheml.preprocessing.Outliers">
+<em class="property">class </em><code class="descclassname">cheml.preprocessing.</code><code class="descname">Outliers</code><span class="sig-paren">(</span><em>m=2.0</em>, <em>strategy='median'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.Outliers" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove all rows where the values of a certain column are within an specified
+standard deviation from mean/median.</p>
+<dl class="docutils">
+<dt>m: float, optional (default=3.0)</dt>
+<dd>the outlier threshold with respect to the standard deviation</dd>
+<dt>strategy: string, optional (default=’median’)</dt>
+<dd>available options: ‘mean’ and ‘median’
+Values of each column will be compared to the ‘mean’ or ‘median’ of that column.</dd>
+</dl>
+<p><a href="#id3"><span class="problematic" id="id4">removed_rows_</span></a>: numpy array of indices that have been removed</p>
+<p>We highly recommend you to remove constant columns first and then remove outliers.</p>
+<dl class="method">
+<dt id="cheml.preprocessing.Outliers.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.Outliers.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the method to the input dataframe and change it accordingly</p>
+<dl class="docutils">
+<dt>df: pandas dataframe</dt>
+<dd>input dataframe</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cheml.preprocessing.Outliers.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.preprocessing.Outliers.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>find and remove rows/indices that are in the <a href="#id5"><span class="problematic" id="id6">removed_rows_</span></a> attribute of the previous fit_transform method</p>
+<dl class="docutils">
+<dt>df: pandas dataframe</dt>
+<dd>input dataframe</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cheml.nn.keras.html" class="btn btn-neutral float-right" title="cheml.nn.keras module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cheml.datasets.html" class="btn btn-neutral" title="cheml.datasets module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.4.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

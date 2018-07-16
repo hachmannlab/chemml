@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-|Beta|
+|logo| |Beta|
 
 Welcome to the ChemML's documentation!
 ======================================
@@ -137,6 +137,12 @@ About us:
     - ChemML was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.
     - Mojtaba Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
 
+
+.. |logo| image:: images/logo.png
+   :width: 140 px
+   :target: https://mojtabah.github.io/ChemML
+
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
    :width: 70 px
    :target: https://mojtabah.github.io/ChemML
+

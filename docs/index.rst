@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-|Beta|
+|logo| |Beta|
 
 Welcome to the ChemML's documentation!
 ======================================
-ChemML is a machine learning and informatics program suite for the chemical and materials sciences.
+ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 
     - source: https://github.com/hachmannlab/chemml
     - documentation: https://hachmannlab.github.io/chemml
@@ -27,6 +27,11 @@ The package consists of two python frameworks:
    It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
    The wrapper is not just an interface for the cheml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.
 
+Version:
+++++++++
+- Program Version: 0.4.3
+- Release Date: July 12, 2018
+
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
 You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7
@@ -41,16 +46,17 @@ that are available through ChemML wrapper is optional and depends on the user re
 that ChemML is interfacing with, only if they can be easily and freely installed via pip.
 
 Here is a list of external libraries and their version that will be installed with chemml:
-   - numpy>=1.13
-   - pandas>=0.20.3
-   - tensorflow==1.1.0
-   - keras==2.1.5
-   - scikit-learn==0.19.1
-   - babel>=2.3.4
-   - matplotlib>=1.5.1
-   - deap>=1.2.2
+   - numpy (>=1.13)
+   - pandas (>=0.20.3)
+   - tensorflow (==1.1.0)
+   - keras (==2.1.5)
+   - scikit-learn (==0.19.1)
+   - babel (>=2.3.4)
+   - matplotlib (>=1.5.1)
+   - deap (>=1.2.2)
    - lxml
-   - ipywidgets
+   - ipywidgets (>=7.1)
+   - widgetsnbextension (>=3.1)
    - graphviz
 
 Since some of the dependencies are accompanied by an exact version number, we recommend installation of ChemML in a virtual environment.
@@ -58,7 +64,7 @@ If you have Anaconda installed on your system, you can enter:
 
 .. code:: bash
 
-   codna create --name my_chemml_env python=2.7
+   conda create --name my_chemml_env python=2.7
    source activate my_chemml_env
    pip install chemml --user -U
 
@@ -70,43 +76,29 @@ you can test the installation with:
     nosetests -v cheml.tests
 
 
-Contributors:
-+++++++++++++
-
-- Mojtaba Haghighatlari, CBE department, SUNY Buffalo
-- Ramachandran Subramanian, CSE department, SUNY Buffalo
-- Bhargava Urala, CSE department, SUNY Buffalo
-- Gaurav Vishwakarma, CBE department, SUNY Buffalo
-- Aditya Sonpal, CBE department, SUNY Buffalo
-- Po-Han Chen, CBE department, SUNY Buffalo
-- Srirangaraj Setlur, CSE department, SUNY Buffalo
-- Johannes Hachmann, CBE department, SUNY Buffalo
-
-- We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
-
-
 Citation:
 +++++++++
-Please cite the use of ChemML as:
+Please cite ChemML as follows:
 
 ::
 
-    Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017) "ChemML: A machine learning and informatics program suite for the chemical and materials sciences" https://github.com/hachmannlab/chemml
-
-
-License:
-++++++++
-ChemML is open and freely shared with the community under modified 3-clause BSD license.
+   (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
+   (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
+   (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
 
 
 .. toctree::
    :maxdepth: 2
    :caption: ChemML Wrapper documentation
 
+   CMLWTutorial
    CMLWInputFile
    CMLWInputFileGenerator
    CMLWContentsTable
    CMLWReference
+..   CMLWInputFileTutorial
+..   CMLWInputFileTemplates
+
 
 .. toctree::
    :maxdepth: 2
@@ -115,7 +107,42 @@ ChemML is open and freely shared with the community under modified 3-clause BSD 
    cheml
 
 
+License:
+++++++++
+ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
+ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
+
+
+About us:
+++++++++
+
+:Maintainers:
+    - Johannes Hachmann, hachmann@buffalo.edu
+    - Mojtaba Haghighatlari
+    University at Buffalo - The State University of New York (UB)
+
+:Contributors:
+    - Ramachandran Subramanian (UB): Magpie descriptor library port
+    - Gaurav Vishwakarma (UB): automated model optimization
+    - Bhargava Urala Kota (UB): library database
+    - Aditya Sonpal (UB): debugging
+    - Srirangaraj Setlur (UB): scientific advice
+    - Venugopal Govindaraju (UB): scientific advice
+    - Krishna Rajan (UB): scientific advice
+
+    - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
+
+:Acknowledgements:
+    - ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.
+    - ChemML was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.
+    - Mojtaba Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
+
+
+.. |logo| image:: images/logo.png
+   :width: 140 px
+   :target: https://mojtabah.github.io/ChemML
 
 .. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
    :width: 70 px
    :target: https://mojtabah.github.io/ChemML
+

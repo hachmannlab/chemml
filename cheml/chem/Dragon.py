@@ -36,16 +36,17 @@ class Dragon(object):
 
         In the current version, we recommend the user to use this class with the following parameters:
         molInput = 'file'
-        molfile = path to one SMILES representation file with .smi format or a dictionary of other formats
+        molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths
         script = 'new'
 
     Examples
     --------
+        >>> import pandas as pd
         >>> from cheml.chem import Dragon
         >>> drg = Dragon(**parameters)
-        >>> drg.script_wizard(script, output_directory)
+        >>> drg.script_wizard(script='new', output_directory='./')
         >>> drg.run()
-        >>> df_path = model.data_path  # path to the output file
+        >>> df_path = drg.data_path  # path to the output file
         >>> df = pd.read_csv(df_path, sep=None, engine='python')
         >>> df = df.drop(['No.','NAME'],axis=1)
     """

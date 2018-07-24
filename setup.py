@@ -35,7 +35,7 @@ setup(  name = 'chemml',
 
         install_requires = ['numpy>=1.13', 'pandas>=0.20.3', 'tensorflow==1.1.0', 'keras==2.1.5',
                             'scikit-learn==0.19.1', 'babel>=2.3.4', 'matplotlib>=1.5.1', 'deap>=1.2.2',
-                            'lxml','ipywidgets','graphviz'],
+                            'lxml','nose','ipywidgets>=7.1','widgetsnbextension>=3.1','graphviz'],
 
         test_suite='nose.collector',
         tests_require=['nose'],

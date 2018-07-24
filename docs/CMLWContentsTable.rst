@@ -1,3 +1,4 @@
+.. _ChemML_Wrapper_Table:
 
 =============================
 Table of Contents

@@ -1,36 +1,24 @@
-.. _input_file_manual:
+====================
+Input File Templates
+====================
 
-=================
-Input File Manual
-=================
+We present some of the input file templates in this section. They are available through the ChemML Wrapper GUI as well.
 
-An instruction to the ChemML Wrapper
-input file is provided here. The input file configures
-parameters and settings for running a data mining workflow
-using ChemML Wrapper.
-
-Although you can generate an input file manually in a text editor,
-a graphical user interface is also available to facilitate this process
-(see :ref:`ChemML_Wrapper_InFileGen`).
 
 
 ----
-===================
+=======================================================
 Input File Overview
-===================
+=======================================================
 
-The input file structure corresponds to a directed graph,
-where nodes are computation **blocks** and represent any
-available method in the package (:ref:`ChemML_Wrapper_Table`), and edges represent the
-flow of data between nodes.
-
-To determine edges of the workflow graph,
+The input file consists of methods that are connected to each other and make a machine learning workflow. We call this workflow
+a computation graph. Thus, methods determine nodes
+and are connected to each other using edges. Edges represent the flow of data between nodes. To determine edges of a graph,
 fixed input and output tokens are defined for
-each node and you should connect them using unique random integers.
+each node and you should connect them using unique random integers. In the ChemML wrapper syntax we call a node of computation graph as a **block**.
 
 
-
-Here you can see a pseudo computation block in the input file::
+Here you can see a pseudo block of ChemML Wrapper computation graph in the input file::
 
     ## Task
         << host = name        << function = name
@@ -39,7 +27,7 @@ Here you can see a pseudo computation block in the input file::
         >> token id
         >> id token
 
-All the methods in the ChemML Wrapper are divided into the following 8 tasks:
+All the methods in the ChemML Wrapper are available under these 8 tasks:
     - Enter
     - Represent
     - Prepare
@@ -49,14 +37,13 @@ All the methods in the ChemML Wrapper are divided into the following 8 tasks:
     - Visualize
     - Store
 
-Each task in turn is divided into a number of subtasks to allow easy retrieval of the methods/functions.
 
 .. note:: you always need an Enter method in your workflow to initialize the computation graph with some data.
 
 ----
-===================
+=======================================================
 Specific Characters
-===================
+=======================================================
 
 Only five specific characters (#, <, =, >, @) are defined and can be used in the input files.
 
@@ -105,9 +92,9 @@ Only five specific characters (#, <, =, >, @) are defined and can be used in the
 .. note:: please note that the first three characters (#, <, >) are reserved and you should avoid using them in the parameter values.
 
 ----
-=============
+=======================================================
 General Rules
-=============
+=======================================================
 A few general restrictions:
 
     - You are not allowed to have two different specific charecters in one line of input file (except '=' and '@' signs).

@@ -4,105 +4,129 @@ import pandas as pd
 import time
 import math
 
+# UPDATES:
+# added step size for chromosome generator and mutation
+# removed crossover_prob and selectTournament
+
+
 class GA_DEAP(object):
+
     """
-    A genetic algorithm class for search or optimization problems, built on top of the
-    Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
-    algorithm selection methods. The methods are described individually in each algorithm's documentation.
+            A genetic algorithm class for search or optimization problems, built on top of the
+            Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
+            algorithm selection methods. The methods are described individually in each algorithm's documentation.
 
-    Parameters
-    ----------
-    Evaluate: function
-        The objective function that has to be optimized. The first parameter of the objective function should be
-        an object of type <chromosome_type>. Objective function should return a tuple
+            Parameters
+            ----------
+            evaluate: function
+                The objective function that has to be optimized. The first parameter of the objective function should be
+                an object of type <chromosome_type>. Objective function should return a tuple
 
-    Weights: tuple of integer(s), optional (default = (-1.0, ) )
-        A tuple containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
-        for minimizing a single objective function
+            weights: tuple of integer(s), optional (default = (-1.0, ) )
+                A tuple containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
+                for minimizing a single objective function
 
-    chromosome_length: integer, optional (default = 1)
-        An integer which specifies the length of chromosome/individual
+            chromosome_length: integer, optional (default = 1)
+                An integer which specifies the length of chromosome/individual
 
-    chromosome_type: tuple of <chromosome_length> integers, optional (default = (1,) )
-        A tuple of integers of length <chromosome_length> describing the type of each bit of the chromosome.
-        0 for floating type and 1 for integer type. All integer types first followed by the floating types
+            chromosome_type: tuple of <chromosome_length> integers, optional (default = (1,) )
+                A tuple of integers of length <chromosome_length> describing the type of each bit of the chromosome.
+                0 for floating type and 1 for integer type. All integer types first followed by the floating types
 
-    bit_limits: tuple of <chromosome_length> tuples, optional (default = (0,10) )
-        A tuple of <chromosome_length> tuples containing the lower and upper bounds for each bit of individual
+            bit_limits: tuple of <chromosome_length> tuples, optional (default = (-1,-1) )
+                A tuple of <chromosome_length> tuples containing the lower and upper bounds for each bit of individual
 
-    pop_size: integer, optional (default = 50)
-        An integer which denotes the size of the population
+            bit_values: tuple of <chromosome_length> tuples, optional (default = None )
+                A tuple of <chromosome_length> tuples containing the specific values that each bit can assume for all
+                integer types and lower and upper bounds for all floating type bits.
+                Both <bit_limits> and <bit_values> cannot be specified simultaneously
 
-    crossover_prob: real number, optional (default = 0.4)
-        A number that denotes the probability of crossover
+            pop_size: integer, optional (default = 50)
+                An integer which denotes the size of the population
 
-    crossover_type: string, optional (default = "Blend")
-        A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform
+            n_generations: integer, optional (default = 20)
+                An integer for the number of generations for evolving the population
 
-    mutation_prob: real number, optional (default = 0.4)
-        A number that denotes the probability of mutation.
+            crossover_type: string, optional (default = "Blend")
+                A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform
 
-    mut_float_mean: real number, optional (default = 0)
-        Value of the mean of the Gaussian distribution for Gaussian type mutation
+            mutation_prob: real number, optional (default = 0.4)
+                A number that denotes the probability of mutation.
 
-    mut_float_dev: real number, optional (default = 1)
-        Value of the standard deviation of the Gaussian distribution for Gaussian type mutation
+            mut_float_mean: real number, optional (default = 0)
+                Value of the mean of the Gaussian distribution for Gaussian type mutation
 
-    mut_int_lower: tuple of integers, optional (default = 1)
-        A tuple of integers of length (total number of integers in the chromosome) containing lower limit(s)
-        (inclusive) for integer type mutation
+            mut_float_dev: real number, optional (default = 1)
+                Value of the standard deviation of the Gaussian distribution for Gaussian type mutation
 
-    mut_int_upper: tuple of integers, optional (default = 10)
-        A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
-        (inclusive) for integer type mutation
+            mut_int_lower: tuple of integers, optional (default = 1)
+                A tuple of integers of length (total number of integers in the chromosome) containing lower limit(s)
+                (inclusive) for integer type mutation
 
-    n_generations: integer, optional (default = 20)
-        An integer for the number of generations for evolving the population
+            mut_int_upper: tuple of integers, optional (default = 10)
+                A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
+                (inclusive) for integer type mutation
 
-    Examples
-    --------
-    >>> from cheml.search import GA_DEAP
-    >>> def sum_func(individual): return (sum(individual),)
-    >>> ga_search = GA_DEAP(Evaluate = sum_func, Weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
-    >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
-    >>> ga_search.fit()
-    >>> best_ind_df, best_individual = ga_search.algorithm_1()
-    Best Individuals of each generation are:
-       Best_individual_per_gen  Fitness_values          Time
-    0                   [8, 5]            13.0  4.444453e-06
-    1                  [10, 4]            14.0  5.000035e-06
-    2                  [10, 4]            14.0  0.000000e+00
-    3                  [10, 4]            14.0  4.166696e-06
-    4                  [10, 4]            14.0  4.444387e-06
-    5                  [10, 5]            15.0  4.444453e-06
-    6                  [10, 5]            15.0  4.166696e-06
-    7                  [10, 5]            15.0  4.444453e-06
-    8                  [10, 5]            15.0  0.000000e+00
-    9                  [10, 5]            15.0  8.333392e-07
-    10                 [10, 5]            15.0  4.444453e-06
-    11                 [10, 5]            15.0  4.166696e-06
-    12                 [10, 5]            15.0  4.444453e-06
-    13                 [10, 5]            15.0  4.444453e-06
-    14                 [10, 5]            15.0  0.000000e+00
-    15                 [10, 5]            15.0  0.000000e+00
-    16                 [10, 5]            15.0  8.333392e-07
-    17                 [10, 5]            15.0  4.444453e-06
-    18                 [10, 5]            15.0  4.444453e-06
-    19                 [10, 5]            15.0  4.166630e-06
-    ((0, 10), (0, 5))
-     Best individual after 20 evolutions is [10, 5]
-    """
-    def __init__(self, Evaluate, Weights = (-1.0,), chromosome_length = 1, chromosome_type = (1,), bit_limits = ((0,10),), \
-                 pop_size = 50, crossover_prob = 0.4, crossover_type = "Blend", mutation_prob = 0.4, \
-                 mut_float_mean = 0, mut_float_dev = 1, mut_int_lower = (1,), mut_int_upper = (10,), n_generations = 20):
 
-        self.Weights = Weights
+            Examples
+            --------
+            >>> from cheml.search import GA_DEAP
+            >>> def sum_func(individual): return (sum(individual),)
+            >>> ga_search = GA_DEAP(Evaluate = sum_func, Weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
+            >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
+            >>> ga_search.fit()
+            >>> best_ind_df, best_individual = ga_search.algorithm_1()
+            Best Individuals of each generation are:
+
+               Best_individual_per_gen  Fitness_values          Time
+            0                   [8, 5]            13.0  4.444453e-06
+            1                  [10, 4]            14.0  5.000035e-06
+            2                  [10, 4]            14.0  0.000000e+00
+            3                  [10, 4]            14.0  4.166696e-06
+            4                  [10, 4]            14.0  4.444387e-06
+            5                  [10, 5]            15.0  4.444453e-06
+            6                  [10, 5]            15.0  4.166696e-06
+            7                  [10, 5]            15.0  4.444453e-06
+            8                  [10, 5]            15.0  0.000000e+00
+            9                  [10, 5]            15.0  8.333392e-07
+            10                 [10, 5]            15.0  4.444453e-06
+            11                 [10, 5]            15.0  4.166696e-06
+            12                 [10, 5]            15.0  4.444453e-06
+            13                 [10, 5]            15.0  4.444453e-06
+            14                 [10, 5]            15.0  0.000000e+00
+            15                 [10, 5]            15.0  0.000000e+00
+            16                 [10, 5]            15.0  8.333392e-07
+            17                 [10, 5]            15.0  4.444453e-06
+            18                 [10, 5]            15.0  4.444453e-06
+            19                 [10, 5]            15.0  4.166630e-06
+
+
+            ((0, 10), (0, 5))
+
+             Best individual after 20 evolutions is [10, 5]
+
+            """
+
+    def __init__(self, evaluate, weights=(-1.0,), chromosome_length=1, chromosome_type=(1,), bit_limits=((-1, -1),),
+                 bit_values=None, pop_size=50, n_generations=20, crossover_type="Blend", mutation_prob=0.4,
+                 mut_float_mean=0, mut_float_dev=1, mut_int_lower=(1,), mut_int_upper=(10,)):
+
+        self.Weights = weights
         self.chromosome_length = chromosome_length
+        if self.chromosome_length <= 1:
+            print "Chromosome length cannot be less than or equal to one. Aborting."
+            exit(code=1)
         self.chromosome_type = chromosome_type
         self.bit_limits = bit_limits
-        self.evaluate = Evaluate
+        self.bit_values = bit_values
+        if self.bit_limits == ((-1, -1),) and self.bit_values is None:
+            print "Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            exit(code=1)
+        if self.bit_limits != ((-1, -1),) and self.bit_values is not None:
+            print "Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            exit(code=1)
+        self.evaluate = evaluate
         self.pop_size = pop_size
-        self.crossover_prob = crossover_prob
         self.mutation_prob = mutation_prob
         self.crossover_type = crossover_type
         self.mut_float_param_1 = mut_float_mean
@@ -115,22 +139,21 @@ class GA_DEAP(object):
             if i == 1:
                 self.n_integers += 1
 
-
     def chromosome_generator(self):
-        A = []
-        for i in range(self.chromosome_length):
-            if self.chromosome_length == 1:
+        chsome = []
+        if self.bit_limits != ((-1, -1),):
+            for i in range(self.chromosome_length):
                 if self.chromosome_type[i] == 0:
-                    A.append(random.uniform(self.bit_limits[0], self.bit_limits[1]))
+                    chsome.append(random.uniform(self.bit_limits[i][0], self.bit_limits[i][1]))
                 else:
-                    A.append(random.randint(self.bit_limits[0], self.bit_limits[1]))
-            else:
+                    chsome.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
+        elif self.bit_values is not None:
+            for i in range(self.chromosome_length):
                 if self.chromosome_type[i] == 0:
-                    A.append(random.uniform(self.bit_limits[i][0], self.bit_limits[i][1]))
+                    chsome.append(random.uniform(self.bit_values[i][0], self.bit_values[i][1]))
                 else:
-                    A.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
-        return A
-
+                    chsome.append(random.choice(self.bit_values[i]))
+        return chsome
 
     def fit(self):
         """
@@ -151,45 +174,29 @@ class GA_DEAP(object):
         elif self.crossover_type == "TwoPoint":
             self.toolbox.register("mate", tools.cxTwoPoint)
         elif self.crossover_type == "Uniform":
-            self.toolbox.register("mate", tools.cxUniform, indpb=self.crossover_prob)
+            self.toolbox.register("mate", tools.cxUniform, indpb=0.4)
         elif self.crossover_type == "Blend":
-            self.toolbox.register("mate", tools.cxBlend, alpha = 0.5)
+            self.toolbox.register("mate", tools.cxBlend, alpha=0.5)
 
-        self.toolbox.register("selectTournament", tools.selTournament, tournsize=30)
+        # self.toolbox.register("selectTournament", tools.selTournament, tournsize=30)
         self.toolbox.register("selectRoulette", tools.selRoulette)
 
         def feasibility(indi):
-            for x,i in zip(indi,range(self.chromosome_length)):
-                if self.chromosome_length == 1:
-                    if self.bit_limits[0] <= x <= self.bit_limits[1]:
-                        continue
-                    else:
+            for x, i in zip(indi, range(self.chromosome_length)):
+                if self.bit_limits != ((-1, -1),):
+                    if not self.bit_limits[i][0] <= x <= self.bit_limits[i][1]:
                         return False
-                else:
-                    if self.bit_limits[i][0] <= x <= self.bit_limits[i][1]:
-                        continue
-                    else:
-                        return False
+                elif self.bit_values is not None:
+                    if self.chromosome_type[i] == 0:
+                        if not self.bit_values[i][0] <= x <= self.bit_values[i][1]:
+                            return False
+                    elif self.chromosome_type[i] == 1:
+                        if x not in self.bit_values[i]:
+                            return False
             return True
 
-        def distance(indi):
-            s = 0
-            for x,i in zip(indi, range(self.chromosome_length)):
-                if self.chromosome_length == 1:
-                    low = self.bit_limits[0]
-                    up = self.bit_limits[1]
-                else:
-                    low = self.bit_limits[i][0]
-                    up = self.bit_limits[i][1]
-                if x < low:
-                    s += ((x-low)*100)**2
-                elif x > up:
-                    s += ((x-up)*100)**2
-            return s
-
         self.toolbox.register("evaluate", self.evaluate)
-        self.toolbox.decorate("evaluate", tools.DeltaPenalty(feasibility, -100.0*self.Weights[0], distance))
-
+        self.toolbox.decorate("evaluate", tools.DeltaPenalty(feasibility, -1000.0*self.Weights[0]))
 
     def custom_mutate(self, indi):
         for i in range(self.chromosome_length):
@@ -197,9 +204,12 @@ class GA_DEAP(object):
                 if random.random() < self.mutation_prob:
                     indi[i] += random.gauss(self.mut_float_param_1, self.mut_float_param_2)
             elif self.chromosome_type[i] == 1:
-                if random.random() < self.mutation_prob:
-                    indi[i] = random.randint(self.mut_int_param_1[i], self.mut_int_param_2[i])
-
+                if self.bit_limits != ((-1, -1),):
+                    if random.random() < self.mutation_prob:
+                        indi[i] = random.randint(self.mut_int_param_1[i], self.mut_int_param_2[i])
+                elif self.bit_values is not None:
+                    if random.random() < self.mutation_prob:
+                        indi[i] = random.choice(self.bit_values[i])
 
     def algorithm_1(self):
         """
@@ -248,7 +258,6 @@ class GA_DEAP(object):
         fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
-
 #        fits = [indi.fitness.values[0] for indi in pop]
 
         best_indi_per_gen = []
@@ -291,21 +300,19 @@ class GA_DEAP(object):
             best_indi_per_gen.append(list(best_individual))
             best_indi_fitness_values.append(best_individual.fitness.values[0])
 
-
             tot_time = (time.time() - st_time)/(60*60)
             timer.append(tot_time)
 
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
+            b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
+            b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
+            b3 = pd.Series(timer, name='Time')
+            best_ind_df = pd.concat([b1, b2, b3], axis=1)
             # best_ind_df.to_csv('best_ind.csv',index=False)
 
         # best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
         return best_ind_df, best_individual
-
 
     def algorithm_2(self, init_pop_frac = 0.35, crossover_pop_frac = 0.35):
         """
@@ -420,9 +427,8 @@ class GA_DEAP(object):
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
         return best_ind_df, best_individual
-
 
     def algorithm_3(self):
         """
@@ -530,9 +536,8 @@ class GA_DEAP(object):
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
         return best_ind_df, best_individual
-
 
     def algorithm_4(self, crossover_pop_frac = 0.4):
         """
@@ -646,6 +651,5 @@ class GA_DEAP(object):
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
         print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n" , self.bit_limits, " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
         return best_ind_df, best_individual
-

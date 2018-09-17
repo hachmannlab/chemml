@@ -22,8 +22,6 @@ setup(  name = 'chemml',
 
         packages = find_packages(exclude=['docs']),
 
-        scripts = ['bin/chemmlwrapper'],
-
         keywords=['Machine Learning', 'Data Mining', 'Quantum Chemistry', 'Materials Science', 'Informatics'],
         license='3-Clause BSD',
         classifiers=['Development Status :: 4 - Beta',

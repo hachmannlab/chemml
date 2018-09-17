@@ -23,3 +23,6 @@ _build/
 # ipynb
 .ipynb_checkpoints/
 *.ipynb
+
+# Mac OS
+.DS_Store

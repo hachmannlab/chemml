@@ -1,20 +1,17 @@
+from __future__ import print_function
 from deap import base, creator, tools
 import random
 import pandas as pd
 import time
 import math
 
-# UPDATES:
-# added step size for chromosome generator and mutation
-# removed crossover_prob and selectTournament
-
 
 class GA_DEAP(object):
 
     """
             A genetic algorithm class for search or optimization problems, built on top of the
-            Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
-            algorithm selection methods. The methods are described individually in each algorithm's documentation.
+            Distributed Evolutionary Algorithms in Python (DEAP) library. There are three algorithms with different genetic
+            algorithm selection methods. The documentation for each method is mentioned in the documentation for the search module.
 
             Parameters
             ----------
@@ -67,15 +64,25 @@ class GA_DEAP(object):
                 A tuple of integers of length (total number of integers in the chromosome) containing upper limit(s)
                 (inclusive) for integer type mutation
 
+            conv_criteria: int, optional (default=10)
+                Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
+                the search terminates.
+
+            algorithm: int, optional (default=1)
+                The algorithm to use for the search. Algorithm descriptions are in the documentation for the search method. 
+
+            initial_population: list, optional (default=None)
+                The initial population for the algorithm to start with. 
+
 
             Examples
             --------
             >>> from cheml.search import GA_DEAP
             >>> def sum_func(individual): return (sum(individual),)
-            >>> ga_search = GA_DEAP(Evaluate = sum_func, Weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
+            >>> ga = GA_DEAP(evaluate = sum_func, weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
             >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
-            >>> ga_search.fit()
-            >>> best_ind_df, best_individual = ga_search.algorithm_1()
+            >>> ga.fit()
+            >>> best_ind_df, best_individual = ga.search()
             Best Individuals of each generation are:
 
                Best_individual_per_gen  Fitness_values          Time
@@ -109,21 +116,21 @@ class GA_DEAP(object):
 
     def __init__(self, evaluate, weights=(-1.0,), chromosome_length=1, chromosome_type=(1,), bit_limits=((-1, -1),),
                  bit_values=None, pop_size=50, n_generations=20, crossover_type="Blend", mutation_prob=0.4,
-                 mut_float_mean=0, mut_float_dev=1, mut_int_lower=(1,), mut_int_upper=(10,)):
+                 mut_float_mean=0, mut_float_dev=1, mut_int_lower=(1,), mut_int_upper=(10,), conv_criteria=10, algorithm=1, initial_population=None):
 
         self.Weights = weights
         self.chromosome_length = chromosome_length
         if self.chromosome_length <= 1:
-            print "Chromosome length cannot be less than or equal to one. Aborting."
+            print("Chromosome length cannot be less than or equal to one. Aborting.")
             exit(code=1)
         self.chromosome_type = chromosome_type
         self.bit_limits = bit_limits
         self.bit_values = bit_values
         if self.bit_limits == ((-1, -1),) and self.bit_values is None:
-            print "Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            print("Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting.")
             exit(code=1)
         if self.bit_limits != ((-1, -1),) and self.bit_values is not None:
-            print "Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            print("Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting.")
             exit(code=1)
         self.evaluate = evaluate
         self.pop_size = pop_size
@@ -135,24 +142,31 @@ class GA_DEAP(object):
         self.mut_int_param_2 = mut_int_upper
         self.n_generations = n_generations
         self.n_integers = 0
+        self.conv_criteria = conv_criteria
+        self.algo = algorithm
+        self.initial_pop = initial_population
         for i in chromosome_type:
             if i == 1:
                 self.n_integers += 1
 
     def chromosome_generator(self):
         chsome = []
-        if self.bit_limits != ((-1, -1),):
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 0:
-                    chsome.append(random.uniform(self.bit_limits[i][0], self.bit_limits[i][1]))
-                else:
-                    chsome.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
-        elif self.bit_values is not None:
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 0:
-                    chsome.append(random.uniform(self.bit_values[i][0], self.bit_values[i][1]))
-                else:
-                    chsome.append(random.choice(self.bit_values[i]))
+        if self.initial_pop is not None:
+            for i in self.initial_pop:
+                chsome.append(i)
+        else:
+            if self.bit_limits != ((-1, -1),):
+                for i in range(self.chromosome_length):
+                    if self.chromosome_type[i] == 0:
+                        chsome.append(random.uniform(self.bit_limits[i][0], self.bit_limits[i][1]))
+                    else:
+                        chsome.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
+            elif self.bit_values is not None:
+                for i in range(self.chromosome_length):
+                    if self.chromosome_type[i] == 0:
+                        chsome.append(random.uniform(self.bit_values[i][0], self.bit_values[i][1]))
+                    else:
+                        chsome.append(random.choice(self.bit_values[i]))
         return chsome
 
     def fit(self):
@@ -211,13 +225,39 @@ class GA_DEAP(object):
                     if random.random() < self.mutation_prob:
                         indi[i] = random.choice(self.bit_values[i])
 
-    def algorithm_1(self):
+    def search(self, init_pop_frac = 0.35, crossover_pop_frac = 0.35):
         """
-        Initial population is instantiated.
-        Roulette wheel selection is used for selecting individuals for crossover and mutation.
-        The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
-        n members are selected as the initial population for the next generation, where n is the size of population.
+        Algorithm 1:
+            Initial population is instantiated. 
+            Roulette wheel selection is used for selecting individuals for crossover and mutation.
+            The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
+            n members are selected as the initial population for the next generation, where n is the size of population.
 
+        Algorithm 2:
+            Initial population is instantiated.
+            Roulette wheel selection is used for selecting individuals for crossover and mutation.
+            The initial population, crossovered and mutated individuals form 3 different pools of individuals. Based on
+            input parameters 1 and 2, members are selected from each of these pools to form the initial population for the
+            next generation. Fraction of mutated members to select for next generation is decided based on the two input
+            parameters and the size of initial population.
+
+        Algorithm 3:
+            Initial population is instantiated.
+            Roulette wheel selection is used for selecting individuals for crossover and mutation.
+            The initial population, crossovered and mutated individuals form the pool of individuals from which n members
+            are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next
+            generation, as the initial population for the next generation, where n is the size of population.
+
+
+        Parameters
+        ----------
+        init_pop_frac: float, optional (default = 0.4)
+            Fraction of initial population to select for next generation
+
+        crossover_pop_frac: float, optional (default = 0.3)
+            Fraction of crossover population to select for next generation
+
+        
         Returns
         -------
         best_ind_df:  pandas dataframe
@@ -229,12 +269,22 @@ class GA_DEAP(object):
         -----
         """
 
+        
         pop = self.toolbox.population(n=self.pop_size)
-        # Evaluate the entire population
+        # Evaluate the initial population
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+
+        # Generate and evaluate crossover and mutation population
+        if self.algo == 3:
+            co_pop = []
+            while len(co_pop) < int(math.ceil(0.8*len(pop))):
+                c = self.toolbox.selectRoulette(pop, 1)
+                if c not in co_pop:
+                    co_pop = co_pop + c
+        else:
+            co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
         mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
@@ -253,403 +303,86 @@ class GA_DEAP(object):
             del mutant.fitness.values
 
         # Evaluate the crossover and mutated population
-        total_pop = pop + co_pop + mu_pop
+        if self.algo == 2:
+            a, b = int(math.ceil(init_pop_frac*len(pop))), int(math.ceil(crossover_pop_frac*len(pop)))
+            total_pop = tools.selBest(pop, a) + tools.selBest(co_pop, b) + tools.selBest(mu_pop, len(pop)-a-b)
+        else:
+            total_pop = pop + co_pop + mu_pop
         invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
         fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
-#        fits = [indi.fitness.values[0] for indi in pop]
+        # fits = [indi.fitness.values[0] for indi in pop]
 
         best_indi_per_gen = []
         best_indi_fitness_values = []
         timer = []
+        convergence = 0
         for g in range(self.n_generations):
-            st_time = time.time()
-            # Select the next generation individuals
-            offspring = tools.selBest(total_pop, self.pop_size)
-            # Clone the selected individuals
-            offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
-            co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
-            mu_pop = list(map(self.toolbox.clone, mu_pop))
-
-            for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                self.toolbox.mate(child1, child2)
-                for i in range(self.chromosome_length):
-                    if self.chromosome_type[i] == 1:
-                        child1[i] = int(child1[i])
-                        child2[i] = int(child2[i])
-                del child1.fitness.values
-                del child2.fitness.values
-
-            for mutant in mu_pop:
-                self.custom_mutate(mutant)
-                del mutant.fitness.values
-
-            # Evaluate the crossover and mutated population
-            total_pop = offspring + co_pop + mu_pop
-            invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-            fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-            for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness.values = fit
-
-
-            # Storing the best individuals after each generation
-            best_individual = tools.selBest(total_pop, 1)[0]
-            best_indi_per_gen.append(list(best_individual))
-            best_indi_fitness_values.append(best_individual.fitness.values[0])
-
-            tot_time = (time.time() - st_time)/(60*60)
-            timer.append(tot_time)
-
-            b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
-            b3 = pd.Series(timer, name='Time')
-            best_ind_df = pd.concat([b1, b2, b3], axis=1)
-            # best_ind_df.to_csv('best_ind.csv',index=False)
-
-        # best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
-        return best_ind_df, best_individual
-
-    def algorithm_2(self, init_pop_frac = 0.35, crossover_pop_frac = 0.35):
-        """
-        Initial population is instantiated.
-        Roulette wheel selection is used for selecting individuals for crossover and mutation.
-        The initial population, crossovered and mutated individuals form 3 different pools of individuals. Based on
-        input parameters 1 and 2, members are selected from each of these pools to form the initial population for the
-        next generation. Fraction of mutated members to select for next generation is decided based on the 2 input
-        parameters and the size of initial population.
-
-        Parameters
-        ----------
-        init_pop_frac: float, optional (default = 0.4)
-            Fraction of initial population to select for next generation
-
-        crossover_pop_frac: float, optional (default = 0.3)
-            Fraction of crossover population to select for next generation
-
-        Returns
-        -------
-        best_ind_df:  pandas dataframe
-            A pandas dataframe of best individuals of each generation
-
-        best_ind:  list of <chromosome_length> numbers
-            The best individual after the last generation.
-        """
-        pop = self.toolbox.population(n=self.pop_size)
-        # Evaluate the entire population
-        fitnesses = map(self.toolbox.evaluate, pop)
-        for ind, fit in zip(pop, fitnesses):
-            ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
-        co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
-        mu_pop = list(map(self.toolbox.clone, mu_pop))
-
-        for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-            self.toolbox.mate(child1, child2)
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 1:
-                    child1[i] = int(child1[i])
-                    child2[i] = int(child2[i])
-            del child1.fitness.values
-            del child2.fitness.values
-
-        for mutant in mu_pop:
-            self.custom_mutate(mutant)
-            del mutant.fitness.values
-
-        # Evaluate the crossover and mutated population
-        total_pop = pop + co_pop + mu_pop
-        invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-        fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-        for ind, fit in zip(invalid_ind, fitnesses):
-            ind.fitness.values = fit
-
-#        fits = [indi.fitness.values[0] for indi in pop]
-
-        best_indi_per_gen = []
-        best_indi_fitness_values = []
-        timer = []
-        for g in range(self.n_generations):
-            st_time = time.time()
-            # Select the next generation individuals
-            off_pop = tools.selBest(pop, int(math.ceil(init_pop_frac*len(pop))))
-            off_co = tools.selBest(co_pop, int(math.ceil(crossover_pop_frac*len(pop))))
-            off_mu = tools.selBest(mu_pop, len(pop)-len(off_pop)-len(off_co) )
-            offspring = off_pop + off_co + off_mu
-            # Clone the selected individuals
-            offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
-            co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
-            mu_pop = list(map(self.toolbox.clone, mu_pop))
-
-            for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                self.toolbox.mate(child1, child2)
-                for i in range(self.chromosome_length):
-                    if self.chromosome_type[i] == 1:
-                        child1[i] = int(child1[i])
-                        child2[i] = int(child2[i])
-                del child1.fitness.values
-                del child2.fitness.values
-
-            for mutant in mu_pop:
-                self.custom_mutate(mutant)
-                del mutant.fitness.values
-
-            # Evaluate the crossover and mutated population
-            total_pop = offspring + co_pop + mu_pop
-            invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-            fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-            for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness.values = fit
-            pop = offspring
-
-            # Storing the best individuals after each generation
-            best_individual = tools.selBest(total_pop, 1)[0]
-            best_indi_per_gen.append(list(best_individual))
-            best_indi_fitness_values.append(best_individual.fitness.values[0])
-
-
-            tot_time = (time.time() - st_time)/(60*60)
-            timer.append(tot_time)
-
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            # best_ind_df.to_csv('best_ind.csv',index=False)
-
-
-    #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
-        return best_ind_df, best_individual
-
-    def algorithm_3(self):
-        """
-        Initial population is instantiated.
-        Roulette wheel selection is used for selecting individuals for crossover and mutation.
-        The initial population, crossovered and mutated individuals form the pool of individuals from which n members
-        are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next
-        generation, as the initial population for the next generation, where n is the size of population.
-
-        Returns
-        -------
-        best_ind_df:  pandas dataframe
-            A pandas dataframe of best individuals of each generation
-
-        best_ind:  list of <chromosome_length> numbers
-            The best individual after the last generation.
-        """
-        pop = self.toolbox.population(n=self.pop_size)
-        # Evaluate the entire population
-        fitnesses = map(self.toolbox.evaluate, pop)
-        for ind, fit in zip(pop, fitnesses):
-            ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
-        co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
-        mu_pop = list(map(self.toolbox.clone, mu_pop))
-
-        for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-            self.toolbox.mate(child1, child2)
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 1:
-                    child1[i] = int(child1[i])
-                    child2[i] = int(child2[i])
-            del child1.fitness.values
-            del child2.fitness.values
-
-        for mutant in mu_pop:
-            self.custom_mutate(mutant)
-            del mutant.fitness.values
-
-            # Evaluate the crossover and mutated population
-        total_pop = pop + co_pop + mu_pop
-        invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-        fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-        for ind, fit in zip(invalid_ind, fitnesses):
-            ind.fitness.values = fit
-
-#        fits = [indi.fitness.values[0] for indi in pop]
-
-        best_indi_per_gen = []
-        best_indi_fitness_values = []
-        timer = []
-        for g in range(self.n_generations):
-            st_time = time.time()
-            # Select the next generation individuals
-            #offspring = tools.selBest(total_pop, self.pop_size)
-            #temp_pop = total_pop
-            offspring = []
-            for i in range(len(pop)):
-                #off = self.toolbox.selectRoulette(total_pop, 1)
-                off = tools.selBest(total_pop, 1)
-                offspring.append(off[0])
-                total_pop.remove(off[0])
-            # Clone the selected individuals
-            # offspring = list(map(self.toolbox.clone, offspring))
-
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
-            co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
-            mu_pop = list(map(self.toolbox.clone, mu_pop))
-
-            for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                self.toolbox.mate(child1, child2)
-                for i in range(self.chromosome_length):
-                    if self.chromosome_type[i] == 1:
-                        child1[i] = int(child1[i])
-                        child2[i] = int(child2[i])
-                del child1.fitness.values
-                del child2.fitness.values
-
-            for mutant in mu_pop:
-                self.custom_mutate(mutant)
-                del mutant.fitness.values
-
-            # Evaluate the crossover and mutated population
-            total_pop = offspring + co_pop + mu_pop
-            invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-            fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-            for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness.values = fit
-
-
-            # Storing the best individuals after each generation
-            best_individual = tools.selBest(total_pop, 1)[0]
-            best_indi_per_gen.append(list(best_individual))
-            best_indi_fitness_values.append(best_individual.fitness.values[0])
-
-            tot_time = (time.time() - st_time)/(60*60)
-            timer.append(tot_time)
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            # best_ind_df.to_csv('best_ind.csv',index=False)
-
-    #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
-        return best_ind_df, best_individual
-
-    def algorithm_4(self, crossover_pop_frac = 0.4):
-        """
-        Initial population is instantiated.
-        Roulette wheel selection is used for selecting individuals for crossover. For mutation, fraction of individuals
-        are selected from the crossover population based on input parameter.
-        The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
-        n members are selected as the initial population for the next generation, where n is the size of population.
-
-        Parameters
-        ----------
-        crossover_pop_frac: float, optional (default = 0.4)
-            Fraction of crossover population to select for mutation
-
-        Returns
-        -------
-        best_ind_df:  pandas dataframe
-            A pandas dataframe of best individuals of each generation
-
-        best_ind:  list of <chromosome_length> numbers
-            The best individual after the last generation.
-        """
-        pop = self.toolbox.population(n=self.pop_size)
-        # Evaluate the entire population
-        fitnesses = map(self.toolbox.evaluate, pop)
-        for ind, fit in zip(pop, fitnesses):
-            ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
-        co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(co_pop, int(math.ceil(crossover_pop_frac*len(co_pop))))
-        mu_pop = list(map(self.toolbox.clone, mu_pop))
-        for i in mu_pop:
-            if i in co_pop:
-                co_pop.remove(i)
-
-        for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-            self.toolbox.mate(child1, child2)
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 1:
-                    child1[i] = int(child1[i])
-                    child2[i] = int(child2[i])
-            del child1.fitness.values
-            del child2.fitness.values
-
-        for mutant in mu_pop:
-            self.custom_mutate(mutant)
-            del mutant.fitness.values
-
-        # Evaluate the crossover and mutated population
-        total_pop = pop + co_pop + mu_pop
-        invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-        fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-        for ind, fit in zip(invalid_ind, fitnesses):
-            ind.fitness.values = fit
-
-#        fits = [indi.fitness.values[0] for indi in pop]
-
-        best_indi_per_gen = []
-        best_indi_fitness_values = []
-        timer = []
-        for g in range(self.n_generations):
-            st_time = time.time()
+            if convergence >= self.conv_criteria:
+                print("The search converged with convergence criteria = ", self.conv_criteria)
+                break
+            else:
+                st_time = time.time()
                 # Select the next generation individuals
-            offspring = tools.selBest(total_pop, self.pop_size)
-            # Clone the selected individuals
-            offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
-            co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(co_pop, int(math.ceil(crossover_pop_frac*len(co_pop))))
-            mu_pop = list(map(self.toolbox.clone, mu_pop))
-            for i in mu_pop:
-                if i in co_pop:
-                    co_pop.remove(i)
+                offspring = tools.selBest(total_pop, self.pop_size)
+                # Clone the selected individuals
+                offspring = list(map(self.toolbox.clone, offspring))
+                if self.algo == 3:
+                    co_pop = []
+                    while len(co_pop) < int(math.ceil(0.8*len(pop))):
+                        c = self.toolbox.selectRoulette(pop, 1)
+                        if c not in co_pop:
+                            co_pop = co_pop + c
+                else:
+                    co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+                co_pop = list(map(self.toolbox.clone, co_pop))
+                mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
+                mu_pop = list(map(self.toolbox.clone, mu_pop))
 
+                for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
+                    self.toolbox.mate(child1, child2)
+                    for i in range(self.chromosome_length):
+                        if self.chromosome_type[i] == 1:
+                            child1[i] = int(child1[i])
+                            child2[i] = int(child2[i])
+                    del child1.fitness.values
+                    del child2.fitness.values
 
-            for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                self.toolbox.mate(child1, child2)
-                for i in range(self.chromosome_length):
-                    if self.chromosome_type[i] == 1:
-                        child1[i] = int(child1[i])
-                        child2[i] = int(child2[i])
-                del child1.fitness.values
-                del child2.fitness.values
-
-            for mutant in mu_pop:
-                self.custom_mutate(mutant)
-                del mutant.fitness.values
+                for mutant in mu_pop:
+                    self.custom_mutate(mutant)
+                    del mutant.fitness.values
 
                 # Evaluate the crossover and mutated population
-            total_pop = offspring + co_pop + mu_pop
-            invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
-            fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
-            for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness.values = fit
+                if self.algo == 2:
+                    a, b = int(math.ceil(init_pop_frac*len(pop))), int(math.ceil(crossover_pop_frac*len(pop)))
+                    total_pop = tools.selBest(pop, a) + tools.selBest(co_pop, b) + tools.selBest(mu_pop, len(pop)-a-b)
+                else:
+                    total_pop = offspring + co_pop + mu_pop
+                invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
+                fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
+                for ind, fit in zip(invalid_ind, fitnesses):
+                    ind.fitness.values = fit
 
 
-            # Storing the best individuals after each generation
-            best_individual = tools.selBest(total_pop, 1)[0]
-            best_indi_per_gen.append(list(best_individual))
-            best_indi_fitness_values.append(best_individual.fitness.values[0])
+                # Storing the best individuals after each generation
+                best_individual = tools.selBest(total_pop, 1)[0]
+                if len(best_indi_per_gen)>0 and best_individual==best_indi_per_gen[-1]:
+                    convergence += 1
+                best_indi_per_gen.append(list(best_individual))
+                best_indi_fitness_values.append(best_individual.fitness.values[0])
 
+                tot_time = (time.time() - st_time)/(60*60)
+                timer.append(tot_time)
 
-            tot_time = (time.time() - st_time)/(60*60)
-            timer.append(tot_time)
+                b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
+                b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
+                b3 = pd.Series(timer, name='Time')
+                best_ind_df = pd.concat([b1, b2, b3], axis=1)
+                # best_ind_df.to_csv('best_ind.csv',index=False)
 
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
-            # best_ind_df.to_csv('best_ind.csv',index=False)
-
-    #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        # best_ind_df = pd.DataFrame(best_indi_per_gen)
+        print("\n \n Best Individuals of each generation are:  \n \n" , best_ind_df)
+        print(" \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual))
         return best_ind_df, best_individual
+

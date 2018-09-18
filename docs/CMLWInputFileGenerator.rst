@@ -34,6 +34,7 @@ install ChemML and wrapperGUI (the first and third lines are unnecessary if you 
    source activate my_chemml_env
    pip install chemml --user -U
 
+   jupyter nbextension install --py widgetsnbextension --user
    jupyter nbextension enable --sys-prefix --py widgetsnbextension
    conda install -c conda-forge nb_conda_kernels
 

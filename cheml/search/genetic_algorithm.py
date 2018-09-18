@@ -4,13 +4,8 @@ import pandas as pd
 import time
 import math
 
-# UPDATES:
-# added step size for chromosome generator and mutation
-# removed crossover_prob and selectTournament
-
 
 class GA_DEAP(object):
-
     """
             A genetic algorithm class for search or optimization problems, built on top of the
             Distributed Evolutionary Algorithms in Python (DEAP) library. There are four algorithms with different genetic
@@ -107,9 +102,21 @@ class GA_DEAP(object):
 
             """
 
-    def __init__(self, evaluate, weights=(-1.0,), chromosome_length=1, chromosome_type=(1,), bit_limits=((-1, -1),),
-                 bit_values=None, pop_size=50, n_generations=20, crossover_type="Blend", mutation_prob=0.4,
-                 mut_float_mean=0, mut_float_dev=1, mut_int_lower=(1,), mut_int_upper=(10,)):
+    def __init__(self,
+                 evaluate,
+                 weights=(-1.0, ),
+                 chromosome_length=1,
+                 chromosome_type=(1, ),
+                 bit_limits=((-1, -1), ),
+                 bit_values=None,
+                 pop_size=50,
+                 n_generations=20,
+                 crossover_type="Blend",
+                 mutation_prob=0.4,
+                 mut_float_mean=0,
+                 mut_float_dev=1,
+                 mut_int_lower=(1, ),
+                 mut_int_upper=(10, )):
 
         self.Weights = weights
         self.chromosome_length = chromosome_length
@@ -119,10 +126,10 @@ class GA_DEAP(object):
         self.chromosome_type = chromosome_type
         self.bit_limits = bit_limits
         self.bit_values = bit_values
-        if self.bit_limits == ((-1, -1),) and self.bit_values is None:
+        if self.bit_limits == ((-1, -1), ) and self.bit_values is None:
             print "Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
             exit(code=1)
-        if self.bit_limits != ((-1, -1),) and self.bit_values is not None:
+        if self.bit_limits != ((-1, -1), ) and self.bit_values is not None:
             print "Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
             exit(code=1)
         self.evaluate = evaluate
@@ -141,16 +148,22 @@ class GA_DEAP(object):
 
     def chromosome_generator(self):
         chsome = []
-        if self.bit_limits != ((-1, -1),):
+        if self.bit_limits != ((-1, -1), ):
             for i in range(self.chromosome_length):
                 if self.chromosome_type[i] == 0:
-                    chsome.append(random.uniform(self.bit_limits[i][0], self.bit_limits[i][1]))
+                    chsome.append(
+                        random.uniform(self.bit_limits[i][0],
+                                       self.bit_limits[i][1]))
                 else:
-                    chsome.append(random.randint(self.bit_limits[i][0], self.bit_limits[i][1]))
+                    chsome.append(
+                        random.randint(self.bit_limits[i][0],
+                                       self.bit_limits[i][1]))
         elif self.bit_values is not None:
             for i in range(self.chromosome_length):
                 if self.chromosome_type[i] == 0:
-                    chsome.append(random.uniform(self.bit_values[i][0], self.bit_values[i][1]))
+                    chsome.append(
+                        random.uniform(self.bit_values[i][0],
+                                       self.bit_values[i][1]))
                 else:
                     chsome.append(random.choice(self.bit_values[i]))
         return chsome
@@ -166,8 +179,10 @@ class GA_DEAP(object):
         creator.create("FitnessMin", base.Fitness, weights=self.Weights)
         creator.create("Individual", list, fitness=creator.FitnessMin)
         self.toolbox = base.Toolbox()
-        self.toolbox.register("individual", tools.initIterate, creator.Individual, self.chromosome_generator)
-        self.toolbox.register("population", tools.initRepeat, list, self.toolbox.individual)
+        self.toolbox.register("individual", tools.initIterate,
+                              creator.Individual, self.chromosome_generator)
+        self.toolbox.register("population", tools.initRepeat, list,
+                              self.toolbox.individual)
 
         if self.crossover_type == "OnePoint":
             self.toolbox.register("mate", tools.cxOnePoint)
@@ -183,12 +198,13 @@ class GA_DEAP(object):
 
         def feasibility(indi):
             for x, i in zip(indi, range(self.chromosome_length)):
-                if self.bit_limits != ((-1, -1),):
+                if self.bit_limits != ((-1, -1), ):
                     if not self.bit_limits[i][0] <= x <= self.bit_limits[i][1]:
                         return False
                 elif self.bit_values is not None:
                     if self.chromosome_type[i] == 0:
-                        if not self.bit_values[i][0] <= x <= self.bit_values[i][1]:
+                        if not self.bit_values[i][0] <= x <= self.bit_values[
+                                i][1]:
                             return False
                     elif self.chromosome_type[i] == 1:
                         if x not in self.bit_values[i]:
@@ -196,17 +212,21 @@ class GA_DEAP(object):
             return True
 
         self.toolbox.register("evaluate", self.evaluate)
-        self.toolbox.decorate("evaluate", tools.DeltaPenalty(feasibility, -1000.0*self.Weights[0]))
+        self.toolbox.decorate(
+            "evaluate",
+            tools.DeltaPenalty(feasibility, -1000.0 * self.Weights[0]))
 
     def custom_mutate(self, indi):
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 0:
                 if random.random() < self.mutation_prob:
-                    indi[i] += random.gauss(self.mut_float_param_1, self.mut_float_param_2)
+                    indi[i] += random.gauss(self.mut_float_param_1,
+                                            self.mut_float_param_2)
             elif self.chromosome_type[i] == 1:
-                if self.bit_limits != ((-1, -1),):
+                if self.bit_limits != ((-1, -1), ):
                     if random.random() < self.mutation_prob:
-                        indi[i] = random.randint(self.mut_int_param_1[i], self.mut_int_param_2[i])
+                        indi[i] = random.randint(self.mut_int_param_1[i],
+                                                 self.mut_int_param_2[i])
                 elif self.bit_values is not None:
                     if random.random() < self.mutation_prob:
                         indi[i] = random.choice(self.bit_values[i])
@@ -234,9 +254,11 @@ class GA_DEAP(object):
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+        co_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.8 * len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
+        mu_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.3 * len(pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -269,9 +291,11 @@ class GA_DEAP(object):
             offspring = tools.selBest(total_pop, self.pop_size)
             # Clone the selected individuals
             offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+            co_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.8 * len(pop))))
             co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
+            mu_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.3 * len(pop))))
             mu_pop = list(map(self.toolbox.clone, mu_pop))
 
             for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -294,13 +318,12 @@ class GA_DEAP(object):
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
 
-
             # Storing the best individuals after each generation
             best_individual = tools.selBest(total_pop, 1)[0]
             best_indi_per_gen.append(list(best_individual))
             best_indi_fitness_values.append(best_individual.fitness.values[0])
 
-            tot_time = (time.time() - st_time)/(60*60)
+            tot_time = (time.time() - st_time) / (60 * 60)
             timer.append(tot_time)
 
             b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
@@ -310,11 +333,12 @@ class GA_DEAP(object):
             # best_ind_df.to_csv('best_ind.csv',index=False)
 
         # best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best Individuals of each generation are:  \n \n", best_ind_df
+        print " \n \n Best individual after %s evolutions is %s " % (
+            self.n_generations, best_individual)
         return best_ind_df, best_individual
 
-    def algorithm_2(self, init_pop_frac = 0.35, crossover_pop_frac = 0.35):
+    def algorithm_2(self, init_pop_frac=0.35, crossover_pop_frac=0.35):
         """
         Initial population is instantiated.
         Roulette wheel selection is used for selecting individuals for crossover and mutation.
@@ -344,9 +368,11 @@ class GA_DEAP(object):
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+        co_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.8 * len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
+        mu_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.3 * len(pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -377,15 +403,20 @@ class GA_DEAP(object):
         for g in range(self.n_generations):
             st_time = time.time()
             # Select the next generation individuals
-            off_pop = tools.selBest(pop, int(math.ceil(init_pop_frac*len(pop))))
-            off_co = tools.selBest(co_pop, int(math.ceil(crossover_pop_frac*len(pop))))
-            off_mu = tools.selBest(mu_pop, len(pop)-len(off_pop)-len(off_co) )
+            off_pop = tools.selBest(pop,
+                                    int(math.ceil(init_pop_frac * len(pop))))
+            off_co = tools.selBest(
+                co_pop, int(math.ceil(crossover_pop_frac * len(pop))))
+            off_mu = tools.selBest(mu_pop,
+                                   len(pop) - len(off_pop) - len(off_co))
             offspring = off_pop + off_co + off_mu
             # Clone the selected individuals
             offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+            co_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.8 * len(pop))))
             co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
+            mu_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.3 * len(pop))))
             mu_pop = list(map(self.toolbox.clone, mu_pop))
 
             for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -414,20 +445,19 @@ class GA_DEAP(object):
             best_indi_per_gen.append(list(best_individual))
             best_indi_fitness_values.append(best_individual.fitness.values[0])
 
-
-            tot_time = (time.time() - st_time)/(60*60)
+            tot_time = (time.time() - st_time) / (60 * 60)
             timer.append(tot_time)
 
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
+            b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
+            b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
+            b3 = pd.Series(timer, name='Time')
+            best_ind_df = pd.concat([b1, b2, b3], axis=1)
             # best_ind_df.to_csv('best_ind.csv',index=False)
 
-
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best Individuals of each generation are:  \n \n", best_ind_df
+        print "\n \n Best individual after %s evolutions is %s " % (
+            self.n_generations, best_individual)
         return best_ind_df, best_individual
 
     def algorithm_3(self):
@@ -451,9 +481,11 @@ class GA_DEAP(object):
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+        co_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.8 * len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
+        mu_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.3 * len(pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -495,9 +527,11 @@ class GA_DEAP(object):
             # Clone the selected individuals
             # offspring = list(map(self.toolbox.clone, offspring))
 
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+            co_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.8 * len(pop))))
             co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
+            mu_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.3 * len(pop))))
             mu_pop = list(map(self.toolbox.clone, mu_pop))
 
             for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -520,26 +554,26 @@ class GA_DEAP(object):
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
 
-
             # Storing the best individuals after each generation
             best_individual = tools.selBest(total_pop, 1)[0]
             best_indi_per_gen.append(list(best_individual))
             best_indi_fitness_values.append(best_individual.fitness.values[0])
 
-            tot_time = (time.time() - st_time)/(60*60)
+            tot_time = (time.time() - st_time) / (60 * 60)
             timer.append(tot_time)
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
+            b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
+            b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
+            b3 = pd.Series(timer, name='Time')
+            best_ind_df = pd.concat([b1, b2, b3], axis=1)
             # best_ind_df.to_csv('best_ind.csv',index=False)
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print "\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best Individuals of each generation are:  \n \n", best_ind_df
+        print "\n \n Best individual after %s evolutions is %s " % (
+            self.n_generations, best_individual)
         return best_ind_df, best_individual
 
-    def algorithm_4(self, crossover_pop_frac = 0.4):
+    def algorithm_4(self, crossover_pop_frac=0.4):
         """
         Initial population is instantiated.
         Roulette wheel selection is used for selecting individuals for crossover. For mutation, fraction of individuals
@@ -565,9 +599,11 @@ class GA_DEAP(object):
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-        co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+        co_pop = self.toolbox.selectRoulette(pop, int(
+            math.ceil(0.8 * len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(co_pop, int(math.ceil(crossover_pop_frac*len(co_pop))))
+        mu_pop = self.toolbox.selectRoulette(
+            co_pop, int(math.ceil(crossover_pop_frac * len(co_pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
         for i in mu_pop:
             if i in co_pop:
@@ -593,6 +629,7 @@ class GA_DEAP(object):
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
 
+
 #        fits = [indi.fitness.values[0] for indi in pop]
 
         best_indi_per_gen = []
@@ -600,18 +637,19 @@ class GA_DEAP(object):
         timer = []
         for g in range(self.n_generations):
             st_time = time.time()
-                # Select the next generation individuals
+            # Select the next generation individuals
             offspring = tools.selBest(total_pop, self.pop_size)
             # Clone the selected individuals
             offspring = list(map(self.toolbox.clone, offspring))
-            co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+            co_pop = self.toolbox.selectRoulette(
+                offspring, int(math.ceil(0.8 * len(pop))))
             co_pop = list(map(self.toolbox.clone, co_pop))
-            mu_pop = self.toolbox.selectRoulette(co_pop, int(math.ceil(crossover_pop_frac*len(co_pop))))
+            mu_pop = self.toolbox.selectRoulette(
+                co_pop, int(math.ceil(crossover_pop_frac * len(co_pop))))
             mu_pop = list(map(self.toolbox.clone, mu_pop))
             for i in mu_pop:
                 if i in co_pop:
                     co_pop.remove(i)
-
 
             for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
                 self.toolbox.mate(child1, child2)
@@ -633,23 +671,22 @@ class GA_DEAP(object):
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
 
-
             # Storing the best individuals after each generation
             best_individual = tools.selBest(total_pop, 1)[0]
             best_indi_per_gen.append(list(best_individual))
             best_indi_fitness_values.append(best_individual.fitness.values[0])
 
-
-            tot_time = (time.time() - st_time)/(60*60)
+            tot_time = (time.time() - st_time) / (60 * 60)
             timer.append(tot_time)
 
-            b1 = pd.Series(best_indi_per_gen, name = 'Best_individual_per_gen')
-            b2 = pd.Series(best_indi_fitness_values, name = 'Fitness_values')
-            b3 = pd.Series(timer, name = 'Time')
-            best_ind_df = pd.concat([b1,b2,b3], axis=1)
+            b1 = pd.Series(best_indi_per_gen, name='Best_individual_per_gen')
+            b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
+            b3 = pd.Series(timer, name='Time')
+            best_ind_df = pd.concat([b1, b2, b3], axis=1)
             # best_ind_df.to_csv('best_ind.csv',index=False)
 
     #	best_ind_df = pd.DataFrame(best_indi_per_gen)
-        print "\n \n Best Individuals of each generation are:  \n \n" , best_ind_df
-        print " \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual)
+        print "\n \n Best Individuals of each generation are:  \n \n", best_ind_df
+        print " \n \n Best individual after %s evolutions is %s " % (
+            self.n_generations, best_individual)
         return best_ind_df, best_individual

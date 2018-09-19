@@ -206,7 +206,7 @@ class XYZreader(object):
                         molecules[it] = {'file':fn, 'mol': mol}
             else:
                 if not self.path_only:
-                    mol = self.__file_reader(file_name)
+                    mol = self.__file_reader(file_name+file_extension)
                     max_nAtoms = max(max_nAtoms, len(mol))
                 else:
                     mol = None

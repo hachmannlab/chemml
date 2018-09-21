@@ -34,7 +34,7 @@ if __name__ == "__main__":
         install_requires=[
             'future', 'six', 'numpy', 'pandas', 'tensorflow==1.1.0',
             'keras==2.1.5', 'scikit-learn==0.19.1', 'babel>=2.3.4',
-            'matplotlib>=1.5.1', 'deap>=1.2.2', 'lxml', 'graphviz'
+            'matplotlib>=1.5.1', 'deap>=1.2.2', 'lxml'
         ],
         extras_require={
             'docs': [

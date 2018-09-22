@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import range
 import os
 import matplotlib
 matplotlib.use('Agg')
@@ -33,8 +35,8 @@ class decorator(object):
 
     Examples
     --------
-    >>> from cheml.visualization import hist, decorator
-    >>> from cheml.datasets import load_organic_density
+    >>> from chemml.visualization import hist, decorator
+    >>> from chemml.datasets import load_organic_density
     >>> smiles, density, features = load_organic_density()
     >>> hg = hist(20,'g',{'normed':True})
     >>> fig = hg.plot(features,'AMW')   # atomic molecular weights
@@ -141,8 +143,8 @@ class scatter2D(object):
 
     Examples
     --------
-    >>> from cheml.visualization import scatter2D
-    >>> from cheml.datasets import load_organic_density
+    >>> from chemml.visualization import scatter2D
+    >>> from chemml.datasets import load_organic_density
     >>> smiles, density, features = load_organic_density()
     >>> sc = scatter2D('r', marker='.')
     >>> fig = sc.plot(dfx=den, dfy=fea, x=0, y=1)
@@ -220,8 +222,8 @@ class hist(object):
 
     Examples
     --------
-    >>> from cheml.visualization import hist
-    >>> from cheml.datasets import load_organic_density
+    >>> from chemml.visualization import hist
+    >>> from chemml.datasets import load_organic_density
     >>> smiles, density, features = load_organic_density()
     >>> hg = hist(20,'g',{'normed':True})
     >>> fig = hg.plot(features,'AMW')   # atomic molecular weights
@@ -337,7 +339,7 @@ class SavePlot(object):
         else:
             self.file_path = '%s/%s.%s' %(main_directory,self.filename,self.format)
             obj.figure.savefig(self.file_path,**self.kwargs)
-        print 'The Plot has been saved at: ', self.file_path
+        print('The Plot has been saved at: ', self.file_path)
 
 
 

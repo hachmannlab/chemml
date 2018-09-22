@@ -26,7 +26,7 @@ def load_cep_homo():
 
     Examples
     --------
-    >>> from cheml.datasets import load_cep_homo
+    >>> from chemml.datasets import load_cep_homo
     >>> smi, homo  = load_cep_homo()
     >>> print list(smi.columns)
     ['smiles']
@@ -63,7 +63,7 @@ def load_organic_density():
 
     Examples
     --------
-    >>> from cheml.datasets import load_organic_density
+    >>> from chemml.datasets import load_organic_density
     >>> smi, density, features = load_organic_density()
     >>> print list(smi.columns)
     ['smiles']

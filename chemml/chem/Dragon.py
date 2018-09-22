@@ -2,10 +2,12 @@
 Created on 01 March 2016
 @author: Mojtaba Haghighatlari
 """
-
-import pandas as pd
+from __future__ import print_function
+from builtins import range
 import warnings
 import os
+from lxml import objectify, etree
+
 from ..utils import std_datetime_str, bool_formatter
 
 
@@ -42,7 +44,7 @@ class Dragon(object):
     Examples
     --------
         >>> import pandas as pd
-        >>> from cheml.chem import Dragon
+        >>> from chemml.chem import Dragon
         >>> drg = Dragon(**parameters)
         >>> drg.script_wizard(script='new', output_directory='./')
         >>> drg.run()
@@ -158,7 +160,6 @@ class Dragon(object):
         -------
             class parameters
         """
-        from lxml import objectify, etree
         if output_directory[-1] == '/':
             self.output_directory = output_directory
         else:
@@ -375,7 +376,6 @@ class Dragon(object):
         return self
 
     def _save_script(self):
-        from lxml import objectify, etree
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         self.drs_name = 'Dragon_script.drs'
@@ -383,13 +383,12 @@ class Dragon(object):
             outfile.write("%s" %etree.tostring(self.dragon, pretty_print=True))
 
     def printout(self):
-        from lxml import objectify, etree
         objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         print(objectify.dump(self.dragon))
 
     def run(self):
-        print "running Dragon%s ..."%self.version
+        print("running Dragon%s ..."%self.version)
         os.system('nohup dragon%sshell -s %s'%(self.version,self.output_directory+self.drs_name))
         # print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
-        print "... Dragon job completed!"
+        print("... Dragon job completed!")

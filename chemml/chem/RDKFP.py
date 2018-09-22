@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import range
 import pandas as pd
 import numpy as np
 import os
@@ -108,33 +110,33 @@ class RDKitFingerprint(object):
                     of extra arguments must be passed). Also, the order is important
                     and it should be in the same order of '%s's. 
             
-        examples
+        Pattern Examples
         --------
             (1)
             file: 'Mydir/1f/1_opt.smi'
             path: None
-            >>> sample files to be read: 'Mydir/1f/1_opt.smi' 
+            sample files to be read: 'Mydir/1f/1_opt.smi'
             
             (2)
             file: '[1,2,3,4]?/*_opt.mol'
             path: 'Mydir'
-            >>> sample files to be read: 'Mydir/1f/1_opt.mol', 'Mydir/2c/2_opt.mol', ... 
+            sample files to be read: 'Mydir/1f/1_opt.mol', 'Mydir/2c/2_opt.mol', ...
             
             (3)
             file: '[!1,2]?/*_opt.pdb'
             path: '.'
-            >>> sample files to be read: './3f/3_opt.pdb', 'Mydir/7c/7_opt.pdb', ... 
+            sample files to be read: './3f/3_opt.pdb', 'Mydir/7c/7_opt.pdb', ...
 
             (4)
             file: '*['f','c']/*_opt.tpl'
             path: 'Mydir'
-            >>> sample files to be read: 'Mydir/1f/1_opt.tpl', 'Mydir/2c/2_opt.tpl', ... 
+            sample files to be read: 'Mydir/1f/1_opt.tpl', 'Mydir/2c/2_opt.tpl', ...
 
             (5)
             file: '[%s]?/[!%s]_opt.mol2'
             arguments: 1,4,7,10
             path: 'Mydir/all'
-            >>> sample files to be read: 'Mydir/all/1f/1_opt.mol2', 'Mydir/all/2c/2_opt.mol2', ... 
+            sample files to be read: 'Mydir/all/1f/1_opt.mol2', 'Mydir/all/2c/2_opt.mol2', ...
         """
         from rdkit import Chem
         extensions = {'.mol':       Chem.MolFromMolFile,
@@ -229,12 +231,12 @@ class RDKitFingerprint(object):
                 data = np.array(self.fps)
                 data = pd.DataFrame(data)
 
-                print len(data.columns)
+                print(len(data.columns))
                 d_des = data.describe()
                 for i in data.columns:
                     if d_des[i]['mean'] == 0 :
                         data.drop(i,1)
-                print len(data.columns)
+                print(len(data.columns))
 
                 dict_nonzero = []
                 for fp in self.fps:

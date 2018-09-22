@@ -1,3 +1,4 @@
+from builtins import range
 import pandas as pd
 import numpy as np
 
@@ -34,7 +35,7 @@ class CoulombMatrix(object):
 
     def __cal_coul_mat(self, mol):
         cm = []
-        for i in xrange(len(mol)):
+        for i in range(len(mol)):
             vect = []
             for k in range(0,i):
                 vect.append(cm[k][i])
@@ -73,7 +74,7 @@ class CoulombMatrix(object):
 
         """
         if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in xrange(1, len(molecules)+1)])
+            molecules = np.array([molecules[i]['mol'] for i in range(1, len(molecules)+1)])
         elif isinstance(molecules, pd.DataFrame):
             # only one molecule
             molecules = np.array([molecules.values])
@@ -161,8 +162,8 @@ class BagofBonds(object):
 
     Examples
     --------
-    >>> from cheml.datasets import load_xyz_polarizability
-    >>> from cheml.chem import BagofBonds
+    >>> from chemml.datasets import load_xyz_polarizability
+    >>> from chemml.chem import BagofBonds
 
     >>> coordinates, y = load_xyz_polarizability()
     >>> bob = BagofBonds(const= 1.0)
@@ -189,7 +190,7 @@ class BagofBonds(object):
 
         """
         if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in xrange(1,len(molecules)+1)])
+            molecules = np.array([molecules[i]['mol'] for i in range(1,len(molecules)+1)])
         elif isinstance(molecules, pd.DataFrame):
             molecules = molecules.values
 
@@ -197,8 +198,8 @@ class BagofBonds(object):
         all_keys = {}   # dictionary of unique keys and their maximum length
         for nmol,mol in enumerate(molecules):
             bags = {}
-            for i in xrange(len(mol)):
-                for j in xrange(i,len(mol)):
+            for i in range(len(mol)):
+                for j in range(i,len(mol)):
                     if i==j:
                         key = (mol[i,0], mol[i,0])
                         Fc = 0.5 * mol[i, 0] ** 2.4

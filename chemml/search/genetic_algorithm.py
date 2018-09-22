@@ -1,4 +1,6 @@
 from __future__ import print_function
+from builtins import range
+
 from deap import base, creator, tools
 import random
 import pandas as pd
@@ -76,7 +78,7 @@ class GA_DEAP(object):
 
             Examples
             --------
-            >>> from cheml.search import GA_DEAP
+            >>> from chemml.search import GA_DEAP
             >>> def sum_func(individual): return (sum(individual),)
             >>> ga = GA_DEAP(evaluate = sum_func, weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
             >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
@@ -141,10 +143,10 @@ class GA_DEAP(object):
         self.bit_limits = bit_limits
         self.bit_values = bit_values
         if self.bit_limits == ((-1, -1), ) and self.bit_values is None:
-            print "Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            print("Either one of the parameters (bit_limits , bit_values) needs to be specified. Aborting.")
             exit(code=1)
         if self.bit_limits != ((-1, -1), ) and self.bit_values is not None:
-            print "Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting."
+            print("Only one of the parameters (bit_limits , bit_values) needs to be specified. Aborting.")
             exit(code=1)
         self.evaluate = evaluate
         self.pop_size = pop_size

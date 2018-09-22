@@ -28,11 +28,11 @@ if __name__ == "__main__":
         ],
         license='BSD-3C',
         packages=setuptools.find_packages(),
-        scripts=['bin/chemeco'],
 
         # python_requires='>=2.7, <3',
         install_requires=[
-            'future', 'six', 'numpy', 'pandas', 'tensorflow==1.1.0',
+            'future', 'six', 'numpy', 'pandas',
+            'tensorflow==1.1.0',
             'keras==2.1.5', 'scikit-learn==0.19.1', 'babel>=2.3.4',
             'matplotlib>=1.5.1', 'deap>=1.2.2', 'lxml'
         ],

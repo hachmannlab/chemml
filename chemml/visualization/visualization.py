@@ -292,8 +292,8 @@ class SavePlot(object):
 
     Example:
     --------
-    >>> from cheml.datasets import load_cep_homo
-    >>> from cheml.visualization import SavePlot
+    >>> from chemml.datasets import load_cep_homo
+    >>> from chemml.visualization import SavePlot
     >>> smiles, homo = load_cep_homo()
     >>> ax = homo.plot(kind='hist')
     >>> sa=SavePlot(ax,filename='homo',output_directory='plots',kwargs={'facecolor':'w','dpi':100,'pad_inches':0.1, 'bbox_inches':'tight'})

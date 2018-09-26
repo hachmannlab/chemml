@@ -1,6 +1,7 @@
 import datetime
 import numpy as np
 import sys
+import time
 
 def list_del_indices(mylist,indices):
     for index in sorted(indices, reverse=True):
@@ -23,6 +24,15 @@ def std_datetime_str(mode='datetime'):
         return str(datetime.datetime.now())[11:]
     else:
         sys.exit("Invalid mode!")
+
+def tot_exec_time_str(time_start):
+    """(tot_exec_time_str):
+        This function gives out the formatted time string.
+    """
+    time_end = time.time()
+    exec_time = time_end-time_start
+    tmp_str = "execution time: %0.2fs (%dh %dm %0.2fs)" %(exec_time, exec_time/3600, (exec_time%3600)/60,(exec_time%3600)%60)
+    return tmp_str
 
 def slurm_script_exclusive(pyscript_file,nnodes=1,input_slurm_script=None,output_slurm_script='script.slurm'):
     """(slurmjob)

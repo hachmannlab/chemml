@@ -70,9 +70,9 @@ def banner(logfile, SCRIPT_NAME, SCRIPT_VERSION, REVISION_DATE, AUTHOR, DESCRIPT
     str.append(DESCRIPTION)
     str.append("")
 
-    print 
+    print()
     for line in str:
-        print line
+        print(line)
         logfile.write(line + '\n')
 
 ##################################################################################################
@@ -83,21 +83,21 @@ def print_invoked_opts(logfile,opts,commline_list=[]):
     """    
     if len(commline_list) != 0:
         tmp_str = "Invoked command line: "
-        print tmp_str
+        print(tmp_str)
         logfile.write(tmp_str + '\n')
         tmp_str = ' '.join(commline_list)
-        print tmp_str
-        print 
+        print( tmp_str)
+        print( )
         logfile.write(tmp_str + '\n\n')
         
     tmp_str = "Invoked options: "
-    print tmp_str
+    print( tmp_str)
     logfile.write(tmp_str + '\n')
     for key, value in opts.__dict__.items():
         tmp_str = '   ' + key + ': ' + str(value)   
-        print tmp_str    
+        print( tmp_str   )
         logfile.write(tmp_str + '\n')
-    print
+    print()
     logfile.write('\n')
 
 ##################################################################################################

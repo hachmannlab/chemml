@@ -91,7 +91,7 @@ class decorator(object):
         ax.grid(self.grid)
         return figure
 
-    def matplotlib_font(self, family='normal', size=18, weight='normal', style='normal', variant='normal'):
+    def matplotlib_font(self, family='DejaVu Sans', size=18, weight='normal', style='normal', variant='normal'):
         """
         The matplotlib_font function sets custom font properties.
 

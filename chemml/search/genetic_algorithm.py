@@ -196,6 +196,7 @@ class GeneticAlgorithm(object):
         -----
         Must call this function before calling any algorithm.
         """
+        from deap import creator
         creator.create("FitnessMin", base.Fitness, weights=self.Weights)
         creator.create("Individual", list, fitness=creator.FitnessMin)
         self.toolbox = base.Toolbox()
@@ -406,6 +407,8 @@ class GeneticAlgorithm(object):
                 best_ind_df = pd.concat([b1, b2, b3], axis=1)
 
         print("\n \n Best Individuals of each generation are:  \n \n" , best_ind_df)
-        print(" \n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual))
+        print("\n \n Best individual after %s evolutions is %s " % (self.n_generations, best_individual))
+        del creator.FitnessMin
+        del creator.Individual
         return best_ind_df, best_individual
 

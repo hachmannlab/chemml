@@ -1,10 +1,10 @@
 """
 The cheml.search module includes (please click on links adjacent to function names for more information):
-    - GA_DEAP: :func:`~cheml.search.GA_DEAP`
+    - GeneticAlgorithm: :func:`~chemml.search.GeneticAlgorithm`
 """
 
-from .genetic_algorithm import GA_DEAP
+from .genetic_algorithm import GeneticAlgorithm
 
 __all__ = [
-    'GA_DEAP',
+    'GeneticAlgorithm',
 ]

@@ -8,7 +8,7 @@ import time
 import math
 
 
-class GA_DEAP(object):
+class GeneticAlgorithm(object):
     """
             A genetic algorithm class for search or optimization problems, built on top of the
             Distributed Evolutionary Algorithms in Python (DEAP) library. There are three algorithms with different genetic
@@ -70,7 +70,7 @@ class GA_DEAP(object):
                 the search terminates.
 
             algorithm: int, optional (default=1)
-                The algorithm to use for the search. Algorithm descriptions are in the documentation for the search method. 
+                The algorithm to use for the search. Algorithm descriptions are in the documentation for the search method.
 
             initial_population: list, optional (default=None)
                 The initial population for the algorithm to start with. 
@@ -78,9 +78,9 @@ class GA_DEAP(object):
 
             Examples
             --------
-            >>> from chemml.search import GA_DEAP
+            >>> from chemml.search import GeneticAlgorithm
             >>> def sum_func(individual): return (sum(individual),)
-            >>> ga = GA_DEAP(evaluate = sum_func, weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
+            >>> ga = GeneticAlgorithm(evaluate = sum_func, weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
             >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
             >>> ga.fit()
             >>> best_ind_df, best_individual = ga.search()
@@ -256,7 +256,7 @@ class GA_DEAP(object):
         Algorithm 1:
             Initial population is instantiated. 
             Roulette wheel selection is used for selecting individuals for crossover and mutation.
-            The initial population, crossovered and mutated individuals form the pool of individuals from which the best -
+            The initial population, crossovered and mutated individuals form the pool of individuals from which the best
             n members are selected as the initial population for the next generation, where n is the size of population.
 
         Algorithm 2:
@@ -295,7 +295,6 @@ class GA_DEAP(object):
         -----
         """
 
-        
         pop = self.toolbox.population(n=self.pop_size)
         # Evaluate the initial population
         fitnesses = map(self.toolbox.evaluate, pop)

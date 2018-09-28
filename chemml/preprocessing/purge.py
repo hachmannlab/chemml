@@ -29,7 +29,7 @@ class ConstantColumns(object):
         transformed dataframe
         """
         dfc = df.columns
-        df = df.loc[:, (df != df.ix[0]).any()]
+        df = df.loc[:, (df != df.iloc[0]).any()]
         self.removed_columns_ = np.array([i for i in dfc if i not in df.columns])
         return df
     def transform(self,df):

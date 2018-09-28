@@ -96,7 +96,7 @@ class CoulombMatrix(object):
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol)
                 cms = np.append(cms, cm[np.tril_indices(self.max_n_atoms)])
-            cms = cms.reshape(self.n_molecules, self.max_n_atoms*(self.max_n_atoms+1)/2)
+            cms = cms.reshape(self.n_molecules, int(self.max_n_atoms*(self.max_n_atoms+1)/2))
             cms = pd.DataFrame(cms)
             return cms
 
@@ -120,7 +120,7 @@ class CoulombMatrix(object):
                 cm = cm[:,sort_indices][sort_indices,:]
                 # sorted_cm.append(cm)
                 sorted_cm = np.append(sorted_cm, cm[np.tril_indices(self.max_n_atoms)]) # lower-triangular
-            sorted_cm = sorted_cm.reshape(self.n_molecules, self.max_n_atoms*(self.max_n_atoms+1)/2)
+            sorted_cm = sorted_cm.reshape(self.n_molecules, int(self.max_n_atoms*(self.max_n_atoms+1)/2))
             sorted_cm = pd.DataFrame(sorted_cm)
             return sorted_cm
                     
@@ -138,7 +138,7 @@ class CoulombMatrix(object):
                     # cm_perms.append(cm_mask)
                     cm_perms += list(cm_mask[np.tril_indices(self.max_n_atoms)]) # lower-triangular
                 random_cm = np.append(random_cm, cm_perms)
-            random_cm = random_cm.reshape(self.n_molecules, self.nPerm*self.max_n_atoms*(self.max_n_atoms+1)/2)
+            random_cm = random_cm.reshape(self.n_molecules, int(self.nPerm*self.max_n_atoms*(self.max_n_atoms+1)/2))
             return pd.DataFrame(random_cm)
 
 class BagofBonds(object):

@@ -1,7 +1,14 @@
+#py2 and py3
+from builtins import zip
+from functools import total_ordering
+
 import re
-from itertools import izip
+# from itertools import izip
 from ...data.materials.util.LookUpData import LookUpData
 
+# Todo: add all the rich comparisons, using total_ordering comes with the cost of slower execution
+# check this link for more info: https://portingguide.readthedocs.io/en/latest/comparisons.html
+@total_ordering
 class CompositionEntry(object):
     """Class that defines a CompositionEntry object.
 
@@ -459,7 +466,7 @@ class CompositionEntry(object):
         """
 
         h1 = h2 = 0
-        for e,f in izip(self.element_ids, self.fractions):
+        for e, f in zip(self.element_ids, self.fractions):
             h1 += 31*h1 + hash(e)
             h2 += 31*h2 + hash(f)
 
@@ -489,6 +496,37 @@ class CompositionEntry(object):
                    self.fractions == other.fractions
         return False
 
+    def __lt__(self, other):
+        """Function to compare if one CompositionEntry is less than the other one
+        instances.
+
+        Parameters
+        ----------
+        other : CompositionEntry
+            Other composition entry to compare.
+
+        Returns
+        -------
+        output : bool
+            True if this entry is less that the other entry and False otherwise.
+
+        """
+
+        if isinstance(other, CompositionEntry):
+            if len(self.element_ids) != len(other.element_ids):
+                if len(self.element_ids) < len(other.element_ids):
+                    return True
+            # Check which has less element fractions.
+            for i in range(len(other.element_ids)):
+                if self.element_ids[i] != other.element_ids[i]:
+                    if self.element_ids[i] < other.element_ids[i]:
+                        return True
+                elif self.fractions[i] != other.fractions[i]:
+                    if self.fractions[i] < other.fractions[i]:
+                        return True
+        # We have concluded this entry is greater than the other entry
+        return False
+
     def sort_and_normalize(self, to_sort=True):
         """Function to sort the element ids based on their electronegativity
         order and normalizes the fractions.
@@ -506,8 +544,8 @@ class CompositionEntry(object):
 
         # Sort elements based on the electronegativity order.
         if to_sort:
-            tmp_tuple = zip(self.element_ids, self.fractions)
-            tmp_tuple.sort(key=lambda (x,y): self.lp_sorting_order[x])
+            tmp_tuple = list(zip(self.element_ids, self.fractions))
+            tmp_tuple.sort(key=lambda x: self.lp_sorting_order[x[0]])
         else:
             tmp_tuple = zip(self.element_ids, self.fractions)
 

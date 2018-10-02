@@ -1,4 +1,5 @@
-#py2 and py3
+# -*- coding: utf-8 -*-
+# py2 and py3
 from builtins import zip as izip
 # from itertools import izip
 import numpy as np

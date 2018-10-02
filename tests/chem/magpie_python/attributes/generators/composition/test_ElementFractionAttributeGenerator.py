@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from chemml.chem.magpie_python import ElementFractionAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry

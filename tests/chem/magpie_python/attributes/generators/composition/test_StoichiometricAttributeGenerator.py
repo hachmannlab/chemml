@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from math import sqrt
 import numpy.testing as np_tst

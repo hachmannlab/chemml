@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 import numpy.testing as np_tst
 import pandas as pd

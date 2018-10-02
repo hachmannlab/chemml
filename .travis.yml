@@ -1,0 +1,41 @@
+language: python
+
+# turn off sudo
+sudo: false
+
+# python versions to be tested
+matrix:
+  include:
+    - python: 2.7
+    - python: 3.5
+    - python: 3.6
+
+# will still build pull requests
+branches:
+  only:
+    - master
+
+notifications:
+    email: false
+
+before_install:
+
+# Get local information about the machine
+  - uname -a
+  - free -m
+  - df -h
+  - ulimit -a
+
+
+# Install the library with test requirements
+  - pip install -e .[tests]
+  - pip install codecov
+
+script:
+  - pytest -v --cov=./
+  # with doctest to test examples in doctrings
+#  - pytest -v --doctest-modules --cov=./
+
+# if successful, track code coverage with codecov
+after_success:
+  - codecov

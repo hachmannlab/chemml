@@ -1,9 +1,8 @@
 import unittest
 from math import log, sqrt
 import numpy.testing as np
-from .....attributes.generators.composition.GCLPAttributeGenerator import \
-    GCLPAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import GCLPAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testGCLPAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

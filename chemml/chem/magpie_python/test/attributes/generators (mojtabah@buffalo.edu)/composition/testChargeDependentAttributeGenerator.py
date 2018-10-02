@@ -1,9 +1,8 @@
 import unittest
 import numpy as np
 import numpy.testing as np_tst
-from .....attributes.generators.composition.ChargeDependentAttributeGenerator\
-    import ChargeDependentAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import ChargeDependentAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testChargeDependentAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

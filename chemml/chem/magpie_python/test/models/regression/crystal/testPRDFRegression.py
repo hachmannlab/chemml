@@ -1,7 +1,7 @@
 import unittest
-from .....models.regression.crystal.PRDFRegression import PRDFRegression
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.models.regression.crystal.PRDFRegression import PRDFRegression
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testPRDFRegression(unittest.TestCase):
     def test_distance(self):
@@ -21,13 +21,13 @@ class testPRDFRegression(unittest.TestCase):
         rep2 = r.compute_representation(structure2)
 
         # Check that similarity between identical structures is 1.0.
-        self.assertAlmostEquals(1.0, r.compute_similarity(rep1, rep1),
+        self.assertAlmostEqual(1.0, r.compute_similarity(rep1, rep1),
                                 delta=1e-6)
-        self.assertAlmostEquals(1.0, r.compute_similarity(rep2, rep2),
+        self.assertAlmostEqual(1.0, r.compute_similarity(rep2, rep2),
                                 delta=1e-6)
 
         # Check symmetry.
-        self.assertAlmostEquals(r.compute_similarity(rep1, rep2),
+        self.assertAlmostEqual(r.compute_similarity(rep1, rep2),
                                 r.compute_similarity(rep2, rep1),
                                 delta=1e-6)
 
@@ -35,5 +35,5 @@ class testPRDFRegression(unittest.TestCase):
         self.assertTrue(r.compute_similarity(rep1, rep2) < 1.0)
 
         # Check that the similarity is, in fact, 0
-        self.assertAlmostEquals(0, r.compute_similarity(rep1, rep2),
+        self.assertAlmostEqual(0, r.compute_similarity(rep1, rep2),
                                 delta=1e-6)

@@ -1,3 +1,4 @@
+from builtins import range
 import numpy as np
 
 class EqualSumCombinations:
@@ -58,7 +59,7 @@ class EqualSumCombinations:
         elif sum == 0:
             tmp_list = [[0] * n]
         else:
-            for i in xrange(sum, -1, -1):
+            for i in range(sum, -1, -1):
                 for l in self.get_combinations(sum - i, n - 1):
                     tmp_list.append([i]+l)
 

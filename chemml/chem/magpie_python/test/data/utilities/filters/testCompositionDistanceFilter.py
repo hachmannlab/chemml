@@ -1,7 +1,7 @@
 import unittest
 from math import sqrt
-from .....data.materials.CompositionEntry import CompositionEntry
-from .....data.utilities.filters.CompositionDistanceFilter import \
+from chemml.chem.magpie_python.data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python.data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
 
 class testCompositionDistanceFilter(unittest.TestCase):
@@ -30,37 +30,37 @@ class testCompositionDistanceFilter(unittest.TestCase):
 
     def test_distances(self):
         # Test binary distance.
-        self.assertAlmostEquals(0.0,
+        self.assertAlmostEqual(0.0,
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="Fe"),
                                     CompositionEntry(composition="Fe"),
                                     p=-1), delta=1e-6)
 
-        self.assertAlmostEquals(0.0,
+        self.assertAlmostEqual(0.0,
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="Fe"),
                                     CompositionEntry(composition="Fe"),
                                     p=0), delta=1e-6)
 
-        self.assertAlmostEquals(0.0,
+        self.assertAlmostEqual(0.0,
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="Fe"),
                                     CompositionEntry(composition="Fe"),
                                     p=2), delta=1e-6)
 
-        self.assertAlmostEquals(0.5,
+        self.assertAlmostEqual(0.5,
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="FeO"),
                                     CompositionEntry(composition="Fe"),
                                     p=-1), delta=1e-6)
 
-        self.assertAlmostEquals(2.0,
+        self.assertAlmostEqual(2.0,
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="FeO)"),
                                     CompositionEntry(composition="Fe"),
                                     p=0), delta=1e-6)
 
-        self.assertAlmostEquals(sqrt(0.5),
+        self.assertAlmostEqual(sqrt(0.5),
                                 CompositionDistanceFilter.compute_distance(
                                     CompositionEntry(composition="FeO"),
                                     CompositionEntry(composition="Fe"),

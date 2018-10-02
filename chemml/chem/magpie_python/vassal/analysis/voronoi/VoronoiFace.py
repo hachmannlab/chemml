@@ -1,3 +1,6 @@
+# py2 and py3 compatible
+import functools
+
 from numpy.linalg import norm
 import numpy as np
 from ..voronoi.VoronoiEdge import VoronoiEdge
@@ -437,7 +440,9 @@ class VoronoiFace:
         if len(available_edges) < 3:
             raise Exception("Not enough edges.")
 
-        available_edges.sort(cmp=self.edge_comp)
+        # available_edges.sort(cmp=self.edge_comp)
+        available_edges.sort(key=functools.cmp_to_key(self.edge_comp))
+
         return self.assemble_face_from_edges(available_edges)
 
     def edge_comp(self, a, b):

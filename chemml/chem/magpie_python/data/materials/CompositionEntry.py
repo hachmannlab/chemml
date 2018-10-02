@@ -1,6 +1,7 @@
 #py2 and py3
 from builtins import zip
 from functools import total_ordering
+from future.utils import iteritems
 
 import re
 # from itertools import izip
@@ -586,7 +587,7 @@ class CompositionEntry(object):
 
         """
 
-        for e,f in add_comp.iteritems():
+        for (e,f) in iteritems(add_comp):
             # If total_comp contains this element.
             if e in total_comp:
                 total_comp[e] += multiplier * f

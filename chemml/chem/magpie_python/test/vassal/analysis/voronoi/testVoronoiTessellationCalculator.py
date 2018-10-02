@@ -1,13 +1,16 @@
+# py2 and py3 compatible
+from __future__ import print_function
+
 import unittest
 import os
 import numpy as np
 import time
-from .....vassal.analysis.voronoi.VoronoiTessellationCalculator import \
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiTessellationCalculator import \
     VoronoiTessellationCalculator
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 import numpy.testing as np_tst
-from .....vassal.io.VASP5IO import VASP5IO
+from chemml.chem.magpie_python.vassal.io.VASP5IO import VASP5IO
 
 class testVoronoiTessellationCalculator(unittest.TestCase):
     this_file_path = os.path.dirname(__file__)
@@ -24,56 +27,56 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                                        radical=False)
 
         # Test results.
-        self.assertEquals(structure.n_atoms(), len(result))
-        self.assertEquals(6, len(result[0].get_faces()))
-        self.assertAlmostEquals(structure.volume(), result[0].get_volume(),
+        self.assertEqual(structure.n_atoms(), len(result))
+        self.assertEqual(6, len(result[0].get_faces()))
+        self.assertAlmostEqual(structure.volume(), result[0].get_volume(),
                                 delta=1e-6)
         poly_index = result[0].get_polyhedron_shape()
-        self.assertEquals(6, poly_index[4])
+        self.assertEqual(6, poly_index[4])
         poly_index = result[0].get_coordination_shell_shape(result)
-        self.assertEquals(6, poly_index[0])
+        self.assertEqual(6, poly_index[0])
 
         # Test out the nearest neighbor shells.
         # 1st NN shell.
         nns = result[0].get_neighbor_shell(result, 1)
-        self.assertEquals(6, len(nns))
+        self.assertEqual(6, len(nns))
 
         # 2nd NN shell.
         nns = result[0].get_neighbor_shell(result, 2)
-        self.assertEquals(18, len(nns))
+        self.assertEqual(18, len(nns))
 
         # 3rd - 5th NN shell.
         for s in range(3, 6):
             nns = result[0].get_neighbor_shell(result, s)
             for image in nns:
                 cell = image.get_supercell()
-                self.assertAlmostEquals(s, sum([abs(cell[i]) for i in range(
+                self.assertAlmostEqual(s, sum([abs(cell[i]) for i in range(
                     3)]), delta=1e-6)
 
         # Test path NNs.
         # 0th NN.
         paths = result[0].get_neighbors_by_walks(result, 0)
-        self.assertEquals(1, len(paths))
+        self.assertEqual(1, len(paths))
         total_weight = sum(paths.values())
-        self.assertAlmostEquals(1.0, total_weight, delta=1e-6)
+        self.assertAlmostEqual(1.0, total_weight, delta=1e-6)
 
         # 1st NN.
         paths = result[0].get_neighbors_by_walks(result, 1)
-        self.assertEquals(6, len(paths))
+        self.assertEqual(6, len(paths))
         total_weight = sum(paths.values())
         np_tst.assert_array_almost_equal([1/6.0]*6, paths.values())
-        self.assertAlmostEquals(1.0, total_weight, delta=1e-6)
+        self.assertAlmostEqual(1.0, total_weight, delta=1e-6)
 
         # 2nd NN.
         paths = result[0].get_neighbors_by_walks(result, 2)
-        self.assertEquals(18, len(paths))
+        self.assertEqual(18, len(paths))
         total_weight = sum(paths.values())
         for k,v in paths.iteritems():
             if 2 in k.get_supercell() or -2 in k.get_supercell():
-                self.assertAlmostEquals(1 / 30.0, v, delta=1e-6)
+                self.assertAlmostEqual(1 / 30.0, v, delta=1e-6)
             else:
-                self.assertAlmostEquals(2 / 30.0, v, delta=1e-6)
-        self.assertAlmostEquals(1.0, total_weight, delta=1e-6)
+                self.assertAlmostEqual(2 / 30.0, v, delta=1e-6)
+        self.assertAlmostEqual(1.0, total_weight, delta=1e-6)
 
     def test_BCC(self):
         # Create the simulation cell.
@@ -88,16 +91,16 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                                        radical=False)
 
         # Test results.
-        self.assertEquals(structure.n_atoms(), len(result))
+        self.assertEqual(structure.n_atoms(), len(result))
         for cell in result:
             self.assertTrue(cell.geometry_is_valid())
-            self.assertEquals(14, len(cell.get_faces()))
-            self.assertAlmostEquals(0.5, cell.get_volume(), delta=1e-6)
+            self.assertEqual(14, len(cell.get_faces()))
+            self.assertAlmostEqual(0.5, cell.get_volume(), delta=1e-6)
             poly_index = cell.get_polyhedron_shape()
-            self.assertEquals(8, poly_index[6])
+            self.assertEqual(8, poly_index[6])
             poly_index = result[0].get_coordination_shell_shape(result)
-            self.assertEquals(6, poly_index[4])
-            self.assertEquals(8, poly_index[6])
+            self.assertEqual(6, poly_index[4])
+            self.assertEqual(8, poly_index[6])
 
     def test_FCC(self):
         # Create the simulation cell.
@@ -112,15 +115,15 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                                        radical=False)
 
         # Test results.
-        self.assertEquals(structure.n_atoms(), len(result))
+        self.assertEqual(structure.n_atoms(), len(result))
         for cell in result:
             self.assertTrue(cell.geometry_is_valid())
-            self.assertEquals(12, len(cell.get_faces()))
-            self.assertAlmostEquals(0.25, cell.get_volume(), delta=1e-6)
+            self.assertEqual(12, len(cell.get_faces()))
+            self.assertAlmostEqual(0.25, cell.get_volume(), delta=1e-6)
             poly_index = cell.get_polyhedron_shape()
-            self.assertEquals(12, poly_index[4])
+            self.assertEqual(12, poly_index[4])
             poly_index = result[0].get_coordination_shell_shape(result)
-            self.assertEquals(12, poly_index[4])
+            self.assertEqual(12, poly_index[4])
 
     def test_FCC_primitive(self):
         # Create the simulation cell.
@@ -134,13 +137,13 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                                                        radical=False)
 
         # Test results.
-        self.assertEquals(structure.n_atoms(), len(result))
+        self.assertEqual(structure.n_atoms(), len(result))
         self.assertTrue(result[0].geometry_is_valid())
-        self.assertEquals(12, len(result[0].get_faces()))
+        self.assertEqual(12, len(result[0].get_faces()))
         poly_index = result[0].get_polyhedron_shape()
-        self.assertEquals(12, poly_index[4])
+        self.assertEqual(12, poly_index[4])
         poly_index = result[0].get_coordination_shell_shape(result)
-        self.assertEquals(12, poly_index[4])
+        self.assertEqual(12, poly_index[4])
 
     def test_Ta(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -154,7 +157,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         for cell in result:
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
-        self.assertAlmostEquals(structure.volume(), total_vol,
+        self.assertAlmostEqual(structure.volume(), total_vol,
                                 delta=total_vol * 0.05)
 
     def test_Zr(self):
@@ -169,7 +172,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         for cell in result:
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
-        self.assertAlmostEquals(structure.volume(), total_vol,
+        self.assertAlmostEqual(structure.volume(), total_vol,
                                     delta=total_vol * 0.01)
 
     def test_C(self):
@@ -184,7 +187,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         for cell in result:
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
-        self.assertAlmostEquals(structure.volume(), total_vol,
+        self.assertAlmostEqual(structure.volume(), total_vol,
                                     delta=total_vol * 0.01)
 
     def test_C2(self):
@@ -199,7 +202,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Ho(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -214,7 +217,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Si(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -229,7 +232,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Li(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -244,7 +247,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_B(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path + "673-B1.vasp")
@@ -257,7 +260,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         for cell in result:
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
-        self.assertAlmostEquals(structure.volume(), total_vol,
+        self.assertAlmostEqual(structure.volume(), total_vol,
                                     delta=total_vol * 0.01)
 
     def test_ICSD_examples(self):
@@ -276,7 +279,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                 total_vol += cell.get_volume()
                 self.assertTrue(cell.geometry_is_valid())
             vol_error = (total_vol - structure.volume()) / structure.volume()
-            self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+            self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Hg2K(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -291,7 +294,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Ag2Pr1Si2(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -306,7 +309,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_Sc(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -321,11 +324,11 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_big(self):
         # Number of atoms in each direction.
-        n_atom = 10
+        n_atom = 4
         structure = Cell()
         structure.set_basis(lengths=[2 * n_atom, 2 * n_atom, 2 * n_atom],
                             angles=[90, 90, 90])
@@ -348,11 +351,11 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             self.assertTrue(cell.geometry_is_valid())
 
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_random_packing(self):
         # Number of atoms in each direction.
-        n_atom = 10
+        n_atom = 4
         structure = Cell()
         structure.set_basis(lengths=[2 * n_atom, 2 * n_atom, 2 * n_atom],
                             angles=[90, 90, 90])
@@ -371,11 +374,11 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             self.assertTrue(cell.geometry_is_valid())
 
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
 
     def test_scaling(self):
-        print "size\ttime\tvol_error"
-        n_atom_list = range(1, 9) + [10, 20]
+        print ("size\ttime\tvol_error")
+        n_atom_list = list(range(1, 4)) + [5, 6]
         # Number of atoms in each direction.
         for n_atom in n_atom_list:
             structure = Cell()
@@ -402,9 +405,9 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
                 self.assertTrue(cell.geometry_is_valid())
 
             vol_error = (total_vol - structure.volume()) / structure.volume()
-            self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
-            print "{:d}\t{:.3f}\t{:.2f}".format(structure.n_atoms(),
-                    run_time/1000.0, vol_error * 100)
+            self.assertAlmostEqual(0.0, vol_error, delta=1e-2)
+            print ("{:d}\t{:.3f}\t{:.2f}".format(structure.n_atoms(),
+                    run_time/1000.0, vol_error * 100))
 
     def test_layered_compound(self):
         structure = VASP5IO.parse_file(file_name=self.abs_path +
@@ -419,4 +422,4 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
             total_vol += cell.get_volume()
             self.assertTrue(cell.geometry_is_valid())
         vol_error = (total_vol - structure.volume()) / structure.volume()
-        self.assertAlmostEquals(0.0, vol_error, delta=1e-2)
+        self.assertAlmostEqual(0.0, vol_error, delta=1e-2)

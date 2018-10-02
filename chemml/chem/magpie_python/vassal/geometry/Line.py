@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 from numpy.linalg import norm
 import sys
@@ -197,7 +198,7 @@ class Line:
             try:
                 n = d - np.dot(d, self.direction) * self.direction
             except RuntimeWarning:
-                print d, self.direction
+                print(d, self.direction)
             return norm(n)
         else:
             normal = np.cross(self.direction, l.direction)

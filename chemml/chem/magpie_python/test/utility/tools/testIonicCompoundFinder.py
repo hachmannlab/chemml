@@ -1,6 +1,6 @@
 import unittest
-from ....data.materials.CompositionEntry import CompositionEntry
-from ....utility.tools.IonicCompoundFinder import IonicCompoundFinder
+from chemml.chem.magpie_python.data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python.utility.tools.IonicCompoundFinder import IonicCompoundFinder
 
 class testIonicCompoundFinder(unittest.TestCase):
     def setUp(self):
@@ -16,7 +16,7 @@ class testIonicCompoundFinder(unittest.TestCase):
 
         # Make sure it finds only one.
         accepted = self.icf.find_all_compounds()
-        self.assertEquals(1, len(accepted))
+        self.assertEqual(1, len(accepted))
 
     def test_FeO(self):
         self.icf.set_nominal_composition(CompositionEntry(composition="Fe2O"))
@@ -25,13 +25,13 @@ class testIonicCompoundFinder(unittest.TestCase):
 
         # Make sure it finds only one (FeO).
         accepted = self.icf.find_all_compounds()
-        self.assertEquals(1, len(accepted))
+        self.assertEqual(1, len(accepted))
 
         # Make sure it finds two (FeO, Fe2O3).
         self.icf.set_maximum_distance(0.54)
         accepted = self.icf.find_all_compounds()
-        self.assertEquals(2, len(accepted))
-        self.assertEquals("FeO", accepted[0].__str__())
+        self.assertEqual(2, len(accepted))
+        self.assertEqual("FeO", accepted[0].__str__())
 
     def test_NaBrCl(self):
         self.icf.set_nominal_composition(CompositionEntry(
@@ -41,7 +41,7 @@ class testIonicCompoundFinder(unittest.TestCase):
 
         # Make sure it finds only one (Na2ClBr).
         accepted = self.icf.find_all_compounds()
-        self.assertEquals(1, len(accepted))
+        self.assertEqual(1, len(accepted))
 
     def test_Ba2As2S(self):
         self.icf.set_nominal_composition(CompositionEntry(

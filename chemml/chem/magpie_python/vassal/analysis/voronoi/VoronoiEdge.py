@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 from numpy.linalg import norm
 from ..voronoi.VoronoiVertex import VoronoiVertex
@@ -488,12 +489,12 @@ class VoronoiEdge:
 
         Mainly used for debugging purposes.
         """
-        print "Edge face:", self.edge_face.outside_atom.__str__(), \
-            "Intersecting face:", self.intersecting_face.outside_atom.__str__()
-        print "Line zero:", self.line.zero
-        print "Line direction:", self.line.direction
-        print "Line tolerance:", self.line.tolerance
-        print "Edge direction:", self.direction
-        print "Beginning:", self.beginning
-        print "End:", self.end
-        print
+        print ("Edge face:", self.edge_face.outside_atom.__str__(), \
+            "Intersecting face:", self.intersecting_face.outside_atom.__str__())
+        print ("Line zero:", self.line.zero)
+        print ("Line direction:", self.line.direction)
+        print ("Line tolerance:", self.line.tolerance)
+        print ("Edge direction:", self.direction)
+        print ("Beginning:", self.beginning)
+        print ("End:", self.end)
+        print()

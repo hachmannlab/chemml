@@ -1,8 +1,8 @@
 import unittest
 from numpy.linalg import norm
-from ....vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
-from ....vassal.data.Atom import Atom
-from ....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testPairDistanceAnalysis(unittest.TestCase):
     def setUp(self):
@@ -20,25 +20,25 @@ class testPairDistanceAnalysis(unittest.TestCase):
         # With orthorhombic basis.
         self.pda.set_cutoff_distance(1.1)
         output = self.pda.get_all_neighbors_of_atom(0)
-        self.assertEquals(6, len(output))
-        self.assertAlmostEquals(1.0, output[0][1], delta=1e-6)
+        self.assertEqual(6, len(output))
+        self.assertAlmostEqual(1.0, output[0][1], delta=1e-6)
 
         # Adding a second atom.
         self.structure.add_atom(Atom([0.5, 0.5, 0.5], 0))
         output = self.pda.get_all_neighbors_of_atom(0)
-        self.assertEquals(14, len(output))
+        self.assertEqual(14, len(output))
 
         # Altering the basis to something weird.
         new_basis = self.structure.get_basis()
         new_basis[1][0] = 14
         output = self.pda.get_all_neighbors_of_atom(0)
-        self.assertEquals(14, len(output))
+        self.assertEqual(14, len(output))
 
         # Check that images match up.
         center_pos = self.structure.get_atom(0).get_position_cartesian()
         for image in output:
             v = image[0].get_position() - center_pos
-            self.assertAlmostEquals(image[1], norm(v), delta=1e-6)
+            self.assertAlmostEqual(image[1], norm(v), delta=1e-6)
 
     def test_PRDF(self):
         # With orthorhombic basis.
@@ -46,9 +46,9 @@ class testPairDistanceAnalysis(unittest.TestCase):
 
         # Run code.
         prdf = self.pda.compute_PRDF(50)
-        self.assertEquals(1, len(prdf))
-        self.assertEquals(1, len(prdf[0]))
-        self.assertEquals(50, len(prdf[0][0]))
+        self.assertEqual(1, len(prdf))
+        self.assertEqual(1, len(prdf[0]))
+        self.assertEqual(50, len(prdf[0][0]))
 
         # Make sure that it finds 4 peaks.
         n_peaks = 0
@@ -56,16 +56,16 @@ class testPairDistanceAnalysis(unittest.TestCase):
             if val > 0:
                 n_peaks += 1
 
-        self.assertEquals(4, n_peaks)
+        self.assertEqual(4, n_peaks)
 
         # Add another atom, repeat.
         self.structure.add_atom(Atom([0.5, 0.5, 0.5], 1))
 
         # Run again.
         prdf = self.pda.compute_PRDF(50)
-        self.assertEquals(2, len(prdf))
-        self.assertEquals(2, len(prdf[0]))
-        self.assertEquals(50, len(prdf[0][0]))
+        self.assertEqual(2, len(prdf))
+        self.assertEqual(2, len(prdf[0]))
+        self.assertEqual(50, len(prdf[0][0]))
 
         # Make sure A-B prdf has 2 peaks.
         n_peaks = 0
@@ -73,7 +73,7 @@ class testPairDistanceAnalysis(unittest.TestCase):
             if val > 0:
                 n_peaks += 1
 
-        self.assertEquals(2, n_peaks)
+        self.assertEqual(2, n_peaks)
 
         # Increase basis.
         self.structure.set_basis(lengths=[2, 2, 2], angles=[90, 90, 90])
@@ -81,9 +81,9 @@ class testPairDistanceAnalysis(unittest.TestCase):
 
         # Run again.
         prdf = self.pda.compute_PRDF(50)
-        self.assertEquals(2, len(prdf))
-        self.assertEquals(2, len(prdf[0]))
-        self.assertEquals(50, len(prdf[0][0]))
+        self.assertEqual(2, len(prdf))
+        self.assertEqual(2, len(prdf[0]))
+        self.assertEqual(50, len(prdf[0][0]))
 
         # Make sure A-B prdf has 1 peaks.
         n_peaks = 0
@@ -91,4 +91,4 @@ class testPairDistanceAnalysis(unittest.TestCase):
             if val > 0:
                 n_peaks += 1
 
-        self.assertEquals(1, n_peaks)
+        self.assertEqual(1, n_peaks)

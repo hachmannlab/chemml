@@ -1,4 +1,5 @@
 import types
+from builtins import range
 from heapq import heappush, heappop
 import numpy as np
 import pandas as pd
@@ -7,6 +8,7 @@ from ....data.materials.util.LookUpData import LookUpData
 from ....data.utilities.filters.CompositionDistanceFilter import \
     CompositionDistanceFilter
 from ....utility.EqualSumCombinations import EqualSumCombinations
+
 
 class APEAttributeGenerator:
     """Class to compute features using Atomic Packing Efficiency (APE) of
@@ -204,12 +206,12 @@ class APEAttributeGenerator:
             # n_n = np.sum(shell_types)
             n_e_r = 0.0
             n_n = 0.0
-            for i in xrange(len(shell_types)):
+            for i in range(len(shell_types)):
                 n_e_r += shell_types[i] * radii[i]
                 n_n += shell_types[i]
 
 
-            # for i in xrange(len(shell_types)):
+            # for i in range(len(shell_types)):
             #     n_neighbors += shell_types[i]
             #     neighbor_radius += shell_types[i] * radii[i]
 
@@ -403,7 +405,7 @@ class APEAttributeGenerator:
             clusters =[]
 
             # Loop through all cluster sizes.
-            for i in xrange(3, 24):
+            for i in range(3, 24):
                 ape = self.compute_APE(i, center_radius=1.0,
                                        neigh_eff_radius=1.0)
                 if abs(ape - 1) < 0.05:
@@ -417,18 +419,18 @@ class APEAttributeGenerator:
                                             packing_threshold)
 
         esc = EqualSumCombinations(max_cluster_size - 1, l_r)
-        for cluster_size in xrange(min_cluster_size,
+        for cluster_size in range(min_cluster_size,
                                    max_cluster_size):
             if not esc.dp[cluster_size][l_r]:
                 shells = esc.get_combinations(cluster_size, l_r)
 
         # Loop through each atom as the central type.
-        for central_type in xrange(l_r):
+        for central_type in range(l_r):
             clusters = []
 
             # Loop over possible ranges of cluster sizes (determined from
             # radii).
-            for cluster_size in xrange(min_cluster_size, max_cluster_size):
+            for cluster_size in range(min_cluster_size, max_cluster_size):
 
                 # Loop through all combinations of atom types in the first
                 # shell.
@@ -473,7 +475,7 @@ class APEAttributeGenerator:
         l_c = len(clusters)
 
         # Loop through clusters with each type of atom at the center.
-        for ct in xrange(l_c):
+        for ct in range(l_c):
             for shell in clusters[ct]:
                 fractions = list(shell)
                 fractions[ct] += 1.0
@@ -523,7 +525,7 @@ class APEAttributeGenerator:
                              weights=shell_composition.get_element_fractions())
 
         # Loop through all atom sizes.
-        for z in xrange(3, 24):
+        for z in range(3, 24):
             ape = self.compute_APE(n_neighbors=z,
                                    center_radius=center_r,
                                    neigh_eff_radius=shell_r)
@@ -563,10 +565,10 @@ class APEAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CompositionEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CompositionEntry's")
-        elif (entries and not isinstance(entries[0], CompositionEntry)):
+        elif entries and not isinstance(entries[0], CompositionEntry):
             raise ValueError("Argument should be of type list of "
                              "CompositionEntry's")
 

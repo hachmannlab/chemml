@@ -1,8 +1,7 @@
 import unittest
 import numpy.testing as np_tst
-from .....attributes.generators.composition.ValenceShellAttributeGenerator import \
-    ValenceShellAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import ValenceShellAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testValenceShellAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

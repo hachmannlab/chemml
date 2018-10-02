@@ -1,13 +1,12 @@
 import numpy as np
 import numpy.testing as np_tst
-from .....attributes.generators.crystal\
-    .LocalPropertyDifferenceAttributeGenerator import \
+from chemml.chem.magpie_python import \
     LocalPropertyDifferenceAttributeGenerator
-from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
+from chemml.chem.magpie_python import CrystalStructureEntry
 from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testLocalPropertyDifferenceAttributeGenerator(
     testCoordinationNumberAttributeGenerator):
@@ -45,6 +44,6 @@ class testLocalPropertyDifferenceAttributeGenerator(
         features = gen.generate_features(entries)
 
         # Test the results.
-        self.assertEquals(self.expected_count(), features.shape[1])
+        self.assertEqual(self.expected_count(), features.shape[1])
         np_tst.assert_array_almost_equal([1, 0, 1, 1, 0, 0, 0, 0, 0, 0],
                                          features.values[0])

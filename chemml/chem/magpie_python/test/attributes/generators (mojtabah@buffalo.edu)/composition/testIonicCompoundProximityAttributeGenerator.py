@@ -1,9 +1,7 @@
 import unittest
 import numpy.testing as np_tst
-from .....attributes.generators.composition\
-    .IonicCompoundProximityAttributeGenerator import \
-    IonicCompoundProximityAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import IonicCompoundProximityAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):
@@ -33,4 +31,4 @@ class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
         # Test results.
         self.assertEquals(1, len(features.columns))
         np_tst.assert_array_almost_equal([0.1, 1.0 / 3, 2, 1],
-                                         features.ix[:,0])
+                                         features.iloc[:,0])

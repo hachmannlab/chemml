@@ -1,5 +1,4 @@
-from .....attributes.generators.crystal.LatticeSimilarityAttributeGenerator \
-    import LatticeSimilarityAttributeGenerator
+from chemml.chem.magpie_python import LatticeSimilarityAttributeGenerator
 from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 

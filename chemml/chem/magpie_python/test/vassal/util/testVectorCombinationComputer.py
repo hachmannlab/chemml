@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import numpy.testing as np_tst
-from ....vassal.util.VectorCombinationComputer import VectorCombinationComputer
+from chemml.chem.magpie_python.vassal.util.VectorCombinationComputer import VectorCombinationComputer
 import math
 
 class testVectorCombinationComputer(unittest.TestCase):
@@ -25,24 +25,24 @@ class testVectorCombinationComputer(unittest.TestCase):
 
     def test_collection(self):
         computer = VectorCombinationComputer(self.input, 1)
-        self.assertEquals(7, len(computer.get_vectors()))
+        self.assertEqual(7, len(computer.get_vectors()))
 
         computer = VectorCombinationComputer(self.input, math.sqrt(2) * 1.001)
-        self.assertEquals(1 + 6 + 12, len(computer.get_vectors()))
+        self.assertEqual(1 + 6 + 12, len(computer.get_vectors()))
 
         computer = VectorCombinationComputer(self.input, math.sqrt(2) *
                                              1.001, include_zero=False)
-        self.assertEquals(6 + 12, len(computer.get_vectors()))
+        self.assertEqual(6 + 12, len(computer.get_vectors()))
 
         computer = VectorCombinationComputer(self.input, 8)
-        self.assertEquals(len(computer.get_vectors()),
+        self.assertEqual(len(computer.get_vectors()),
                           len(computer.get_vectors()))
 
     def test_collection_oblique(self):
         self.input[1][0] = 8
 
         computer = VectorCombinationComputer(self.input, 1)
-        self.assertEquals(7, len(computer.get_vectors()))
+        self.assertEqual(7, len(computer.get_vectors()))
 
         computer = VectorCombinationComputer(self.input, math.sqrt(2) * 1.001)
-        self.assertEquals(1 + 6 + 12, len(computer.get_vectors()))
+        self.assertEqual(1 + 6 + 12, len(computer.get_vectors()))

@@ -1,5 +1,4 @@
-from .....attributes.generators.crystal\
-    .EffectiveCoordinationNumberAttributeGenerator import \
+from chemml.chem.magpie_python import \
     EffectiveCoordinationNumberAttributeGenerator
 from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator

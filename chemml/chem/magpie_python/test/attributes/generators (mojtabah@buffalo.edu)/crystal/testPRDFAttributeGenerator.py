@@ -1,9 +1,8 @@
 import unittest
-from .....attributes.generators.crystal.PRDFAttributeGenerator import \
-    PRDFAttributeGenerator
-from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python import PRDFAttributeGenerator
+from chemml.chem.magpie_python import CrystalStructureEntry
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testPRDFAttributeGenerator(unittest.TestCase):
     def test(self):
@@ -38,20 +37,20 @@ class testPRDFAttributeGenerator(unittest.TestCase):
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertEquals(3 * 3 * 5, features.shape[1])
-        self.assertEquals(3 * 3 * 5, len(features.values[0]))
-        self.assertAlmostEquals(0, sum(features.values[0][0 : 4 * 5]),
+        self.assertEqual(3 * 3 * 5, features.shape[1])
+        self.assertEqual(3 * 3 * 5, len(features.values[0]))
+        self.assertAlmostEqual(0, sum(features.values[0][0 : 4 * 5]),
                                 delta=1e-6) # First 4 PRDFs are H-X.
         self.assertTrue(max(features.values[0][4 * 5 : 5 * 5]) > 0)
-        self.assertAlmostEquals(0, sum(features.values[0][6 * 5 : 9 * 5]),
+        self.assertAlmostEqual(0, sum(features.values[0][6 * 5 : 9 * 5]),
                                 delta=1e-6)  # Only Al in structure.
 
-        self.assertEquals(3 * 3 * 5, len(features.values[1]))
-        self.assertAlmostEquals(0, sum(features.values[1][0: 4 * 5]),
+        self.assertEqual(3 * 3 * 5, len(features.values[1]))
+        self.assertAlmostEqual(0, sum(features.values[1][0: 4 * 5]),
                                 delta=1e-6)  # First 4 PRDFs are H-X.
         self.assertTrue(max(features.values[1][4 * 5: 5 * 5]) > 0)
         self.assertTrue(max(features.values[1][5 * 5: 6 * 5]) > 0)
-        self.assertAlmostEquals(0, sum(features.values[1][6 * 5: 7 * 5]),
+        self.assertAlmostEqual(0, sum(features.values[1][6 * 5: 7 * 5]),
                                 delta=1e-6)  # Only Al in structure.
         self.assertTrue(max(features.values[1][7 * 5: 8 * 5]) > 0)
         self.assertTrue(max(features.values[1][8 * 5: 9 * 5]) > 0)

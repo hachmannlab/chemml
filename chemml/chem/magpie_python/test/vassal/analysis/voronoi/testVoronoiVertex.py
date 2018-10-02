@@ -1,10 +1,10 @@
 import unittest
-from .....vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
-from .....vassal.analysis.voronoi.VoronoiFace import VoronoiFace
-from .....vassal.analysis.voronoi.VoronoiVertex import VoronoiVertex
-from .....vassal.data.Atom import Atom
-from .....vassal.data.AtomImage import AtomImage
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiFace import VoronoiFace
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiVertex import VoronoiVertex
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.AtomImage import AtomImage
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testVoronoiVertex(unittest.TestCase):
     def test_creation(self):
@@ -28,11 +28,11 @@ class testVoronoiVertex(unittest.TestCase):
         vertex = VoronoiVertex(edge1=edge1, edge2=edge2)
 
         # Test properties.
-        self.assertEquals(edge2, vertex.get_previous_edge())
-        self.assertEquals(edge1, vertex.get_next_edge())
+        self.assertEqual(edge2, vertex.get_previous_edge())
+        self.assertEqual(edge1, vertex.get_next_edge())
 
         # Make sure the order of edges on creation doesn't matter.
-        self.assertEquals(vertex, VoronoiVertex(edge1=edge2, edge2=edge1))
+        self.assertEqual(vertex, VoronoiVertex(edge1=edge2, edge2=edge1))
 
         # Create a new vertex, ensure that it is different.
         edge3 = VoronoiEdge(face2, face3)

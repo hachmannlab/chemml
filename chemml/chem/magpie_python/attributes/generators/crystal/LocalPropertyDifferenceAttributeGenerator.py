@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import types
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 from ....data.materials.util.LookUpData import LookUpData
 
@@ -200,7 +199,7 @@ class LocalPropertyDifferenceAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CompositionEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CrystalStructureEntry's")
         elif (entries and not isinstance(entries[0], CrystalStructureEntry)):

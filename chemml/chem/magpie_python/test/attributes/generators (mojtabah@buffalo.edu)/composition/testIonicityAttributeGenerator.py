@@ -1,7 +1,6 @@
 import unittest
-from .....attributes.generators.composition.IonicityAttributeGenerator import \
-    IonicityAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import IonicityAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testIonicityAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

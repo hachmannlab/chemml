@@ -1,8 +1,7 @@
 import unittest
-from .....attributes.generators.composition.APEAttributeGenerator import \
-    APEAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
-from .....data.materials.util.LookUpData import LookUpData
+from chemml.chem.magpie_python import APEAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
+from chemml.chem.magpie_python.data.materials.util.LookUpData import LookUpData
 
 class testAPEAttributeGenerator(unittest.TestCase):
 
@@ -18,7 +17,6 @@ class testAPEAttributeGenerator(unittest.TestCase):
         # using the conventional from 10.1038/ncomms9123.
         self.assertTrue(APEAttributeGenerator.compute_APE(radii=[0.902113,
                 1.0], center_type=0, shell_types=[1, 11]) < 1.0)
-
 
     def test_cluster_finder(self):
         # Test unary system.

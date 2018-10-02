@@ -1,6 +1,6 @@
 # coding=utf-8
 import sys
-import types
+from builtins import range
 import numpy as np
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry
@@ -62,7 +62,7 @@ class ChargeDependentAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CompositionEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CompositionEntry's")
         elif (entries and not isinstance(entries[0], CompositionEntry)):
@@ -102,7 +102,7 @@ class ChargeDependentAttributeGenerator:
 
             # If there are no possible states, set all features to NaN.
             if len(possible_states) == 0:
-                for i in xrange(n_features):
+                for i in range(n_features):
                     tmp_list.append(np.nan)
 
                 feat_values.append(tmp_list)

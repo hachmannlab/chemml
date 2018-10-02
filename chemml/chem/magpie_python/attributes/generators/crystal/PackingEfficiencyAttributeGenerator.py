@@ -47,7 +47,7 @@ class PackingEfficiencyAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CompositionEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CrystalStructureEntry's")
         elif (entries and not isinstance(entries[0], CrystalStructureEntry)):

@@ -1,11 +1,10 @@
 import unittest
 import math
 import numpy.testing as np_tst
-from .....attributes.generators.crystal.APRDFAttributeGenerator import \
-    APRDFAttributeGenerator
-from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python import APRDFAttributeGenerator
+from chemml.chem.magpie_python import CrystalStructureEntry
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testAPRDFAttributeGenerator(unittest.TestCase):
     def test(self):
@@ -28,7 +27,7 @@ class testAPRDFAttributeGenerator(unittest.TestCase):
 
         # Generate features.
         features = gen.generate_features(entries)
-        self.assertEquals(2, len(features.columns))
+        self.assertEqual(2, len(features.columns))
 
         ap_rdf = features.values
 

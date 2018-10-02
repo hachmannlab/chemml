@@ -1,8 +1,7 @@
 import unittest
-from .....attributes.generators.composition.ElementFractionAttributeGenerator \
-    import ElementFractionAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
-from .....data.materials.util.LookUpData import LookUpData
+from chemml.chem.magpie_python import ElementFractionAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
+from chemml.chem.magpie_python.data.materials.util.LookUpData import LookUpData
 
 class testElementFractionAttributeGenerator(unittest.TestCase):
     def test_attribute_generator(self):

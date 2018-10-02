@@ -1,4 +1,7 @@
-# coding=utf-8
+# py2 and py3 compatible
+import functools
+from future.utils import iteritems
+
 from collections import OrderedDict
 from numpy.linalg import norm
 import numpy as np
@@ -356,7 +359,7 @@ class VoronoiCell:
                         surface_area -= new_steps.pop(previous_step)
 
                 # Create new paths, making sure to update weights.
-                for k,v in new_steps.iteritems():
+                for (k,v) in iteritems(new_steps):
                     # Increment path.
                     new_path = list(path[0])
                     new_path.append(k)
@@ -743,7 +746,8 @@ class VoronoiCell:
         """
 
         # Sort distance from face to the center.
-        faces.sort(cmp=self.compare_faces)
+        # faces.sort(cmp=self.compare_faces)
+        faces.sort(key=functools.cmp_to_key(self.compare_faces))
 
         # The closest face is on the direct polyhedron.
         direct_faces = []

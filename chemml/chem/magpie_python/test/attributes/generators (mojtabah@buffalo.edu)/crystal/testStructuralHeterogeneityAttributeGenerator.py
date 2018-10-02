@@ -1,6 +1,4 @@
-from .....attributes.generators.crystal\
-    .StructuralHeterogeneityAttributeGenerator \
-    import StructuralHeterogeneityAttributeGenerator
+from chemml.chem.magpie_python import StructuralHeterogeneityAttributeGenerator
 from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 

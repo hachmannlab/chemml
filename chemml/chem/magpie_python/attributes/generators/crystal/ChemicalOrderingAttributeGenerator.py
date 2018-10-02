@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import types
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class ChemicalOrderingAttributeGenerator:
@@ -110,7 +109,7 @@ class ChemicalOrderingAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CrystalStructureEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CrystalStructureEntry's")
         elif (entries and not isinstance(entries[0], CrystalStructureEntry)):
@@ -118,7 +117,7 @@ class ChemicalOrderingAttributeGenerator:
                              "CrystalStructureEntry's")
 
         # Insert header names here.
-        feat_headers = ["mean_WCMagnitude"+ ("" if self.weighted else
+        feat_headers = ["mean_WCMagnitude" + ("" if self.weighted else
                         "_unweighted_") + "_shell" + str(shell) for shell in
                         self.shells]
 

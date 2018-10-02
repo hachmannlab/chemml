@@ -1,9 +1,9 @@
 import unittest
 import os
 import numpy.testing as np_tst
-from ....vassal.data.Atom import Atom
-from ....vassal.data.Cell import Cell
-from ....vassal.io.VASP5IO import VASP5IO
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.io.VASP5IO import VASP5IO
 
 class testVASP5IO(unittest.TestCase):
     def test_conversion(self):
@@ -25,8 +25,8 @@ class testVASP5IO(unittest.TestCase):
         new_cell = vio.parse_file(list_of_lines=temp)
 
         # Check to make sure everything is good.
-        self.assertAlmostEquals(cell.volume(), new_cell.volume(), delta=1e-4)
-        self.assertEquals(cell.n_types(), new_cell.n_types())
+        self.assertAlmostEqual(cell.volume(), new_cell.volume(), delta=1e-4)
+        self.assertEqual(cell.n_types(), new_cell.n_types())
         np_tst.assert_array_almost_equal(cell.get_lattice_vectors()[1],
                                          new_cell.get_lattice_vectors()[1],
                                          decimal=4)
@@ -38,10 +38,10 @@ class testVASP5IO(unittest.TestCase):
         this_file_path = os.path.dirname(__file__)
         abs_path = os.path.join(this_file_path, "../../test-files/")
         cell = vio.parse_file(file_name=abs_path+"393-Ta1.vasp")
-        self.assertAlmostEquals(556.549, cell.volume(), delta=1e-2)
-        self.assertAlmostEquals(10.218, cell.get_lattice_vectors()[0][0],
+        self.assertAlmostEqual(556.549, cell.volume(), delta=1e-2)
+        self.assertAlmostEqual(10.218, cell.get_lattice_vectors()[0][0],
                                 delta=1e-2)
-        self.assertEquals(30, cell.n_atoms())
+        self.assertEqual(30, cell.n_atoms())
         np_tst.assert_array_almost_equal([0.681, 0.818, 0.998],
                                          cell.get_atom(29).get_position(),
                                          decimal=2)

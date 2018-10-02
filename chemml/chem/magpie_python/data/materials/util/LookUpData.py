@@ -1,3 +1,6 @@
+from __future__ import print_function
+from builtins import range
+
 import numpy as np
 import sys
 import os
@@ -167,7 +170,7 @@ class LookUpData:
                   "specify the correct file name".format(file))
 
         else:
-            for i in xrange(values.size):
+            for i in range(values.size):
                 line = prop_file.readline().strip()
                 try:
                     values[i] = float(line)
@@ -202,7 +205,7 @@ class LookUpData:
 
         # Initialize the 2-D numpy array.
         values = np.zeros(len(self.element_ids), dtype=object)
-        for i in xrange(len(self.element_ids)):
+        for i in range(len(self.element_ids)):
             values[i] = np.zeros(i, dtype=float)
 
         # Property file name.
@@ -225,7 +228,7 @@ class LookUpData:
                     elemA = self.element_ids[words[0]]
                     elemB = self.element_ids[words[1]]
                     if words[2].endswith("\n"):
-                        print line
+                        print(line)
                         sys.exit(1)
                     values[max(elemA,elemB)][min(elemA,elemB)] = float(words[2])
             prop_file.close()
@@ -312,8 +315,8 @@ class LookUpData:
         try:
             prop_file = open(file, 'r')
         except IOError:
-            print "File {} doesn't exist!!! Please make sure you " \
-                  "specify the correct file name".format(file)
+            print ("File {} doesn't exist!!! Please make sure you " \
+                  "specify the correct file name".format(file))
             sys.exit(1)
         else:
             for line in prop_file.readlines():
@@ -325,6 +328,6 @@ class LookUpData:
             prop_file.close()
 
         values = np.zeros(len(tmp_values), dtype=object)
-        for i in xrange(len(tmp_values)):
+        for i in range(len(tmp_values)):
             values[i] = np.asarray(tmp_values[i], dtype=float)
         return values

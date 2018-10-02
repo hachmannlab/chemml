@@ -1,5 +1,4 @@
-from .....attributes.generators.crystal.PackingEfficiencyAttributeGenerator \
-    import PackingEfficiencyAttributeGenerator
+from chemml.chem.magpie_python import PackingEfficiencyAttributeGenerator
 from .testCoordinationNumberAttributeGenerator import \
     testCoordinationNumberAttributeGenerator
 

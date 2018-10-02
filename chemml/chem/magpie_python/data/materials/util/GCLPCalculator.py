@@ -1,5 +1,6 @@
-# coding=utf-8
-from itertools import izip
+#py2 and py3
+from builtins import zip as izip
+# from itertools import izip
 import numpy as np
 import pandas as pd
 from scipy.linalg import lu

@@ -1,5 +1,5 @@
 import unittest
-from ...utility.EqualSumCombinations import EqualSumCombinations
+from chemml.chem.magpie_python.utility.EqualSumCombinations import EqualSumCombinations
 
 class testEqualSumCombinations(unittest.TestCase):
     def test_get_combinations(self):

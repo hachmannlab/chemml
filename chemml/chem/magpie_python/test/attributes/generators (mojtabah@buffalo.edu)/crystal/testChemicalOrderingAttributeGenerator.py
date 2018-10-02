@@ -1,9 +1,8 @@
 import unittest
-from .....attributes.generators.crystal.ChemicalOrderingAttributeGenerator \
-    import ChemicalOrderingAttributeGenerator
-from .....data.materials.CrystalStructureEntry import CrystalStructureEntry
-from .....vassal.data.Atom import Atom
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python import ChemicalOrderingAttributeGenerator
+from chemml.chem.magpie_python import CrystalStructureEntry
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testChemicalOrderingAttributeGenerator(unittest.TestCase):
     def test_results(self):
@@ -26,13 +25,13 @@ class testChemicalOrderingAttributeGenerator(unittest.TestCase):
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertAlmostEquals(0.142857, features.values[0][0], delta=1e-6)
-        self.assertAlmostEquals(0.04, features.values[0][1], delta=1e-6)
+        self.assertAlmostEqual(0.142857, features.values[0][0], delta=1e-6)
+        self.assertAlmostEqual(0.04, features.values[0][1], delta=1e-6)
 
         # Now with weights.
         gen.set_weighted(True)
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertAlmostEquals(0.551982, features.values[0][0], delta=1e-6)
-        self.assertAlmostEquals(0.253856, features.values[0][1], delta=1e-6)
+        self.assertAlmostEqual(0.551982, features.values[0][0], delta=1e-6)
+        self.assertAlmostEqual(0.253856, features.values[0][1], delta=1e-6)

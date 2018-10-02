@@ -1,3 +1,4 @@
+from __future__ import print_function
 import types
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry
@@ -103,7 +104,7 @@ class StoichiometricAttributeGenerator:
 
         # Raise exception if input argument is not of type list of
         # CompositionEntry's.
-        if (type(entries) is not types.ListType):
+        if not isinstance(entries, list):
             raise ValueError("Argument should be of type list of "
                              "CompositionEntry's")
         elif (entries and not isinstance(entries[0], CompositionEntry)):
@@ -112,7 +113,7 @@ class StoichiometricAttributeGenerator:
 
         # Issue warning if no p norms are added.
         if (not self.p_norms):
-            print "Warning: only L0 norm is computed."
+            print ("Warning: only L0 norm is computed.")
 
         # Add in feature names.
         feat_headers.append("NComp")

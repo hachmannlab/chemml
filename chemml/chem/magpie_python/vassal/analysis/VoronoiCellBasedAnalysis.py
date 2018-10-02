@@ -1,4 +1,6 @@
-# coding=utf-8
+# py2 and py3 compatible
+from future.utils import iteritems
+
 from numpy.linalg import norm
 import numpy as np
 from .voronoi.VoronoiTessellationCalculator import \
@@ -308,7 +310,7 @@ class VoronoiCellBasedAnalysis:
 
                 # Compute the actual weight of each type.
                 n_a = np.zeros(n_types, dtype=float)
-                for k,v in neighbor_shell.iteritems():
+                for (k,v) in iteritems(neighbor_shell):
                     n_a[k.get_atom().get_type()] += v
 
                 # Compute the WC parameters.
@@ -391,7 +393,7 @@ class VoronoiCellBasedAnalysis:
         n_faces = 0
 
         # For all shapes that in reference pattern.
-        for type, count in reference_shape.iteritems():
+        for (type, count) in iteritems(reference_shape):
             n_faces += count
             if type in this_shape:
                 n_diff += abs(count - this_shape[type])
@@ -535,8 +537,8 @@ class VoronoiCellBasedAnalysis:
             l_n = len(neighbors)
             # Store their areas.
             types[a] = np.array([k.get_atom().get_type() for k in
-                                 neighbors.keys()], dtype=int)
-            weights[a] = np.array(neighbors.values(), dtype=float)
+                                 list(neighbors.keys())], dtype=int)
+            weights[a] = np.array(list(neighbors.values()), dtype=float)
 
         return [types, weights]
 

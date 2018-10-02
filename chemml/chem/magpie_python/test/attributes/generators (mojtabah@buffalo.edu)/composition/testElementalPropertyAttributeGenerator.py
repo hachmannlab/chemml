@@ -1,10 +1,8 @@
 import unittest
 import numpy as np
 import numpy.testing as np_test
-from .....attributes.generators.composition\
-    .ElementalPropertyAttributeGenerator import \
-    ElementalPropertyAttributeGenerator
-from .....data.materials.CompositionEntry import CompositionEntry
+from chemml.chem.magpie_python import ElementalPropertyAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
 
 class testElementalPropertyAttributeGenerator(unittest.TestCase):
 

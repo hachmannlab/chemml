@@ -1,10 +1,10 @@
 import unittest
 import numpy.testing as np_tst
-from .....vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
-from .....vassal.analysis.voronoi.VoronoiFace import VoronoiFace
-from .....vassal.data.Atom import Atom
-from .....vassal.data.AtomImage import AtomImage
-from .....vassal.data.Cell import Cell
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiEdge import VoronoiEdge
+from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiFace import VoronoiFace
+from chemml.chem.magpie_python.vassal.data.Atom import Atom
+from chemml.chem.magpie_python.vassal.data.AtomImage import AtomImage
+from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class testVoronoiEdge(unittest.TestCase):
     def setUp(self):
@@ -76,7 +76,7 @@ class testVoronoiEdge(unittest.TestCase):
                         edge1.get_start_vertex().get_position())
         np_tst.assert_array_almost_equal([0.5, 0.5, 0.5],
                         edge2.get_end_vertex().get_position())
-        self.assertAlmostEquals(1.0, edge1.get_length(), delta=1e-6)
+        self.assertAlmostEqual(1.0, edge1.get_length(), delta=1e-6)
 
         # Compute intersection that shouldn't happen.
         self.assertFalse(VoronoiEdge.compute_intersection(edge1, edge3))
@@ -101,13 +101,13 @@ class testVoronoiEdge(unittest.TestCase):
         VoronoiEdge.compute_intersection(edge1, edge2, just_join=True)
         np_tst.assert_array_almost_equal([0.5, 0.5, 0.5],
                         edge1.get_start_vertex().get_position())
-        self.assertEquals(edge2, edge1.get_previous_edge())
+        self.assertEqual(edge2, edge1.get_previous_edge())
 
         # Join edge1 & edge3.
         VoronoiEdge.compute_intersection(edge1, edge3, just_join=True)
         np_tst.assert_array_almost_equal([1.0, 0.5, 0.5],
                     edge1.get_start_vertex().get_position())
-        self.assertEquals(edge3, edge1.get_previous_edge())
+        self.assertEqual(edge3, edge1.get_previous_edge())
 
     def test_compare(self):
         # Initialize faces.
@@ -123,7 +123,7 @@ class testVoronoiEdge(unittest.TestCase):
         edge2 = VoronoiEdge(face1, face3)
 
         # Tests.
-        self.assertEquals(0, edge1.__cmp__(edge1))
+        self.assertEqual(0, edge1.__cmp__(edge1))
         self.assertTrue(edge1.__cmp__(edge2) != 0)
         self.assertTrue(edge1.__cmp__(edge2) == -1 * edge2.__cmp__(edge1))
         self.assertFalse(edge1.__eq__(edge2))
@@ -154,7 +154,7 @@ class testVoronoiEdge(unittest.TestCase):
         # recognizes that edge3 is the correct choice
         choices = [edge2, edge3]
         self.assertTrue(edge1.is_ccw(edge2=edge2))
-        self.assertEquals(edge3, edge1.find_next_edge(choices))
+        self.assertEqual(edge3, edge1.find_next_edge(choices))
 
         # Add more conflicting choices.
         image = AtomImage(self.cell.get_atom(0), [-2, 0, 0])
@@ -166,7 +166,7 @@ class testVoronoiEdge(unittest.TestCase):
         # A CW edge.
         choices.append(VoronoiEdge(face1, face4))
 
-        self.assertEquals(edge3, edge1.find_next_edge(choices))
+        self.assertEqual(edge3, edge1.find_next_edge(choices))
 
     def test_pair(self):
         # Initialize faces.
@@ -182,8 +182,8 @@ class testVoronoiEdge(unittest.TestCase):
         pair = edge.generate_pair()
 
         # Tests.
-        self.assertEquals(edge.get_edge_face(), pair.get_intersecting_face())
-        self.assertEquals(edge.get_intersecting_face(), pair.get_edge_face())
+        self.assertEqual(edge.get_edge_face(), pair.get_intersecting_face())
+        self.assertEqual(edge.get_intersecting_face(), pair.get_edge_face())
         dir1 = edge.get_line().get_direction()
         dir2 = -1 * pair.get_line().get_direction()
         np_tst.assert_array_almost_equal(dir1, dir2)

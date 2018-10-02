@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from ..PairDistanceAnalysis import PairDistanceAnalysis
 from ..voronoi.VoronoiCell import VoronoiCell
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # py2 and py3 compatible
 import functools
 from future.utils import iteritems

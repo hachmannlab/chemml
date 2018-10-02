@@ -1,0 +1,43 @@
+import unittest
+from chemml.chem.magpie_python import YangOmegaAttributeGenerator
+from chemml.chem.magpie_python import CompositionEntry
+
+class testYangOmegaAttributeGenerator(unittest.TestCase):
+    def test_attribute_generator(self):
+        # Make a list of CompositionEntry's.
+        entries = [CompositionEntry(composition="ZrHfTiCuNi"), CompositionEntry(
+            composition="CuNi"), CompositionEntry(
+            composition="CoCrFeNiCuAl0.3"), CompositionEntry(
+            composition="CoCrFeNiCuAl")]
+
+        # Make the generator.
+        yg = YangOmegaAttributeGenerator()
+
+        # Run the generator.
+        features = yg.generate_features(entries)
+
+        # Test results.
+        self.assertEqual(2, len(features.columns))
+
+        # Results for ZrHfTiCuNi.
+        self.assertAlmostEqual(0.95, features.values[0][0], delta=1e-2)
+        self.assertAlmostEqual(0.1021, features.values[0][1], delta=1e-2)
+
+        # Results for CuNi.
+        self.assertAlmostEqual(2.22, features.values[1][0], delta=1e-2)
+        self.assertAlmostEqual(0.0, features.values[1][1], delta=1e-2)
+        # Miracle gives Cu+Ni the same radii as above.
+
+        # Results for CoCrFeNiCuAl0.3.
+        # Unable to reproduce paper for CoCrFeNiCuAl0.3, Ward et al. get
+        # exactly 1/10th the value of deltaH as reported in the paper. They
+        # have repeated this calculation by hand (read: Excel), and believe
+        # their result to be correct. They get the same values for deltaS and
+        #  T_m. They do get the same value for CoCrFeNiCuAl, so they've
+        # concluded this is just a typo in the paper.
+        self.assertAlmostEqual(158.5, features.values[2][0], delta=2e-1)
+        self.assertAlmostEqual(0.0315, features.values[2][1], delta=1e-2)
+
+        # Results for CoCrFeNiCuAl.
+        self.assertAlmostEqual(5.06, features.values[3][0], delta=2e-1)
+        self.assertAlmostEqual(0.0482, features.values[3][1], delta=1e-2)

@@ -2,6 +2,7 @@ from __future__ import print_function
 import numpy as np
 from numpy.linalg import norm
 import sys
+import warnings
 
 class Line:
     """Class to represent lines in a three dimensional space.
@@ -195,11 +196,22 @@ class Line:
         if l is None:
             d = p - self.zero
             n = np.zeros(3)
-            try:
+            # try:
+            #     n = d - np.dot(d, self.direction) * self.direction
+            # except RuntimeWarning:
+            #     print(d, self.direction)
+            # return norm(n)
+            with warnings.catch_warnings(record=True) as w:
+                # Cause all warnings to always be triggered.
+                warnings.simplefilter("always")
                 n = d - np.dot(d, self.direction) * self.direction
-            except RuntimeWarning:
-                print(d, self.direction)
-            return norm(n)
+                # print(n, norm(n))
+                if len(w) > 0 and issubclass(w[-1].category, RuntimeWarning):
+                    # Todo: check w/ Ram if this is what he meant to do when catch a warning: n = np.zeros(3)
+                    # n = np.zeros(3)
+                    # print(d, self.direction)
+                    pass
+                return norm(n)
         else:
             normal = np.cross(self.direction, l.direction)
             n = norm(normal)

@@ -60,9 +60,11 @@ class Atom:
         output : Atom
             A new instance with the appropriate properties set.
         """
-        # x = type(self)(self.__class__)
-        cls = self.__class__
-        x = cls.__new__(cls)
+        try:
+            x = type(self)(self.__class__)
+        except TypeError:
+            cls = self.__class__
+            x = cls.__new__(cls)
         x.__dict__.update(self.__dict__)
         x.position = self.position.copy()
         x.position_cartesian = self.position_cartesian.copy()

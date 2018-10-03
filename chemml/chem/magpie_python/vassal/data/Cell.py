@@ -74,9 +74,11 @@ class Cell:
         output : Cell
             A new instance with the appropriate properties set.
         """
-        # x = type(self)(self.__class__)
-        cls = self.__class__
-        x = cls.__new__(cls)
+        try:
+            x = type(self)(self.__class__)
+        except TypeError:
+            cls = self.__class__
+            x = cls.__new__(cls)
         x.__dict__.update(self.__dict__)
         x.atoms = []
         for atom in self.atoms:

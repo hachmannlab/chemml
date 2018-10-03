@@ -27,4 +27,3 @@ def test_list_manual(data_path):
     molecules = reader.read()
     assert len(molecules) == 6
     assert len(molecules[1]['mol']) == 20
-    assert len(molecules[4]['mol']) == 24

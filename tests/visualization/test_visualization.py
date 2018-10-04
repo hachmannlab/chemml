@@ -1,8 +1,10 @@
 import pytest
 import os
-import shutil, tempfile
+import shutil
+import tempfile
 import numpy as np
 import pandas as pd
+
 from chemml.visualization import scatter2D, hist
 from chemml.visualization import decorator
 from chemml.visualization import SavePlot

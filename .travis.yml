@@ -44,8 +44,9 @@ install:
   - conda info -a
 
   # Replace dep1 dep2 ... with your dependencies
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION -c rdkit rdkit
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
+  - conda install -c rdkit rdkit
 
   # Install the library with test requirements
   - pip install -e .[tests]

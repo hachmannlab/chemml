@@ -3,13 +3,13 @@ import os
 import shutil
 import tempfile
 import pkg_resources
-import numpy as np
+import warnings
 
 from chemml.chem import Dragon
 
 @pytest.fixture()
 def data_path():
-    return pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'organic_xyz'))
+    return pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'test_files'))
 
 @pytest.fixture()
 def setup_teardown():
@@ -23,6 +23,18 @@ def setup_teardown():
 def test_new_script_v8():
     with pytest.raises(ValueError):
         drg = Dragon(version=8)
+
+
+def test_existing_script(data_path, setup_teardown):
+    drg = Dragon()
+    drg.script_wizard(script=os.path.join(data_path, 'Dragon_script.drs'), output_directory=setup_teardown)
+
+
+def test_existing_script_exception(data_path, setup_teardown):
+    with pytest.warns(RuntimeWarning):
+        with pytest.raises(ValueError):
+            drg = Dragon()
+            drg.script_wizard(script=os.path.join(data_path, 'Dragon_script_broken.drs'), output_directory=setup_teardown)
 
 
 def test_new_script_v7(setup_teardown):
@@ -83,12 +95,12 @@ def test_v6_molinput_exception(setup_teardown):
         drg.script_wizard(script='new', output_directory=setup_teardown)
 
 
-def test_v6_molFile_exception(data_path, setup_teardown):
+def test_v6_molFile_exception(setup_teardown):
     with pytest.raises(ValueError):
         drg = Dragon(version=6, blocks=list(range(1,30)), molFile=[])
         drg.script_wizard(script='new', output_directory=setup_teardown)
 
-def test_run(data_path, setup_teardown):
+def test_run(setup_teardown):
     with pytest.raises(ImportError):
         drg = Dragon(version=6, blocks=list(range(1, 30)))
         drg.script_wizard(script='new', output_directory=setup_teardown)

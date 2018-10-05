@@ -188,7 +188,7 @@ class Dragon(object):
         Parameters
         ----------
         script: string, optional (default="new")
-            If "new" start with a new script. If you want to load an existing script,
+            If "new" start creating a new script from scratch. If you want to load an existing script,
             pass the filename with drs format.
 
         output_directory: string, optional (default = './')
@@ -502,11 +502,11 @@ class Dragon(object):
             etree.cleanup_namespaces(self.dragon)
             if self.dragon.attrib['version'][0] not in ['6', '7']:
                 msg = "Dragon script is not labeled to the newest vesions of Dragon, 6 or 7. This may causes some problems."
-                warnings.warn(msg, Warning)
+                warnings.warn(msg, RuntimeWarning)
             mandatory_nodes = ['OPTIONS', 'DESCRIPTORS', 'MOLFILES', 'OUTPUT']
             reported_nodes = [element.tag for element in self.dragon.iterchildren()]
             if not set(reported_nodes).issuperset(set(mandatory_nodes)):
-                msg = 'Dragon script does not contain all mandatory nodes, which are:%s' % str(
+                msg = "Dragon script doesn't contain all required nodes, which are:%s" % str(
                     mandatory_nodes)
                 raise ValueError(msg)
             self.drs = script

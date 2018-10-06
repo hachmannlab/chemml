@@ -1,0 +1,161 @@
+<DRAGON description="Dragon7 - FP1 - MD5270" generation_date="2018/02/06" script_version="1" version="7.0.0">
+  <OPTIONS>
+    <CheckUpdates value="true"/>
+    <PreserveTemporaryProjects value="true"/>
+    <SaveLayout value="true"/>
+    <Decimal_Separator value="."/>
+    <Missing_String value="na"/>
+    <DefaultMolFormat value="1"/>
+    <RejectDisconnectedStrucuture value="false"/>
+    <RetainBiggestFragment value="false"/>
+    <RejectUnusualValence value="false"/>
+    <Add2DHydrogens value="false"/>
+    <DisconnectedCalculationOption value="0"/>
+    <MaxSRforAllCircuit value="19"/>
+    <MaxSRDetour value="30"/>
+    <MaxAtomWalkPath value="2000"/>
+    <RoundCoordinates value="true"/>
+    <RoundWeights value="true"/>
+    <LogPathWalk value="true"/>
+    <LogEdge value="true"/>
+    <Weights>
+      <weight name="Mass"/>
+      <weight name="VdWVolume"/>
+      <weight name="Electronegativity"/>
+      <weight name="Polarizability"/>
+      <weight name="Ionization"/>
+      <weight name="I-State"/>
+    </Weights>
+    <SaveOnlyData value="false"/>
+    <SaveLabelsOnSeparateFile value="false"/>
+    <SaveFormatBlock value="%b-%n.txt"/>
+    <SaveFormatSubBlock value="%b-%s-%n-%m.txt"/>
+    <SaveExcludeMisVal value="false"/>
+    <SaveExcludeAllMisVal value="false"/>
+    <SaveExcludeConst value="false"/>
+    <SaveExcludeNearConst value="false"/>
+    <SaveExcludeStdDev value="false"/>
+    <SaveStdDevThreshold value="0.0001"/>
+    <SaveExcludeCorrelated value="false"/>
+    <SaveCorrThreshold value="0.95"/>
+    <SaveExclusionOptionsToVariables value="false"/>
+    <SaveExcludeMisMolecules value="false"/>
+    <SaveExcludeRejectedMolecules value="false"/>
+    <RoundDescriptorValues value="true"/>
+  </OPTIONS>
+  <DESCRIPTORS>
+    <block SelectAll="true" id="1"/>
+    <block SelectAll="true" id="2"/>
+    <block SelectAll="true" id="3"/>
+    <block SelectAll="true" id="4"/>
+    <block SelectAll="true" id="5"/>
+    <block SelectAll="true" id="6"/>
+    <block SelectAll="true" id="7"/>
+    <block SelectAll="true" id="8"/>
+    <block SelectAll="true" id="9"/>
+    <block SelectAll="true" id="10"/>
+    <block SelectAll="true" id="11"/>
+    <block SelectAll="true" id="12"/>
+    <block SelectAll="true" id="13"/>
+    <block SelectAll="true" id="14"/>
+    <block SelectAll="true" id="15"/>
+    <block SelectAll="true" id="16"/>
+    <block SelectAll="true" id="17"/>
+    <block SelectAll="true" id="18"/>
+    <block SelectAll="true" id="19"/>
+    <block SelectAll="true" id="20"/>
+    <block SelectAll="true" id="21"/>
+    <block SelectAll="true" id="22"/>
+    <block SelectAll="true" id="23"/>
+    <block SelectAll="true" id="24"/>
+    <block SelectAll="true" id="25"/>
+    <block SelectAll="true" id="26"/>
+    <block SelectAll="true" id="27"/>
+    <block SelectAll="true" id="28"/>
+    <block SelectAll="true" id="29"/>
+    <block SelectAll="true" id="30"/>
+  </DESCRIPTORS>
+  <MOLFILES>
+    <molInput value="file"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/37/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/19/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/17/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/46/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/25/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/35/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/6/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/18/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/34/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/55/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/52/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/42/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/44/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/24/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/2/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/21/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/48/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/20/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/23/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/14/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/17/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/25/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/24/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/28/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/13/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/16/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/26/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/0/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/22/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/29/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/33/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/rerun/31/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/8/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/3/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/27/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/5/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/57/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/56/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/11/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/15/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/7/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/51/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/28/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/40/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/13/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/30/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/12/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/16/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/54/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/26/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/32/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/36/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/50/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/9/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/39/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/45/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/0/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/4/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/41/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/43/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/22/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/10/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/29/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/1/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/49/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/38/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/33/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/31/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/53/mol.xyz"/>
+    <molFile value="/projects/academic/hachmann/aditya/orca/DES/47/mol.xyz"/>
+  </MOLFILES>
+  <OUTPUT>
+    <knimemode value="false"/>
+    <SaveStdOut value="false"/>
+    <SaveProject value="false"/>
+    <SaveFile value="true"/>
+    <SaveType value="singlefile"/>
+    <SaveFilePath value="./Dragon_descriptors.txt"/>
+    <logMode value="file"/>
+    <logFile value="./Dragon_log.txt"/>
+  </OUTPUT>
+</DRAGON>

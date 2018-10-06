@@ -6,7 +6,7 @@ import numpy as np
 
 from chemml.preprocessing import MissingValues
 
-DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data'))
+DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data','test_files'))
 
 # dummy data
 df = pd.read_csv(os.path.join(DATA_PATH, 'test_missing_values.csv'), header=None)

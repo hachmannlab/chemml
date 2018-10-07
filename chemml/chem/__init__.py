@@ -1,10 +1,10 @@
 """
 The cheml.chem module includes (please click on links adjacent to function names for more information):
-    - CoulombMatrix: :func:`~cheml.chem.CoulombMatrix`
-    - BagofBonds: :func:`~cheml.chem.BagofBonds`
-    - RDKitFingerprint: :func:`~cheml.chem.RDKitFingerprint`
-    - Dragon: :func:`~cheml.chem.Dragon`
-    - DistanceMatrix: :func:`~cheml.chem.DistanceMatrix`
+    - CoulombMatrix: :func:`~chemml.chem.CoulombMatrix`
+    - BagofBonds: :func:`~chemml.chem.BagofBonds`
+    - RDKitFingerprint: :func:`~chemml.chem.RDKitFingerprint`
+    - Dragon: :func:`~chemml.chem.Dragon`
+    - DistanceMatrix: :func:`~chemml.chem.DistanceMatrix`
 """
 
 

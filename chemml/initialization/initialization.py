@@ -196,7 +196,7 @@ class XYZreader(object):
             if self.path_root:
                 for root, directories, filenames in os.walk(self.path_root):
                     file_path = [os.path.join(root, filename) for filename in filenames]
-                    for fn in fnmatch.filter(file_path, os.path.join(self.path_root, pattern)):
+                    for fn in sorted(fnmatch.filter(file_path, os.path.join(self.path_root, pattern))):
                         if not self.path_only:
                             mol = self.__file_reader(fn)
                             max_nAtoms = max(max_nAtoms, len(mol))

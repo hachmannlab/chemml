@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 def string2nan(df):
     missing_cols = [df.dtypes.index[i] for i, type in enumerate(df.dtypes) if type == "object"]
     for col in missing_cols:
@@ -8,6 +9,7 @@ def string2nan(df):
             if isfloat(value):
                 df[col][i] = np.nan
     return(df)
+
 
 def isfloat(value):
     try:
@@ -59,6 +61,7 @@ def value(string):
     except:
         return string
 
+
 def check_input(X,name,n0=None,n1=None, format_out='df'):
     """
     Makes sure that input is a 2-D numpy array or pandas dataframe in the correct format.
@@ -109,6 +112,7 @@ def check_input(X,name,n0=None,n1=None, format_out='df'):
     if n1 and X.shape[1] != n1:
         raise Exception(name+' has an invalid number of feature entries')
     return X.astype(float), header
+
 
 def check_object_col(df, name):
     """

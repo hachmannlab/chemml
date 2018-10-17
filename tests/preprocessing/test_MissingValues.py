@@ -1,29 +1,67 @@
-import unittest
+import numpy as np
+import pandas as pd
+import pytest
 import os
 import pkg_resources
-import pandas as pd
-import numpy as np
 
-from chemml.preprocessing import MissingValues
-
-DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data','test_files'))
-
-# dummy data
-df = pd.read_csv(os.path.join(DATA_PATH, 'test_missing_values.csv'), header=None)
-target = pd.DataFrame([1, 2, 3, np.nan, 4])
+from chemml.utils import check_object_col
+from chemml.utils import isfloat
+from chemml.utils import islist
+from chemml.utils import istuple
+from chemml.utils import isnpdot
+from chemml.utils import isint
+from chemml.utils import value
 
 
-class TestConstantColumns(unittest.TestCase):
-    def test_zero(self):
-        mv = MissingValues(strategy='zero', string_as_null=True, inf_as_null=True, missing_values=None)
-        f = mv.fit_transform(df)
-        t = mv.fit_transform(target)
-        self.assertEqual((5, 9), f.shape)
-        self.assertEqual(0.0, f[10][0])
-        self.assertEqual(0.0, f[10][2])
-        self.assertEqual(0.0, f[2][1])
-        self.assertEqual(0.0, f[1][0])
+@pytest.fixture()
+def data_path():
+    return pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'test_files'))
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_isfloat_exception():
+    assert isfloat('1') is True
+    assert isfloat('a') is False
+
+
+def test_islist_exception():
+    assert islist('[1]') is True
+    assert islist([1]) is True
+    assert islist('a') is False
+
+
+def test_istuple_exception():
+    assert istuple('(1,)') is True
+    assert istuple((1,)) is True
+    assert istuple('a') is False
+
+
+def test_isnpdot_exception():
+    assert isnpdot('np.') is True
+    with pytest.raises(ValueError):
+        assert isnpdot(np.sin) is True
+
+
+def test_isint_exception():
+    assert isint('1') is True
+    assert isint(1) is True
+    assert isint('a') is False
+
+
+def test_value():
+    assert value('1') == 1
+    assert value('np.sin') == np.sin
+    assert value('type') == 'type'
+
+
+def test_check_object_col_exception(data_path):
+    with pytest.raises(ValueError):
+        df = pd.read_csv(os.path.join(data_path, 'test_missing_values.csv'), header=None)
+        f = check_object_col(df, 'df')
+
+
+def test_check_object_col():
+    df = pd.DataFrame()
+    df[0] = ['a', 'b', 'c']
+    df[1] = [1, 2, 3]
+    f = check_object_col(df, 'df')
+

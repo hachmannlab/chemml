@@ -13,21 +13,18 @@ from .utilities import chunk
 # from .utilities import return2Dshape
 from .utilities import bool_formatter
 
-from .validation import string2nan
 from .validation import isfloat
 from .validation import islist
 from .validation import istuple
 from .validation import isnpdot
 from .validation import isint
 from .validation import value
-from .validation import check_input
+# from .validation import check_input
 from .validation import check_object_col
 
 
 __all__ = [
     'list_del_indices',
     'std_datetime_str',
-    'slurm_script_exclusive',
     'isfloat',
-    'string2nan',
 ]

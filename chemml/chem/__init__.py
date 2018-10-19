@@ -1,5 +1,5 @@
 """
-The cheml.chem module includes (please click on links adjacent to function names for more information):
+The chemml.chem module includes (please click on links adjacent to function names for more information):
     - CoulombMatrix: :func:`~chemml.chem.CoulombMatrix`
     - BagofBonds: :func:`~chemml.chem.BagofBonds`
     - RDKitFingerprint: :func:`~chemml.chem.RDKitFingerprint`

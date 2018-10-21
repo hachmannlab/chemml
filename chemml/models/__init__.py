@@ -1,5 +1,5 @@
 """
-The 'cheml.models' module includes trained or untrained ML models.
+The 'chemml.models' module includes trained or untrained ML models.
 """
 
 

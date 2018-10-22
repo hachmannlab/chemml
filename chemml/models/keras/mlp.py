@@ -50,12 +50,6 @@ class MLP(object):
         Refer MLP test to see a sample file
 
 
-    Attributes
-    ----------
-
-    Methods
-    -------
-
 
     """
 
@@ -83,7 +77,8 @@ class MLP(object):
         self.nclasses = nclasses
 
     def fit(self, X, y):
-        """Train the MLP for training data X and targets y
+        """
+        Train the MLP for training data X and targets y
 
         Parameters
         ----------
@@ -154,6 +149,7 @@ class MLP(object):
         """
         prediction = self.model.predict(X).squeeze()
         if self.is_regression:
+
             return np.mean((prediction - y) ** 2) ** 0.5
         else:
             return np.sum(np.argmax(prediction, axis=1) == y) * 100. / len(y)
@@ -202,6 +198,7 @@ class MLP(object):
         opt = getattr(keras_opt_module, opt_name)(**opt_params)
         return opt
 
+
 class MLP_sklearn(BaseEstimator, RegressorMixin):
     """
     A Scikit_learn wrapper around Multi-Layer Perceptron (Neural Network) implemented in keras to be used as
@@ -243,15 +240,8 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
         Path to the file that specifies optimizer configuration
         Refer MLP test to see a sample file
 
-
-    Attributes
-    ----------
-
-    Methods
-    -------
-
-
     """
+
     def __init__(self, nhidden=1, nneurons=None, activations=None,
                  learning_rate=0.01, lr_decay=0.0,
                  nepochs=100, batch_size=100, loss='mean_squared_error',
@@ -293,7 +283,6 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
 
         self.model.fit(X,y)
 
-
     def predict(self, X):
         """
         Return prediction for test data X
@@ -310,7 +299,6 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
 
         """
         return self.model.predict(X)
-
 
     def score(self, X, y, sample_weight=None):
         """

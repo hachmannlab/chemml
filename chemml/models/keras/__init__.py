@@ -1,7 +1,7 @@
 """
-The cheml.nn.keras module includes (please click on links adjacent to function names for more information):
-    - MLP: :func:`~cheml.nn.keras.MLP`
-    - MLP_sklearn: :func:`~cheml.nn.keras.MLP_sklearn`
+The chemml.models.keras module includes (please click on links adjacent to function names for more information):
+    - MLP: :func:`~chemml.nn.keras.MLP`
+    - MLP_sklearn: :func:`~chemml.nn.keras.MLP_sklearn`
 """
 
 

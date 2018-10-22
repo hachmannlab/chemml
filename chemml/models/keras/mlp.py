@@ -53,11 +53,19 @@ class MLP(object):
 
     """
 
-    def __init__(self, nhidden=1, nneurons=None, activations=None,
-                 learning_rate=0.01, lr_decay=0.0,
-                 nepochs=100, batch_size=100, loss='mean_squared_error',
-                 regression=True, nclasses=None,
-                 layer_config_file=None, opt_config_file=None):
+    def __init__(self,
+                 nhidden=1,
+                 nneurons=None,
+                 activations=None,
+                 learning_rate=0.01,
+                 lr_decay=0.0,
+                 nepochs=100,
+                 batch_size=100,
+                 loss='mean_squared_error',
+                 regression=True,
+                 nclasses=None,
+                 layer_config_file=None,
+                 opt_config_file=None):
         self.model = Sequential()
         if layer_config_file:
             self.layers = self.parse_layer_config(layer_config_file)
@@ -65,11 +73,13 @@ class MLP(object):
             self.layers = []
             self.nhidden = nhidden
             self.nneurons = nneurons if nneurons else [100] * nhidden
-            self.activations = activations if activations else ['sigmoid'] * nhidden
+            self.activations = activations if activations else ['sigmoid'
+                                                                ] * nhidden
         if opt_config_file:
             self.opt = self.parse_opt_config(opt_config_file)
         else:
-            self.opt = SGD(lr=learning_rate, momentum=0.9, decay=lr_decay, nesterov=False)
+            self.opt = SGD(
+                lr=learning_rate, momentum=0.9, decay=lr_decay, nesterov=False)
         self.nepochs = nepochs
         self.batch_size = batch_size
         self.loss = loss
@@ -91,17 +101,20 @@ class MLP(object):
         """
         if len(self.layers) == 0:
             for i in range(self.nhidden):
-                self.layers.append(('Dense',
-                                    {'units': self.nneurons[i],
-                                     'activation': self.activations[i]}))
+                self.layers.append(('Dense', {
+                    'units': self.nneurons[i],
+                    'activation': self.activations[i]
+                }))
             if self.is_regression:
-                self.layers.append(('Dense',
-                                    {'units': 1,
-                                     'activation': 'linear'}))
+                self.layers.append(('Dense', {
+                    'units': 1,
+                    'activation': 'linear'
+                }))
             else:
-                self.layers.append(('Dense',
-                                    {'units': self.nclasses,
-                                     'activation': 'softmax'}))
+                self.layers.append(('Dense', {
+                    'units': self.nclasses,
+                    'activation': 'softmax'
+                }))
         layer_name, layer_params = self.layers[0]
         layer_params['input_dim'] = X.shape[-1]
         keras_layer_module = import_module('keras.layers')
@@ -109,8 +122,10 @@ class MLP(object):
             layer = getattr(keras_layer_module, layer_name)
             self.model.add(layer(**layer_params))
         self.model.compile(loss=self.loss, optimizer=self.opt)
-        self.batch_size = X.shape[0] if X.shape[0] < self.batch_size else self.batch_size
-        self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size)
+        self.batch_size = X.shape[
+            0] if X.shape[0] < self.batch_size else self.batch_size
+        self.model.fit(
+            x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size)
 
     def predict(self, X):
         """
@@ -127,7 +142,9 @@ class MLP(object):
             Predicted value from model
 
         """
-        return self.model.predict(X).squeeze() if self.is_regression else np.argmax(self.model.predict(X).squeeze())
+        return self.model.predict(
+            X).squeeze() if self.is_regression else np.argmax(
+                self.model.predict(X).squeeze())
 
     def score(self, X, y):
         """
@@ -150,7 +167,7 @@ class MLP(object):
         prediction = self.model.predict(X).squeeze()
         if self.is_regression:
 
-            return np.mean((prediction - y) ** 2) ** 0.5
+            return np.mean((prediction - y)**2)**0.5
         else:
             return np.sum(np.argmax(prediction, axis=1) == y) * 100. / len(y)
 
@@ -242,11 +259,19 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
 
     """
 
-    def __init__(self, nhidden=1, nneurons=None, activations=None,
-                 learning_rate=0.01, lr_decay=0.0,
-                 nepochs=100, batch_size=100, loss='mean_squared_error',
-                 regression=True, nclasses=None,
-                 layer_config_file=None, opt_config_file=None):
+    def __init__(self,
+                 nhidden=1,
+                 nneurons=None,
+                 activations=None,
+                 learning_rate=0.01,
+                 lr_decay=0.0,
+                 nepochs=100,
+                 batch_size=100,
+                 loss='mean_squared_error',
+                 regression=True,
+                 nclasses=None,
+                 layer_config_file=None,
+                 opt_config_file=None):
         self.layer_config_file = layer_config_file
         self.opt_config_file = opt_config_file
         self.layers = []
@@ -275,13 +300,21 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
             Training targets
 
         """
-        self.model = MLP(nhidden=self.nhidden, nneurons=self.nneurons, activations=self.activations,
-                 learning_rate=self.learning_rate, lr_decay=self.lr_decay,
-                 nepochs=self.nepochs, batch_size=self.batch_size, loss=self.loss,
-                 regression=self.regression, nclasses=self.nclasses,
-                 layer_config_file=self.layer_config_file, opt_config_file=self.opt_config_file)
+        self.model = MLP(
+            nhidden=self.nhidden,
+            nneurons=self.nneurons,
+            activations=self.activations,
+            learning_rate=self.learning_rate,
+            lr_decay=self.lr_decay,
+            nepochs=self.nepochs,
+            batch_size=self.batch_size,
+            loss=self.loss,
+            regression=self.regression,
+            nclasses=self.nclasses,
+            layer_config_file=self.layer_config_file,
+            opt_config_file=self.opt_config_file)
 
-        self.model.fit(X,y)
+        self.model.fit(X, y)
 
     def predict(self, X):
         """
@@ -320,9 +353,6 @@ class MLP_sklearn(BaseEstimator, RegressorMixin):
         """
         prediction = self.predict(X)
         if self.regression:
-            return np.mean((prediction - y) ** 2) ** 0.5
+            return np.mean((prediction - y)**2)**0.5
         else:
             return np.sum(np.argmax(prediction, axis=1) == y) * 100. / len(y)
-
-
-

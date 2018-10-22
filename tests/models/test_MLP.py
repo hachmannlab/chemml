@@ -26,6 +26,7 @@ def data():
     Xte = X[450:, :]
     return Xtr, ytr, Xte, yte
 
+
 @pytest.fixture()
 def setup_teardown():
     # Create a temporary directory
@@ -38,11 +39,20 @@ def setup_teardown():
 
 def test_init_via_config(data, setup_teardown):
     # make layer config file
-    layer_config = [('Dense', {'units': 64, 'activation': 'relu'}),
-                    ('Dropout', {'rate' : 0.2}),
-                    ('Dense', {'units': 32, 'activation': 'relu'}),
-                    ('Dropout', {'rate': 0.2}),
-                    ('Dense', {'units': 1, 'activation': 'linear'})]
+    layer_config = [('Dense', {
+        'units': 64,
+        'activation': 'relu'
+    }), ('Dropout', {
+        'rate': 0.2
+    }), ('Dense', {
+        'units': 32,
+        'activation': 'relu'
+    }), ('Dropout', {
+        'rate': 0.2
+    }), ('Dense', {
+        'units': 1,
+        'activation': 'linear'
+    })]
     temp_path = setup_teardown
     with open(os.path.join(temp_path, 'layers.config'), 'w') as f:
         dump(layer_config, f)
@@ -52,10 +62,13 @@ def test_init_via_config(data, setup_teardown):
     with open(os.path.join(temp_path, 'opt.config'), 'w') as f:
         dump(opt, f)
 
-    mlp = MLP(regression=True,
-              nepochs=5, batch_size=20, loss='mse',
-              layer_config_file=os.path.join(temp_path, 'layers.config'),
-              opt_config_file=os.path.join(temp_path, 'opt.config'))
+    mlp = MLP(
+        regression=True,
+        nepochs=5,
+        batch_size=20,
+        loss='mse',
+        layer_config_file=os.path.join(temp_path, 'layers.config'),
+        opt_config_file=os.path.join(temp_path, 'opt.config'))
     Xtr, ytr, Xte, yte = data
     # mlp.model.summary()
     warnings.simplefilter("always")
@@ -66,13 +79,17 @@ def test_init_via_config(data, setup_teardown):
 
 def test_init_via_params(data):
     Xtr, ytr, Xte, yte = data
-    mlp = MLP(nhidden=2, nneurons=[64, 32], activations=['relu', 'relu'],
-              learning_rate=0.1,
-              nepochs=5, batch_size=20, loss='mse',
-              regression=True)
+    mlp = MLP(
+        nhidden=2,
+        nneurons=[64, 32],
+        activations=['relu', 'relu'],
+        learning_rate=0.1,
+        nepochs=5,
+        batch_size=20,
+        loss='mse',
+        regression=True)
     # mlp.model.summary()
     warnings.simplefilter("always")
     with warnings.catch_warnings(record=True) as w:
         mlp.fit(Xtr, ytr)
         mlp.score(Xte, yte)
-

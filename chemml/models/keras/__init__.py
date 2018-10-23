@@ -6,12 +6,10 @@ The chemml.models.keras module includes (please click on links adjacent to funct
 
 
 from .mlp import MLP
-from .mlp import MLP_sklearn
 
 
 
 
 __all__ = [
     'MLP',
-    'MLP_sklearn'
     ]

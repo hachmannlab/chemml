@@ -4,7 +4,8 @@ from builtins import range
 import pandas as pd
 import numpy as np
 
-from ..utils import check_object_col
+from chemml.utils import check_object_col
+
 
 class MissingValues(object):
     """
@@ -34,13 +35,17 @@ class MissingValues(object):
     data frame
     mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed
     """
-    def __init__(self, strategy="ignore_row", string_as_null = True,
-                 inf_as_null = True, missing_values = None):
+
+    def __init__(self,
+                 strategy="ignore_row",
+                 string_as_null=True,
+                 inf_as_null=True,
+                 missing_values=None):
         self.strategy = strategy
         self.string_as_null = string_as_null
         self.inf_as_null = inf_as_null
         self.missing_values = missing_values
-        
+
     def fit_transform(self, df):
         """
         use fit_transform for:
@@ -50,18 +55,18 @@ class MissingValues(object):
 
         Parameters
         ----------
-        df: pandas data frame
+        df : pandas data frame
 
         Attributes
         ----------
-        mask: binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
+        binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
             mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
             if the row/column in the same position has been removed or not.
             The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
             on that. The mask can later be used in the transform method to change other data frames in the same way.
         """
         if self.inf_as_null == True:
-            df.replace([np.inf, -np.inf,'inf','-inf'], np.nan, True)
+            df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, True)
         if self.string_as_null == True:
             df = df.convert_objects(convert_numeric=True)
         if isinstance(self.missing_values, (list, tuple)):
@@ -74,12 +79,12 @@ class MissingValues(object):
 
         if self.strategy == 'zero':
             for col in df.columns:
-                df[col].fillna(value=0,inplace=True)
+                df[col].fillna(value=0, inplace=True)
             return df
         elif self.strategy == 'ignore_row':
             dfi = df.index
             df.dropna(axis=0, how='any', inplace=True)
-            mask=[i in df.index for i in dfi]
+            mask = [i in df.index for i in dfi]
             self.mask = pd.Series(mask, index=dfi)
             # self.mask = pd.notnull(df).all(1)
             # df = df[self.mask]
@@ -87,14 +92,16 @@ class MissingValues(object):
         elif self.strategy == 'ignore_column':
             dfc = df.columns
             df.dropna(axis=1, how='any', inplace=True)
-            mask=[i in df.columns for i in dfc]
+            mask = [i in df.columns for i in dfc]
             self.mask = pd.Series(mask, index=dfc)
             # self.mask = pd.notnull(df).all(0)
             # df = df.T[self.mask].T
             return df
         elif self.strategy == 'interpolate':
             df = df.interpolate()
-            df.fillna(method='ffill',axis=1, inplace=True) # because of nan in the first and last element of column
+            df.fillna(
+                method='ffill', axis=1, inplace=True
+            )  # because of nan in the first and last element of column
             return df
         else:
             msg = "Wrong strategy has been passed"
@@ -106,7 +113,7 @@ class MissingValues(object):
 
         Parameters
         ----------
-        df: pandas dataframe
+        df : pandas dataframe
 
         Returns
         -------
@@ -115,7 +122,7 @@ class MissingValues(object):
         if self.strategy == 'ignore_row':
             return df[self.mask]
         elif self.strategy == 'ignore_column':
-            return df.loc[:,self.mask]
+            return df.loc[:, self.mask]
         else:
             msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform the new dataframe with those methods."
             warnings.warn(msg)

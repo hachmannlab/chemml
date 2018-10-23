@@ -1,29 +1,46 @@
 import pytest
-import os
-import pkg_resources
+import warnings
 
-from chemml.initialization import XYZreader
+from chemml.initialization import Split
+from chemml.datasets import load_organic_density
 
 
 @pytest.fixture()
-def data_path():
-    return pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'organic_xyz'))
+def data():
+    _, _, X = load_organic_density()
+    return X
 
 
-def test_string_manual(data_path):
-    reader = XYZreader(
-        path_pattern='[2-3]_opt.xyz', path_root=data_path, reader='manual', skip_lines=[2, 0])
-    molecules = reader.read()
-    assert len(molecules) == 2
-    assert len(molecules[1]['mol']) == 20
+def test_df_exception():
+    with pytest.raises(ValueError):
+        cls = Split(selection=2)
+        cls.fit('df')
 
 
-def test_list_manual(data_path):
-    reader = XYZreader(
-        path_pattern=['[2-3]_opt.xyz', '[1-2][1-2]_opt.xyz'],
-        path_root=data_path,
-        reader='manual',
-        skip_lines=[2, 0])
-    molecules = reader.read()
-    assert len(molecules) == 6
-    assert len(molecules[1]['mol']) == 20
+def test_select_exception(data):
+    with pytest.raises(ValueError):
+        cls = Split(selection='2')
+        cls.fit(data)
+
+
+def test_select_int(data):
+    cls = Split(selection=2)
+    x1, x2 = cls.fit(data)
+    assert list(x1.columns) == ['MW', 'AMW']
+    assert len(x2.columns) == 198
+
+
+def test_select_int(data):
+    cls = Split(selection=['MW', 'AMW'])
+    x1, x2 = cls.fit(data)
+    assert list(x1.columns) == ['MW', 'AMW']
+    assert len(x2.columns) == 198
+
+
+def test_select_warning(data):
+    warnings.simplefilter("always")
+    with warnings.catch_warnings(record=True) as w:
+        cls = Split(selection=201)
+        x1, x2 = cls.fit(data)
+        assert len(x1.columns) == 200
+        assert x2 is None

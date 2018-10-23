@@ -21,9 +21,11 @@ def load_cep_homo():
 
     Returns
     -------
-    returns two dataframes
-        - first dataframe for SMILES representation of molecules, shape: (500,1)
-        - second dataframe for HOMO energies of the molecules (eV), shape: (500,1)
+    pandas dataframe
+        The SMILES representation of molecules, shape: (500,1)
+
+    pandas dataframe
+        The HOMO energies of the molecules (eV), shape: (500,1)
 
     Examples
     --------
@@ -57,10 +59,14 @@ def load_organic_density():
 
     Returns
     -------
-    returns three dataframes
-        - first dataframe for SMILES representation of molecules, shape: (500,1)
-        - second dataframe for the density of molecules (Kg/m3), shape: (500,1)
-        - third dataframe for the molecular descriptors of molecules, shape: (500,1)
+    pandas dataframe
+        The SMILES representation of molecules, shape: (500,1)
+
+    pandas dataframe
+        The density of molecules (Kg/m3), shape: (500,1)
+
+    pandas dataframe
+        The molecular descriptors of molecules, shape: (500,200)
 
     Examples
     --------
@@ -97,9 +103,11 @@ def load_xyz_polarizability():
 
     Returns
     -------
-    returns a dictionary and a dataframe
-        - dictionary: the xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
-        - dataframe: the polarizability of each molecule
+    dictionary
+        The xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
+
+    pandas dataframe
+        The polarizability of each molecule as a column of dataframe.
 
     Examples
     --------
@@ -135,9 +143,11 @@ def load_comp_energy():
 
     Returns
     -------
-    returns a list and a dataframe
-        - list: the list of composition entries from CompositionEntry class.
-        - dataframe: the formation energy for each composition.
+    list
+        The list of composition entries from CompositionEntry class.
+
+    pandas dataframe
+        The formation energy for each composition.
 
     Examples
     --------
@@ -169,8 +179,8 @@ def load_crystal_structures():
 
     Returns
     -------
-    returns a list
-        - list: the list of crystal structure entries from CrystalStructureEntry class.
+    list
+        The list of crystal structure entries from CrystalStructureEntry class.
 
     Examples
     --------

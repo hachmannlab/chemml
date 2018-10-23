@@ -6,7 +6,7 @@ import numpy as np
 import warnings
 import fnmatch
 
-from ..utils.utilities import std_datetime_str
+from chemml.utils.utilities import std_datetime_str
 
 
 class Split(object):
@@ -15,41 +15,48 @@ class Split(object):
 
     Parameters
     ----------
-    select: integer or list (default = 1)
-        integer: number of columns to be selected from the first of data as first data frame (X1)
-        list: list of headers to be selected as first data frame (X1)
+    select: int or list, optional (default = 1)
+        if integer, it's the number of columns to be selected from left side of data and returns as first data frame (X1).
+        if list, it must contain the exact column names to be selected and returned as first data frame (X1).
+        The remaining columns will be returned as second dataframe (X2) in both cases.
 
-    Returns
-    -------
-    two pandas dataframes: X1 and X2
     """
-    def __init__(self,selection=1):
+    def __init__(self, selection=1):
         self.selection = selection
 
-    def fit(self,X):
+    def fit(self, X):
         """
-        fit the split task to the input data frame
+        The main function to fit the split task to the input data frame X.
 
-        :param X:  pandas data frame
-        original pandas data frame
-        :return: two pandas data frame: X1 and X2
+        Parameters
+        ----------
+        X: pandas dataframe
+            The input dataframe
+
+        Returns
+        -------
+        pandas dataframe
+            X1: the dataframe resulted based on the selection parameter
+        pandas dataframe
+            X2: the dataframe of columns not selected as X1
         """
-        if not isinstance(X,pd.DataFrame):
+        if not isinstance(X, pd.DataFrame):
             msg = 'X must be a pandas dataframe'
-            raise TypeError(msg)
-        if isinstance(self.selection,list):
-            X1 = X.loc[:,self.selection]
+            raise ValueError(msg)
+        if isinstance(self.selection, list):
+            X1 = X.loc[:, self.selection]
             X2 = X.drop(self.selection,axis=1)
-        elif isinstance(self.selection,int):
+        elif isinstance(self.selection, int):
             if self.selection >= X.shape[1]:
                 msg = 'The first output data frame is empty, because passed a bigger number than actual number of columns'
                 warnings.warn(msg)
-            X1 = X.iloc[:,:self.selection]
-            X2 = X.iloc[:,self.selection:]
+            X1 = X.iloc[:, :self.selection]
+            X2 = None
         else:
-            msg = "selection parameter must ba a list or an integer"
-            raise TypeError(msg)
+            msg = "The parameter selection must ba a list or an integer"
+            raise ValueError(msg)
         return X1, X2
+
 
 class XYZreader(object):
     """ (XYZreader)
@@ -103,13 +110,14 @@ class XYZreader(object):
 
     Attributes
     ----------
-    max_n_atoms: integer
+    max_n_atoms: int
         Maximum number of atoms in one molecule.
         This can be useful if you want to set this parameter in the feature representation methods,
         e.g. Coulomb_Matrix.
 
-    Pattern Examples
+    Notes
     --------
+        Some pattern examples:
         (1)
         path_pattern: 'Mydir/1f/1_opt.xyz'
         path_root: None

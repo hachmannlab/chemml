@@ -64,4 +64,3 @@ def test_check_object_col():
     df[0] = ['a', 'b', 'c']
     df[1] = [1, 2, 3]
     f = check_object_col(df, 'df')
-

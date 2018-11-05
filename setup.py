@@ -34,7 +34,7 @@ if __name__ == "__main__":
             'tensorflow', 'keras', 'h5py',
             'scikit-learn', 'babel>=2.3.4',
             'matplotlib>=1.5.1', 'deap>=1.2.2',
-            'lxml'
+            'lxml', 'wget'
         ],
         extras_require={
             'docs': [

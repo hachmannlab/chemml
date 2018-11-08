@@ -8,12 +8,15 @@ import os
 import pkg_resources
 import numpy as np
 import pandas as pd
+from keras import backend as K
 from keras.models import load_model
 from rdkit import Chem
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
 
+from chemml.models.keras.trained.engine import DataChecker
 
-class OrganicLorentzLorenz(object):
+
+class OrganicLorentzLorenz(DataChecker):
     """
     A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.
     The model predicts refractive index, polarizability, and density of an organic molecule using its
@@ -49,6 +52,7 @@ class OrganicLorentzLorenz(object):
 
     def __represent(self, smiles):
         # The descriptor must be a binary Morgan fingerprint with radius 2 and 1024 bits.
+
         mol = Chem.MolFromSmiles(smiles.strip())
         if mol is None:
             msg = '%s is not a valid SMILES representation'%smiles
@@ -56,7 +60,7 @@ class OrganicLorentzLorenz(object):
         else:
             return np.array(GetMorganFingerprintAsBitVect(mol, radius=2, nBits=1024))
 
-    def predict(self, smiles):
+    def predict(self, smiles, pprint=False):
         """
         After loading the model, this function predicts refractive index, polarizability, and density of the entery.
 
@@ -64,6 +68,9 @@ class OrganicLorentzLorenz(object):
         ----------
         smiles: str
             The SMILES representaion of a molecule.
+
+        pprint: bool
+            If True, a short description of the predicted properties will be printed out.
 
         Returns
         -------
@@ -91,10 +98,11 @@ class OrganicLorentzLorenz(object):
         den = float(y3 * self.y_scaler['ss_scale'][2] + self.y_scaler['ss_mean'][2])
 
         # print out predictions
-        print ('\ndata-driven model estimates:')
-        print ('   LL refractive index:    ', '%.2f' % ri)
-        print ('   polarizability (Bohr^3):', '%.2f' % pol)
-        print ('   density (Kg/m^3):       ', '%.2f' % den)
+        if pprint:
+            print ('\ndata-driven model estimates:')
+            print ('   LL refractive index:    ', '%.2f' % ri)
+            print ('   polarizability (Bohr^3):', '%.2f' % pol)
+            print ('   density (Kg/m^3):       ', '%.2f' % den)
         return (ri, pol, den)
 
     def train(self, X, Y, scale=True, kwargs_for_compile={}, kwargs_for_fit={}):
@@ -143,18 +151,13 @@ class OrganicLorentzLorenz(object):
                 raise ValueError(msg)
 
         # check dimension of X
-        if isinstance(X, np.ndarray):
-            if X.ndim == 2 :
-                if X.shape[1] != 1024:
-                    msg = "the 2D numpy array must be in 1024-dimension with any numerical type"
-                    raise ValueError(msg)
-            elif X.ndim == 1 :
-                if isinstance(X[0], str):
-                    # representation if SMILES
-                    X = np.array([self.__represent(i) for i in X])
-                else:
-                    msg = "The input X must be either a 2D array of features or 1D array of SMILES representations"
-                    raise ValueError(msg)
+        itis, msg = self._check_array_input(X, 'X', 2, (None, 1024))
+        if not itis:
+            itis, msg = self._check_array_input(X, 'X', 1, (None,))
+            if itis:
+                X = np.array([self.__represent(i) for i in X])
+            else:
+                raise ValueError(msg)
 
         # check dimension of Y
         if isinstance(Y, list):
@@ -190,29 +193,46 @@ class OrganicLorentzLorenz(object):
             raise ValueError(msg)
 
         # the actual compile and training
-        self.model.compile(**kwargs_for_compile)
+        from keras.optimizers import Adam
+        adam = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
+        default_kwargs = {'optimizer': adam,
+                      'loss': 'mean_squared_error',
+                      'metrics': ['mean_absolute_error']}
+        default_kwargs.update(kwargs_for_compile)
+        self.model.compile(**default_kwargs)
         self.model.fit(X, [y1, y2, y3], **kwargs_for_fit)
 
-    def get_first_hidden_layer(self, X):
+    def get_hidden_layer(self, X, id=1):
         """
         This functions return the first hidden layer of the model.
 
         Parameters
         ----------
-        X: ndarray or dataframe
+        X: ndarray
             If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
             If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format.
-            If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.
+
+        id: int
+            This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second,
+            or third hidden layer, respectively.
 
         Returns
         -------
         ndarray
-            The array of shape (length_of_X, 128) as the outputs of the first hidden layer.
+            The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1).
+            The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2).
+            The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).
         """
-        pass
+        # check dimension of X
+        itis, msg = self._check_array_input(X, 'X', 2, (None, 1024))
+        if not itis:
+            itis, msg = self._check_array_input(X, 'X', 1, (None,))
+            if itis:
+                X = np.array([self.__represent(i) for i in X])
+            else:
+                raise ValueError(msg)
 
-
-
-
-
+        get_1st_layer_output = K.function([self.model.layers[0].input],
+                                          [self.model.layers[id].output])
+        return get_1st_layer_output([X])[0]
 

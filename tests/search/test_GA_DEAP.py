@@ -3,12 +3,8 @@ import unittest
 from chemml.search import GeneticAlgorithm
 
 Weights = (1, )
-chromosome_length = 2
-chromosome_type = (1, 1)
-bit_limits = ((0, 10), (0, 5))
-mut_int_lower = (0, 0)
-mut_int_upper = (10, 5)
-
+space = ({'first': {'int': [0, 10]}}, 
+        {'second': {'int': [0, 5]}})
 
 def evaluate(individual):
     return sum(individual),
@@ -19,44 +15,33 @@ class TestGeneticAlgorithm(unittest.TestCase):
         ga_search = GeneticAlgorithm(
             evaluate,
             weights=Weights,
-            chromosome_length=chromosome_length,
-            chromosome_type=chromosome_type,
-            bit_limits=bit_limits,
-            mut_int_lower=mut_int_lower,
-            mut_int_upper=mut_int_upper,
+            space=space,
             algorithm=1)
 
-        ga_search.fit()
-        best_ind_df, best_individual = ga_search.search()
+        ga_search.initialize()
+        best_ind_df, best_individual, final_pop = ga_search.search()
         self.assertGreaterEqual(sum(best_individual), 14)
 
     def test_algorithm2(self):
         ga_search = GeneticAlgorithm(
             evaluate,
             weights=Weights,
-            chromosome_length=chromosome_length,
-            chromosome_type=chromosome_type,
-            bit_limits=bit_limits,
-            mut_int_lower=mut_int_lower,
-            mut_int_upper=mut_int_upper,
+            space=space,
             algorithm=2)
-        ga_search.fit()
-        best_ind_df, best_individual = ga_search.search()
+
+        ga_search.initialize()
+        best_ind_df, best_individual, final_pop = ga_search.search()
         self.assertGreaterEqual(sum(best_individual), 14)
 
     def test_algorithm3(self):
         ga_search = GeneticAlgorithm(
             evaluate,
             weights=Weights,
-            chromosome_length=chromosome_length,
-            chromosome_type=chromosome_type,
-            bit_limits=bit_limits,
-            mut_int_lower=mut_int_lower,
-            mut_int_upper=mut_int_upper,
+            space=space,
             algorithm=3)
 
-        ga_search.fit()
-        best_ind_df, best_individual = ga_search.search()
+        ga_search.initialize()
+        best_ind_df, best_individual, final_pop = ga_search.search()
         self.assertGreaterEqual(sum(best_individual), 14)
 
 

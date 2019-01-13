@@ -9,16 +9,16 @@ class CoulombMatrix(object):
 
     Parameters
     ----------
-    CMtype: string, optional (default='SC')
+    CMtype: str, optional (default='SC')
         The coulomb matrix type, one of the following types:
             * 'Unsorted_Matrix' or 'UM'
             * 'Unsorted_Triangular' or 'UT'
             * 'Eigenspectrum' or 'E' 
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
-    max_n_atoms: integer or 'auto', optional (default = 'auto')
-        maximum number of atoms in a molecule. if 'auto' we find it based on the input molecules.
-    nPerm: integer, optional (default = 3)
+    max_n_atoms: int or 'auto', optional (default = 'auto')
+        maximum number of atoms in a molecule. If 'auto', we find it based on the input molecules.
+    nPerm: int, optional (default = 3)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation.
     const: float, optional (default = 1)

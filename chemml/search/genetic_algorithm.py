@@ -1,6 +1,5 @@
 from __future__ import print_function
 from builtins import range
-from copy import deepcopy
 from deap import base, creator, tools
 import random
 import pandas as pd
@@ -258,14 +257,7 @@ class GeneticAlgorithm(object):
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-            c1, c2 = deepcopy(child1), deepcopy(child2)
             self.toolbox.mate(child1, child2)
-            if self.crossover_type == 'Blend':
-                for i in range(self.chromosome_length):
-                    if self.chromosome_type[i] == 'int':
-                        child1[i], child2[i] = int(child1[i]), int(child2[i])
-                    if self.chromosome_type[i] == 'choice' and type(child1[i])==str:
-                        child1[i], child2[i] = c1[i], c2[i]
             del child1.fitness.values
             del child2.fitness.values
 
@@ -312,14 +304,7 @@ class GeneticAlgorithm(object):
                 mu_pop = list(map(self.toolbox.clone, mu_pop))
 
                 for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                    c1, c2 = deepcopy(child1), deepcopy(child2)
                     self.toolbox.mate(child1, child2)
-                    if self.crossover_type == 'Blend':
-                        for i in range(self.chromosome_length):
-                            if self.chromosome_type[i] == 'int':
-                                child1[i], child2[i] = int(child1[i]), int(child2[i])
-                            if self.chromosome_type[i] == 'choice' and type(child1[i])==str:
-                                child1[i], child2[i] = c1[i], c2[i]
                     del child1.fitness.values
                     del child2.fitness.values
 

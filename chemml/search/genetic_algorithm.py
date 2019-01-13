@@ -37,57 +37,25 @@ class GeneticAlgorithm(object):
                 for minimizing a single objective function
 
             pop_size: integer, optional (default = 50)
-                An integer which denotes the size of the population
+                Size of the population
 
             crossover_type: string, optional (default = "Blend")
-                A string denoting the type of crossover: OnePoint, TwoPoint, Blend or Uniform
+                Type of crossover: OnePoint, TwoPoint, Blend 
 
-            mutation_prob: real number, optional (default = 0.4)
-                A number that denotes the probability of mutation.
+            mutation_prob: float, optional (default = 0.4)
+                Probability of mutation.
+
+            crossover_size: float, optional (default = 0.8)
+                Fraction of population to select for crossover.
+
+            mutation_size: float, optional (default = 0.3)
+                Fraction of population to select for mutation.
 
             algorithm: int, optional (default=1)
-                The algorithm to use for the search. Algorithm descriptions are in the documentation for the search method.
+                The algorithm to use for the search. Algorithm descriptions are in the documentation for search method.
 
             initial_population: list, optional (default=None)
                 The initial population for the algorithm to start with. 
-
-
-            Examples
-            --------
-            >>> from chemml.search import GeneticAlgorithm
-            >>> def sum_func(individual): return (sum(individual),)
-            >>> ga = GeneticAlgorithm(evaluate = sum_func, weights = (1,), chromosome_length = 2, chromosome_type = (1,1),
-            >>>       bit_limits = ((0,10), (0,5)), mut_int_lower = (0,0), mut_int_upper = (10,5))
-            >>> ga.fit()
-            >>> best_ind_df, best_individual = ga.search()
-            Best Individuals of each generation are:
-
-               Best_individual_per_gen  Fitness_values          Time
-            0                   [8, 5]            13.0  4.444453e-06
-            1                  [10, 4]            14.0  5.000035e-06
-            2                  [10, 4]            14.0  0.000000e+00
-            3                  [10, 4]            14.0  4.166696e-06
-            4                  [10, 4]            14.0  4.444387e-06
-            5                  [10, 5]            15.0  4.444453e-06
-            6                  [10, 5]            15.0  4.166696e-06
-            7                  [10, 5]            15.0  4.444453e-06
-            8                  [10, 5]            15.0  0.000000e+00
-            9                  [10, 5]            15.0  8.333392e-07
-            10                 [10, 5]            15.0  4.444453e-06
-            11                 [10, 5]            15.0  4.166696e-06
-            12                 [10, 5]            15.0  4.444453e-06
-            13                 [10, 5]            15.0  4.444453e-06
-            14                 [10, 5]            15.0  0.000000e+00
-            15                 [10, 5]            15.0  0.000000e+00
-            16                 [10, 5]            15.0  8.333392e-07
-            17                 [10, 5]            15.0  4.444453e-06
-            18                 [10, 5]            15.0  4.444453e-06
-            19                 [10, 5]            15.0  4.166630e-06
-
-
-            ((0, 10), (0, 5))
-
-             Best individual after 20 evolutions is [10, 5]
 
             """
 
@@ -98,7 +66,9 @@ class GeneticAlgorithm(object):
                 pop_size=50,
                 crossover_type="Blend", 
                 mutation_prob=0.4,
-                algorithm=1, 
+                crossover_size=0.8,
+                mutation_size=0.3,
+                algorithm=3, 
                 initial_population=None):
 
         self.Weights = weights
@@ -106,10 +76,11 @@ class GeneticAlgorithm(object):
         if self.chromosome_length <= 1:
             print("Space variable not defined. Aborting.")
             exit(code=1)
-        self.chromosome_type, self.bit_limits, self.mutation_params = [], [], []
+        self.chromosome_type, self.bit_limits, self.mutation_params, self.var_names = [], [], [], []
         
         for param_dict in space:
             for name in param_dict:
+                self.var_names.append(name)
                 var = param_dict[name]
                 if 'uniform' in var:
                     self.chromosome_type.append('uniform')
@@ -132,6 +103,8 @@ class GeneticAlgorithm(object):
         self.pop_size = pop_size
         self.mutation_prob = mutation_prob
         self.crossover_type = crossover_type
+        self.crossover_size = crossover_size
+        self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
         
@@ -167,12 +140,21 @@ class GeneticAlgorithm(object):
         self.toolbox.register("population", tools.initRepeat, list,
                               self.toolbox.individual)
 
+        def blend(ind1, ind2):
+            for i in range(self.chromosome_length):
+                if self.chromosome_type[i] == 'int' or self.chromosome_type[i] == 'uniform':
+                    ind1[i], ind2[i] = 0.3*(ind1[i]+ind2[i]), (1-0.3)*(ind1[i]+ind2[i])
+                    if self.chromosome_type[i] == 'int':
+                        ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
+                if self.chromosome_type[i] == 'choice':
+                    ind1[i], ind2[i] = ind2[i], ind1[i]
+                
         if self.crossover_type == "OnePoint":
             self.toolbox.register("mate", tools.cxOnePoint)
         elif self.crossover_type == "TwoPoint":
             self.toolbox.register("mate", tools.cxTwoPoint)
         elif self.crossover_type == "Blend":
-            self.toolbox.register("mate", tools.cxBlend, alpha=0.5)
+            self.toolbox.register("mate", blend)
 
         # self.toolbox.register("selectTournament", tools.selTournament, tournsize=30)
         self.toolbox.register("selectRoulette", tools.selRoulette)
@@ -237,10 +219,10 @@ class GeneticAlgorithm(object):
                 the search terminates.
 
         init_ratio: float, optional (default = 0.4)
-            Fraction of initial population to select for next generation
+            Fraction of initial population to select for next generation. Required only for algorithm 2.
 
         crossover_ratio: float, optional (default = 0.3)
-            Fraction of crossover population to select for next generation
+            Fraction of crossover population to select for next generation. Required only for algorithm 2.
 
         
         Returns
@@ -265,14 +247,14 @@ class GeneticAlgorithm(object):
         # Generate and evaluate crossover and mutation population
         if self.algo == 3:
             co_pop = []
-            while len(co_pop) < int(math.ceil(0.8*len(pop))):
+            while len(co_pop) < int(math.ceil(self.crossover_size*len(pop))):
                 c = self.toolbox.selectRoulette(pop, 1)
                 if c not in co_pop:
                     co_pop = co_pop + c
         else:
-            co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.8*len(pop))))
+            co_pop = self.toolbox.selectRoulette(pop, int(math.ceil(self.crossover_size*len(pop))))
         co_pop = list(map(self.toolbox.clone, co_pop))
-        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(0.3*len(pop))))
+        mu_pop = self.toolbox.selectRoulette(pop, int(math.ceil(self.mutation_size*len(pop))))
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -307,7 +289,7 @@ class GeneticAlgorithm(object):
         best_indi_fitness_values = []
         timer = []
         convergence = 0
-        for g in range(n_generations):
+        for _ in range(n_generations):
             if convergence >= early_stopping:
                 print("The search converged with convergence criteria = ", early_stopping)
                 break
@@ -319,14 +301,14 @@ class GeneticAlgorithm(object):
                 offspring = list(map(self.toolbox.clone, offspring))
                 if self.algo == 3:
                     co_pop = []
-                    while len(co_pop) < int(math.ceil(0.8*len(pop))):
+                    while len(co_pop) < int(math.ceil(self.crossover_size*len(pop))):
                         c = self.toolbox.selectRoulette(pop, 1)
                         if c not in co_pop:
                             co_pop = co_pop + c
                 else:
-                    co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.8*len(pop))))
+                    co_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(self.crossover_size*len(pop))))
                 co_pop = list(map(self.toolbox.clone, co_pop))
-                mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(0.3*len(pop))))
+                mu_pop = self.toolbox.selectRoulette(offspring, int(math.ceil(self.mutation_size*len(pop))))
                 mu_pop = list(map(self.toolbox.clone, mu_pop))
 
                 for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
@@ -376,4 +358,8 @@ class GeneticAlgorithm(object):
         print("\n \n Best individual after %s evolutions is %s " % (n_generations, best_individual))
         del creator.FitnessMin
         del creator.Individual
-        return best_ind_df, best_individual, total_pop
+        best_ind_dict = {}
+        for name, val in zip(self.var_names, best_individual):
+            best_ind_dict[name] = val
+        return best_ind_df, best_ind_dict, total_pop
+

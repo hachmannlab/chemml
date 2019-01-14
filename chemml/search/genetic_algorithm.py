@@ -106,6 +106,7 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
+        self.population = None
         
     def chromosome_generator(self):
         chsome = []
@@ -124,7 +125,7 @@ class GeneticAlgorithm(object):
 
     def initialize(self):
         """
-        Setting up the DEAP - genetic algorithm parameters and functions.
+        Initializing genetic algorithm parameters and functions.
 
         Notes
         -----
@@ -174,8 +175,10 @@ class GeneticAlgorithm(object):
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'uniform':
                 if random.random() < self.mutation_prob:
-                    indi[i] += random.gauss(self.mutation_params[i][0],
-                                            self.mutation_params[i][1])
+                    add = self.bit_limits[i][0] -1
+                    while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
+                        add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
+                    indi[i] += add
             elif self.chromosome_type[i] == 'int':
                 if random.random() < self.mutation_prob:
                     indi[i] = random.randint(self.bit_limits[i][0],
@@ -236,8 +239,10 @@ class GeneticAlgorithm(object):
             List of individuals in the final population 
 
         """
-
-        pop = self.toolbox.population(n=self.pop_size)
+        if self.population is not None:
+            pop = self.population
+        else:
+            pop = self.toolbox.population(n=self.pop_size)
         # Evaluate the initial population
         fitnesses = map(self.toolbox.evaluate, pop)
         for ind, fit in zip(pop, fitnesses):
@@ -341,10 +346,8 @@ class GeneticAlgorithm(object):
 
         print("\n \n Best Individuals of each generation are:  \n \n" , best_ind_df)
         print("\n \n Best individual after %s evolutions is %s " % (n_generations, best_individual))
-        del creator.FitnessMin
-        del creator.Individual
+        self.population = tools.selBest(total_pop, self.pop_size)
         best_ind_dict = {}
         for name, val in zip(self.var_names, best_individual):
             best_ind_dict[name] = val
-        return best_ind_df, best_ind_dict, total_pop
-
+        return best_ind_df, best_ind_dict, self.population

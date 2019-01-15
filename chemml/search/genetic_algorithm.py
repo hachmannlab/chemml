@@ -23,7 +23,7 @@ class GeneticAlgorithm(object):
                 A tuple of dict objects specifying the hyper-parameter space to search in. Each hyper-parameter should be a python dict object
                 with the name of the hyper-parameter as the key. Value is also a dict object with one mandatory key among: 'uniform', 'int' and
                 'choice' for defining floating point, integer and choice variables respectively. Values for these keys should be a list defining 
-                the valid hyper-parameter search space. For uniform, a 'mutation' key is also required for which the value is 
+                the valid hyper-parameter search space (lower and upper bounds for int and uniform). For uniform, a 'mutation' key is also required for which the value is 
                 [mean, standard deviation] for the gaussian distribution.
                 Example: 
                         ({'alpha': {'uniform': [0.00001, 1], 
@@ -67,7 +67,7 @@ class GeneticAlgorithm(object):
                 mutation_prob=0.4,
                 crossover_size=0.8,
                 mutation_size=0.3,
-                algorithm=3, 
+                algorithm=3,
                 initial_population=None):
 
         self.Weights = weights
@@ -106,7 +106,6 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
-        self.population = None
         
     def chromosome_generator(self):
         chsome = []
@@ -132,6 +131,15 @@ class GeneticAlgorithm(object):
         Must call this function before calling any algorithm.
         """
         from deap import creator
+        self.population, self.final_fitness = None, None
+        try:
+            if creator.FitnessMin:
+                del creator.FitnessMin
+            if creator.Individual:
+                del creator.Individual
+        except:
+            pass
+
         creator.create("FitnessMin", base.Fitness, weights=self.Weights)
         creator.create("Individual", list, fitness=creator.FitnessMin)
         self.toolbox = base.Toolbox()
@@ -139,22 +147,11 @@ class GeneticAlgorithm(object):
                               creator.Individual, self.chromosome_generator)
         self.toolbox.register("population", tools.initRepeat, list,
                               self.toolbox.individual)
-
-        def blend(ind1, ind2):
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 'int' or self.chromosome_type[i] == 'uniform':
-                    ind1[i], ind2[i] = 0.3*(ind1[i]+ind2[i]), (1-0.3)*(ind1[i]+ind2[i])
-                    if self.chromosome_type[i] == 'int':
-                        ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
-                if self.chromosome_type[i] == 'choice':
-                    ind1[i], ind2[i] = ind2[i], ind1[i]
                 
         if self.crossover_type == "OnePoint":
             self.toolbox.register("mate", tools.cxOnePoint)
         elif self.crossover_type == "TwoPoint":
             self.toolbox.register("mate", tools.cxTwoPoint)
-        elif self.crossover_type == "Blend":
-            self.toolbox.register("mate", blend)
 
         # self.toolbox.register("selectTournament", tools.selTournament, tournsize=30)
         self.toolbox.register("selectRoulette", tools.selRoulette)
@@ -170,6 +167,15 @@ class GeneticAlgorithm(object):
         self.toolbox.decorate(
             "evaluate",
             tools.DeltaPenalty(feasibility, -1000.0 * self.Weights[0]))
+
+    def blend(self, ind1, ind2):
+        for i in range(self.chromosome_length):
+            if self.chromosome_type[i] == 'int' or self.chromosome_type[i] == 'uniform':
+                ind1[i], ind2[i] = 0.3*(ind1[i]+ind2[i]), (1-0.3)*(ind1[i]+ind2[i])
+                if self.chromosome_type[i] == 'int':
+                    ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
+            if self.chromosome_type[i] == 'choice':
+                ind1[i], ind2[i] = ind2[i], ind1[i]
 
     def custom_mutate(self, indi):
         for i in range(self.chromosome_length):
@@ -198,17 +204,7 @@ class GeneticAlgorithm(object):
         Algorithm 2:
             Initial population is instantiated.
             Roulette wheel selection is used for selecting individuals for crossover and mutation.
-            The initial population, crossovered and mutated individuals form 3 different pools of individuals. Based on
-            input parameters 1 and 2, members are selected from each of these pools to form the initial population for the
-            next generation. Fraction of mutated members to select for next generation is decided based on the two input
-            parameters and the size of initial population.
-
-        Algorithm 3:
-            Initial population is instantiated.
-            Roulette wheel selection is used for selecting individuals for crossover and mutation.
-            The initial population, crossovered and mutated individuals form the pool of individuals from which n members
-            are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next
-            generation, as the initial population for the next generation, where n is the size of population.
+            The initial population, crossovered and mutated individuals form the pool of individuals from which n members are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next generation, as the initial population for the next generation, where n is the size of population.
 
 
         Parameters
@@ -241,6 +237,8 @@ class GeneticAlgorithm(object):
         """
         if self.population is not None:
             pop = self.population
+            for i, j in zip(pop, self.final_fitness):
+                i.fitness.values = j
         else:
             pop = self.toolbox.population(n=self.pop_size)
         # Evaluate the initial population
@@ -249,7 +247,7 @@ class GeneticAlgorithm(object):
             ind.fitness.values = fit
 
         # Generate and evaluate crossover and mutation population
-        if self.algo == 3:
+        if self.algo == 2:
             co_pop = []
             while len(co_pop) < int(math.ceil(self.crossover_size*len(pop))):
                 c = self.toolbox.selectRoulette(pop, 1)
@@ -262,7 +260,10 @@ class GeneticAlgorithm(object):
         mu_pop = list(map(self.toolbox.clone, mu_pop))
 
         for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-            self.toolbox.mate(child1, child2)
+            if self.crossover_type == "Blend":
+                self.blend(child1, child2)
+            else:
+                self.toolbox.mate(child1, child2)
             del child1.fitness.values
             del child2.fitness.values
 
@@ -271,11 +272,7 @@ class GeneticAlgorithm(object):
             del mutant.fitness.values
 
         # Evaluate the crossover and mutated population
-        if self.algo == 2:
-            a, b = int(math.ceil(init_ratio*len(pop))), int(math.ceil(crossover_ratio*len(pop)))
-            total_pop = tools.selBest(pop, a) + tools.selBest(co_pop, b) + tools.selBest(mu_pop, len(pop)-a-b)
-        else:
-            total_pop = pop + co_pop + mu_pop
+        total_pop = pop + co_pop + mu_pop
         invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
         fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
         for ind, fit in zip(invalid_ind, fitnesses):
@@ -296,7 +293,7 @@ class GeneticAlgorithm(object):
                 offspring = tools.selBest(total_pop, self.pop_size)
                 # Clone the selected individuals
                 offspring = list(map(self.toolbox.clone, offspring))
-                if self.algo == 3:
+                if self.algo == 2:
                     co_pop = []
                     while len(co_pop) < int(math.ceil(self.crossover_size*len(pop))):
                         c = self.toolbox.selectRoulette(pop, 1)
@@ -309,7 +306,10 @@ class GeneticAlgorithm(object):
                 mu_pop = list(map(self.toolbox.clone, mu_pop))
 
                 for child1, child2 in zip(co_pop[::2], co_pop[1::2]):
-                    self.toolbox.mate(child1, child2)
+                    if self.crossover_type == "Blend":
+                        self.blend(child1, child2)
+                    else:
+                        self.toolbox.mate(child1, child2)
                     del child1.fitness.values
                     del child2.fitness.values
 
@@ -318,11 +318,7 @@ class GeneticAlgorithm(object):
                     del mutant.fitness.values
 
                 # Evaluate the crossover and mutated population
-                if self.algo == 2:
-                    a, b = int(math.ceil(init_ratio*len(pop))), int(math.ceil(crossover_ratio*len(pop)))
-                    total_pop = tools.selBest(pop, a) + tools.selBest(co_pop, b) + tools.selBest(mu_pop, len(pop)-a-b)
-                else:
-                    total_pop = offspring + co_pop + mu_pop
+                total_pop = offspring + co_pop + mu_pop
                 invalid_ind = [ind for ind in total_pop if not ind.fitness.valid]
                 fitnesses = list(map(self.toolbox.evaluate, invalid_ind))
                 for ind, fit in zip(invalid_ind, fitnesses):
@@ -347,7 +343,8 @@ class GeneticAlgorithm(object):
         print("\n \n Best Individuals of each generation are:  \n \n" , best_ind_df)
         print("\n \n Best individual after %s evolutions is %s " % (n_generations, best_individual))
         self.population = tools.selBest(total_pop, self.pop_size)
+        self.final_fitness = [ind.fitness.values for ind in self.population]
         best_ind_dict = {}
         for name, val in zip(self.var_names, best_individual):
             best_ind_dict[name] = val
-        return best_ind_df, best_ind_dict, self.population
+        return best_ind_df, best_ind_dict

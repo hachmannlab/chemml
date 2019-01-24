@@ -32,10 +32,9 @@ class GeneticAlgorithm(object):
                         {'layers': {'int': [1, 3]}},
                         {'neurons': {'choice': range(0,200,20)}})
 
-            weights: tuple, optional (default = (-1.0, ) )
-                A tuple of integers containing fitness objective(s) for objective function(s). Ex: (1.0,) for maximizing and (-1.0,)
-                for minimizing a single objective function
-
+            fitness: str, optional (default = 'Max')
+                Maximize (Max) or minimize (Min) the objective function.
+                
             pop_size: integer, optional (default = 50)
                 Size of the population
 
@@ -231,9 +230,13 @@ class GeneticAlgorithm(object):
             n members are selected as the initial population for the next generation, where n is the size of population.
 
         Algorithm 2:
-            Initial population is instantiated.
-            Roulette wheel selection is used for selecting individuals for crossover and mutation.
-            The initial population, crossovered and mutated individuals form the pool of individuals from which n members are selected using Roulette wheel selection, but without replacement to ensure uniqueness of members in the next generation, as the initial population for the next generation, where n is the size of population.
+            Same as algorithm 1 but when selecting individuals for next generation, n members are selected using Roulette wheel selection.
+
+        Algorithm 3:
+            Same as algorithm 1 but when selecting individuals for next generation, best members from each of the three pools (initital population, crossover and mutation) are selected according to the input parameters in the search method.
+
+        Algorithm 4:
+            Same as algorithm 1 but mutation population is selected from the crossover population and not from the parents directly.
 
 
         Parameters
@@ -257,11 +260,8 @@ class GeneticAlgorithm(object):
         best_ind_df:  pandas dataframe
             A pandas dataframe of best individuals of each generation
 
-        best_ind:  list,
+        best_ind:  dict,
             The best individual after the last generation.
-
-        total_pop: list,
-            List of individuals in the final population 
 
         """
         def fit_eval(invalid_ind):

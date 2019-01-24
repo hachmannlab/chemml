@@ -1,5 +1,4 @@
 import unittest
-import numpy as np
 from chemml.search import GeneticAlgorithm
 
 space = ({'alpha': {'uniform': [-20, 0], 

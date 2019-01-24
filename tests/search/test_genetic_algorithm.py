@@ -1,7 +1,7 @@
 import unittest
 from chemml.search import GeneticAlgorithm
 
-space = ({'alpha': {'uniform': [-20, 0], 
+space = ({'alpha': {'uniform': [-2, 0], 
                         'mutation': [0, 2]}}, 
             {'neurons': {'int': [0,10]}},
             {'act': {'choice':[0, 10, 20]}})
@@ -24,8 +24,7 @@ class TestGeneticAlgorithm(unittest.TestCase):
                 algorithm=i)
 
             best_ind_df, best_individual = ga_search.search(n_generations=10)
-            if i != 2:
-                self.assertGreaterEqual(sum([best_individual[i] for i in best_individual]), 0)
+            self.assertGreaterEqual(sum([best_individual[i] for i in best_individual]), 0)
             
     def test_sequential_min(self):
         ga_search = GeneticAlgorithm(evaluate,
@@ -36,7 +35,7 @@ class TestGeneticAlgorithm(unittest.TestCase):
 
         for _ in range(10):
             best_ind_df, best_individual = ga_search.search(n_generations=1)
-        self.assertLessEqual(sum([best_individual[i] for i in best_individual]), 0)
+        self.assertLessEqual(sum([best_individual[i] for i in best_individual]), 20)
         
     def test_crossovers(self):
         co = ['SinglePoint', 'DoublePoint', 'Blend']

@@ -13,10 +13,10 @@ from keras.models import load_model
 from rdkit import Chem
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
 
-from chemml.models.keras.trained.engine import DataChecker
+from chemml.models.keras.trained.engine import check_array_input
 
 
-class OrganicLorentzLorenz(DataChecker):
+class OrganicLorentzLorenz():
     """
     A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.
     The model predicts refractive index, polarizability, and density of an organic molecule using its
@@ -151,9 +151,9 @@ class OrganicLorentzLorenz(DataChecker):
                 raise ValueError(msg)
 
         # check dimension of X
-        itis, msg = self._check_array_input(X, 'X', 2, (None, 1024))
+        itis, msg = check_array_input(X, 'X', 2, (None, 1024))
         if not itis:
-            itis, msg = self._check_array_input(X, 'X', 1, (None,))
+            itis, msg = check_array_input(X, 'X', 1, (None,))
             if itis:
                 X = np.array([self.__represent(i) for i in X])
             else:
@@ -224,15 +224,15 @@ class OrganicLorentzLorenz(DataChecker):
             The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).
         """
         # check dimension of X
-        itis, msg = self._check_array_input(X, 'X', 2, (None, 1024))
+        itis, msg = check_array_input(X, 'X', 2, (None, 1024))
         if not itis:
-            itis, msg = self._check_array_input(X, 'X', 1, (None,))
+            itis, msg = check_array_input(X, 'X', 1, (None,))
             if itis:
                 X = np.array([self.__represent(i) for i in X])
             else:
                 raise ValueError(msg)
 
-        get_1st_layer_output = K.function([self.model.layers[0].input],
+        get_layer_output = K.function([self.model.layers[0].input],
                                           [self.model.layers[id].output])
-        return get_1st_layer_output([X])[0]
+        return get_layer_output([X])[0]
 

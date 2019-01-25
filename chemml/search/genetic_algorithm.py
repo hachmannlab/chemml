@@ -301,13 +301,13 @@ class GeneticAlgorithm(object):
                 st_time = time.time()
                 cross_pop, mutant_pop = [], []
                 # Generate crossover population
-                c_total = self.RouletteWheelSelection(fitness_dict, math.ceil(self.crossover_size*len(pop)))
+                c_total = self.RouletteWheelSelection(fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
                 combi = list(itertools.combinations(list(set(c_total)), 2))
                 co_pop = []
                 for i, j in zip(list(set(c_total))[::2], list(set(c_total))[1::2]):
                     co_pop.append((i, j))
                 c_rem = [i for i in combi if i not in co_pop]
-                diff = math.ceil(self.crossover_size*len(pop)/2) - len(co_pop)
+                diff = int(math.ceil(self.crossover_size*len(pop)/2)) - len(co_pop)
                 if diff>0: co_pop += c_rem[:diff]
                 for child1, child2 in co_pop:
                     if self.crossover_type == "SinglePoint":
@@ -321,9 +321,9 @@ class GeneticAlgorithm(object):
 
                 # Generate mutation population
                 if self.algo == 4:
-                    mu_pop = self.RouletteWheelSelection({ind:fitness_dict[ind] for ind in cross_pop}, math.ceil(self.pop_size*self.mu_ratio))
+                    mu_pop = self.RouletteWheelSelection({ind:fitness_dict[ind] for ind in cross_pop}, int(math.ceil(self.pop_size*self.mu_ratio)))
                 else:
-                    mu_pop = self.RouletteWheelSelection(fitness_dict, math.ceil(self.mutation_size*len(pop)))
+                    mu_pop = self.RouletteWheelSelection(fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
                 
                 for mutant in mu_pop:
                     m = self.custom_mutate(mutant)

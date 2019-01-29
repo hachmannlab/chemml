@@ -158,13 +158,14 @@ class GeneticAlgorithm(object):
         y2 = x2[0:c1]+x1[c1:c2]+x2[c2:nVar]      
         return tuple(y1), tuple(y2)
 
-    def blend(self, ind1, ind2):
+    def blend(self, ind1, ind2, z=0.4):
         ind1, ind2 = list(ind1), list(ind2)
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'choice':
                 ind1[i], ind2[i] = ind2[i], ind1[i]
             else:
-                ind1[i], ind2[i] = 0.3*ind1[i]+0.7*ind2[i], 0.3*ind2[i]+0.7*ind1[i]
+                chi = (1 + 2*z) * random.random() - z
+                ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
                 if self.chromosome_type[i] == 'int':
                     ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
         return tuple(ind1), tuple(ind2)

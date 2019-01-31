@@ -113,7 +113,7 @@ class GeneticAlgorithm(object):
         if fitness.lower() == 'max':
             self.fit_val = 1
         else: self.fit_val = -1
-        self.population, self.ex_fitness_dict = None, {}
+        self.population, self.fitness_dict = None, {}
         if self.algo == 4 and mutation_ratio is None: raise Exception("Mutation parameter for algorithm 4 not provided.")
         self.mu_ratio = mutation_ratio
         
@@ -146,7 +146,7 @@ class GeneticAlgorithm(object):
         y1=y1+x2[c:nVar]      
         y2=x2[0:c]
         y2=y2+x1[c:nVar]
-        return tuple(y1), tuple(y2)
+        return tuple(deepcopy(y1)), tuple(deepcopy(y2))
 
     def DoublePointCrossover(self, x1, x2):
         x1, x2 = list(x1), list(x2)
@@ -156,23 +156,30 @@ class GeneticAlgorithm(object):
         c2 = max(cc)
         y1 = x1[0:c1]+x2[c1:c2]+x1[c2:nVar]				
         y2 = x2[0:c1]+x1[c1:c2]+x2[c2:nVar]      
-        return tuple(y1), tuple(y2)
+        return tuple(deepcopy(y1)), tuple(deepcopy(y2))
 
-    def blend(self, ind1, ind2, z=0.4):
+    def blend(self, ind1, ind2, fitness_dict, z=0.4):
         ind1, ind2 = list(ind1), list(ind2)
-        for i in range(self.chromosome_length):
-            if self.chromosome_type[i] == 'choice':
-                ind1[i], ind2[i] = ind2[i], ind1[i]
-            else:
-                chi = (1 + 2*z) * random.random() - z
-                ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
-                if self.chromosome_type[i] == 'int':
-                    ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
-        return tuple(ind1), tuple(ind2)
+        c = True
+        while c:
+            for i in range(self.chromosome_length):
+                if self.chromosome_type[i] == 'choice':
+                    ind1[i], ind2[i] = ind2[i], ind1[i]
+                else:
+                    chi = (1 + 2*z) * random.random() - z
+                    try:
+                        ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
+                    except: print(chi, ind1, ind2)
+                    if self.chromosome_type[i] == 'int':
+                        ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
+            if tuple(ind1) not in fitness_dict.keys() and tuple(ind2) not in fitness_dict.keys(): c = False
+        return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
 
-    def RouletteWheelSelection(self, fit_dict, num):
-        population = fit_dict.keys()                                            # list of tuples
-        fitnesses = [fit_dict[i]['w_fit'] for i in population]
+    def RouletteWheelSelection(self, population, fit_dict, num):
+        o_fits = [fit_dict[i] for i in population]
+        fitnesses = [(((i-min(o_fits))/(max(o_fits)-min(o_fits))) + 1) for i in o_fits]
+        if self.fit_val == -1:
+            fitnesses = [fit**self.fit_val for fit in fitnesses]
         total_fitness = float(sum(fitnesses))
         rel_fitness = [f/total_fitness for f in fitnesses]
         # Generate probability intervals for each individual
@@ -187,39 +194,36 @@ class GeneticAlgorithm(object):
                     break
         return new_population
 
-    def TournamentSelection(self, C, m):
-        nVar=len(C)
-        c=[]
-        S = random.sample(range(0,nVar), m)
-        for i in range (0,m):
-            c.append(C[S[i]])
-        c, S = (list(t)for t in zip(*sorted(zip(c, S))))
-        return(S[0])
-
     def selectbest(self, pop, n, fitness_dict):
         best = []
-        fits = [fitness_dict[i]['w_fit'] for i in pop]
-        fits_sort = sorted(fits, reverse=True)
+        o_fits = [fitness_dict[i] for i in pop]
+        fitnesses = [(((i-min(o_fits))/(max(o_fits)-min(o_fits))) + 1) for i in o_fits]
+        if self.fit_val == -1:
+            fitnesses = [fit**self.fit_val for fit in fitnesses]
+        fits_sort = sorted(fitnesses, reverse=True)
         for i in range(min(n, len(pop))):
-            best.append(pop[fits.index(fits_sort[i])])
+            best.append(deepcopy(pop[fitnesses.index(fits_sort[i])]))
         return best
 
-    def custom_mutate(self, indi):
+    def custom_mutate(self, indi, fitness_dict):
         indi = list(indi)
-        for i in range(self.chromosome_length):
-            if self.chromosome_type[i] == 'uniform':
-                if random.random() < self.mutation_prob:
-                    add = self.bit_limits[i][0] -1
-                    while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
-                        add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
-                    indi[i] += add
-            elif self.chromosome_type[i] == 'int':
-                if random.random() < self.mutation_prob:
-                    indi[i] = random.randint(self.bit_limits[i][0],
-                                            self.bit_limits[i][1])
-            elif self.chromosome_type[i] == 'choice':
-                if random.random() < self.mutation_prob:
-                    indi[i] = random.choice(self.bit_limits[i])
+        c = True
+        while c:
+            for i in range(self.chromosome_length):
+                if self.chromosome_type[i] == 'uniform':
+                    if random.random() < self.mutation_prob:
+                        add = self.bit_limits[i][0] -1
+                        while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
+                            add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
+                        indi[i] += add
+                elif self.chromosome_type[i] == 'int':
+                    if random.random() < self.mutation_prob:
+                        indi[i] = random.randint(self.bit_limits[i][0],
+                                                self.bit_limits[i][1])
+                elif self.chromosome_type[i] == 'choice':
+                    if random.random() < self.mutation_prob:
+                        indi[i] = random.choice(self.bit_limits[i])
+            if tuple(indi) not in fitness_dict.keys(): c = False
         return tuple(indi)
 
     def search(self, n_generations=20, early_stopping=10, init_ratio = 0.35, crossover_ratio = 0.35):
@@ -265,94 +269,79 @@ class GeneticAlgorithm(object):
             The best individual after the last generation.
 
         """
-        def fit_eval(invalid_ind):
-            fitnesses = list(map(self.evaluate, invalid_ind))
-            wt_fits = [(((i-min(fitnesses))/(max(fitnesses)-min(fitnesses))) + 1) for i in fitnesses]
-            if self.fit_val == -1:
-                weighted_fitnesses = [fit**self.fit_val for fit in wt_fits]
-            else: weighted_fitnesses = wt_fits
-            for ind, fit, wfit in zip(invalid_ind, fitnesses, weighted_fitnesses):
-                temp = {'fit': fit, 'w_fit': wfit}
-                fitness_dict[ind] = temp
+        def fit_eval(invalid_ind, fitness_dict):
+            if invalid_ind: 
+                invalid_ind = [i for i in invalid_ind if i not in fitness_dict.keys()]
+                fitnesses = list(map(self.evaluate, invalid_ind))
+                for ind, fit in zip(invalid_ind, fitnesses):
+                    fitness_dict[tuple(ind)] = fit
+            return fitness_dict
 
 
         if init_ratio >=1 or crossover_ratio >=1 or (init_ratio+crossover_ratio)>=1: raise Exception("Sum of parameters init_ratio and crossover_ratio should be in the range (0,1)")
         if self.population is not None:
-            pop = [i for i in self.population]
-            fitness_dict = self.population
+            # pop = [i for i in self.population]
+            # fitness_dict = self.population
+            pop = self.population
+            fitness_dict = self.fitness_dict
         else:
             pop = self.pop_generator(n=self.pop_size)       # list of tuples
             fitness_dict = {}
         
         # Evaluate the initial population
-        invalid_ind = [ind for ind in pop if ind not in fitness_dict]
-        if invalid_ind: fit_eval(invalid_ind)
+        fitness_dict = fit_eval(pop, fitness_dict)
 
-        best_indi_per_gen = []
-        best_indi_fitness_values = []
-        timer = []
-        convergence = 0
-
+        best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence = [], [], [], [], 0
         for _ in range(n_generations):
-
             if convergence >= early_stopping:
                 print("The search converged with convergence criteria = ", early_stopping)
                 break
             else:
                 st_time = time.time()
-                cross_pop, mutant_pop = [], []
+                cross_pop, mutant_pop, co_pop, psum = [], [], [], len(list(fitness_dict.items()))
                 # Generate crossover population
-                c_total = self.RouletteWheelSelection(fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
-                combi = list(itertools.combinations(list(set(c_total)), 2))
-                co_pop = []
-                for i, j in zip(list(set(c_total))[::2], list(set(c_total))[1::2]):
-                    co_pop.append((i, j))
-                c_rem = [i for i in combi if i not in co_pop]
-                diff = int(math.ceil(self.crossover_size*len(pop)/2)) - len(co_pop)
-                if diff>0: co_pop += c_rem[:diff]
-                for child1, child2 in co_pop:
+                co_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
+                co_pop = list(itertools.combinations(co_pop, 2))
+                combi = list(itertools.combinations(list(set(pop + total_pop)), 2))
+                for child1, child2 in co_pop + combi:
+                    if (len(list(fitness_dict.items())) - psum) >= int(math.ceil(self.crossover_size*len(pop))): break
                     if self.crossover_type == "SinglePoint":
                         c1, c2 = self.SinglePointCrossover(child1, child2)
                     elif self.crossover_type == "DoublePoint":
                         c1, c2 = self.DoublePointCrossover(child1, child2)
                     elif self.crossover_type == "Blend":
-                        c1, c2 = self.blend(child1, child2)
-                    cross_pop.extend([deepcopy(c1), deepcopy(c2)])
-                fit_eval(cross_pop)
-
+                        c1, c2 = self.blend(child1, child2, fitness_dict)
+                    fitness_dict = fit_eval([c1, c2], fitness_dict)
+                    cross_pop.extend([c1, c2])
+                    
                 # Generate mutation population
                 if self.algo == 4:
-                    mu_pop = self.RouletteWheelSelection({ind:fitness_dict[ind] for ind in cross_pop}, int(math.ceil(self.pop_size*self.mu_ratio)))
+                    mu_pop = self.RouletteWheelSelection(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mu_ratio)))
                 else:
-                    mu_pop = self.RouletteWheelSelection(fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
+                    mu_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
                 
                 for mutant in mu_pop:
-                    m = self.custom_mutate(mutant)
-                    mutant_pop.append(m)
-                fit_eval(mutant_pop)
+                    mutant_pop.append(self.custom_mutate(mutant, fitness_dict))
+                fitness_dict = fit_eval(mutant_pop, fitness_dict)
                 
                 # Select the next generation individuals
                 total_pop = pop + cross_pop + mutant_pop
                 if self.algo == 2:
-                    pop = self.RouletteWheelSelection(fitness_dict, self.pop_size)
+                    pop = self.RouletteWheelSelection(total_pop, fitness_dict, self.pop_size)
                 elif self.algo == 3:
                     p1 = self.selectbest(pop, int(init_ratio*self.pop_size), fitness_dict)
                     p2 = self.selectbest(cross_pop, int(crossover_ratio*self.pop_size), fitness_dict)
                     p3 = self.selectbest(mutant_pop, self.pop_size-len(p1)-len(p2), fitness_dict)
                     pop = p1 + p2 + p3
                 else: pop = self.selectbest(total_pop, self.pop_size, fitness_dict)
-                for i in fitness_dict:
-                    self.ex_fitness_dict[i] = fitness_dict[i]
-                fitness_dict = {ind:fitness_dict[ind] for ind in pop}
                 
                 # Storing the best individuals after each generation
                 best_individual = pop[0]
                 if len(best_indi_per_gen)>0:
-                    if best_individual==best_indi_per_gen[-1]:
-                        convergence += 1
+                    if best_individual==best_indi_per_gen[-1]: convergence += 1
                     else: convergence = 0
                 best_indi_per_gen.append(best_individual)
-                best_indi_fitness_values.append(fitness_dict[best_individual]['fit'])
+                best_indi_fitness_values.append(fitness_dict[best_individual])
                 tot_time = (time.time() - st_time)/(60*60)
                 timer.append(tot_time)
                 b1 = pd.Series(best_indi_per_gen, name='Best_individual')
@@ -361,7 +350,9 @@ class GeneticAlgorithm(object):
                 best_ind_df = pd.concat([b1, b2, b3], axis=1)
     
 
-        self.population = fitness_dict    # stores best individuals of last generation
+        # self.population = fitness_dict    # stores best individuals of last generation
+        self.population = pop    # stores best individuals of last generation
+        self.fitness_dict = fitness_dict
         best_ind_dict = {}
         for name, val in zip(self.var_names, best_individual):
             best_ind_dict[name] = val

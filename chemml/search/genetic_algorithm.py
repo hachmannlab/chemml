@@ -10,24 +10,22 @@ import itertools
 
 class GeneticAlgorithm(object):
     """
-            A genetic algorithm class for search or optimization problems, built on top of the
-            Distributed Evolutionary Algorithms in Python (DEAP) library. There are three algorithms with different genetic
-            algorithm selection methods. The documentation for each method is mentioned in the documentation for the search module.
+            A python implementation of real-valued, genetic algorithm for solving optimization problems.
 
             Parameters
             ----------
             evaluate: function
                 The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values 
-                of the hyper-parameters in the order in which they are declared in the space variable. Objective function should return a tuple.
+                of the hyper-parameters in the order in which they are declared in the space variable.
 
             space: tuple, 
-                A tuple of dict objects specifying the hyper-parameter space to search in. Each hyper-parameter should be a python dict object
-                with the name of the hyper-parameter as the key. Value is also a dict object with one mandatory key among: 'uniform', 'int' and
-                'choice' for defining floating point, integer and choice variables respectively. Values for these keys should be a list defining 
-                the valid hyper-parameter search space (lower and upper bounds for int and uniform). For uniform, a 'mutation' key is also required for which the value is 
-                [mean, standard deviation] for the gaussian distribution.
+                A tuple of dict objects specifying the hyper-parameter space to search in. 
+                Each hyper-parameter should be a python dict object with the name of the hyper-parameter as the key. 
+                Value is also a dict object with one mandatory key among: 'uniform', 'int' and 'choice' for defining floating point, integer and choice variables respectively. 
+                Values for these keys should be a list defining the valid hyper-parameter search space (lower and upper bounds for 'int' and 'uniform', and all valid choices for 'choice'). 
+                For uniform, a 'mutation' key is also required for which the value is [mean, standard deviation] for the gaussian distribution.
                 Example: 
-                        ({'alpha': {'uniform': [0.00001, 1], 
+                        ({'alpha': {'uniform': [0.001, 1], 
                                     'mutation': [0, 1]}}, 
                         {'layers': {'int': [1, 3]}},
                         {'neurons': {'choice': range(0,200,20)}})
@@ -51,10 +49,7 @@ class GeneticAlgorithm(object):
                 Fraction of population to select for mutation.
 
             algorithm: int, optional (default=1)
-                The algorithm to use for the search. Algorithm descriptions are in the documentation for search method.
-
-            mutation_ratio: int, optional (default=None)
-                Fraction of crossover population to select for mutation. Required for algorithm 4 only.
+                The algorithm to use for the search. Look at the 'search' method for a description of the various algorithms.
 
             initial_population: list, optional (default=None)
                 The initial population for the algorithm to start with. If not provided, initial population is randomly generated.
@@ -67,11 +62,10 @@ class GeneticAlgorithm(object):
                 fitness="Max", 
                 pop_size=50,
                 crossover_type="Blend", 
-                mutation_prob=0.4,
+                mutation_prob=0.6,
                 crossover_size=0.5,
                 mutation_size=0.3,
                 algorithm=1,
-                mutation_ratio = None,
                 initial_population=None):
 
         self.chromosome_length = len(space)
@@ -110,12 +104,9 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
-        if fitness.lower() == 'max':
-            self.fit_val = 1
+        if fitness.lower() == 'max': self.fit_val = 1
         else: self.fit_val = -1
         self.population, self.fitness_dict = None, {}
-        if self.algo == 4 and mutation_ratio is None: raise Exception("Mutation parameter for algorithm 4 not provided.")
-        self.mu_ratio = mutation_ratio
         
     def pop_generator(self, n):
         pop = []
@@ -160,19 +151,16 @@ class GeneticAlgorithm(object):
 
     def blend(self, ind1, ind2, fitness_dict, z=0.4):
         ind1, ind2 = list(ind1), list(ind2)
-        c = True
-        while c:
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 'choice':
-                    ind1[i], ind2[i] = ind2[i], ind1[i]
-                else:
-                    chi = (1 + 2*z) * random.random() - z
-                    try:
-                        ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
-                    except: print(chi, ind1, ind2)
-                    if self.chromosome_type[i] == 'int':
-                        ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
-            if tuple(ind1) not in fitness_dict.keys() and tuple(ind2) not in fitness_dict.keys(): c = False
+        for i in range(self.chromosome_length):
+            if self.chromosome_type[i] == 'choice':
+                ind1[i], ind2[i] = ind2[i], ind1[i]
+            else:
+                chi = (1 + 2*z) * random.random() - z
+                try:
+                    ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
+                except: print(chi, ind1, ind2)
+                if self.chromosome_type[i] == 'int':
+                    ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
         return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
 
     def RouletteWheelSelection(self, population, fit_dict, num):
@@ -207,23 +195,21 @@ class GeneticAlgorithm(object):
 
     def custom_mutate(self, indi, fitness_dict):
         indi = list(indi)
-        c = True
-        while c:
-            for i in range(self.chromosome_length):
-                if self.chromosome_type[i] == 'uniform':
-                    if random.random() < self.mutation_prob:
-                        add = self.bit_limits[i][0] -1
-                        while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
-                            add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
-                        indi[i] += add
-                elif self.chromosome_type[i] == 'int':
-                    if random.random() < self.mutation_prob:
-                        indi[i] = random.randint(self.bit_limits[i][0],
-                                                self.bit_limits[i][1])
-                elif self.chromosome_type[i] == 'choice':
-                    if random.random() < self.mutation_prob:
-                        indi[i] = random.choice(self.bit_limits[i])
-            if tuple(indi) not in fitness_dict.keys(): c = False
+        for i in range(self.chromosome_length):
+            if self.chromosome_type[i] == 'uniform':
+                if random.random() < self.mutation_prob:
+                    add = self.bit_limits[i][0] -1
+                    while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
+                        add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
+                    indi[i] += add
+            elif self.chromosome_type[i] == 'int':
+                if random.random() < self.mutation_prob:
+                    indi[i] = random.randint(self.bit_limits[i][0],
+                                            self.bit_limits[i][1])
+            elif self.chromosome_type[i] == 'choice':
+                if random.random() < self.mutation_prob:
+                    indi[i] = random.choice(self.bit_limits[i])
+        if tuple(indi) in fitness_dict.keys(): indi = self.custom_mutate(indi, fitness_dict)
         return tuple(indi)
 
     def search(self, n_generations=20, early_stopping=10, init_ratio = 0.35, crossover_ratio = 0.35):
@@ -247,7 +233,7 @@ class GeneticAlgorithm(object):
         Parameters
         ----------
         n_generations: integer, optional (default = 20)
-                An integer for the number of generations for evolving the population
+                An integer for the number of generations to evolve the population for.
 
         early_stopping: int, optional (default=10)
                 Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
@@ -260,6 +246,15 @@ class GeneticAlgorithm(object):
             Fraction of crossover population to select for next generation. Required only for algorithm 3.
 
         
+        Attributes
+        ----------
+        population: list,
+            list of individuals from the final generation
+
+        fitness_dict: dict,
+            dictionary of all individuals evaluated by the algorithm
+
+
         Returns
         -------
         best_ind_df:  pandas dataframe
@@ -301,7 +296,7 @@ class GeneticAlgorithm(object):
                 cross_pop, mutant_pop, co_pop, psum = [], [], [], len(list(fitness_dict.items()))
                 # Generate crossover population
                 co_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
-                co_pop = list(itertools.combinations(co_pop, 2))
+                co_pop = list(itertools.combinations(list(set(co_pop)), 2))
                 combi = list(itertools.combinations(list(set(pop + total_pop)), 2))
                 for child1, child2 in co_pop + combi:
                     if (len(list(fitness_dict.items())) - psum) >= int(math.ceil(self.crossover_size*len(pop))): break
@@ -311,12 +306,13 @@ class GeneticAlgorithm(object):
                         c1, c2 = self.DoublePointCrossover(child1, child2)
                     elif self.crossover_type == "Blend":
                         c1, c2 = self.blend(child1, child2, fitness_dict)
+                    if c1 in fitness_dict.keys() or c2 in fitness_dict.keys() or c1==c2: continue
                     fitness_dict = fit_eval([c1, c2], fitness_dict)
                     cross_pop.extend([c1, c2])
                     
                 # Generate mutation population
                 if self.algo == 4:
-                    mu_pop = self.RouletteWheelSelection(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mu_ratio)))
+                    mu_pop = self.RouletteWheelSelection(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mutation_size)))
                 else:
                     mu_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
                 

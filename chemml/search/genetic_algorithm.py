@@ -149,7 +149,7 @@ class GeneticAlgorithm(object):
         y2 = x2[0:c1]+x1[c1:c2]+x2[c2:nVar]      
         return tuple(deepcopy(y1)), tuple(deepcopy(y2))
 
-    def blend(self, ind1, ind2, fitness_dict, z=0.4):
+    def blend(self, ind1, ind2, z=0.4):
         ind1, ind2 = list(ind1), list(ind2)
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'choice':
@@ -198,10 +198,10 @@ class GeneticAlgorithm(object):
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'uniform':
                 if random.random() < self.mutation_prob:
-                    add = self.bit_limits[i][0] -1
-                    while self.bit_limits[i][0] <= add <= self.bit_limits[i][1]:
+                    while True:
                         add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
-                    indi[i] += add
+                        if self.bit_limits[i][0] <= add <= self.bit_limits[i][1]: break
+                    indi[i] = add
             elif self.chromosome_type[i] == 'int':
                 if random.random() < self.mutation_prob:
                     indi[i] = random.randint(self.bit_limits[i][0],
@@ -239,10 +239,10 @@ class GeneticAlgorithm(object):
                 Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
                 the search terminates.
 
-        init_ratio: float, optional (default = 0.4)
+        init_ratio: float, optional (default = 0.35)
             Fraction of initial population to select for next generation. Required only for algorithm 3.
 
-        crossover_ratio: float, optional (default = 0.3)
+        crossover_ratio: float, optional (default = 0.35)
             Fraction of crossover population to select for next generation. Required only for algorithm 3.
 
         
@@ -305,7 +305,7 @@ class GeneticAlgorithm(object):
                     elif self.crossover_type == "DoublePoint":
                         c1, c2 = self.DoublePointCrossover(child1, child2)
                     elif self.crossover_type == "Blend":
-                        c1, c2 = self.blend(child1, child2, fitness_dict)
+                        c1, c2 = self.blend(child1, child2)
                     if c1 in fitness_dict.keys() or c2 in fitness_dict.keys() or c1==c2: continue
                     fitness_dict = fit_eval([c1, c2], fitness_dict)
                     cross_pop.extend([c1, c2])
@@ -346,7 +346,6 @@ class GeneticAlgorithm(object):
                 best_ind_df = pd.concat([b1, b2, b3], axis=1)
     
 
-        # self.population = fitness_dict    # stores best individuals of last generation
         self.population = pop    # stores best individuals of last generation
         self.fitness_dict = fitness_dict
         best_ind_dict = {}

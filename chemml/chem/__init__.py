@@ -6,7 +6,8 @@ The chemml.chem module includes (please click on links adjacent to function name
     - Dragon: :func:`~chemml.chem.Dragon`
 """
 
-
+from .molecule import Molecule
+from .molecule import XYZ
 from .CoulMat import CoulombMatrix
 from .CoulMat import BagofBonds
 from .RDKFP import RDKitFingerprint

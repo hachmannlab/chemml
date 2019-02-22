@@ -1,4 +1,4 @@
-cheml.nn module
+chemml.nn module
 ===============
 
 .. Subpackages
@@ -6,15 +6,15 @@ cheml.nn module
 
 .. .. toctree::
 
-..    cheml.nn.keras
-..    cheml.nn.tensorflow
+..    chemml.nn.keras
+..    chemml.nn.tensorflow
 
 
 
 Module contents
 ---------------
 
-.. automodule:: cheml.nn
+.. automodule:: chemml.nn
     :members:
 ..    :undoc-members:
     :show-inheritance:

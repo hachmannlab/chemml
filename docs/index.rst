@@ -20,12 +20,12 @@ The development follows a strictly modular and object-oriented design to make th
 
 The package consists of two python frameworks:
 
-- ChemML library (cheml):
+- ChemML library (chemml):
    It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the Scikit-learn library.
 
 - ChemML wrapper:
-   It is an interface for many of the libraries (including cheml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
-   The wrapper is not just an interface for the cheml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.
+   It is an interface for many of the libraries (including chemml) that supply methods for the representation, analysis, mining, and modeling of large-scale chemical data sets.
+   The wrapper is not just an interface for the chemml library. It facilitates the broader dissemination of available methods/tools as they are but in a compatible environment.
 
 Version:
 ++++++++
@@ -73,7 +73,7 @@ you can test the installation with:
 
 .. code:: bash
 
-    nosetests -v cheml.tests
+    nosetests -v chemml.tests
 
 
 Citation:
@@ -104,7 +104,7 @@ Please cite ChemML as follows:
    :maxdepth: 2
    :caption: ChemML library documentation
 
-   cheml
+   chemml
 
 
 License:

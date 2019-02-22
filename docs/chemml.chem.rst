@@ -1,44 +1,46 @@
-cheml.chem.magpie_python module
-===============================
+chemml.chem module
+==================
 
 
-.. cheml.chem.CoulombMatrix
+.. chemml.chem.CoulombMatrix
 .. ------------------------
 
-.. .. automodule:: cheml.chem.CoulombMatrix
+.. .. automodule:: chemml.chem.CoulombMatrix
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.chem.BagofBonds
+.. chemml.chem.BagofBonds
 .. ---------------------
 
-.. .. automodule:: cheml.chem.BagofBonds
+.. .. automodule:: chemml.chem.BagofBonds
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.chem.RDKitFingerprint
+.. chemml.chem.RDKitFingerprint
 .. ---------------------------
 
-.. .. automodule:: cheml.chem.RDKitFingerprint
+.. .. automodule:: chemml.chem.RDKitFingerprint
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.chem.Dragon
+.. chemml.chem.Dragon
 .. -----------------
 
-.. .. automodule:: cheml.chem.Dragon
+.. .. automodule:: chemml.chem.Dragon
     :members:
     :undoc-members:
     :show-inheritance:
 
 
-.. Inorganic Descriptors
+
+.. Molecular Descriptors
 .. ---------------------
 
-.. automodule:: cheml.chem.magpie_python
+.. automodule:: chemml.chem
     :members:
 ..    :undoc-members:
     :show-inheritance:
+

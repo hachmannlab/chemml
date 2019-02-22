@@ -1,21 +1,21 @@
-cheml.nn.keras module
+chemml.nn.keras module
 =====================
 
 .. Submodules
 .. ----------
 
-.. cheml.nn.keras.mlp module
+.. chemml.nn.keras.mlp module
 .. -------------------------
 
-.. .. automodule:: cheml.nn.keras.mlp
+.. .. automodule:: chemml.nn.keras.mlp
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.nn.keras.mlp_test module
+.. chemml.nn.keras.mlp_test module
 .. ------------------------------
 
-.. .. automodule:: cheml.nn.keras.mlp_test
+.. .. automodule:: chemml.nn.keras.mlp_test
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +24,7 @@ cheml.nn.keras module
 .. Neural Networks
 .. ---------------
 
-.. automodule:: cheml.nn.keras
+.. automodule:: chemml.nn.keras
     :members:
 ..    :undoc-members:
     :show-inheritance:

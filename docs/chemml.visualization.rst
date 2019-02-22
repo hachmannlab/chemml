@@ -1,4 +1,4 @@
-cheml.visualization module
+chemml.visualization module
 ==========================
 
 
@@ -6,7 +6,7 @@ cheml.visualization module
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml.visualization
+.. automodule:: chemml.visualization
     :members:
 ..    :undoc-members:
     :show-inheritance:

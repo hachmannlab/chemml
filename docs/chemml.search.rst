@@ -1,21 +1,21 @@
-cheml.search module
+chemml.search module
 ===================
 
 .. Submodules
 .. ----------
 
-.. cheml.search.ga_binary module
+.. chemml.search.ga_binary module
 .. -----------------------------
 
-.. .. automodule:: cheml.search.ga_binary
+.. .. automodule:: chemml.search.ga_binary
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.search.ga_deap module
+.. chemml.search.ga_deap module
 .. ---------------------------
 
-.. .. automodule:: cheml.search.ga_deap
+.. .. automodule:: chemml.search.ga_deap
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +24,7 @@ cheml.search module
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml.search
+.. automodule:: chemml.search
     :members:
 ..    :undoc-members:
     :show-inheritance:

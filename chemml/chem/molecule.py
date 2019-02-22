@@ -65,7 +65,8 @@ class XYZ(object):
 
 class Molecule(object):
     """
-    The Molecule class powered by RDKit Molecule functionalities.
+    The Molecule class to read and convert different types of molecule input formats.
+    (powered by RDKit library)
 
     Attributes
     ----------

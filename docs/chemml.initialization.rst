@@ -1,21 +1,21 @@
-cheml.initialization module
+chemml.initialization module
 ===========================
 
 .. Submodules
 .. ----------
 
-.. cheml.initialization.data module
+.. chemml.initialization.data module
 .. --------------------------------
 
-.. .. automodule:: cheml.initialization.data
+.. .. automodule:: chemml.initialization.data
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.initialization.initialization module
+.. chemml.initialization.initialization module
 .. ------------------------------------------
 
-.. .. automodule:: cheml.initialization.initialization
+.. .. automodule:: chemml.initialization.initialization
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +24,7 @@ cheml.initialization module
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml.initialization
+.. automodule:: chemml.initialization
     :members:
 ..    :undoc-members:
     :show-inheritance:

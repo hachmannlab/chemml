@@ -60,8 +60,9 @@ if __name__ == "__main__":
             'Development Status :: 4 - Beta',
             'Natural Language :: English',
             'Intended Audience :: Science/Research',
-            'Programming Language :: Python :: 2.7',
+            # 'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
         ],
         zip_safe=False,
     )

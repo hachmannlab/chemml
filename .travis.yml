@@ -6,7 +6,7 @@ sudo: false
 # python versions to be tested
 matrix:
   include:
-    - python: 2.7
+#    - python: 2.7
     - python: 3.5
     - python: 3.6
 

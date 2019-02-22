@@ -446,7 +446,7 @@ class Molecule(object):
 
         # arguments
         self._default_smiles_args = {"isomericSmiles":True, "kekuleSmiles":False, "rootedAtAtom":-1, "canonical":True, "allBondsExplicit":False,
-                "allHsExplicit":False, "doRandom":False}
+                "allHsExplicit":False} #"doRandom":False
         self._smiles_args = update_default_kwargs(self._default_smiles_args, kwargs,
                                                  self._to_smiles_core_names[0], self._to_smiles_core_docs[0])
 

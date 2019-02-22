@@ -105,13 +105,11 @@ def test_mol2smiles_defaultargs(caffeine_smiles):
     m.load(caffeine_smiles, 'smiles')
     m.to_smiles()
     m.to_smiles(**m._default_smiles_args)
-    # all the args & canonical=False & doRandom=True
+    # all the args & canonical=False
     args = m._default_smiles_args
     args['canonical'] = False
-    args['doRandom'] = True
     m.to_smiles(**args)
     assert m.smiles_args['canonical'] is False
-    assert m.smiles_args['doRandom'] is True
 
 def test_mol2smarts(caffeine_smarts):
     m = Molecule()

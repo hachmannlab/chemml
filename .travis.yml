@@ -47,6 +47,7 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
   - conda install -c rdkit rdkit
+  - conda install -c openbabel openbabel
 
   # Install the library with test requirements
   - pip install -e .[tests]

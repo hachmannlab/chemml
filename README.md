@@ -37,7 +37,6 @@ Here is a list of external libraries and their version that will be installed wi
    - scikit-learn (==0.19.1)
    - babel (>=2.3.4)
    - matplotlib (>=1.5.1)
-   - deap (>=1.2.2)
    - lxml
    - ipywidgets (>=7.1)
    - widgetsnbextension (>=3.1)

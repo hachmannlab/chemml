@@ -1,5 +1,7 @@
 from __future__ import print_function
+import os
 from rdkit import Chem
+import pybel
 from rdkit.Chem import AllChem
 import warnings
 import numpy as np
@@ -62,11 +64,42 @@ class XYZ(object):
             msg = "All three coordinate positions are required in the geometries."
             raise ValueError(msg)
 
+    def __repr__(self):
+        return '<XYZ(geometry: {self.geometry.shape!r},' \
+               ' atomic_numbers: {self.atomic_numbers.shape!r},' \
+               ' atomic_symbols: {self.atomic_symbols.shape!r})>'.format(self=self)
+
 
 class Molecule(object):
     """
     The Molecule class to read and convert different types of molecule input formats.
-    (powered by RDKit library)
+    (powered by RDKit and Openbabel libraries)
+
+    Parameters
+    ----------
+    input: str
+        The representation string or path to a file.
+
+    input_type: str
+        The input type.
+        The available types are enlisted here:
+            - smiles: The input must be SMILES representation of a molecule.
+            - smarts: The input must be SMARTS representation of a molecule.
+            - inchi: The input must be InChi representation of a molecule.
+            - xyz:  The input must be the path to an xyz file.
+
+    kwargs:
+        The corresponding RDKit arguments for each of the input types:
+            - smiles: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles
+            - smarts: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts
+            - inchi: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi
+
+    Notes
+    -----
+        - The molecule will be creatd as an RDKit molecule object.
+        - The molecule object will be stored and available as `rdkit_molecule` attribute.
+        - If you load a molecule from its SMARTS string, there is high probability that you can't convert it to other
+            types due to the abstract description of the molecules by SMARTS representation.
 
     Attributes
     ----------
@@ -83,8 +116,8 @@ class Molecule(object):
         The InChi string that you get by running the `to_inchi` method.
 
     xyz: instance of <class 'chemml.chem.molecule.XYZ'>
-        The class that stores the xyz-type info. The available arguments in the class are geometry,
-        atomic_numbers, and atomic_symbols.
+        The class object that stores the 3D info. The available attributes in the class are 'geometry',
+        'atomic_numbers', and 'atomic_symbols'.
 
     Examples
     --------
@@ -92,8 +125,7 @@ class Molecule(object):
     >>> caffeine_smiles = 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
     >>> caffeine_smarts = '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'
     >>> caffeine_inchi = 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'
-    >>> mol = Molecule()
-    >>> mol.load(caffeine_smiles, 'smiles')
+    >>> mol = Molecule(caffeine_smiles, 'smiles')
     >>> mol
     <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060a8a0>,
           creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),
@@ -231,19 +263,23 @@ class Molecule(object):
            ['H'],
            ['H']], dtype='<U1')
     """
-    def __init__(self):
+    def __init__(self, input, input_types, **kwargs):
         self.rdkit_molecule = None
+        self.pybel_molecule = None
         self.creator = None
         self._init_attributes()
         self._extra_docs()
+        self._load(input, input_types, **kwargs)
 
     def __repr__(self):
-        return '<Molecule(rdkit_molecule : {self.rdkit_molecule!r},\n' \
-               '          creator        : {self.creator!r},\n' \
-               '          smiles         : {self.smiles!r},\n' \
-               '          smarts         : {self.smarts!r},\n' \
-               '          inchi          : {self.inchi!r},\n' \
-               '          xyz            : {self.xyz!r})>'.format(self=self)
+        return '<chemml.chem.Molecule(\n' \
+               '        rdkit_molecule : {self.rdkit_molecule!r},\n' \
+               '        pybel_molecule : {self.pybel_molecule!r},\n' \
+               '        creator        : {self.creator!r},\n' \
+               '        smiles         : {self.smiles!r},\n' \
+               '        smarts         : {self.smarts!r},\n' \
+               '        inchi          : {self.inchi!r},\n' \
+               '        xyz            : {self.xyz!r})>'.format(self=self)
 
     def _init_attributes(self):
         # SMILES
@@ -317,13 +353,21 @@ class Molecule(object):
     def MMFF_args(self):
         return self._MMFF_args
 
-    def _check_rdkit_molecule(self):
-        if self.rdkit_molecule is None:
-            raise ValueError('The molecule object has not been created yet.')
+    def _check_original_molecule(self):
+        if self.rdkit_molecule is None and self.pybel_molecule is None:
+            msg = "Neither rdkit nor pybel molecule object has been created yet."
+            raise ValueError(msg)
+        elif self.rdkit_molecule is None:
+            return 'pybel'
+        elif self.pybel_molecule is None:
+            return 'rdkit'
+        # in case both of them are available go with rdkit
+        else:
+            return 'rdkit'
 
     def hydrogens(self, action='add', **kwargs):
         """
-        This function adds or removes to an rdkit molecule.
+        This function adds/removes hydrogens to/from a prebuilt molecule object.
 
         Parameters
         ----------
@@ -337,68 +381,66 @@ class Molecule(object):
 
         Notes
         -----
-            - The molecule is modified in place.
-            - The rdkit molecule object must be created in advance.
+            - The rdkit or pybel molecule object must be created in advance.
+            - Only rdkit or pybel molecule object will be modified in place.
+            - If you remove hydrogens from molecules, the atomic 3D coordinates might not be accurate for the conversion to xyz representation.
 
         """
 
-        # rdkit molecule must exist
-        self._check_rdkit_molecule()
+        # molecule must exist
+        _ = self._check_original_molecule()
 
         if action == 'add':
-            self.rdkit_molecule = Chem.AddHs(self.rdkit_molecule, **kwargs)
+            if self.pybel_molecule:
+                self.pybel_molecule.addh()
+            # Note: just if not elif
+            if self.rdkit_molecule:
+                self.rdkit_molecule = Chem.AddHs(self.rdkit_molecule, **kwargs)
         elif action == 'remove':
-            self.rdkit_molecule = Chem.RemoveHs(self.rdkit_molecule, **kwargs)
+            if self.pybel_molecule:
+                self.pybel_molecule.removeh()
+            if self.rdkit_molecule:
+                self.rdkit_molecule = Chem.RemoveHs(self.rdkit_molecule, **kwargs)
         else:
             raise ValueError("The parameter 'action' must be either of 'add' or 'remove'.")
 
-    def load(self, input, input_type, **kwargs):
+    def _load(self, input, input_type, **kwargs):
+        """
+        The main internal function to load a molecule.
+        """
+        if input_type == 'xyz':
+            self._load_pybel(input, input_type, **kwargs)
+        elif input_type in ['smiles', 'smarts', 'inchi']:
+            self._load_rdkit(input, input_type, **kwargs)
+        else:
+            msg = "The input type '%s' is not supported." %input_type
+            raise ValueError(msg)
+
+    def _load_rdkit(self, input, input_type, from_load=True, **kwargs):
+        """
+        The internal function to load a molecule using rdkit engine.
         """
 
-        Parameters
-        ----------
-        input: str
-            The representation string or path to a file.
-
-        input_type: str
-            The input type. The legit types are enlisted here:
-                - smiles: The input must be SMILES representation of a molecule.
-                - smarts: The input must be SMARTS representation of a molecule.
-                - inchi: The input must be InChi representation of a molecule.
-
-        kwargs:
-            The corresponding RDKit arguments for each of the input types:
-                - smiles: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles
-                - smarts: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts
-                - inchi: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi
-
-        Notes
-        -----
-            - The molecule will be creatd as an RDKit molecule object.
-            - The molecule object will be stored and available as `rdkit_molecule` attribute.
-            - If you load a molecule from its SMARTS string, there is high probability that you can't convert it to other
-                types due to the abstract description of the molecules by SMARTS representation.
-
-        """
         if input_type == 'smiles':
             creator = ('SMILES', input)
-            mol = Chem.MolFromSmiles(input, **kwargs)
+            rdkit_mol = Chem.MolFromSmiles(input, **kwargs)
         elif input_type == 'smarts':
             creator = ('SMARTS', input)
-            mol = Chem.MolFromSmarts(input, **kwargs)
+            rdkit_mol = Chem.MolFromSmarts(input, **kwargs)
         elif input_type == 'inchi':
             creator = ('InChi', input)
-            mol = Chem.MolFromInchi(input, **kwargs)
+            rdkit_mol = Chem.MolFromInchi(input, **kwargs)
         else:
-            msg = "The input type is not legit or has not been implemented yet."
+            msg = "The input type '%s' is not available from 'rdkit' engine." % (input_type)
             raise ValueError(msg)
 
         # check for None values. Some error messages that may have already raised:
         # [16:59:24] SMILES Parse Error: syntax error for input: 'NotSMILES'
         # [12:18:01] Explicit valence for atom # 1 O greater than permitted
         # [12:20:41] Can't kekulize mol
-        if mol is None:
-            raise ValueError('The input is not a legit %s string. Refere to the error message that was already displayed by RDKit library!'%creator[0])
+        if rdkit_mol is None:
+            msg = 'The input is not a legit %s string. Refere to the error message that was already displayed by RDKit library!'%creator[0]
+            raise ValueError(msg)
 
         # if the molecule is already being created warn the user
         if self.rdkit_molecule and self.creator:
@@ -406,10 +448,11 @@ class Molecule(object):
             str(self.creator), str(creator))
             warnings.warn(msg)
 
-        self.creator = creator
-        self.rdkit_molecule = mol
+        self.rdkit_molecule = rdkit_mol
 
-        self._init_attributes()
+        if from_load:
+            self.creator = creator
+            self._init_attributes()
 
         if self.creator[0]=='SMILES':
             self.to_smiles()
@@ -418,6 +461,57 @@ class Molecule(object):
         elif self.creator[0]=='InChi':
             self.to_inchi()
 
+    def _load_pybel(self, input, input_type, **kwargs):
+        """
+        The internal function to load a molecule using rdkit engine.
+
+        """
+        # available variables
+        pybel_mol = None
+        creator = None
+
+        if input_type == 'xyz':
+            if os.path.isfile(input):
+                creator = ('XYZ', input)
+                gen = pybel.readfile("xyz", input)
+                mols = list(gen)
+                if len(mols) == 1:
+                    pybel_mol = mols[0]
+                else:
+                    warnings.warn('More than one Molecule object is created and is returned as a generator.')
+                    return self._multiple_molecules(mols, creator)
+            else:
+                msg = "The input '%s' is not a valid XYZ input file."%input
+                raise ValueError(msg)
+
+        if pybel_mol is None:
+            msg = 'The input is not a legit %s string. Refere to the error message that was already displayed by Pybel library!' % \
+              creator[0]
+            raise ValueError(msg)
+
+        # if the molecule is already being created warn the user
+        if self.pybel_molecule and self.creator:
+            msg = "The molecule was already built using %s, is now overwritten by %s" % (
+            str(self.creator), str(creator))
+            warnings.warn(msg)
+
+        self.creator = creator
+        self.pybel_molecule = pybel_mol
+
+        self._init_attributes()
+
+        if self.creator[0]=='XYZ':
+            self.to_xyz()
+
+
+
+    def _multiple_molecules(self, mols, creator):
+        for mol in mols:
+            m = Molecule()
+            m.pybel_molecule = mol
+            m.creator = creator
+            yield m
+
     def to_smiles(self, **kwargs):
         """
         This function creates and stores the SMILES string for a pre-built molecule.
@@ -425,19 +519,30 @@ class Molecule(object):
         Parameters
         ----------
         kwargs:
-            The arguments that can be passed to the rdkit.Chem.MolToSmiles function.
+            The arguments for the rdkit.Chem.MolToSmiles function.
             The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles
 
         Notes
         -----
-            - The molecule is modified in place.
-            - The rdkit molecule object must be created in advance.
-            - The SMILES string is canocical by default, unless when one requests kekuleSmiles.
+            - The rdkit or pybel molecule object must be created in advance.
+            - If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then recreate the SMILES string using rdkit arguments.
+            - The molecule will be modified in place.
+            - For rdkit molecule the SMILES string is canocical by default, unless when one requests kekuleSmiles.
 
         """
-        # rdkit molecule must exist
-        self._check_rdkit_molecule()
+        # molecule must exist
+        engine = self._check_original_molecule()
+        if engine == 'pybel':
+            smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
+            self._load_rdkit(smiles, 'smiles', from_load=False)
+            self.to_smiles()
+        else:
+            self._to_smiles_rdkit(**kwargs)
 
+    def _to_smiles_rdkit(self, **kwargs):
+        """
+        This internal function creates and stores the SMILES string for rdkit molecule.
+        """
         # kekulize flag
         if 'kekuleSmiles' in kwargs and kwargs['kekuleSmiles']:
             Chem.Kekulize(self.rdkit_molecule)
@@ -463,14 +568,25 @@ class Molecule(object):
 
         Notes
         -----
-            - The molecule is modified in place.
-            - The rdkit molecule object must be created in advance.
+            - The rdkit or pybel molecule object must be created in advance.
+            - If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then create the SMARTS string using rdkit arguments.
+            - The molecule will be modified in place.
 
         """
-        # rdkit molecule must exist
-        self._check_rdkit_molecule()
+        # molecule must exist
+        engine = self._check_original_molecule()
 
+        if engine == 'rdkit':
+            self._to_smarts_rdkit(**kwargs)
+        else:
+            smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
+            self._load_rdkit(smiles, 'smiles', from_load=False)
+            self._to_smarts_rdkit(**kwargs)
 
+    def _to_smarts_rdkit(self, **kwargs):
+        """
+        The internal
+        """
         # store arguments for future reference
         self._smarts = Chem.MolToSmarts(self.rdkit_molecule, **kwargs)
 
@@ -486,18 +602,26 @@ class Molecule(object):
         Parameters
         ----------
         kwargs:
-            All the arguments that can be passed to the rdkit.Chem.MolToInchi function.
+            The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available).
             The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi
 
         Notes
         -----
-            - The molecule is modified in place.
-            - The rdkit molecule object must be created in advance.
+            - The rdkit or pybel molecule object must be created in advance.
+            - The molecule will be modified in place.
 
         """
-        # rdkit molecule must exist
-        self._check_rdkit_molecule()
+        # molecule must exist
+        engine = self._check_original_molecule()
+        if engine == 'pybel':
+            self._to_inchi_pybel()
+        else:
+            self._to_inchi_rdkit(**kwargs)
 
+    def _to_inchi_rdkit(self, **kwargs):
+        """
+        This internal function creates and stores the InChi string for rdkit molecule.
+        """
         # store arguments for future reference
         self._inchi = Chem.MolToInchi(self.rdkit_molecule, **kwargs)
 
@@ -506,6 +630,12 @@ class Molecule(object):
         self._inchi_args = update_default_kwargs(self._default_inchi_args, kwargs,
                                                  self._to_inchi_core_names[0], self._to_inchi_core_docs[0])
 
+    def _to_inchi_pybel(self):
+        """
+        This internal function creates and stores the InChi string for pybel molecule.
+        """
+        self._inchi = self.pybel_molecule.write('inchi').strip()
+
     def to_xyz(self, optimizer=None, **kwargs):
         """
         This function creates and stores the xyz coordinates for a pre-built molecule object.
@@ -513,12 +643,12 @@ class Molecule(object):
         Parameters
         ----------
         optimizer: None or str, optional (default: None)
-            If None, the geometries will be extracted from the passed conformer.
+            If None, the geometries will be extracted from the available source of 3D structure (if any).
             Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or
             'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.
 
         kwargs:
-            The arguments that can be passed to the corresponding rdkit functions.
+            The arguments that can be passed to the corresponding forcefileds.
             The documentation is available at:
                 - UFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule
                 - MMFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule
@@ -526,17 +656,36 @@ class Molecule(object):
         Notes
         -----
             - The geometry will be stored in the `xyz` attribute.
-            - The rdkit molecule object must be created in advance.
-            - The hydrogens won't be added to the molecule automatically. You should magane that using `hydrogens` method in advance.
+            - The molecule object must be created in advance.
+            - The hydrogens won't be added to the molecule automatically. You should add it manually using `hydrogens` method.
             - If the molecule object has been built using 2D representations (e.g., SMILES or InChi), the conformer
             doesn't exist and you nedd to set the optimizer parameter to any of the force fields.
+            - If the 3D info exist but you still need to run optimization, the 3D structure will be embedded from scratch (i.e., the current atom coordinates will be removed.)
 
 
         """
         # rdkit molecule must exist
-        self._check_rdkit_molecule()
+        engine = self._check_original_molecule()
+        # any futher process depends on the state of the optimizer and available 3D info
+        if self.xyz and optimizer is None:
+            return True     # the required info is available
+        elif self.pybel_molecule:
+            if optimizer is None :
+                self._to_xyz_pybel()    # pybel molecule always contains the 3D info
+            else:
+                # build the rdkit molecule from 2D info
+                smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
+                self._load_rdkit(smiles, 'smiles', from_load=False)
+                self.hydrogens('add')
+                self._to_xyz_rdkit(optimizer, **kwargs)
+        elif engine == 'rdkit':
+            self._to_xyz_rdkit(optimizer, **kwargs)
 
-        # add hydrogens
+    def _to_xyz_rdkit(self, optimizer, **kwargs):
+        """
+        The internal function creates and stores the xyz coordinates for a pre-built molecule object.
+        """
+        # add hydrogens >> commented out and left for the users to take care of it using hydrogens method.
         # self.hydrogens('add')
 
         # embeding and optimization
@@ -581,3 +730,131 @@ class Molecule(object):
         elif optimizer=='MMFF':
             self._MMFF_args = update_default_kwargs(self._default_MMFF_args, kwargs,
                                                  self._to_xyz_core_names[0], self._to_xyz_core_docs[0])
+
+    def _to_xyz_pybel(self):
+        """
+        The internal function extracts the xyz coordinates from a pre-built pybel molecule object.
+        """
+        geometry = np.array([atom.coords for atom in self.pybel_molecule])
+        atomic_nums = np.array([atom.atomicnum for atom in self.pybel_molecule])
+        # pybel atom types are extended
+        Z = {44: 'Ru',
+             75: 'Re',
+             104: 'Rf',
+             111: 'Rg',
+             88: 'Ra',
+             37: 'Rb',
+             86: 'Rn',
+             45: 'Rh',
+             4: 'Be',
+             56: 'Ba',
+             107: 'Bh',
+             83: 'Bi',
+             97: 'Bk',
+             35: 'Br',
+             1: 'H',
+             15: 'P',
+             76: 'Os',
+             99: 'Es',
+             80: 'Hg',
+             32: 'Ge',
+             64: 'Gd',
+             31: 'Ga',
+             59: 'Pr',
+             78: 'Pt',
+             94: 'Pu',
+             6: 'C',
+             82: 'Pb',
+             91: 'Pa',
+             46: 'Pd',
+             48: 'Cd',
+             84: 'Po',
+             61: 'Pm',
+             108: 'Hs',
+             115: 'Uup',
+             117: 'Uus',
+             118: 'Uuo',
+             67: 'Ho',
+             72: 'Hf',
+             19: 'K',
+             2: 'He',
+             101: 'Md',
+             12: 'Mg',
+             42: 'Mo',
+             25: 'Mn',
+             8: 'O',
+             109: 'Mt',
+             16: 'S',
+             74: 'W',
+             30: 'Zn',
+             63: 'Eu',
+             40: 'Zr',
+             68: 'Er',
+             28: 'Ni',
+             102: 'No',
+             11: 'Na',
+             41: 'Nb',
+             60: 'Nd',
+             10: 'Ne',
+             93: 'Np',
+             87: 'Fr',
+             26: 'Fe',
+             114: 'Fl',
+             100: 'Fm',
+             5: 'B',
+             9: 'F',
+             38: 'Sr',
+             7: 'N',
+             36: 'Kr',
+             14: 'Si',
+             50: 'Sn',
+             62: 'Sm',
+             23: 'V',
+             21: 'Sc',
+             51: 'Sb',
+             106: 'Sg',
+             34: 'Se',
+             27: 'Co',
+             112: 'Cn',
+             96: 'Cm',
+             17: 'Cl',
+             20: 'Ca',
+             98: 'Cf',
+             58: 'Ce',
+             54: 'Xe',
+             71: 'Lu',
+             55: 'Cs',
+             24: 'Cr',
+             29: 'Cu',
+             57: 'La',
+             3: 'Li',
+             116: 'Lv',
+             81: 'Tl',
+             69: 'Tm',
+             103: 'Lr',
+             90: 'Th',
+             22: 'Ti',
+             52: 'Te',
+             65: 'Tb',
+             43: 'Tc',
+             73: 'Ta',
+             70: 'Yb',
+             105: 'Db',
+             66: 'Dy',
+             110: 'Ds',
+             53: 'I',
+             92: 'U',
+             39: 'Y',
+             89: 'Ac',
+             47: 'Ag',
+             113: 'Uut',
+             77: 'Ir',
+             95: 'Am',
+             13: 'Al',
+             33: 'As',
+             18: 'Ar',
+             79: 'Au',
+             85: 'At',
+             49: 'In'}
+        atomic_symbols = np.array([Z[i] for i in atomic_nums])
+        self._xyz = XYZ(geometry, atomic_nums.reshape(-1, 1), atomic_symbols.reshape(-1, 1))

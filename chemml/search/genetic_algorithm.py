@@ -15,8 +15,7 @@ class GeneticAlgorithm(object):
             Parameters
             ----------
             evaluate: function
-                The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values 
-                of the hyper-parameters in the order in which they are declared in the space variable.
+                The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization. 
 
             space: tuple, 
                 A tuple of dict objects specifying the hyper-parameter space to search in. 
@@ -30,8 +29,8 @@ class GeneticAlgorithm(object):
                         {'layers': {'int': [1, 3]}},
                         {'neurons': {'choice': range(0,200,20)}})
 
-            fitness: str, optional (default = 'Max')
-                Maximize (Max) or minimize (Min) the objective function.
+            fitness: tuple, optional (default = ('Max',)
+                A tuple of string(s) for Maximizing (Max) or minimizing (Min) the objective function(s).
                 
             pop_size: integer, optional (default = 50)
                 Size of the population
@@ -59,12 +58,12 @@ class GeneticAlgorithm(object):
     def __init__(self, 
                 evaluate, 
                 space,
-                fitness="Max", 
+                fitness=("Max", ), 
                 pop_size=50,
                 crossover_type="Blend", 
                 mutation_prob=0.6,
-                crossover_size=0.5,
-                mutation_size=0.3,
+                crossover_size=0.6,
+                mutation_size=0.4,
                 algorithm=1,
                 initial_population=None):
 
@@ -104,9 +103,10 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
-        if fitness.lower() == 'max': self.fit_val = 1
-        else: self.fit_val = -1
-        self.population, self.fitness_dict = None, {}
+        self.fit_val, self.population, self.fitness_dict = [], None, {}
+        for i in fitness:
+            if i.lower() == 'max': self.fit_val.append(1)
+            else: self.fit_val.append(-1)
         
     def pop_generator(self, n):
         pop = []
@@ -114,15 +114,15 @@ class GeneticAlgorithm(object):
             for i in self.initial_pop:
                 pop.append(tuple(i))
         else:
-            for _ in range(n):
-                pop.append(self.chromosome_generator())
+            for x in range(n):
+                pop.append(self.chromosome_generator(x, n))
         return pop
 
-    def chromosome_generator(self):
+    def chromosome_generator(self, x, n):
         chsome = []
         for i, j in zip(self.bit_limits, self.chromosome_type):
             if j == 'uniform':
-                chsome.append(random.uniform(i[0], i[1]))
+                chsome.append(np.linspace(i[0], i[1], n)[x])
             elif j == 'int':
                 chsome.append(random.randint(i[0], i[1]))
             elif j == 'choice':
@@ -153,45 +153,53 @@ class GeneticAlgorithm(object):
         ind1, ind2 = list(ind1), list(ind2)
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'choice':
-                ind1[i], ind2[i] = ind2[i], ind1[i]
+                scores = []
+                for inx, ch in enumerate(self.bit_limits[i]):
+                    if ch == ind1[i] or ch == ind2[i]: scores.append(3)
+                    else: scores.append(1)
+                sc_dict = {self.bit_limits[i][j]: scores[j] for j in range(len(scores))}
+                ind1[i], ind2[i] = self.select(self.bit_limits[i], sc_dict, 2)
             else:
-                chi = (1 + 2*z) * random.random() - z
-                try:
-                    ind1[i], ind2[i] = (1-chi)*ind1[i]+chi*ind2[i], chi*ind2[i]+(1-chi)*ind1[i]
-                except: print(chi, ind1, ind2)
+                while True:
+                    chi = (1 + z) * random.random() - z
+                    tm1, tm2 = (1-chi)*ind1[i]+chi*ind2[i], chi*ind1[i]+(1-chi)*ind2[i]
+                    if self.bit_limits[i][0] < tm1 < self.bit_limits[i][1] and self.bit_limits[i][0] < tm2 < self.bit_limits[i][1]: break
+                ind1[i], ind2[i] = tm1, tm2
                 if self.chromosome_type[i] == 'int':
                     ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
         return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
 
-    def RouletteWheelSelection(self, population, fit_dict, num):
+    def select(self, population, fit_dict, num, choice="Roulette"):
         o_fits = [fit_dict[i] for i in population]
-        fitnesses = [(((i-min(o_fits))/(max(o_fits)-min(o_fits))) + 1) for i in o_fits]
-        if self.fit_val == -1:
-            fitnesses = [fit**self.fit_val for fit in fitnesses]
-        total_fitness = float(sum(fitnesses))
-        rel_fitness = [f/total_fitness for f in fitnesses]
-        # Generate probability intervals for each individual
-        probs = [sum(rel_fitness[:i+1]) for i in range(len(rel_fitness))]
-        # Draw new population
-        new_population = []
-        for _ in range(num):
-            r = random.random()
-            for i, individual in enumerate(population):
-                if r <= probs[i]:
-                    new_population.append(deepcopy(individual))
-                    break
-        return new_population
 
-    def selectbest(self, pop, n, fitness_dict):
-        best = []
-        o_fits = [fitness_dict[i] for i in pop]
-        fitnesses = [(((i-min(o_fits))/(max(o_fits)-min(o_fits))) + 1) for i in o_fits]
-        if self.fit_val == -1:
-            fitnesses = [fit**self.fit_val for fit in fitnesses]
-        fits_sort = sorted(fitnesses, reverse=True)
-        for i in range(min(n, len(pop))):
-            best.append(deepcopy(pop[fitnesses.index(fits_sort[i])]))
-        return best
+        df_fits = pd.DataFrame(o_fits)
+        # scale all values in range 1-2
+        df2 = [((df_fits[i] - df_fits[i].min()) / (df_fits[i].max() - df_fits[i].min())) + 1 for i in range(df_fits.shape[1])]
+        # inverse min columns
+        df2 = pd.DataFrame([df2[i]**self.fit_val[i] for i in range(len(df2))]).T
+        # rescale all values in range 1-2
+        df2 = pd.DataFrame([((df2[i] - df2[i].min()) / (df2[i].max() - df2[i].min())) + 1 for i in range(df2.shape[1])])
+        
+        fitnesses = list(df2.sum())
+
+        if choice == "Roulette":
+            total_fitness = float(sum(fitnesses))
+            rel_fitness = [f/total_fitness for f in fitnesses]
+            # Generate probability intervals for each individual
+            probs = [sum(rel_fitness[:i+1]) for i in range(len(rel_fitness))]
+            # Draw new population
+            new_population = []
+            for _ in range(num):
+                r = random.random()
+                for i, individual in enumerate(population):
+                    if r <= probs[i]:
+                        new_population.append(deepcopy(individual))
+                        break
+            return new_population
+        else:
+            fits_sort = sorted(fitnesses, reverse=True)
+            best = [deepcopy(population[fitnesses.index(fits_sort[i])]) for i in range(min(num, len(population)))]
+            return best
 
     def custom_mutate(self, indi, fitness_dict):
         indi = list(indi)
@@ -208,7 +216,7 @@ class GeneticAlgorithm(object):
                                             self.bit_limits[i][1])
             elif self.chromosome_type[i] == 'choice':
                 if random.random() < self.mutation_prob:
-                    indi[i] = random.choice(self.bit_limits[i])
+                    indi[i] = random.choice(list(set(self.bit_limits[i]) - set([indi[i]])))
         if tuple(indi) in fitness_dict.keys(): indi = self.custom_mutate(indi, fitness_dict)
         return tuple(indi)
 
@@ -239,10 +247,10 @@ class GeneticAlgorithm(object):
                 Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
                 the search terminates.
 
-        init_ratio: float, optional (default = 0.35)
+        init_ratio: float, optional (default = 0.4)
             Fraction of initial population to select for next generation. Required only for algorithm 3.
 
-        crossover_ratio: float, optional (default = 0.35)
+        crossover_ratio: float, optional (default = 0.3)
             Fraction of crossover population to select for next generation. Required only for algorithm 3.
 
         
@@ -295,7 +303,7 @@ class GeneticAlgorithm(object):
                 st_time = time.time()
                 cross_pop, mutant_pop, co_pop, psum = [], [], [], len(list(fitness_dict.items()))
                 # Generate crossover population
-                co_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
+                co_pop = self.select(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
                 co_pop = list(itertools.combinations(list(set(co_pop)), 2))
                 combi = list(itertools.combinations(list(set(pop + total_pop)), 2))
                 for child1, child2 in co_pop + combi:
@@ -312,9 +320,9 @@ class GeneticAlgorithm(object):
                     
                 # Generate mutation population
                 if self.algo == 4:
-                    mu_pop = self.RouletteWheelSelection(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mutation_size)))
+                    mu_pop = self.select(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mutation_size)))
                 else:
-                    mu_pop = self.RouletteWheelSelection(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
+                    mu_pop = self.select(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
                 
                 for mutant in mu_pop:
                     mutant_pop.append(self.custom_mutate(mutant, fitness_dict))
@@ -323,13 +331,13 @@ class GeneticAlgorithm(object):
                 # Select the next generation individuals
                 total_pop = pop + cross_pop + mutant_pop
                 if self.algo == 2:
-                    pop = self.RouletteWheelSelection(total_pop, fitness_dict, self.pop_size)
+                    pop = self.select(total_pop, fitness_dict, self.pop_size)
                 elif self.algo == 3:
-                    p1 = self.selectbest(pop, int(init_ratio*self.pop_size), fitness_dict)
-                    p2 = self.selectbest(cross_pop, int(crossover_ratio*self.pop_size), fitness_dict)
-                    p3 = self.selectbest(mutant_pop, self.pop_size-len(p1)-len(p2), fitness_dict)
+                    p1 = self.select(pop, fitness_dict, int(init_ratio*self.pop_size), choice="best")
+                    p2 = self.select(cross_pop, fitness_dict, int(crossover_ratio*self.pop_size), choice="best")
+                    p3 = self.select(mutant_pop, fitness_dict, self.pop_size-len(p1)-len(p2), choice="best")
                     pop = p1 + p2 + p3
-                else: pop = self.selectbest(total_pop, self.pop_size, fitness_dict)
+                else: pop = self.select(total_pop, fitness_dict, self.pop_size, choice="best")
                 
                 # Storing the best individuals after each generation
                 best_individual = pop[0]

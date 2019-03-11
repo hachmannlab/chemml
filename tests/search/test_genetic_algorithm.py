@@ -28,7 +28,7 @@ class TestGeneticAlgorithm(unittest.TestCase):
             
     def test_sequential_min(self):
         ga_search = GeneticAlgorithm(evaluate,
-                                    fitness="min",
+                                    fitness=("min", ),
                                     space=space,
                                     pop_size=10,
                                     algorithm=3)

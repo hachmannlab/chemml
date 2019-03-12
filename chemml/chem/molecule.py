@@ -295,6 +295,13 @@ class Molecule(object):
         self._xyz = None
         self._UFF_args = None
         self._MMFF_args = None
+        # default arguments
+        self._default_rdkit_smiles_args = {"isomericSmiles":True, "kekuleSmiles":False, "rootedAtAtom":-1, "canonical":True, "allBondsExplicit":False,
+                "allHsExplicit":False} #"doRandom":False
+        self._default_rdkit_smarts_args = {"isomericSmiles":True}
+        self._default_rdkit_inchi_args = {"options":'', 'logLevel':None, 'treatWarningAsError':False}
+        self._default_UFF_args = {'maxIters':200, 'vdwThresh':10.0, 'confId':-1, 'ignoreInterfragInteractions':True}
+        self._default_MMFF_args = {'mmffVariant':'MMFF94', 'maxIters':200, 'nonBondedThresh':100.0, 'confId':-1, 'ignoreInterfragInteractions':True}
 
     def _extra_docs(self):
         # method: to_smiles
@@ -503,8 +510,6 @@ class Molecule(object):
         if self.creator[0]=='XYZ':
             self.to_xyz()
 
-
-
     def _multiple_molecules(self, mols, creator):
         for mol in mols:
             m = Molecule()
@@ -551,9 +556,7 @@ class Molecule(object):
         self._smiles = Chem.MolToSmiles(self.rdkit_molecule, **kwargs)
 
         # arguments
-        self._default_smiles_args = {"isomericSmiles":True, "kekuleSmiles":False, "rootedAtAtom":-1, "canonical":True, "allBondsExplicit":False,
-                "allHsExplicit":False} #"doRandom":False
-        self._smiles_args = update_default_kwargs(self._default_smiles_args, kwargs,
+        self._smiles_args = update_default_kwargs(self._default_rdkit_smiles_args, kwargs,
                                                  self._to_smiles_core_names[0], self._to_smiles_core_docs[0])
 
     def to_smarts(self, **kwargs):
@@ -591,8 +594,7 @@ class Molecule(object):
         self._smarts = Chem.MolToSmarts(self.rdkit_molecule, **kwargs)
 
         # arguments
-        self._default_smarts_args = {"isomericSmiles":True}
-        self._smarts_args = update_default_kwargs(self._default_smarts_args, kwargs,
+        self._smarts_args = update_default_kwargs(self._default_rdkit_smarts_args, kwargs,
                                                  self._to_smarts_core_names[0], self._to_smarts_core_docs[0])
 
     def to_inchi(self, **kwargs):
@@ -626,8 +628,7 @@ class Molecule(object):
         self._inchi = Chem.MolToInchi(self.rdkit_molecule, **kwargs)
 
         # arguments
-        self._default_inchi_args = {"options":'', 'logLevel':None, 'treatWarningAsError':False}
-        self._inchi_args = update_default_kwargs(self._default_inchi_args, kwargs,
+        self._inchi_args = update_default_kwargs(self._default_rdkit_inchi_args, kwargs,
                                                  self._to_inchi_core_names[0], self._to_inchi_core_docs[0])
 
     def _to_inchi_pybel(self):
@@ -676,6 +677,7 @@ class Molecule(object):
                 # build the rdkit molecule from 2D info
                 smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
                 self._load_rdkit(smiles, 'smiles', from_load=False)
+                self.creator = ('SMILES', smiles)
                 self.hydrogens('add')
                 self._to_xyz_rdkit(optimizer, **kwargs)
         elif engine == 'rdkit':
@@ -711,18 +713,14 @@ class Molecule(object):
         try:
             conf = self.rdkit_molecule.GetConformer()
         except ValueError:
-            msg = "The conformation has not been built yet. Maybe due to the 2D representation of the creator.\n" \
-                  "You should set the optimizer value if you wish to embed and optimize the 3D geometries."
+            msg = "The conformation has not been built yet (maybe due to the 2D representation of the creator).\n" \
+                  "You should set the optimizer value if you wish to embed and optimize the 3D geometry."
             raise ValueError(msg)
         geometry = conf.GetPositions()
         atoms_list = self.rdkit_molecule.GetAtoms()
         atomic_nums = np.array([i.GetAtomicNum() for i in atoms_list])
         atomic_symbols = np.array([i.GetSymbol() for i in atoms_list])
         self._xyz = XYZ(geometry, atomic_nums.reshape(-1,1), atomic_symbols.reshape(-1,1))
-
-        # arguments
-        self._default_UFF_args = {'maxIters':200, 'vdwThresh':10.0, 'confId':-1, 'ignoreInterfragInteractions':True}
-        self._default_MMFF_args = {'mmffVariant':'MMFF94', 'maxIters':200, 'nonBondedThresh':100.0, 'confId':-1, 'ignoreInterfragInteractions':True}
 
         if optimizer=='UFF':
             self._UFF_args = update_default_kwargs(self._default_UFF_args, kwargs,

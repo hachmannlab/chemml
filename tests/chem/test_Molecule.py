@@ -96,9 +96,9 @@ def test_mol2smiles(caffeine_smiles, caffeine_canonical, caffeine_kekulize):
 def test_mol2smiles_defaultargs(caffeine_smiles):
     m = Molecule(caffeine_smiles, 'smiles')
     m.to_smiles()
-    m.to_smiles(**m._default_smiles_args)
+    m.to_smiles(**m._default_rdkit_smiles_args)
     # all the args & canonical=False
-    args = m._default_smiles_args
+    args = m._default_rdkit_smiles_args
     args['canonical'] = False
     m.to_smiles(**args)
     assert m.smiles_args['canonical'] is False
@@ -114,9 +114,9 @@ def test_mol2smarts(caffeine_smarts):
 def test_mol2smarts_defaultargs(caffeine_smarts):
     m = Molecule(caffeine_smarts, 'smarts')
     m.to_smarts()
-    m.to_smarts(**m._default_smarts_args)
+    m.to_smarts(**m._default_rdkit_smarts_args)
     # all the args & isomericSmiles=False
-    args = m._default_smarts_args
+    args = m._default_rdkit_smarts_args
     args['isomericSmiles'] = False
     m.to_smarts(**args)
     assert m.smarts_args['isomericSmiles'] is False
@@ -130,9 +130,9 @@ def test_mol2inchi(caffeine_inchi):
 def test_mol2inchi_defaultargs(caffeine_inchi):
     m = Molecule(caffeine_inchi, 'inchi')
     m.to_inchi()
-    m.to_inchi(**m._default_inchi_args)
+    m.to_inchi(**m._default_rdkit_inchi_args)
     # all the args & treatWarningAsError=True
-    args = m._default_inchi_args
+    args = m._default_rdkit_inchi_args
     args['treatWarningAsError'] = True
     m.to_inchi(**args)
     assert m.inchi_args['treatWarningAsError'] is True

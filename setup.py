@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 'numpydoc',
             ],
             'tests': [
-                'pytest==3.10',
+                'pytest', #==3.10
                 'pytest-cov',
                 'pytest-pep8',
                 'tox',

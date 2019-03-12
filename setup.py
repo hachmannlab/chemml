@@ -32,7 +32,7 @@ if __name__ == "__main__":
         install_requires=[
             'future', 'six', 'numpy', 'pandas',
             'tensorflow', 'keras', 'h5py',
-            'scikit-learn', 'babel>=2.3.4',
+            'scikit-learn',
             'matplotlib>=1.5.1',
             'lxml', 'wget'
         ],

@@ -104,6 +104,7 @@ class BEMCM(object):
         self._Y_train = None
         self._Y_test = None
         self._results = []
+        self._random_results = []
         self.attributes = ['queries','train_indices','test_indices', 'seq_train_indices',
                            'query_number',
                            'X_train','X_test','Y_train','Y_test',
@@ -141,6 +142,14 @@ class BEMCM(object):
                                'mae', 'mae_std', 'rmse', 'rmse_std', 'r2', 'r2_std']
         df = pd.DataFrame(self._results, columns=results_header)
         return df
+
+    @property
+    def random_results(self):
+        results_header = ['num_query', 'num_training', 'num_test',
+                               'mae', 'mae_std', 'rmse', 'rmse_std', 'r2', 'r2_std']
+        df = pd.DataFrame(self._random_results, columns=results_header)
+        return df
+
 
     def _fit(self):
         # np array the input U
@@ -288,7 +297,7 @@ class BEMCM(object):
             You can deposit the data partially and it doesn't have to be the entire array that is queried.
 
         Y: array-like
-            The labels of the data points as it will be used for the training of the model.
+            The 2-dimensional labels of the data points as it will be used for the training of the model.
             The first dimension of the array should be equal to the number of indices.
             Y must be at least 2 dimensional.
 
@@ -429,7 +438,8 @@ class BEMCM(object):
         # check if queries are provided
         if len(self._queries) > 0 :
             msg = "The requested data must be provided first. Check the 'queries' attribute for the info regarding the indices of the queried candidates."
-            raise ValueError(msg)
+            print(msg)
+            return False
 
         # get input data
         X_tr = self._X_train()
@@ -557,8 +567,6 @@ class BEMCM(object):
         self.query_number += 1
 
         # make sure correlation term is making any difference than simple sorting of the initial norms
-        print(initial_ranking)
-        print(i_queries)
         if set(initial_ranking) <= set(i_queries):
             msg = "It seems that the correlation term is not effective. The initial ranking of the candidates are same as the final results. "
             warnings.warn(msg)
@@ -614,14 +622,16 @@ class BEMCM(object):
 
         return model, preds, mae, rmse, r2
 
-    def random_learning_curve(self, scale=True, n_evaluation=3, n_bootstrap=5, random_state=90, **kwargs):
+    def random_search(self, Y, scale=True, n_evaluation=10, random_state=90, **kwargs):
         """
-        The main function to start or continue an active learning search.
-        The bootstrap approach is used to generate an ensemble of models that estimate the prediction
-        distribution of the candidates' labels.
+        This function randomly select same number of data points as the active learning rounds and store the results.
 
         Parameters
         ----------
+        Y: array-like
+            The 2-dimensional label for all the candidates in the pool. Basically, you won't run this method unless you have the labels
+            for all your samples. Otherwise, trust us and perform an active learning search.
+
         scale: bool or list, optional (default = True)
             if True, sklearn.preprocessing.StandardScaler will be used to scale X and Y before training.
             You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
@@ -630,24 +640,92 @@ class BEMCM(object):
         n_evaluation: int, optional (default = 3)
             number of times to repeat training of the model and evaluation on test set.
 
-        n_bootstrap: int, optional (default = 5)
-            The size of the ensemble based on bootstrapping approach.
-
         random_state: int or RandomState, optional (default = 90)
-            The random state will be directly passed to the sklearn.model_selection.KFold
-            extra info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
+            The random state will be directly passed to the sklearn.model_selection methods.
+            Please find additional info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
         kwargs
             Any argument (except input data) that should be passed to the model's fit method.
 
-        Returns
-        -------
-        ndarray
-            The training set indices (Python 0-index) from the pool of candidates (U).
-            This is a 1D array.
+        Attributes
+        ----------
+        random_results: pandas dataframe
+            The results from the random sampling to provide the baseline for your active learning search.
+            You need to
+
+        Notes
+        -----
+            - This method replicate the active learning training size with random sampling approach. Thus, you can run
+            this function only if the results is not empty, i.e., you have run the active learning search at least once.
+
 
         """
-        pass
 
+        if self.query_number==0:
+            msg = "You must run active learning search first."
+            print(msg)
+            return False
+        # elif len(self._random_results)==0:
+        #     self._random_results.append(self._results[0])
 
+        Y = np.array(Y)
+        if Y.shape[0] != self.U.shape[0]:
+            msg = "The length of the Y array must be equal to the number of candidates in the U."
+            print(msg)
+            raise ValueError(msg)
+
+        # find all indices except test indices
+        except_test_inds = [i for i in range(len(self.U)) if i not in self.test_indices]
+
+        # remaining training set size to run ML
+        remaining_ind = [i for i in range(len(self._results)) if i not in range(len(self._random_results))]
+        for ind in remaining_ind:
+            # get training set size
+            tr_size = self._results[ind][1] # the index 1 must be number of training data
+
+            # training and evaluation
+            it_results = {'mae': [], 'rmse': [], 'r2': []}
+
+            # shuffle split, n_evaluation times
+            ss = ShuffleSplit(n_splits=n_evaluation, test_size=None, train_size=tr_size,
+                              random_state=random_state)
+            for train_indices, _ in ss.split(except_test_inds):
+                # training indices based on the original U
+                actual_tr_inds = np.array(except_test_inds)[train_indices]
+                X_tr = self.U[actual_tr_inds]
+                Y_tr = Y[actual_tr_inds]
+
+                # test set same as active learning
+                X_te = self._X_test()
+                Y_te = copy.deepcopy(self._Y_test)
+                # scale
+                X_scaler, Y_scaler = self._scaler(scale)
+                if X_scaler is not None:
+                    # scale X arrays
+                    X_tr = X_scaler.fit_transform(X_tr)
+                    X_te = X_scaler.transform(X_te)
+                    # scale Y
+                    Y_tr = Y_scaler.fit_transform(Y_tr)
+
+                model = self.model_creator()
+                model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model, [X_tr, Y_tr, X_te],
+                                                                               Y_scaler,
+                                                                               Y_te,
+                                                                               **kwargs)
+                # metrics
+                it_results['mae'].append(mae)
+                it_results['rmse'].append(rmse)
+                it_results['r2'].append(r2)
+
+                # delete from memory
+                del X_tr, X_te, model
+
+            # store evaluation results
+            results_temp = [self._results[ind][0], tr_size, len(self.test_indices)]
+            for metric in ['mae', 'rmse', 'r2']:
+                results_temp.append(np.mean(np.array(it_results[metric]), axis=0))
+                results_temp.append(np.std(np.array(it_results[metric]), axis=0, ddof=0))
+            self._random_results.append(results_temp)
+
+        return True
 

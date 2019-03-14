@@ -1,4 +1,4 @@
-cheml.preprocessing module
+chemml.preprocessing module
 ==========================
 
 .. Subpackages
@@ -6,23 +6,23 @@ cheml.preprocessing module
 
 .. .. toctree::
 
-..     cheml.preprocessing.test
+..     chemml.preprocessing.test
 
 .. Submodules
 .. ----------
 
-.. cheml.preprocessing.handle_missing module
+.. chemml.preprocessing.handle_missing module
 .. -----------------------------------------
 
-.. .. automodule:: cheml.preprocessing.handle_missing
+.. .. automodule:: chemml.preprocessing.handle_missing
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. cheml.preprocessing.purge module
+.. chemml.preprocessing.purge module
 .. --------------------------------
 
-.. .. automodule:: cheml.preprocessing.purge
+.. .. automodule:: chemml.preprocessing.purge
     :members:
     :undoc-members:
     :show-inheritance:
@@ -32,7 +32,7 @@ cheml.preprocessing module
 .. Module contents
 .. ---------------
 
-.. automodule:: cheml.preprocessing
+.. automodule:: chemml.preprocessing
     :members:
 ..    :undoc-members:
     :show-inheritance:

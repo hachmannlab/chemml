@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import copy
 
 # Todo: check_object_col is really inefficient (iteration on the values of each column)
 
@@ -231,3 +232,41 @@ def check_object_col(df, name):
     if len(object_cols) > 0:
         df = df.drop(object_cols, 1)
     return df
+
+def update_default_kwargs(default_kw, kw, method_name=None, method_doc_path=None):
+    """
+    This function receives a spuer-dictionary (e.g., default kwargs) and update the values with a sub-dictionary (e.g., kwargs).
+
+    Parameters
+    ----------
+    default_kw: dict
+        The default dictionary
+
+    kw: dict
+        The (partially) updated dictionary values. The keys must be in the default_kw.
+
+    Raises
+    ------
+    ValueError
+        If the keys in the default_kw is not a superset of the keys inside the kw.
+
+    Returns
+    -------
+    dict
+        The full default dictionary with all the keys, but potentially updated values based on the second dicitonary.
+
+    """
+    temp = copy.deepcopy(default_kw)
+    for k in kw:
+        if k not in temp:
+            if method_name:
+                msg = "The argument '%s' is not a valid parameter for the method '%s'.\n" \
+                      "You can check the documentation page for a complete list of legit arguments: %s" %(k, method_name, str(method_doc_path))
+            else:
+                msg = "The argument '%s' is not a valid parameter for the method.\n" \
+                      "You can check the documentation page for a complete list of legit arguments." %(k)
+            raise ValueError(msg)
+        else:
+            temp[k] = kw[k]
+    return temp
+

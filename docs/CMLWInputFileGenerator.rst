@@ -9,7 +9,7 @@ You can run GUI locally in the Jupyter notebook with two lines of python code:
 
 .. code:: python
 
-    from cheml.notebooks import wrapperGUI
+    from chemml.notebooks import wrapperGUI
     ui = wrapperGUI()
 
 

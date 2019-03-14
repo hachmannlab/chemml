@@ -27,27 +27,27 @@ The input file consists of methods that are connected to each other and make a d
 Here you can see a simple input script::
 
     ## (Enter,datasets)
-        << host = cheml
+        << host = chemml
         << function = load_xyz_polarizability
         >> coordinates 0
         >> polarizability 4
         >> polarizability 5
 
     ## (Represent,molecular descriptors)
-        << host = cheml
+        << host = chemml
         << function = CoulombMatrix
         >> 0 molecules
         >> df 1
         >> df 6
 
     ## (Store,file)
-        << host = cheml
+        << host = chemml
         << function = SaveFile
         << filename = CM_features
         >> 1 df
 
     ## (Store,figure)
-        << host = cheml
+        << host = chemml
         << function = SavePlot
         << kwargs = {'normed':True, 'bbox_inches':'tight'}
         << output_directory = plots
@@ -55,7 +55,7 @@ Here you can see a simple input script::
         >> 2 fig
 
     ## (Visualize,artist)
-        << host = cheml
+        << host = chemml
         << function = decorator
         << title = training performance
         << grid_color = g
@@ -67,7 +67,7 @@ Here you can see a simple input script::
         >> 3 fig
 
     ## (Visualize,plot)
-        << host = cheml
+        << host = chemml
         << function = scatter2D
         << y = 0
         << marker = o
@@ -116,34 +116,34 @@ You can also run your input script with python codes as a python script or inter
 .. code:: python
 
     # we assume you saved your script with the name 'tutorial.config' in your Desktop folder
-    from cheml import wrapperRUN
+    from chemml import wrapperRUN
     wrapperRUN(INPUT_FILE = '/Desktop/tutorial.config', OUTPUT_DIRECTORY = 'output_directory')
 
     # or
 
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_xyz_polarizability
                     >> coordinates 0
                     >> polarizability 4
                     >> polarizability 5
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = CoulombMatrix
                     >> 0 molecules
                     >> df 1
                     >> df 6
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = CM_features
                     >> 1 df
 
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << kwargs = {'normed':True, 'bbox_inches':'tight'}
                     << output_directory = plots
@@ -151,7 +151,7 @@ You can also run your input script with python codes as a python script or inter
                     >> 2 fig
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = training performance
                     << grid_color = g
@@ -163,7 +163,7 @@ You can also run your input script with python codes as a python script or inter
                     >> 3 fig
 
                 ## (Visualize,plot)
-                    << host = cheml
+                    << host = chemml
                     << function = scatter2D
                     << y = 0
                     << marker = o

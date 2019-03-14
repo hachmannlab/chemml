@@ -6,7 +6,6 @@ sudo: false
 # python versions to be tested
 matrix:
   include:
-    - python: 2.7
     - python: 3.5
     - python: 3.6
 
@@ -47,6 +46,7 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
   - conda install -c rdkit rdkit
+  - conda install -c openbabel openbabel
 
   # Install the library with test requirements
   - pip install -e .[tests]

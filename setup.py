@@ -32,8 +32,8 @@ if __name__ == "__main__":
         install_requires=[
             'future', 'six', 'numpy', 'pandas',
             'tensorflow', 'keras', 'h5py',
-            'scikit-learn', 'babel>=2.3.4',
-            'matplotlib>=1.5.1', 'deap>=1.2.2',
+            'scikit-learn',
+            'matplotlib>=1.5.1',
             'lxml', 'wget'
         ],
         extras_require={
@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 'numpydoc',
             ],
             'tests': [
-                'pytest==3.10',
+                'pytest', #==3.10
                 'pytest-cov',
                 'pytest-pep8',
                 'tox',
@@ -60,8 +60,9 @@ if __name__ == "__main__":
             'Development Status :: 4 - Beta',
             'Natural Language :: English',
             'Intended Audience :: Science/Research',
-            'Programming Language :: Python :: 2.7',
+            # 'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
         ],
         zip_safe=False,
     )

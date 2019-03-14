@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - rdkit
 dependencies:
-  - python=2.7
+  - python=3.5
   - numpy=1.13.1
   - pandas=0.20.3
   - scikit-learn=0.19.1

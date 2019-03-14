@@ -11,7 +11,7 @@ from chemml.utils import istuple
 from chemml.utils import isnpdot
 from chemml.utils import isint
 from chemml.utils import value
-
+from chemml.utils import update_default_kwargs
 
 @pytest.fixture()
 def data_path():
@@ -64,3 +64,23 @@ def test_check_object_col():
     df[0] = ['a', 'b', 'c']
     df[1] = [1, 2, 3]
     f = check_object_col(df, 'df')
+
+def test_update_default_kwargs():
+    default_kw = {'a':4, 'b':7, 'c':8}
+    kw = {'a':5}
+    full_dict = update_default_kwargs(default_kw,kw)
+    assert full_dict['a']==5
+    full_dict = update_default_kwargs(default_kw,{})
+    assert full_dict['a']==4
+
+def test_update_default_kwargs_exception():
+    default_kw = {'a': 4, 'b': 7, 'c': 8}
+    kw = {'l': 5}
+    with pytest.raises(ValueError):
+        _ = update_default_kwargs(default_kw, kw)
+    with pytest.raises(ValueError):
+        _ = update_default_kwargs(default_kw, kw, 'function', 'https://...')
+
+
+
+

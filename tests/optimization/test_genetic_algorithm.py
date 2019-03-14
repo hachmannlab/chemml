@@ -1,5 +1,5 @@
 import unittest
-from chemml.search import GeneticAlgorithm
+from chemml.optimization import GeneticAlgorithm
 
 space = ({'alpha': {'uniform': [-20, 0], 
                         'mutation': [0, 2]}}, 

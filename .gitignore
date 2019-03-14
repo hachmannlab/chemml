@@ -1,3 +1,8 @@
+# temporary big files
+**/organic_lorentz_lorenz/Morgan_100k.h5
+**/organic_lorentz_lorenz/x_standard_scaler.csv
+**/organic_lorentz_lorenz/y_standard_scaler.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

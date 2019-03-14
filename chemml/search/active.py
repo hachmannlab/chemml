@@ -110,19 +110,19 @@ class BEMCM(object):
                            'X_train','X_test','Y_train','Y_test',
                            'results']
 
+    def _X_train(self):
+        return self.U[self.train_indices]
+
+    def _X_test(self):
+        return self.U[self.test_indices]
+
     @property
     def queries(self):
         return self._queries
 
-    def _X_train(self):
-        return self.U[self.train_indices]
-
     @property
     def X_train(self):
         return self._X_train()
-
-    def _X_test(self):
-        return self.U[self.test_indices]
 
     @property
     def X_test(self):
@@ -149,7 +149,6 @@ class BEMCM(object):
                                'mae', 'mae_std', 'rmse', 'rmse_std', 'r2', 'r2_std']
         df = pd.DataFrame(self._random_results, columns=results_header)
         return df
-
 
     def _fit(self):
         # np array the input U

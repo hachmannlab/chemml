@@ -17,6 +17,7 @@ from sklearn.model_selection import ShuffleSplit, KFold
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
 
+
 class BEMCM(object):
     """
     The implementation of BEMCM for active learning of regression models.
@@ -72,10 +73,6 @@ class BEMCM(object):
     test_indices: ndarray
         This is an array of all candidates' indices that are used as the test data.
 
-    seq_train_indices: list
-        This is a list of arrays of training data indices in the same order that are queried.
-
-
 
     Notes
     -----
@@ -96,10 +93,10 @@ class BEMCM(object):
     def _init_attributes(self):
         # available attributes
         self._queries = []
+        # all indices are numpy arrays
         self.train_indices = np.array([])
-        self.seq_train_indices = []     # will become a list of lists (same order that are queried)
         self.test_indices = np.array([])
-        self.U_indices = list(range(self.U.shape[0]))
+        self.U_indices = np.array(range(self.U.shape[0]))
         self.query_number = 0
         self._Y_train = None
         self._Y_test = None
@@ -255,9 +252,8 @@ class BEMCM(object):
 
         ss = ShuffleSplit(n_splits=1, test_size=self.test_size, train_size=self.train_size, random_state=random_state)
         for train_indices, test_indices in ss.split(range(len(self.U_indices))):
-            self.U_indices = [i for i in self.U_indices if i not in train_indices and i not in test_indices]
+            self.U_indices = np.array([i for i in self.U_indices if i not in train_indices and i not in test_indices])
             self._queries.append(['initial training set', train_indices])
-            self.seq_train_indices.append(train_indices)
             self._queries.append(['test set', test_indices])
             return train_indices, test_indices
 
@@ -421,8 +417,8 @@ class BEMCM(object):
             The size of the ensemble based on bootstrapping approach.
 
         random_state: int or RandomState, optional (default = 90)
-            The random state will be directly passed to the sklearn.model_selection.KFold
-            extra info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
+            The random state will be directly passed to the sklearn.model_selection.KFold or ShuffleSplit
+            Additional info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
         kwargs
             Any argument (except input data) that should be passed to the model's fit method.
@@ -484,7 +480,8 @@ class BEMCM(object):
             it_results['mae'].append(mae)
             it_results['rmse'].append(rmse)
             it_results['r2'].append(r2)
-
+            del model
+        
         # store evaluation results
         results_temp = [self.query_number, len(self.train_indices), len(self.test_indices)]
         for metric in ['mae', 'rmse', 'r2']:
@@ -501,12 +498,19 @@ class BEMCM(object):
 
         # avg of learning rates
         alpha = np.mean(learning_rate)
-        print (alpha)
+        self.lr = alpha
 
         # Bootstrap
-        it = -1
-        kf = KFold(n_splits=n_bootstrap, shuffle=True, random_state=random_state)
-        for train_index, _ in kf.split(X_tr):
+        # if bootstrap=='kfold' and n_bootstrap>1:
+        #     cv = KFold(n_splits=n_bootstrap, shuffle=True, random_state=random_state)
+        # elif bootstrap=='shuffle' or n_bootstrap == 1:
+        #     cv = ShuffleSplit(n_splits=n_bootstrap,random_state=random_state)
+        # else:
+        #     msg = "You must select between 'kfold' or 'shuffle' bootstrap splitting methods with the `n_bootstrap` greater than zero."
+        #     raise ValueError(msg)
+
+        for it in range(n_bootstrap):
+            train_index = np.random.choice(range(len(X_tr)), size=len(X_tr), replace=True)
             Xtr = X_tr[train_index]
             Ytr = Y_tr[train_index]
             # model
@@ -516,14 +520,13 @@ class BEMCM(object):
                                                                     Y_scaler,
                                                                     False,
                                                                     **kwargs)
-            it += 1
             deviation = np.abs(Y_U_pred - Z_U_pred)     # shape: (m,1)
             # collect the bootstrap deviation from actual predictions
             if it==0:
                 deviations = deviation
             else:
                 deviations = np.append(deviations, deviation, axis=1)
-            del Xtr, Z_U_pred
+            del Xtr, Z_U_pred, model
         del X_tr, Y_tr, Y_U_pred, Utr      # from now on we only need deviations and lin_layer
 
         # B_EMCM = EMCM - correlation_term
@@ -567,14 +570,13 @@ class BEMCM(object):
 
         # make sure correlation term is making any difference than simple sorting of the initial norms
         if set(initial_ranking) <= set(i_queries):
-            msg = "It seems that the correlation term is not effective. The initial ranking of the candidates are same as the final results. "
+            msg = "It seems that the correlation term is not effective. The initial ranking of the candidates are same as the final results."
             warnings.warn(msg)
 
         # find original indices and update queries
         _queries = np.array([self.U_indices[i] for i in i_queries])
         self._queries.append(['batch #%i'%self.query_number, _queries])
-        self.seq_train_indices.append(_queries)
-        self.U_indices = [i for i in self.U_indices if i not in _queries]
+        self.U_indices = np.array([i for i in self.U_indices if i not in _queries])
         return _queries
 
     def _correlation_term(self, ind, deviation, lin_layer):
@@ -656,7 +658,6 @@ class BEMCM(object):
         -----
             - This method replicate the active learning training size with random sampling approach. Thus, you can run
             this function only if the results is not empty, i.e., you have run the active learning search at least once.
-
 
         """
 

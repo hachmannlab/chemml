@@ -1,5 +1,5 @@
 """
-This module loads trained models to predict properties of organic molecules
+This module provide interactive implementation of active learning algorithms to query optimal number of data points.
 """
 
 from __future__ import print_function
@@ -100,6 +100,7 @@ class BEMCM(object):
         self.query_number = 0
         self._Y_train = None
         self._Y_test = None
+        self._Y_pred = None
         self._results = []
         self._random_results = []
         self.attributes = ['queries','train_indices','test_indices', 'seq_train_indices',
@@ -132,6 +133,10 @@ class BEMCM(object):
     @property
     def Y_test(self):
         return self._Y_test
+
+    @property
+    def Y_pred(self):
+        return self._Y_pred
 
     @property
     def results(self):
@@ -397,7 +402,7 @@ class BEMCM(object):
             else:
                 return None, None
 
-    def search(self, scale=True, n_evaluation=3, n_bootstrap=5, random_state=90, **kwargs):
+    def search(self, scale=True, n_evaluation=3, ensemble='bootstrap', n_ensemble=4, random_state=90, **kwargs):
         """
         The main function to start or continue an active learning search.
         The bootstrap approach is used to generate an ensemble of models that estimate the prediction
@@ -413,7 +418,14 @@ class BEMCM(object):
         n_evaluation: int, optional (default = 3)
             number of times to repeat training of the model and evaluation on test set.
 
-        n_bootstrap: int, optional (default = 5)
+        ensemble: str, optional (default = 'bootstrap')
+            The sampling method to create n ensembles and estimate the predictive distributions.
+                - 'bootstrap': standard bootstrap method (random choice with replacement)
+                - 'shuffle' : sklearn.model_selection.ShuffleSplit
+                - 'kfold' : sklearn.model_selection.KFold
+            The 'shuffle' and 'kfold' methods draw samples that are smaller than training set.
+
+        n_ensemble: int, optional (default = 5)
             The size of the ensemble based on bootstrapping approach.
 
         random_state: int or RandomState, optional (default = 90)
@@ -453,7 +465,7 @@ class BEMCM(object):
 
         # training and evaluation
         it_results = {'mae':[], 'rmse':[], 'r2':[]}
-        Utr = X_scaler.transform(self.U[self.U_indices])    # unlabeled X values
+        Utr = X_scaler.transform(self.U)    # all X values
         Y_U_pred_df = pd.DataFrame()  # empty dataframe to collect f(U) at each iteration
         learning_rate = []
         for it in range(n_evaluation):
@@ -463,14 +475,14 @@ class BEMCM(object):
                                                                            Y_te,
                                                                            **kwargs)
             # Todo: how can we support multioutput?
-            # predict Y of U, f(U)
+            # predict Y of remaining U, f(Utr)
             Y_U_pred_df[it] = Y_scaler.inverse_transform(model.predict(Utr)).reshape(-1,)
 
             # calculate the linear layer, phi(U)
             if it == 0:
-                lin_layer = self.get_target_layer(model, Utr)
+                lin_layer = self.get_target_layer(model, Utr[self.U_indices])
             else:
-                temp = self.get_target_layer(model, Utr)
+                temp = self.get_target_layer(model, Utr[self.U_indices])
                 lin_layer = lin_layer + temp
 
             # collect lr
@@ -481,7 +493,7 @@ class BEMCM(object):
             it_results['rmse'].append(rmse)
             it_results['r2'].append(r2)
             del model
-        
+
         # store evaluation results
         results_temp = [self.query_number, len(self.train_indices), len(self.test_indices)]
         for metric in ['mae', 'rmse', 'r2']:
@@ -489,8 +501,8 @@ class BEMCM(object):
             results_temp.append(np.std(np.array(it_results[metric]), axis = 0, ddof=0))
         self._results.append(results_temp)
 
-        # find Y predictions of the remaining candidates U
-        Y_U_pred = Y_U_pred_df.mean(axis=1).values.reshape(-1, 1)
+        # find Y predictions of all candidates U
+        self._Y_pred = Y_U_pred_df.mean(axis=1).values.reshape(-1, 1)
         del Y_U_pred_df
 
         # find linear layer input
@@ -500,43 +512,50 @@ class BEMCM(object):
         alpha = np.mean(learning_rate)
         self.lr = alpha
 
-        # Bootstrap
-        # if bootstrap=='kfold' and n_bootstrap>1:
-        #     cv = KFold(n_splits=n_bootstrap, shuffle=True, random_state=random_state)
-        # elif bootstrap=='shuffle' or n_bootstrap == 1:
-        #     cv = ShuffleSplit(n_splits=n_bootstrap,random_state=random_state)
-        # else:
-        #     msg = "You must select between 'kfold' or 'shuffle' bootstrap splitting methods with the `n_bootstrap` greater than zero."
-        #     raise ValueError(msg)
+        # Ensemble
+        if ensemble=='kfold' and n_ensemble>1:
+            cv = KFold(n_splits=n_ensemble, shuffle=True, random_state=random_state)
+            g = cv.split(X_tr)
+        elif ensemble=='shuffle' or n_ensemble == 1:
+            cv = ShuffleSplit(n_splits=n_ensemble, train_size = X_tr.shape[0]-1, test_size= None, random_state=random_state)
+            g = cv.split(X_tr)
+        elif ensemble == 'bootstrap':
+            g = None
+        else:
+            msg = "You must select between 'bootstrap', 'kfold' or 'shuffle' sampling methods with the `n_ensemble` greater than zero."
+            raise ValueError(msg)
 
-        for it in range(n_bootstrap):
-            train_index = np.random.choice(range(len(X_tr)), size=len(X_tr), replace=True)
+        for it in range(n_ensemble):
+            if g is None:
+                train_index = np.random.choice(range(len(X_tr)), size=len(X_tr), replace=True)
+            else:
+                train_index, _ = next(g)
             Xtr = X_tr[train_index]
             Ytr = Y_tr[train_index]
             # model
             model = self.model_creator()
             model, Z_U_pred, _, _, _ = self._train_predict_evaluate(model,
-                                                                    [Xtr,Ytr,Utr],
+                                                                    [Xtr,Ytr,Utr[self.U_indices]],
                                                                     Y_scaler,
                                                                     False,
                                                                     **kwargs)
-            deviation = np.abs(Y_U_pred - Z_U_pred)     # shape: (m,1)
+            deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
             # collect the bootstrap deviation from actual predictions
             if it==0:
                 deviations = deviation
             else:
                 deviations = np.append(deviations, deviation, axis=1)
             del Xtr, Z_U_pred, model
-        del X_tr, Y_tr, Y_U_pred, Utr      # from now on we only need deviations and lin_layer
+        del X_tr, Y_tr, Utr      # from now on we only need deviations and lin_layer
 
         # B_EMCM = EMCM - correlation_term
         # EMCM = mean(deviations * lin_layer
         # shapes: m = number of samples, d = length of latent features
         i_queries = []              # the indices of queries based on the length of Utr (not original U)
-        correlation_term = {it: np.zeros(lin_layer.shape) for it in range(n_bootstrap)}   # shape of each: (m,d)
+        correlation_term = {it: np.zeros(lin_layer.shape) for it in range(n_ensemble)}   # shape of each: (m,d)
         while len(i_queries) < self.batch_size:
-            norms = pd.DataFrame()  # store the norms of n_bootstrap models
-            for it in range(n_bootstrap):
+            norms = pd.DataFrame()  # store the norms of n_ensemble models
+            for it in range(n_ensemble):
                 # EMCM
                 EMCM = deviations[:,it].reshape(-1,1) * lin_layer
 
@@ -728,4 +747,39 @@ class BEMCM(object):
             self._random_results.append(results_temp)
 
         return True
+
+    def visualize(self, Y=None):
+        """
+        This function plot distribution of labels and principal components of the features for the last round of the
+        active learning search.
+        Note that this function uses the prediction values in the attribute `Y_pred`. This attribute will be updated after
+        each round of search. Thus, we recommend you run `visualize` right after each call of search method to get a trajectory
+        of the active learning process.
+
+        Parameters
+        ----------
+        Y: array-like, optional (default = None)
+            The 2-dimensional label for all the candidates in the pool (in case you have them!!!).
+            If you have all the labels, we will be able to produce additional cool visualizations.
+
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+            This object contains information about the plot
+
+        """
+        collect_plots = []
+        if Y is not None:
+            Y = np.array(Y)
+            if Y.shape[0] != self.U.shape[0]:
+                msg = "The length of the Y array must be equal to the number of candidates in the U."
+                print(msg)
+                raise ValueError(msg)
+            # extra plots
+
+
+        else:
+            pass
+
 

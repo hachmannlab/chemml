@@ -66,6 +66,17 @@ class BEMCM(object):
 
     Attributes
     ----------
+    queries: list
+        This list provides information regarding the indices of queried candidates.
+        for each element of the list:
+            - The index-0 is a short description.
+            - The index-1 is an array of indices.
+
+    query_number: int
+        The number of rounds you have run the active learning search method.
+
+    U_indices: ndarray
+        This is an array of the remaining unlabeled indices.
 
     train_indices: ndarray
         This is an array of all candidates' indices that are used as the training data.
@@ -73,10 +84,28 @@ class BEMCM(object):
     test_indices: ndarray
         This is an array of all candidates' indices that are used as the test data.
 
+    Y_pred: ndarray
+        The predicted Y values at the current stage. These values will be updated after each run of `search` method.
+
+    results: pandas.DataFrame
+        The final results of the active learning approach.
+
+    random_results: pandas.DataFrame
+        The final results of the random search.
+
+
+    Methods
+    -------
+    initialize
+    deposit
+    search
+    random_search
+    visualize
+    get_target_layer
 
     Notes
     -----
-    - You won't be able to resume the search unless you deposit the labeled data if it's been requested.
+    - You won't be able to resume the search unless you deposit the requested labeled data.
 
     """
 
@@ -257,7 +286,6 @@ class BEMCM(object):
 
         ss = ShuffleSplit(n_splits=1, test_size=self.test_size, train_size=self.train_size, random_state=random_state)
         for train_indices, test_indices in ss.split(range(len(self.U_indices))):
-            self.U_indices = np.array([i for i in self.U_indices if i not in train_indices and i not in test_indices])
             self._queries.append(['initial training set', train_indices])
             self._queries.append(['test set', test_indices])
             return train_indices, test_indices
@@ -342,17 +370,19 @@ class BEMCM(object):
                             self._Y_test = Y[ind_in_q]
                         else:
                             self._Y_test = np.append(self._Y_test, Y[ind_in_q], axis=0)
-                        # update test_indices
+                        # update test_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
                         self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # list of all indices
+                        self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     else:
                         if self._Y_train is None:
                             self._Y_train = Y[ind_in_q]
                         else:
                             self._Y_train = np.append(self._Y_train, Y[ind_in_q], axis=0)
-                        # update test_indices
+                        # update train_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
                         self.train_indices = np.append(self.train_indices, settled_inds).astype(int)
+                        self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     # update q_ind and thus _queries
                     query[1] = np.array([i for i in query[1] if i not in settled_inds])
             if not match_flag:
@@ -508,6 +538,10 @@ class BEMCM(object):
         # find linear layer input
         lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
 
+        # scale linear layer
+        scaler = StandardScaler()
+        lin_layer = scaler.fit_transform(lin_layer)
+
         # avg of learning rates
         alpha = np.mean(learning_rate)
         self.lr = alpha
@@ -540,6 +574,7 @@ class BEMCM(object):
                                                                     False,
                                                                     **kwargs)
             deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
+
             # collect the bootstrap deviation from actual predictions
             if it==0:
                 deviations = deviation
@@ -547,6 +582,10 @@ class BEMCM(object):
                 deviations = np.append(deviations, deviation, axis=1)
             del Xtr, Z_U_pred, model
         del X_tr, Y_tr, Utr      # from now on we only need deviations and lin_layer
+
+        # scale deviations
+        scaler = StandardScaler()
+        deviations = scaler.fit_transform(deviations)
 
         # B_EMCM = EMCM - correlation_term
         # EMCM = mean(deviations * lin_layer
@@ -595,7 +634,6 @@ class BEMCM(object):
         # find original indices and update queries
         _queries = np.array([self.U_indices[i] for i in i_queries])
         self._queries.append(['batch #%i'%self.query_number, _queries])
-        self.U_indices = np.array([i for i in self.U_indices if i not in _queries])
         return _queries
 
     def _correlation_term(self, ind, deviation, lin_layer):

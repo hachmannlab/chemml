@@ -16,6 +16,7 @@ from keras import backend as K
 from sklearn.model_selection import ShuffleSplit, KFold
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
 
 class BEMCM(object):
@@ -432,7 +433,7 @@ class BEMCM(object):
             else:
                 return None, None
 
-    def search(self, scale=True, n_evaluation=3, ensemble='bootstrap', n_ensemble=4, random_state=90, **kwargs):
+    def search(self, n_evaluation=3, ensemble='bootstrap', n_ensemble=4, normalize_input=True, normalize_internal=False,random_state=90, **kwargs):
         """
         The main function to start or continue an active learning search.
         The bootstrap approach is used to generate an ensemble of models that estimate the prediction
@@ -440,11 +441,6 @@ class BEMCM(object):
 
         Parameters
         ----------
-        scale: bool or list, optional (default = True)
-            if True, sklearn.preprocessing.StandardScaler will be used to scale X and Y before training.
-            You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
-            for the X and Y, respectively.
-
         n_evaluation: int, optional (default = 3)
             number of times to repeat training of the model and evaluation on test set.
 
@@ -457,6 +453,14 @@ class BEMCM(object):
 
         n_ensemble: int, optional (default = 5)
             The size of the ensemble based on bootstrapping approach.
+
+        normalize_input: bool or list, optional (default = True)
+            if True, sklearn.preprocessing.StandardScaler will be used to normalize X and Y before training.
+            You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
+            for the X and Y, respectively.
+
+        normalize_internal: bool, optional (default = False)
+            if True, the internal variables for estimation of gradients will be normalized.
 
         random_state: int or RandomState, optional (default = 90)
             The random state will be directly passed to the sklearn.model_selection.KFold or ShuffleSplit
@@ -485,7 +489,7 @@ class BEMCM(object):
         Y_te = copy.deepcopy(self._Y_test)
 
         # scale
-        X_scaler, Y_scaler = self._scaler(scale)
+        X_scaler, Y_scaler = self._scaler(normalize_input)
         if X_scaler is not None:
             # scale X arrays
             X_tr = X_scaler.fit_transform(X_tr)
@@ -539,8 +543,9 @@ class BEMCM(object):
         lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
 
         # scale linear layer
-        scaler = StandardScaler()
-        lin_layer = scaler.fit_transform(lin_layer)
+        if normalize_internal:
+            scaler = StandardScaler()
+            lin_layer = scaler.fit_transform(lin_layer)
 
         # avg of learning rates
         alpha = np.mean(learning_rate)
@@ -584,8 +589,9 @@ class BEMCM(object):
         del X_tr, Y_tr, Utr      # from now on we only need deviations and lin_layer
 
         # scale deviations
-        scaler = StandardScaler()
-        deviations = scaler.fit_transform(deviations)
+        if normalize_internal:
+            scaler = StandardScaler()
+            deviations = scaler.fit_transform(deviations)
 
         # B_EMCM = EMCM - correlation_term
         # EMCM = mean(deviations * lin_layer
@@ -807,16 +813,19 @@ class BEMCM(object):
             This object contains information about the plot
 
         """
-        collect_plots = []
-        if Y is not None:
-            Y = np.array(Y)
-            if Y.shape[0] != self.U.shape[0]:
-                msg = "The length of the Y array must be equal to the number of candidates in the U."
-                print(msg)
-                raise ValueError(msg)
-            # extra plots
+        if len(self._results)>0:
+            collect_plots = []
+            if Y is not None:
+                Y = np.array(Y)
+                if Y.shape[0] != self.U.shape[0]:
+                    msg = "The length of the Y array must be equal to the number of candidates in the U."
+                    print(msg)
+                    raise ValueError(msg)
+                # extra plots
 
 
+            else:
+                pass
         else:
             pass
 

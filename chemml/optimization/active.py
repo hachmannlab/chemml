@@ -491,11 +491,15 @@ class BEMCM(object):
         X_scaler, Y_scaler = self._scaler(normalize_input)
         if X_scaler is not None:
             # scale X arrays
-            _ = X_scaler.fit_transform(self.U)
+            Utr = X_scaler.fit_transform(self.U)
             X_tr = X_scaler.transform(X_tr)
             X_te = X_scaler.transform(X_te)
             # scale Y
             Y_tr = Y_scaler.fit_transform(Y_tr)
+        else:
+            Utr = self.U
+
+        # assert not (Utr == self.U).all()  # run just for test
 
         # make sure the data is not overwritten
         # assert not (X_tr == self.U[self.train_indices]).all()   # run just for test
@@ -503,10 +507,9 @@ class BEMCM(object):
 
         # training and evaluation
         it_results = {'mae':[], 'rmse':[], 'r2':[]}
-        Utr = X_scaler.transform(self.U)    # all X values
-        # assert not (Utr == self.U).all()  # run just for test
         Y_U_pred_df = pd.DataFrame()  # empty dataframe to collect f(U) at each iteration
         learning_rate = []
+        lin_layers = {}
         for it in range(n_evaluation):
             model = self.model_creator()
             model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model,
@@ -520,13 +523,14 @@ class BEMCM(object):
                 Y_U_pred_df[it] = Y_scaler.inverse_transform(model.predict(Utr)).reshape(-1,)
 
             # calculate the linear layer, phi(U)
-            if it == 0:
-                lin_layer = self.get_target_layer(model, Utr[self.U_indices])
-            else:
-                temp = self.get_target_layer(model, Utr[self.U_indices])
-                lin_layer = lin_layer + temp
+            lin_layers[it] = self.get_target_layer(model, Utr[self.U_indices])
+            # if it == 0:
+            #     lin_layer = self.get_target_layer(model, Utr[self.U_indices])
+            # else:
+            #     temp = self.get_target_layer(model, Utr[self.U_indices])
+            #     lin_layer = lin_layer + temp
 
-            assert lin_layer.shape[0] == self.U_indices.shape[0]
+            assert lin_layers[it].shape[0] == self.U_indices.shape[0]
 
             # collect lr
             learning_rate.append(K.eval(model.optimizer.lr))
@@ -551,7 +555,9 @@ class BEMCM(object):
         del Y_U_pred_df
 
         # find linear layer input
-        lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
+        best_ind = np.argmin(it_results['mae'])     # the order of lin_layer might be different from one model to another model
+        lin_layer = lin_layers[best_ind]
+        # lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
 
         # scale linear layer
         if normalize_internal:
@@ -785,7 +791,8 @@ class BEMCM(object):
                 X_scaler, Y_scaler = self._scaler(scale)
                 if X_scaler is not None:
                     # scale X arrays
-                    X_tr = X_scaler.fit_transform(X_tr)
+                    _ = X_scaler.transform(self.U)
+                    X_tr = X_scaler.transform(X_tr)
                     X_te = X_scaler.transform(X_te)
                     # scale Y
                     Y_tr = Y_scaler.fit_transform(Y_tr)

@@ -586,7 +586,8 @@ class BEMCM(object):
                                                                     Y_scaler,
                                                                     False,
                                                                     **kwargs)
-            deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
+            deviation = self._Y_pred[self.U_indices] - Z_U_pred     # shape: (m,1)
+            # deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
 
             # collect the bootstrap deviation from actual predictions
             if it==0:

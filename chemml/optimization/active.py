@@ -46,16 +46,16 @@ class BEMCM(object):
         If a function, it should be able to receive a model that will be created using the 'model_creator' and the X inputs,
         and returns the outputs of the linear layer.
 
-    train_size: float or int, optional (default = 0.1)
+    train_size: int, optional (default = 100)
         It represents the absolute number of train samples that must be selected as the initial training set.
         The search will begin with this many training samples and labels are required immediately.
         Please choose a number based on:
             - your budget.
             - the minumum number that you think is enough to train your model.
 
-    test_size: float or int, optional (default = 0.1)
-        It represents the absolute number or proportion of test samples that will be held out for the evaluation of the model on
-        all the stages of your active learning search.
+    test_size: int, optional (default = 100)
+        It represents the absolute number of test samples that will be held out for the evaluation of the model in all
+        rounds of your active learning search.
         Note the test set will be acquired before search begins and won't be updated later during search.
         Please choose a number based on:
             - your budget.
@@ -110,7 +110,7 @@ class BEMCM(object):
 
     """
 
-    def __init__(self, model_creator, U, target_layer, train_size=0.1, test_size=0.1, batch_size=10):
+    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=10):
         self.model_creator = model_creator
         self.U = U
         self.target_layer = target_layer
@@ -126,22 +126,24 @@ class BEMCM(object):
         # all indices are numpy arrays
         self.train_indices = np.array([])
         self.test_indices = np.array([])
-        self.U_indices = np.array(range(self.U.shape[0]))
+        self.U_indices = np.array(range(self.U_size))
         self.query_number = 0
         self._Y_train = None
         self._Y_test = None
         self._Y_pred = None
         self._results = []
         self._random_results = []
-        self.attributes = ['queries','train_indices','test_indices', 'seq_train_indices',
+        self.attributes = ['queries','train_indices','test_indices',
                            'query_number',
-                           'X_train','X_test','Y_train','Y_test',
-                           'results']
+                           'X_train','X_test','Y_train','Y_test', 'Y_pred',
+                           'results', 'random_results']
 
     def _X_train(self):
+        """ We don't want to keep a potentially big matrix in the memory."""
         return self.U[self.train_indices]
 
     def _X_test(self):
+        """ We don't want to keep a potentially big matrix in the memory."""
         return self.U[self.test_indices]
 
     @property
@@ -195,7 +197,7 @@ class BEMCM(object):
         # check int types
         if not isinstance(self.U_size, int) or not isinstance(self.train_size, int) or \
             not isinstance(self.test_size, int) or not isinstance(self.batch_size, int):
-            msg = "The parameters 'U', 'train_size', 'test_size', and 'batch_size' must be int."
+            msg = "The parameters 'train_size', 'test_size', and 'batch_size' must be int."
             raise TypeError(msg)
 
         # check the number of train and test sets
@@ -268,22 +270,22 @@ class BEMCM(object):
             The test set indices (Python 0-index) from the pool of candidates (U).
 
         """
-        if len(self._queries) != 0 or len(self.train_indices) != 0:
+        if len(self._queries) != 0:
             train_indices = []
             test_indices = []
             for q_ind in self._queries:
-                if q_ind[0] == 'initial training set':
-                    train_indices = q_ind[1]
-                elif q_ind[0] == 'test set':
+                if q_ind[0] == 'test set':
                     test_indices = q_ind[1]
+                else:
+                    train_indices = q_ind[1]
             if len(train_indices)>0 or len(test_indices)>0 :
                 msg = "The class has been already initialized! You still have to deposit %i more training data and " \
                       "%i more test data. The same indices are returned respectively." % (len(train_indices), len(test_indices))
                 warnings.warn(msg)
                 return train_indices, test_indices
-            else:
-                msg = "The class has been already initialized and it can not be initialized again!"
-                warnings.warn(msg)
+        elif len(self.train_indices) != 0:
+            msg = "The class has been already initialized and it can not be initialized again!"
+            raise ValueError(msg)
 
         ss = ShuffleSplit(n_splits=1, test_size=self.test_size, train_size=self.train_size, random_state=random_state)
         for train_indices, test_indices in ss.split(range(len(self.U_indices))):
@@ -322,7 +324,7 @@ class BEMCM(object):
         Parameters
         ----------
         indices: ndarray or list or tuple
-            A 1D array of indices that was queried by initialize or search methods.
+            A 1-dimensional array of indices that was queried by initialize or search methods.
             You can deposit the data partially and it doesn't have to be the entire array that is queried.
 
         Y: array-like
@@ -339,16 +341,15 @@ class BEMCM(object):
         """
         indices = np.array(indices)
         Y = np.array(Y)
-        # check the length of all is same
-        if indices.shape[0] != Y.shape[0]:
-            msg = "The first dimension of the input arrays should be equal to the number of indices."
+        # check if Y is 2 dimensional
+        if Y.ndim != 2:
+            msg = "The labels Y must be 2 dimensional."
             raise ValueError(msg)
 
-        # check the length is not zero
-        if indices.shape[0] == 0 :
-            msg = "Received nothing to deposit!"
-            print(msg)
-            return False
+        # check the length of all is same
+        if indices.shape[0] != Y.shape[0]:
+            msg = "The first dimension of the input Y should be equal to the number of indices."
+            raise ValueError(msg)
 
         # check the dimension of ind be one
         if indices.ndim != 1 :
@@ -388,15 +389,14 @@ class BEMCM(object):
                     query[1] = np.array([i for i in query[1] if i not in settled_inds])
             if not match_flag:
                 msg = "Can't match the indices with queries."
-                print(msg)
-                return False
+                raise ValueError(msg)
             else:
                 # update queries
                 self._update_queries()
                 return True
         else:
             msg = "The `queries` is empty. Can't deposit data if it's not been queried."
-            print(msg)
+            warnings.warn(msg)
             return False
 
     def _update_queries(self):
@@ -479,8 +479,7 @@ class BEMCM(object):
         # check if queries are provided
         if len(self._queries) > 0 :
             msg = "The requested data must be provided first. Check the 'queries' attribute for the info regarding the indices of the queried candidates."
-            print(msg)
-            return False
+            raise ValueError(msg)
 
         # get input data
         X_tr = self._X_train()
@@ -497,9 +496,14 @@ class BEMCM(object):
             # scale Y
             Y_tr = Y_scaler.fit_transform(Y_tr)
 
+        # make sure the data is not overwritten
+        # assert not (X_tr == self.U[self.train_indices]).all()   # run just for test
+        assert not (Y_tr == self._Y_train).all()
+
         # training and evaluation
         it_results = {'mae':[], 'rmse':[], 'r2':[]}
         Utr = X_scaler.transform(self.U)    # all X values
+        # assert not (Utr == self.U).all()  # run just for test
         Y_U_pred_df = pd.DataFrame()  # empty dataframe to collect f(U) at each iteration
         learning_rate = []
         for it in range(n_evaluation):
@@ -519,6 +523,8 @@ class BEMCM(object):
                 temp = self.get_target_layer(model, Utr[self.U_indices])
                 lin_layer = lin_layer + temp
 
+            assert lin_layer.shape[0] == self.U_indices.shape[0]
+
             # collect lr
             learning_rate.append(K.eval(model.optimizer.lr))
 
@@ -536,7 +542,9 @@ class BEMCM(object):
         self._results.append(results_temp)
 
         # find Y predictions of all candidates U
+        assert Y_U_pred_df.shape == (self.U_size, n_evaluation)
         self._Y_pred = Y_U_pred_df.mean(axis=1).values.reshape(-1, 1)
+        assert self._Y_pred.shape == (self.U_size, 1)
         del Y_U_pred_df
 
         # find linear layer input
@@ -548,17 +556,17 @@ class BEMCM(object):
             lin_layer = scaler.fit_transform(lin_layer)
 
         # avg of learning rates
-        alpha = np.mean(learning_rate)
+        alpha = float(np.mean(learning_rate))
         self.lr = alpha
 
         # Ensemble
         if ensemble=='kfold' and n_ensemble>1:
             cv = KFold(n_splits=n_ensemble, shuffle=True, random_state=random_state)
             g = cv.split(X_tr)
-        elif ensemble=='shuffle' or n_ensemble == 1:
+        elif ensemble=='shuffle':
             cv = ShuffleSplit(n_splits=n_ensemble, train_size = X_tr.shape[0]-1, test_size= None, random_state=random_state)
             g = cv.split(X_tr)
-        elif ensemble == 'bootstrap':
+        elif ensemble == 'bootstrap' or n_ensemble == 1:
             g = None
         else:
             msg = "You must select between 'bootstrap', 'kfold' or 'shuffle' sampling methods with the `n_ensemble` greater than zero."
@@ -585,8 +593,11 @@ class BEMCM(object):
                 deviations = deviation
             else:
                 deviations = np.append(deviations, deviation, axis=1)
+
             del Xtr, Z_U_pred, model
         del X_tr, Y_tr, Utr      # from now on we only need deviations and lin_layer
+
+        assert deviations.shape == (self.U_indices.shape[0], n_ensemble)
 
         # scale deviations
         if normalize_internal:
@@ -596,7 +607,7 @@ class BEMCM(object):
         # B_EMCM = EMCM - correlation_term
         # EMCM = mean(deviations * lin_layer
         # shapes: m = number of samples, d = length of latent features
-        i_queries = []              # the indices of queries based on the length of Utr (not original U)
+        i_queries = []              # the indices of queries based on the length of U_indices (not original U)
         correlation_term = {it: np.zeros(lin_layer.shape) for it in range(n_ensemble)}   # shape of each: (m,d)
         while len(i_queries) < self.batch_size:
             norms = pd.DataFrame()  # store the norms of n_ensemble models
@@ -606,7 +617,7 @@ class BEMCM(object):
 
                 # correlation term acts after first selection
                 if len(i_queries) > 0:
-                    correlation_term[it] += self._correlation_term(i_queries[-1], deviations[:,it], lin_layer)
+                    correlation_term[it] += self._correlation_term(i_queries[-1], deviations[:,it], lin_layer, normalize_internal)
 
                 # calculate batch EMCM
                 B_EMCM = EMCM - alpha * correlation_term[it]    # shape: (m,d)
@@ -616,9 +627,10 @@ class BEMCM(object):
                 norms[it] = norm.reshape(-1,)
 
             # average and argmax of norms
-            norms = norms.drop(i_queries, axis=0)   # remove previously selected points
+            assert norms.shape == (self.U_indices.shape[0], n_ensemble)
             norms['mean'] = norms.mean(axis=1)
             norms['ind'] = norms.index
+            norms = norms.drop(i_queries, axis=0)   # remove rows of previously selected points
             norms.sort_values('mean', ascending=False, inplace=True)
 
             # memorize the initial ranking of the norms
@@ -642,15 +654,18 @@ class BEMCM(object):
         self._queries.append(['batch #%i'%self.query_number, _queries])
         return _queries
 
-    def _correlation_term(self, ind, deviation, lin_layer):
+    def _correlation_term(self, ind, dev, lin_layer, normalize_internal):
         """
         The internal function to find the correlation term
         """
-        deviations_asterisk = deviation[ind] * lin_layer[ind]    # shape: (d,)
+        deviations_asterisk = dev[ind] * lin_layer[ind]    # shape: (d,)
         deviations_asterisk_transpose = deviations_asterisk.reshape(-1,1).T  # shape (1,d)
         lin_layer_transpose = lin_layer.T       # shape: (d,m)
         dot = np.dot(deviations_asterisk_transpose, lin_layer_transpose)  # shape: (1,m)
         correlation_term_of_ind = dot.T * lin_layer       # shape (m,d) same shape as lin_layer
+        if normalize_internal:
+            scaler = StandardScaler()
+            correlation_term_of_ind = scaler.fit_transform(correlation_term_of_ind)
         return correlation_term_of_ind
 
     def _train_predict_evaluate(self, model=None, data_list=None, Y_scaler=None, metrics=None, **kwargs):
@@ -732,13 +747,13 @@ class BEMCM(object):
         #     self._random_results.append(self._results[0])
 
         Y = np.array(Y)
-        if Y.shape[0] != self.U.shape[0]:
+        if Y.shape[0] != self.U_size:
             msg = "The length of the Y array must be equal to the number of candidates in the U."
             print(msg)
             raise ValueError(msg)
 
         # find all indices except test indices
-        except_test_inds = [i for i in range(len(self.U)) if i not in self.test_indices]
+        except_test_inds = [i for i in range(self.U_size) if i not in self.test_indices]
 
         # remaining training set size to run ML
         remaining_ind = [i for i in range(len(self._results)) if i not in range(len(self._random_results))]
@@ -781,7 +796,7 @@ class BEMCM(object):
                 it_results['r2'].append(r2)
 
                 # delete from memory
-                del X_tr, X_te, model
+                del X_tr, X_te, Y_tr, model
 
             # store evaluation results
             results_temp = [self._results[ind][0], tr_size, len(self.test_indices)]
@@ -809,24 +824,233 @@ class BEMCM(object):
 
         Returns
         -------
-        matplotlib.figure.Figure
-            This object contains information about the plot
+        list
+            A list of matplotlib.figure.Figure or tuples. This object contains information about the plot
 
         """
-        if len(self._results)>0:
-            collect_plots = []
-            if Y is not None:
-                Y = np.array(Y)
-                if Y.shape[0] != self.U.shape[0]:
-                    msg = "The length of the Y array must be equal to the number of candidates in the U."
-                    print(msg)
-                    raise ValueError(msg)
-                # extra plots
+        if self.query_number == 0 and len(self._queries) > 0:
+            msg = "Data is not available for visualization yet. You must deposit data first."
+            raise ValueError(msg)
 
+        collect_plots = {}
 
-            else:
-                pass
+        # feature transformation
+        pca = PCA(n_components=2)
+        u = pca.fit_transform(self.U)   # use this (original) transformed feature space for all the X data
+        u_rem = u[self.U_indices]
+        # test is fixed
+        xte = u[self.test_indices]
+        # all trainings at the current state
+        xtr = u[self.train_indices]
+        if self.query_number == 0 or (self.query_number == 1 and len(self._queries) > 0):
+            xtr_last_batch = u[self.U_indices]
+            ytr_last_batch = copy.deepcopy(self._Y_train)
         else:
-            pass
+            xtr_last_batch = u[-self.batch_size:]
+            ytr_last_batch = self._Y_train[-self.batch_size:]
+
+        # plot1 : x/pc distribution
+        collect_plots["dist_pc"] = self._visualize_dist_pc(u,u_rem, xte, xtr, xtr_last_batch)
+
+        # plot2 : y distribution
+        collect_plots["dist_y"] = self._visualize_dist_y(ytr_last_batch, Y)
+
+        # plot3 : results' learning curves
+        if len(self._results)>0:
+            collect_plots["learning_curve"] = self._visualize_learning_curve()
+
+        return collect_plots
+
+    def _visualize_dist_pc(self, u, u_rem, xte, xtr, xtr_last_batch):
+        """plot #1 : The distribution of PC1 values
+        """
+
+        import matplotlib
+        matplotlib.use('Agg')
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        # full
+        fig1 = plt.figure()
+        ax = sns.distplot(u[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["denim blue"],
+                          kde_kws={"shade": True, 'bw': 0.15}, label='Original U')  # label='Original U',
+        sns.distplot(u_rem[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["tangerine"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Current U')  # label='Current U',
+        sns.distplot(xtr[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Entire Train',
+        sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Entire Test',
+        sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
+        # labels
+        ax.set_ylabel(r'$\pi(PC1)$')
+        ax.set_xlabel(r'$Features-PC1$')
+
+        # font size
+        for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                     ax.get_xticklabels() + ax.get_yticklabels()):
+            item.set_fontsize(14)
+        
+        
+        # all except last batch
+        fig2 = plt.figure()
+        ax2 = sns.distplot(u[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["denim blue"],
+                          kde_kws={"shade": True, 'bw': 0.15}, label='Original U')  # label='Original U',
+        sns.distplot(u_rem[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["tangerine"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Current U')  # label='Current U',
+        sns.distplot(xtr[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Entire Train')  # label='Entire Train',
+        sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Test')  # label='Entire Test',
+
+        # labels
+        ax2.set_ylabel(r'$\pi(PC1)$')
+        ax2.set_xlabel(r'$Features-PC1$')
+
+        # font size
+        for item in ([ax2.title, ax2.xaxis.label, ax2.yaxis.label] +
+                     ax2.get_xticklabels() + ax2.get_yticklabels()):
+            item.set_fontsize(14)
+
+
+        # all except Us
+        fig3 = plt.figure()
+        ax3 = sns.distplot(xtr[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Entire Train',
+        sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Entire Test',
+        sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
+
+        # labels
+        ax3.set_ylabel(r'$\pi(PC1)$')
+        ax3.set_xlabel(r'$Features-PC1$')
+
+        # font size
+        for item in ([ax3.title, ax3.xaxis.label, ax3.yaxis.label] +
+                     ax3.get_xticklabels() + ax3.get_yticklabels()):
+            item.set_fontsize(14)
+
+        return (fig1, fig2, fig3)
+
+    def _visualize_dist_y(self, ytr_last_batch, Y=None):
+        """plot #2 : The distribution of y values
+        """
+
+        import matplotlib
+        matplotlib.use('Agg')
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        # full
+        fig1 = plt.figure()
+        ax = sns.distplot(self._Y_pred.reshape(-1, ), hist=False, color=sns.xkcd_rgb["tangerine"],
+                           kde_kws={"shade": True, 'bw': 0.15}, label='Predicted U')  # label='Predicted U',
+        if Y is not None:
+            sns.distplot(Y.reshape(-1, ), hist=False, color=sns.xkcd_rgb["denim blue"],
+                         kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Labeled U')  # label='Labeled U',
+        sns.distplot(self._Y_train.reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Train',
+        sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Test',
+        sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
+        # labels
+        ax.set_ylabel(r'$\pi(Labels)$')
+        ax.set_xlabel(r'$Labels$')
+
+        # font size
+        for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                     ax.get_xticklabels() + ax.get_yticklabels()):
+            item.set_fontsize(14)
+
+        # full except last batch
+        fig2 = plt.figure()
+        ax2 = sns.distplot(self._Y_pred.reshape(-1, ), hist=False, color=sns.xkcd_rgb["tangerine"],
+                           kde_kws={"shade": True, 'bw': 0.15}, label='Predicted U')  # label='Predicted U',
+        if Y is not None:
+            sns.distplot(Y.reshape(-1, ), hist=False, color=sns.xkcd_rgb["denim blue"],
+                         kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Labeled U')  # label='Labeled U',
+        sns.distplot(self._Y_train.reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Entire Train')  # label='Train',
+        sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax2, label='Test')  # label='Test',
+
+        # labels
+        ax2.set_ylabel(r'$\pi(Labels)$')
+        ax2.set_xlabel(r'$Labels$')
+
+        # font size
+        for item in ([ax2.title, ax2.xaxis.label, ax2.yaxis.label] +
+                     ax2.get_xticklabels() + ax2.get_yticklabels()):
+            item.set_fontsize(14)
+
+        # full except Us
+        fig3 = plt.figure()
+        ax3 = sns.distplot(self._Y_train.reshape(-1, ), hist=False, color=sns.xkcd_rgb["medium green"],
+                     kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Train',
+        sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Test',
+        sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+                     kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
+        # labels
+        ax3.set_ylabel(r'$\pi(Labels)$')
+        ax3.set_xlabel(r'$Labels$')
+
+        # font size
+        for item in ([ax3.title, ax3.xaxis.label, ax3.yaxis.label] +
+                     ax3.get_xticklabels() + ax3.get_yticklabels()):
+            item.set_fontsize(14)
+
+        return (fig1, fig2, fig3)
+
+    def _visualize_learning_curve(self):
+        """plot #3 : The learning curve of results
+        """
+
+        import matplotlib
+        matplotlib.use('Agg')
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        # data preparation
+        algorithm = ['EMC'] * 3 * len(self._results)
+        mae = list(self.results['mae'])
+        mae += list(self.results['mae'] + self.results['mae_std'])
+        mae += list(self.results['mae'] - self.results['mae_std'])
+        size = list(self.results['num_training']) * 3
+        if len(self._random_results) > 0 :
+            pad_size = len(self._results) - len(self._random_results)
+            algorithm += ['Random'] * 3 * len(self._results)
+            mae += list(self.random_results['mae'])
+            mae += list(self.random_results['mae'] + self.random_results['mae_std']) + [0] * pad_size
+            mae += list(self.random_results['mae'] - self.random_results['mae_std']) + [0] * pad_size
+            size += list(self.results['num_training']) * 3
+        # dataframe
+        dp = pd.DataFrame()
+        dp['Algorithm'] = algorithm
+        dp['Mean Absolute Error'] = mae
+        dp['Training Size'] = size
+
+        # figures
+        sns.set_style('whitegrid')
+        fig = plt.figure()
+        ax = sns.lineplot(x='Training Size',
+                          y='Mean Absolute Error',
+                          style='Algorithm',
+                          hue='Algorithm',
+                          markers={'EMC': 'o', 'Random': 's'},
+                          palette={'EMC': sns.xkcd_rgb["denim blue"],
+                                   'Random': sns.xkcd_rgb["pale red"]},
+                          data=dp,
+                          )
+
+        # font size
+        for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                     ax.get_xticklabels() + ax.get_yticklabels()):
+            item.set_fontsize(14)
+
+        return fig
+
 
 

@@ -491,7 +491,8 @@ class BEMCM(object):
         X_scaler, Y_scaler = self._scaler(normalize_input)
         if X_scaler is not None:
             # scale X arrays
-            X_tr = X_scaler.fit_transform(X_tr)
+            _ = X_scaler.fit_transform(self.U)
+            X_tr = X_scaler.transform(X_tr)
             X_te = X_scaler.transform(X_te)
             # scale Y
             Y_tr = Y_scaler.fit_transform(Y_tr)
@@ -508,13 +509,15 @@ class BEMCM(object):
         learning_rate = []
         for it in range(n_evaluation):
             model = self.model_creator()
-            model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model, [X_tr,Y_tr,X_te],
+            model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model,
+                                                                           [X_tr, Y_tr, X_te],
                                                                            Y_scaler,
                                                                            Y_te,
                                                                            **kwargs)
             # Todo: how can we support multioutput?
             # predict Y of remaining U, f(Utr)
-            Y_U_pred_df[it] = Y_scaler.inverse_transform(model.predict(Utr)).reshape(-1,)
+            if Y_scaler is not None:
+                Y_U_pred_df[it] = Y_scaler.inverse_transform(model.predict(Utr)).reshape(-1,)
 
             # calculate the linear layer, phi(U)
             if it == 0:
@@ -692,7 +695,8 @@ class BEMCM(object):
         """
         model.fit(data_list[0], data_list[1], **kwargs)
         preds = model.predict(data_list[2])
-        preds = Y_scaler.inverse_transform(preds)
+        if Y_scaler is not None:
+            preds = Y_scaler.inverse_transform(preds)
 
         mae=None; rmse=None; r2=None
         if isinstance(metrics, np.ndarray):
@@ -844,10 +848,10 @@ class BEMCM(object):
         # all trainings at the current state
         xtr = u[self.train_indices]
         if self.query_number == 0 or (self.query_number == 1 and len(self._queries) > 0):
-            xtr_last_batch = u[self.U_indices]
-            ytr_last_batch = copy.deepcopy(self._Y_train)
+            xtr_last_batch = u[self.train_indices][:self.train_size]
+            ytr_last_batch = self._Y_train[:self.train_size]
         else:
-            xtr_last_batch = u[-self.batch_size:]
+            xtr_last_batch = u[self.train_indices][-self.batch_size:]
             ytr_last_batch = self._Y_train[-self.batch_size:]
 
         # plot1 : x/pc distribution

@@ -791,7 +791,7 @@ class BEMCM(object):
                 X_scaler, Y_scaler = self._scaler(scale)
                 if X_scaler is not None:
                     # scale X arrays
-                    _ = X_scaler.transform(self.U)
+                    _ = X_scaler.fit_transform(self.U)
                     X_tr = X_scaler.transform(X_tr)
                     X_te = X_scaler.transform(X_te)
                     # scale Y

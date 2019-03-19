@@ -776,7 +776,7 @@ class BEMCM(object):
             it_results = {'mae': [], 'rmse': [], 'r2': []}
 
             # shuffle split, n_evaluation times
-            ss = ShuffleSplit(n_splits=n_evaluation, test_size=None, train_size=tr_size,
+            ss = ShuffleSplit(n_splits=1, test_size=None, train_size=tr_size,
                               random_state=random_state)
             for train_indices, _ in ss.split(except_test_inds):
                 # training indices based on the original U
@@ -797,19 +797,20 @@ class BEMCM(object):
                     # scale Y
                     Y_tr = Y_scaler.fit_transform(Y_tr)
 
-                model = self.model_creator()
-                model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model, [X_tr, Y_tr, X_te],
-                                                                               Y_scaler,
-                                                                               Y_te,
-                                                                               **kwargs)
-                # metrics
-                it_results['mae'].append(mae)
-                it_results['rmse'].append(rmse)
-                it_results['r2'].append(r2)
+                for it in range(n_evaluation):
+                    model = self.model_creator()
+                    model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model, [X_tr, Y_tr, X_te],
+                                                                                   Y_scaler,
+                                                                                   Y_te,
+                                                                                   **kwargs)
+                    # metrics
+                    it_results['mae'].append(mae)
+                    it_results['rmse'].append(rmse)
+                    it_results['r2'].append(r2)
 
-                # delete from memory
-                del X_tr, X_te, Y_tr, model
-
+                    # delete from memory
+                    del model
+                del X_tr, X_te, Y_tr
             # store evaluation results
             results_temp = [self._results[ind][0], tr_size, len(self.test_indices)]
             for metric in ['mae', 'rmse', 'r2']:

@@ -868,6 +868,7 @@ class BEMCM(object):
         # plot2 : y distribution
         collect_plots["dist_y"] = self._visualize_dist_y(ytr_last_batch, Y)
 
+
         # plot3 : results' learning curves
         if len(self._results)>0:
             collect_plots["learning_curve"] = self._visualize_learning_curve()
@@ -893,7 +894,8 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Entire Train',
         sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Entire Test',
-        sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+        if self.batch_size != 1:
+            sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
         # labels
         ax.set_ylabel(r'$\pi(PC1)$')
@@ -932,7 +934,8 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Entire Train',
         sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Entire Test',
-        sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+        if self.batch_size != 1:
+            sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
 
         # labels
@@ -966,7 +969,8 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Train',
         sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Test',
-        sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+        if self.batch_size != 1:
+            sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
         # labels
         ax.set_ylabel(r'$\pi(Labels)$')
@@ -1004,7 +1008,8 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Train',
         sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Test',
-        sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
+        if self.batch_size != 1:
+            sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
         # labels
         ax3.set_ylabel(r'$\pi(Labels)$')

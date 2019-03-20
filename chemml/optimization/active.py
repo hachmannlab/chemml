@@ -551,6 +551,11 @@ class BEMCM(object):
         # find Y predictions of all candidates U
         assert Y_U_pred_df.shape == (self.U_size, n_evaluation)
         self._Y_pred = Y_U_pred_df.mean(axis=1).values.reshape(-1, 1)
+        # transform back to scaled
+        if Y_scaler is not None:
+            fU_preds_scaled = Y_scaler.transform(self._Y_pred)
+        else:
+            fU_preds_scaled = self._Y_pred
         assert self._Y_pred.shape == (self.U_size, 1)
         del Y_U_pred_df
 
@@ -592,10 +597,10 @@ class BEMCM(object):
             model = self.model_creator()
             model, Z_U_pred, _, _, _ = self._train_predict_evaluate(model,
                                                                     [Xtr,Ytr,Utr[self.U_indices]],
-                                                                    Y_scaler,
+                                                                    None,   # don't inverse_transform preds
                                                                     False,
                                                                     **kwargs)
-            deviation = self._Y_pred[self.U_indices] - Z_U_pred     # shape: (m,1)
+            deviation = fU_preds_scaled[self.U_indices] - Z_U_pred     # shape: (m,1)
             # deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
 
             # collect the bootstrap deviation from actual predictions

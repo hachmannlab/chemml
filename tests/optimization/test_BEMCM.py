@@ -52,9 +52,52 @@ def model_creator_two_inputs(activation='relu', lr = 0.001):
 
 def test_model_single_input():
     _, density, features = load_organic_density()
-    # start with numpy array
+
+    # convert to numpy array
     features = features.values
     density = density.values.reshape(-1,1)
+
+    # init exceptions
+    with pytest.raises(TypeError):
+        al = BEMCM(
+            model_creator=2,
+            U=features,
+            target_layer='l3')
+    with pytest.raises(TypeError):
+        al = BEMCM(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=0.1)
+    with pytest.raises(ValueError):
+        al = BEMCM(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=1000)
+    with pytest.raises(TypeError):
+        al = BEMCM(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=1000,
+            batch_size=[0,0,0])
+    with pytest.raises(ValueError):
+        al = BEMCM(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=1000,
+            batch_size=[0,0,1])
+    with pytest.raises(ValueError):
+        al = BEMCM(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=1000,
+            batch_size=[1,0,1],
+            history=1)
+
     # instantiate the class
     al = BEMCM(
         model_creator=model_creator_one_input,
@@ -62,7 +105,8 @@ def test_model_single_input():
         target_layer='l3',
         train_size=50,
         test_size=40,
-        batch_size=10)
+        batch_size=[2,1,2])
+
     # initialize
     qtr, qte = al.initialize(random_state=7)
     assert len(qtr) == 50
@@ -73,62 +117,142 @@ def test_model_single_input():
     yte = density[qte]
     assert len(al.train_indices) == 0
     assert isinstance(al.U_indices, np.ndarray)
-    assert len(al.U_indices) == features.shape[0]- 50 - 40
+    assert len(al.U_indices) == features.shape[0]
+
+    # reinitialize warnings
+    warnings.simplefilter("always")
+    with warnings.catch_warnings(record=True) as w:
+        al.initialize()
+
+    # deposit exception
+    with pytest.raises(ValueError):
+        al.deposit(qtr, density[qtr].reshape(-1,))
+    with pytest.raises(ValueError):
+        al.deposit(qtr[:-1], density[qtr])
+    with pytest.raises(ValueError):
+        al.deposit(np.array([[1]]), np.array([[1]]))
+    with pytest.raises(ValueError):
+        al.deposit(np.array([1,1]), np.array([[1],[2]]))
+    with pytest.raises(ValueError):
+        al.deposit(np.array([501,502]), np.array([[1],[2]]))
+
+    # search w/ no deposit: exception
+    with pytest.raises(ValueError):
+        al.search()
+
     # full deposit
-    al.deposit(qtr, density[qtr])
-    al.deposit(qte, density[qte])
+    assert al.deposit(qtr, density[qtr])
+    assert al.deposit(qte, density[qte])
+    assert len(al.queries) == 0
+
+    # re deposit
+    warnings.simplefilter("always")
+    with warnings.catch_warnings(record=True) as w:
+        al.deposit(qte, density[qte])
+
     assert isinstance(al.train_indices, np.ndarray)
     assert len(al.train_indices) == 50
+    assert (al.train_indices == qtr).all()
     assert isinstance(al.test_indices, np.ndarray)
     assert len(al.test_indices) == 40
+
+    # reinitialize exception
+    with pytest.raises(ValueError):
+        al.initialize()
+
     # check X and y
-    assert xtr.shape == al.X_train.shape
-    assert xtr[0][0] == al.X_train[0][0]
-    assert xtr[-1][-1] == al.X_train[-1][-1]
-    assert ytr[0][0] == al.Y_train[0][0]
-    assert ytr[-1][0] == al.Y_train[-1][0]
-    assert xte.shape == al.X_test.shape
-    assert xte[0][0] == al.X_test[0][0]
-    assert xte[-1][-1] == al.X_test[-1][-1]
-    assert yte[0][0] == al.Y_test[0][0]
-    assert yte[-1][-0] == al.Y_test[-1][0]
+    assert (xtr == al.X_train).all()
+    assert (ytr == al.Y_train).all()
+    assert (xte== al.X_test).all()
+    assert (yte== al.Y_test).all()
+
     # check orders
     inds = [i for i in range(density.shape[0]) if i not in al.train_indices and i not in al.test_indices]
     assert (density[inds].reshape(-1,) == density[al.U_indices].reshape(-1,)).all()
     assert density[al.U_indices].shape == density[inds].shape
+    assert (al.Y_train == density[al.train_indices]).all()
+    assert (al.Y_test == density[al.test_indices]).all()
+
     # search
-    qtr = al.search(n_evaluation=1, n_bootstrap=1, verbose=0)
-    assert len(qtr) == al.batch_size
+    qtr = al.search(n_evaluation=1, ensemble='kfold', n_ensemble=1, verbose=0)
+
     assert (al.queries[0][1]== qtr).all()
+    assert len(al.qbc_queries) == 1
+    assert np.array([i not in al.train_indices for i in qtr]).all()
+    assert np.array([i not in al.test_indices for i in qtr]).all()
     assert al.U_indices.shape[0] == features.shape[0]- al.train_indices.shape[0] \
-        - al.test_indices.shape[0] - al.batch_size
+        - al.test_indices.shape[0]
+
+    # check X and y
+    assert (xtr == al.X_train).all()
+    assert (ytr == al.Y_train).all()
+    assert (xte== al.X_test).all()
+    assert (yte== al.Y_test).all()
+
+    # check orders
+    inds = [i for i in range(density.shape[0]) if i not in al.train_indices and i not in al.test_indices]
+    assert (density[inds].reshape(-1,) == density[al.U_indices].reshape(-1,)).all()
+    assert density[al.U_indices].shape == density[inds].shape
+    assert (al.Y_train == density[al.train_indices]).all()
+    assert (al.Y_test == density[al.test_indices]).all()
+
     # resutls
     assert isinstance(al.results, pd.DataFrame)
+    assert al.results.shape[0] == 1
+
     # check U
     assert al.U.shape == features.shape
     assert (al.U == features).all()
+
     # random_search
     al.random_search(density, n_evaluation=1, verbose=0)
     assert al.results.shape == al.random_results.shape
+
+    # check X and y
+    assert (xtr == al.X_train).all()
+    assert (ytr == al.Y_train).all()
+    assert (xte== al.X_test).all()
+    assert (yte== al.Y_test).all()
+
+    # check orders
+    inds = [i for i in range(density.shape[0]) if i not in al.train_indices and i not in al.test_indices]
+    assert (density[inds].reshape(-1,) == density[al.U_indices].reshape(-1,)).all()
+    assert density[al.U_indices].shape == density[inds].shape
+    assert (al.Y_train == density[al.train_indices]).all()
+    assert (al.Y_test == density[al.test_indices]).all()
+
     # deposit
     al.deposit(qtr, density[qtr])
+
     # check data once again
-    assert al.X_train.shape == features[al.train_indices].shape
-    assert al.X_train[0][0] == features[al.train_indices][0][0]
-    # assert xtr[-1][-1] == al.X_train[-1][-1]
+    assert (al.X_train == features[al.train_indices]).all()
 
-def test_model_multiple_input():
-    _, density, features = load_organic_density()
-    al = BEMCM(
-        model_creator = model_creator_two_inputs,
-        U=features,
-        target_layer = ['l3', 'b2_l1'],
-        train_size=50,
-        test_size=50,
-        batch_size=10)
+    # search: ensemble exception
+    with pytest.raises(ValueError):
+        qtr = al.search(n_evaluation=1, ensemble='kfold', n_ensemble=0, normalize_internal=True, verbose=0)
 
+    # search again
+    qtr = al.search(n_evaluation=1, ensemble='kfold', n_ensemble=2, normalize_internal=True, verbose=0)
+    assert (al.queries[0][1]== qtr).all()
 
-    # initialize warning
-    # warnings.simplefilter("always")
-    # with warnings.catch_warnings(record=True) as w:
-    #     al.initialize()
+    assert al.U_indices.shape[0] == features.shape[0]- al.train_indices.shape[0] \
+        - al.test_indices.shape[0]
+
+    # check data once again
+    assert (al.X_train == features[al.train_indices]).all()
+    assert (al.X_test == features[al.test_indices]).all()
+    assert (al.Y_test == density[al.test_indices]).all()
+
+    # check orders
+    inds = [i for i in range(density.shape[0]) if i not in al.train_indices and i not in al.test_indices]
+    assert (density[inds].reshape(-1,) == density[al.U_indices].reshape(-1,)).all()
+    assert density[al.U_indices].shape == density[inds].shape
+    assert (al.Y_train == density[al.train_indices]).all()
+    assert (al.Y_test == density[al.test_indices]).all()
+
+    # check unique
+    assert len(np.unique(al.train_indices)) == len(al.train_indices)
+
+    # visualize
+    # plots = al.visualize(density)
+    # assert len(plots) == 3

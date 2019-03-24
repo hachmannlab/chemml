@@ -1,5 +1,5 @@
 """
-This module provide interactive implementation of active learning algorithms to query optimal number of data points.
+This module provides interactive implementation of active learning algorithms to query optimal number of data points.
 """
 
 from __future__ import print_function
@@ -61,9 +61,18 @@ class BEMCM(object):
             - your budget.
             - the diversity of the pool of candidates (U).
 
-    batch_size: int, optional (default = 10)
-        The number of data points that this active learning algorithm selects after each training step.
+    batch_size: list, optional (default = [10])
+        This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
+        our active learning approaches should query every round. The order of active learning approaches are as follows:
+            - Batch Expected Model Change Maximization (BEMCM)
+            - Query By Committee (QBC)
+            - Distribution Shift Alleviation (DSA)
 
+        Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.
+
+    history: int, optional (default = 3)
+        This parameter must be a greater than 1 integer. It specifies the number of previous active learning
+        rounds to memorize for the distribution shift alleviation (DSA) approach.
 
     Attributes
     ----------
@@ -110,33 +119,15 @@ class BEMCM(object):
 
     """
 
-    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=10):
+    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=3):
         self.model_creator = model_creator
         self.U = U
         self.target_layer = target_layer
         self.train_size = train_size
         self.test_size = test_size
         self.batch_size = batch_size
+        self.history = history
         self._fit()
-        self._init_attributes()
-
-    def _init_attributes(self):
-        # available attributes
-        self._queries = []
-        # all indices are numpy arrays
-        self.train_indices = np.array([])
-        self.test_indices = np.array([])
-        self.U_indices = np.array(range(self.U_size))
-        self.query_number = 0
-        self._Y_train = None
-        self._Y_test = None
-        self._Y_pred = None
-        self._results = []
-        self._random_results = []
-        self.attributes = ['queries','train_indices','test_indices',
-                           'query_number',
-                           'X_train','X_test','Y_train','Y_test', 'Y_pred',
-                           'results', 'random_results']
 
     def _X_train(self):
         """ We don't want to keep a potentially big matrix in the memory."""
@@ -196,15 +187,63 @@ class BEMCM(object):
 
         # check int types
         if not isinstance(self.U_size, int) or not isinstance(self.train_size, int) or \
-            not isinstance(self.test_size, int) or not isinstance(self.batch_size, int):
-            msg = "The parameters 'train_size', 'test_size', and 'batch_size' must be int."
+            not isinstance(self.test_size, int):
+            msg = "The parameters 'train_size' and 'test_size'must be int."
             raise TypeError(msg)
+
+        # check batch size
+        flag = False
+        if isinstance(self.batch_size, list):
+            if len(self.batch_size) <= 3:
+                b = np.array([type(i)==int for i in self.batch_size])   # all int
+                p = np.array([i>=0 for i in self.batch_size])   # all non-negative
+                g = np.array([i>0 for i in self.batch_size])   # any greater than zero
+                if b.all() and p.all() and g.any():
+                    flag = True
+
+        if not flag:
+            msg = "The parameter'batch_size' must be a list of maximum 3 non-negative int values."
+            raise TypeError(msg)
+        elif len(self.batch_size)==3 and self.batch_size[2]>0 and sum(self.batch_size[:2])==0:
+            msg = "The third value can not be the only positive value and it always accompany the first two methods."
+            raise ValueError(msg)
+
+        # check history
+        flag = False
+        if isinstance(self.history, int):
+            if self.history > 1:
+                flag = True
+                self._history = np.zeros(self.U_size*self.history).reshape(self.U_size, self.history)
+
+        if not flag:
+            msg = "The parameter `history` must be a positive int and greater than 1."
+            raise ValueError(msg)
 
         # check the number of train and test sets
         if self.train_size >= self.U_size or self.test_size >= self.U_size or \
                 (self.train_size+self.test_size) >= self.U_size:
             msg = "The train and test size and their sum must be less than the number of unlabeled data (U)"
             raise ValueError(msg)
+
+        # other attributes
+        self._queries = []
+        self.qbc_queries = []
+        self.dsa_queries = []
+        self.bemcm_queries = []
+        # all indices are numpy arrays
+        self.train_indices = np.array([])
+        self.test_indices = np.array([])
+        self.U_indices = np.array(range(self.U_size))
+        self.query_number = 0
+        self._Y_train = None
+        self._Y_test = None
+        self._Y_pred = None
+        self._results = []
+        self._random_results = []
+        self.attributes = ['queries','train_indices','test_indices',
+                           'query_number',
+                           'X_train','X_test','Y_train','Y_test', 'Y_pred',
+                           'results', 'random_results']
 
     def get_target_layer(self, model, X):
         """
@@ -433,7 +472,7 @@ class BEMCM(object):
             else:
                 return None, None
 
-    def search(self, n_evaluation=3, ensemble='bootstrap', n_ensemble=4, normalize_input=True, normalize_internal=False,random_state=90, **kwargs):
+    def search(self, n_evaluation=3, ensemble='bootstrap', n_ensemble=4, normalize_input=True, normalize_internal=False, random_state=90, **kwargs):
         """
         The main function to start or continue an active learning search.
         The bootstrap approach is used to generate an ensemble of models that estimate the prediction
@@ -481,6 +520,18 @@ class BEMCM(object):
             msg = "The requested data must be provided first. Check the 'queries' attribute for the info regarding the indices of the queried candidates."
             raise ValueError(msg)
 
+        # assign batch size (length of batch size is not always 3, otherwise we could enumerate the list directly)
+        bemcm = 0
+        qbc = 0
+        dsa = 0
+        for i, s in enumerate(self.batch_size):
+            if i==0:
+                bemcm = s
+            elif i==1:
+                qbc = s
+            elif i==2:
+                dsa = s
+
         # get input data
         X_tr = self._X_train()
         X_te = self._X_test()
@@ -512,7 +563,7 @@ class BEMCM(object):
         lin_layers = {}
         for it in range(n_evaluation):
             model = self.model_creator()
-            model, Y_te_pred, mae, rmse, r2 = self._train_predict_evaluate(model,
+            model, _, mae, rmse, r2 = self._train_predict_evaluate(model,
                                                                            [X_tr, Y_tr, X_te],
                                                                            Y_scaler,
                                                                            Y_te,
@@ -522,18 +573,19 @@ class BEMCM(object):
             if Y_scaler is not None:
                 Y_U_pred_df[it] = Y_scaler.inverse_transform(model.predict(Utr)).reshape(-1,)
 
-            # calculate the linear layer, phi(U)
-            lin_layers[it] = self.get_target_layer(model, Utr[self.U_indices])
-            # if it == 0:
-            #     lin_layer = self.get_target_layer(model, Utr[self.U_indices])
-            # else:
-            #     temp = self.get_target_layer(model, Utr[self.U_indices])
-            #     lin_layer = lin_layer + temp
+            # calculate the linear layer, phi(U), and collect lr for bemcm approach
+            if bemcm:
+                lin_layers[it] = self.get_target_layer(model, Utr[self.U_indices])
+                # if it == 0:
+                #     lin_layer = self.get_target_layer(model, Utr[self.U_indices])
+                # else:
+                #     temp = self.get_target_layer(model, Utr[self.U_indices])
+                #     lin_layer = lin_layer + temp
 
-            assert lin_layers[it].shape[0] == self.U_indices.shape[0]
+                assert lin_layers[it].shape[0] == self.U_indices.shape[0]
 
-            # collect lr
-            learning_rate.append(K.eval(model.optimizer.lr))
+                # collect lr
+                learning_rate.append(K.eval(model.optimizer.lr))
 
             # metrics
             it_results['mae'].append(mae)
@@ -559,19 +611,20 @@ class BEMCM(object):
         assert self._Y_pred.shape == (self.U_size, 1)
         del Y_U_pred_df
 
-        # find linear layer input
-        best_ind = np.argmin(it_results['mae'])     # the order of lin_layer might be different from one model to another model
-        lin_layer = lin_layers[best_ind]
-        # lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
+        # find linear layer input and learning rate for bemcm approach
+        if bemcm:
+            best_ind = np.argmin(it_results['mae'])     # the order of lin_layer might be different from one model to another model
+            lin_layer = lin_layers[best_ind]
+            # lin_layer = lin_layer/float(n_evaluation)   # shape: (m,d)
 
-        # scale linear layer
-        if normalize_internal:
-            scaler = StandardScaler()
-            lin_layer = scaler.fit_transform(lin_layer)
+            # scale linear layer
+            if normalize_internal:
+                scaler = StandardScaler()
+                lin_layer = scaler.fit_transform(lin_layer)
 
-        # avg of learning rates
-        alpha = float(np.mean(learning_rate))
-        self.lr = alpha
+            # avg of learning rates
+            alpha = float(np.mean(learning_rate))
+            self.lr = alpha
 
         # Ensemble
         if ensemble=='kfold' and n_ensemble>1:
@@ -596,12 +649,11 @@ class BEMCM(object):
             # model
             model = self.model_creator()
             model, Z_U_pred, _, _, _ = self._train_predict_evaluate(model,
-                                                                    [Xtr,Ytr,Utr[self.U_indices]],
+                                                                    [Xtr,Ytr,Utr],
                                                                     None,   # don't inverse_transform preds
                                                                     False,
                                                                     **kwargs)
-            deviation = fU_preds_scaled[self.U_indices] - Z_U_pred     # shape: (m,1)
-            # deviation = np.abs(self._Y_pred[self.U_indices] - Z_U_pred)     # shape: (m,1)
+            deviation = fU_preds_scaled - Z_U_pred     # shape: (m,1)
 
             # collect the bootstrap deviation from actual predictions
             if it==0:
@@ -612,21 +664,101 @@ class BEMCM(object):
             del Xtr, Z_U_pred, model
         del X_tr, Y_tr, Utr      # from now on we only need deviations and lin_layer
 
-        assert deviations.shape == (self.U_indices.shape[0], n_ensemble)
+        assert deviations.shape == (self.U_size, n_ensemble)
 
         # scale deviations
         if normalize_internal:
             scaler = StandardScaler()
             deviations = scaler.fit_transform(deviations)
 
-        # B_EMCM = EMCM - correlation_term
-        # EMCM = mean(deviations * lin_layer
+        i_qbc_queries = []
+        if qbc:
+            i_qbc_queries = self._qbc(deviations[self.U_indices])
+
+        i_dsa_queries = []
+        if dsa:
+            i_dsa_queries = self._dsa(deviations)
+
+        i_bemcm_queries = []
+        if bemcm:
+            i_bemcm_queries = self._bemcm(deviations[self.U_indices], lin_layer, alpha, normalize_internal,
+                                              i_qbc_queries+i_dsa_queries)
+
+        i_queries = np.unique(i_qbc_queries+i_dsa_queries+i_bemcm_queries)
+        assert len(i_queries) == sum(self.batch_size)
+
+        # increase global query number by one
+        self.query_number += 1
+        if qbc:
+            self.qbc_queries += [self.U_indices[i] for i in i_qbc_queries]
+        if dsa:
+            self.dsa_queries += [self.U_indices[i] for i in i_dsa_queries if i not in i_qbc_queries]
+        if bemcm:
+            self.bemcm_queries += [self.U_indices[i] for i in i_bemcm_queries]
+
+        # find original indices and update queries
+        _queries = np.array([self.U_indices[i] for i in i_queries])
+
+        self._queries.append(['batch #%i'%self.query_number, _queries])
+        return _queries
+
+    def _qbc(self, deviations):
+        """
+        qbc approach
+        """
+        votes = pd.DataFrame(deviations)
+        votes['sigma'] = deviations.std(axis=1)
+        votes['ind'] = votes.index
+        votes.sort_values('sigma', ascending=False, inplace=True)
+        i_qbc_queries = list(votes.head(self.batch_size[1])['ind'])
+        return i_qbc_queries
+
+    def _dsa(self,deviations):
+        """
+        dsa approach
+        """
+        dev = deviations.mean(axis=1)
+        self._history_update(dev)
+        uncertainty_change = self._uncertainty_tracker(self._history[:,-1], self.history-1)      #shape: (m,)
+        uncertainty_change = uncertainty_change[self.U_indices]
+        uncertainty_change = pd.DataFrame(uncertainty_change, columns=['uc'])
+        uncertainty_change['ind'] = uncertainty_change.index
+        uncertainty_change.sort_values('uc', ascending=False, inplace=True)
+        i_dsa_queries = list(uncertainty_change.head(self.batch_size[2])['ind'])
+        return i_dsa_queries
+
+    def _uncertainty_tracker(self, dev, i):
+        """
+        recurcsive deviation of the history
+        """
+        i -= 1
+        if i>= 0:
+            dev = dev - self._history[:,i]
+            dev = self._uncertainty_tracker(dev, i)
+        return dev
+
+    def _history_update(self, dev):
+        """
+        update last column of the history with dev and shift all the previous columns to the left.
+        """
+        for i in range(self.history-1):
+            self._history[:,i] = self._history[:,i+1]
+        self._history[:,-1] = dev
+
+    def _bemcm(self, deviations, lin_layer, alpha, normalize_internal, former_queries):
+        """
+        bemcm approach
+        B_EMCM = EMCM - correlation_term
+        EMCM = mean(deviations * lin_layer)
+        """
+        former_queries = np.unique(former_queries)
+        bemcm_size = sum(self.batch_size) - len(former_queries)
         # shapes: m = number of samples, d = length of latent features
         i_queries = []              # the indices of queries based on the length of U_indices (not original U)
-        correlation_term = {it: np.zeros(lin_layer.shape) for it in range(n_ensemble)}   # shape of each: (m,d)
-        while len(i_queries) < self.batch_size:
+        correlation_term = {it: np.zeros(lin_layer.shape) for it in range(deviations.shape[1])}   # shape of each: (m,d)
+        while len(i_queries) < bemcm_size:
             norms = pd.DataFrame()  # store the norms of n_ensemble models
-            for it in range(n_ensemble):
+            for it in range(deviations.shape[1]):
                 # EMCM
                 EMCM = deviations[:,it].reshape(-1,1) * lin_layer
 
@@ -642,7 +774,7 @@ class BEMCM(object):
                 norms[it] = norm.reshape(-1,)
 
             # average and argmax of norms
-            assert norms.shape == (self.U_indices.shape[0], n_ensemble)
+            assert norms.shape == (self.U_indices.shape[0], deviations.shape[1])
             norms['mean'] = norms.mean(axis=1)
             norms['ind'] = norms.index
             norms = norms.drop(i_queries, axis=0)   # remove rows of previously selected points
@@ -650,24 +782,23 @@ class BEMCM(object):
 
             # memorize the initial ranking of the norms
             if len(i_queries) == 0:
-                initial_ranking = list(norms.head(self.batch_size)['ind'])
+                initial_ranking = list(norms.head(bemcm_size)['ind'])
 
             # select top candidate and update i_queries
-            select = list(norms.head(1)['ind'])
-            i_queries += select
+            n = 1
+            select = list(norms.head(n)['ind'])
+            while select[0] in former_queries:
+                n += 1
+                select = [list(norms.head(n)['ind'])[-1]]
 
-        # increase global query number by one
-        self.query_number += 1
+            i_queries += select
 
         # make sure correlation term is making any difference than simple sorting of the initial norms
         if set(initial_ranking) <= set(i_queries):
             msg = "It seems that the correlation term is not effective. The initial ranking of the candidates are same as the final results."
             warnings.warn(msg)
 
-        # find original indices and update queries
-        _queries = np.array([self.U_indices[i] for i in i_queries])
-        self._queries.append(['batch #%i'%self.query_number, _queries])
-        return _queries
+        return i_queries
 
     def _correlation_term(self, ind, dev, lin_layer, normalize_internal):
         """
@@ -864,8 +995,8 @@ class BEMCM(object):
             xtr_last_batch = u[self.train_indices][:self.train_size]
             ytr_last_batch = self._Y_train[:self.train_size]
         else:
-            xtr_last_batch = u[self.train_indices][-self.batch_size:]
-            ytr_last_batch = self._Y_train[-self.batch_size:]
+            xtr_last_batch = u[self.train_indices][-sum(self.batch_size):]
+            ytr_last_batch = self._Y_train[-sum(self.batch_size):]
 
         # plot1 : x/pc distribution
         collect_plots["dist_pc"] = self._visualize_dist_pc(u,u_rem, xte, xtr, xtr_last_batch)
@@ -899,7 +1030,7 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Entire Train',
         sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Entire Test',
-        if self.batch_size != 1:
+        if sum(self.batch_size) != 1:
             sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
         # labels
@@ -939,7 +1070,7 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Entire Train',
         sns.distplot(xte[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Entire Test',
-        if self.batch_size != 1:
+        if sum(self.batch_size) != 1:
             sns.distplot(xtr_last_batch[:, 0].reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
 
@@ -974,7 +1105,7 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Entire Train')  # label='Train',
         sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Test')  # label='Test',
-        if self.batch_size != 1:
+        if sum(self.batch_size) != 1:
             sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax, label='Last Batch')  # label='Last Batch',
         # labels
@@ -1013,7 +1144,7 @@ class BEMCM(object):
                      kde_kws={"shade": True, 'bw': 0.15}, label='Entire Train')  # label='Train',
         sns.distplot(self._Y_test.reshape(-1, ), hist=False, color=sns.xkcd_rgb["pale red"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Test')  # label='Test',
-        if self.batch_size != 1:
+        if sum(self.batch_size) != 1:
             sns.distplot(ytr_last_batch.reshape(-1, ), hist=False, color=sns.xkcd_rgb["light purple"],
                      kde_kws={"shade": True, 'bw': 0.15}, ax=ax3, label='Last Batch')  # label='Last Batch',
         # labels
@@ -1074,6 +1205,3 @@ class BEMCM(object):
             item.set_fontsize(14)
 
         return fig
-
-
-

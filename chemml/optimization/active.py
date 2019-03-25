@@ -671,13 +671,15 @@ class BEMCM(object):
             scaler = StandardScaler()
             deviations = scaler.fit_transform(deviations)
 
-        i_qbc_queries = []
-        if qbc:
-            i_qbc_queries = self._qbc(deviations[self.U_indices])
-
         i_dsa_queries = []
         if dsa:
             i_dsa_queries = self._dsa(deviations)
+
+        i_qbc_queries = []
+        if qbc and not bemcm:     # bemcm can cover for duplicates in all of the approaches
+            i_qbc_queries = self._qbc(deviations[self.U_indices],i_dsa_queries)
+        elif qbc:
+            i_qbc_queries = self._qbc(deviations[self.U_indices],[])
 
         i_bemcm_queries = []
         if bemcm:
@@ -702,7 +704,7 @@ class BEMCM(object):
         self._queries.append(['batch #%i'%self.query_number, _queries])
         return _queries
 
-    def _qbc(self, deviations):
+    def _qbc(self, deviations, former_queries):
         """
         qbc approach
         """
@@ -710,7 +712,15 @@ class BEMCM(object):
         votes['sigma'] = deviations.std(axis=1)
         votes['ind'] = votes.index
         votes.sort_values('sigma', ascending=False, inplace=True)
-        i_qbc_queries = list(votes.head(self.batch_size[1])['ind'])
+        i_qbc_queries = []
+        n = 1
+        while len(i_qbc_queries) < self.batch_size[1]:
+            select = list(votes.head(n)['ind'])
+            while select[-1] in former_queries:
+                n += 1
+                select = list(votes.head(n)['ind'])
+            i_qbc_queries += select[-1:]
+            n += 1
         return i_qbc_queries
 
     def _dsa(self,deviations):

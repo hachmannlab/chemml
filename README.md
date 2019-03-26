@@ -4,55 +4,49 @@
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 
 ## Code Design:
-ChemML is developed in the Python 2 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries.The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
+ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
+The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
-The package consists of two Python frameworks:
-
-- ChemML Library (cheml):
-   It is a host for all the methods that are developed or coded from scratch by developers. The format of library is similar to the well known libraries like Scikit-learn.
-
-- ChemML wrapper:
-   It is an interface for many of the libraries (including cheml) that supply methods for the representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
+The format of library is similar to the well known libraries like Scikit-learn. ChemML is also available 
+via graphical user interface provided by [ChemEco](https://github.com/hachmannlab/chemeco).
+ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the 
+representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
 
 
-## Version:
-- Program Version: 0.4.3
-- Release Date: July 12, 2018
+## Latest Version:
+- Program Version: 0.4.4
+- Release Date: March 25, 2019
 
 ## Installation and Dependencies:
-You can download ChemML from Python Package Index (PyPI) via pip. The current version of ChemML only supports Python 2.7
-and it can be installed on Linux and OSX operating systems.
+You can download ChemML from Python Package Index (PyPI) via pip.
 
     pip install chemml --user -U
 
-ChemML only depends on numerical python (NumPy) and python data analysis (pandas) libraries. Using other libraries
-that are available through ChemML wrapper is optional and depends on the user request. However, we also install some of the libraries
-that ChemML is interfacing with, only if they can be easily and freely installed via pip.
-
-Here is a list of external libraries and their version that will be installed with chemml:
-   - numpy (>=1.13)
-   - pandas (>=0.20.3)
-   - tensorflow (==1.1.0)
-   - keras (==2.1.5)
-   - scikit-learn (==0.19.1)
-   - babel (>=2.3.4)
-   - matplotlib (>=1.5.1)
+Here is a list of external libraries that will be installed with chemml:
+   - numpy
+   - pandas
+   - tensorflow
+   - keras
+   - scikit-learn
+   - matplotlib
+   - seaborn
    - lxml
-   - ipywidgets (>=7.1)
-   - widgetsnbextension (>=3.1)
-   - graphviz
 
-Since some of the dependencies are accompanied by an exact version number, we recommend installation of ChemML in a virtual environment.
-If you have Anaconda installed on your system, you can enter:
+Since conda installation is not available for ChemML yet, we recommend installing rdkit and openbabel in a conda virtual environment prior to 
+installing ChemML. For doing so, you need to follow the conda installer:
 
-   conda create --name my_chemml_env python=2.7
-   source activate my_chemml_env
-   pip install chemml --user -U
+    conda create --name my_chemml_env python=3.6
+    source activate my_chemml_env
+    conda install -c openbabel openbabel
+    conda install -c rdkit rdkit
+    pip install chemml
 
-you can test the installation with:
-
-    nosetests -v cheml.tests
-
+## Python 2 Fans
+The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
+and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
+However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that 
+support Python 2 prior to installing ChemML locally via `pip install -e.`.
+ 
 ## Citation:
 Please cite the use of ChemML as:
 
@@ -73,6 +67,7 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
     University at Buffalo - The State University of New York (UB)
 
 ### Contributors:
+    - Doaa Altarawy (MolSSI): software scientist and mentor 
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
     - Bhargava Urala Kota (UB): library database

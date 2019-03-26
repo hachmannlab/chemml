@@ -70,7 +70,7 @@ class BEMCM(object):
 
         Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.
 
-    history: int, optional (default = 3)
+    history: int, optional (default = 2)
         This parameter must be a greater than 1 integer. It specifies the number of previous active learning
         rounds to memorize for the distribution shift alleviation (DSA) approach.
 
@@ -119,7 +119,7 @@ class BEMCM(object):
 
     """
 
-    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=3):
+    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=2):
         self.model_creator = model_creator
         self.U = U
         self.target_layer = target_layer
@@ -675,7 +675,8 @@ class BEMCM(object):
 
         i_dsa_queries = []
         if dsa:
-            i_dsa_queries = self._dsa(deviations)
+            i_dsa_queries = self._dsa_test_y()
+            # i_dsa_queries = self._dsa_unlabeled(deviations)
 
         i_qbc_queries = []
         if qbc and not bemcm:     # bemcm can cover for duplicates in all of the approaches
@@ -725,9 +726,36 @@ class BEMCM(object):
             n += 1
         return i_qbc_queries
 
-    def _dsa(self,deviations):
+    def _dsa_test_y(self):
         """
-        dsa approach
+        dsa approach based on the test data and predicted y values
+        """
+        self._history_update(self._Y_pred.reshape(-1,))
+        uncertainty_change = self._uncertainty_tracker(self._history[:,-1], self.history-1)      #shape: (m,)
+        uncertainty_change_test = uncertainty_change[self.test_indices]
+        votes = pd.DataFrame(uncertainty_change_test, columns=['uc'])
+        votes['ind'] = votes.index
+        votes.sort_values('uc', ascending=False, inplace=True)
+        unlabeled_y_preds = self._Y_pred[self.U_indices]
+        i_dsa_queries = []
+        n = 1
+        while len(i_dsa_queries) < self.batch_size[2]:
+            select = list(votes.head(n)['ind'])
+            idx = self.find_nearest(unlabeled_y_preds, self._Y_pred[self.test_indices[select[-1]]])
+            print (idx)
+            n+=1
+            if idx not in i_dsa_queries:
+                i_dsa_queries.append(idx)
+        return i_dsa_queries
+
+    def find_nearest(self, array, value):
+        array = array.reshape(-1,)
+        idx = (np.abs(array - value)).argmin()
+        return idx
+
+    def _dsa_unlabeled(self,deviations):
+        """
+        dsa approach based on unlabeled data
         """
         dev = deviations.mean(axis=1)
         self._history_update(dev)

@@ -245,6 +245,8 @@ class BEMCM(object):
                            'X_train','X_test','Y_train','Y_test', 'Y_pred',
                            'results', 'random_results']
 
+        self.lr = 0
+
     def get_target_layer(self, model, X):
         """
         The main function to get the latent features from the linear layer of the keras model.

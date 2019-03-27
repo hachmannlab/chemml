@@ -4,10 +4,10 @@ The cheml.optimization module includes (please click on links adjacent to functi
     - BEMCM: :func:`~chemml.optimization.BEMCM`
 """
 
-from .active import BEMCM
+from .active import ActiveLearning
 from .genetic_algorithm import GeneticAlgorithm
 
 __all__ = [
     'GeneticAlgorithm',
-    'BEMCM',
+    'ActiveLearning',
 ]

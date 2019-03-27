@@ -9,7 +9,7 @@ from keras.layers import Input, Dense, Concatenate
 from keras.models import Model
 from keras.optimizers import Adam
 
-from chemml.optimization import BEMCM
+from chemml.optimization import ActiveLearning
 from chemml.datasets import load_organic_density
 
 
@@ -59,38 +59,38 @@ def test_model_single_input():
 
     # init exceptions
     with pytest.raises(TypeError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=2,
             U=features,
             target_layer='l3')
     with pytest.raises(TypeError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=model_creator_one_input,
             U=features,
             target_layer='l3',
             train_size=0.1)
     with pytest.raises(ValueError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=model_creator_one_input,
             U=features,
             target_layer='l3',
             train_size=1000)
     with pytest.raises(TypeError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=model_creator_one_input,
             U=features,
             target_layer='l3',
             train_size=1000,
             batch_size=[0,0,0])
     with pytest.raises(ValueError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=model_creator_one_input,
             U=features,
             target_layer='l3',
             train_size=1000,
             batch_size=[0,0,1])
     with pytest.raises(ValueError):
-        al = BEMCM(
+        al = ActiveLearning(
             model_creator=model_creator_one_input,
             U=features,
             target_layer='l3',
@@ -99,7 +99,7 @@ def test_model_single_input():
             history=1)
 
     # instantiate the class
-    al = BEMCM(
+    al = ActiveLearning(
         model_creator=model_creator_one_input,
         U=features,
         target_layer='l3',

@@ -11,7 +11,6 @@ import copy
 
 import numpy as np
 import pandas as pd
-from keras import backend as K
 
 from sklearn.model_selection import ShuffleSplit, KFold
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -19,12 +18,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
 
-class BEMCM(object):
+class ActiveLearning(object):
     """
-    The implementation of BEMCM for active learning of regression models.
+    The implementation of active learning of regression models using BEMCM and QBC methods and approaches for distribution shift alleviations.
     This algorithm assumes that you have a pool of unlabeled data points and a limited budget to label them.
-    Thus we combine the efficiency of the machine learning models with our active learning approach to suggest
-    optimal number of calculations by selected data points.
+    Thus, we combine the efficiency of the machine learning models with our active learning approach to suggest
+    optimal number of calculations to provide labeled data.
 
     The implementation of this algorithm follows an interactive approach.
     In other words, we often ask you to provide labels for the selected data points.
@@ -245,7 +244,6 @@ class BEMCM(object):
                            'X_train','X_test','Y_train','Y_test', 'Y_pred',
                            'results', 'random_results']
 
-        self._dist_shift = None
         self.lr = 0
 
     def get_target_layer(self, model, X):
@@ -257,6 +255,9 @@ class BEMCM(object):
         ndarray
             The concatenated array of the specified hidden layers by parameter `target_layer`.
         """
+        # import keras here
+        from keras import backend as K
+
         # inputs
         inp = model.input
         if isinstance(inp, list):
@@ -588,6 +589,7 @@ class BEMCM(object):
                 assert lin_layers[it].shape[0] == self.U_indices.shape[0]
 
                 # collect lr
+                from keras import backend as K
                 learning_rate.append(K.eval(model.optimizer.lr))
 
             # metrics
@@ -745,7 +747,7 @@ class BEMCM(object):
         # test distribuiton
         f = pd.DataFrame(self._Y_test, columns=['yt'])
         f['ind'] = f.index
-        out, bins = pd.cut(f.yt, 20, retbins=True)
+        out, bins = pd.cut(f.yt, 100, retbins=True)
         groups = f.groupby(['ind', out])
         _ytest_dist = pd.DataFrame(groups.size().unstack().sum())
         _ytest_dist.sort_values(0, ascending=False, inplace=True)
@@ -758,15 +760,16 @@ class BEMCM(object):
         _ytrain_dist = pd.DataFrame(groups.size().unstack().sum())
         _ytrain_dist.sort_values(0, ascending=False, inplace=True)
         _ytrain_dist['prob'] = _ytrain_dist[0]/sum(_ytrain_dist[0])
+        del f
 
         # difference in distribution
         self._dist_shift = pd.DataFrame(_ytest_dist['prob'] - _ytrain_dist['prob'])
         self._dist_shift.sort_values('prob', ascending=False, inplace=True)
 
-        # find n selection per bin for positive shift
+        # find n selection per bin for underrepresented points in training data
         intervals = tuple(self._dist_shift[self._dist_shift['prob'] > 0].index)
         if len(intervals) == 0:
-            return []
+            return []   # if no distribution shift was diagnosed this method will be ineffective
         n_selection_p_bin = int(self.batch_size[2]/len(intervals))
         leftovers = self.batch_size[2] - len(intervals)*n_selection_p_bin
 

@@ -245,6 +245,7 @@ class BEMCM(object):
                            'X_train','X_test','Y_train','Y_test', 'Y_pred',
                            'results', 'random_results']
 
+        self._dist_shift = None
         self.lr = 0
 
     def get_target_layer(self, model, X):
@@ -675,14 +676,15 @@ class BEMCM(object):
 
         i_dsa_queries = []
         if dsa:
-            i_dsa_queries = self._dsa_test_y()
+            i_dsa_queries = self._dsa_y_dist()
+            # i_dsa_queries = self._dsa_test_y()
             # i_dsa_queries = self._dsa_unlabeled(deviations)
 
         i_qbc_queries = []
         if qbc and not bemcm:     # bemcm can cover for duplicates in all of the approaches
             i_qbc_queries = self._qbc(deviations[self.U_indices],i_dsa_queries)
         elif qbc:
-            i_qbc_queries = self._qbc(deviations[self.U_indices],[])
+            i_qbc_queries = self._qbc(deviations[self.U_indices],None)
 
         i_bemcm_queries = []
         if bemcm:
@@ -715,9 +717,19 @@ class BEMCM(object):
         votes['sigma'] = deviations.std(axis=1)
         votes['ind'] = votes.index
         votes.sort_values('sigma', ascending=False, inplace=True)
+
+        # check if qbc should compensate underselection by dsa approach
+        if former_queries is None:
+            qbc_size = self.batch_size[1]
+            former_queries = []
+        else:
+            former_queries = np.unique(former_queries)
+            qbc_size = sum(self.batch_size) - len(former_queries)
+
+        # start query
         i_qbc_queries = []
         n = 1
-        while len(i_qbc_queries) < self.batch_size[1]:
+        while len(i_qbc_queries) < qbc_size:
             select = list(votes.head(n)['ind'])
             while select[-1] in former_queries:
                 n += 1
@@ -725,6 +737,77 @@ class BEMCM(object):
             i_qbc_queries += select[-1:]
             n += 1
         return i_qbc_queries
+
+    def _dsa_y_dist(self):
+        """
+        dsa approach based on the distribution of the test data and predicted y values
+        """
+        # test distribuiton
+        f = pd.DataFrame(self._Y_test, columns=['yt'])
+        f['ind'] = f.index
+        out, bins = pd.cut(f.yt, 20, retbins=True)
+        groups = f.groupby(['ind', out])
+        _ytest_dist = pd.DataFrame(groups.size().unstack().sum())
+        _ytest_dist.sort_values(0, ascending=False, inplace=True)
+        _ytest_dist['prob'] = _ytest_dist[0]/sum(_ytest_dist[0])
+
+        # train distribution
+        f = pd.DataFrame(self._Y_train, columns=['yt'])
+        f['ind'] = f.index
+        groups = f.groupby(['ind', pd.cut(f.yt, bins)])
+        _ytrain_dist = pd.DataFrame(groups.size().unstack().sum())
+        _ytrain_dist.sort_values(0, ascending=False, inplace=True)
+        _ytrain_dist['prob'] = _ytrain_dist[0]/sum(_ytrain_dist[0])
+
+        # difference in distribution
+        self._dist_shift = pd.DataFrame(_ytest_dist['prob'] - _ytrain_dist['prob'])
+        self._dist_shift.sort_values('prob', ascending=False, inplace=True)
+
+        # find n selection per bin for positive shift
+        intervals = tuple(self._dist_shift[self._dist_shift['prob'] > 0].index)
+        if len(intervals) == 0:
+            return []
+        n_selection_p_bin = int(self.batch_size[2]/len(intervals))
+        leftovers = self.batch_size[2] - len(intervals)*n_selection_p_bin
+
+        # select based on unlabeled U and y preds
+        unlabeled_y_preds = pd.DataFrame(self._Y_pred[self.U_indices], columns=['yp'])
+
+        i_dsa_queries = []
+        if n_selection_p_bin > 0:
+            for i, bin in enumerate(intervals):
+                indices = list(unlabeled_y_preds[(unlabeled_y_preds['yp'] > bin.left) & (unlabeled_y_preds['yp'] <= bin.right)].index)
+                if len(indices) < n_selection_p_bin and len(indices)> 0:
+                    select = list(np.random.choice(indices, n_selection_p_bin, replace=False))
+                else:
+                    select = indices
+                    leftovers += n_selection_p_bin - len(indices)
+                i_dsa_queries += select
+
+        # leftovers
+        n = 0
+        while len(i_dsa_queries) < self.batch_size[2]:
+            bin = intervals[n]
+            indices = list(unlabeled_y_preds[(unlabeled_y_preds['yp'] > bin.left) & (unlabeled_y_preds['yp'] <= bin.right)].index)
+            if len(indices)> n_selection_p_bin+int(leftovers/len(intervals)) :
+                select = np.random.choice(indices, 1)[0]
+                while select in i_dsa_queries:
+                    select = np.random.choice(indices, 1)[0]
+            else:
+                if n == len(intervals) - 1:
+                    break
+                else:
+                    n+=1
+                    continue
+            i_dsa_queries.append(select)
+            if n == len(intervals)-1:
+                n=0
+            else:
+                n+=1
+
+        assert len(i_dsa_queries) <= self.batch_size[2]
+
+        return i_dsa_queries
 
     def _dsa_test_y(self):
         """
@@ -742,7 +825,6 @@ class BEMCM(object):
         while len(i_dsa_queries) < self.batch_size[2]:
             select = list(votes.head(n)['ind'])
             idx = self.find_nearest(unlabeled_y_preds, self._Y_pred[self.test_indices[select[-1]]])
-            print (idx)
             n+=1
             if idx not in i_dsa_queries:
                 i_dsa_queries.append(idx)

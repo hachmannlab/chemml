@@ -777,7 +777,7 @@ class BEMCM(object):
         if n_selection_p_bin > 0:
             for i, bin in enumerate(intervals):
                 indices = list(unlabeled_y_preds[(unlabeled_y_preds['yp'] > bin.left) & (unlabeled_y_preds['yp'] <= bin.right)].index)
-                if len(indices) < n_selection_p_bin and len(indices)> 0:
+                if len(indices) > n_selection_p_bin:
                     select = list(np.random.choice(indices, n_selection_p_bin, replace=False))
                 else:
                     select = indices

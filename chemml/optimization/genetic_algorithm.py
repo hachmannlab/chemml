@@ -36,7 +36,7 @@ class GeneticAlgorithm(object):
                 Size of the population
 
             crossover_type: string, optional (default = "Blend")
-                Type of crossover: SinglePoint, DoublePoint, Blend 
+                Type of crossover: SinglePoint, DoublePoint, Blend, Uniform 
 
             mutation_prob: float, optional (default = 0.4)
                 Probability of mutation.
@@ -149,6 +149,11 @@ class GeneticAlgorithm(object):
         y2 = x2[0:c1]+x1[c1:c2]+x2[c2:nVar]      
         return tuple(deepcopy(y1)), tuple(deepcopy(y2))
 
+    def UniformCrossover(self, x1, x2):
+        parents = [x1,x2]
+        ind1, ind2 = [parents[random.randint(0, 1)][i] for i in range(len(x1))], [parents[random.randint(0, 1)][i] for i in range(len(x1))]   
+        return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
+
     def blend(self, ind1, ind2, z=0.4):
         ind1, ind2 = list(ind1), list(ind2)
         for i in range(self.chromosome_length):
@@ -170,6 +175,7 @@ class GeneticAlgorithm(object):
         return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
 
     def select(self, population, fit_dict, num, choice="Roulette"):
+        if num >= len(population): return population
         o_fits = [fit_dict[i] for i in population]
 
         df_fits = pd.DataFrame(o_fits)
@@ -314,6 +320,8 @@ class GeneticAlgorithm(object):
                         c1, c2 = self.DoublePointCrossover(child1, child2)
                     elif self.crossover_type == "Blend":
                         c1, c2 = self.blend(child1, child2)
+                    elif self.crossover_type == "Uniform":
+                        c1, c2 = self.UniformCrossover(child1, child2)
                     if c1 in fitness_dict.keys() or c2 in fitness_dict.keys() or c1==c2: continue
                     fitness_dict = fit_eval([c1, c2], fitness_dict)
                     cross_pop.extend([c1, c2])

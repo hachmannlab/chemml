@@ -3,7 +3,7 @@ from chemml.datasets import load_organic_density
 from chemml.datasets import load_xyz_polarizability
 from chemml.datasets import load_comp_energy
 from chemml.datasets import load_crystal_structures
-
+from chemml.chem import Molecule
 
 def test_load_cep_homo():
     smi, homo = load_cep_homo()
@@ -19,9 +19,11 @@ def test_load_organic_density():
 
 
 def test_load_xyz_polarizability():
-    coordinates, df = load_xyz_polarizability()
-    assert '17_opt.xyz' in coordinates[17]['file']
-    assert '37_opt.xyz' in coordinates[37]['file']
+    molecules, df = load_xyz_polarizability()
+    assert isinstance(molecules, list)
+    assert '17_opt.xyz' in molecules[16].creator[1]
+    assert '37_opt.xyz' in molecules[36].creator[1]
+    assert molecules[7].xyz is not None
     assert df.shape == (50, 1)
 
 

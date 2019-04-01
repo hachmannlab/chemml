@@ -81,6 +81,6 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 ### Acknowledgements:
     - ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.
     - ChemML was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.
-    - Mojtaba Haghighatlari received a 2018 Phase-I Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
+    - Mojtaba Haghighatlari received a 2018 Phase-I and 2019 Phase-II Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
 
 

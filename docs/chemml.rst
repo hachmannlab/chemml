@@ -1,5 +1,5 @@
 chemml library
-=============
+==============
 
 .. Subpackages
 .. -----------
@@ -11,8 +11,8 @@ chemml library
     chemml.initialization
     chemml.datasets
     chemml.preprocessing
-    chemml.nn.keras
-    chemml.search
+    chemml.models
+    chemml.optimization
     chemml.visualization
 ..    chemml.nn
 

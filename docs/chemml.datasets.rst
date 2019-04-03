@@ -1,5 +1,5 @@
-chemml.datasets module
-=====================
+Datasets module
+===============
 
 .. Submodules
 .. ----------

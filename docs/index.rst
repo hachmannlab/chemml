@@ -82,9 +82,9 @@ Please cite ChemML as follows:
 
 ::
 
-   (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
-   (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
-   (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+    (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
+    (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
+    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
 
 
 .. toctree::
@@ -96,15 +96,34 @@ Please cite ChemML as follows:
    CMLWInputFileGenerator
    CMLWContentsTable
    CMLWReference
-..   CMLWInputFileTutorial
-..   CMLWInputFileTemplates
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ChemML library Tutorial
+
+   molecule.ipynb
+   active_model_based.ipynb
+   ga_hyper_opt.ipynb
+   ga_feature_selection.ipynb
+
+..   tutorial.chem
+..   tutorial.optimization
 
 
 .. toctree::
    :maxdepth: 2
    :caption: ChemML library documentation
 
-   chemml
+   chemml.chem
+   chemml.chem.magpie_python
+   chemml.initialization
+   chemml.datasets
+   chemml.preprocessing
+   chemml.models
+   chemml.optimization
+   chemml.visualization
+
+
 
 
 License:

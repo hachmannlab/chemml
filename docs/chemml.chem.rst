@@ -1,5 +1,5 @@
-chemml.chem module
-==================
+Chem module
+===========
 
 
 .. chemml.chem.CoulombMatrix

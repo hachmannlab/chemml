@@ -1,5 +1,5 @@
-chemml.nn module
-===============
+Models module
+=============
 
 .. Subpackages
 .. -----------
@@ -14,7 +14,7 @@ chemml.nn module
 Module contents
 ---------------
 
-.. automodule:: chemml.nn
+.. automodule:: chemml.models
     :members:
 ..    :undoc-members:
     :show-inheritance:

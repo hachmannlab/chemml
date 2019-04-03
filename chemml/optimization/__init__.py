@@ -1,13 +1,13 @@
 """
 The cheml.optimization module includes (please click on links adjacent to function names for more information):
     - GeneticAlgorithm: :func:`~chemml.optimization.GeneticAlgorithm`
-    - BEMCM: :func:`~chemml.optimization.BEMCM`
+    - ActiveLearning: :func:`~chemml.optimization.ActiveLearning`
 """
 
-from .active import BEMCM
+from .active import ActiveLearning
 from .genetic_algorithm import GeneticAlgorithm
 
 __all__ = [
     'GeneticAlgorithm',
-    'BEMCM',
+    'ActiveLearning',
 ]

@@ -3,6 +3,7 @@ import pkg_resources
 import os
 import pandas as pd
 
+from chemml.chem import Molecule
 
 def load_cep_homo():
     """Load and return a small sample of HOMO energies of organic photovoltaic candidates from CEP database (regression).
@@ -112,21 +113,26 @@ def load_xyz_polarizability():
     Examples
     --------
     >>> from chemml.datasets import load_xyz_polarizability
-    >>> coordinates, polarizabilities = load_xyz_polarizability()
-    >>> print(len(coordinates))
+    >>> molecules, polarizabilities = load_xyz_polarizability()
+    >>> print(len(molecules))
     50
     >>> print(polarizabilities.shape)
     (50, 1)
     """
     DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets','data','organic_xyz'))
-    from chemml.initialization import XYZreader
-    reader = XYZreader(path_pattern=['[1-9]_opt.xyz', '[1-9][0-9]_opt.xyz'],
-                       path_root=DATA_PATH,
-                       reader='manual',
-                       skip_lines=[2, 0])
-    coordinates = reader.read()
+    # from chemml.initialization import XYZreader
+    # reader = XYZreader(path_pattern=['[1-9]_opt.xyz', '[1-9][0-9]_opt.xyz'],
+    #                    path_root=DATA_PATH,
+    #                    reader='manual',
+    #                    skip_lines=[2, 0])
+    # molecules = reader.read()
+    molecules = []
+    for i in range(1,51):
+        molecule = Molecule(os.path.join(DATA_PATH,"%i_opt.xyz"%i), "xyz")
+        molecules.append(molecule)
+
     df = pd.read_csv(os.path.join(DATA_PATH,'pol.csv'))
-    return coordinates, df
+    return molecules, df
 
 
 def load_comp_energy():

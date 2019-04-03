@@ -1,4 +1,4 @@
-chemml.search module
+Optimization module
 ===================
 
 .. Submodules
@@ -24,7 +24,7 @@ chemml.search module
 .. Module contents
 .. ---------------
 
-.. automodule:: chemml.search
+.. automodule:: chemml.optimization
     :members:
 ..    :undoc-members:
     :show-inheritance:

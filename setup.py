@@ -34,7 +34,8 @@ if __name__ == "__main__":
             'tensorflow', 'keras', 'h5py',
             'scikit-learn',
             'matplotlib>=1.5.1',
-            'lxml', 'wget'
+            'lxml', 'wget',
+            'seaborn'
         ],
         extras_require={
             'docs': [
@@ -42,6 +43,7 @@ if __name__ == "__main__":
                 'sphinxcontrib-napoleon',
                 'sphinx_rtd_theme',
                 'numpydoc',
+                'nbsphinx'
             ],
             'tests': [
                 'pytest', #==3.10

@@ -72,8 +72,12 @@ class XYZ(object):
 
 class Molecule(object):
     """
-    The Molecule class to read and convert different types of molecule input formats.
-    (powered by RDKit and Openbabel libraries)
+    The central class to construct a molecule from different chemical input formats.
+    This module is built on top of RDKit and OpenBabel python API.
+    We join the forces and strength of these two cheminformatic libraris for a consistent user experience.
+
+    Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object.
+    Several methods are available in this module to facilitate the manipulation of chemical data.
 
     Parameters
     ----------
@@ -263,13 +267,13 @@ class Molecule(object):
            ['H'],
            ['H']], dtype='<U1')
     """
-    def __init__(self, input, input_types, **kwargs):
+    def __init__(self, input, input_type, **kwargs):
         self.rdkit_molecule = None
         self.pybel_molecule = None
         self.creator = None
         self._init_attributes()
         self._extra_docs()
-        self._load(input, input_types, **kwargs)
+        self._load(input, input_type, **kwargs)
 
     def __repr__(self):
         return '<chemml.chem.Molecule(\n' \
@@ -856,3 +860,40 @@ class Molecule(object):
              49: 'In'}
         atomic_symbols = np.array([Z[i] for i in atomic_nums])
         self._xyz = XYZ(geometry, atomic_nums.reshape(-1, 1), atomic_symbols.reshape(-1, 1))
+
+    def visualize(self, filename=None, **kwargs):
+        """
+        This function visualizes the molecule. If both rdkit and pybel objects are avaialble, the rdkit object
+        will be used for visualization.
+
+        Parameters
+        ----------
+        filename: str, optional (default = None)
+            This is the path to the file that you want write the image in it.
+            Tkinter and Python Imaging Library are required for writing the image.
+
+        kwargs:
+            any extra parameter that you want to pass to the rdkit or pybel draw tool.
+            Additional information at:
+                - https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html
+                - http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw
+
+        Returns
+        -------
+        object
+            You will be able to display this object, e.g., inside the Jupyter Notebook.
+
+        """
+        engine = self._check_original_molecule()
+        if engine == 'rdkit':
+            from rdkit.Chem import Draw
+            if filename is not None:
+                Draw.MolToFile(self.rdkit_molecule, filename, **kwargs)
+            else:
+                return Draw.MolToImage(self.rdkit_molecule, **kwargs)
+        elif engine == 'pybel':
+            if filename is not None:
+                self.pybel_molecule.draw(show=False, filename=filename, **kwargs)
+            else:
+                return self.pybel_molecule # it seems that the object alone is displayable
+

@@ -1,5 +1,5 @@
-chemml.initialization module
-===========================
+Initialization module
+=====================
 
 .. Submodules
 .. ----------

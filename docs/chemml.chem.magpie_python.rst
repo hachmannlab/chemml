@@ -1,5 +1,5 @@
-chemml.chem.magpie_python module
-===============================
+Magpie_Python module
+====================
 
 
 .. chemml.chem.CoulombMatrix

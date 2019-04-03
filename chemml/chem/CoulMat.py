@@ -2,10 +2,11 @@ from builtins import range
 import pandas as pd
 import numpy as np
 
+from chemml.chem import Molecule
 
 class CoulombMatrix(object):
-    """ (CoulombMatrix)
-    The implementation of coulomb matrix by Matthias Rupp et al 2012, PRL (3 different representations).
+    """
+    The implementation of coulomb matrix descriptors by Matthias Rupp et. al. 2012, PRL (All 3 different variations).
 
     Parameters
     ----------
@@ -17,7 +18,8 @@ class CoulombMatrix(object):
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
     max_n_atoms: int or 'auto', optional (default = 'auto')
-        maximum number of atoms in a molecule. If 'auto', we find it based on the input molecules.
+        Set the maximum number of atoms per molecule (to which all representations will be padded).
+        If 'auto', we find it based on all input molecules.
     nPerm: int, optional (default = 3)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation.
@@ -34,6 +36,26 @@ class CoulombMatrix(object):
         self.const = const
 
     def __cal_coul_mat(self, mol):
+        """
+
+        Parameters
+        ----------
+        mol: molecule object
+
+
+        Returns
+        -------
+
+        """
+        if isinstance(mol, Molecule):
+            if mol.xyz is None:
+                msg = "The molecule must be a chemml.chem.Molecule object with xyz information."
+                raise ValueError(msg)
+        else:
+            msg = "The molecule must be a chemml.chem.Molecule object."
+            raise ValueError(msg)
+
+        mol = np.append(mol.xyz.atomic_numbers,mol.xyz.geometry, axis=1)
         cm = []
         for i in range(len(mol)):
             vect = []
@@ -57,31 +79,44 @@ class CoulombMatrix(object):
 
         Parameters
         ----------
-        molecules: dictionary, numpy array or pandas data frame
-            if dictionary: output of cheml.initialization.XYZreader
-            if numpy array: an array or list of molecules, which each molecule has a shape of (number of atoms, 4)
-            if pandas dataframe : only one molecule with shape (number of atoms, 4).
-            The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
+        molecules: chemml.chem.Molecule object or list
+            If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+            In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
+            stored or optimized in advance.
 
         Returns
         -------
-        pandas DataFrame
-            shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)
-            shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
-            shape of eigenspectrums (E): (n_molecules, max_n_atoms)
-            shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
-            shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)
-
+        Pandas DataFrame
+            A data frame with same number of rows as number of molecules will be returned.
+            The exact shape of the dataframe depends on the type of CM as follows:
+                - shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)
+                - shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
+                - shape of eigenspectrums (E): (n_molecules, max_n_atoms)
+                - shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
+                - shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)
         """
-        if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in range(1, len(molecules)+1)])
-        elif isinstance(molecules, pd.DataFrame):
-            # only one molecule
-            molecules = np.array([molecules.values])
+        if isinstance(molecules, list):
+            molecules = np.array(molecules)
+        elif isinstance(molecules, Molecule):
+            molecules = np.array([molecules])
+        else:
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
 
-        self.n_molecules = len(molecules)
+        if molecules.ndim >1:
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
+
+        self.n_molecules = molecules.shape[0]
+
+        # max number of atoms based on the list of molecules
         if self.max_n_atoms == 'auto':
-            self.max_n_atoms = max([len(m) for m in molecules])
+            try:
+                self.max_n_atoms = max([m.xyz.atomic_numbers.shape[0] for m in molecules])
+            except:
+                msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+                raise ValueError(msg)
+
         if self.CMtype == "Unsorted_Matrix" or self.CMtype == 'UM':
             cms = np.array([])
             for mol in molecules:
@@ -142,8 +177,8 @@ class CoulombMatrix(object):
             return pd.DataFrame(random_cm)
 
 class BagofBonds(object):
-    """ (BagofBonds)
-    The implementation of bag of bonds version of coulomb matrix by katja Hansen et al 2015, JPCL.
+    """
+    The implementation of bag of bonds version of coulomb matrix by katja Hansen et. al. 2015, JPCL.
 
     Parameters
     ----------
@@ -157,7 +192,7 @@ class BagofBonds(object):
 
     Attributes
     ----------
-    header: list of header for the bag of bonds data frame
+    header_: list of header for the bag of bonds data frame
         contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)
 
     Examples
@@ -178,26 +213,33 @@ class BagofBonds(object):
 
         Parameters
         ----------
-        molecules: dictionary,numpy array  or pandas data frame
-            if dictionary: output of cheml.initialization.XYZreader
-            if numpy array: array or list of molecules, which each molecule is an array with shape (number of atoms, 4).
-            if pandas dataframe : only one molecule with shape (number of atoms, 4).
-            The four columns are nuclear charge, x-corrdinate, y-coordinate, z-coordinate for each atom, respectively.
+        molecules: chemml.chem.Molecule object or list
+            If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+            In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
+            stored or optimized in advance.
 
         Returns
         -------
         pandas data frame, shape: (n_molecules, max_length_of_combinations)
 
         """
-        if isinstance(molecules, dict):
-            molecules = np.array([molecules[i]['mol'] for i in range(1,len(molecules)+1)])
-        elif isinstance(molecules, pd.DataFrame):
-            molecules = molecules.values
+        if isinstance(molecules, list):
+            molecules = np.array(molecules)
+        elif isinstance(molecules, Molecule):
+            molecules = np.array([molecules])
+        else:
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
+
+        if molecules.ndim > 1:
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
 
         BBs_matrix = [] # list of dictionaries for each molecule
         all_keys = {}   # dictionary of unique keys and their maximum length
         for nmol,mol in enumerate(molecules):
             bags = {}
+            mol = np.append(mol.xyz.atomic_numbers, mol.xyz.geometry, axis=1)
             for i in range(len(mol)):
                 for j in range(i,len(mol)):
                     if i==j:
@@ -234,11 +276,11 @@ class BagofBonds(object):
         order_headers = list(df.columns)
         output = pd.DataFrame(list(df.sum(1)))
         del df
-        self.headers = []
+        self.header_ = []
         for key in order_headers:
             if key[0]==key[1]:
                 k = key[0]
             else:
                 k = key
-            self.headers += all_keys[key] * [k]
+            self.header_ += all_keys[key] * [k]
         return output

@@ -72,8 +72,12 @@ class XYZ(object):
 
 class Molecule(object):
     """
-    The Molecule class to read and convert different types of molecule input formats.
-    (powered by RDKit and Openbabel libraries)
+    The central class to construct a molecule from different chemical input formats.
+    This module is built on top of RDKit and OpenBabel python API.
+    We join the forces and strength of these two cheminformatic libraris for a consistent user experience.
+
+    Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object.
+    Several methods are available in this module to facilitate the manipulation of chemical data.
 
     Parameters
     ----------
@@ -263,13 +267,13 @@ class Molecule(object):
            ['H'],
            ['H']], dtype='<U1')
     """
-    def __init__(self, input, input_types, **kwargs):
+    def __init__(self, input, input_type, **kwargs):
         self.rdkit_molecule = None
         self.pybel_molecule = None
         self.creator = None
         self._init_attributes()
         self._extra_docs()
-        self._load(input, input_types, **kwargs)
+        self._load(input, input_type, **kwargs)
 
     def __repr__(self):
         return '<chemml.chem.Molecule(\n' \

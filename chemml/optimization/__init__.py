@@ -1,7 +1,7 @@
 """
 The cheml.optimization module includes (please click on links adjacent to function names for more information):
     - GeneticAlgorithm: :func:`~chemml.optimization.GeneticAlgorithm`
-    - BEMCM: :func:`~chemml.optimization.BEMCM`
+    - ActiveLearning: :func:`~chemml.optimization.ActiveLearning`
 """
 
 from .active import ActiveLearning

@@ -14,8 +14,8 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 
 
 ## Latest Version:
-- Program Version: 0.5.0
-- Release Date: March 25, 2019
+- Program Version: 0.5.1
+- Release Date: April 2, 2019
 
 ## Installation and Dependencies:
 You can download ChemML from Python Package Index (PyPI) via pip.
@@ -45,7 +45,7 @@ installing ChemML. For doing so, you need to follow the conda installer:
 The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
 and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
 However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that 
-support Python 2 prior to installing ChemML locally via `pip install -e.`.
+support Python 2 prior to using ChemML locally.
  
 ## Citation:
 Please cite the use of ChemML as:

@@ -6,8 +6,7 @@ import numpy as np
 import warnings
 import fnmatch
 
-from chemml.utils.utilities import std_datetime_str
-
+from chemml.chem.molecule import Molecule
 
 class Split(object):
     """
@@ -111,8 +110,8 @@ class XYZreader(object):
 
     Attributes
     ----------
-    max_n_atoms: int
-        Maximum number of atoms in one molecule.
+    max_n_atoms_: int
+        Maximum number of atoms in the pool of molecules.
         This can be useful if you want to set this parameter in the feature representation methods,
         e.g. Coulomb_Matrix.
 
@@ -309,26 +308,22 @@ class XYZreader(object):
 
     def read(self):
         """
-        read the XYZ files based on the path_pattern and path_root parameters and create the output ductionary.
+        read the XYZ files based on the path_pattern and path_root parameters and create a list of chemml.chem.Molecule objects.
 
         Return
         ------
-        molecules: dictionary
-            dictionary of molecules with ['mol', 'file'] keys
-            The value of 'file' is the name and path of the file that was read to create the molecule.
-            The value of 'mol' is the numpy array of 4 values for each atom in the molecule. The four values are
-             nuclear charge, X-coordinate, Y-coordinate, and Z-coordinate, respectively.
+        molecules: list
+            A list of chemml.chem.Molecule objects
         """
         if isinstance(self.path_pattern, str):
             self.path_pattern = [self.path_pattern]
-        #Todo: change the molecules to a list of dictionaries
-        molecules = {}
+        molecules = []
         it = 0
         max_nAtoms = 1
         for pattern in self.path_pattern:
             file_name, file_extension = os.path.splitext(pattern)
             if file_extension == '':
-                msg = 'file extension not indicated'
+                msg = 'The file extension must be indicated.'
                 raise ValueError(msg)
             elif file_extension != '.xyz':
                 msg = "file extension '%s' not available - xyz is the only acceptable extension" % file_extension
@@ -360,7 +355,7 @@ class XYZreader(object):
                     max_nAtoms = max(max_nAtoms, 0)
                 it += 1
                 molecules[it] = {'file': file_name, 'mol': mol}
-        self.max_n_atoms = max_nAtoms
+        self.max_n_atoms_ = max_nAtoms
         return molecules
 
 

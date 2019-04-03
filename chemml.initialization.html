@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cheml.initialization module &mdash; ChemML 0.4.3 documentation</title>
+  <title>Initialization module &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="cheml.datasets module" href="cheml.datasets.html" />
-    <link rel="prev" title="cheml.chem.magpie_python module" href="cheml.chem.magpie_python.html" /> 
+    <link rel="next" title="Datasets module" href="chemml.datasets.html" />
+    <link rel="prev" title="Magpie_Python module" href="chemml.chem.magpie_python.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -90,19 +90,23 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml library</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="cheml.chem.html">cheml.chem module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.chem.magpie_python.html">cheml.chem.magpie_python module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">cheml.initialization module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.datasets.html">cheml.datasets module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.nn.keras.html">cheml.nn.keras module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.search.html">cheml.search module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.visualization.html">cheml.visualization module</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 
             
@@ -148,15 +152,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="cheml.html">cheml library</a> &raquo;</li>
-        
-      <li>cheml.initialization module</li>
+      <li>Initialization module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cheml.initialization.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/chemml.initialization.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -169,21 +171,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cheml-initialization-module">
-<h1>cheml.initialization module<a class="headerlink" href="#cheml-initialization-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-cheml.initialization"></span><dl class="docutils">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="initialization-module">
+<h1>Initialization module<a class="headerlink" href="#initialization-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-chemml.initialization"></span><dl class="docutils">
 <dt>The cheml.initialization module includes (please click on links adjacent to function names for more information):</dt>
 <dd><ul class="first last simple">
-<li>XYZreader: <a class="reference internal" href="#cheml.initialization.XYZreader" title="cheml.initialization.XYZreader"><code class="xref py py-func docutils literal notranslate"><span class="pre">XYZreader()</span></code></a></li>
-<li>ConvertFile: <a class="reference internal" href="#cheml.initialization.ConvertFile" title="cheml.initialization.ConvertFile"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConvertFile()</span></code></a></li>
-<li>Split: <a class="reference internal" href="#cheml.initialization.Split" title="cheml.initialization.Split"><code class="xref py py-func docutils literal notranslate"><span class="pre">Split()</span></code></a></li>
-<li>SaveFile: <a class="reference internal" href="#cheml.initialization.SaveFile" title="cheml.initialization.SaveFile"><code class="xref py py-func docutils literal notranslate"><span class="pre">SaveFile()</span></code></a></li>
+<li>XYZreader: <code class="xref py py-func docutils literal notranslate"><span class="pre">XYZreader()</span></code></li>
+<li>ConvertFile: <code class="xref py py-func docutils literal notranslate"><span class="pre">ConvertFile()</span></code></li>
+<li>Split: <code class="xref py py-func docutils literal notranslate"><span class="pre">Split()</span></code></li>
 </ul>
 </dd>
 </dl>
 <dl class="class">
-<dt id="cheml.initialization.XYZreader">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">XYZreader</code><span class="sig-paren">(</span><em>path_pattern, path_root=None, Z={'Ac': 89.0, 'Ag': 47.0, 'Al': 13.0, 'Am': 95.0, 'Ar': 18.0, 'As': 33.0, 'At': 85.0, 'Au': 79.0, 'B': 5.0, 'Ba': 56.0, 'Be': 4.0, 'Bh': 107.0, 'Bi': 83.0, 'Bk': 97.0, 'Br': 35.0, 'C': 6.0, 'Ca': 20.0, 'Cd': 48.0, 'Ce': 58.0, 'Cf': 98.0, 'Cl': 17.0, 'Cm': 96.0, 'Cn': 112.0, 'Co': 27.0, 'Cr': 24.0, 'Cs': 55.0, 'Cu': 29.0, 'Db': 105.0, 'Ds': 110.0, 'Dy': 66.0, 'Er': 68.0, 'Es': 99.0, 'Eu': 63.0, 'F': 9.0, 'Fe': 26.0, 'Fl': 114.0, 'Fm': 100.0, 'Fr': 87.0, 'Ga': 31.0, 'Gd': 64.0, 'Ge': 32.0, 'H': 1.0, 'He': 2.0, 'Hf': 72.0, 'Hg': 80.0, 'Ho': 67.0, 'Hs': 108.0, 'I': 53.0, 'In': 49.0, 'Ir': 77.0, 'K': 19.0, 'Kr': 36.0, 'La': 57.0, 'Li': 3.0, 'Lr': 103.0, 'Lu': 71.0, 'Lv': 116.0, 'Md': 101.0, 'Mg': 12.0, 'Mn': 25.0, 'Mo': 42.0, 'Mt': 109.0, 'N': 7.0, 'Na': 11.0, 'Nb': 41.0, 'Nd': 60.0, 'Ne': 10.0, 'Ni': 28.0, 'No': 102.0, 'Np': 93.0, 'O': 8.0, 'Os': 76.0, 'P': 15.0, 'Pa': 91.0, 'Pb': 82.0, 'Pd': 46.0, 'Pm': 61.0, 'Po': 84.0, 'Pr': 59.0, 'Pt': 78.0, 'Pu': 94.0, 'Ra': 88.0, 'Rb': 37.0, 'Re': 75.0, 'Rf': 104.0, 'Rg': 111.0, 'Rh': 45.0, 'Rn': 86.0, 'Ru': 44.0, 'S': 16.0, 'Sb': 51.0, 'Sc': 21.0, 'Se': 34.0, 'Sg': 106.0, 'Si': 14.0, 'Sm': 62.0, 'Sn': 50.0, 'Sr': 38.0, 'Ta': 73.0, 'Tb': 65.0, 'Tc': 43.0, 'Te': 52.0, 'Th': 90.0, 'Ti': 22.0, 'Tl': 81.0, 'Tm': 69.0, 'U': 92.0, 'Uuo': 118.0, 'Uup': 115.0, 'Uus': 117.0, 'Uut': 113.0, 'V': 23.0, 'W': 74.0, 'Xe': 54.0, 'Y': 39.0, 'Yb': 70.0, 'Zn': 30.0, 'Zr': 40.0}, reader='auto', skip_lines=[2, 0], path_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.XYZreader" title="Permalink to this definition">¶</a></dt>
+<dt id="chemml.initialization.XYZreader">
+<em class="property">class </em><code class="descclassname">chemml.initialization.</code><code class="descname">XYZreader</code><span class="sig-paren">(</span><em>path_pattern, path_root=None, Z={'Ac': 89.0, 'Ag': 47.0, 'Al': 13.0, 'Am': 95.0, 'Ar': 18.0, 'As': 33.0, 'At': 85.0, 'Au': 79.0, 'B': 5.0, 'Ba': 56.0, 'Be': 4.0, 'Bh': 107.0, 'Bi': 83.0, 'Bk': 97.0, 'Br': 35.0, 'C': 6.0, 'Ca': 20.0, 'Cd': 48.0, 'Ce': 58.0, 'Cf': 98.0, 'Cl': 17.0, 'Cm': 96.0, 'Cn': 112.0, 'Co': 27.0, 'Cr': 24.0, 'Cs': 55.0, 'Cu': 29.0, 'Db': 105.0, 'Ds': 110.0, 'Dy': 66.0, 'Er': 68.0, 'Es': 99.0, 'Eu': 63.0, 'F': 9.0, 'Fe': 26.0, 'Fl': 114.0, 'Fm': 100.0, 'Fr': 87.0, 'Ga': 31.0, 'Gd': 64.0, 'Ge': 32.0, 'H': 1.0, 'He': 2.0, 'Hf': 72.0, 'Hg': 80.0, 'Ho': 67.0, 'Hs': 108.0, 'I': 53.0, 'In': 49.0, 'Ir': 77.0, 'K': 19.0, 'Kr': 36.0, 'La': 57.0, 'Li': 3.0, 'Lr': 103.0, 'Lu': 71.0, 'Lv': 116.0, 'Md': 101.0, 'Mg': 12.0, 'Mn': 25.0, 'Mo': 42.0, 'Mt': 109.0, 'N': 7.0, 'Na': 11.0, 'Nb': 41.0, 'Nd': 60.0, 'Ne': 10.0, 'Ni': 28.0, 'No': 102.0, 'Np': 93.0, 'O': 8.0, 'Os': 76.0, 'P': 15.0, 'Pa': 91.0, 'Pb': 82.0, 'Pd': 46.0, 'Pm': 61.0, 'Po': 84.0, 'Pr': 59.0, 'Pt': 78.0, 'Pu': 94.0, 'Ra': 88.0, 'Rb': 37.0, 'Re': 75.0, 'Rf': 104.0, 'Rg': 111.0, 'Rh': 45.0, 'Rn': 86.0, 'Ru': 44.0, 'S': 16.0, 'Sb': 51.0, 'Sc': 21.0, 'Se': 34.0, 'Sg': 106.0, 'Si': 14.0, 'Sm': 62.0, 'Sn': 50.0, 'Sr': 38.0, 'Ta': 73.0, 'Tb': 65.0, 'Tc': 43.0, 'Te': 52.0, 'Th': 90.0, 'Ti': 22.0, 'Tl': 81.0, 'Tm': 69.0, 'U': 92.0, 'Uuo': 118.0, 'Uup': 115.0, 'Uus': 117.0, 'Uut': 113.0, 'V': 23.0, 'W': 74.0, 'Xe': 54.0, 'Y': 39.0, 'Yb': 70.0, 'Zn': 30.0, 'Zr': 40.0}, reader='auto', skip_lines=[2, 0], path_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.initialization.XYZreader" title="Permalink to this definition">¶</a></dt>
 <dd><p>(XYZreader)
 Read molecules’ geometry (cartesian coordinates) from one or more XYZ files.</p>
 <dl class="docutils">
@@ -232,53 +257,49 @@ can also be ignored.
 Only available for ‘manual’ reader.</dd>
 </dl>
 <dl class="docutils">
-<dt>max_n_atoms: integer</dt>
-<dd>Maximum number of atoms in one molecule.
+<dt><a href="#id9"><span class="problematic" id="id10">max_n_atoms_</span></a>: int</dt>
+<dd>Maximum number of atoms in the pool of molecules.
 This can be useful if you want to set this parameter in the feature representation methods,
 e.g. Coulomb_Matrix.</dd>
 </dl>
 <blockquote>
-<div><p>(1)
+<div><p>Some pattern examples:
+(1)
 path_pattern: ‘Mydir/1f/1_opt.xyz’
 path_root: None
-&gt;&gt;&gt; one file will be read: ‘Mydir/1f/1_opt.xyz’</p>
+one file will be read: ‘Mydir/1f/1_opt.xyz’</p>
 <p>(2)
 path_pattern: ‘[1,2,3,4]?/<a href="#id1"><span class="problematic" id="id2">*</span></a>_opt.xyz’
 path_root: ‘Mydir’
-&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
+sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
 <p>(3)
 path_pattern: ‘[!1,2]?/<a href="#id3"><span class="problematic" id="id4">*</span></a>_opt.xyz’
 path_root: ‘.’
-&gt;&gt;&gt; sample files to be read: ‘./3f/3_opt.xyz’, ‘Mydir/7c/7_opt.xyz’, …</p>
+sample files to be read: ‘./3f/3_opt.xyz’, ‘Mydir/7c/7_opt.xyz’, …</p>
 <p>(4)
 path_pattern: ‘<a href="#id5"><span class="problematic" id="id6">*</span></a>[‘f’,’c’]/<a href="#id7"><span class="problematic" id="id8">*</span></a>_opt.xyz’
 path_root: ‘Mydir’
-&gt;&gt;&gt; sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
+sample files to be read: ‘Mydir/1f/1_opt.xyz’, ‘Mydir/2c/2_opt.xyz’, …</p>
 <p>(5)
 path_pattern: [‘[2-5]_opt.xyz’, ‘[1-9][2-5]_opt.xyz’]
 path_root: ‘Mydir/all’
-&gt;&gt;&gt; sample files to be read: ‘Mydir/all/1f/1_opt.xyz’, ‘Mydir/all/2c/2_opt.xyz’, …</p>
+sample files to be read: ‘Mydir/all/1f/1_opt.xyz’, ‘Mydir/all/2c/2_opt.xyz’, …</p>
 </div></blockquote>
 <dl class="method">
-<dt id="cheml.initialization.XYZreader.read">
-<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.XYZreader.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>read the XYZ files based on the path_pattern and path_root parameters and create the output ductionary.</p>
+<dt id="chemml.initialization.XYZreader.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.initialization.XYZreader.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>read the XYZ files based on the path_pattern and path_root parameters and create a list of chemml.chem.Molecule objects.</p>
 <dl class="docutils">
-<dt>molecules: dictionary</dt>
-<dd><p class="first">dictionary of molecules with [‘mol’, ‘file’] keys
-The value of ‘file’ is the name and path of the file that was read to create the molecule.
-The value of ‘mol’ is the numpy array of 4 values for each atom in the molecule. The four values are</p>
-<blockquote class="last">
-<div>nuclear charge, X-coordinate, Y-coordinate, and Z-coordinate, respectively.</div></blockquote>
-</dd>
+<dt>molecules: list</dt>
+<dd>A list of chemml.chem.Molecule objects</dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="cheml.initialization.ConvertFile">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">ConvertFile</code><span class="sig-paren">(</span><em>file_path</em>, <em>from_format</em>, <em>to_format</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.ConvertFile" title="Permalink to this definition">¶</a></dt>
+<dt id="chemml.initialization.ConvertFile">
+<em class="property">class </em><code class="descclassname">chemml.initialization.</code><code class="descname">ConvertFile</code><span class="sig-paren">(</span><em>file_path</em>, <em>from_format</em>, <em>to_format</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.initialization.ConvertFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>(ConvertFile)
 Specify file path, ‘from_format’ and ‘to_format’ to convert a file form ‘from_format’ to ‘to_format’
 using openbabel (<a class="reference external" href="https://openbabel.org/wiki/Babel">https://openbabel.org/wiki/Babel</a>).</p>
@@ -299,11 +320,11 @@ List of possible ‘to_format’s are on <a class="reference external" href="htt
 <dt>converted_file_paths: dictionary</dt>
 <dd>dictionary of converted file paths, in the same format of XYZreader output: {index:{‘file’:”“}}</dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cheml.datasets</span> <span class="k">import</span> <span class="n">load_xyz_polarizability</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_xyz_polarizability</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span><span class="p">,</span><span class="n">polarizability</span> <span class="o">=</span> <span class="n">load_xyz_polarizability</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span>
 <span class="go">{1: {&#39;file&#39;: &#39;cheml/datasets/data/organic_xyz/1_opt.xyz&#39;, ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cheml.initialization</span> <span class="k">import</span> <span class="n">ConvertFile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.initialization</span> <span class="k">import</span> <span class="n">ConvertFile</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ConvertFile</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span><span class="n">from_format</span><span class="o">=</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span><span class="n">to_format</span><span class="o">=</span><span class="s1">&#39;cml&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">converted_file_paths</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 <span class="go">{1: {&#39;file&#39;: &#39;cheml/datasets/data/organic_xyz/1_opt.cml&#39;}, 2: ...</span>
@@ -312,46 +333,29 @@ List of possible ‘to_format’s are on <a class="reference external" href="htt
 </dd></dl>
 
 <dl class="class">
-<dt id="cheml.initialization.Split">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split" title="Permalink to this definition">¶</a></dt>
+<dt id="chemml.initialization.Split">
+<em class="property">class </em><code class="descclassname">chemml.initialization.</code><code class="descname">Split</code><span class="sig-paren">(</span><em>selection=1</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.initialization.Split" title="Permalink to this definition">¶</a></dt>
 <dd><p>split data frame by columns</p>
 <dl class="docutils">
-<dt>select: integer or list (default = 1)</dt>
-<dd>integer: number of columns to be selected from the first of data as first data frame (X1)
-list: list of headers to be selected as first data frame (X1)</dd>
+<dt>select: int or list, optional (default = 1)</dt>
+<dd>if integer, it’s the number of columns to be selected from left side of data and returns as first data frame (X1).
+if list, it must contain the exact column names to be selected and returned as first data frame (X1).
+The remaining columns will be returned as second dataframe (X2) in both cases.</dd>
 </dl>
-<p>two pandas dataframes: X1 and X2</p>
 <dl class="method">
-<dt id="cheml.initialization.Split.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fit the split task to the input data frame</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – pandas data frame</td>
-</tr>
-</tbody>
-</table>
-<p>original pandas data frame
-:return: two pandas data frame: X1 and X2</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="cheml.initialization.SaveFile">
-<em class="property">class </em><code class="descclassname">cheml.initialization.</code><code class="descname">SaveFile</code><span class="sig-paren">(</span><em>filename</em>, <em>output_directory=None</em>, <em>record_time=False</em>, <em>format='csv'</em>, <em>index=False</em>, <em>header=True</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write DataFrame to a comma-seprated values(csv) file
-:param: output_directory: string, the output directory to save output files</p>
-<dl class="method">
-<dt id="cheml.initialization.SaveFile.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>main_directory='.'</em><span class="sig-paren">)</span><a class="headerlink" href="#cheml.initialization.SaveFile.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write DataFrame to a comma-seprated values (csv) file</p>
-<p>X: pandas DataFrame
-main_directory: string</p>
-<blockquote>
-<div>if there is any main directory for entire cheml project</div></blockquote>
+<dt id="chemml.initialization.Split.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.initialization.Split.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function to fit the split task to the input data frame X.</p>
+<dl class="docutils">
+<dt>X: pandas dataframe</dt>
+<dd>The input dataframe</dd>
+</dl>
+<dl class="docutils">
+<dt>pandas dataframe</dt>
+<dd>X1: the dataframe resulted based on the selection parameter</dd>
+<dt>pandas dataframe</dt>
+<dd>X2: the dataframe of columns not selected as X1</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -366,10 +370,10 @@ main_directory: string</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.datasets.html" class="btn btn-neutral float-right" title="cheml.datasets module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="chemml.datasets.html" class="btn btn-neutral float-right" title="Datasets module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.chem.magpie_python.html" class="btn btn-neutral" title="cheml.chem.magpie_python module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="chemml.chem.magpie_python.html" class="btn btn-neutral" title="Magpie_Python module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -400,7 +404,7 @@ main_directory: string</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -411,6 +415,9 @@ main_directory: string</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
 
   
 

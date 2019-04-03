@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>plot &mdash; ChemML 0.4.3 documentation</title>
+  <title>plot &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -88,9 +88,23 @@
 <li class="toctree-l1"><a class="reference internal" href="../CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ga_feature_selection.html">Feature Selection</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cheml.html">cheml library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 
             
@@ -155,7 +169,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="plot">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="plot">
 <span id="id1"></span><h1>plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h1>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -288,7 +326,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -299,6 +337,9 @@
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="../None"></script>
 
   
 

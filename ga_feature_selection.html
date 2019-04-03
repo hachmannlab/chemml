@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Feature Selection &mdash; ChemML 0.5.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chem module" href="chemml.chem.html" />
+    <link rel="prev" title="Hyperparameter Optimization" href="ga_hyper_opt.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Feature Selection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Import-Data-Set">Import Data Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Defining-hyperparameter-space">Defining hyperparameter space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Defining-objective-function">Defining objective function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Optimize-the-feature-space">Optimize the feature space</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Feature Selection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ga_feature_selection.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Feature-Selection">
+<h1>Feature Selection<a class="headerlink" href="#Feature-Selection" title="Permalink to this headline">¶</a></h1>
+<p>This is a toy example of using genetic algorithm module for the feature selection via training of a linear model.</p>
+<div class="section" id="Import-Data-Set">
+<h2>Import Data Set<a class="headerlink" href="#Import-Data-Set" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_organic_density</span>
+<span class="n">_</span><span class="p">,</span><span class="n">density</span><span class="p">,</span><span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">density</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">density</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">features</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># from sklearn.preprocessing import StandardScaler</span>
+<span class="c1"># scalerx = StandardScaler()</span>
+<span class="c1"># features = scalerx.fit_transform(features)</span>
+<span class="c1"># density = scalerx.fit_transform(density)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(500, 1) (500, 200)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Defining-hyperparameter-space">
+<h2>Defining hyperparameter space<a class="headerlink" href="#Defining-hyperparameter-space" title="Permalink to this headline">¶</a></h2>
+<p>For this, each of the individual features is encoded as a binary bit of the chromosome for genetic algorithm.</p>
+<p>0 indicates feature is discarded.</p>
+<p>1 indicates feature is selected.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">space</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([{</span><span class="n">i</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;choice&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Defining-objective-function">
+<h2>Defining objective function<a class="headerlink" href="#Defining-objective-function" title="Permalink to this headline">¶</a></h2>
+<p>The objective function is defined as a function that receives one ‘individual’ of the genetic algorithm’s population that is an ordered list of the hyperparameters defined in the space variable. Within the objective function, the user does all the required calculations and returns the metric (as a tuple) that is supposed to be optimized. If multiple metrics are returned, all the metrics are optimized according to the fitness defined in the initialization of the Genetic Algorithm class.</p>
+<p>Here, we use a simple linear regression model to fit the data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_absolute_error</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+<span class="k">def</span> <span class="nf">obj</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">new_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">individual</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">new_cols</span><span class="p">]]</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ridge</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">400</span><span class="p">],</span> <span class="n">density</span><span class="p">[:</span><span class="mi">400</span><span class="p">])</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">400</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">density</span><span class="p">[</span><span class="mi">400</span><span class="p">:],</span> <span class="n">pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Optimize-the-feature-space">
+<h2>Optimize the feature space<a class="headerlink" href="#Optimize-the-feature-space" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chemml.optimization</span> <span class="k">import</span> <span class="n">GeneticAlgorithm</span>
+<span class="n">ga</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">crossover_type</span><span class="o">=</span><span class="s2">&quot;Uniform&quot;</span><span class="p">,</span>
+                        <span class="n">pop_size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">crossover_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">mutation_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">best_models_per_generation</span><span class="p">,</span> <span class="n">final_best_hyperparameters</span> <span class="o">=</span> <span class="n">ga</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">n_generations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">final_best_hyperparameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 7: 0, 8: 1, 9: 1, 10: 0, 11: 1, 12: 0, 13: 0, 14: 0, 15: 0, 16: 1, 17: 1, 18: 0, 19: 1, 20: 0, 21: 0, 22: 0, 23: 0, 24: 1, 25: 0, 26: 0, 27: 1, 28: 0, 29: 0, 30: 0, 31: 1, 32: 1, 33: 0, 34: 0, 35: 0, 36: 1, 37: 0, 38: 0, 39: 1, 40: 0, 41: 1, 42: 0, 43: 0, 44: 1, 45: 0, 46: 1, 47: 0, 48: 1, 49: 1, 50: 0, 51: 1, 52: 1, 53: 1, 54: 1, 55: 1, 56: 1, 57: 0, 58: 1, 59: 1, 60: 1, 61: 0, 62: 0, 63: 0, 64: 0, 65: 0, 66: 1, 67: 0, 68: 1, 69: 0, 70: 1, 71: 0, 72: 1, 73: 0, 74: 0, 75: 0, 76: 0, 77: 0, 78: 0, 79: 0, 80: 1, 81: 0, 82: 1, 83: 0, 84: 1, 85: 1, 86: 0, 87: 0, 88: 1, 89: 0, 90: 0, 91: 1, 92: 1, 93: 0, 94: 1, 95: 1, 96: 0, 97: 0, 98: 1, 99: 0, 100: 1, 101: 0, 102: 0, 103: 0, 104: 1, 105: 0, 106: 0, 107: 1, 108: 1, 109: 1, 110: 0, 111: 1, 112: 1, 113: 1, 114: 1, 115: 1, 116: 0, 117: 1, 118: 0, 119: 1, 120: 0, 121: 1, 122: 1, 123: 0, 124: 1, 125: 0, 126: 1, 127: 0, 128: 0, 129: 0, 130: 0, 131: 1, 132: 1, 133: 1, 134: 0, 135: 1, 136: 0, 137: 1, 138: 1, 139: 1, 140: 0, 141: 0, 142: 0, 143: 1, 144: 1, 145: 0, 146: 0, 147: 0, 148: 1, 149: 1, 150: 0, 151: 1, 152: 0, 153: 0, 154: 0, 155: 1, 156: 0, 157: 1, 158: 1, 159: 0, 160: 0, 161: 1, 162: 0, 163: 0, 164: 1, 165: 0, 166: 1, 167: 0, 168: 0, 169: 1, 170: 0, 171: 1, 172: 1, 173: 0, 174: 0, 175: 1, 176: 0, 177: 1, 178: 1, 179: 1, 180: 1, 181: 1, 182: 0, 183: 0, 184: 0, 185: 0, 186: 1, 187: 0, 188: 0, 189: 0, 190: 0, 191: 1, 192: 1, 193: 1, 194: 0, 195: 0, 196: 1, 197: 0, 198: 0, 199: 1}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">best_models_per_generation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Best_individual</th>
+      <th>Fitness_values</th>
+      <th>Time (hours)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>
+      <td>9.342199</td>
+      <td>0.000044</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>
+      <td>9.342199</td>
+      <td>0.000042</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>
+      <td>9.342199</td>
+      <td>0.000043</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>
+      <td>9.342199</td>
+      <td>0.000042</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>
+      <td>8.899432</td>
+      <td>0.000042</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>
+      <td>8.899432</td>
+      <td>0.000043</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>
+      <td>8.899432</td>
+      <td>0.000049</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>
+      <td>8.899432</td>
+      <td>0.000045</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>
+      <td>8.899432</td>
+      <td>0.000044</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>(0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, ...</td>
+      <td>8.693441</td>
+      <td>0.000042</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chemml.chem.html" class="btn btn-neutral float-right" title="Chem module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ga_hyper_opt.html" class="btn btn-neutral" title="Hyperparameter Optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.5.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

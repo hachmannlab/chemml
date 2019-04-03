@@ -1,0 +1,828 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Molecule &mdash; ChemML 0.5.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Active Learning" href="active_model_based.html" />
+    <link rel="prev" title="SaveFile" href="include_CMLWR8Store.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Molecule</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Import-module">Import module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Construct-a-molecule">Construct a molecule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Visualize">Visualize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Convert-chemical-formats">Convert chemical formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Optimize-XYZ-geometry">Optimize XYZ geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Read-XYZ-file">Read XYZ file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Molecule</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/molecule.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Molecule">
+<h1>Molecule<a class="headerlink" href="#Molecule" title="Permalink to this headline">¶</a></h1>
+<p>The central class to construct a molecule from different chemical input formats. This module is built on top of RDKit and OpenBabel python API. We join the forces and strength of these two cheminformatic libraris for a consistent user experience.</p>
+<p>Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object. Several methods are available in this module to facilitate the manipulation of chemical data.</p>
+<div class="section" id="Import-module">
+<h2>Import module<a class="headerlink" href="#Import-module" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="k">import</span> <span class="n">Molecule</span>
+</pre></div>
+</div>
+</div>
+<p>We play with caffeine molecule in this tutorial. Here are three representation formats of this molecule:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">&#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;</span>
+<span class="n">caffeine_smarts</span> <span class="o">=</span> <span class="s1">&#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;</span>
+<span class="n">caffeine_inchi</span> <span class="o">=</span> <span class="s1">&#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Construct-a-molecule">
+<h2>Construct a molecule<a class="headerlink" href="#Construct-a-molecule" title="Permalink to this headline">¶</a></h2>
+<p>You can construct a molecule by instantiating the Molecule class with two required parameters: - input: representaion string or file name - input_type: as of now only smiles, smarts, inchi, and xyz formats are available</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_smiles</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>You can always see a representation of the available attributes and chemical formats. The <code class="docutils literal notranslate"><span class="pre">creator</span></code> shows you how this molecule was originally constructed. The rdkit and pybel molecule objects are also accessible if they have been used to create the molecule.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x116ea8b20&gt;,
+        pybel_molecule : None,
+        creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),
+        smiles         : &#39;Cn1c(=O)c2c(ncn2C)n(C)c1=O&#39;,
+        smarts         : None,
+        inchi          : None,
+        xyz            : None)&gt;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">smiles</span><span class="p">,</span> <span class="n">mol</span><span class="o">.</span><span class="n">creator</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">rdkit_molecule</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cn1c(=O)c2c(ncn2C)n(C)c1=O (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;rdkit.Chem.rdchem.Mol at 0x116ea8b20&gt;
+</pre></div>
+</div>
+</div>
+<p>construct a molecule using InChi representatoin:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_inchi</span><span class="p">,</span> <span class="s1">&#39;inchi&#39;</span><span class="p">)</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x116dcafa8&gt;,
+        pybel_molecule : None,
+        creator        : (&#39;InChi&#39;, &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;),
+        smiles         : None,
+        smarts         : None,
+        inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,
+        xyz            : None)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Visualize">
+<h2>Visualize<a class="headerlink" href="#Visualize" title="Permalink to this headline">¶</a></h2>
+<p>The visualize method show or save a molecule image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/molecule_14_0.png" src="_images/molecule_14_0.png" />
+</div>
+</div>
+<p>You can add or remove hydrogens by:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/molecule_16_0.png" src="_images/molecule_16_0.png" />
+</div>
+</div>
+<p>For example, you need to add hydrogens if you want to optimize the geometry of this molecule to get the spatial informatin.</p>
+</div>
+<div class="section" id="Convert-chemical-formats">
+<h2>Convert chemical formats<a class="headerlink" href="#Convert-chemical-formats" title="Permalink to this headline">¶</a></h2>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">to_smiles</span></code>, <code class="docutils literal notranslate"><span class="pre">to_smarts</span></code>, <code class="docutils literal notranslate"><span class="pre">to_inchi</span></code>, or <code class="docutils literal notranslate"><span class="pre">to_xyz</span></code> methods with available parameters to convert the formats, accordingly.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">)</span> <span class="c1"># just for the sake of visualization: to fit the text inside the box</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_smiles</span><span class="p">(</span><span class="n">kekuleSmiles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># although I already had it: just to make sure I have kekulized SMILES</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_smarts</span><span class="p">(</span><span class="n">isomericSmiles</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_inchi</span><span class="p">()</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x117a5eb70&gt;,
+        pybel_molecule : None,
+        creator        : (&#39;InChi&#39;, &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;),
+        smiles         : &#39;CN1C(=O)C2=C(N=CN2C)N(C)C1=O&#39;,
+        smarts         : &#39;[#6H3]-[#7]1:[#6H]:[#7]:[#6]2:[#6]:1:[#6](:[#7](-[#6H3]):[#6](:[#7]:2-[#6H3])=[#8])=[#8]&#39;,
+        inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,
+        xyz            : None)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Optimize-XYZ-geometry">
+<h2>Optimize XYZ geometry<a class="headerlink" href="#Optimize-XYZ-geometry" title="Permalink to this headline">¶</a></h2>
+<p>You can optimize a molecule’s structure using molecular simulation and force fields via <code class="docutils literal notranslate"><span class="pre">to_xyz</span></code> method. If the 3D info is not available you should specify a force field as an optimizer.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># mol.to_xyz(optimizer=None)</span>
+<span class="c1"># at this point of the script, the above code raises the following error message:</span>
+<span class="c1"># ValueError: The conformation has not been built yet (maybe due to the 2D representation of the creator).</span>
+<span class="c1"># You should set the optimizer value if you wish to embed and optimize the 3D geometry.</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="c1"># &#39;UFF&#39;</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x117a71080&gt;,
+        pybel_molecule : None,
+        creator        : (&#39;InChi&#39;, &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;),
+        smiles         : &#39;CN1C(=O)C2=C(N=CN2C)N(C)C1=O&#39;,
+        smarts         : &#39;[#6H3]-[#7]1:[#6H]:[#7]:[#6]2:[#6]:1:[#6](:[#7](-[#6H3]):[#6](:[#7]:2-[#6H3])=[#8])=[#8]&#39;,
+        inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,
+        xyz            : &lt;XYZ(geometry: (24, 3), atomic_numbers: (24, 1), atomic_symbols: (24, 1))&gt;)&gt;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="n">geometry</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[-2.44903932, -2.19199362,  0.55222615],
+       [ 0.37513395,  2.83347839, -1.16626692],
+       [ 2.94987062, -0.82638032,  0.83612442],
+       [-2.69467148,  0.08256869, -0.47262288],
+       [-0.65402173, -0.49616211,  0.10884004],
+       [-0.68501975,  0.75131589, -0.43642431],
+       [ 0.53907792, -1.11512806,  0.57032083],
+       [ 1.67617468,  0.98827693, -0.15624189],
+       [-1.94590423,  1.11734979, -0.79935782],
+       [-1.95038557, -0.92390572,  0.08390961],
+       [ 0.45254311,  1.50808139, -0.57973034],
+       [ 1.6674422 , -0.30689908,  0.40324067],
+       [ 0.55615897, -2.24033207,  1.06037388],
+       [ 2.72802032,  1.62625986, -0.26200369],
+       [-3.53002408, -2.23845001,  0.39708294],
+       [-1.96118905, -2.98874858, -0.01472587],
+       [-2.22594924, -2.28155429,  1.61827497],
+       [-0.02629914,  2.75208883, -2.18137956],
+       [-0.2894747 ,  3.45514567, -0.55794801],
+       [ 1.35494907,  3.3155    , -1.21617727],
+       [ 3.63135754, -0.84958299, -0.02069721],
+       [ 3.37027656, -0.15218684,  1.58966733],
+       [ 2.87672511, -1.83109484,  1.2593756 ],
+       [-3.76575174,  0.01235309, -0.61586065]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Read-XYZ-file">
+<h2>Read XYZ file<a class="headerlink" href="#Read-XYZ-file" title="Permalink to this headline">¶</a></h2>
+<p>We utilize Pybel file parsers to build a molecule from chemical input files and convert them to other formats.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;images/1_opt.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : None,
+        pybel_molecule : &lt;pybel.Molecule object at 0x117a73f60&gt;,
+        creator        : (&#39;XYZ&#39;, &#39;images/1_opt.xyz&#39;),
+        smiles         : None,
+        smarts         : None,
+        inchi          : None,
+        xyz            : &lt;XYZ(geometry: (28, 3), atomic_numbers: (28, 1), atomic_symbols: (28, 1))&gt;)&gt;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/molecule_27_0.svg" src="_images/molecule_27_0.svg" /></div>
+</div>
+<p>You can create 2D chemical representations using previous methods. Note that the rdkit molecule will be created for this conversion becuase it is our priority to manipulate 2D chemical info.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mol</span><span class="o">.</span><span class="n">to_smiles</span><span class="p">(</span><span class="n">canonical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_smarts</span><span class="p">()</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_inchi</span><span class="p">()</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chemml.chem.Molecule(
+        rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x117a71350&gt;,
+        pybel_molecule : &lt;pybel.Molecule object at 0x117a73f60&gt;,
+        creator        : (&#39;XYZ&#39;, &#39;images/1_opt.xyz&#39;),
+        smiles         : &#39;c1ccc(CC2CCCC2)cc1&#39;,
+        smarts         : &#39;[#6]1-[#6]-[#6]-[#6](-[#6]-1)-[#6]-[#6]1:[#6]:[#6]:[#6]:[#6]:[#6]:1&#39;,
+        inchi          : &#39;InChI=1S/C12H16/c1-2-6-11(7-3-1)10-12-8-4-5-9-12/h1-3,6-7,12H,4-5,8-10H2&#39;,
+        xyz            : &lt;XYZ(geometry: (28, 3), atomic_numbers: (28, 1), atomic_symbols: (28, 1))&gt;)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="active_model_based.html" class="btn btn-neutral float-right" title="Active Learning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="include_CMLWR8Store.html" class="btn btn-neutral" title="SaveFile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.5.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

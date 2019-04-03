@@ -1,0 +1,280 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Feature Selection\n",
+    "\n",
+    "This is a toy example of using genetic algorithm module for the feature selection via training of a linear model.\n",
+    "\n",
+    "## Import Data Set"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(500, 1) (500, 200)\n"
+     ]
+    }
+   ],
+   "source": [
+    "from chemml.datasets import load_organic_density\n",
+    "_,density,features = load_organic_density()\n",
+    "\n",
+    "print(density.shape, features.shape)\n",
+    "density, features = density.values, features.values\n",
+    "\n",
+    "# from sklearn.preprocessing import StandardScaler\n",
+    "# scalerx = StandardScaler()\n",
+    "# features = scalerx.fit_transform(features)\n",
+    "# density = scalerx.fit_transform(density)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Defining hyperparameter space\n",
+    "For this, each of the individual features is encoded as a binary bit of the chromosome for genetic algorithm.\n",
+    "\n",
+    "0 indicates feature is discarded.\n",
+    "\n",
+    "1 indicates feature is selected."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "space = tuple([{i: {'choice': [0,1]}} for i in range(features.shape[1])])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Defining objective function\n",
+    "The  objective  function  is  defined as a function that receives one 'individual' of the genetic  algorithm's  population  that  is  an  ordered  list  of the hyperparameters  defined  in  the space variable.   Within the objective function, the user does all the required calculations and returns the metric (as a tuple) that is supposed to be optimized. If multiple metrics are returned, all the metrics are optimized according to the fitness defined in the initialization of the Genetic Algorithm class.\n",
+    "\n",
+    "Here, we use a simple linear regression model to fit the data."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import mean_absolute_error\n",
+    "import pandas as pd\n",
+    "from sklearn.linear_model import LinearRegression\n",
+    "def obj(individual, features=features):\n",
+    "    df = pd.DataFrame(features)\n",
+    "    new_cols = list(map(bool, individual))\n",
+    "    df = df[df.columns[new_cols]]\n",
+    "    features = df.values\n",
+    "    ridge = LinearRegression(n_jobs=1)\n",
+    "    ridge.fit(features[:400], density[:400])\n",
+    "    pred = ridge.predict(features[400:])\n",
+    "    return mean_absolute_error(density[400:], pred)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Optimize the feature space"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from chemml.optimization import GeneticAlgorithm\n",
+    "ga = GeneticAlgorithm(evaluate=obj, space=space, fitness=(\"min\", ), crossover_type=\"Uniform\",\n",
+    "                        pop_size = 20, crossover_size=0.5, mutation_size=0.5, algorithm=3)\n",
+    "best_models_per_generation, final_best_hyperparameters = ga.search(n_generations=10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 7: 0, 8: 1, 9: 1, 10: 0, 11: 1, 12: 0, 13: 0, 14: 0, 15: 0, 16: 1, 17: 1, 18: 0, 19: 1, 20: 0, 21: 0, 22: 0, 23: 0, 24: 1, 25: 0, 26: 0, 27: 1, 28: 0, 29: 0, 30: 0, 31: 1, 32: 1, 33: 0, 34: 0, 35: 0, 36: 1, 37: 0, 38: 0, 39: 1, 40: 0, 41: 1, 42: 0, 43: 0, 44: 1, 45: 0, 46: 1, 47: 0, 48: 1, 49: 1, 50: 0, 51: 1, 52: 1, 53: 1, 54: 1, 55: 1, 56: 1, 57: 0, 58: 1, 59: 1, 60: 1, 61: 0, 62: 0, 63: 0, 64: 0, 65: 0, 66: 1, 67: 0, 68: 1, 69: 0, 70: 1, 71: 0, 72: 1, 73: 0, 74: 0, 75: 0, 76: 0, 77: 0, 78: 0, 79: 0, 80: 1, 81: 0, 82: 1, 83: 0, 84: 1, 85: 1, 86: 0, 87: 0, 88: 1, 89: 0, 90: 0, 91: 1, 92: 1, 93: 0, 94: 1, 95: 1, 96: 0, 97: 0, 98: 1, 99: 0, 100: 1, 101: 0, 102: 0, 103: 0, 104: 1, 105: 0, 106: 0, 107: 1, 108: 1, 109: 1, 110: 0, 111: 1, 112: 1, 113: 1, 114: 1, 115: 1, 116: 0, 117: 1, 118: 0, 119: 1, 120: 0, 121: 1, 122: 1, 123: 0, 124: 1, 125: 0, 126: 1, 127: 0, 128: 0, 129: 0, 130: 0, 131: 1, 132: 1, 133: 1, 134: 0, 135: 1, 136: 0, 137: 1, 138: 1, 139: 1, 140: 0, 141: 0, 142: 0, 143: 1, 144: 1, 145: 0, 146: 0, 147: 0, 148: 1, 149: 1, 150: 0, 151: 1, 152: 0, 153: 0, 154: 0, 155: 1, 156: 0, 157: 1, 158: 1, 159: 0, 160: 0, 161: 1, 162: 0, 163: 0, 164: 1, 165: 0, 166: 1, 167: 0, 168: 0, 169: 1, 170: 0, 171: 1, 172: 1, 173: 0, 174: 0, 175: 1, 176: 0, 177: 1, 178: 1, 179: 1, 180: 1, 181: 1, 182: 0, 183: 0, 184: 0, 185: 0, 186: 1, 187: 0, 188: 0, 189: 0, 190: 0, 191: 1, 192: 1, 193: 1, 194: 0, 195: 0, 196: 1, 197: 0, 198: 0, 199: 1}\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(final_best_hyperparameters)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Best_individual</th>\n",
+       "      <th>Fitness_values</th>\n",
+       "      <th>Time (hours)</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>\n",
+       "      <td>9.342199</td>\n",
+       "      <td>0.000044</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>\n",
+       "      <td>9.342199</td>\n",
+       "      <td>0.000042</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>\n",
+       "      <td>9.342199</td>\n",
+       "      <td>0.000043</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...</td>\n",
+       "      <td>9.342199</td>\n",
+       "      <td>0.000042</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.899432</td>\n",
+       "      <td>0.000042</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.899432</td>\n",
+       "      <td>0.000043</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.899432</td>\n",
+       "      <td>0.000049</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.899432</td>\n",
+       "      <td>0.000045</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.899432</td>\n",
+       "      <td>0.000044</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>(0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, ...</td>\n",
+       "      <td>8.693441</td>\n",
+       "      <td>0.000042</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                     Best_individual  Fitness_values  \\\n",
+       "0  (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...        9.342199   \n",
+       "1  (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...        9.342199   \n",
+       "2  (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...        9.342199   \n",
+       "3  (0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, ...        9.342199   \n",
+       "4  (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...        8.899432   \n",
+       "5  (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...        8.899432   \n",
+       "6  (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...        8.899432   \n",
+       "7  (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...        8.899432   \n",
+       "8  (0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, ...        8.899432   \n",
+       "9  (0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, ...        8.693441   \n",
+       "\n",
+       "   Time (hours)  \n",
+       "0      0.000044  \n",
+       "1      0.000042  \n",
+       "2      0.000043  \n",
+       "3      0.000042  \n",
+       "4      0.000042  \n",
+       "5      0.000043  \n",
+       "6      0.000049  \n",
+       "7      0.000045  \n",
+       "8      0.000044  \n",
+       "9      0.000042  "
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "best_models_per_generation"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:chemml_dev]",
+   "language": "python",
+   "name": "conda-env-chemml_dev-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

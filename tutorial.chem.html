@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cheml.nn module &mdash; ChemML 0.4.3 documentation</title>
+  <title>Chem module &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -88,9 +88,23 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 
             
@@ -136,13 +150,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>cheml.nn module</li>
+      <li>Chem module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cheml.nn.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/tutorial.chem.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -155,12 +169,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cheml-nn-module">
-<h1>cheml.nn module<a class="headerlink" href="#cheml-nn-module" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-cheml.nn">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cheml.nn" title="Permalink to this headline">¶</a></h2>
-<p>The ‘cheml.nn’ module includes neural_net, 
-last modified date: April 24, 2016</p>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="chem-module">
+<h1>Chem module<a class="headerlink" href="#chem-module" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Import-module">Import module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Construct-a-molecule">Construct a molecule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Visualize">Visualize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Convert-chemical-formats">Convert chemical formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Optimize-XYZ-geometry">Optimize XYZ geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#Read-XYZ-file">Read XYZ file</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
@@ -197,7 +243,7 @@ last modified date: April 24, 2016</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -208,6 +254,9 @@ last modified date: April 24, 2016</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
 
   
 

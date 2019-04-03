@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChemML Wrapper Tutorial &mdash; ChemML 0.4.3 documentation</title>
+  <title>ChemML Wrapper Tutorial &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -99,9 +99,23 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 
             
@@ -166,7 +180,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="chemml-wrapper-tutorial">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="chemml-wrapper-tutorial">
 <h1>ChemML Wrapper Tutorial<a class="headerlink" href="#chemml-wrapper-tutorial" title="Permalink to this headline">¶</a></h1>
 <p>ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
@@ -185,27 +223,27 @@ input file using the graphical interface,
 <p>The input file consists of methods that are connected to each other and make a data mining workflow.
 Here you can see a simple input script:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## (Enter,datasets)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">load_xyz_polarizability</span>
     <span class="o">&gt;&gt;</span> <span class="n">coordinates</span> <span class="mi">0</span>
     <span class="o">&gt;&gt;</span> <span class="n">polarizability</span> <span class="mi">4</span>
     <span class="o">&gt;&gt;</span> <span class="n">polarizability</span> <span class="mi">5</span>
 
 <span class="c1">## (Represent,molecular descriptors)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">CoulombMatrix</span>
     <span class="o">&gt;&gt;</span> <span class="mi">0</span> <span class="n">molecules</span>
     <span class="o">&gt;&gt;</span> <span class="n">df</span> <span class="mi">1</span>
     <span class="o">&gt;&gt;</span> <span class="n">df</span> <span class="mi">6</span>
 
 <span class="c1">## (Store,file)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">SaveFile</span>
     <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">CM_features</span>
     <span class="o">&gt;&gt;</span> <span class="mi">1</span> <span class="n">df</span>
 
 <span class="c1">## (Store,figure)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">SavePlot</span>
     <span class="o">&lt;&lt;</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;normed&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">}</span>
     <span class="o">&lt;&lt;</span> <span class="n">output_directory</span> <span class="o">=</span> <span class="n">plots</span>
@@ -213,7 +251,7 @@ Here you can see a simple input script:</p>
     <span class="o">&gt;&gt;</span> <span class="mi">2</span> <span class="n">fig</span>
 
 <span class="c1">## (Visualize,artist)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span>
     <span class="o">&lt;&lt;</span> <span class="n">title</span> <span class="o">=</span> <span class="n">training</span> <span class="n">performance</span>
     <span class="o">&lt;&lt;</span> <span class="n">grid_color</span> <span class="o">=</span> <span class="n">g</span>
@@ -225,7 +263,7 @@ Here you can see a simple input script:</p>
     <span class="o">&gt;&gt;</span> <span class="mi">3</span> <span class="n">fig</span>
 
 <span class="c1">## (Visualize,plot)</span>
-    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">cheml</span>
+    <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">scatter2D</span>
     <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="o">&lt;&lt;</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">o</span>
@@ -255,42 +293,42 @@ If we copy this script into ‘existing script’ tab of the <a class="reference
 <h3>method one: Running in the Terminal<a class="headerlink" href="#method-one-running-in-the-terminal" title="Permalink to this headline">¶</a></h3>
 <p>Let’s say you saved your script with the name ‘tutorial.config’ in your Desktop folder (name and format are both arbitrary).
 In the Terminal, navigate to the Desktop folder and enter the following command:</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chemmlwrapper</span> <span class="o">-</span><span class="n">i</span> <span class="n">tutorial</span><span class="o">.</span><span class="n">config</span> <span class="o">-</span><span class="n">o</span> <span class="n">output_directory</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chemmlwrapper -i tutorial.config -o output_directory
 </pre></div>
 </div>
 </div>
 <div class="section" id="method-two-running-in-any-python-interpreter">
 <h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this headline">¶</a></h3>
 <p>You can also run your input script with python codes as a python script or interactively, using:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
-<span class="kn">from</span> <span class="nn">cheml</span> <span class="k">import</span> <span class="n">wrapperRUN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
+<span class="kn">from</span> <span class="nn">chemml</span> <span class="kn">import</span> <span class="n">wrapperRUN</span>
 <span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 
 <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            ## (Enter,datasets)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = load_xyz_polarizability</span>
 <span class="s2">                &gt;&gt; coordinates 0</span>
 <span class="s2">                &gt;&gt; polarizability 4</span>
 <span class="s2">                &gt;&gt; polarizability 5</span>
 
 <span class="s2">            ## (Represent,molecular descriptors)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = CoulombMatrix</span>
 <span class="s2">                &gt;&gt; 0 molecules</span>
 <span class="s2">                &gt;&gt; df 1</span>
 <span class="s2">                &gt;&gt; df 6</span>
 
 <span class="s2">            ## (Store,file)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = SaveFile</span>
 <span class="s2">                &lt;&lt; filename = CM_features</span>
 <span class="s2">                &gt;&gt; 1 df</span>
 
 <span class="s2">            ## (Store,figure)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = SavePlot</span>
 <span class="s2">                &lt;&lt; kwargs = {&#39;normed&#39;:True, &#39;bbox_inches&#39;:&#39;tight&#39;}</span>
 <span class="s2">                &lt;&lt; output_directory = plots</span>
@@ -298,7 +336,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <span class="s2">                &gt;&gt; 2 fig</span>
 
 <span class="s2">            ## (Visualize,artist)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = decorator</span>
 <span class="s2">                &lt;&lt; title = training performance</span>
 <span class="s2">                &lt;&lt; grid_color = g</span>
@@ -310,7 +348,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <span class="s2">                &gt;&gt; 3 fig</span>
 
 <span class="s2">            ## (Visualize,plot)</span>
-<span class="s2">                &lt;&lt; host = cheml</span>
+<span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = scatter2D</span>
 <span class="s2">                &lt;&lt; y = 0</span>
 <span class="s2">                &lt;&lt; marker = o</span>
@@ -392,7 +430,7 @@ and citation file.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -403,6 +441,9 @@ and citation file.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
 
   
 

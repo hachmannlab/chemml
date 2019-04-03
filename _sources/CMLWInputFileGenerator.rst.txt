@@ -9,7 +9,7 @@ You can run GUI locally in the Jupyter notebook with two lines of python code:
 
 .. code:: python
 
-    from cheml.notebooks import wrapperGUI
+    from chemml.notebooks import wrapperGUI
     ui = wrapperGUI()
 
 
@@ -34,6 +34,7 @@ install ChemML and wrapperGUI (the first and third lines are unnecessary if you 
    source activate my_chemml_env
    pip install chemml --user -U
 
+   jupyter nbextension install --py widgetsnbextension --user
    jupyter nbextension enable --sys-prefix --py widgetsnbextension
    conda install -c conda-forge nb_conda_kernels
 

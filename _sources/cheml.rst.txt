@@ -1,4 +1,4 @@
-cheml library
+chemml library
 =============
 
 .. Subpackages
@@ -6,22 +6,22 @@ cheml library
 
 .. toctree::
 
-    cheml.chem
-    cheml.chem.magpie_python
-    cheml.initialization
-    cheml.datasets
-    cheml.preprocessing
-    cheml.nn.keras
-    cheml.search
-    cheml.visualization
-..    cheml.nn
+    chemml.chem
+    chemml.chem.magpie_python
+    chemml.initialization
+    chemml.datasets
+    chemml.preprocessing
+    chemml.nn.keras
+    chemml.search
+    chemml.visualization
+..    chemml.nn
 
 
 
 .. Module contents
 .. ---------------
 
-.. .. automodule:: cheml
+.. .. automodule:: chemml
     :members:
     :undoc-members:
     :show-inheritance:

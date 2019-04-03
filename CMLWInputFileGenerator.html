@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Input File GUI &mdash; ChemML 0.4.3 documentation</title>
+  <title>Input File GUI &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -90,9 +90,23 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cheml.html">cheml library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 
             
@@ -157,11 +171,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="input-file-gui">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="input-file-gui">
 <span id="chemml-wrapper-infilegen"></span><h1>Input File GUI<a class="headerlink" href="#input-file-gui" title="Permalink to this headline">¶</a></h1>
 <p>The ChemML wrapper’s graphical user interface (GUI) facilitate the generation of the input files.
 You can run GUI locally in the Jupyter notebook with two lines of python code:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cheml.notebooks</span> <span class="k">import</span> <span class="n">wrapperGUI</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.notebooks</span> <span class="kn">import</span> <span class="n">wrapperGUI</span>
 <span class="n">ui</span> <span class="o">=</span> <span class="n">wrapperGUI</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -201,18 +239,19 @@ You can run GUI locally in the Jupyter notebook with two lines of python code:</
 <p>We recommend downloading and installing Anaconda for python 2. This way Jupyter will be installed automatically.
 If you are using anaconda and you plan to use a virtual environment, please run the following commands to
 install ChemML and wrapperGUI (the first and third lines are unnecessary if you have already installed chemml):</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_chemml_env</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span>
-<span class="n">source</span> <span class="n">activate</span> <span class="n">my_chemml_env</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">chemml</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">U</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name my_chemml_env <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
+<span class="nb">source</span> activate my_chemml_env
+pip install chemml --user -U
 
-<span class="n">jupyter</span> <span class="n">nbextension</span> <span class="n">enable</span> <span class="o">--</span><span class="n">sys</span><span class="o">-</span><span class="n">prefix</span> <span class="o">--</span><span class="n">py</span> <span class="n">widgetsnbextension</span>
-<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">nb_conda_kernels</span>
+jupyter nbextension install --py widgetsnbextension --user
+jupyter nbextension <span class="nb">enable</span> --sys-prefix --py widgetsnbextension
+conda install -c conda-forge nb_conda_kernels
 </pre></div>
 </div>
 <p>The last command installs nb_conda_kernels, which provides a seprate Jupyter kernel for each conda environment. You need it to run
 a Jupyter notebook with a kernel pointing to ‘my_chemml_env’ environment.</p>
 <p>To run a notebook, you just need to run the following command in the Terminal:</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook
 </pre></div>
 </div>
 <p>This will consequently open a notebook dashboard in your browser.
@@ -265,7 +304,7 @@ and press Ctrl+Enter to run the wrapperGUI.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -276,6 +315,9 @@ and press Ctrl+Enter to run the wrapperGUI.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
 
   
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cheml.nn.keras module &mdash; ChemML 0.4.3 documentation</title>
+  <title>chemml.search module &mdash; ChemML 0.5.1 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="cheml.search module" href="cheml.search.html" />
-    <link rel="prev" title="cheml.preprocessing module" href="cheml.preprocessing.html" /> 
+    <link rel="next" title="chemml.visualization module" href="chemml.visualization.html" />
+    <link rel="prev" title="chemml.nn.keras module" href="chemml.nn.keras.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.1
               </div>
             
           
@@ -90,17 +90,25 @@
 <li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
 </ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Import Data Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html#Defining-hyperparameter-space">Defining hyperparameter space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html#Defining-objective-function">Defining objective function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html#Optimize-the-feature-space">Optimize the feature space</a></li>
+</ul>
 <p class="caption"><span class="caption-text">ChemML library documentation</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="cheml.html">cheml library</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="cheml.chem.html">cheml.chem module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.chem.magpie_python.html">cheml.chem.magpie_python module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.initialization.html">cheml.initialization module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.datasets.html">cheml.datasets module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.preprocessing.html">cheml.preprocessing module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">cheml.nn.keras module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.search.html">cheml.search module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cheml.visualization.html">cheml.visualization module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="chemml.html">chemml library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html">chemml.chem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html">chemml.chem.magpie_python module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.initialization.html">chemml.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html">chemml.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.nn.keras.html">chemml.nn.keras module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">chemml.search module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
 </ul>
 </li>
 </ul>
@@ -148,15 +156,15 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="cheml.html">cheml library</a> &raquo;</li>
+          <li><a href="chemml.html">chemml library</a> &raquo;</li>
         
-      <li>cheml.nn.keras module</li>
+      <li>chemml.search module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cheml.nn.keras.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/chemml.search.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -169,8 +177,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cheml-nn-keras-module">
-<h1>cheml.nn.keras module<a class="headerlink" href="#cheml-nn-keras-module" title="Permalink to this headline">¶</a></h1>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="chemml-search-module">
+<h1>chemml.search module<a class="headerlink" href="#chemml-search-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -181,10 +213,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cheml.search.html" class="btn btn-neutral float-right" title="cheml.search module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="chemml.visualization.html" class="btn btn-neutral float-right" title="chemml.visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cheml.preprocessing.html" class="btn btn-neutral" title="cheml.preprocessing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="chemml.nn.keras.html" class="btn btn-neutral" title="chemml.nn.keras module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -215,7 +247,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.4.3',
+            VERSION:'0.5.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -226,6 +258,9 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="None"></script>
 
   
 

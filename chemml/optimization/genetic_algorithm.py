@@ -68,12 +68,14 @@ class GeneticAlgorithm(object):
                 initial_population=None):
 
         self.chromosome_length = len(space)
-        if self.chromosome_length <=2 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for gene length 2.')
-        if self.chromosome_length <= 1:
+        if self.chromosome_length < 1:
             print("Space variable not defined. Aborting.")
             exit(code=1)
+        if self.chromosome_length <2 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for gene length 2.')
+        if self.chromosome_length <3 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for gene length 2.')
         self.chromosome_type, self.bit_limits, self.mutation_params, self.var_names = [], [], [], []
         
+        uni = 0
         for param_dict in space:
             for name in param_dict:
                 self.var_names.append(name)
@@ -81,6 +83,7 @@ class GeneticAlgorithm(object):
                 if 'uniform' in var:
                     self.chromosome_type.append('uniform')
                     self.bit_limits.append(var['uniform'])
+                    uni += 1
 
                 elif 'int' in var:
                     self.chromosome_type.append('int')
@@ -103,11 +106,20 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
-        self.fit_val, self.population, self.fitness_dict = [], None, {}
+        self.fit_val, self.population, self.fitness_dict, self.global_cm_list = [], None, {}, None
         for i in fitness:
             if i.lower() == 'max': self.fit_val.append(1)
             else: self.fit_val.append(-1)
-        
+        if uni == 0:
+            if len(space) == 1: self.global_cm_list = self.bit_limits[0]
+            else:
+                gcl = []
+                for i, t in zip(self.bit_limits, self.chromosome_type):
+                    if t == 'int':
+                        gcl.append(list(range(i[0], i[1]+1)))
+                    else: gcl.append(i)
+                self.global_cm_list = list(itertools.product(*gcl))
+
     def pop_generator(self, n):
         pop = []
         if self.initial_pop is not None:
@@ -115,7 +127,11 @@ class GeneticAlgorithm(object):
                 pop.append(tuple(i))
         else:
             for x in range(n):
-                pop.append(self.chromosome_generator(x, n))
+                while True:
+                    new = self.chromosome_generator(x, n)
+                    if new not in pop:
+                        pop.append(new)
+                        break
         return pop
 
     def chromosome_generator(self, x, n):
@@ -158,17 +174,19 @@ class GeneticAlgorithm(object):
         ind1, ind2 = list(ind1), list(ind2)
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'choice':
-                scores = []
-                for inx, ch in enumerate(self.bit_limits[i]):
-                    if ch == ind1[i] or ch == ind2[i]: scores.append(3)
-                    else: scores.append(1)
-                sc_dict = {self.bit_limits[i][j]: scores[j] for j in range(len(scores))}
-                ind1[i], ind2[i] = self.select(self.bit_limits[i], sc_dict, 2)
+                if len(self.bit_limits[i]) == 2: ind1[i], ind2[i] = ind2[i], ind1[i]
+                else:
+                    scores = []
+                    for inx, ch in enumerate(self.bit_limits[i]):
+                        if ch == ind1[i] or ch == ind2[i]: scores.append(3)
+                        else: scores.append(1)
+                    sc_dict = {self.bit_limits[i][j]: scores[j] for j in range(len(scores))}
+                    ind1[i], ind2[i] = self.select(self.bit_limits[i], sc_dict, 2)
             else:
                 while True:
                     chi = (1 + z) * random.random() - z
                     tm1, tm2 = (1-chi)*ind1[i]+chi*ind2[i], chi*ind1[i]+(1-chi)*ind2[i]
-                    if self.bit_limits[i][0] < tm1 < self.bit_limits[i][1] and self.bit_limits[i][0] < tm2 < self.bit_limits[i][1]: break
+                    if self.bit_limits[i][0] <= tm1 <= self.bit_limits[i][1] and self.bit_limits[i][0] <= tm2 <= self.bit_limits[i][1]: break
                 ind1[i], ind2[i] = tm1, tm2
                 if self.chromosome_type[i] == 'int':
                     ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
@@ -209,6 +227,17 @@ class GeneticAlgorithm(object):
 
     def custom_mutate(self, indi, fitness_dict):
         indi = list(indi)
+        if self.global_cm_list is not None:
+            try:
+                if self.chromosome_length == 1:
+                    indi = random.choice(list(set(self.global_cm_list)-set([i[0] for i in fitness_dict.keys()])))
+                    if isinstance(indi, int): return indi,
+                    else: return tuple(indi)
+                else:
+                    indi = random.choice(list(set(self.global_cm_list)-set(list(fitness_dict.keys()))))
+                    return tuple(indi)
+            except:
+                return None
         for i in range(self.chromosome_length):
             if self.chromosome_type[i] == 'uniform':
                 if random.random() < self.mutation_prob:
@@ -300,7 +329,7 @@ class GeneticAlgorithm(object):
         # Evaluate the initial population
         fitness_dict = fit_eval(pop, fitness_dict)
 
-        best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence = [], [], [], [], 0
+        best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
         for _ in range(n_generations):
             if convergence >= early_stopping:
                 print("The search converged with convergence criteria = ", early_stopping)
@@ -312,7 +341,8 @@ class GeneticAlgorithm(object):
                 co_pop = self.select(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
                 co_pop = list(itertools.combinations(list(set(co_pop)), 2))
                 combi = list(itertools.combinations(list(set(pop + total_pop)), 2))
-                for child1, child2 in co_pop + combi:
+                co_pop += combi
+                for child1, child2 in co_pop:
                     if (len(list(fitness_dict.items())) - psum) >= int(math.ceil(self.crossover_size*len(pop))): break
                     if self.crossover_type == "SinglePoint":
                         c1, c2 = self.SinglePointCrossover(child1, child2)
@@ -333,8 +363,14 @@ class GeneticAlgorithm(object):
                     mu_pop = self.select(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
                 
                 for mutant in mu_pop:
-                    mutant_pop.append(self.custom_mutate(mutant, fitness_dict))
-                fitness_dict = fit_eval(mutant_pop, fitness_dict)
+                    a = self.custom_mutate(mutant, fitness_dict)
+                    if a is not None:
+                        mutant_pop.append(a)
+                        fitness_dict = fit_eval([a], fitness_dict)
+                    else: 
+                        print("All combinations exhausted. Stopping genetic algorithm iterations.")
+                        flag = True
+                        break
                 
                 # Select the next generation individuals
                 total_pop = pop + cross_pop + mutant_pop
@@ -360,6 +396,7 @@ class GeneticAlgorithm(object):
                 b2 = pd.Series(best_indi_fitness_values, name='Fitness_values')
                 b3 = pd.Series(timer, name='Time (hours)')
                 best_ind_df = pd.concat([b1, b2, b3], axis=1)
+                if flag: break
     
 
         self.population = pop    # stores best individuals of last generation

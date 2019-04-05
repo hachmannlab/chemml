@@ -67,7 +67,7 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
     University at Buffalo - The State University of New York (UB)
 
 ### Contributors:
-    - Doaa Altarawy (MolSSI): software scientist and mentor 
+    - Doaa Altarawy (MolSSI): scientific advice and software mentor 
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
     - Bhargava Urala Kota (UB): library database

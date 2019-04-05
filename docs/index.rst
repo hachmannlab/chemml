@@ -90,7 +90,7 @@ Please cite ChemML as follows:
    :maxdepth: 2
    :caption: ChemML library Tutorial
 
-   molecule.ipynb
+   Molecule.ipynb
    active_model_based.ipynb
    ga_hyper_opt.ipynb
    ga_feature_selection.ipynb

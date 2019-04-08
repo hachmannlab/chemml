@@ -19,7 +19,7 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 
 ## Latest Version:
 - Program Version: 0.5.1
-- Release Date: April 2, 2019
+- Release Date: April 8, 2019
 
 ## Installation and Dependencies:
 You can download ChemML from Python Package Index (PyPI) via pip.

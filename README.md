@@ -1,7 +1,11 @@
 [![Build Status](https://travis-ci.org/hachmannlab/chemml.svg?branch=master)](https://travis-ci.org/hachmannlab/chemml)
 [![codecov](https://codecov.io/gh/hachmannlab/chemml/branch/master/graph/badge.svg)](https://codecov.io/gh/hachmannlab/chemml)
+[![version status](http://img.shields.io/pypi/v/chemml.svg?style=flat)](https://pypi.python.org/pypi/chemml)
+[![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
+
 # ChemML
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
+Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
 
 ## Code Design:
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
@@ -81,6 +85,6 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 ### Acknowledgements:
     - ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.
     - ChemML was also supported by start-up funds provided by UB's School of Engineering and Applied Science and UB's Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.
-    - Mojtaba Haghighatlari received a 2018 Phase-I and 2019 Phase-II Software Fellowship by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
+    - Mojtaba Haghighatlari received 2018 Phase-I and 2019 Phase-II Software Fellowships by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
 
 

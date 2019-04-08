@@ -317,7 +317,7 @@ class XYZreader(object):
         """
         if isinstance(self.path_pattern, str):
             self.path_pattern = [self.path_pattern]
-        molecules = []
+        molecules = {}
         it = 0
         max_nAtoms = 1
         for pattern in self.path_pattern:

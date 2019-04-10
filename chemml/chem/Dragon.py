@@ -514,11 +514,11 @@ class Dragon(object):
         return self
 
     def _save_script(self):
-        objectify.deannotate(self.dragon)
+        # objectify.deannotate(self.dragon)
         etree.cleanup_namespaces(self.dragon)
         self.drs_name = 'Dragon_script.drs'
         with open(os.path.join(self.output_directory, self.drs_name), 'w') as outfile:
-            outfile.write("%s" % etree.tostring(self.dragon, pretty_print=True))
+            outfile.write(etree.tostring(self.dragon, pretty_print=True).decode())
 
     def printout(self):
         objectify.deannotate(self.dragon)

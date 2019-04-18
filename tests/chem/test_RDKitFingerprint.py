@@ -3,105 +3,143 @@ import os
 import pkg_resources
 
 from chemml.chem import RDKitFingerprint
+from chemml.chem import Molecule
+
+
+# @pytest.fixture()
+# def data_path():
+#     return pkg_resources.resource_filename(
+#         'chemml', os.path.join('datasets', 'data', 'test_files'))
 
 
 @pytest.fixture()
-def data_path():
-    return pkg_resources.resource_filename(
-        'chemml', os.path.join('datasets', 'data', 'test_files'))
+def mol_single():
+    smi1 = Molecule('c1cc2cnc3c(cnc4cc(-c5ncncn5)c5nsnc5c34)c2c2nsnc12', 'smiles')
+    return smi1
 
 
-def test_instantiate(data_path):
-    cls = RDKitFingerprint()
-    cls.read_(os.path.join(data_path, 'smiles.smi'))
-    df = cls.fingerprint()
+@pytest.fixture()
+def mol_list():
+    smi1 = Molecule('c1cc2cnc3c(cnc4cc(-c5ncncn5)c5nsnc5c34)c2c2nsnc12', 'smiles')
+    smi2 = Molecule('[nH]1ccc2[nH]c3c4CC(=Cc4c4c[nH]cc4c3c12)c1scc2cc[nH]c12', 'smiles')
+    return [smi1, smi2]
 
 
-def test_parser(data_path):
-    cls = RDKitFingerprint(fingerprint_type='hap')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    assert len(cls.molecules) == 2
-    # check number of bits
-    df = cls.fingerprint()
-    assert df.shape[1] == 1024
-
-
-def test_extension_exception(data_path):
+def test_vector_exception():
     with pytest.raises(ValueError):
-        cls = RDKitFingerprint()
-        cls.read_(os.path.join(data_path, 'Dragon_script.drs'))
+        _ = RDKitFingerprint(vector='Integer')
 
 
-def test_vector_exception(data_path):
+def test_molecules_exception(mol_list):
     with pytest.raises(ValueError):
-        cls = RDKitFingerprint(vector='binary')
-        cls.read_(os.path.join(data_path, 'smiles.smi'))
-
-
-def test_type_exception(data_path):
+        rdfp = RDKitFingerprint()
+        rdfp.represent(tuple(mol_list))
     with pytest.raises(ValueError):
-        cls = RDKitFingerprint(fingerprint_type='HP')
-        cls.read_(os.path.join(data_path, 'smiles.smi'))
-        cls.fingerprint()
+        rdfp = RDKitFingerprint()
+        rdfp.represent('fake molecule')
 
 
-def test_hap_int(data_path):
-    cls = RDKitFingerprint(fingerprint_type='hap',vector='int')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 107
-
-
-def test_MACCS_bit(data_path):
-    cls = RDKitFingerprint(fingerprint_type='MACCS', vector='bit')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 167
-
-
-def test_MACCS_int_exception(data_path):
+def test_type_exception(mol_single):
     with pytest.raises(ValueError):
-        cls = RDKitFingerprint(fingerprint_type='MACCS', vector='int')
-        cls.read_('smiles/mol_[1-3].smi', data_path)
-        cls.fingerprint()
+        rdfp = RDKitFingerprint(fingerprint_type='fake')
+        rdfp.represent(mol_single)
 
 
-def test_Morgan_int(data_path):
-    cls = RDKitFingerprint(fingerprint_type='Morgan', vector='int')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 84
+def test_hap_int(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='hap',vector='int')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 107)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 90)
+    assert rdfp.n_molecules_ == 1
 
 
-def test_Morgan_bit(data_path):
-    cls = RDKitFingerprint(fingerprint_type='Morgan', vector='bit')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 1024
+def test_hap_bit(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='hap',vector='bit')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 1024)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 1024)
+    assert rdfp.n_molecules_ == 1
 
 
-def test_htt_int(data_path):
-    cls = RDKitFingerprint(fingerprint_type='htt', vector='int')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 41
+def test_MACCS_exception(mol_list, mol_single):
+    with pytest.raises(ValueError):
+        rdfp = RDKitFingerprint(fingerprint_type='maccs', vector='int')
+        df = rdfp.represent(mol_list)
 
 
-def test_htt_bit(data_path):
-    cls = RDKitFingerprint(fingerprint_type='htt', vector='bit')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 1024
+def test_MACCS(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='maccs', vector='bit')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 167)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 167)
+    assert rdfp.n_molecules_ == 1
 
 
-def test_tt_int(data_path):
-    cls = RDKitFingerprint(fingerprint_type='tt', vector='int')
-    cls.read_('smiles/mol_[1-3].smi', data_path)
-    df = cls.fingerprint()
-    assert df.shape[1] == 42
+def test_Morgan_int(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='int')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 84)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 44)
+    assert rdfp.n_molecules_ == 1
 
-def test_tt_bit_exception(data_path):
+
+def test_Morgan_bit(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='bit')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 1024)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 1024)
+    assert rdfp.n_molecules_ == 1
+    # kwargs
+    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='bit', radius = 3,
+                            useChirality=True, useBondTypes=True, useFeatures=True)
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 1024)
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 1024)
+    assert rdfp.n_molecules_ == 1
+
+
+def test_htt_int(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='htt', vector='int')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 41)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 22)
+    assert rdfp.n_molecules_ == 1
+
+
+def test_htt_bit(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='htt', vector='bit')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 1024)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 1024)
+    assert rdfp.n_molecules_ == 1
+
+
+def test_tt_int(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='tt', vector='int')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 42)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 22)
+    assert rdfp.n_molecules_ == 1
+
+
+def test_tt_bit_exception(mol_single):
     with pytest.raises(ValueError):
         cls = RDKitFingerprint(fingerprint_type='tt', vector='bit')
-        cls.read_('smiles/mol_[1-3].smi', data_path)
-        cls.fingerprint()
+        cls.represent(mol_single)

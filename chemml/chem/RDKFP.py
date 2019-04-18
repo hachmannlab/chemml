@@ -2,33 +2,21 @@ from __future__ import print_function
 from builtins import range
 import pandas as pd
 import numpy as np
-import os
-import fnmatch
-from rdkit import Chem
 
 
-def _add_range(file, start_end):
-    start = start_end[0::2]
-    end = start_end[1::2]
-    nit = file.count('%s')
-    list_ranges = [
-        str(range(start[it], end[it] + 1))[1:-1] for it in range(len(start))
-    ]
-    s = "pattern = '" + file + "'" + '%(' + str(list_ranges)[1:-1] + ')'
-    exec(s)
-    return pattern
-
+from chemml.chem import Molecule
 
 class RDKitFingerprint(object):
-    """ This is an interface to the molecular fingerprints available in RDKit package.
+    """
+    This is an interface to the available molecular fingerprints in the RDKit package.
 
     Parameters
     ----------
     fingerprint_type : str, optional (default='Morgan')
         The type of fingerprint. Available fingerprint types:
             - 'hashed_atom_pair' or 'hap'
-            - 'MACCS'
-            - 'Morgan'
+            - 'MACCS' or 'maccs'
+            - 'morgan'
             - 'hashed_topological_torsion' or 'htt'
             - 'topological_torsion' or 'tt'
 
@@ -46,266 +34,184 @@ class RDKitFingerprint(object):
             - 'Topological_torsion' - doesn't return a bit vector at all.
 
     radius: int, optional (default = 2)
-        only availble for 'Morgan' fingerprint.
+        only applicable if calculating 'Morgan' fingerprint.
 
-    remove_hydrogen: bool, optional (default=True)
-        If True, remove any hydrogen from the graph of a molecule.
+    kwargs:
+        Any additional argument that should be passed to the rdkit fingerprint function.
 
-    Returns
-    -------
-    data set of fingerprint vectors.
+    Attributes
+    ----------
+    n_molecules_: int
+        The number of molecules that are received.
+
+    fps_: list
+        The list of rdkit fingerprint objects.
+
     """
 
     def __init__(self,
-                 remove_hydrogen=True,
                  fingerprint_type='Morgan',
                  vector='bit',
                  n_bits=1024,
-                 radius=2):
-        self.remove_hydrogen = remove_hydrogen
+                 radius=2,
+                 **kwargs):
         self.fingerprint_type = fingerprint_type
-        self.vector = vector
         self.n_bits = n_bits
         self.radius = radius
-
-        if self.vector not in ('bit', 'int'):
-            msg = "The parameter vector can be 'int' or 'bit'"
+        self.kwargs = kwargs
+        if not isinstance(vector, str) or vector.lower() not in ('bit', 'int'):
+            msg = "The parameter vector must be either 'int' or 'bit'."
             raise ValueError(msg)
+        else:
+            self.vector = vector.lower()
 
-    def read_(self, molfile, path=None, *arguments):
-        """ (MolfromFile)
-        Construct molecules from one or more input files.
+    def represent(self, molecules):
+        """
+        The main function to provide fingerprint representation of input molecule(s).
 
         Parameters
         ----------
-        molfile: string
-            This is the place you define molecules file name and path. It can contain
-            any special character in the following list:
+        molecules: chemml.chem.Molecule object or list
+            It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
+            If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
+            smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
+            kekulized, or canonical smiles.
 
-                *       : matches everything
-                ?       : matches any single character
-                [seq]   : matches any character in seq
-                [!seq]  : matches any character not in seq
-                /       : filename seperator
+        Returns
+        -------
+        pandas.DataFrame
+            A pandas dataframe with same number of rows as number of molecules will be returned.
 
-            The pattern matching is implemented by fnmatch - Unix filename pattern matching.
-            Note: The pattern must include the extension at the end. A list of available
-            file extensions is provided here:
-
-                '.mol','.mol2'  : molecule files
-                '.pdb'          : protein data bank file
-                '.tpl'          : TPL file
-                '.smi'          : file of one or more lines of Smiles string
-                '.smarts'       : file of one or more lines of Smarts string
-
-        path: string, optional (default = None)
-            If path is None, this function tries to open the file as a single
-            file (without any pattern matching). Therefore, none of the above
-            special characters except '/' are helpful when they are not part
-            of the file name or path.
-            If not None, it determines the path that this function walk through
-            and look for every file that mathes the pattern in the file. To start
-            walking from the current directory, the path value should be '.'
-
-        *arguments: integer
-            If sequences in the special characters should be a range of integers,
-            you can easily pass the start and the end arguments of range as extra
-            arguments. But, notice that:
-                1- In this case remember to replace seq with %s. Then, you should
-                   have [%s] or [!%s] in the file pattern.
-                2- for each %s you must pass two integers (always an even number
-                    of extra arguments must be passed). Also, the order is important
-                    and it should be in the same order of '%s's.
-
-        Pattern Examples
-        ----------------
-            (1)
-            file: 'Mydir/1f/1_opt.smi'
-            path: None
-            sample files to be read: 'Mydir/1f/1_opt.smi'
-
-            (2)
-            file: '[1,2,3,4]?/*_opt.mol'
-            path: 'Mydir'
-            sample files to be read: 'Mydir/1f/1_opt.mol', 'Mydir/2c/2_opt.mol', ...
-
-            (3)
-            file: '[!1,2]?/*_opt.pdb'
-            path: '.'
-            sample files to be read: './3f/3_opt.pdb', 'Mydir/7c/7_opt.pdb', ...
-
-            (4)
-            file: '*['f','c']/*_opt.tpl'
-            path: 'Mydir'
-            sample files to be read: 'Mydir/1f/1_opt.tpl', 'Mydir/2c/2_opt.tpl', ...
-
-            (5)
-            file: '[%s]?/[!%s]_opt.mol2'
-            arguments: 1,4,7,10
-            path: 'Mydir/all'
-            sample files to be read: 'Mydir/all/1f/1_opt.mol2', 'Mydir/all/2c/2_opt.mol2', ...
         """
-        extensions = {
-            '.mol': Chem.MolFromMolFile,
-            '.mol2': Chem.MolFromMol2File,
-            '.pdb': Chem.MolFromPDBFile,
-            '.tpl': Chem.MolFromTPLFile,
-            '.smi': Chem.MolFromSmiles,
-            '.smarts': Chem.MolFromSmarts,
-            # '.inchi':     Chem.MolFromInchi
-        }
-        file_name, file_extension = os.path.splitext(molfile)
-        if file_extension == '':
-            msg = 'The file extension is not determined.'
-            raise ValueError(msg)
-        elif file_extension not in extensions:
-            msg = "The file extension is '%s' not available." % file_extension
-            raise ValueError(msg)
-        start_end = [arg for arg in arguments]
-        if len(start_end) != file_name.count('%s') * 2:
-            msg = "Pass an even number of integers, 2 for each '%s'."
-            raise ValueError(msg)
-
-        if path and '%s' in molfile:
-            molfile = _add_range(molfile, start_end)
-
-        self.removed_rows = []
-        self.molecules = []
-        if path:
-            for root, directories, filenames in os.walk(path):
-                file_path = [
-                    os.path.join(root, filename) for filename in filenames
-                ]
-                for filename in sorted(
-                        fnmatch.filter(file_path, os.path.join(path,
-                                                               molfile))):
-                    if file_extension in ['.smi', '.smarts']:
-                        mols = open(filename, 'r')
-                        mols = mols.readlines()
-                        for i, x in enumerate(mols):
-                            mol = extensions[file_extension](
-                                x.strip())#, removeHs=self.remove_hydrogen)
-                            if mol is None:
-                                self.removed_rows.append(i)
-                            else:
-                                self.molecules.append(mol)
-                        # mols = [extensions[file_extension](x.strip(),removeHs=self.remove_hydrogen) for x in mols]
-                        # self.molecules += mols
-                    else:
-                        self.molecules += [
-                            extensions[file_extension](
-                                filename)#, removeHs=self.remove_hydrogen)
-                        ]
+        if isinstance(molecules, list):
+            molecules = np.array(molecules)
+        elif isinstance(molecules, Molecule):
+            molecules = np.array([molecules])
         else:
-            if file_extension in ['.smi', '.smarts']:
-                mols = open(molfile, 'r')
-                mols = mols.readlines()
-                for i, x in enumerate(mols):
-                    mol = extensions[file_extension](x.strip())
-                    if mol is None:
-                        self.removed_rows.append(i)
-                    else:
-                        self.molecules.append(mol)
-                # mols = [extensions[file_extension](x.strip()) for x in mols]
-                # self.molecules += mols
-            else:
-                self.molecules += [
-                    extensions[file_extension](
-                        file_name, removeHs=self.remove_hydrogen)
-                ]
-
-    def fingerprint(self):
-        if self.fingerprint_type == 'hashed_atom_pair' or self.fingerprint_type == 'hap':
-            if self.vector == 'int':
-                from rdkit.Chem.AtomPairs.Pairs import GetHashedAtomPairFingerprint
-                self.fps = [
-                    GetHashedAtomPairFingerprint(m, nBits=self.n_bits)
-                    for m in self.molecules
-                ]
-                # get nonzero elements as a dictionary for each molecule
-                dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
-                data = pd.DataFrame(dict_nonzero)
-                data.fillna(0, inplace=True)
-                return data
-            elif self.vector == 'bit':
-                from rdkit.Chem.rdMolDescriptors import GetHashedAtomPairFingerprintAsBitVect
-                self.fps = [
-                    GetHashedAtomPairFingerprintAsBitVect(
-                        m, nBits=self.n_bits) for m in self.molecules
-                ]
-                data = np.array(self.fps)
-                data = pd.DataFrame(data)
-                return data
-        elif self.fingerprint_type == 'MACCS':
-            if self.vector == 'int':
-                msg = "There is no RDKit function to encode integer vectors for MACCS keys"
-                raise ValueError(msg)
-            elif self.vector == 'bit':
-                from rdkit.Chem.MACCSkeys import GenMACCSKeys
-                self.fps = [GenMACCSKeys(mol) for mol in self.molecules]
-                data = np.array(self.fps)
-                data = pd.DataFrame(data)
-                return data
-        elif self.fingerprint_type == 'Morgan':
-            if self.vector == 'int':
-                from rdkit.Chem.rdMolDescriptors import GetMorganFingerprint
-                self.fps = [
-                    GetMorganFingerprint(mol, self.radius)
-                    for mol in self.molecules
-                ]
-                # get nonzero elements as a dictionary for each molecule
-                dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
-                # pairScores = []
-                # for fp in dict_nonzero:
-                #     pairScores += list(fp)
-                data = pd.DataFrame(dict_nonzero)#, columns=list(set(pairScores)))
-                data.fillna(0, inplace=True)
-                return data
-            elif self.vector == 'bit':
-                from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
-                self.fps = [
-                    GetMorganFingerprintAsBitVect(
-                        mol, self.radius, nBits=self.n_bits)
-                    for mol in self.molecules
-                ]
-                data = np.array(self.fps)
-                data = pd.DataFrame(data)
-                return data
-        elif self.fingerprint_type == 'hashed_topological_torsion' or self.fingerprint_type == 'htt':
-            if self.vector == 'int':
-                from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprint
-                self.fps = [
-                    GetHashedTopologicalTorsionFingerprint(
-                        m, nBits=self.n_bits) for m in self.molecules
-                ]
-                # get nonzero elements as a dictionary for each molecule
-                dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
-                data = pd.DataFrame(dict_nonzero)
-                data.fillna(0, inplace=True)
-                return data
-            elif self.vector == 'bit':
-                from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprintAsBitVect
-                self.fps = [
-                    GetHashedTopologicalTorsionFingerprintAsBitVect(
-                        m, nBits=self.n_bits) for m in self.molecules
-                ]
-                data = np.array(self.fps)
-                data = pd.DataFrame(data)
-                return data
-        elif self.fingerprint_type == 'topological_torsion' or self.fingerprint_type == 'tt':
-            if self.vector == 'int':
-                from rdkit.Chem.AtomPairs.Torsions import GetTopologicalTorsionFingerprintAsIntVect
-                self.fps = [
-                    GetTopologicalTorsionFingerprintAsIntVect(mol)
-                    for mol in self.molecules
-                ]
-                dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps]
-                data = pd.DataFrame(dict_nonzero)
-                data.fillna(0, inplace=True)
-                return data
-            elif self.vector == 'bit':
-                msg = "There is no RDKit function to encode bit vectors for Topological Torsion Fingerprints"
-                raise ValueError(msg)
-        else:
-            msg = "The type argument '%s' is not a valid fingerprint type" % self.fingerprint_type
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
             raise ValueError(msg)
+
+        if molecules.ndim >1:
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
+
+        self.n_molecules_ = molecules.shape[0]
+
+        if self.fingerprint_type.lower() == 'hashed_atom_pair' or self.fingerprint_type.lower() == 'hap':
+            return self._hap(molecules)
+        elif self.fingerprint_type == 'MACCS' or self.fingerprint_type.lower() == 'maccs':
+            return self._maccs(molecules)
+        elif self.fingerprint_type.lower() == 'morgan':
+            return self._morgan(molecules)
+        elif self.fingerprint_type.lower() == 'hashed_topological_torsion' or self.fingerprint_type.lower() == 'htt':
+            return self._htt(molecules)
+        elif self.fingerprint_type.lower() == 'topological_torsion' or self.fingerprint_type.lower() == 'tt':
+            return self._tt(molecules)
+        else:
+            msg = "The parameter 'fingerprint_type' is not a valid fingerprint type: '%s'" % self.fingerprint_type
+            raise ValueError(msg)
+
+    def _hap(self, molecules):
+        if self.vector == 'int':
+            from rdkit.Chem.AtomPairs.Pairs import GetHashedAtomPairFingerprint
+            self.fps_ = [
+                GetHashedAtomPairFingerprint(self._sanitary(m), nBits=self.n_bits, **self.kwargs)
+                for m in molecules
+            ]
+            # get nonzero elements as a dictionary for each molecule
+            dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
+            data = pd.DataFrame(dict_nonzero)
+            data.fillna(0, inplace=True)
+            return data
+        elif self.vector == 'bit':
+            from rdkit.Chem.rdMolDescriptors import GetHashedAtomPairFingerprintAsBitVect
+            self.fps_ = [
+                GetHashedAtomPairFingerprintAsBitVect(
+                    self._sanitary(m), nBits=self.n_bits, **self.kwargs) for m in molecules
+            ]
+            data = np.array(self.fps_)
+            data = pd.DataFrame(data)
+            return data
+
+    def _maccs(self, molecules):
+        if self.vector == 'int':
+            msg = "There is no RDKit function to encode integer vectors for MACCS keys"
+            raise ValueError(msg)
+        elif self.vector == 'bit':
+            from rdkit.Chem.MACCSkeys import GenMACCSKeys
+            self.fps_ = [GenMACCSKeys(self._sanitary(mol), **self.kwargs) for mol in molecules]
+            data = np.array(self.fps_)
+            data = pd.DataFrame(data)
+            return data
+
+    def _morgan(self, molecules):
+        if self.vector == 'int':
+            from rdkit.Chem.rdMolDescriptors import GetMorganFingerprint
+            self.fps_ = [
+                GetMorganFingerprint(self._sanitary(mol), self.radius, **self.kwargs)
+                for mol in molecules
+            ]
+            # get nonzero elements as a dictionary for each molecule
+            dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
+            # pairScores = []
+            # for fp in dict_nonzero:
+            #     pairScores += list(fp)
+            data = pd.DataFrame(dict_nonzero)#, columns=list(set(pairScores)))
+            data.fillna(0, inplace=True)
+            return data
+        elif self.vector == 'bit':
+            from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
+            self.fps_ = [
+                GetMorganFingerprintAsBitVect(
+                    self._sanitary(mol), self.radius, nBits=self.n_bits, **self.kwargs)
+                for mol in molecules
+            ]
+            data = np.array(self.fps_)
+            data = pd.DataFrame(data)
+            return data
+
+    def _htt(self, molecules):
+        if self.vector == 'int':
+            from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprint
+            self.fps_ = [
+                GetHashedTopologicalTorsionFingerprint(
+                    self._sanitary(mol), nBits=self.n_bits, **self.kwargs) for mol in molecules
+            ]
+            # get nonzero elements as a dictionary for each molecule
+            dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
+            data = pd.DataFrame(dict_nonzero)
+            data.fillna(0, inplace=True)
+            return data
+        elif self.vector == 'bit':
+            from rdkit.Chem.rdMolDescriptors import GetHashedTopologicalTorsionFingerprintAsBitVect
+            self.fps_ = [
+                GetHashedTopologicalTorsionFingerprintAsBitVect(
+                    self._sanitary(mol), nBits=self.n_bits, **self.kwargs) for mol in molecules
+            ]
+            data = np.array(self.fps_)
+            data = pd.DataFrame(data)
+            return data
+
+    def _tt(self, molecules):
+        if self.vector == 'int':
+            from rdkit.Chem.AtomPairs.Torsions import GetTopologicalTorsionFingerprintAsIntVect
+            self.fps_ = [
+                GetTopologicalTorsionFingerprintAsIntVect(self._sanitary(mol), **self.kwargs)
+                for mol in molecules
+            ]
+            dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
+            data = pd.DataFrame(dict_nonzero)
+            data.fillna(0, inplace=True)
+            return data
+        elif self.vector == 'bit':
+            msg = "There is no RDKit function to encode bit vectors for Topological Torsion Fingerprints"
+            raise ValueError(msg)
+
+    def _sanitary(self, mol):
+        if not isinstance(mol, Molecule):
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            raise ValueError(msg)
+        if mol.rdkit_molecule is None:
+            mol.to_smiles()
+        return mol.rdkit_molecule
+

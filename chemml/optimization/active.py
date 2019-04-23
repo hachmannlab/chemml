@@ -362,7 +362,7 @@ class ActiveLearning(object):
 
     def deposit(self, indices, Y):
         """
-        This function helps you to deposit the labeled data that was queried by initialize or search funstions.
+        This function helps you to deposit the data for candidates that were queried by initialize or search functions.
 
         Parameters
         ----------

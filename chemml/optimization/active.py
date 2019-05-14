@@ -419,8 +419,8 @@ class ActiveLearning(object):
 
         if len(self._queries) > 0:
             match_flag = False
+            self.last_deposited_indices_ = np.array([])
             for query in self._queries:
-                self.last_deposited_indices_ = np.array([])
                 ind_in_q = np.where(np.in1d(indices, query[1], assume_unique=True))[0] # the position of matched numbers in the indices
                 if len(ind_in_q)>0:
                     match_flag = True

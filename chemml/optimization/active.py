@@ -431,7 +431,7 @@ class ActiveLearning(object):
                             self._Y_test = np.append(self._Y_test, Y[ind_in_q], axis=0)
                         # update test_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
-                        all_settled_indices = np.append(self.last_deposited_indices_, settled_inds).astype(int)
+                        self.last_deposited_indices_ = np.append(self.last_deposited_indices_, settled_inds).astype(int)
                         self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # list of all indices
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     else:
@@ -441,7 +441,7 @@ class ActiveLearning(object):
                             self._Y_train = np.append(self._Y_train, Y[ind_in_q], axis=0)
                         # update train_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
-                        all_settled_indices = np.append(self.last_deposited_indices_, settled_inds).astype(int)
+                        self.last_deposited_indices_ = np.append(self.last_deposited_indices_, settled_inds).astype(int)
                         self.train_indices = np.append(self.train_indices, settled_inds).astype(int)
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     # update q_ind and thus _queries

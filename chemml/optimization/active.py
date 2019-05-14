@@ -60,6 +60,11 @@ class ActiveLearning(object):
             - your budget.
             - the diversity of the pool of candidates (U).
 
+    test_type: str, optional (default = 'passive')
+        The value must be either 'passive' or 'active'.
+        If passive, test set will be sampled randomly at the initialization.
+        If active, test set will be sampled randomly at each round.
+
     batch_size: list, optional (default = [10])
         This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
         our active learning approaches should query every round. The order of active learning approaches are as follows:
@@ -70,7 +75,7 @@ class ActiveLearning(object):
         Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.
 
     history: int, optional (default = 2)
-        This parameter must be a greater than 1 integer. It specifies the number of previous active learning
+        This parameter must be an integer and greater than one. It specifies the number of previous active learning
         rounds to memorize for the distribution shift alleviation (DSA) approach.
 
     Attributes
@@ -118,12 +123,14 @@ class ActiveLearning(object):
 
     """
 
-    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=2):
+    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100,
+                 test_type='passive', batch_size=[10], history=2):
         self.model_creator = model_creator
         self.U = U
         self.target_layer = target_layer
         self.train_size = train_size
         self.test_size = test_size
+        self.test_type = test_type
         self.batch_size = batch_size
         self.history = history
         self._fit()
@@ -223,6 +230,12 @@ class ActiveLearning(object):
                 (self.train_size+self.test_size) >= self.U_size:
             msg = "The train and test size and their sum must be less than the number of unlabeled data (U)"
             raise ValueError(msg)
+
+        # check the test_type value
+        if self.test_type not in ('active', 'passive'):
+            msg = "The parameter 'test_type' must be either 'active' or 'passive'."
+            raise ValueError(msg)
+
 
         # other attributes
         self._queries = []
@@ -386,20 +399,20 @@ class ActiveLearning(object):
         Y = np.array(Y)
         # check if Y is 2 dimensional
         if Y.ndim != 2:
-            msg = "The labels Y must be 2 dimensional."
+            msg = "The labels, 'Y', must be 2 dimensional."
             raise ValueError(msg)
 
-        # check the length of all is same
+        # check if the length of indices and labels are same
         if indices.shape[0] != Y.shape[0]:
             msg = "The first dimension of the input Y should be equal to the number of indices."
             raise ValueError(msg)
 
         # check the dimension of ind be one
         if indices.ndim != 1 :
-            msg = "The dimension of 'indices' must be one."
+            msg = "The dimension of 'indices' must be one: array, list, or tuple of indices would suffice."
             raise ValueError(msg)
 
-        # check if ind is a unique array of indices
+        # check if indices are unique
         if len(set(indices)) != len(indices):
             msg = "The indices are not unique. This causes duplicate data and thus results in biased training."
             raise ValueError(msg)
@@ -407,6 +420,7 @@ class ActiveLearning(object):
         if len(self._queries) > 0:
             match_flag = False
             for query in self._queries:
+                self.last_deposited_indices_ = np.array([])
                 ind_in_q = np.where(np.in1d(indices, query[1], assume_unique=True))[0] # the position of matched numbers in the indices
                 if len(ind_in_q)>0:
                     match_flag = True
@@ -417,6 +431,7 @@ class ActiveLearning(object):
                             self._Y_test = np.append(self._Y_test, Y[ind_in_q], axis=0)
                         # update test_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
+                        all_settled_indices = np.append(self.last_deposited_indices_, settled_inds).astype(int)
                         self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # list of all indices
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     else:
@@ -426,6 +441,7 @@ class ActiveLearning(object):
                             self._Y_train = np.append(self._Y_train, Y[ind_in_q], axis=0)
                         # update train_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
+                        all_settled_indices = np.append(self.last_deposited_indices_, settled_inds).astype(int)
                         self.train_indices = np.append(self.train_indices, settled_inds).astype(int)
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     # update q_ind and thus _queries
@@ -434,8 +450,11 @@ class ActiveLearning(object):
                 msg = "Can't match the indices with queries."
                 raise ValueError(msg)
             else:
+                msg = "we stored %i of passed indices. A list of them is in the 'last_deposited_indices_' attribute."%len(self.last_deposited_indices_)
+                print(msg)
                 # update queries
                 self._update_queries()
+                _ = self._update_train_test()
                 return True
         else:
             msg = "The `queries` is empty. Can't deposit data if it's not been queried."
@@ -448,6 +467,29 @@ class ActiveLearning(object):
 
         """
         self._queries = [q for q in self._queries if len(q[1])>0]
+
+    def _update_train_test(self):
+        """
+        This function take care of the test_type parameter.
+
+        """
+        if self.test_type == 'passive':
+            return True
+        if len(self._queries) > 0:
+            return True
+        else:
+            # active test split
+            all_indices = np.concatenate([self.train_indices, self.test_indices], axis=0)
+            all_y = np.concatenate([self._Y_train, self._Y_test], axis=0)
+            # select randomly
+            ss = ShuffleSplit(n_splits=1, test_size=self.test_size, train_size=None, random_state=90)
+            for train_indices, test_indices in ss.split(all_indices):
+                # test
+                self._Y_test = all_y[test_indices]
+                self.test_indices = all_indices[test_indices]
+                # train
+                self._Y_train = all_y[train_indices]
+                self.train_indices = all_indices[train_indices]
 
     def _scaler(self, scale):
         """

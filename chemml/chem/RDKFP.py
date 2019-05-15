@@ -2,6 +2,7 @@ from __future__ import print_function
 from builtins import range
 import pandas as pd
 import numpy as np
+import scipy.sparse
 
 
 from chemml.chem import Molecule
@@ -80,7 +81,7 @@ class RDKitFingerprint(object):
         Returns
         -------
         pandas.DataFrame
-            A pandas dataframe with same number of rows as number of molecules will be returned.
+            A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.
 
         """
         if isinstance(molecules, list):
@@ -215,3 +216,50 @@ class RDKitFingerprint(object):
             mol.to_smiles()
         return mol.rdkit_molecule
 
+    def store_sparse(self, file, features):
+        """
+        This function helps you to store higly sparse fingerprint feature sets using `.npz` format for memory efficiency and
+        less store/load time.
+        Another method of this class, `load_sparse`, enables you to load your `.npz` files and convert it back to pandas dataframe.
+
+        Parameters
+        ----------
+        file: str
+            Must be a path to the file with .npz format.
+
+        features: pandas.DataFrame
+            Must be the pandas dataframe as you receive it from `represent` method.
+
+        """
+        if not isinstance(file, str):
+            msg = "The parameter 'file' must be a path to the file with .npz format."
+            raise ValueError(msg)
+
+        if not isinstance(features, pd.DataFrame):
+            msg = "The parameter 'features' must be a pandas dataframe."
+            raise ValueError(msg)
+
+        temp = scipy.sparse.csc_matrix(features.values)
+        scipy.sparse.save_npz(file, temp)
+
+    def load_sparse(self, file):
+        """
+        This function enables you to load sparse matrix with the `.npz` format and convert it to a pandas dataframe.
+
+        Parameters
+        ----------
+        file: str
+            Must be a path to the file with .npz format.
+
+        Returns
+        -------
+        pandas.DataFrame
+            The dense dataframe of the passed sparse file.
+
+        """
+        if not isinstance(file, str):
+            msg = "The parameter 'file' must be a path to the file with .npz format."
+            raise ValueError(msg)
+
+        temp = scipy.sparse.load_npz(file)
+        return pd.DataFrame(temp.todense())

@@ -245,6 +245,7 @@ class ActiveLearning(object):
         # all indices are numpy arrays
         self.train_indices = np.array([])
         self.test_indices = np.array([])
+        self.initial_test_indices = np.array([])
         self.U_indices = np.array(range(self.U_size))
         self.query_number = 0
         self._Y_train = None
@@ -432,7 +433,8 @@ class ActiveLearning(object):
                         # update test_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
                         self.last_deposited_indices_ = np.append(self.last_deposited_indices_, settled_inds).astype(int)
-                        self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # list of all indices
+                        self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # array of all indices
+                        self.initial_test_indices = np.append(self.initial_test_indices, settled_inds).astype(int)
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     else:
                         if self._Y_train is None:
@@ -1015,7 +1017,7 @@ class ActiveLearning(object):
 
         return model, preds, mae, rmse, r2
 
-    def random_search(self, Y, scale=True, n_evaluation=10, random_state=90, **kwargs):
+    def random_search(self, Y, test_type='passive', scale=True, n_evaluation=10, random_state=90, **kwargs):
         """
         This function randomly select same number of data points as the active learning rounds and store the results.
 
@@ -1024,6 +1026,13 @@ class ActiveLearning(object):
         Y: array-like
             The 2-dimensional label for all the candidates in the pool. Basically, you won't run this method unless you have the labels
             for all your samples. Otherwise, trust us and perform an active learning search.
+
+        test_type: str, optional (default = 'passive')
+            The parameter value must be either 'passive' or 'active'.
+            If passive, the initial randomly selected test set in the initialize method will be used for evaluation.
+            If active, the current test set of active learning approach will be used for evaluation. Thus, if the test_type in active
+            learning method is 'passive', you should run active and random search back to back and then deposit the data.
+            This way you make sure both active and random search are tested on the same test sets.
 
         scale: bool or list, optional (default = True)
             if True, sklearn.preprocessing.StandardScaler will be used to scale X and Y before training.
@@ -1067,7 +1076,16 @@ class ActiveLearning(object):
             raise ValueError(msg)
 
         # find all indices except test indices
-        except_test_inds = [i for i in range(self.U_size) if i not in self.test_indices]
+        # we must consider the test type: active or passive
+        if test_type == 'passive':
+            test_indices = self.initial_test_indices
+            except_test_inds = [i for i in range(self.U_size) if i not in self.initial_test_indices]
+        elif test_type == 'active':
+            test_indices = self.test_indices
+            except_test_inds = [i for i in range(self.U_size) if i not in self.test_indices]
+        else:
+            msg = "The parameter 'test_type' must be either 'passive' or 'active'."
+            raise ValueError(msg)
 
         # remaining training set size to run ML
         remaining_ind = [i for i in range(len(self._results)) if i not in range(len(self._random_results))]
@@ -1087,9 +1105,9 @@ class ActiveLearning(object):
                 X_tr = self.U[actual_tr_inds]
                 Y_tr = Y[actual_tr_inds]
 
-                # test set same as active learning
-                X_te = self._X_test()
-                Y_te = copy.deepcopy(self._Y_test)
+                # test set based on the test type
+                X_te = self.U[test_indices]
+                Y_te = Y[test_indices]
                 # scale
                 X_scaler, Y_scaler = self._scaler(scale)
                 if X_scaler is not None:

@@ -30,7 +30,8 @@ if __name__ == "__main__":
         packages=setuptools.find_packages(),
 
         install_requires=[
-            'future', 'six', 'numpy', 'pandas',
+            'future', 'six',
+            'numpy', 'pandas', 'scipy',
             'tensorflow', 'keras', 'h5py',
             'scikit-learn',
             'matplotlib>=1.5.1',

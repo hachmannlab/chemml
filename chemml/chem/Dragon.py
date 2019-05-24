@@ -47,16 +47,19 @@ class Dragon(object):
         molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths
         script = 'new'
 
+    Returns
+    -------
+    pandas.DataFrame
+        The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.
+
     Examples
     --------
         >>> import pandas as pd
         >>> from chemml.chem import Dragon
         >>> drg = Dragon()
         >>> drg.script_wizard(script='new', output_directory='./')
-        >>> drg.run()
-        >>> df_path = drg.data_path  # path to the output file
-        >>> df = pd.read_csv(df_path, sep=None, engine='python')
-        >>> df = df.drop(['No.','NAME'],axis=1)
+        >>> df = drg.run()
+        >>> df = df.drop(['No.','NAME'], axis=1)
     """
 
     def __init__(self,
@@ -552,7 +555,10 @@ class Dragon(object):
 
         # execution time
         tmp_str = tot_exec_time_str(t0)
+
+        # remove original tab delimited file
         os.remove(self.data_path)
+        self.data_path = None
         print("... conversion completed in %s"%tmp_str)
 
         return df

@@ -552,6 +552,7 @@ class Dragon(object):
 
         # execution time
         tmp_str = tot_exec_time_str(t0)
+        os.remove(self.data_path)
         print("... conversion completed in %s"%tmp_str)
 
         return df

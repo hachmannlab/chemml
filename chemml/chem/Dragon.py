@@ -6,10 +6,13 @@ from __future__ import print_function
 from builtins import range
 import warnings
 import os
+import time
+import pandas as pd
 from lxml import objectify, etree
 
-from ..utils import std_datetime_str, bool_formatter
-
+from chemml.utils import std_datetime_str
+from chemml.utils import bool_formatter
+from chemml.utils import tot_exec_time_str
 
 class Dragon(object):
     """
@@ -526,6 +529,7 @@ class Dragon(object):
         print(objectify.dump(self.dragon))
 
     def run(self):
+        t0 = time.time()
         print("running Dragon%i ..." % self.version)
         os_ret = os.system('nohup dragon%sshell -s %s' %
                            (self.version, os.path.join(self.output_directory, self.drs_name)))
@@ -533,5 +537,23 @@ class Dragon(object):
             msg = "Oops, dragon%ishell command didn't work! Are you sure Dragon%i software is installed on your machine?" % (
                 self.version, self.version)
             raise ImportError(msg)
+
+        # execution time
+        tmp_str = tot_exec_time_str(t0)
+        print("... Dragon job completed in %s"%tmp_str)
+
         # print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
-        print("... Dragon job completed!")
+
+        # convert to csv file
+        t0 = time.time()
+        print("converting output file to csv format ...")
+        df = pd.read_csv(self.data_path, sep=None, engine='python')
+        # df = df.drop(['No.', 'NAME'], axis=1)
+
+        # execution time
+        tmp_str = tot_exec_time_str(t0)
+        print("... conversion completed in %s"%tmp_str)
+
+        return df
+
+

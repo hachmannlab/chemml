@@ -47,10 +47,6 @@ class Dragon(object):
         molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths
         script = 'new'
 
-    Returns
-    -------
-    pandas.DataFrame
-        The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.
 
     Examples
     --------
@@ -58,7 +54,8 @@ class Dragon(object):
         >>> from chemml.chem import Dragon
         >>> drg = Dragon()
         >>> drg.script_wizard(script='new', output_directory='./')
-        >>> df = drg.run()
+        >>> drg.run()
+        >>> df = drg.convert_to_csv(remove=True)
         >>> df = df.drop(['No.','NAME'], axis=1)
     """
 
@@ -547,6 +544,22 @@ class Dragon(object):
 
         # print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
 
+    def convert_to_csv(self, remove=True):
+        """
+        This function converts the tab-delimited txt file from Dragon to pandas dataframe.
+        Note that this process might require large memory based on the number of data points and features.
+
+        Parameters
+        ----------
+        remove: bool, optional (default = True)
+            if True, the original descriptors file (Dragon_descriptors.txt) will be removed.
+
+        Returns
+        -------
+        pandas.DataFrame
+            The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.
+
+        """
         # convert to csv file
         t0 = time.time()
         print("converting output file to csv format ...")
@@ -557,8 +570,10 @@ class Dragon(object):
         tmp_str = tot_exec_time_str(t0)
 
         # remove original tab delimited file
-        os.remove(self.data_path)
-        self.data_path = None
+        if remove:
+            os.remove(self.data_path)
+            self.data_path = None
+
         print("... conversion completed in %s"%tmp_str)
 
         return df

@@ -16,7 +16,7 @@ Code Design:
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries.
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
-The format of library is similar to the well known libraries like Scikit-learn. ChemML is also available
+The format of library is similar to the well known libraries like Scikit-learn. ChemML will be soon available
 via graphical user interface provided by [ChemEco](https://github.com/hachmannlab/chemeco).
 ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the
 representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
@@ -61,7 +61,7 @@ Python 2 Fans:
 The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
 and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
 However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that
-support Python 2 prior to using ChemML locally.
+support Python 2, prior to using ChemML locally.
 
 
 Citation:
@@ -129,6 +129,7 @@ About us:
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
+    - Doaa Altarawy (MolSSI): scientific advice and software mentor
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
     - Bhargava Urala Kota (UB): library database

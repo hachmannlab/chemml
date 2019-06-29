@@ -1,0 +1,47 @@
+#value(val)
+cmls =
+[{'recv': {},             'task': 'Input', 'send': {('df', 0): 0},  'parameters': {'function': 'File', 'filepath': 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv', 'skipcolumns': 0, 'skiprows': 0, 'header': 0, 'module': 'cheml'}},
+ {'recv': {('df', 0): 1}, 'task': 'Input', 'send': {('df2', 2): 1}, 'parameters': {'function': 'Split', 'select': ['SMILES'], 'module': 'cheml'}},
+ {'recv': {('df', 2): 2}, 'task': 'Input', 'send': {},              'parameters': {'function': 'Split', 'select': ['Kp', 'd_exp'], 'module': 'cheml'}}
+]
+
+ImpOrder = (0, 1, 2)
+CompGraph = ((0, 'df', 1, 'df'), (1, '  df2', 2, 'df'))
+
+    ####
+
+#val
+cmls =
+[{'function': 'RDKFP', 'send': {'data': 'INPUT'}, 'parameters': {'nBits': '1024', 'molfile': "''", 'removeHs': 'True', 'radius': '2', 'arguments': '0,0,...', 'path': 'None', 'FPtype': "'Morgan'"}},
+ {'function': 'INPUT', 'send': {'data': 'SVM', 'target': 'SVM'}, 'parameters': {'target_path': "'benchmarks/homo_dump/sample_50/homo_50.csv'", 'data_skiprows': '0', 'target_skiprows': '0', 'data_path': "'benchmarks/homo_dump/sample_50/data_NOsmi_50.csv'", 'data_delimiter': 'None', 'target_delimiter': 'None', 'target_header': 'None', 'data_header': '0'}},
+ {'function': 'SVR', 'send': {}, 'parameters': {'kernel': "'rbf'", 'C': '1.0', 'verbose': 'False', 'shrinking': 'True', 'epsilon': '0.1', 'max_iter': '-1', 'tol': '1e-3', 'cache_size': '200', 'degree s': '3', 'coef0': '0.0', 'gamma': "'auto'"}}
+]
+
+    ####
+
+cmlnb =
+{'blocks': [{'function': 'RDKFP', 'imports': ['from cheml.chem import RDKFingerprint\n'], 'source': ['RDKFingerprint_API = RDKFingerprint(nBits = 1024,\n', '                                    removeHs = True,\n', "                                    vector = 'bit',\n", '                                    radius = 2,\n', "                                    FPtype = 'Morgan')\n", "RDKFingerprint_API.MolfromFile(molfile = '', path = None, 0,0,...)\n", 'data = RDKFingerprint_API.Fingerprint()\n']}, 
+            {'function': 'INPUT', 'imports': ['import numpy as np\n', 'import pandas as pd\n'], 'source': ["data = pd.read_csv('benchmarks/homo_dump/sample_50/data_NOsmi_50.csv',\n", '                   sep = None,\n', '                   skiprows = 0,\n', '                   header = 0)\n', "target = pd.read_csv('benchmarks/homo_dump/sample_50/homo_50.csv',\n", '                     sep = None,\n', '                     skiprows = 0,\n', '                     header = None)\n']},
+            {'function': 'SupervisedLearning_regression', 'imports': ['from sklearn.cross_validation import train_test_split\n', 'from sklearn.cross_validation import K-fold\n', 'from sklearn.preprocessing import StandardScaler\n', 'from sklearn.svm import SVR\n', 'from sklearn.metrics import r2_score\n', 'from sklearn.metrics import mean_absolute_error\n', 'from sklearn.metrics import median_absolute_error\n', 'from sklearn.metrics import mean_squared_error\n', 'from sklearn.metrics import explained_variance_score\n'], 'source': ['\n# split\n', 'data_train, data_test, target_train, target_test = train_test_split(data,\n', '                                                                    target,\n', '                                                                    train_size = None,\n', '                                                                    random_state = None,\n', '                                                                    test_size = None,\n', '                                                                    stratify = None)\n', '\n# cross_validation\n', 'CV_indices = K-fold(shuffle = False,\n', '                    n = len(data),\n', '                    random_state = None,\n', '                    n_folds = 3)\n', '\n# scaler\n', 'StandardScaler_API = StandardScaler(copy = True,\n', '                                    with_std = True,\n', '                                    with_mean = True)\n', '\n# learner\n', "SVR_API = SVR(kernel = 'rbf',\n", '              C = 1.0,\n', '              verbose = False,\n', '              shrinking = True,\n', '              epsilon = 0.1,\n', '              max_iter = -1,\n', '              tol = 1e-3,\n', '              cache_size = 200,\n', '              degree s = 3,\n', '              coef0 = 0.0,\n', "              gamma = 'auto')\n", '\n# result: split\n', 'StandardScaler_API.fit(data_train)\n', 'data_train = StandardScaler_API.transform(data_train)\n', 'data_test = StandardScaler_API.transform(data_test)\n', 'SVR_API.fit(data_train, target_train)\n', 'target_train_pred = SVR_API.predict(data_train)\n', 'target_test_pred = SVR_API.predict(data_test)\n', "split_metrics = {'training':{}, 'test':{}}\n", "split_metrics['training']['r2_score'] = r2_score(target_train, target_train_pred)\n", "split_metrics['test']['r2_score'] = r2_score(target_test, target_test_pred)\n", "split_metrics['training']['mean_absolute_error'] = mean_absolute_error(target_train, target_train_pred)\n", "split_metrics['test']['mean_absolute_error'] = mean_absolute_error(target_test, target_test_pred)\n", "split_metrics['training']['median_absolute_error'] = median_absolute_error(target_train, target_train_pred)\n", "split_metrics['test']['median_absolute_error'] = median_absolute_error(target_test, target_test_pred)\n", "split_metrics['training']['mean_squared_error'] = mean_squared_error(target_train, target_train_pred)\n", "split_metrics['test']['mean_squared_error'] = mean_squared_error(target_test, target_test_pred)\n", "split_metrics['training']['mean_squared_error'] = np.sqrt(mean_squared_error(target_train, target_train_pred))\n", "split_metrics['test']['mean_squared_error'] = np.sqrt(mean_squared_error(target_test, target_test_pred))\n", "split_metrics['training']['explained_variance_score'] = explained_variance_score(target_train, target_train_pred)\n", "split_metrics['test']['explained_variance_score'] = explained_variance_score(target_test, target_test_pred)\n", '\n# result: cross_validation\n', "CV_metrics = {'test': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}, 'training': {'r2_score': [], 'mean_absolute_error': [], 'median_absolute_error': [], 'mean_squared_error': [], 'root_mean_squared_error': [], 'explained_variance_score': []}}\n", 'for train_index, test_index in CV_indices:\n', '    data_train = data.iloc[train_index,:]\n', '    target_train = target.iloc[train_index,:]\n', '    data_test = target.iloc[test_index,:]\n', '    target_test = target.iloc[test_index,:]\n', '    StandardScaler_API.fit(data_train)\n', '    data_train = StandardScaler_API.transform(data_train)\n', '    data_test = StandardScaler_API.transform(data_test)\n', '    SVR_API.fit(data_train, target_train)\n', '    target_train_pred = SVR_API.predict(data_train)\n', '    target_test_pred = SVR_API.predict(data_test)\n', "    CV_metrics['training']['r2_score'].append(r2_score(target_train, target_train_pred))\n", "    CV_metrics['test']['r2_score'].append(r2_score(target_test, target_test_pred))\n", "    CV_metrics['training']['mean_absolute_error'].append(mean_absolute_error(target_train, target_train_pred))\n", "    CV_metrics['test']['mean_absolute_error'].append(mean_absolute_error(target_test, target_test_pred))\n", "    CV_metrics['training']['median_absolute_error'].append(median_absolute_error(target_train, target_train_pred))\n", "    CV_metrics['test']['median_absolute_error'].append(median_absolute_error(target_test, target_test_pred))\n", "    CV_metrics['training']['mean_squared_error'].append(mean_squared_error(target_train, target_train_pred))\n", "    CV_metrics['test']['mean_squared_error'].append(mean_squared_error(target_test, target_test_pred))\n", "    CV_metrics['training']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_train, target_train_pred)))\n", "    CV_metrics['test']['mean_squared_error'].append(np.sqrt(mean_squared_error(target_test, target_test_pred)))\n", "    CV_metrics['training']['explained_variance_score'].append(explained_variance_score(target_train, target_train_pred))\n", "    CV_metrics['test']['explained_variance_score'].append(explained_variance_score(target_test, target_test_pred))\n"]}
+            ],
+ 'file_name': 'CheML_PyScript.py',
+ 'time': '01:10:45',
+ 'version': '1.1.0',
+ 'imports': ['cheml: RDKFingerprint', 'numpy', 'pandas', 'sklearn: train_test_split', 'sklearn: K-fold', 'sklearn: StandardScaler', 'sklearn: SVR', 'sklearn: r2_score', 'sklearn: mean_absolute_error', 'sklearn: median_absolute_error', 'sklearn: mean_squared_error', 'sklearn: explained_variance_score'],
+ 'date': '2016-04-22'
+}
+
+    ####
+
+CompGraph = ((0, 'df', 1, 'df'), (1, 'df2', 2, 'df'), (1, 'df1', 3, 'df'), (3, 'filepath', 4, 'molfile'), (4, 'df', 5, 'df'), (5, 'df', 6, 'df'))
+CompGraph = {(iblock_send,token,iblock_recv,token)}
+self.Base.graph = CompGraph
+
+self.legal_inputs = {token:(value,(i_send,token,host,function))}
+
+self.Base.graph_info = {iblock:(host,function)}
+
+self.Base.send = {(iblock_send,token) : [value, count]}
+
+
+#self.Base.cheml_type = {'model':[(host,function), ...], 'scaler':[], 'cv':[]}

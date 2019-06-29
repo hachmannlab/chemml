@@ -1,0 +1,261 @@
+CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+## Input
+                << host = cheml                 << function = ReadTable
+
+                << filepath = 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv'
+                << header = 0
+                << skiprows = 0
+                << skipcolumns = 0
+                >> df 0
+
+## Input
+                << host = cheml                 << function = Split
+                << select = ['SMILES']
+                >> 0 df  >> df2 2  >> df1 1
+
+## Input
+                << host = cheml                 << function = Merge
+                >> id df1   >> id df2   >> df id
+
+
+## Output
+                << host = cheml                 << function = SaveFile
+
+                << filename = '178'
+                << output_directory = 'smiles'
+                << record_time = False
+                << format ='smi'
+                << index = False
+                << header = False
+                >> 1 df >> filepath 3
+
+## DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'Morgan'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# Output
+                << host = cheml                 << function = SaveFile
+
+                << filename = 'morgan_bit1024'
+                << output_directory = 'fp'
+                << record_time = False
+                << format ='csv'
+                << index = False
+                << header = True
+                >> 4 df
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'Morgan'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'MACCS'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'AP'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# Not available yet
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'AP'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HAP'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HAP'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HTT'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'HTT'
+                << vector = 'bit'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                 << function = RDKitFingerprint
+
+                << removeHs = True                << FPtype = 'TT'
+                << vector = 'int'                 << nBits = 1024
+                << radius = 2                     < molfile = ''
+                << path = None                    < arguments = [0,0]
+
+                >> 3 molfile  >> df 4
+
+# DataRepresentation
+                << host = cheml                      << function = Dragon
+                << version = 7
+                << script = "new"
+                << output_directory = 'dragon'
+
+                << CheckUpdates = True                  << SaveLayout = True
+                << PreserveTemporaryProjects = True
+
+                << RejectDisconnectedStrucuture = False << RetainBiggestFragment = False
+                << DisconnectedCalculationOption = "0"
+                << RoundCoordinates = True              << RoundWeights = True
+                << RoundDescriptorValues = True         << knimemode = False
+
+                << ShowWorksheet = False                << Decimal_Separator = "."
+                << Missing_String = "Nan"               << DefaultMolFormat = "1"
+                << HelpBrowser = "/usr/bin/xdg-open"    << RejectUnusualValence = False
+                << Add2DHydrogens = False               << MaxSRforAllCircuit = "19"
+                << MaxSR = "35"                         << MaxSRDetour = "30"
+                << MaxAtomWalkPath = "2000"             << LogPathWalk = True
+                << LogEdge = True                       << Weights = ["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"]
+                << SaveOnlyData = False                 << SaveLabelsOnSeparateFile = False
+                << SaveFormatBlock = "%b-%n.txt"        << SaveFormatSubBlock = "%b-%s-%n-%m.txt"
+                << SaveExcludeMisVal = False            << SaveExcludeAllMisVal = False
+                << SaveExcludeConst = False             << SaveExcludeNearConst = False
+                << SaveExcludeStdDev = False            << SaveStdDevThreshold = "0.0001"
+                << SaveExcludeCorrelated = False        << SaveCorrThreshold = "0.95"
+                << SaveExcludeMisMolecules = False      << SaveExclusionOptionsToVariables = False
+                << SaveExcludeRejectedMolecules = False
+
+                << blocks = range(1,31)
+
+                << molInput = "file"                    << molInputFormat = "SMILES"
+                << molFile = None
+
+                << SaveStdOut = False
+                << SaveProject = False                  << SaveProjectFile = "Dragon_project.drp"
+                << SaveFile = True
+                << SaveType = "singlefile"              << SaveFilePath = "Dragon_descriptors.txt"
+                << logMode = "file"                     << logFile = "Dragon_log.txt"
+
+                << external = False                     << fileName = None
+                << delimiter = ","                      << MissingValue = "NaN"
+                << consecutiveDelimiter = False
+
+                >> 3 molfile  >> df 5
+
+
+## DataRepresentation
+                << host = cheml                 << function = CoulombMatrix
+
+                << CMtype = 'SC'                  << nPerm = 6
+                << const = 1
+                << molfile = ''                   << path = None
+                << reader = 'auto'                << skip_lines = [2,0]
+                << arguments = [0,0]
+
+## DataRepresentation
+                << host = cheml                 << function = DistanceMatrix
+                << norm_type = 'fro'              << nCores = 1
+
+## Preprocessor
+                        << host = cheml             << function = MissingValues
+                        << string_as_null = True    << missing_values = False
+                        << inf_as_null = True       << strategy = 'ignore'
+                        >> id dfx    >> id dfy     >> dfx id  >> dfy id   >> api id
+
+## Preprocessor
+                        << host = cheml           << function = Trimmer
+                        << type="margins"           << sort = True
+                        << cut = 0.05               << shuffle = True
+                        >> id dfx   >> id dfy      >> dfx id    >> dfy id    >> api id
+
+## Preprocessor
+                        << host = cheml            << function = Uniformer
+                        << bins =  10                << bin_pop = 0.5
+                        << right = True              << include_lowest = True
+                        << substitute = None
+                        >> id dfx   >> id dfy      >> dfx id    >> dfy id    >> api id
+
+## Preprocessor
+                        << host = cheml         << function = Constant
+
+                        >> ? df >> df ? >> removed_columns_ ?  >> api ?
+
+# Script
+                        << host = cheml           << function = PyScript
+                        << l1 = "print 'df.shape:', df.shape"
+                        < l2 = "print len(df.columns)"
+                        >> 7 df
+
+## Regression
+                        << host = cheml        << function = NN_PSGD
+                                            << nneurons = [20,10]
+                                            << input_act_funcs = 'tanh'
+                                            << validation_size = 0.2
+                                            << learn_rate = 0.001
+                                            << rms_decay = 0.9
+                                            << n_epochs = 10000
+                                            << batch_size = 256
+                                            << n_cores = 1
+                                            << n_hist = 20
+                                            << n_check = 50
+                                            << threshold = 0.1
+                                            << print_level = 1
+
+## Regression
+                        << host = cheml         << function = NN_DSGD
+                                            <<
+                                            <<
+

@@ -1,0 +1,42 @@
+CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+## Enter Data
+                << host = pandas                 << function = read_table
+
+                << filepath_or_buffer = ''
+                << sep=','
+                << delimiter=None           << header='infer'
+                << names=None               << index_col=None
+                << usecols=None             << squeeze=False
+                << prefix=None              << mangle_dupe_cols=True
+                << dtype=None               << engine=None
+                << converters=None          << true_values=None
+                << false_values=None        << skipinitialspace=False
+                << skiprows=None            << nrows=None
+                << na_values=None           << keep_default_na=True
+                << na_filter=True           << verbose=False
+                << skip_blank_lines=True    << parse_dates=False
+                << infer_datetime_format=False << keep_date_col=False
+                << date_parser=None         << dayfirst=False
+                << iterator=False           << chunksize=None
+                << compression='infer'      << thousands=None
+                << decimal=b'.'             << lineterminator=None
+                << quotechar='”'            << quoting=0
+                << escapechar=None          << comment=None
+                << encoding=None            << dialect=None
+                << tupleize_cols=False      << error_bad_lines=True
+                << warn_bad_lines=True      << skipfooter=0
+                << skip_footer=0            << doublequote=True
+                << delim_whitespace=False   << as_recarray=False
+                << compact_ints=False       << use_unsigned=False
+                << low_memory=True          << buffer_lines=None
+                << memory_map=False         << float_precision=None
+
+                >> df 0
+

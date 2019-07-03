@@ -47,10 +47,10 @@ if __name__ == "__main__":
                 'nbsphinx'
             ],
             'tests': [
-                'pytest'==3.10,
+                'pytest',
                 'pytest-cov',
                 'pytest-pep8',
-                'tox',
+                'tox'
             ],
         },
         tests_require=[

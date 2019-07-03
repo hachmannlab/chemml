@@ -22,6 +22,7 @@ if __name__ == "__main__":
         description=
         'A Machine Learning and Informatics Program Suite for the Chemical and Materials Sciences',
         long_description=long_description,
+        long_description_content_type="text/markdown",
         keywords=[
             'Machine Learning', 'Data Mining', 'Quantum Chemistry',
             'Materials Science', 'Drug Discovery'

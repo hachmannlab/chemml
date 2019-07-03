@@ -23,8 +23,8 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 
 Version:
 ++++++++
-- Program Version: 0.5.1
-- Release Date: April 2, 2019
+- Program Version: 0.5.2
+- Release Date: July 3, 2019
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++

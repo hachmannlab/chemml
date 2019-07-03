@@ -22,13 +22,13 @@ from .base import LIBRARY
 
 
 def banner():
-    PROGRAM_NAME = "ChemEco"
+    PROGRAM_NAME = "ChemMLWrapper"
     PROGRAM_VERSION = chemml.__version__
     AUTHORS = chemml.__author__
-    revision_date = chemml.__revision__
+    release_date = chemml.__release__
     str = []
     str.append("=================================================")
-    str.append(PROGRAM_NAME + " " + PROGRAM_VERSION + " (" + revision_date +
+    str.append(PROGRAM_NAME + " " + PROGRAM_VERSION + " (" + release_date +
                ")")
     for AUTHOR in AUTHORS:
         str.append(AUTHOR)
@@ -253,7 +253,6 @@ class Parser(object):
                 raise IOError(msg)
         return tuple(ImpOrder), CompGraph
 
-
 class BASE(object):
     def __init__(self, CompGraph):
         self.graph = CompGraph
@@ -418,7 +417,7 @@ class Settings(object):
 
     Parameters
     ----------
-    output_directory: String, (default = "chemeco_output")
+    output_directory: String, (default = "ChemMLWrapper_output")
         The directory path/name to store all the results and outputs
 
     input_copy: Boolean, (default = True)
@@ -429,7 +428,7 @@ class Settings(object):
     output_directory
     """
 
-    def __init__(self, output_directory="chemeco_output"):
+    def __init__(self, output_directory="ChemMLWrapper_output"):
         self.output_directory = output_directory
 
     def fit(self):
@@ -477,13 +476,13 @@ class Error(object):
 
 def run(input_script, output_directory):
     """
-    This is the main function to run chemeco for an input script.
+    This is the main function to run ChemMLWrapper for an input script.
     
     Parameters
     __________
     input_script: str
-        This should be a path to the chemeco input file or the actual input script in string format.
-        Please refer to the documentation on ChemEco input file for more information.
+        This should be a path to the ChemMLWrapper input file or the actual input script in string format.
+        Please refer to the documentation on ChemMLWrapper input file for more information.
         
     output_directory: str
         This is the path to the output directory. We create a

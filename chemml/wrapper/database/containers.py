@@ -21,10 +21,10 @@ class Output(object):
 
 class Parameter(object):
     """Container class for parameters of a function"""
-    def __init__(self,name,default,format='',required=False,description="",options=[]):
+    def __init__(self,name, default=None, typ='', required=False, description="", options=[]):
         self.name = name
         self.default = default
-        self.format = format
+        self.typ = typ
         self.required = required
         self.description = description
         self.options = options

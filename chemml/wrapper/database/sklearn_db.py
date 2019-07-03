@@ -53,6 +53,7 @@ class PolynomialFeatures(object):
         include_bias = Parameter('include_bias', True)
         interaction_only = Parameter('interaction_only', False)
         degree = Parameter('degree', 2)
+
 class OneHotEncoder(object):
     task = 'Prepare'
     subtask = 'feature representation'
@@ -81,6 +82,7 @@ class OneHotEncoder(object):
         sparse = Parameter('sparse', True)
         categorical_features = Parameter('categorical_features', 'all')
         handle_unknown = Parameter('handle_unknown', 'error')
+
 class Imputer(object):
     task = 'Prepare'
     subtask = 'data cleaning'
@@ -148,6 +150,7 @@ class KernelPCA(object):
         alpha = Parameter('alpha', 1.0)
         coef0 = Parameter('coef0', 1)
         gamma = Parameter('gamma', None)
+
 class PCA(object):
     task = 'Prepare'
     subtask = 'feature transformation'
@@ -204,6 +207,7 @@ class Normalizer(object):
     class FParameters:
         copy = Parameter('copy', True)
         norm = Parameter('norm', 'l2')
+
 class StandardScaler(object):
     task = 'Prepare'
     subtask = 'scaling'
@@ -230,6 +234,7 @@ class StandardScaler(object):
         copy = Parameter('copy', True)
         with_mean = Parameter('with_mean', True)
         with_std = Parameter('with_std', True)
+
 class MinMaxScaler(object):
     task = 'Prepare'
     subtask = 'scaling'

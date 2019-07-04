@@ -70,9 +70,9 @@ Please cite ChemML as follows:
 
 ::
 
-    (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
-    (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
-    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+    (1) M. Haghighatlari, G. Vishwakarma, D. Altarawy, R. Subramanian, B. Urala Kota, A. Sonpal, S. Setlur, and J. Hachmann, ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data, http://dx.doi.org/10.26434/chemrxiv.8323271
+    (2) M. Haghighatlari, J. Hachmann, Advances of machine learning in molecular modeling and simulation, https://doi.org/10.1016/j.coche.2019.02.009
+    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. https://doi.org/10.1080/08927022.2018.1471692
 
 
 .. toctree::

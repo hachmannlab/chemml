@@ -66,13 +66,47 @@ support Python 2, prior to using ChemML locally.
 
 Citation:
 +++++++++
-Please cite ChemML as follows:
+Please cite the use of ChemML as:
 
 ::
 
-    (1) M. Haghighatlari, G. Vishwakarma, D. Altarawy, R. Subramanian, B. Urala Kota, A. Sonpal, S. Setlur, and J. Hachmann, ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data, http://dx.doi.org/10.26434/chemrxiv.8323271
-    (2) M. Haghighatlari, J. Hachmann, Advances of machine learning in molecular modeling and simulation, https://doi.org/10.1016/j.coche.2019.02.009
-    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. https://doi.org/10.1080/08927022.2018.1471692
+    Main citation:
+
+    @article{chemml2019,
+    author = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava Urala and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
+    journal = {ChemRxiv},
+    pages = {8323271},
+    title = {ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data},
+    doi = {10.26434/chemrxiv.8323271.v1},
+    year = {2019}
+    }
+
+
+    Other references:
+
+    @article{chemml_review2019,
+    author = {Haghighatlari, Mojtaba and Hachmann, Johannes},
+    doi = {https://doi.org/10.1016/j.coche.2019.02.009},
+    issn = {2211-3398},
+    journal = {Current Opinion in Chemical Engineering},
+    month = {jan},
+    pages = {51--57},
+    title = {Advances of machine learning in molecular modeling and simulation},
+    volume = {23},
+    year = {2019}
+    }
+
+    @article{Hachmann2018,
+    author = {Hachmann, Johannes and Afzal, Mohammad Atif Faiz and Haghighatlari, Mojtaba and Pal, Yudhajit},
+    doi = {10.1080/08927022.2018.1471692},
+    issn = {10290435},
+    journal = {Molecular Simulation},
+    number = {11},
+    pages = {921--929},
+    title = {Building and deploying a cyberinfrastructure for the data-driven design of chemical systems and the exploration of chemical space},
+    volume = {44},
+    year = {2018}
+    }
 
 
 .. toctree::

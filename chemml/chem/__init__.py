@@ -14,7 +14,10 @@ from .CoulMat import CoulombMatrix
 from .CoulMat import BagofBonds
 from .RDKFP import RDKitFingerprint
 from .Dragon import Dragon
-
+from .local_features import atom_features
+from .local_features import bond_features
+from .local_features import num_atom_features
+from .local_features import num_bond_features
 
 __all__ = [
     'Molecule',
@@ -23,4 +26,8 @@ __all__ = [
     'BagofBonds',
     'RDKitFingerprint',
     'Dragon',
+    'atom_features',
+    'bond_features',
+    'num_atom_features',
+    'num_bond_features'
 ]

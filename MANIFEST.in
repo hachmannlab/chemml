@@ -1,2 +1,3 @@
 include LICENSE
 recursive-include chemml/datasets/data *
+recursive-include chemml/chem/magpie_python/lookup-data *

@@ -29,11 +29,6 @@ if __name__ == "__main__":
         ],
         license='BSD-3C',
         packages=setuptools.find_packages(),
-        package_data={'': ['LICENSE'],
-                      'chemml':['*.csv',
-                                'datasets/*.csv',
-                                'datasets/**'
-                      ]},
         include_package_data=True,
 
         install_requires=[

@@ -125,7 +125,7 @@ def isint(val):
 
 def value(entry):
     """
-    check if the string entry can
+    check if the string entry can be evaluated to python data structure
 
     Parameters
     ----------

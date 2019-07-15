@@ -45,3 +45,47 @@ self.Base.send = {(iblock_send,token) : [value, count]}
 
 
 #self.Base.cheml_type = {'model':[(host,function), ...], 'scaler':[], 'cv':[]}
+
+
+
+import numpy
+import scipy
+from scipy import stats
+
+crazy_dict = {'library': 'chemml',
+              'class': 'CoulombMatrix',
+              'class_parameters': { 'ext_lib_scipy': scipy.stats.expon(scale=.1),
+                                    'ext_lib_numpy': numpy.random.seed,
+                                    'range': range(30),
+                                    'list': ['rbf'],
+                                    'tuple':('balanced', None),
+                                    'single_tuple': (1,),
+                                    'none_value': None,
+                                    'binary': True,
+                                    'list_of_weirdos': [True, False, None],
+                                    'array': numpy.array([1, 2, 3])
+                                    }
+              }
+
+crazy_dict = {'library': 'chemml',
+              'class': 'CoulombMatrix',
+              'class_parameters': { 'ext_lib_scipy': 'scipy.stats.expon(scale=.1)',
+                                    'ext_lib_numpy': "numpy.random.seed",
+                                    'range': "range(30)",
+                                    'list': ['rbf'],
+                                    'tuple':('balanced', None),
+                                    'single_tuple': (1,),
+                                    'none_value': None,
+                                    'binary': True,
+                                    'list_of_weirdos': [True, False, None],
+                                    'array': "numpy.array([1, 2, 3])"
+                                    }
+              }
+
+
+crazy_dict_string = str(crazy_dict)
+crazy_dict_string
+>>> "{'library': 'chemml', 'class': 'CoulombMatrix', 'class_parameters': {'ext_lib_scipy': <scipy.stats._distn_infrastructure.rv_frozen object at 0x1221dc240>, 'ext_lib_numpy': <built-in method seed of mtrand.RandomState object at 0x10deecaf8>, 'range': range(0, 30), 'list': ['rbf'], 'tuple': ('balanced', None), 'single_tuple': (1,), 'none_value': None, 'binary': True, 'list_of_weirdos': [True, False, None], 'array': array([1, 2, 3])}}"
+with open('crazy_dic.txt', 'wb') as f:
+    f.write(crazy_dict_string)
+

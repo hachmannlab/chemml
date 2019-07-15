@@ -701,13 +701,13 @@ class Molecule(object):
                 if AllChem.MMFFHasAllMoleculeParams(self.rdkit_molecule):
                     AllChem.MMFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
                 else:
-                    msg = "The MMFF parameters are not available for all of the molecule’s atoms."
+                    msg = "The MMFF parameters are not available for all of the molecule's atoms."
                     raise ValueError(msg)
             elif optimizer == 'UFF':
                 if AllChem.UFFHasAllMoleculeParams(self.rdkit_molecule):
                     AllChem.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
                 else:
-                    msg = "The UFF parameters are not available for all of the molecule’s atoms."
+                    msg = "The UFF parameters are not available for all of the molecule's atoms."
                     raise ValueError(msg)
             else:
                 msg = "The '%s' is not a legit value for the optimizer parameter."%str(optimizer)

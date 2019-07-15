@@ -65,19 +65,7 @@ if __name__ == "__main__":
             'Development Status :: 4 - Beta',
             'Natural Language :: English',
             'Intended Audience :: Science/Research',
-            # 'Programming Language :: Python :: 2.7',
-            'Programming Language :: Python :: 3.5',
-            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3',
         ],
         zip_safe=False,
     )
-
-    # install_requires = ['numpy>=1.13', 'pandas>=0.20.3', 'tensorflow==1.1.0', 'keras==2.1.5',
-    #                     'scikit-learn==0.19.1', 'babel>=2.3.4', 'matplotlib>=1.5.1', 'deap>=1.2.2',
-    #                     'lxml','nose','ipywidgets>=7.1','widgetsnbextension>=3.1','graphviz'],
-
-    # include_package_data = True,
-    # package_data={
-    #                 '': ['*.xyz', '*.csv', '*.vasp', '*.txt'],
-    #                 # 'cheml': ['datasets/data/*', 'tests/data/*', 'tests/configfiles/*'],
-    #             },

@@ -5,16 +5,18 @@
 [![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
 
 
-<p align="center">
-  <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
- </p>
-
-
 # ChemML
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
 
    - ChemML documentation: https://hachmannlab.github.io/chemml
+
+
+
+<p align="center">
+  <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
+ </p>
+
 
 ## Code Design:
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 

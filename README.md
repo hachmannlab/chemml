@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/hachmannlab/chemml.svg?branch=master)](https://travis-ci.org/hachmannlab/chemml)
 [![codecov](https://codecov.io/gh/hachmannlab/chemml/branch/master/graph/badge.svg)](https://codecov.io/gh/hachmannlab/chemml)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/hachmannlab/chemml.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/hachmannlab/chemml/context:python)
 [![version status](http://img.shields.io/pypi/v/chemml.svg?style=flat)](https://pypi.python.org/pypi/chemml)
 [![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
 

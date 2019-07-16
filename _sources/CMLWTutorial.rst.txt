@@ -2,6 +2,8 @@
 ChemML Wrapper Tutorial
 =======================
 
+...::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::...
+
 ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.
@@ -116,7 +118,7 @@ You can also run your input script with python codes as a python script or inter
 .. code:: python
 
     # we assume you saved your script with the name 'tutorial.config' in your Desktop folder
-    from chemml import wrapperRUN
+    from cheml import wrapperRUN
     wrapperRUN(INPUT_FILE = '/Desktop/tutorial.config', OUTPUT_DIRECTORY = 'output_directory')
 
     # or

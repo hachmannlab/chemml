@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Optimization module &mdash; ChemML 0.5.1 documentation</title>
+  <title>Optimization module &mdash; ChemML 0.5.4 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.4
               </div>
             
           
@@ -92,7 +92,7 @@
 </ul>
 <p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
@@ -290,7 +290,7 @@ the search terminates.</dd>
 
 <dl class="class">
 <dt id="chemml.optimization.ActiveLearning">
-<em class="property">class </em><code class="descclassname">chemml.optimization.</code><code class="descname">ActiveLearning</code><span class="sig-paren">(</span><em>model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=2</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">chemml.optimization.</code><code class="descname">ActiveLearning</code><span class="sig-paren">(</span><em>model_creator, U, target_layer, train_size=100, test_size=100, test_type='passive', batch_size=[10], history=2</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition">¶</a></dt>
 <dd><p>The implementation of active learning of regression models using BEMCM and QBC methods and approaches for distribution shift alleviations.
 This algorithm assumes that you have a pool of unlabeled data points and a limited budget to label them.
 Thus, we combine the efficiency of the machine learning models with our active learning approach to suggest
@@ -333,6 +333,10 @@ Please choose a number based on:</p>
 </ul>
 </div></blockquote>
 </dd>
+<dt>test_type: str, optional (default = ‘passive’)</dt>
+<dd>The value must be either ‘passive’ or ‘active’.
+If passive, test set will be sampled randomly at the initialization.
+If active, test set will be sampled randomly at each round.</dd>
 <dt>batch_size: list, optional (default = [10])</dt>
 <dd><p class="first">This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
 our active learning approaches should query every round. The order of active learning approaches are as follows:</p>
@@ -346,7 +350,7 @@ our active learning approaches should query every round. The order of active lea
 <p class="last">Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.</p>
 </dd>
 <dt>history: int, optional (default = 2)</dt>
-<dd>This parameter must be a greater than 1 integer. It specifies the number of previous active learning
+<dd>This parameter must be an integer and greater than one. It specifies the number of previous active learning
 rounds to memorize for the distribution shift alleviation (DSA) approach.</dd>
 </dl>
 <dl class="docutils">
@@ -387,7 +391,7 @@ get_target_layer</p>
 <dl class="method">
 <dt id="chemml.optimization.ActiveLearning.deposit">
 <code class="descname">deposit</code><span class="sig-paren">(</span><em>indices</em>, <em>Y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.deposit" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function helps you to deposit the labeled data that was queried by initialize or search funstions.</p>
+<dd><p>This function helps you to deposit the data for candidates that were queried by initialize or search functions.</p>
 <dl class="docutils">
 <dt>indices: ndarray or list or tuple</dt>
 <dd>A 1-dimensional array of indices that was queried by initialize or search methods.
@@ -445,12 +449,18 @@ This is a 1D array.</dd>
 
 <dl class="method">
 <dt id="chemml.optimization.ActiveLearning.random_search">
-<code class="descname">random_search</code><span class="sig-paren">(</span><em>Y</em>, <em>scale=True</em>, <em>n_evaluation=10</em>, <em>random_state=90</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.random_search" title="Permalink to this definition">¶</a></dt>
+<code class="descname">random_search</code><span class="sig-paren">(</span><em>Y</em>, <em>test_type='passive'</em>, <em>scale=True</em>, <em>n_evaluation=10</em>, <em>random_state=90</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.random_search" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function randomly select same number of data points as the active learning rounds and store the results.</p>
 <dl class="docutils">
 <dt>Y: array-like</dt>
 <dd>The 2-dimensional label for all the candidates in the pool. Basically, you won’t run this method unless you have the labels
 for all your samples. Otherwise, trust us and perform an active learning search.</dd>
+<dt>test_type: str, optional (default = ‘passive’)</dt>
+<dd>The parameter value must be either ‘passive’ or ‘active’.
+If passive, the initial randomly selected test set in the initialize method will be used for evaluation.
+If active, the current test set of active learning approach will be used for evaluation. Thus, if the test_type in active
+learning method is ‘passive’, you should run active and random search back to back and then deposit the data.
+This way you make sure both active and random search are tested on the same test sets.</dd>
 <dt>scale: bool or list, optional (default = True)</dt>
 <dd>if True, sklearn.preprocessing.StandardScaler will be used to scale X and Y before training.
 You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
@@ -583,7 +593,7 @@ If you have all the labels, we will be able to produce additional cool visualiza
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.5.1',
+            VERSION:'0.5.4',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

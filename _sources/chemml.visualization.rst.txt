@@ -1,4 +1,4 @@
-chemml.visualization module
+Visualization module
 ==========================
 
 

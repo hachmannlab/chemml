@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChemML Wrapper Tutorial &mdash; ChemML 0.5.1 documentation</title>
+  <title>ChemML Wrapper Tutorial &mdash; ChemML 0.5.4 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.4
               </div>
             
           
@@ -101,7 +101,7 @@
 </ul>
 <p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
@@ -112,10 +112,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -206,6 +206,7 @@
 </style>
 <div class="section" id="chemml-wrapper-tutorial">
 <h1>ChemML Wrapper Tutorial<a class="headerlink" href="#chemml-wrapper-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>…::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::…</p>
 <p>ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.
@@ -301,7 +302,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this headline">¶</a></h3>
 <p>You can also run your input script with python codes as a python script or interactively, using:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
-<span class="kn">from</span> <span class="nn">chemml</span> <span class="kn">import</span> <span class="n">wrapperRUN</span>
+<span class="kn">from</span> <span class="nn">cheml</span> <span class="kn">import</span> <span class="n">wrapperRUN</span>
 <span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
 
 <span class="c1"># or</span>
@@ -430,7 +431,7 @@ and citation file.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.5.1',
+            VERSION:'0.5.4',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

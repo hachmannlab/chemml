@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Chem module &mdash; ChemML 0.5.1 documentation</title>
+  <title>Chem module &mdash; ChemML 0.5.4 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.4
               </div>
             
           
@@ -92,7 +92,7 @@
 </ul>
 <p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
@@ -590,7 +590,7 @@ type of representation.</dd>
 <dt>const: float, optional (default = 1)</dt>
 <dd>The constant value for coordinates unit conversion to atomic unit
 example: atomic unit -&gt; const=1, Angstrom -&gt; const=0.529
-const/<a href="#id11"><span class="problematic" id="id12">|Ri-Rj|</span></a>, which denominator is the euclidean distance
+const/<a href="#id1"><span class="problematic" id="id2">|Ri-Rj|</span></a>, which denominator is the euclidean distance
 between atoms i and j</dd>
 </dl>
 <dl class="method">
@@ -631,12 +631,12 @@ The exact shape of the dataframe depends on the type of CM as follows:</p>
 <dd><p class="first">The constant value for coordinates unit conversion to atomic unit
 if const=1.0, returns atomic unit
 if const=0.529, returns Angstrom</p>
-<p class="last">const/<a href="#id13"><span class="problematic" id="id14">|Ri-Rj|</span></a>, which denominator is the euclidean distance
+<p class="last">const/<a href="#id3"><span class="problematic" id="id4">|Ri-Rj|</span></a>, which denominator is the euclidean distance
 between two atoms</p>
 </dd>
 </dl>
 <dl class="docutils">
-<dt><a href="#id15"><span class="problematic" id="id16">header_</span></a>: list of header for the bag of bonds data frame</dt>
+<dt><a href="#id5"><span class="problematic" id="id6">header_</span></a>: list of header for the bag of bonds data frame</dt>
 <dd>contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_xyz_polarizability</span>
@@ -665,16 +665,16 @@ stored or optimized in advance.</dd>
 
 <dl class="class">
 <dt id="chemml.chem.RDKitFingerprint">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">RDKitFingerprint</code><span class="sig-paren">(</span><em>remove_hydrogen=True</em>, <em>fingerprint_type='Morgan'</em>, <em>vector='bit'</em>, <em>n_bits=1024</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is an interface to the molecular fingerprints available in RDKit package.</p>
+<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">RDKitFingerprint</code><span class="sig-paren">(</span><em>fingerprint_type='Morgan'</em>, <em>vector='bit'</em>, <em>n_bits=1024</em>, <em>radius=2</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is an interface to the available molecular fingerprints in the RDKit package.</p>
 <dl class="docutils">
 <dt>fingerprint_type <span class="classifier-delimiter">:</span> <span class="classifier">str, optional (default=’Morgan’)</span></dt>
 <dd><dl class="first last docutils">
 <dt>The type of fingerprint. Available fingerprint types:</dt>
 <dd><ul class="first last simple">
 <li>‘hashed_atom_pair’ or ‘hap’</li>
-<li>‘MACCS’</li>
-<li>‘Morgan’</li>
+<li>‘MACCS’ or ‘maccs’</li>
+<li>‘morgan’</li>
 <li>‘hashed_topological_torsion’ or ‘htt’</li>
 <li>‘topological_torsion’ or ‘tt’</li>
 </ul>
@@ -710,85 +710,59 @@ Not availble for:</p>
 </div></blockquote>
 </dd>
 <dt>radius: int, optional (default = 2)</dt>
-<dd>only availble for ‘Morgan’ fingerprint.</dd>
-<dt>remove_hydrogen: bool, optional (default=True)</dt>
-<dd>If True, remove any hydrogen from the graph of a molecule.</dd>
+<dd>only applicable if calculating ‘Morgan’ fingerprint.</dd>
+<dt>kwargs:</dt>
+<dd>Any additional argument that should be passed to the rdkit fingerprint function.</dd>
 </dl>
-<p>data set of fingerprint vectors.</p>
-<dl class="method">
-<dt id="chemml.chem.RDKitFingerprint.read_">
-<code class="descname">read_</code><span class="sig-paren">(</span><em>molfile</em>, <em>path=None</em>, <em>*arguments</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.read_" title="Permalink to this definition">¶</a></dt>
-<dd><p>(MolfromFile)
-Construct molecules from one or more input files.</p>
 <dl class="docutils">
-<dt>molfile: string</dt>
-<dd><p class="first">This is the place you define molecules file name and path. It can contain
-any special character in the following list:</p>
-<blockquote>
-<div><ul class="simple">
-<li>: matches everything</li>
-</ul>
-<p>?       : matches any single character
-[seq]   : matches any character in seq
-[!seq]  : matches any character not in seq
-/       : filename seperator</p>
-</div></blockquote>
-<p>The pattern matching is implemented by fnmatch - Unix filename pattern matching.
-Note: The pattern must include the extension at the end. A list of available
-file extensions is provided here:</p>
-<blockquote class="last">
-<div>‘.mol’,’.mol2’  : molecule files
-‘.pdb’          : protein data bank file
-‘.tpl’          : TPL file
-‘.smi’          : file of one or more lines of Smiles string
-‘.smarts’       : file of one or more lines of Smarts string</div></blockquote>
-</dd>
-<dt>path: string, optional (default = None)</dt>
-<dd>If path is None, this function tries to open the file as a single
-file (without any pattern matching). Therefore, none of the above
-special characters except ‘/’ are helpful when they are not part
-of the file name or path.
-If not None, it determines the path that this function walk through
-and look for every file that mathes the pattern in the file. To start
-walking from the current directory, the path value should be ‘.’</dd>
-<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>arguments: integer</dt>
-<dd><p class="first">If sequences in the special characters should be a range of integers,
-you can easily pass the start and the end arguments of range as extra
-arguments. But, notice that:</p>
-<blockquote class="last">
-<div><dl class="docutils">
-<dt>1- In this case remember to replace seq with %s. Then, you should</dt>
-<dd>have [%s] or [!%s] in the file pattern.</dd>
-<dt>2- for each %s you must pass two integers (always an even number</dt>
-<dd>of extra arguments must be passed). Also, the order is important
-and it should be in the same order of ‘%s’s.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">n_molecules_</span></a>: int</dt>
+<dd>The number of molecules that are received.</dd>
+<dt><a href="#id9"><span class="problematic" id="id10">fps_</span></a>: list</dt>
+<dd>The list of rdkit fingerprint objects.</dd>
 </dl>
-</div></blockquote>
-</dd>
+<dl class="method">
+<dt id="chemml.chem.RDKitFingerprint.load_sparse">
+<code class="descname">load_sparse</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.load_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function enables you to load sparse matrix with the <cite>.npz</cite> format and convert it to a pandas dataframe.</p>
+<dl class="docutils">
+<dt>file: str</dt>
+<dd>Must be a path to the file with .npz format.</dd>
 </dl>
-<blockquote>
-<div><p>(1)
-file: ‘Mydir/1f/1_opt.smi’
-path: None
-sample files to be read: ‘Mydir/1f/1_opt.smi’</p>
-<p>(2)
-file: ‘[1,2,3,4]?/<a href="#id3"><span class="problematic" id="id4">*</span></a>_opt.mol’
-path: ‘Mydir’
-sample files to be read: ‘Mydir/1f/1_opt.mol’, ‘Mydir/2c/2_opt.mol’, …</p>
-<p>(3)
-file: ‘[!1,2]?/<a href="#id5"><span class="problematic" id="id6">*</span></a>_opt.pdb’
-path: ‘.’
-sample files to be read: ‘./3f/3_opt.pdb’, ‘Mydir/7c/7_opt.pdb’, …</p>
-<p>(4)
-file: ‘<a href="#id7"><span class="problematic" id="id8">*</span></a>[‘f’,’c’]/<a href="#id9"><span class="problematic" id="id10">*</span></a>_opt.tpl’
-path: ‘Mydir’
-sample files to be read: ‘Mydir/1f/1_opt.tpl’, ‘Mydir/2c/2_opt.tpl’, …</p>
-<p>(5)
-file: ‘[%s]?/[!%s]_opt.mol2’
-arguments: 1,4,7,10
-path: ‘Mydir/all’
-sample files to be read: ‘Mydir/all/1f/1_opt.mol2’, ‘Mydir/all/2c/2_opt.mol2’, …</p>
-</div></blockquote>
+<dl class="docutils">
+<dt>pandas.DataFrame</dt>
+<dd>The dense dataframe of the passed sparse file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.chem.RDKitFingerprint.represent">
+<code class="descname">represent</code><span class="sig-paren">(</span><em>molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function to provide fingerprint representation of input molecule(s).</p>
+<dl class="docutils">
+<dt>molecules: chemml.chem.Molecule object or list</dt>
+<dd>It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
+If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
+smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
+kekulized, or canonical smiles.</dd>
+</dl>
+<dl class="docutils">
+<dt>pandas.DataFrame</dt>
+<dd>A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.chem.RDKitFingerprint.store_sparse">
+<code class="descname">store_sparse</code><span class="sig-paren">(</span><em>file</em>, <em>features</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.store_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function helps you to store higly sparse fingerprint feature sets using <cite>.npz</cite> format for memory efficiency and
+less store/load time.
+Another method of this class, <cite>load_sparse</cite>, enables you to load your <cite>.npz</cite> files and convert it back to pandas dataframe.</p>
+<dl class="docutils">
+<dt>file: str</dt>
+<dd>Must be a path to the file with .npz format.</dd>
+<dt>features: pandas.DataFrame</dt>
+<dd>Must be the pandas dataframe as you receive it from <cite>represent</cite> method.</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -830,11 +804,25 @@ script = ‘new’</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">drg</span> <span class="o">=</span> <span class="n">Dragon</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">drg</span><span class="o">.</span><span class="n">script_wizard</span><span class="p">(</span><span class="n">script</span><span class="o">=</span><span class="s1">&#39;new&#39;</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">drg</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df_path</span> <span class="o">=</span> <span class="n">drg</span><span class="o">.</span><span class="n">data_path</span>  <span class="c1"># path to the output file</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">df_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;No.&#39;</span><span class="p">,</span><span class="s1">&#39;NAME&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">drg</span><span class="o">.</span><span class="n">convert_to_csv</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;No.&#39;</span><span class="p">,</span><span class="s1">&#39;NAME&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="method">
+<dt id="chemml.chem.Dragon.convert_to_csv">
+<code class="descname">convert_to_csv</code><span class="sig-paren">(</span><em>remove=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.convert_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function converts the tab-delimited txt file from Dragon to pandas dataframe.
+Note that this process might require large memory based on the number of data points and features.</p>
+<dl class="docutils">
+<dt>remove: bool, optional (default = True)</dt>
+<dd>if True, the original descriptors file (Dragon_descriptors.txt) will be removed.</dd>
+</dl>
+<dl class="docutils">
+<dt>pandas.DataFrame</dt>
+<dd>The 2D dataframe of the descriptors. Note that the first two columns are ‘No.’ and ‘NAME’.</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="chemml.chem.Dragon.script_wizard">
 <code class="descname">script_wizard</code><span class="sig-paren">(</span><em>script='new'</em>, <em>output_directory='./'</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.script_wizard" title="Permalink to this definition">¶</a></dt>
@@ -908,7 +896,7 @@ files have been saved.</dd>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.5.1',
+            VERSION:'0.5.4',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

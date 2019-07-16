@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; ChemML 0.5.1 documentation</title>
+  <title>Index &mdash; ChemML 0.5.4 documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.4
               </div>
             
           
@@ -102,10 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -297,6 +297,8 @@
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CrystalStructureEntry.compute_voronoi_tessellation">compute_voronoi_tessellation() (chemml.chem.magpie_python.CrystalStructureEntry method)</a>
 </li>
       <li><a href="chemml.preprocessing.html#chemml.preprocessing.ConstantColumns">ConstantColumns (class in chemml.preprocessing)</a>
+</li>
+      <li><a href="chemml.chem.html#chemml.chem.Dragon.convert_to_csv">convert_to_csv() (chemml.chem.Dragon method)</a>
 </li>
       <li><a href="chemml.initialization.html#chemml.initialization.ConvertFile">ConvertFile (class in chemml.initialization)</a>
 </li>
@@ -500,13 +502,15 @@
 </li>
       <li><a href="chemml.datasets.html#chemml.datasets.load_crystal_structures">load_crystal_structures() (in module chemml.datasets)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator.load_lookup_data">load_lookup_data() (chemml.chem.magpie_python.ElementalPropertyAttributeGenerator method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.datasets.html#chemml.datasets.load_organic_density">load_organic_density() (in module chemml.datasets)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator.load_pair_lookup_data">load_pair_lookup_data() (chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator method)</a>
+</li>
+      <li><a href="chemml.chem.html#chemml.chem.RDKitFingerprint.load_sparse">load_sparse() (chemml.chem.RDKitFingerprint method)</a>
 </li>
       <li><a href="chemml.datasets.html#chemml.datasets.load_xyz_polarizability">load_xyz_polarizability() (in module chemml.datasets)</a>
 </li>
@@ -592,20 +596,18 @@
 </li>
       <li><a href="chemml.initialization.html#chemml.initialization.XYZreader.read">read() (chemml.initialization.XYZreader method)</a>
 </li>
-      <li><a href="chemml.chem.html#chemml.chem.RDKitFingerprint.read_">read_() (chemml.chem.RDKitFingerprint method)</a>
-</li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator.remove_elemental_pair_properties">remove_elemental_pair_properties() (chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator method)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator.remove_elemental_pair_property">remove_elemental_pair_property() (chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator.remove_elemental_properties">remove_elemental_properties() (chemml.chem.magpie_python.ElementalPropertyAttributeGenerator method)</a>
 
       <ul>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator.remove_elemental_properties">(chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator.remove_elemental_property">remove_elemental_property() (chemml.chem.magpie_python.ElementalPropertyAttributeGenerator method)</a>
 
       <ul>
@@ -618,6 +620,8 @@
 
       <ul>
         <li><a href="chemml.chem.html#chemml.chem.CoulombMatrix.represent">(chemml.chem.CoulombMatrix method)</a>
+</li>
+        <li><a href="chemml.chem.html#chemml.chem.RDKitFingerprint.represent">(chemml.chem.RDKitFingerprint method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -656,10 +660,10 @@
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator.set_max_formula_unit">set_max_formula_unit() (chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CoulombMatrixAttributeGenerator.set_n_eigenvalues">set_n_eigenvalues() (chemml.chem.magpie_python.CoulombMatrixAttributeGenerator method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.APEAttributeGenerator.set_n_nearest_to_eval">set_n_nearest_to_eval() (chemml.chem.magpie_python.APEAttributeGenerator method)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PRDFAttributeGenerator.set_n_points">set_n_points() (chemml.chem.magpie_python.PRDFAttributeGenerator method)</a>
@@ -683,6 +687,8 @@
       <li><a href="chemml.initialization.html#chemml.initialization.Split">Split (class in chemml.initialization)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StoichiometricAttributeGenerator">StoichiometricAttributeGenerator (class in chemml.chem.magpie_python)</a>
+</li>
+      <li><a href="chemml.chem.html#chemml.chem.RDKitFingerprint.store_sparse">store_sparse() (chemml.chem.RDKitFingerprint method)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StructuralHeterogeneityAttributeGenerator">StructuralHeterogeneityAttributeGenerator (class in chemml.chem.magpie_python)</a>
 </li>
@@ -785,7 +791,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.5.1',
+            VERSION:'0.5.4',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

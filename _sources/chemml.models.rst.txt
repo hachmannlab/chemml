@@ -11,8 +11,8 @@ Models module
 
 
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
 .. automodule:: chemml.models
     :members:

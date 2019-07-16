@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-|logo| |Beta|
+|logo|
 
 Welcome to the ChemML's documentation!
 ======================================
@@ -21,10 +21,9 @@ via graphical user interface provided by [ChemEco](https://github.com/hachmannla
 ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the
 representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
 
-Version:
-++++++++
-- Program Version: 0.5.2
-- Release Date: July 3, 2019
+Latest Version:
++++++++++++++++
+   - to find the latest version and release history, click here: https://pypi.org/project/chemml/#history
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
@@ -164,8 +163,8 @@ About us:
 
 :Contributors:
     - Doaa Altarawy (MolSSI): scientific advice and software mentor
-    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
+    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
     - Aditya Sonpal (UB): debugging
     - Srirangaraj Setlur (UB): scientific advice
@@ -181,10 +180,5 @@ About us:
 
 
 .. |logo| image:: images/logo.png
-   :width: 140 px
+   :width: 540 px
    :target: https://mojtabah.github.io/ChemML
-
-.. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
-   :width: 70 px
-   :target: https://mojtabah.github.io/ChemML
-

@@ -36,7 +36,8 @@ if __name__ == "__main__":
             'scikit-learn',
             'matplotlib>=1.5.1',
             'lxml', 'wget',
-            'seaborn'
+            'seaborn',
+            'networkx'
         ],
         extras_require={
             'docs': [

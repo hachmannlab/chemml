@@ -17,6 +17,7 @@ __pycache__/
 **/../.idea
 **/.idea/
 .idea/
+temp/*
 
 # documentation
 _build/

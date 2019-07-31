@@ -9,6 +9,9 @@ import os
 import time
 import copy
 import inspect
+import json
+import logging
+import importlib
 
 import numpy as np
 
@@ -21,7 +24,7 @@ from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
 
 
-def banner():
+def banner(logger):
     PROGRAM_NAME = "ChemMLWrapper"
     PROGRAM_VERSION = chemml.__version__
     AUTHORS = chemml.__author__
@@ -41,217 +44,349 @@ def banner():
     print('\n')
     for line in str:
         print(line)
+        logger.info(line)
 
-    print('\n')
+
+def evaluate_param_value(param_val):
+    """
+    evaluate the string input value to python data structure
+
+    Parameters
+    ----------
+    param_val: str
+        an entry of type str
+
+    Returns
+    -------
+    bool
+        True if the input can become an integer, False otherwise
+
+    Notes
+    -----
+    returns 'type' for the entry 'type', although type is a code object
+    """
+    try:
+        val = eval(param_val)
+        if isinstance(val, type):
+            return param_val
+        else:
+            return val
+    except:
+        return param_val
+
+
+def cycle_in_graph(graph):
+    """
+    Return True if the directed graph has a cycle.
+
+    Parameters
+    ----------
+    graph: dict
+        The graph must be represented as a dictionary mapping vertices to
+        iterables of neighbouring vertices.
+
+    Examples
+    --------
+    >>> cycle_in_graph({1: (2,3), 2: (3,)})
+    False
+    >>> cycle_in_graph({1: (2,), 2: (3,), 3: (1,)})
+    True
+    """
+    visited = set()
+    path = [object()]
+    path_set = set(path)
+    stack = [iter(graph)]
+    while stack:
+        for v in stack[-1]:
+            if v in path_set:
+                return True
+            elif v not in visited:
+                visited.add(v)
+                path.append(v)
+                path_set.add(v)
+                stack.append(iter(graph.get(v, ())))
+                break
+        else:
+            path_set.remove(path.pop())
+            stack.pop()
+    return False
+
 
 class Parser(object):
     """
-    script: list of strings
-        A list of lines in the cheml script file.
+    make sense of the input json.
+
+    Parameters
+    ----------
+
+    input_dict: dict
+        A dictionary based on the input json file.
+
+    logger: logging.Logger
+        the logger
+
     """
 
-    def __init__(self, script):
-        self.script = script
+    def __init__(self, input_dict, logger):
+        self.input_dict = input_dict
+        self.logger = logger
 
-    def fit(self):
+    def serialize(self):
         """
-        The main funtion for parsing cheml script.
+        The main funtion for parsing chemml input.
         It starts with finding blocks and then runs other functions.
+       """
+        # validate the main components
+        if 'nodes' not in self.input_dict.keys():
+            msg = "The input json is not a valid ChemMLWrapper input."
+            self.logger.error(msg)
+            raise ValueError(msg)
 
-        :return:
-        cmls: cheml script
+        # available keys in each block:
+        #   [name, library, module, inputs, method, outputs, wrapper_io]
+        # if method is available, it contains: [name, inputs, outputs]
+        # evaluate all variables inside inputs, outputs, and wrapper_io to store
+        # extract all send/recv
+        send_recv = {}
+        for block_id in self.input_dict['nodes'].keys():
+            # shrink the var name
+            block = self.input_dict['nodes'][block_id]
+
+            # collect send and recive to create the graph
+            send_recv[block_id] = {'send':[], 'recv':[]}
+
+            # main inputs
+            if 'inputs' in block:
+                for var in block['inputs']:
+                    val = block['inputs'][var]
+                    if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
+                        temp = val.strip().split('@')     # "@ID2@df" >> ['', 'ID2', 'df']
+                        send_recv[block_id]['recv'].append((temp[1], temp[2]))
+
+            # main outputs
+            if 'outputs' in block:
+                for var in block['outputs']:
+                    val = block['outputs'][var]
+                    if isinstance(val, bool) and val:
+                        send_recv[block_id]['send'].append(var)
+
+            # wrapper i/o
+            if 'wrapper_io' in block:
+                for var in block['wrapper_io']:
+                    val = block['wrapper_io'][var]
+                    if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
+                        temp = val.strip().split('@')     # e.g. "@ID2@df" >> ['', 'ID2', 'df']
+                        send_recv[block_id]['recv'].append((temp[1], temp[2])) #(ID, name)
+                    elif isinstance(val, bool) and val:
+                        send_recv[block_id]['send'].append(var)
+
+            # method inputs / outputs
+            if 'method' in block:
+                method_block = block['method']
+                if 'inputs' in method_block:
+                    for var in method_block['inputs']:
+                        val = method_block['inputs'][var]
+                        if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
+                            temp = val.strip().split('@')     # e.g. "@ID2@df" >> ['', 'ID2', 'df']
+                            send_recv[block_id]['recv'].append((temp[1], temp[2])) #(ID, name)
+                if 'outputs' in method_block:
+                    for var in method_block['outputs']:
+                        val = method_block['outputs'][var]
+                        if isinstance(val, bool) and val:
+                            send_recv[block_id]['send'].append(var)
+
+        ## clean the redundant send tokens in the send_recv for the memory efficiency
+        # collect all send and received items
+        all_received = []
+        all_sent = []
+        for id in send_recv:
+            all_received+=send_recv[id]['recv']
+            for token in send_recv[id]['send']:
+                all_sent.append((id, token))
+
+        # find redundants sends
+        redundant = []
+        for item in all_sent:
+            if item not in all_received:
+                redundant.append(item)
+
+        # turn redundant sends off in the send_recv and input_dict (overwrite)
+        for item in redundant:
+            id = item[0]
+            var = item[1]
+            ## remove from send_recv
+            send_recv[id]['send'].remove(var)
+            ## remove from input_dict
+            # outputs
+            outputs = self.input_dict['nodes'][id].get('outputs', {})
+            if var in outputs: outputs[var] = False
+            # method outputs
+            method = self.input_dict['nodes'][id].get('method', {})
+            outputs = method.get('outputs', {})
+            if var in outputs: outputs[var] = False
+            # other outputs
+            wrapper_io = self.input_dict['nodes'][id].get('wrapper_io', {})
+            if var in wrapper_io: wrapper_io[var] = False
+
+        # graph representatoins
+        graph, graph_send, graph_recv = self.make_graph(send_recv)
+
+        # no cycle is allowed in the graph
+        if cycle_in_graph(graph_send):
+            msg = "The input graph is constructed of cycles that is not allowed due to the interdependency."
+            self.logger.error(msg)
+            raise ValueError(msg)
+
+        # find layers of running nodes based on their dependencies
+        layers = self.hierarchicy(graph_send, graph_recv)
+
+        # pretty print input dict
+        self.prettyprinter(layers, graph_send, graph_recv)
+
+        return send_recv, all_received, graph, graph_send, graph_recv, layers
+
+    def make_graph(self, send_recv):
         """
-        blocks = {}
-        it = -1
-        check_block = False
-        for line in self.script:
-            if '##' in line:
-                it += 1
-                blocks[it] = [line]
-                check_block = True
-                continue
-            elif '#' in line:
-                check_block = False
-            elif check_block and ('<' in line or '>' in line):
-                blocks[it].append(line)
-                continue
+        create a directed graph as a dictionary mapping vertices to
+        iterables of neighbouring vertices.
 
-        cmls = self._options(blocks)
-        ImpOrder, CompGraph = self.transform(cmls)
-        self._print_out(cmls)
-        return cmls, ImpOrder, CompGraph
+        Parameters
+        ----------
+        send_recv: dict
+            send_recv[node_id] = {'send':[name], 'recv':[(node_id, name)]}
 
-    def _functions(self, line):
-        if '<' in line:
-            function = line[line.index('##') + 2:line.index('<')].strip()
-        elif '>' in line:
-            function = line[line.index('##') + 2:line.index('>')].strip()
-        else:
-            function = line[line.index('##') + 2:].strip()
-        return function
-
-    def _parameters(self, block, item):
-        parameters = {}
-        send = {}
-        recv = {}
-        for line in block:
-            while '<<' in line:
-                line = line[line.index('<<') + 2:].strip()
-                if '<' in line:
-                    args = line[:line.index('<')].strip()
+        Returns
+        -------
+        graph: dict
+            a directed graph as a dictionary mapping node IDs to
+            iterables of neighbouring vertices.
+        """
+        graph_send = {id:[] for id in send_recv}
+        graph_recv = {id:[] for id in send_recv}
+        graph = [] # [ (sender, reciver) ]
+        for node_id in send_recv:
+            for item in send_recv[node_id]['recv']:
+                ref = send_recv.get(item[0], {})
+                if 'send' not in ref or item[1] not in ref['send']:
+                    msg = 'The input is not valid. Ther is a broken pipe in the graph construction.'
+                    self.logger.error(msg)
+                    raise ValueError(msg)
                 else:
-                    args = line.strip()
-                param = args[:args.index('=')].strip()
-                val = args[args.index('=') + 1:].strip()
-                parameters[param] = value(val)  #val #"%s"%val
-            while '>>' in line:
-                line = line[line.index('>>') + 2:].strip()
-                if '>' in line:
-                    args = line[:line.index('>')].strip()
-                else:
-                    args = line.strip()
-                arg = args.split()
-                if len(arg) == 2:
-                    a, b = arg
-                    if isint(b) and not isint(a):
-                        send[(a, int(b))] = item
-                    elif isint(a) and not isint(b):
-                        recv[(b, int(a))] = item
-                    else:
-                        msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)' % (
-                            item + 1, args)
-                        raise IOError(msg)
-                else:
-                    msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)' % (
-                        item + 1, args)
-                    raise IOError(msg)
-        return parameters, send, recv
+                    graph_send[item[0]].append(node_id) # item[0] is sender and node_id is receiver
+                    graph_recv[node_id].append(item[0])  # item[0] is sender and node_id is receiver
+                    graph.append((item[0], node_id)) # (send, recv)
+        return graph, graph_send, graph_recv
 
-    def _options(self, blocks):
-        cmls = []
-        for item in range(len(blocks)):
-            block = blocks[item]
-            function = self._functions(block[0])
-            parameters, send, recv = self._parameters(block, item)
-            cmls.append({
-                "task": function,
-                "parameters": parameters,
-                "send": send,
-                "recv": recv
-            })
-        return cmls
+    def prettyprinter(self, layers, graph_send, graph_recv):
 
-    def _print_out(self, cmls):
+        # the order of implementation
+        ordered = []
+        for layer in layers:
+            ordered+=layer
+
+        # print them by order
         item = 0
-        for block in cmls:
+        for id in ordered:
+            block = self.input_dict['nodes'][id]
             item += 1
-            line = '%s\n' % (block['task'])
+            line = '%s (%s)\n' % (block['name'], block['library'])
             line = line.rstrip("\n")
             tmp_str = '%i' % item + ' ' * (
-                4 - len(str(item))) + 'Task: ' + line
+                4 - len(str(item))) + '%s: '%str(id) + line
             print(tmp_str)
-            line = '<<<<<<<'
+            self.logger.info(tmp_str)
+
+            # line = 'library = %s\n' % (block['library'])
+            # line = line.rstrip("\n")
+            # tmp_str = '        ' + line
+            # print(tmp_str)
+            # self.logger.info(tmp_str)
+
+            if 'method' in block:
+                line = 'method = %s\n' % (block['method']['name'])
+                line = line.rstrip("\n")
+                tmp_str = '        ' + line
+                print(tmp_str)
+                self.logger.info(tmp_str)
+
+            line = '<<<<<<< receive from:'
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print(tmp_str)
-            if len(block['parameters']) > 0:
-                for param in block['parameters']:
-                    line = '%s = %s\n' % (param, block['parameters'][param])
+            self.logger.info(tmp_str)
+
+            if len(graph_recv[id])>0:
+                for param in graph_recv[id]:
+                    line = '%s\n' % (param)
                     line = line.rstrip("\n")
                     tmp_str = '        ' + line
                     print(tmp_str)
+                    self.logger.info(tmp_str)
             else:
-                line = ' :no parameter passed: set to default values if available'
+                line = '%s\n' % ("nothing to receive!")
                 line = line.rstrip("\n")
                 tmp_str = '        ' + line
                 print(tmp_str)
-            line = '>>>>>>>'
+                self.logger.info(tmp_str)
+
+            line = '>>>>>>> send to:'
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print(tmp_str)
-            if len(block['send']) > 0:
-                for param in block['send']:
-                    line = '%s -> send (id=%i)\n' % (param[0], param[1])
+            self.logger.info(tmp_str)
+
+            if len(graph_send[id])>0:
+                for param in graph_send[id]:
+                    line = '%s\n' % (param)
                     line = line.rstrip("\n")
                     tmp_str = '        ' + line
                     print(tmp_str)
+                    self.logger.info(tmp_str)
             else:
-                line = ' :nothing to send:'
+                line = '%s\n' % ("nothing to send!")
                 line = line.rstrip("\n")
                 tmp_str = '        ' + line
                 print(tmp_str)
-            if len(block['recv']) > 0:
-                for param in block['recv']:
-                    line = '%s <- recv (id=%i)\n' % (param[0], param[1])
-                    line = line.rstrip("\n")
-                    tmp_str = '        ' + line
-                    print(tmp_str)
-            else:
-                line = ' :nothing to receive:'
-                line = line.rstrip("\n")
-                tmp_str = '        ' + line
-                print(tmp_str)
+                self.logger.info(tmp_str)
+
             line = ''
             line = line.rstrip("\n")
             tmp_str = '        ' + line
             print(tmp_str)
+            self.logger.info(tmp_str)
 
-    def transform(self, cmls):
+    def hierarchicy(self, graph_send, graph_recv):
         """
-        goals:
-            - collect all sends and receives
-            - check send and receive format.
-            - make the computational graph
-            - find the order of implementation of functions based on sends and receives
+        find the order of implementation of functions based on sends and receives
 
-        :param cmls:
-        :return implementation order:
         """
-        send_all = []
-        recv_all = []
-        for block in cmls:
-            send_all += block['send'].items()
-            recv_all += block['recv'].items()
-        # check send and recv
-        if len(send_all) > len(recv_all):
-            msg = '@cheml script - number of sent tokens must be less or equal to number of received tokens'
-            raise ValueError(msg)
-        send_ids = [k[1] for k, v in send_all]
-        recv_ids = [k[1] for k, v in recv_all]
-        for id in send_ids:
-            if send_ids.count(id) > 1:
-                msg = 'identified non unique send id (id#%i)' % id
-                raise NameError(msg)
-        if set(send_ids) != set(recv_ids):
-            print(set(send_ids), set(recv_ids))
-            msg = 'missing pairs of send and receive id:\n send IDs:%s\n recv IDs:%s\n' % (
-                str(set(send_ids)), str(set(recv_ids)))
+        start_nodes = []
+        end_nodes = []
+        for id in graph_send:
+            if len(graph_send[id]) == 0:
+                end_nodes.append(id)
+            elif len(graph_recv[id]) == 0:
+                start_nodes.append(id)
+
+        # find layers
+        layers = [start_nodes]
+        collected = [i for i in start_nodes]
+        while len(collected)<len(graph_send):
+            next_layer = []
+            for id in graph_recv:
+                if id not in collected and set(graph_recv[id]) <= set(collected):
+                    next_layer.append(id)
+            layers.append(next_layer)
+            collected+=next_layer
+
+        # validate layers
+        if set(end_nodes) != set(layers[-1]):
+            msg = "The input graph is not constructed properly."
+            self.logger.error(msg)
             raise ValueError(msg)
 
-        # make graph
-        reformat_send = {k[1]: [v, k[0]] for k, v in send_all}
-        CompGraph = tuple(
-            [tuple(reformat_send[k[1]] + [v, k[0]]) for k, v in recv_all])
+        return layers
 
-        # find orders
-        ids_sent = []
-        ImpOrder = []
-        inf_checker = 0
-        while len(ImpOrder) < len(cmls):
-            inf_checker += 1
-            for i in range(len(cmls)):
-                if i not in ImpOrder:
-                    ids_recvd = [k[1] for k, v in cmls[i]['recv'].items()]
-                    if len(ids_recvd) == 0:
-                        ids_sent += [k[1] for k, v in cmls[i]['send'].items()]
-                        ImpOrder.append(i)
-                    elif len(set(ids_recvd) - set(ids_sent)) == 0:
-                        ids_sent += [k[1] for k, v in cmls[i]['send'].items()]
-                        ImpOrder.append(i)
-            if inf_checker > len(cmls):
-                msg = 'Your design of send and receive tokens makes a loop of interdependencies. You can avoid such loops by designing your workflow hierarchichally'
-                raise IOError(msg)
-        return tuple(ImpOrder), CompGraph
 
 class BASE(object):
     def __init__(self, CompGraph):
@@ -413,15 +548,13 @@ class Wrapper(LIBRARY):
 
 class Settings(object):
     """
-    This class creates the output directory.
+    This class creates the output directory and the logger.
 
     Parameters
     ----------
     output_directory: String, (default = "ChemMLWrapper_output")
         The directory path/name to store all the results and outputs
 
-    input_copy: Boolean, (default = True)
-        If True, keeps a copy of input script in the output_directory
 
     Returns
     -------
@@ -431,93 +564,90 @@ class Settings(object):
     def __init__(self, output_directory="ChemMLWrapper_output"):
         self.output_directory = output_directory
 
-    def fit(self):
+    def create_output(self):
         initial_output_dir = copy.deepcopy(self.output_directory)
         i = 1
         while os.path.exists(self.output_directory):
             i += 1
             self.output_directory = initial_output_dir + '-%i' % i
         os.makedirs(self.output_directory)
-        logfile = open(self.output_directory + '/log.txt', 'w')
-        errorfile = open(self.output_directory + '/error.txt', 'w')
-        return self.output_directory, logfile, errorfile
+        return self.output_directory
 
-    def copy_inputscript(self, input_script):
-        with open(self.output_directory + '/input_script.txt', 'w') as f:
-            for line in input_script:
-                f.write("%s\n" % line)
+    def create_logger(self):
+        """
+        must be called after create_output to have access to the most updated output_directory
+        """
+        importlib.reload(logging)
+        logfile = os.path.join(self.output_directory, 'log.txt')
+        logging.basicConfig(filename=logfile,
+                            filemode='a',
+                            format='%(asctime)s %(message)s',
+                            datefmt='%m/%d/%Y %I:%M:%S %p',
+                            level=logging.DEBUG)
+        logger = logging.getLogger('ChemML')
+        return logger
 
-
-class Logger(object):
-    def __init__(self, logfile):
-        self.terminal = sys.stdout
-        self.log = logfile
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        pass
-
-
-class Error(object):
-    def __init__(self, errorfile):
-        self.terminal = sys.stderr
-        self.err = errorfile
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.err.write(message)
-
-    def flush(self):
-        pass
+    def copy_inputscript(self, input_dict):
+        file_path = os.path.join(self.output_directory , 'input.json')
+        with open(file_path, 'w') as f:
+            json.dump(input_dict, f)
 
 
-def run(input_script, output_directory):
+def run(input_json, output_dir):
     """
     This is the main function to run ChemMLWrapper for an input script.
     
     Parameters
     __________
-    input_script: str
+    input_json: str
         This should be a path to the ChemMLWrapper input file or the actual input script in string format.
-        Please refer to the documentation on ChemMLWrapper input file for more information.
+        The input must have a valid json format.
         
-    output_directory: str
-        This is the path to the output directory. We create a
+    output_dir: str
+        This is the path to the output directory. If the directory already exist, we add an integer to the end
+        of the folder name incrementally, until the name of the folder is unique.
 
     """
+    # input must be string
+    if not isinstance(input_json, str):
+        msg = "First parameter must be the path to the input file with json format."
+        raise IOError(msg)
+
+    # try to convert json to dictionary
     try:
-        script = open(input_script, 'r')
-        script = script.readlines()
-        tmp_str = "parsing the input file: %s ..." % input_script
+        file_json = open(input_json, 'rb')
+        input_dict = json.load(file_json)
+        tmp_str = "parsing input file: %s ..." % input_json
     except:
-        if isinstance(input_script, list):
-            script = input_script
-            tmp_str = "parsing the input file, received as a list of lines ..."
-        elif isinstance(input_script, str):
-            if '##' in input_script and '>>' in input_script:
-                script = input_script.split('\n')
-                tmp_str = "parsing the input file, received in string format ..."
-            else:
-                banner()
-                msg = "couldn't find the input file or the input script is not valid"
-                raise IOError(msg)
-    settings = Settings(output_directory)
-    output_directory, logfile, errorfile = settings.fit()
-    sys.stdout = Logger(logfile)
-    sys.stderr = Error(errorfile)
-    banner()
+        try:
+            input_dict = json.loads(input_json)
+            tmp_str = "parsing the input string ..."
+        except:
+            msg = "The input is not a serializable json format."
+            raise IOError(msg)
+
+    # create output directory and logger
+    settings = Settings(output_dir)
+    output_dir = settings.create_output()
+    logger = settings.create_logger()
+    # copy input to the output directory for the record
+    settings.copy_inputscript(input_dict)
+
+    # print banner
+    banner(logger)
+
+    # confirm the input string is parsed
     print(tmp_str + '\n')
-    settings.copy_inputscript(script)
-    cmls, run_order, comp_graph = Parser(script).fit()
-    for i in cmls:
-        print(i)
-    print(run_order)
-    print(comp_graph)
-    wrapper = Wrapper(cmls, run_order, comp_graph, input_script, output_directory)
-    wrapper.call()
+    logger.info(tmp_str + '\n')
+
+    # parse the input dict
+    parser = Parser(input_dict, logger)
+    send_recv, all_received, graph, graph_send, graph_recv, layers = parser.serialize()
+    input_dict = parser.input_dict # updated input_dict with switched off
+
+
+    # wrapper = Wrapper(cmls, run_order, comp_graph, input_json, output_dir)
+    # wrapper.call()
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

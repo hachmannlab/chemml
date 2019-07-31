@@ -93,8 +93,8 @@ class Dragon(object):
         script = Parameter('script', 'new')
 
         SaveStdOut = Parameter('SaveStdOut', False)
-        DisconnectedCalculationOption = Parameter('DisconnectedCalculationOption', "'0'", format="string")
-        MaxSR = Parameter('MaxSR', "'35'", format="string")
+        DisconnectedCalculationOption = Parameter('DisconnectedCalculationOption', "'0'", typ="string")
+        MaxSR = Parameter('MaxSR', "'35'", typ="string")
         SaveFilePath = Parameter('SaveFilePath', "Dragon_descriptors.txt")
         SaveExcludeMisMolecules = Parameter('SaveExcludeMisMolecules', False)
         SaveExcludeStdDev = Parameter('SaveExcludeStdDev', False)
@@ -113,18 +113,18 @@ class Dragon(object):
         LogPathWalk = Parameter('LogPathWalk', True)
         SaveLabelsOnSeparateFile = Parameter('SaveLabelsOnSeparateFile', False)
         version = Parameter('version', 6)
-        DefaultMolFormat = Parameter('DefaultMolFormat', "'1'", format='string')
+        DefaultMolFormat = Parameter('DefaultMolFormat', "'1'", typ='string')
         molFile = Parameter('molFile', 'required_required')
         HelpBrowser = Parameter('HelpBrowser', "/usr/bin/xdg-open")
         SaveExcludeRejectedMolecules = Parameter('SaveExcludeRejectedMolecules', False)
         knimemode = Parameter('knimemode', False)
         RejectUnusualValence = Parameter('RejectUnusualValence', False)
-        SaveStdDevThreshold = Parameter('SaveStdDevThreshold', "'0.0001'", format='string')
+        SaveStdDevThreshold = Parameter('SaveStdDevThreshold', "'0.0001'", typ='string')
         SaveExcludeConst = Parameter('SaveExcludeConst', False)
         SaveFormatSubBlock = Parameter('SaveFormatSubBlock', "%b-%s-%n-%m.txt")
         Decimal_Separator = Parameter('Decimal_Separator','.')
         SaveExcludeCorrelated = Parameter('SaveExcludeCorrelated', False)
-        MaxSRDetour = Parameter('MaxSRDetour', "'30'", format='string')
+        MaxSRDetour = Parameter('MaxSRDetour', "'30'", typ='string')
         consecutiveDelimiter = Parameter('consecutiveDelimiter', False)
         molInputFormat = Parameter('molInputFormat', "SMILES")
         SaveExcludeAllMisVal = Parameter('SaveExcludeAllMisVal', False)
@@ -132,7 +132,7 @@ class Dragon(object):
                             ['Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'])
         external = Parameter('external', False)
         RoundWeights = Parameter('RoundWeights', True)
-        MaxSRforAllCircuit = Parameter('MaxSRforAllCircuit', "'19'",format="string")
+        MaxSRforAllCircuit = Parameter('MaxSRforAllCircuit', "'19'",typ="string")
         fileName = Parameter('fileName', None)
         RoundCoordinates = Parameter('RoundCoordinates', True)
         Missing_String = Parameter('Missing_String', "NaN")
@@ -148,9 +148,9 @@ class Dragon(object):
         delimiter = Parameter('delimiter',",")
         RetainBiggestFragment = Parameter('RetainBiggestFragment', False)
         CheckUpdates = Parameter('CheckUpdates', True)
-        MaxAtomWalkPath = Parameter('MaxAtomWalkPath', "'2000'", format='string')
+        MaxAtomWalkPath = Parameter('MaxAtomWalkPath', "'2000'", typ='string')
         logMode = Parameter('logMode', "file")
-        SaveCorrThreshold = Parameter('SaveCorrThreshold', "'0.95'", format='string')
+        SaveCorrThreshold = Parameter('SaveCorrThreshold', "'0.95'", typ='string')
         SaveFile = Parameter('SaveFile', True)
 
 class CoulombMatrix(object):
@@ -300,11 +300,11 @@ class MissingValues(object):
                         options = ('fit_transform','transform', None))
     class FParameters:
         strategy = Parameter('strategy', 'ignore_row',
-                             format='String',
+                             typ='String',
                              options = ['interpolate','zero','ignore_row','ignore_column'])
-        string_as_null = Parameter('string_as_null', True, format = 'Boolean')
-        inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
-        missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
+        string_as_null = Parameter('string_as_null', True, typ = 'Boolean')
+        inf_as_null = Parameter('inf_as_null', True, typ = 'Boolean')
+        missing_values = Parameter('missing_values', False, typ = 'list of strings/floats/integers')
 
 # class mlp_hogwild(object):
 #     task = 'Model'
@@ -428,7 +428,7 @@ class SaveFile(object):
     class FParameters:
         index = Parameter('index', False)
         record_time = Parameter('record_time', False)
-        format = Parameter('format', 'csv')
+        typ = Parameter('format', 'csv')
         output_directory = Parameter('output_directory', None)
         header = Parameter('header', True)
         filename = Parameter('filename', 'required_required')

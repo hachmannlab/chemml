@@ -1,6 +1,6 @@
 # __name__ = "chemml"
 __version__ = "0.5.1"
-__release__ = "June 2019"
+__release__ = "July 2019"
 __author__ = ["Mojtaba Haghighatlari (mojtabah@buffalo.edu)", "Johannes Hachmann (hachmann@buffalo.edu)"]
 
 

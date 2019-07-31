@@ -1258,7 +1258,7 @@ class scorer_regression(object):
     class WParameters:
         metric = Parameter('metric','mae',
                         description = "http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics",
-                        format = "string: 'mae', 'mse', 'r2'",
+                        typ = "string: 'mae', 'mse', 'r2'",
                         options = ('mae', 'mse', 'r2'))
         track_header = Parameter('track_header', True,'Boolean',
                         description = "if True, the input dataframe's header will be transformed to the output dataframe",
@@ -1267,7 +1267,7 @@ class scorer_regression(object):
         greater_is_better = Parameter('greater_is_better', True)
         needs_proba = Parameter('needs_proba', False)
         needs_threshold = Parameter('needs_threshold', False)
-        kwargs = Parameter('kwargs', {}, format = 'dictionary')
+        kwargs = Parameter('kwargs', {}, typ = 'dictionary')
 
 
 

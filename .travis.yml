@@ -46,10 +46,11 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
   # Install the library with test requirements
-  - pip install -e .[tests]
-  - pip install codecov
   - conda install -c openbabel openbabel
   - conda install -c rdkit rdkit
+  - pip install -e .[tests]
+  - pip install codecov
+
 
 
 script:

@@ -46,7 +46,7 @@ install:
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
   # Install the library with test requirements
-  - conda install -c conda-forge openbabel rdkit
+  - conda install -c conda-forge openbabel rdkit tensorflow keras numpy scipy pandas scikit-learn matplotlib seaborn future six
   - pip install -e .[tests]
   - pip install codecov
 

@@ -1,0 +1,16 @@
+name: chemml
+channels:
+    - conda-forge
+dependencies:
+    - python=3.6
+    - sphinx
+    - sphinx_rtd_theme
+    - sphinx-automodapi
+    
+      # QCEngine depends
+    - numpy
+    - openbabel
+    - rdkit
+
+    - pip:
+      - chemml

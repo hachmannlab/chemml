@@ -34,7 +34,8 @@ if __name__ == "__main__":
         install_requires=[
             'future', 'six',
             'numpy', 'pandas', 'scipy',
-            'tensorflow', 'keras', 'h5py',
+            'tensorflow', 'keras',
+            'h5py',
             'scikit-learn',
             'matplotlib>=1.5.1',
             'lxml', 'wget',

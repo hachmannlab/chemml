@@ -5,4 +5,4 @@ python:
       path: .
 
 conda:
-  file: docs/requirements.yaml
+  file: docs/requirements.yml

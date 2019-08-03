@@ -1,5 +1,6 @@
 from __future__ import print_function
 import os
+import keras # required to go around the protobuf error after importing pybel prior to tensorflow
 from rdkit import Chem
 import pybel
 from rdkit.Chem import AllChem

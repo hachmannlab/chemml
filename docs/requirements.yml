@@ -6,11 +6,10 @@ dependencies:
     - sphinx
     - sphinx_rtd_theme
     - sphinx-automodapi
-    
-      # QCEngine depends
-    - numpy
-    - openbabel
-    - rdkit
+
+#      # chemml depends
+#    - openbabel
+#    - rdkit
 
     - pip:
       - chemml

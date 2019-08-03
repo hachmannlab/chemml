@@ -12,5 +12,5 @@ dependencies:
 #    - openbabel
 #    - rdkit
 
-    - pip:
-      - chemml
+#    - pip:
+#      - chemml

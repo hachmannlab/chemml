@@ -51,16 +51,9 @@ installing ChemML. For doing so, you need to follow the conda installer:
 
     conda create --name my_chemml_env python=3.6
     source activate my_chemml_env
-    conda install -c openbabel openbabel
-    conda install -c rdkit rdkit
+    conda install -c conda-forge openbabel rdkit tensorflow keras
     pip install chemml
 
-## Python 2 Fans
-The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
-and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
-However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that 
-support Python 2, prior to using ChemML locally.
- 
 ## Citation:
 Please cite the use of ChemML as:
 

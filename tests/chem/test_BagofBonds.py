@@ -21,13 +21,25 @@ def mols():
 
 def test_h2o(mols):
     bob = BagofBonds(const=1.0)
-    h2o = bob.represent(mols)
+    h2o_df = bob.represent(mols)
 
-    assert h2o.shape == (1, 6)
+    assert h2o_df.shape == (1, 6)
     a = np.array([[0.66066557, 0.5, 0.5, 8.3593106, 8.35237809, 73.51669472]])
-    assert a[0][0] == pytest.approx( h2o.values[0][0])
-    assert a[0][1] == pytest.approx(h2o.values[0][1])
-    assert a[0][-1] == pytest.approx(h2o.values[0][-1])
 
+    # O
+    ind = bob.header_.index((8.0,))
+    assert a[0][5] == pytest.approx(h2o_df.values[0][ind])
+
+    # OH
+    ind = bob.header_.index((8.0,1.0))
+    assert a[0][3] == pytest.approx(h2o_df.values[0][ind])
+
+    # HH
+    ind = bob.header_.index((1.0,1.0))
+    assert a[0][0] == pytest.approx(h2o_df.values[0][ind])
+
+    # H
+    ind = bob.header_.index((1.0,))
+    assert a[0][1] == pytest.approx(h2o_df.values[0][ind])
 
 

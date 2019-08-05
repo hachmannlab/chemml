@@ -1,0 +1,7 @@
+recursive-include chemml/datasets/data *
+recursive-include chemml/chem/magpie_python/lookup-data *
+
+include setup.py
+include README.md
+include LICENSE
+include MANIFEST.in

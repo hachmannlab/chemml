@@ -1,0 +1,8 @@
+python:
+  version: 3.6
+  install:
+    - method: pip
+      path: .
+
+conda:
+  file: docs/requirements.yml

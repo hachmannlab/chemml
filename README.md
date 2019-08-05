@@ -1,13 +1,22 @@
 [![Build Status](https://travis-ci.org/hachmannlab/chemml.svg?branch=master)](https://travis-ci.org/hachmannlab/chemml)
 [![codecov](https://codecov.io/gh/hachmannlab/chemml/branch/master/graph/badge.svg)](https://codecov.io/gh/hachmannlab/chemml)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/hachmannlab/chemml.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/hachmannlab/chemml/context:python)
 [![version status](http://img.shields.io/pypi/v/chemml.svg?style=flat)](https://pypi.python.org/pypi/chemml)
 [![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
+
 
 # ChemML
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
 
    - ChemML documentation: https://hachmannlab.github.io/chemml
+
+
+
+<p align="center">
+  <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
+ </p>
+
 
 ## Code Design:
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
@@ -42,23 +51,49 @@ installing ChemML. For doing so, you need to follow the conda installer:
 
     conda create --name my_chemml_env python=3.6
     source activate my_chemml_env
-    conda install -c openbabel openbabel
-    conda install -c rdkit rdkit
+    conda install -c conda-forge openbabel rdkit tensorflow keras
     pip install chemml
 
-## Python 2 Fans
-The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
-and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
-However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that 
-support Python 2, prior to using ChemML locally.
- 
 ## Citation:
 Please cite the use of ChemML as:
 
+    Main citation:
 
-   - M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
-   - M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
-   - J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+    @article{chemml2019,
+    author = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava Urala and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
+    journal = {ChemRxiv},
+    pages = {8323271},
+    title = {ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data},
+    doi = {10.26434/chemrxiv.8323271.v1},
+    year = {2019}
+    }
+
+    
+    Other references:
+
+    @article{chemml_review2019,
+    author = {Haghighatlari, Mojtaba and Hachmann, Johannes},
+    doi = {https://doi.org/10.1016/j.coche.2019.02.009},
+    issn = {2211-3398},
+    journal = {Current Opinion in Chemical Engineering},
+    month = {jan},
+    pages = {51--57},
+    title = {Advances of machine learning in molecular modeling and simulation},
+    volume = {23},
+    year = {2019}
+    }
+
+    @article{Hachmann2018,
+    author = {Hachmann, Johannes and Afzal, Mohammad Atif Faiz and Haghighatlari, Mojtaba and Pal, Yudhajit},
+    doi = {10.1080/08927022.2018.1471692},
+    issn = {10290435},
+    journal = {Molecular Simulation},
+    number = {11},
+    pages = {921--929},
+    title = {Building and deploying a cyberinfrastructure for the data-driven design of chemical systems and the exploration of chemical space},
+    volume = {44},
+    year = {2018}
+    }
 
 ## License:
 ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
@@ -73,8 +108,8 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 
 ### Contributors:
     - Doaa Altarawy (MolSSI): scientific advice and software mentor 
-    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
+    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
     - Aditya Sonpal (UB): debugging
     - Srirangaraj Setlur (UB): scientific advice

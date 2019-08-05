@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-|logo| |Beta|
+|logo|
 
 Welcome to the ChemML's documentation!
 ======================================
@@ -21,10 +21,9 @@ via graphical user interface provided by [ChemEco](https://github.com/hachmannla
 ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the
 representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
 
-Version:
-++++++++
-- Program Version: 0.5.1
-- Release Date: April 2, 2019
+Latest Version:
++++++++++++++++
+   - to find the latest version and release history, click here: https://pypi.org/project/chemml/#history
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
@@ -51,28 +50,53 @@ installing ChemML. For doing so, you need to follow the conda installer:
 
     conda create --name my_chemml_env python=3.6
     source activate my_chemml_env
-    conda install -c openbabel openbabel
-    conda install -c rdkit rdkit
+    conda install -c conda-forge openbabel rdkit tensorflow keras
     pip install chemml
-
-Python 2 Fans:
-++++++++++++++
-
-The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
-and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
-However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that
-support Python 2, prior to using ChemML locally.
 
 
 Citation:
 +++++++++
-Please cite ChemML as follows:
+Please cite the use of ChemML as:
 
 ::
 
-    (1) M. Haghighatlari, J. Hachmann, ChemML – A Machine Learning and Informatics Program Suite for the Analysis, Mining, and Modeling of Chemical and Materials Data, in preparation (2018).
-    (2) M. Haghighatlari, J. Hachmann, A Machine Learning and Informatics Program Suite for Chemical and Materials Data Mining. Available from: https://hachmannlab.github.io/chemml.
-    (3) J. Hachmann, M.A.F. Afzal, M. Haghighatlari, Y. Pal, Building and Deploying a Cyberinfrastructure for the Data-Driven Design of Chemical Systems and the Exploration of Chemical Space, Mol. Simul. 44 (2018), 921-929. DOI: 10.1080/08927022.2018.1471692
+    Main citation:
+
+    @article{chemml2019,
+    author = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava Urala and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
+    journal = {ChemRxiv},
+    pages = {8323271},
+    title = {ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data},
+    doi = {10.26434/chemrxiv.8323271.v1},
+    year = {2019}
+    }
+
+
+    Other references:
+
+    @article{chemml_review2019,
+    author = {Haghighatlari, Mojtaba and Hachmann, Johannes},
+    doi = {https://doi.org/10.1016/j.coche.2019.02.009},
+    issn = {2211-3398},
+    journal = {Current Opinion in Chemical Engineering},
+    month = {jan},
+    pages = {51--57},
+    title = {Advances of machine learning in molecular modeling and simulation},
+    volume = {23},
+    year = {2019}
+    }
+
+    @article{Hachmann2018,
+    author = {Hachmann, Johannes and Afzal, Mohammad Atif Faiz and Haghighatlari, Mojtaba and Pal, Yudhajit},
+    doi = {10.1080/08927022.2018.1471692},
+    issn = {10290435},
+    journal = {Molecular Simulation},
+    number = {11},
+    pages = {921--929},
+    title = {Building and deploying a cyberinfrastructure for the data-driven design of chemical systems and the exploration of chemical space},
+    volume = {44},
+    year = {2018}
+    }
 
 
 .. toctree::
@@ -130,8 +154,8 @@ About us:
 
 :Contributors:
     - Doaa Altarawy (MolSSI): scientific advice and software mentor
-    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Gaurav Vishwakarma (UB): automated model optimization
+    - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
     - Aditya Sonpal (UB): debugging
     - Srirangaraj Setlur (UB): scientific advice
@@ -147,10 +171,5 @@ About us:
 
 
 .. |logo| image:: images/logo.png
-   :width: 140 px
+   :width: 540 px
    :target: https://mojtabah.github.io/ChemML
-
-.. |Beta| image:: http://stlth.io/images/stlth-beta.jpg
-   :width: 70 px
-   :target: https://mojtabah.github.io/ChemML
-

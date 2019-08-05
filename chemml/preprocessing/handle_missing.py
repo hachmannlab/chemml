@@ -68,7 +68,8 @@ class MissingValues(object):
         if self.inf_as_null == True:
             df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, True)
         if self.string_as_null == True:
-            df = df.convert_objects(convert_numeric=True)
+            for col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
         if isinstance(self.missing_values, (list, tuple)):
             for pattern in self.missing_values:
                 df.replace(pattern, np.nan, True)

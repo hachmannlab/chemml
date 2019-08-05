@@ -6,8 +6,8 @@ sudo: false
 # python versions to be tested
 matrix:
   include:
-    - python: 3.5
     - python: 3.6
+    - python: 3.7
 
 # will still build pull requests
 branches:
@@ -45,12 +45,12 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
-  - conda install -c openbabel openbabel
-  - conda install -c rdkit rdkit
-
   # Install the library with test requirements
+  - conda install -c conda-forge openbabel rdkit tensorflow keras numpy scipy pandas scikit-learn matplotlib seaborn future six
   - pip install -e .[tests]
   - pip install codecov
+
+
 
 script:
   - pytest -v --cov=./

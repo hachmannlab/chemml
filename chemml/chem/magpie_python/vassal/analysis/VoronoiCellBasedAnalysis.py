@@ -24,13 +24,13 @@ class VoronoiCellBasedAnalysis:
     def __init__(self, radical=None, old_tessellation=None,
                  new_structure=None):
         """Function to initialize a Voronoi cell analyzer.
-
         Create a new instance of the analysis toolkit based on a structure
         that has an identical tessellation. This occurs when the two
         structures have identical lattice parameters and atomic positions,
         but different identities of elements on those sites.
 
         Parameters
+        ----------
         new_structure : Cell
             New structure.
         radical : bool
@@ -122,7 +122,6 @@ class VoronoiCellBasedAnalysis:
 
     def get_effective_coordination_numbers(self):
         """Function to get the effective coordination number.
-
         Defined as N_eff = 1 / sum[(f_i / SA_i)^2] where f_i is the area of
         face i.
 
@@ -241,7 +240,6 @@ class VoronoiCellBasedAnalysis:
     def max_packing_efficiency(self):
         """Function to compute the maximum packing efficiency assuming atoms are
         hard spheres.
-
         Algorithm:
         1. For each cell in the Voronoi tessellation of this cell, determine the
         minimum distance from the cell center to a face. This marks the maximum
@@ -264,11 +262,9 @@ class VoronoiCellBasedAnalysis:
     def get_neighbor_ordering_parameters(self, shell, weighted):
         """Function to compute the Warren-Cowley short range ordering parameters
         for each atom.
-
         alpha_{s, i} = 1 - n_{A, s} / (x_A * n_s)
         where n_{A, s} is the number of atoms of type A in shell s, x_A is
         the composition of atom A and n_s is the number of atoms in shell s.
-
         Optionally, one can weight the contributions of each neighbor based on
         the path weights. See VoronoiCell.get_neighbors_by_walks for further
         discussion.
@@ -336,7 +332,6 @@ class VoronoiCellBasedAnalysis:
     def warren_cowley_ordering_magnitude(self, shell, weighted):
         """Function to compute the mean deviation in the Warren-Cowley
         parameter for each type for site from 0.
-
         Consider this as a measure of how "ordered" a structure is. Computed
         as the average of the average the absolute values of the WC
         parameters for each type for each site:
@@ -466,11 +461,9 @@ class VoronoiCellBasedAnalysis:
     def neighbor_property_differences(self, property, shell):
         """Function to compute the face-size-weighted difference between
         properties of an atom and its neighbors.
-
         Computed as:
         sum_i [ Size of face between atom and neighbor i ] * |
         [property of atom] - [property neighbor] | / [ surface area ]
-
         For neighbors in the 2nd or greater shell,
         VoronoiCell.get_extended_faces is used to find the unique faces
         between the atoms in the N - 1 shell and the Nth shell. So, each Nth
@@ -510,7 +503,6 @@ class VoronoiCellBasedAnalysis:
 
     def get_neighbor_shell_weights(self, shell):
         """Function to get the types and weights on neighbors in each shell.
-
         Uses the path weight argument described in
         VoronoiCell.get_neighbors_by_walks.
 
@@ -609,7 +601,6 @@ class VoronoiCellBasedAnalysis:
 
     def mean_bond_lengths(self):
         """Function to compute mean bond length for each cell.
-
         Bond length for each neighbor is weighted by face size.
 
         Returns
@@ -626,7 +617,6 @@ class VoronoiCellBasedAnalysis:
 
     def bond_length_variance(self, mean_lengths):
         """Function to compute variance in bond length for each face.
-
         Computed as the mean absolute deviation of each neighbor distance
         from the mean neighbor distance, weighted by face area.
 

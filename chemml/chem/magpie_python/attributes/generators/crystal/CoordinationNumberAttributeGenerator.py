@@ -5,13 +5,6 @@ from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 class CoordinationNumberAttributeGenerator:
     """Class to compute attributes based on the coordination number. Uses the
     Voronoi tessellation to define the coordination network.
-
-    DEV NOTE (LW 15Jul15): Could benefit from adding a face size cutoff, where
-    atoms are only defined as coordinated if the face between them is larger
-    than a certain fraction of the surface area of both cells. Otherwise
-    faces on the cells that are only present to numerical issues will be
-    counted as neighbors. Metallic glass community commonly removes any faces
-    smaller than 1% of the total surface area of a cell.
     """
 
     def generate_features(self, entries):

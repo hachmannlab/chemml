@@ -7,7 +7,6 @@ from ....data.materials.util.LookUpData import LookUpData
 class ElementPairPropertyAttributeGenerator:
     """Class to generate attributes based on the properties of constituent
     binary systems.
-
     Computes the minimum, maximum and range of all pairs in
     the material, and the fraction-weighted mean and variance of all pairs.
     Variance is defined as the mean absolute deviation from the mean over all

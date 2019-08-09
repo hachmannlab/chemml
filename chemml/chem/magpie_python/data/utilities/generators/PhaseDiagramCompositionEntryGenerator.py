@@ -11,11 +11,9 @@ class PhaseDiagramCompositionEntryGenerator:
     """Class to generate composition entries at many points in many phase
     diagrams. Has two different ways of selecting compositions within phase
     diagrams.
-
     1. Even Spacing: Compositions are selected to be evenly-spaced throughout
     the phase diagram (e.g. A0.2B0.2C0.6, A0.4B0.2C0.4 etc.). This method is
     most appropriate for alloy systems.
-
     2. Simple Fractions: Compositions with the smallest denominator are
     selected (e.g. ABC, A2C, B2C, etc.). This method is most appropriate for
     phase diagrams that represent ordered crystalline compounds.
@@ -150,7 +148,6 @@ class PhaseDiagramCompositionEntryGenerator:
     def generate_alloy_compositions(self):
         """Function to generate evenly-spaced compositions. Generates
         compositions for all diagrams up to the user-specified Minimum order.
-
         For example: If the user wants ternary diagrams with a minimum
         spacing of 0.25 this code will generate the following map:
         1 -> ([1.0])
@@ -193,7 +190,6 @@ class PhaseDiagramCompositionEntryGenerator:
     def generate_crystal_compositions(self):
         """Function to generate compositions with small denominators. Generates
         compositions for all diagrams up to the user-specified Minimum order.
-
         For example: If the user wants ternary diagrams with a maximum
         denominator of 3 this code will generate the following map:
         1 -> ([1])

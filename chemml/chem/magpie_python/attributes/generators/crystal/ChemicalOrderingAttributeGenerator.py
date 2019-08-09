@@ -4,7 +4,6 @@ from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class ChemicalOrderingAttributeGenerator:
     """Class to compute attributes based on chemical ordering of structure.
-
     Determines average Warren-Cowley ordering parameter for the bond network
     defined by the Voronoi tessellation of a structure.
 

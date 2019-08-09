@@ -4,7 +4,6 @@ from ..voronoi.VoronoiCell import VoronoiCell
 
 class VoronoiTessellationCalculator:
     """Class that computes the Voronoi tessellation of a cell.
-
     Can either use a standard Voronoi tessellation or the radical plane
     method. The radical plane method takes the radii of atoms into account
     when partitioning the cell. Citation for Radical Voronoi method [1].
@@ -21,7 +20,6 @@ class VoronoiTessellationCalculator:
     def compute(self, cell, radical):
         """Function to run a a tessellation using the Python implementation
         of the voronoi tessellation provided with Vassal.
-
         Citation for the computation method [1].
 
         Parameters

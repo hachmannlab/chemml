@@ -7,7 +7,6 @@ from .AtomImage import AtomImage
 
 class Cell:
     """Represents the volume enclosing a set of atoms.
-
     Could represent a crystal unit cell or the simulation cell from a
     molecular dynamics calculation.
 
@@ -135,7 +134,6 @@ class Cell:
 
     def set_basis(self, basis=None, lengths=None, angles=None):
         """Function to define the basis.
-
         Format:
         a_x b_x c_x
         a_y b_y c_y
@@ -209,7 +207,6 @@ class Cell:
 
     def compute_basis(self, lengths, angles_radians):
         """Function to compute the basis given lengths and angles (in radians).
-
         The a lattice vectors will be aligned in x direction, and the be will
         be in the xy plane.
 
@@ -387,7 +384,6 @@ class Cell:
     def get_aligned_basis(self):
         """Function to get the basis vectors aligned such that a vector is
         parallel to the x-axis, and the b vector is in the x-y plane.
-
         Format:
         a_x b_x c_x
         a_y b_y c_y
@@ -406,7 +402,6 @@ class Cell:
 
     def get_reciprocal_vectors(self):
         """Function to get the reciprocal lattice vectors for this cell.
-
         These are simply the matrix inverse of the lattice vectors.
 
         Returns
@@ -498,7 +493,6 @@ class Cell:
 
     def set_type_name(self, index, name):
         """Function to define the name for an atom type.
-
         Note that indexing starts at 0.
 
         Parameters
@@ -684,7 +678,6 @@ class Cell:
         """Function to compute the minimum distance between any images of two
         points or to get the closest image of a neighboring atom to a given
         atom.
-
         Minimum distance algorithm:
         Compute the displacement between the points in Cartesian units.
         For each lattice vector:
@@ -698,7 +691,6 @@ class Cell:
             If this vector is shorter than the current displacement vector,
             replace this vector with the new one.
         Compute the distance of this displacement vector.
-
         To get the closest image, we follow the exact same steps as computing
         the minimum distance. Except in the end, where we return the closest
         image.

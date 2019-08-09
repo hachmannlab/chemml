@@ -11,7 +11,6 @@ class MeredigAttributeGenerator:
     -----
     This class is meant to be used in conjunction with
     ElementFractionAttributeGenerator and ValenceShellAttributeGenerator.
-
     To match the attributes from the Meredig et al. [1] paper, use all three
     attribute generators.
 

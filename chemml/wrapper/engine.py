@@ -133,8 +133,8 @@ class Parser(object):
 
     def serialize(self):
         """
-        The main funtion for parsing chemml input.
-        It starts with finding blocks and then runs other functions.
+        The main funtion for parsing chemml's input json.
+        It starts with finding blocks (nodes) of workflow and then runs other functions.
        """
         # validate the main components
         if 'nodes' not in self.input_dict.keys():
@@ -151,6 +151,9 @@ class Parser(object):
         for block_id in self.input_dict['nodes'].keys():
             # shrink the var name
             block = self.input_dict['nodes'][block_id]
+
+            # validate keys
+            self.validate_keys(block_id, block)
 
             # collect send and recive to create the graph
             send_recv[block_id] = {'send':[], 'recv':[]}
@@ -277,6 +280,23 @@ class Parser(object):
                     graph.append((item[0], node_id)) # (send, recv)
         return graph, graph_send, graph_recv
 
+    def validate_keys(self, block_id, block):
+        if 'name' not in block:
+            msg = "The input json is not valid. @node ID#%s: name of class/function is missing." % (str(block_id))
+            self.logger.error(msg)
+            raise ValueError(msg)
+        if 'library' not in block:
+            msg = "The input json is not valid. @node ID#%s: name of library is missing" % (str(block_id))
+            raise ValueError(msg)
+        # check rest of keys
+        available_keys = block.keys()
+        all_keys = ['name', 'library', 'module', 'inputs', 'outputs',
+                    'method', 'wrapper_io']
+        if not set(available_keys) <= set(all_keys):
+            msg = "The input json is not valid. @node ID#%s: redundant or irrelevant keys" % (str(block_id))
+            self.logger.error(msg)
+            raise ValueError(msg)
+
     def prettyprinter(self, layers, graph_send, graph_recv):
 
         # the order of implementation
@@ -388,162 +408,263 @@ class Parser(object):
         return layers
 
 
-class BASE(object):
-    def __init__(self, CompGraph):
-        self.graph = CompGraph
-        self.graph_info = {}
-        self.send = {}  # {(iblock,token):output class}
-        self.requirements = ['pandas']
+class Stack(object):
+    def __init__(self):
+        # the stack of data on the edges
+        self.stack = {}
+
+        # start time should be available during running nodes
         self.start_time = time.time()
-        self.block_time = 0
-        self.date = std_datetime_str('date')
-        self.time = std_datetime_str('time')
-        self.InputScript = ''
-        self.output_directory = '.'
-        self.log = []
+
+        # references can be updated by each node
+        self.references = {}
+
+        #
 
 
-class Wrapper(LIBRARY):
-    """
-    The main class to run the input script block by block in the order of the ImpOrder.
 
-    """
 
-    def __init__(self, cmls, ImpOrder, CompGraph, InputScript,
-                 output_directory):
-        self.Base = BASE(
-            CompGraph
-        )  # only instance of BASE during the entire workflow run
-        self.Base.InputScript = InputScript
-        self.Base.output_directory = output_directory
-        self.ImpOrder = ImpOrder
-        self.cmls = cmls
-        tmp_str = "=================================================\n"
-        print(tmp_str)
-        print ('* Based on the dependencies, We run blocks in the order of: %s'%str(np.array(ImpOrder)+1))
-        print ('* The outputs will be stored in the following directory: %s\n' %output_directory)
-        tmp_str = "=================================================\n"
-        print(tmp_str)
+        # self.graph = CompGraph
+        # self.graph_info = {}
+        # self.send = {}  # {(iblock,token):output class}
+        # self.requirements = ['pandas']
+        # self.block_time = 0
+        # self.date = std_datetime_str('date')
+        # self.time = std_datetime_str('time')
+        # self.InputScript = ''
+        # self.output_directory = '.'
+        # self.log = []
 
-        self._checker()
-
-    def _checker(self):
+    def push(self, token, value):
         """
-        check for key parameters like module and function and
-        any possible typo in other params.
+        This function stores the sent data from each node.
+
+        Parameters
+        ----------
+        token: tuple
+            A tuple of two elements: first element presents the node ID of sender, and the second element is the variable name.
+
+        value: any type
+            The data that token is sending around.
+
         """
-        # get params
-        # legal_tasks = ['DataRepresentation','Script','Input','Output','Preprocessor','FeatureSelection',
-        #                         'FeatureTransformation','Divider','Regression','Classification','Postprocessor',
-        #                         'Evaluation','Visualization','Optimizer']
-        # legal_tasks = ['Enter','Prepare','Model','Search','Mix','Visualize','Store']
-        # run over graph
-        for iblock, block in enumerate(self.cmls):
-            # check super function
-            task = block['task']
-            # if task not in legal_tasks:
-            #     msg = '@Task #%i(%s): %s is not a valid task' %(iblock + 1, task,task)
-            #     raise NameError(msg)
-            # check parameters
-            parameters = block['parameters']
-            if 'host' not in parameters:
-                msg = "@Task #%i(%s): no host name found" % (iblock + 1, task)
-                raise NameError(msg)
-            if 'function' not in parameters:
-                msg = "@Task #%i(%s): no function name found" % (iblock + 1,
-                                                                 task)
-                raise NameError(msg)
-            # check host and function
-            # host_function = (block['parameters']['host'], block['parameters']['function'])
-        return 'The input file is in a correct format.'
+        pass
+
+    def pull(self, token):
+        """
+        This function returns the data for a token.
+        It also frees the memory by removing used flowing data.
+
+        Parameters
+        ----------
+        token: tuple
+            A tuple of two elements: first element presents the node ID of sender, and the second element is the variable name.
+
+        Returns
+        -------
+        value: any type
+            The stored date for the specified token
+        """
+        pass
+
+    def getsizeof(self, token=None):
+        """
+        This function returns the memory that tokens' data have occupied.
+
+        Parameters
+        ----------
+        token: tuple, optional (default=None)
+
+        Returns
+        -------
+        memory: tuple
+            A tuple of two elements: the first one presents the specified token's memory (zero if none), and
+            the second element is the total memory of flowing data.
+        """
+        pass
+
+
+class Wrapper():
+    """
+    The main class to run the input json node by node.
+
+    """
+
+    def __init__(self,
+                 input_dict,
+                 logger,
+                 output_dir,
+                 send_recv=None,
+                 all_received=None,
+                 graph=None,
+                 graph_send=None,
+                 graph_recv=None,
+                 layers=None,
+                 ):
+
+        # only instance of Stack to run workflow
+        self.stack = Stack()
+
+        # other class attributes
+        self.input_dict = input_dict
+        self.logger = logger
+        self.output_dir = output_dir
+        self.layers = layers
+        # self.Base.InputScript = InputScript
+        # self.Base.output_directory = output_directory
+        # self.ImpOrder = ImpOrder
+        # self.cmls = cmls
+
+        # print and log banner info
+        self.prettyprint('banner')
+
+        # run nodes one by one
+        self.call()
 
     def call(self):
         self.refs = {}
-        for iblock in self.ImpOrder:
-            task = self.cmls[iblock]['task']
-            parameters = self.cmls[iblock]['parameters']
-            host = parameters.pop('host')
-            function = parameters.pop('function')
-            start_time = time.time()
-            tmp_str = "======= block#%i: (%s, %s)" % (iblock + 1, host,
-                                                      function)
+        for group in self.layers:
+            for block_id in group:
+                block = self.input_dict['nodes'][block_id]
+
+                # find the function/class
+                name = block["name"]
+                library = block["library"]
+
+                # begin
+                start_time = time.time()
+                self.prettyprint('block_start', block_id, name, library)
+
+                """
+                # run wrappers
+                if library == 'sklearn':
+                    # check methods
+                    legal_names = [
+                        klass[0] for klass in inspect.getmembers(sklw)
+                    ]
+                    if name in legal_names:
+                        cml_interface = [
+                            klass[1] for klass in inspect.getmembers(sklw)
+                            if klass[0] == name
+                        ][0]
+                        cmli = cml_interface(self.stack, parameters, block_id, task,
+                                             name, library)
+                        cmli.run()
+                    else:
+                        cml_interface = [
+                            klass[1] for klass in inspect.getmembers(sklw)
+                            if klass[0] == 'automatic_run'
+                        ][0]
+                        cmli = cml_interface(self.stack, parameters, block_id, task,
+                                             name, library)
+                        cmli.run()
+                elif library == 'chemml':
+                    # check methods
+                    legal_names = [
+                        klass[0] for klass in inspect.getmembers(cmlw)
+                    ]
+                    if name not in legal_names:
+                        msg = "@name #%i: couldn't find name '%s' in the module '%s' wrarpper" % (
+                            block_id, name, library)
+                        raise NameError(msg)
+                    cml_interface = [
+                        klass[1] for klass in inspect.getmembers(cmlw)
+                        if klass[0] == name
+                    ][0]
+                    cmli = cml_interface(self.stack, parameters, block_id, task,
+                                         name, library)
+                    cmli.run()
+                elif library == 'pandas':
+                    # check methods
+                    legal_names = [
+                        klass[0] for klass in inspect.getmembers(pdw)
+                    ]
+                    if name not in legal_names:
+                        msg = "@name #%i: couldn't find name '%s' in the module '%s' wrarpper" % (
+                            block_id, name, library)
+                        raise NameError(msg)
+                    cml_interface = [
+                        klass[1] for klass in inspect.getmembers(pdw)
+                        if klass[0] == name
+                    ][0]
+                    cmli = cml_interface(self.stack, parameters, block_id, task,
+                                         name, library)
+                    cmli.run()
+                """
+
+                # end
+                run_time = tot_exec_time_str(start_time)
+                self.prettyprint('block_end', run_time)
+
+                # self._save_references()
+
+        # finish
+        total_time = tot_exec_time_str(self.stack.start_time)
+        self.prettyprint('finish', total_time)
+
+    def prettyprint(self, level, *args):
+        if level == 'banner':
+            tmp_str = "================================================="
             print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = '* Based on the dependencies, we run nodes in the \n' \
+                      '  following order:\n '
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            for group in self.layers:
+                tmp_str = "  " + str(group)
+                print(tmp_str)
+                self.logger.info(tmp_str)
+
+            tmp_str = "\n"
+            print(tmp_str)
+
+            tmp_str = '* The outputs will be stored in the following \n  directory: %s' % self.output_dir
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = "\n"
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+        elif level=='block_start':
+            tmp_str = "======= node ID#%s: (%s, %s)" % (args[0], args[1], args[2])
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
             tmp_str = "| run ...\n"
             print(tmp_str)
-            if host == 'sklearn':
-                # check methods
-                legal_functions = [
-                    klass[0] for klass in inspect.getmembers(sklw)
-                ]
-                if function in legal_functions:
-                    self.references(host, function)  # check references
-                    self.Base.graph_info[iblock] = (host, function)
-                    cml_interface = [
-                        klass[1] for klass in inspect.getmembers(sklw)
-                        if klass[0] == function
-                    ][0]
-                    cmli = cml_interface(self.Base, parameters, iblock, task,
-                                         function, host)
-                    cmli.run()
-                else:
-                    self.references(host, function)  # check references
-                    self.Base.graph_info[iblock] = (host, function)
-                    cml_interface = [
-                        klass[1] for klass in inspect.getmembers(sklw)
-                        if klass[0] == 'automatic_run'
-                    ][0]
-                    cmli = cml_interface(self.Base, parameters, iblock, task,
-                                         function, host)
-                    cmli.run()
-            elif host == 'chemml':
-                # check methods
-                legal_functions = [
-                    klass[0] for klass in inspect.getmembers(cmlw)
-                ]
-                if function not in legal_functions:
-                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" % (
-                        iblock, function, host)
-                    raise NameError(msg)
-                self.references(host, function)  # check references
-                self.Base.graph_info[iblock] = (host, function)
-                cml_interface = [
-                    klass[1] for klass in inspect.getmembers(cmlw)
-                    if klass[0] == function
-                ][0]
-                cmli = cml_interface(self.Base, parameters, iblock, task,
-                                     function, host)
-                cmli.run()
-            elif host == 'pandas':
-                # check methods
-                legal_functions = [
-                    klass[0] for klass in inspect.getmembers(pdw)
-                ]
-                if function not in legal_functions:
-                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" % (
-                        iblock, function, host)
-                    raise NameError(msg)
-                self.references(host, function)  # check references
-                self.Base.graph_info[iblock] = (host, function)
-                cml_interface = [
-                    klass[1] for klass in inspect.getmembers(pdw)
-                    if klass[0] == function
-                ][0]
-                cmli = cml_interface(self.Base, parameters, iblock, task,
-                                     function, host)
-                cmli.run()
+            self.logger.info(tmp_str)
 
-            end_time = tot_exec_time_str(start_time)
+        elif level == 'block_end':
             tmp_str = "| ... done!"
             print(tmp_str)
-            tmp_str = '| ' + end_time
+            self.logger.info(tmp_str)
+
+            tmp_str = '| ' + args[0]
             print(tmp_str)
+            self.logger.info(tmp_str)
+
             tmp_str = "=======\n\n"
             print(tmp_str)
-        self._save_references()
-        tmp_str = "Total " + tot_exec_time_str(self.Base.start_time)
-        print(tmp_str)
-        tmp_str = std_datetime_str() + '\n'
-        print(tmp_str)
+            self.logger.info(tmp_str)
+
+        elif level == 'finish':
+            tmp_str = "Total " + args[0]
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = std_datetime_str() + '\n'
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = "================================================="
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+
 
 
 class Settings(object):
@@ -590,7 +711,119 @@ class Settings(object):
     def copy_inputscript(self, input_dict):
         file_path = os.path.join(self.output_directory , 'input.json')
         with open(file_path, 'w') as f:
-            json.dump(input_dict, f)
+            json.dump(input_dict, f, indent=4, sort_keys=True)
+
+
+def variable_description(input_dict=None,
+                         send_recv=None,
+                         all_received=None,
+                         graph=None,
+                         graph_send=None,
+                         graph_recv=None,
+                         layers=None,):
+    """
+    This function prints out the output variables of the Parser with brief description to facilitate
+    future development and contributions.
+    """
+    print ("\n\ninternal variables' description for developers:\n\n")
+
+    # example
+    if input_dict is not None:
+        print("*** input_dict example:\n", input_dict, "\n")
+
+    # description
+    print("--- input_dict descriptoin:\n",
+          "    type:    dictionary\n",
+          "        keys:    'nodes', 'gui_format', 'template_id'\n",
+          "        nodes:   dictionary\n",
+          "            keys: 'name', 'library', 'module', 'inputs',\n "
+          "                  'outputs', 'method', 'wrapper_io'\n",
+          "            name:        str\n",
+          "            library:     str\n",
+          "            module:      str\n",
+          "            inputs:      dictionary\n",
+          "            outputs:     dictionary\n",
+          "            wrapper_io:  dictionary\n",
+          "            method:      dictionary\n",
+          "                keys:    'name', 'inputs', 'outputs'\n"
+          "### \n")
+
+    # example
+    if send_recv is not None:
+        print("*** send_recv example:\n", send_recv, "\n")
+
+    # description
+    print("--- send_recv descriptoin:\n",
+          "    type:    dictionary\n",
+          "        keys:    node IDs\n",
+          "        values:  dictionary\n",
+          "            keys: 'send' and 'recv'\n",
+          "            values: list\n",
+          "                send elements: just variable name\n",
+          "                recv elements: tuple of two elements\n",
+          "                    first element:  ID of sender\n",
+          "                    second element: variable name\n",
+          "### \n")
+
+    # example
+    if all_received is not None:
+        print("*** all_received example:\n", all_received, "\n")
+
+    # description
+    print("--- all_received descriptoin:\n",
+          "    type:    list\n",
+          "        elements:    tuple of two elements\n",
+          "            first element:    ID of sender\n",
+          "            second element:   variale name\n",
+          "### \n")
+
+    # example
+    if graph is not None:
+        print("*** graph example:\n", graph, "\n")
+
+    # description
+    print("--- graph descriptoin:\n",
+          "    type:    list\n",
+          "        elements:    tuple of two elements\n",
+          "            first element:    ID of sender\n",
+          "            second element:   ID of receiver\n",
+          "### \n")
+
+    # example
+    if graph_send is not None:
+        print("*** graph_send example:\n", graph_send, "\n")
+
+    # description
+    print("--- graph_send descriptoin:\n",
+          "    type:    dictionary\n",
+          "        keys:    node IDs\n",
+          "        values:  list\n",
+          "            elements: node IDs that each node is sending to\n",
+          "### \n")
+
+    # example
+    if graph_recv is not None:
+        print("*** graph_recv example:\n", graph_recv, "\n")
+
+    # description
+    print("--- graph_recv descriptoin:\n",
+          "    type:    dictionary\n",
+          "        keys:    node IDs\n",
+          "        values:  list\n",
+          "            elements: node IDs that each node is receiving from\n",
+          "### \n")
+
+    # example
+    if layers is not None:
+        print("*** layers example:\n", layers, "\n")
+
+    # description
+    print("--- layers descriptoin:\n",
+          "    type:    list\n",
+          "        elements:    list\n",
+          "            elements:    node IDs\n",
+          "            significance: order of runing based on their dependencies\n",
+          "### \n")
 
 
 def run(input_json, output_dir):
@@ -643,11 +876,15 @@ def run(input_json, output_dir):
     # parse the input dict
     parser = Parser(input_dict, logger)
     send_recv, all_received, graph, graph_send, graph_recv, layers = parser.serialize()
-    input_dict = parser.input_dict # updated input_dict with switched off
+    input_dict = parser.input_dict # updated input_dict with switched off unused sent tokens
 
+    # only for developers, comment out when you are done
+    # variable_description(input_dict, send_recv, all_received, graph, graph_send, graph_recv, layers)
 
-    # wrapper = Wrapper(cmls, run_order, comp_graph, input_json, output_dir)
-    # wrapper.call()
+    # run wrappers for each node
+    wrapper = Wrapper(input_dict, logger, output_dir,
+                      send_recv, all_received, graph,
+                      graph_send, graph_recv, layers)
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*

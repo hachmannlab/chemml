@@ -6,7 +6,6 @@ import numpy as np
 class APRDFAnalysis:
     """Class to compute the Atomic Property Weighted Radial Distribution
     Function (AP-RDF).
-
     Follows the work by Fernandez et al.[1]. Here, we use a scaling factor
     equal to: 1 / #atoms.
 
@@ -72,7 +71,6 @@ class APRDFAnalysis:
     def precompute(self):
         """Function to perform any kind of computations that should be
         performed only once.
-
         Determine the maximum distance at which atoms contribute
         to the PRDF. This is the maximum distance (r) at which exp(-B * (r -
         R)^2) > AccuracyFactor.
@@ -87,7 +85,6 @@ class APRDFAnalysis:
 
     def analyze_structure(self, s):
         """Function to analyze a specific structure.
-
         Once this completes, it is possible to retrieve results out of this
         object.
 

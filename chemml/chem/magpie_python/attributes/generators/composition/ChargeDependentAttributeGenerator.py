@@ -10,7 +10,6 @@ from ....utility.tools.OxidationStateGuesser import OxidationStateGuesser
 class ChargeDependentAttributeGenerator:
     """Class to generate attributes derived from the oxidation states of
     elements in a material.
-
     Based on work by Deml et al.[1].
 
     Notes
@@ -20,7 +19,6 @@ class ChargeDependentAttributeGenerator:
     Statistics of formal charges (min, max, range, mean, variance)
     Cumulative ionization energies/ electron affinities
     Difference in electronegativities between cation and anion.
-
     For materials that the algorithm fails to find charge states, NaN is set
     for all features.
 

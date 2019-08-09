@@ -125,11 +125,9 @@ class VoronoiEdge:
     @classmethod
     def compute_intersection(self, edge1, edge2, just_join=False):
         """Function to compute intersection between two edges or join them.
-
         Computes the intersection between two vectors. If they intersect,
         within the bounds of each edge, set new boundaries for each edge and
         change the next and previous edge as appropriate.
-
         Will check orientation of edges to see if edge1 is the edge following
         edge2 (or vis versa), and join them accordingly.
 
@@ -324,7 +322,6 @@ class VoronoiEdge:
     def find_next_edge(self, candidates):
         """Function to find the edge that is likely to be "next" on a face that
         contains this edge.
-
         This is computed by first computing all edges
         that are oriented CCW to this edge. Next, the edge that is closest to
         the origin is found. If multiple edges intersect at the same point,
@@ -445,11 +442,9 @@ class VoronoiEdge:
 
     def angle_between(self, v1, v2):
         """Function to compute the angular separation between two vectors.
-
         Documentation obtained from:
         http://commons.apache.org/proper/commons-math/javadocs/api-3.3/org
         /apache/commons/math3/geometry/euclidean/threed/Vector3D.html
-
         This method computes the angular separation between two vectors using
         the dot product for well separated vectors and the cross product for
         almost aligned vectors. This allows to have a good accuracy in all

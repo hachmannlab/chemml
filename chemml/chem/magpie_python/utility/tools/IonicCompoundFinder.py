@@ -6,7 +6,6 @@ from ...utility.tools.OxidationStateGuesser import OxidationStateGuesser
 class IonicCompoundFinder:
     """Class to find nearby compositions from a given nominal composition that
     can be charge neutral.
-
     Works by finding all combinations of elements in
     the supplied composition that are within a certain distance of the target
     composition with less than a certain number of atoms per unit cell.
@@ -52,7 +51,6 @@ class IonicCompoundFinder:
 
     def set_maximum_distance(self, dist):
         """Function to set the allowed maximum distance from the target value.
-
         Note, the distance is computed as the L_1 norm of the composition
         vector assuming one of the elements is a balance (i.e., only sum the
         difference for N-1 elements).

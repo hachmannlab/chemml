@@ -9,7 +9,6 @@ from ....data.materials.util.LookUpData import LookUpData
 class YangOmegaAttributeGenerator:
     """Class to compute the attributes :math:`\Omega` and :math:`\delta`
     developed by Yang and Zhang [1].
-
     These parameters are based on the liquid formation enthalpy and atomic
     sizes of elements respectively and were originally developed to predict
     whether a metal alloy will form a solid solution of bulk metallic glass.
@@ -21,7 +20,6 @@ class YangOmegaAttributeGenerator:
     :math: `\Omega_{i,j}`) predicted by the Miedema model for binary liquids.
     Specifically, it is computed using the relationship:
     .. math:: \Omega = \displaystyle\frac{T_m \Delta S_{mix}} {|\Delta H_{mix}|}
-
     where :math: `T_m` is the composition-weighted average of the melting
     temperature, :math: `\Delta S_{mix}` is the ideal solution entropy,
     and :math: `\Delta H_{mix}` is the mixing enthalpy. The mixing enthalpy
@@ -29,13 +27,10 @@ class YangOmegaAttributeGenerator:
     Inoue [2] where:
     .. math:: \Delta H_{mix} = \displaystyle\sum \Omega_{i,j} c_i c_j
     and :math: `\Omega_{i,j} = 4 * \Delta H_{mix}`.
-
     :math: `\delta` is related to the polydispersity of atomic sizes, and is
     computed using the relationship:
-
     .. math:: \delta = [\displaystyle\sum c_i (1 - \frac{r_i}{r_{
     average})^2]^0.5
-
     where :math: `r_i` is the atomic size. Here, we use the atomic radii
     compiled by Miracle et al. [3] rather than those compiled by Kittel,
     as in the original work.

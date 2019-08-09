@@ -5,7 +5,6 @@ from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class PackingEfficiencyAttributeGenerator:
     """Class to compute attributes based on packing efficiency.
-
     Packing efficiency is determined by finding the largest sphere that would
     fit inside each Voronoi cell and comparing the volume of that sphere to the
     volume of the cell.

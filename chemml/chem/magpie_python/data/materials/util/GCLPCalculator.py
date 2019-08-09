@@ -12,7 +12,6 @@ from ..CompositionEntry import CompositionEntry
 class GCLPCalculator:
     """Class that uses Grand-Canonical Linear Programming (GCLP) method to
     compute phase equilibria.
-
     How to use this class:
     1. Load in phase equilibria data with `self.add_phase`, `self.set_mu` or
     `self.add_phases`.
@@ -39,7 +38,6 @@ class GCLPCalculator:
 
     def __init__(self):
         """Function to create instance and initialize fields.
-
         Initialize a GCLP calculator. Sets the chemical potential of each
         element to be 0.
         """

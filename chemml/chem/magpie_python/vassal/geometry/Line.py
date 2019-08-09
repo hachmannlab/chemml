@@ -6,7 +6,6 @@ import warnings
 
 class Line:
     """Class to represent lines in a three dimensional space.
-
     Documentation obtained from http://commons.apache.org/proper/commons-math
     /javadocs/api-3.3/org/apache/commons/math3/geometry/euclidean/threed/Line
     .html

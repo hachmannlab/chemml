@@ -398,7 +398,6 @@ class VoronoiFace:
     def assemble_face_from_faces(self, faces):
         """Function to construct the edges, given a list of faces that will
         intersect this face.
-
         Used to construct faces for the direct polyhedron only! It assumes
         that face_center is inside the center of the face.
 
@@ -574,7 +573,6 @@ class VoronoiFace:
 
     def compute_intersection(self, new_face):
         """Function to compute intersection between this face and a new face.
-
         If the face intersects, update the list of edges.
         Special case: If a current edge of this face is completely on the new
         face (i.e., both vertices are on the face), that edge will be
@@ -823,7 +821,6 @@ class VoronoiFace:
 
     def is_contacted_by(self, other_face):
         """Function to check whether instance if contacted by another face.
-
         This occurs if any of the vertices are outside or on the other face.
 
         Parameters

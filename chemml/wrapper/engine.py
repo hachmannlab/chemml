@@ -683,9 +683,10 @@ class Wrapper(object):
             print(tmp_str)
             self.logger.info(tmp_str)
 
-
     @staticmethod
-    def get_func_output(function_output_, output, name, library, module, method_name=None):
+    def get_func_output(function_output_,
+                        output,
+                        name, library, module, method_name=None):
         """
         maps the output name to the index of output for functions/methods that return more than one.
         Parameters

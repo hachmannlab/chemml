@@ -12,8 +12,10 @@ import inspect
 import json
 import logging
 import importlib
+from collections import Counter
 
 import numpy as np
+import pandas as pd
 
 import chemml
 from .pandas_pd import pdw
@@ -22,6 +24,7 @@ from .sklearn_skl import sklw
 
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
+from .interfaces import get_api, get_method, get_attributes, evaluate_param_value, evaluate_inputs
 
 
 def banner(logger):
@@ -45,34 +48,6 @@ def banner(logger):
     for line in str:
         print(line)
         logger.info(line)
-
-
-def evaluate_param_value(param_val):
-    """
-    evaluate the string input value to python data structure
-
-    Parameters
-    ----------
-    param_val: str
-        an entry of type str
-
-    Returns
-    -------
-    bool
-        True if the input can become an integer, False otherwise
-
-    Notes
-    -----
-    returns 'type' for the entry 'type', although type is a code object
-    """
-    try:
-        val = eval(param_val)
-        if isinstance(val, type):
-            return param_val
-        else:
-            return val
-    except:
-        return param_val
 
 
 def cycle_in_graph(graph):
@@ -162,9 +137,10 @@ class Parser(object):
             if 'inputs' in block:
                 for var in block['inputs']:
                     val = block['inputs'][var]
-                    if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
-                        temp = val.strip().split('@')     # "@ID2@df" >> ['', 'ID2', 'df']
-                        send_recv[block_id]['recv'].append((temp[1], temp[2]))
+                    if isinstance(val, str) and val[0] == '@' and val.count('@')% 2 == 0:
+                        temp = val.strip().split('@')[1:]     # "@ID2@df" >> ['', 'ID2', 'df']
+                        for item in zip(temp[0::2], temp[1::2]):
+                            send_recv[block_id]['recv'].append(item)
 
             # main outputs
             if 'outputs' in block:
@@ -177,11 +153,13 @@ class Parser(object):
             if 'wrapper_io' in block:
                 for var in block['wrapper_io']:
                     val = block['wrapper_io'][var]
-                    if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
-                        temp = val.strip().split('@')     # e.g. "@ID2@df" >> ['', 'ID2', 'df']
-                        send_recv[block_id]['recv'].append((temp[1], temp[2])) #(ID, name)
-                    elif isinstance(val, bool) and val:
-                        send_recv[block_id]['send'].append(var)
+                    if isinstance(val, str) and val[0] == '@' and val.count('@')%2 == 0:
+                        temp = val.strip().split('@')[1:]     # "@ID2@df" >> ['', 'ID2', 'df']
+                        for item in zip(temp[0::2], temp[1::2]):
+                            send_recv[block_id]['recv'].append(item)
+                    elif isinstance(val, bool):
+                        if val:
+                            send_recv[block_id]['send'].append(var)
 
             # method inputs / outputs
             if 'method' in block:
@@ -189,14 +167,16 @@ class Parser(object):
                 if 'inputs' in method_block:
                     for var in method_block['inputs']:
                         val = method_block['inputs'][var]
-                        if isinstance(val, str) and val[0] == '@' and val.count('@') == 2:
-                            temp = val.strip().split('@')     # e.g. "@ID2@df" >> ['', 'ID2', 'df']
-                            send_recv[block_id]['recv'].append((temp[1], temp[2])) #(ID, name)
+                        if isinstance(val, str) and val[0] == '@' and val.count('@')%2 == 0:
+                            temp = val.strip().split('@')[1:]  # "@ID2@df" >> ['', 'ID2', 'df']
+                            for item in zip(temp[0::2], temp[1::2]):
+                                send_recv[block_id]['recv'].append(item)
                 if 'outputs' in method_block:
                     for var in method_block['outputs']:
                         val = method_block['outputs'][var]
-                        if isinstance(val, bool) and val:
-                            send_recv[block_id]['send'].append(var)
+                        if isinstance(val, bool):
+                            if val:
+                                send_recv[block_id]['send'].append(var)
 
         ## clean the redundant send tokens in the send_recv for the memory efficiency
         # collect all send and received items
@@ -286,7 +266,10 @@ class Parser(object):
             self.logger.error(msg)
             raise ValueError(msg)
         if 'library' not in block:
-            msg = "The input json is not valid. @node ID#%s: name of library is missing" % (str(block_id))
+            msg = "The input json is not valid. @node ID#%s: name of library is missing." % (str(block_id))
+            raise ValueError(msg)
+        if 'module' not in block:
+            msg = "The input json is not valid. @node ID#%s: The module name is missing." % (str(block_id))
             raise ValueError(msg)
         # check rest of keys
         available_keys = block.keys()
@@ -322,7 +305,7 @@ class Parser(object):
             # print(tmp_str)
             # self.logger.info(tmp_str)
 
-            if 'method' in block:
+            if len(block['method']) > 0:
                 line = 'method = %s\n' % (block['method']['name'])
                 line = line.rstrip("\n")
                 tmp_str = '        ' + line
@@ -408,8 +391,35 @@ class Parser(object):
         return layers
 
 
+class Stream(object):
+    """
+    This is a container for the flowing data in the workflow.
+
+    Parameters
+    ----------
+    token: tuple
+        The token is a tuple of sender ID and the variable name.
+
+    value: any data structure
+        An arbitrary data structure that is flowing on the edges.
+
+
+    """
+    def __init__(self, token, value, count=1):
+        self.token = token
+        self.value = value
+        self.count = count
+        self.size = sys.getsizeof(value)
+
+
 class Stack(object):
-    def __init__(self):
+    def __init__(self, all_received, logger):
+
+        # count number of times a sent token is used in the workflow
+        self.initial_count = Counter(all_received)
+
+        self.logger = logger
+
         # the stack of data on the edges
         self.stack = {}
 
@@ -418,10 +428,6 @@ class Stack(object):
 
         # references can be updated by each node
         self.references = {}
-
-        #
-
-
 
 
         # self.graph = CompGraph
@@ -448,12 +454,23 @@ class Stack(object):
             The data that token is sending around.
 
         """
-        pass
+        if token in self.initial_count:
+            if token in self.stack:
+                self.stack[token].count += 1
+            else:
+                self.stack[token] = Stream(token, value, 1)
+
+        # check max count
+        for token in self.stack:
+            if self.stack[token].count > self.initial_count[token]:
+                msg = "The input graph is not a valid workflow."
+                self.logger.error(msg)
+                raise ValueError(msg)
 
     def pull(self, token):
         """
         This function returns the data for a token.
-        It also frees the memory by removing used flowing data.
+        It also removes used data from memory.
 
         Parameters
         ----------
@@ -465,11 +482,20 @@ class Stack(object):
         value: any type
             The stored date for the specified token
         """
-        pass
+        value = self.stack[token].value
+
+        # clean mempry
+        if self.stack[token].count == 1:
+            del self.stack[token]
+        else:
+            self.stack[token].count -= 1
+
+        return value
 
     def getsizeof(self, token=None):
         """
-        This function returns the memory that tokens' data have occupied.
+        This function returns the size of a token's data in bytes.
+        It also returns the total size of edges.
 
         Parameters
         ----------
@@ -477,14 +503,22 @@ class Stack(object):
 
         Returns
         -------
-        memory: tuple
-            A tuple of two elements: the first one presents the specified token's memory (zero if none), and
+        tuple
+            A tuple of two elements: the first one presents the specified token's size (zero if None), and
             the second element is the total memory of flowing data.
         """
-        pass
+        token_size = 0
+        if token is not None:
+            token_size = self.stack[token].size
+
+        total_size = 0
+        for token in self.stack:
+            total_size += self.stack[token].size
+
+        return (token_size, total_size)
 
 
-class Wrapper():
+class Wrapper(object):
     """
     The main class to run the input json node by node.
 
@@ -503,7 +537,7 @@ class Wrapper():
                  ):
 
         # only instance of Stack to run workflow
-        self.stack = Stack()
+        self.stack = Stack(all_received, logger)
 
         # other class attributes
         self.input_dict = input_dict
@@ -535,62 +569,8 @@ class Wrapper():
                 start_time = time.time()
                 self.prettyprint('block_start', block_id, name, library)
 
-                """
-                # run wrappers
-                if library == 'sklearn':
-                    # check methods
-                    legal_names = [
-                        klass[0] for klass in inspect.getmembers(sklw)
-                    ]
-                    if name in legal_names:
-                        cml_interface = [
-                            klass[1] for klass in inspect.getmembers(sklw)
-                            if klass[0] == name
-                        ][0]
-                        cmli = cml_interface(self.stack, parameters, block_id, task,
-                                             name, library)
-                        cmli.run()
-                    else:
-                        cml_interface = [
-                            klass[1] for klass in inspect.getmembers(sklw)
-                            if klass[0] == 'automatic_run'
-                        ][0]
-                        cmli = cml_interface(self.stack, parameters, block_id, task,
-                                             name, library)
-                        cmli.run()
-                elif library == 'chemml':
-                    # check methods
-                    legal_names = [
-                        klass[0] for klass in inspect.getmembers(cmlw)
-                    ]
-                    if name not in legal_names:
-                        msg = "@name #%i: couldn't find name '%s' in the module '%s' wrarpper" % (
-                            block_id, name, library)
-                        raise NameError(msg)
-                    cml_interface = [
-                        klass[1] for klass in inspect.getmembers(cmlw)
-                        if klass[0] == name
-                    ][0]
-                    cmli = cml_interface(self.stack, parameters, block_id, task,
-                                         name, library)
-                    cmli.run()
-                elif library == 'pandas':
-                    # check methods
-                    legal_names = [
-                        klass[0] for klass in inspect.getmembers(pdw)
-                    ]
-                    if name not in legal_names:
-                        msg = "@name #%i: couldn't find name '%s' in the module '%s' wrarpper" % (
-                            block_id, name, library)
-                        raise NameError(msg)
-                    cml_interface = [
-                        klass[1] for klass in inspect.getmembers(pdw)
-                        if klass[0] == name
-                    ][0]
-                    cmli = cml_interface(self.stack, parameters, block_id, task,
-                                         name, library)
-                    cmli.run()
-                """
+                ### run wrappers
+                self.interface(block, block_id)
 
                 # end
                 run_time = tot_exec_time_str(start_time)
@@ -608,8 +588,11 @@ class Wrapper():
             print(tmp_str)
             self.logger.info(tmp_str)
 
-            tmp_str = '* Based on the dependencies, we run nodes in the \n' \
-                      '  following order:\n '
+            tmp_str = '* Based on the dependencies, we run nodes in the '
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = '  following order:'
             print(tmp_str)
             self.logger.info(tmp_str)
 
@@ -621,7 +604,11 @@ class Wrapper():
             tmp_str = "\n"
             print(tmp_str)
 
-            tmp_str = '* The outputs will be stored in the following \n  directory: %s' % self.output_dir
+            tmp_str = '* The outputs will be stored in the following '
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = 'directory: %s' % self.output_dir
             print(tmp_str)
             self.logger.info(tmp_str)
 
@@ -639,6 +626,10 @@ class Wrapper():
             self.logger.info(tmp_str)
 
         elif level == 'block_end':
+            tmp_str = "\n"
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
             tmp_str = "| ... done!"
             print(tmp_str)
             self.logger.info(tmp_str)
@@ -664,7 +655,191 @@ class Wrapper():
             print(tmp_str)
             self.logger.info(tmp_str)
 
+        elif level == 'output':
+            if not self.prettyprint_output:
+                tmp_str = "... preparing outputs:"
+                print(tmp_str)
+                self.logger.info(tmp_str)
+                self.prettyprint_output = True
 
+            tmp_str = "      name: %s"%args[0]
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = "      size: %i bytes (total: %i bytes)"%(args[1][0],args[1][1])
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            tmp_str = "      type: %s"%str(type(args[2]))
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+            if isinstance(args[2], np.ndarray) or isinstance(args[2], pd.DataFrame):
+                tmp_str = "      shape: %s"%str(args[2].shape)
+                print(tmp_str)
+                self.logger.info(tmp_str)
+
+            tmp_str = "      -----"
+            print(tmp_str)
+            self.logger.info(tmp_str)
+
+
+    @staticmethod
+    def get_func_output(function_output_, output, name, library, module, method_name=None):
+        """
+        maps the output name to the index of output for functions/methods that return more than one.
+        Parameters
+        ----------
+        function_output_: list or anything else
+            the returned outputs of a function
+
+        output: str
+            output name (token name)
+
+        name: str
+            function/class name
+
+        library: str
+            name of library
+
+        module: str
+            name of submodule
+
+        method_name: str, optional (default=None)
+            name of a method if it's a class
+
+        Returns
+        -------
+        -1
+            if it's a single-output
+
+        int, 0 or positive
+            if it's a multi-output function: the exact index of output
+
+        """
+        lame_metadata = {
+            'sklearn.preprocessing':{
+                'StandardScaler.fit_transform': ['X_new'],
+
+            },
+            'chemml.datasets':{
+                'load_organic_density': ['smiles', 'density', 'descriptors']
+            }
+        }
+
+        # parse metadata
+        if method_name is None:
+            output_names = lame_metadata['%s.%s'%(library,module)][name]
+        else:
+            output_names = lame_metadata['%s.%s'%(library,module)]['%s.%s'%(name,method_name)]
+
+        # extract info from metadata
+        n = len(output_names) # requires info from meta data if more than one
+        # print(function_output_)
+        if n > 1:
+            index = output_names.index(output)
+            return function_output_[index]
+        else:
+            return function_output_
+
+    @staticmethod
+    def run_function(method, inputs):
+        """
+        run function with different input types
+        """
+        if inputs['args'] is None:
+            return method(**inputs['kwargs'])
+        else:
+            return method(*inputs['args'], **inputs['kwargs'])
+
+    def interface(self, block, block_id):
+        # flags
+        self.prettyprint_output = False
+
+        # classifiers
+        name = block["name"]
+        library = block["library"]
+        module = block["module"]
+
+        # get api
+        try:
+            api, api_type = get_api(name, library, module)
+        except:
+            msg = "Unable to import %s from %s.%s" % (name, library, module)
+            self.logger.error(msg)
+            raise ValueError(msg)
+
+        # run api
+        if api_type == 'class':
+            # evaluate inputs
+            inputs = evaluate_inputs(block['inputs'], self.stack, 'class')
+
+            # instantiate class
+            if inputs['obj'] is None:
+                obj = api(**inputs['kwargs'])
+            else:
+                obj = inputs['obj']
+
+            # get method
+            if len(block['method']) > 0:
+
+                # get method and its inputs
+                method = get_method(obj, block['method']['name'])
+                inputs = evaluate_inputs(block['method']['inputs'], self.stack)
+
+                # run method
+                function_output_ = self.run_function(method, inputs)
+
+                # method outputs
+                # requires info from meta data if more than one
+                if len(block['method']['outputs']) > 0:
+                    outputs = block['method']['outputs']
+                    for out_ in outputs:
+                        if outputs[out_]: # if it's True
+                            val = self.get_func_output(function_output_,
+                                                         out_,
+                                                         name, library, module,
+                                                         block['method']['name'])
+                            token = (block_id, out_)
+                            self.stack.push(token, val)
+                            self.prettyprint('output', out_, self.stack.getsizeof(token), val)
+
+            # class outputs (attributes)
+            if len(block['outputs'])>0 :
+                attributes = list(block['outputs'].keys())
+                for attr in attributes:
+                    # all classes can send out an instance of that class, called obj
+                    if attr == 'obj':
+                        token = (block_id, 'obj')
+                        self.stack.push(token, obj)
+                        self.prettyprint('output', attr, self.stack.getsizeof(token), obj)
+                    # the other outputs of a class are attributes of that class
+                    else:
+                        if block['outputs'][attr]: # if it's True
+                            val = get_attributes(obj, attr)
+                            token = (block_id, attr)
+                            self.stack.push(token, val)
+                            self.prettyprint('output', attr, self.stack.getsizeof(token), val)
+
+        elif api_type == 'function':
+            # evaluate function inputs
+            inputs = evaluate_inputs(block['inputs'], self.stack)
+
+            # run function
+            function_output_ = self.run_function(api, inputs)
+
+            # function outputs
+            if len(block['outputs']) > 0:
+                outputs = block['outputs']
+                for out_ in outputs:
+                    if outputs[out_]:  # if it's True
+                        val = self.get_func_output(function_output_,
+                                                   out_,
+                                                   name, library, module,
+                                                   None)
+                        token = (block_id, out_)
+                        self.stack.push(token, val)
+                        self.prettyprint('output', out_, self.stack.getsizeof(token), val)
 
 
 class Settings(object):

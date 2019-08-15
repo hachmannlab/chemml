@@ -60,6 +60,11 @@ class ActiveLearning(object):
             - your budget.
             - the diversity of the pool of candidates (U).
 
+    test_type: str, optional (default = 'passive')
+        The value must be either 'passive' or 'active'.
+        If passive, test set will be sampled randomly at the initialization.
+        If active, test set will be sampled randomly at each round.
+
     batch_size: list, optional (default = [10])
         This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
         our active learning approaches should query every round. The order of active learning approaches are as follows:
@@ -70,7 +75,7 @@ class ActiveLearning(object):
         Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.
 
     history: int, optional (default = 2)
-        This parameter must be a greater than 1 integer. It specifies the number of previous active learning
+        This parameter must be an integer and greater than one. It specifies the number of previous active learning
         rounds to memorize for the distribution shift alleviation (DSA) approach.
 
     Attributes
@@ -118,12 +123,14 @@ class ActiveLearning(object):
 
     """
 
-    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100, batch_size=[10], history=2):
+    def __init__(self, model_creator, U, target_layer, train_size=100, test_size=100,
+                 test_type='passive', batch_size=[10], history=2):
         self.model_creator = model_creator
         self.U = U
         self.target_layer = target_layer
         self.train_size = train_size
         self.test_size = test_size
+        self.test_type = test_type
         self.batch_size = batch_size
         self.history = history
         self._fit()
@@ -224,6 +231,12 @@ class ActiveLearning(object):
             msg = "The train and test size and their sum must be less than the number of unlabeled data (U)"
             raise ValueError(msg)
 
+        # check the test_type value
+        if self.test_type not in ('active', 'passive'):
+            msg = "The parameter 'test_type' must be either 'active' or 'passive'."
+            raise ValueError(msg)
+
+
         # other attributes
         self._queries = []
         self.qbc_queries = []
@@ -232,6 +245,7 @@ class ActiveLearning(object):
         # all indices are numpy arrays
         self.train_indices = np.array([])
         self.test_indices = np.array([])
+        self.initial_test_indices = np.array([])
         self.U_indices = np.array(range(self.U_size))
         self.query_number = 0
         self._Y_train = None
@@ -386,26 +400,27 @@ class ActiveLearning(object):
         Y = np.array(Y)
         # check if Y is 2 dimensional
         if Y.ndim != 2:
-            msg = "The labels Y must be 2 dimensional."
+            msg = "The labels, 'Y', must be 2 dimensional."
             raise ValueError(msg)
 
-        # check the length of all is same
+        # check if the length of indices and labels are same
         if indices.shape[0] != Y.shape[0]:
             msg = "The first dimension of the input Y should be equal to the number of indices."
             raise ValueError(msg)
 
         # check the dimension of ind be one
         if indices.ndim != 1 :
-            msg = "The dimension of 'indices' must be one."
+            msg = "The dimension of 'indices' must be one: array, list, or tuple of indices would suffice."
             raise ValueError(msg)
 
-        # check if ind is a unique array of indices
+        # check if indices are unique
         if len(set(indices)) != len(indices):
             msg = "The indices are not unique. This causes duplicate data and thus results in biased training."
             raise ValueError(msg)
 
         if len(self._queries) > 0:
             match_flag = False
+            self.last_deposited_indices_ = np.array([])
             for query in self._queries:
                 ind_in_q = np.where(np.in1d(indices, query[1], assume_unique=True))[0] # the position of matched numbers in the indices
                 if len(ind_in_q)>0:
@@ -417,7 +432,9 @@ class ActiveLearning(object):
                             self._Y_test = np.append(self._Y_test, Y[ind_in_q], axis=0)
                         # update test_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
-                        self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # list of all indices
+                        self.last_deposited_indices_ = np.append(self.last_deposited_indices_, settled_inds).astype(int)
+                        self.test_indices = np.append(self.test_indices, settled_inds).astype(int)           # array of all indices
+                        self.initial_test_indices = np.append(self.initial_test_indices, settled_inds).astype(int)
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     else:
                         if self._Y_train is None:
@@ -426,6 +443,7 @@ class ActiveLearning(object):
                             self._Y_train = np.append(self._Y_train, Y[ind_in_q], axis=0)
                         # update train_indices and U_indices
                         settled_inds = np.array(indices[ind_in_q])
+                        self.last_deposited_indices_ = np.append(self.last_deposited_indices_, settled_inds).astype(int)
                         self.train_indices = np.append(self.train_indices, settled_inds).astype(int)
                         self.U_indices = np.array([i for i in self.U_indices if i not in settled_inds])
                     # update q_ind and thus _queries
@@ -434,8 +452,11 @@ class ActiveLearning(object):
                 msg = "Can't match the indices with queries."
                 raise ValueError(msg)
             else:
+                msg = "we stored %i of passed indices. A list of them is in the 'last_deposited_indices_' attribute."%len(self.last_deposited_indices_)
+                print(msg)
                 # update queries
                 self._update_queries()
+                _ = self._update_train_test()
                 return True
         else:
             msg = "The `queries` is empty. Can't deposit data if it's not been queried."
@@ -448,6 +469,29 @@ class ActiveLearning(object):
 
         """
         self._queries = [q for q in self._queries if len(q[1])>0]
+
+    def _update_train_test(self):
+        """
+        This function take care of the test_type parameter.
+
+        """
+        if self.test_type == 'passive':
+            return True
+        if len(self._queries) > 0:
+            return True
+        else:
+            # active test split
+            all_indices = np.concatenate([self.train_indices, self.test_indices], axis=0)
+            all_y = np.concatenate([self._Y_train, self._Y_test], axis=0)
+            # select randomly
+            ss = ShuffleSplit(n_splits=1, test_size=self.test_size, train_size=None, random_state=90)
+            for train_indices, test_indices in ss.split(all_indices):
+                # test
+                self._Y_test = all_y[test_indices]
+                self.test_indices = all_indices[test_indices]
+                # train
+                self._Y_train = all_y[train_indices]
+                self.train_indices = all_indices[train_indices]
 
     def _scaler(self, scale):
         """
@@ -973,7 +1017,7 @@ class ActiveLearning(object):
 
         return model, preds, mae, rmse, r2
 
-    def random_search(self, Y, scale=True, n_evaluation=10, random_state=90, **kwargs):
+    def random_search(self, Y, test_type='passive', scale=True, n_evaluation=10, random_state=90, **kwargs):
         """
         This function randomly select same number of data points as the active learning rounds and store the results.
 
@@ -982,6 +1026,13 @@ class ActiveLearning(object):
         Y: array-like
             The 2-dimensional label for all the candidates in the pool. Basically, you won't run this method unless you have the labels
             for all your samples. Otherwise, trust us and perform an active learning search.
+
+        test_type: str, optional (default = 'passive')
+            The parameter value must be either 'passive' or 'active'.
+            If passive, the initial randomly selected test set in the initialize method will be used for evaluation.
+            If active, the current test set of active learning approach will be used for evaluation. Thus, if the test_type in active
+            learning method is 'passive', you should run active and random search back to back and then deposit the data.
+            This way you make sure both active and random search are tested on the same test sets.
 
         scale: bool or list, optional (default = True)
             if True, sklearn.preprocessing.StandardScaler will be used to scale X and Y before training.
@@ -1025,7 +1076,16 @@ class ActiveLearning(object):
             raise ValueError(msg)
 
         # find all indices except test indices
-        except_test_inds = [i for i in range(self.U_size) if i not in self.test_indices]
+        # we must consider the test type: active or passive
+        if test_type == 'passive':
+            test_indices = self.initial_test_indices
+            except_test_inds = [i for i in range(self.U_size) if i not in self.initial_test_indices]
+        elif test_type == 'active':
+            test_indices = self.test_indices
+            except_test_inds = [i for i in range(self.U_size) if i not in self.test_indices]
+        else:
+            msg = "The parameter 'test_type' must be either 'passive' or 'active'."
+            raise ValueError(msg)
 
         # remaining training set size to run ML
         remaining_ind = [i for i in range(len(self._results)) if i not in range(len(self._random_results))]
@@ -1045,9 +1105,9 @@ class ActiveLearning(object):
                 X_tr = self.U[actual_tr_inds]
                 Y_tr = Y[actual_tr_inds]
 
-                # test set same as active learning
-                X_te = self._X_test()
-                Y_te = copy.deepcopy(self._Y_test)
+                # test set based on the test type
+                X_te = self.U[test_indices]
+                Y_te = Y[test_indices]
                 # scale
                 X_scaler, Y_scaler = self._scaler(scale)
                 if X_scaler is not None:

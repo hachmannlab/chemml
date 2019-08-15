@@ -97,6 +97,15 @@ def test_model_single_input():
             train_size=1000,
             batch_size=[1,0,1],
             history=1)
+    # test_type
+    with pytest.raises(ValueError):
+        al = ActiveLearning(
+            model_creator=model_creator_one_input,
+            U=features,
+            target_layer='l3',
+            train_size=50,
+            test_type='fake')
+
 
     # instantiate the class
     al = ActiveLearning(

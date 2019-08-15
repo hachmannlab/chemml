@@ -6,10 +6,13 @@ from __future__ import print_function
 from builtins import range
 import warnings
 import os
+import time
+import pandas as pd
 from lxml import objectify, etree
 
-from ..utils import std_datetime_str, bool_formatter
-
+from chemml.utils import std_datetime_str
+from chemml.utils import bool_formatter
+from chemml.utils import tot_exec_time_str
 
 class Dragon(object):
     """
@@ -44,6 +47,7 @@ class Dragon(object):
         molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths
         script = 'new'
 
+
     Examples
     --------
         >>> import pandas as pd
@@ -51,9 +55,8 @@ class Dragon(object):
         >>> drg = Dragon()
         >>> drg.script_wizard(script='new', output_directory='./')
         >>> drg.run()
-        >>> df_path = drg.data_path  # path to the output file
-        >>> df = pd.read_csv(df_path, sep=None, engine='python')
-        >>> df = df.drop(['No.','NAME'],axis=1)
+        >>> df = drg.convert_to_csv(remove=True)
+        >>> df = df.drop(['No.','NAME'], axis=1)
     """
 
     def __init__(self,
@@ -526,6 +529,7 @@ class Dragon(object):
         print(objectify.dump(self.dragon))
 
     def run(self):
+        t0 = time.time()
         print("running Dragon%i ..." % self.version)
         os_ret = os.system('nohup dragon%sshell -s %s' %
                            (self.version, os.path.join(self.output_directory, self.drs_name)))
@@ -533,5 +537,45 @@ class Dragon(object):
             msg = "Oops, dragon%ishell command didn't work! Are you sure Dragon%i software is installed on your machine?" % (
                 self.version, self.version)
             raise ImportError(msg)
+
+        # execution time
+        tmp_str = tot_exec_time_str(t0)
+        print("... Dragon job completed in %s"%tmp_str)
+
         # print subprocess.check_output(['nohup dragon%sshell -s %s'%(self.version,self.drs)])
-        print("... Dragon job completed!")
+
+    def convert_to_csv(self, remove=True):
+        """
+        This function converts the tab-delimited txt file from Dragon to pandas dataframe.
+        Note that this process might require large memory based on the number of data points and features.
+
+        Parameters
+        ----------
+        remove: bool, optional (default = True)
+            if True, the original descriptors file (Dragon_descriptors.txt) will be removed.
+
+        Returns
+        -------
+        pandas.DataFrame
+            The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.
+
+        """
+        # convert to csv file
+        t0 = time.time()
+        print("converting output file to csv format ...")
+        df = pd.read_csv(self.data_path, sep=None, engine='python')
+        # df = df.drop(['No.', 'NAME'], axis=1)
+
+        # execution time
+        tmp_str = tot_exec_time_str(t0)
+
+        # remove original tab delimited file
+        if remove:
+            os.remove(self.data_path)
+            self.data_path = None
+
+        print("... conversion completed in %s"%tmp_str)
+
+        return df
+
+

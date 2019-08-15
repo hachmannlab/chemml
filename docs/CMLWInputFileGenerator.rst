@@ -4,12 +4,14 @@
 Input File GUI
 ==============
 
+...::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::...
+
 The ChemML wrapper's graphical user interface (GUI) facilitate the generation of the input files.
 You can run GUI locally in the Jupyter notebook with two lines of python code:
 
 .. code:: python
 
-    from chemml.notebooks import wrapperGUI
+    from cheml.notebooks import wrapperGUI
     ui = wrapperGUI()
 
 

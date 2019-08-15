@@ -1,4 +1,4 @@
-chemml.preprocessing module
+Preprocessing module
 ==========================
 
 .. Subpackages

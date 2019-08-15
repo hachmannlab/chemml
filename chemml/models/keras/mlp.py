@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd  # required to load tensorflow properly
 
 from keras.models import Sequential
 from keras.optimizers import SGD

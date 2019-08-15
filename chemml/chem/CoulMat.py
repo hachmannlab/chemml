@@ -218,9 +218,15 @@ class BagofBonds(object):
             In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
             stored or optimized in advance.
 
+        Attributes
+        ----------
+        header_: list
+            Atomic numbers of the atoms in each bag, and in the same order as the output features.
+
         Returns
         -------
-        pandas data frame, shape: (n_molecules, max_length_of_combinations)
+        features: pandas data frame, shape: (n_molecules, max_length_of_combinations)
+            The bag of bond features.
 
         """
         if isinstance(molecules, list):
@@ -243,14 +249,14 @@ class BagofBonds(object):
             for i in range(len(mol)):
                 for j in range(i,len(mol)):
                     if i==j:
-                        key = (mol[i,0], mol[i,0])
+                        key = (mol[i,0],)
                         Fc = 0.5 * mol[i, 0] ** 2.4
                         if key in bags:
                             bags[key].append(Fc)
                         else:
                             bags[key] = [Fc]
                     else:
-                        key = (max(mol[i,0],mol[j,0]),min(mol[i,0],mol[j,0]))
+                        key = (max(mol[i,0],mol[j,0]), min(mol[i,0],mol[j,0]))
                         Fc = (mol[i,0]*mol[j,0]*self.const) / np.linalg.norm(mol[i,1:]-mol[j,1:])
                         if key in bags:
                             bags[key].append(Fc)
@@ -276,11 +282,7 @@ class BagofBonds(object):
         order_headers = list(df.columns)
         output = pd.DataFrame(list(df.sum(1)))
         del df
-        self.header_ = []
+        self.header_= []
         for key in order_headers:
-            if key[0]==key[1]:
-                k = key[0]
-            else:
-                k = key
-            self.header_ += all_keys[key] * [k]
+            self.header_ += all_keys[key] * [key]
         return output

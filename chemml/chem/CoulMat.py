@@ -234,7 +234,7 @@ class BagofBonds(object):
         elif isinstance(molecules, Molecule):
             molecules = np.array([molecules])
         else:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            msg = "The input molecules must be a chemml.chem.Molecule object or a list of objects."
             raise ValueError(msg)
 
         if molecules.ndim > 1:

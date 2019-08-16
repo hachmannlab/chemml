@@ -16,10 +16,12 @@ This code is governed by the MIT licence:
 from __future__ import division, print_function
 
 import numpy as np
-import rdkit
-from rdkit import Chem
 from functools import partial
 from multiprocessing import cpu_count, Pool
+
+import rdkit
+from rdkit import Chem
+from chemml.chem import Molecule
 
 from keras.utils.generic_utils import Progbar
 
@@ -130,7 +132,7 @@ def num_bond_features():
 
 
 def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
-    ''' Padds one axis of an array to a new size
+    """Padds one axis of an array to a new size
 
     This is just a wrapper for np.pad, more usefull when only padding a single axis
 
@@ -144,7 +146,7 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
     # Returns:
         padded_array: np.array
 
-    '''
+    """
     add_size = new_size - array.shape[axis]
     assert add_size >= 0, 'Cannot pad dimension {0} of size {1} to smaller size {2}'.format(axis, array.shape[axis], new_size)
     pad_width = [(0,0)]*len(array.shape)
@@ -158,41 +160,60 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
     return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
 
 
-def tensorise_smiles(smiles, max_degree=5, max_atoms=None):
+def tensorise_smiles(molecules, max_degree=5, max_atoms=None):
     """
-    Takes a list of smiles and turns the graphs in tensor representation.
+    Takes a list of molecules and provides tensor representation of atom and bond features.
 
-    # Arguments:
-        molecules: chemml.chem.Molecule object or list
+    Parameters
+    ----------
+    molecules: chemml.chem.Molecule object or list
+        If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+        In addition, all the molecule objects must provide the SMILES representation.
+        We try to create the SMILES representation if it's not available.
 
-        smiles: a list (or iterable) of smiles representations
-        max_atoms: the maximum number of atoms per molecule (to which all
-            molecules will be padded), use `None` for auto
-        max_degree: max_atoms: the maximum number of neigbour per atom that each
-            molecule can have (to which all molecules will be padded), use `None`
-            for auto
+    max_degree: int, optional (default=5)
+        The maximum number of neighbour per atom that each molecule can have
+        (to which all molecules will be padded), use 'None' for auto
 
-        **NOTE**: It is not recommended to set max_degree to `None`/auto when
-            using `NeuralGraph` layers. Max_degree determines the number of
-            trainable parameters and is essentially a hyperparameter.
-            While models can be rebuilt using different `max_atoms`, they cannot
-            be rebuild for different values of `max_degree`, as the architecture
-            will be different.
+    max_atoms: int, optional (default=None)
+        The maximum number of atoms per molecule (to which all
+        molecules will be padded), use 'None' for auto
 
-            For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)
+    Notes
+    -----
+        It is not recommended to set max_degree to `None`/auto when
+        using `NeuralGraph` layers. Max_degree determines the number of
+        trainable parameters and is essentially a hyperparameter.
+        While models can be rebuilt using different `max_atoms`, they cannot
+        be rebuild for different values of `max_degree`, as the architecture
+        will be different.
+
+        For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)
 
 
-    # Returns:
-        atoms: np.array, An atom feature np.array of size `(molecules, max_atoms, atom_features)`
-        bonds: np.array, A bonds np.array of size `(molecules, max_atoms, max_neighbours)`
-        edges: np.array, A connectivity array of size `(molecules, max_atoms, max_neighbours, bond_features)`
+    Returns
+    -------
+        atoms: ndarray
+            An atom feature array of shape (molecules, max_atoms, atom_features)
+        bonds: ndarray
+            A bonds array of shape (molecules, max_atoms, max_degree)
+        edges: ndarray
+        A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
     TODO:
         * Arguments for sparse vector encoding
 
     """
 
+    if isinstance(molecules, list):
+        molecules = np.array(molecules)
+    elif isinstance(molecules, Molecule):
+        molecules = np.array([molecules])
+    else:
+        msg = "The input molecules must be a chemml.chem.Molecule object or a list of objects."
+        raise ValueError(msg)
+
     # import sizes
-    n = len(smiles)
+    n = len(molecules)
     n_atom_features = num_atom_features()
     n_bond_features = num_bond_features()
 
@@ -203,17 +224,22 @@ def tensorise_smiles(smiles, max_degree=5, max_atoms=None):
     bond_tensor = np.zeros((n, max_atoms or 1, max_degree or 1, n_bond_features))
     edge_tensor = -np.ones((n, max_atoms or 1, max_degree or 1), dtype=int)
 
-    for mol_ix, s in enumerate(smiles):
+    for mol_ix, mol in enumerate(molecules):
 
         #load mol, atoms and bonds
-        mol = Chem.MolFromSmiles(s)
-        assert mol is not None, 'Could not parse smiles {}'.format(s)
-        atoms = mol.GetAtoms()
-        bonds = mol.GetBonds()
+        if mol.rdkit_molecule is None:
+            try:
+                mol.to_smiles()
+            except:
+                msg = "The SMILES representation of the molecule %s can not be generated."%str(mol)
+                raise ValueError(msg)
+
+        atoms = mol.rdkit_molecule.GetAtoms()
+        bonds = mol.rdkit_molecule.GetBonds()
 
         # If max_atoms is exceeded, resize if max_atoms=None (auto), else raise
         if len(atoms) > atom_tensor.shape[1]:
-            assert max_atoms is None, 'too many atoms ({0}) in molecule: {1}'.format(len(atoms), s)
+            assert max_atoms is None, 'too many atoms ({0}) in molecule: {1}'.format(len(atoms), str(mol))
             atom_tensor = padaxis(atom_tensor, len(atoms), axis=1)
             bond_tensor = padaxis(bond_tensor, len(atoms), axis=1)
             edge_tensor = padaxis(edge_tensor, len(atoms), axis=1, pad_value=-1)
@@ -243,7 +269,7 @@ def tensorise_smiles(smiles, max_degree=5, max_atoms=None):
             # If max_degree is exceeded, resize if max_degree=None (auto), else raise
             new_degree = max(a1_neigh, a2_neigh) + 1
             if new_degree > bond_tensor.shape[2]:
-                assert max_degree is None, 'too many neighours ({0}) in molecule: {1}'.format(new_degree, s)
+                assert max_degree is None, 'too many neighours ({0}) in molecule: {1}'.format(new_degree, mol)
                 bond_tensor = padaxis(bond_tensor, new_degree, axis=2)
                 edge_tensor = padaxis(edge_tensor, new_degree, axis=2, pad_value=-1)
 

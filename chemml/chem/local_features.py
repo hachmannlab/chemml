@@ -81,12 +81,14 @@ def bond_features(bond):
 
     """
     bt = bond.GetBondType()
-    return np.array([bt == Chem.rdchem.BondType.SINGLE,
-                     bt == Chem.rdchem.BondType.DOUBLE,
-                     bt == Chem.rdchem.BondType.TRIPLE,
-                     bt == Chem.rdchem.BondType.AROMATIC,
-                     bond.GetIsConjugated(),
-                     bond.IsInRing()])
+    return np.array([
+                     int(bt == Chem.rdchem.BondType.SINGLE),
+                     int(bt == Chem.rdchem.BondType.DOUBLE),
+                     int(bt == Chem.rdchem.BondType.TRIPLE),
+                     int(bt == Chem.rdchem.BondType.AROMATIC),
+                     int(bond.GetIsConjugated()),
+                     int(bond.IsInRing())
+                     ])
 
 
 def num_atom_features():

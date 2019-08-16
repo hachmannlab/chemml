@@ -16,8 +16,7 @@ class ChemicalOrderingAttributeGenerator:
 
     See Also
     --------
-    VoronoiCellBasedAnalysis.get_neighbor_ordering_parameters : Computes
-    Warren-Cowley ordering parameters.
+    VoronoiCellBasedAnalysis.get_neighbor_ordering_parameters : Computes Warren-Cowley ordering parameters.
 
     Notes
     -----

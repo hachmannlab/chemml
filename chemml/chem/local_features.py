@@ -33,7 +33,7 @@ def one_of_k_encoding_unk(x, allowable_set):
     """Maps inputs not in the allowable set to the last element."""
     if x not in allowable_set:
         x = allowable_set[-1]
-    return map(lambda s: x == s, allowable_set)
+    return list(map(lambda s: int(x == s), allowable_set))
 
 
 def atom_features(atom):

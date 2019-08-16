@@ -16,6 +16,7 @@ This code is governed by the MIT licence:
 from __future__ import division, print_function
 
 import numpy as np
+import rdkit
 from rdkit import Chem
 from functools import partial
 from multiprocessing import cpu_count, Pool
@@ -52,6 +53,10 @@ def atom_features(atom):
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
     """
+    if not isinstance(atom, rdkit.Chem.Atom):
+        msg = "The input atom must be an instance of rdkit.Chem.Atom calss."
+        raise ValueError(msg)
+
     return np.array(one_of_k_encoding_unk(atom.GetSymbol(),
                                       ['C', 'N', 'O', 'S', 'F', 'Si', 'P', 'Cl', 'Br', 'Mg', 'Na',
                                        'Ca', 'Fe', 'As', 'Al', 'I', 'B', 'V', 'K', 'Tl', 'Yb',
@@ -80,6 +85,10 @@ def bond_features(bond):
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
     """
+    if not isinstance(bond, rdkit.Chem.Bond):
+        msg = "The input bond must be an instance of rdkit.Chem.Bond calss."
+        raise ValueError(msg)
+
     bt = bond.GetBondType()
     return np.array([
                      int(bt == Chem.rdchem.BondType.SINGLE),

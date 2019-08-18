@@ -18,6 +18,7 @@ from .local_features import atom_features
 from .local_features import bond_features
 from .local_features import num_atom_features
 from .local_features import num_bond_features
+from .local_features import tensorise_molecules
 
 __all__ = [
     'Molecule',
@@ -29,5 +30,6 @@ __all__ = [
     'atom_features',
     'bond_features',
     'num_atom_features',
-    'num_bond_features'
+    'num_bond_features',
+    'tensorise_molecules'
 ]

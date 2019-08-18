@@ -79,7 +79,7 @@ class CoulombMatrix(object):
 
         Parameters
         ----------
-        molecules: chemml.chem.Molecule object or list
+        molecules: chemml.chem.Molecule object or array
             If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
             In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
             stored or optimized in advance.
@@ -95,7 +95,7 @@ class CoulombMatrix(object):
                 - shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)
                 - shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)
         """
-        if isinstance(molecules, list):
+        if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
             molecules = np.array(molecules)
         elif isinstance(molecules, Molecule):
             molecules = np.array([molecules])
@@ -213,7 +213,7 @@ class BagofBonds(object):
 
         Parameters
         ----------
-        molecules: chemml.chem.Molecule object or list
+        molecules: chemml.chem.Molecule object or array
             If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
             In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
             stored or optimized in advance.
@@ -229,7 +229,7 @@ class BagofBonds(object):
             The bag of bond features.
 
         """
-        if isinstance(molecules, list):
+        if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
             molecules = np.array(molecules)
         elif isinstance(molecules, Molecule):
             molecules = np.array([molecules])

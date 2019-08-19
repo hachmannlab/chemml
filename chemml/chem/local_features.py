@@ -26,12 +26,6 @@ from chemml.chem import Molecule
 from keras.utils.generic_utils import Progbar
 
 
-def one_of_k_encoding(x, allowable_set):
-    if x not in allowable_set:
-        raise Exception("input {0} not in allowable set{1}:".format(x, allowable_set))
-    return map(lambda s: x == s, allowable_set)
-
-
 def one_of_k_encoding_unk(x, allowable_set):
     """Maps inputs not in the allowable set to the last element."""
     if x not in allowable_set:
@@ -50,7 +44,7 @@ def atom_features(atom):
 
     Returns
     -------
-    ndarray:
+    features: array
         A binary array with length 6 that specifies the type of bond, if it is
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
@@ -82,7 +76,7 @@ def bond_features(bond):
 
     Returns
     -------
-    ndarray:
+    features: array
         A binary array with length 6 that specifies the type of bond, if it is
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
@@ -108,7 +102,7 @@ def num_atom_features():
 
     Returns
     -------
-    int:
+    n_features: int
         length of atomic feature vector.
     """
     m = Chem.MolFromSmiles('CC')
@@ -123,7 +117,7 @@ def num_bond_features():
 
     Returns
     -------
-    int:
+    n_features: int
         length of bond feature vector.
     """
     simple_mol = Chem.MolFromSmiles('CC')
@@ -193,11 +187,11 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
 
     Returns
     -------
-        atoms: ndarray
+        atoms: array
             An atom feature array of shape (molecules, max_atoms, atom_features)
-        bonds: ndarray
+        bonds: array
             A bonds array of shape (molecules, max_atoms, max_degree)
-        edges: ndarray
+        edges: array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
     TODO:
         * Arguments for sparse vector encoding
@@ -397,11 +391,11 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
 
     Returns
     -------
-        atoms: ndarray
+        atoms: array
             An atom feature array of shape (molecules, max_atoms, atom_features)
-        bonds: ndarray
+        bonds: array
             A bonds array of shape (molecules, max_atoms, max_degree)
-        edges: ndarray
+        edges: array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
 
 

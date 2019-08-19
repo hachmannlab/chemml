@@ -1,36 +1,34 @@
 import pytest
 
-from chemml.chem import bond_features
-from chemml.chem import num_bond_features
+from chemml.chem import tensorise_molecules
 from chemml.chem import Molecule
 
 
 @pytest.fixture()
 def mols():
-    m = Molecule('c1ccc1', 'smiles')
-    return m
+    m1 = Molecule('c1ccc1', 'smiles')
+    m2 = Molecule('CNC', 'smiles')
+
+    molecules = [m1, m2]
+
+    return molecules
 
 
-def test_exception(mols):
-    # not an atom
+def test_exception():
+    # not a molecule
     with pytest.raises(ValueError):
-        bond_features(mols)
+        tensorise_molecules('mol')
+
+    # not a list of molecules
+    with pytest.raises(Exception):
+        tensorise_molecules(['mol1', 'mol2'])
 
 
-def test_num_atom_features():
-    n = num_bond_features()
-    assert n == 6
+def test_tensorise_molecules(mols):
 
+    a,b,d = tensorise_molecules(mols, batch_size=1)
 
-def test_atom_features(mols):
-    bond = mols.rdkit_molecule.GetBonds()[0]
-    x = bond_features(bond)
+    assert a.shape[0] == 2
+    assert b.shape[1] == 4
+    assert d.shape[2] == 5
 
-    # double bond
-    assert x[1] == 1
-
-    # it's conjugated
-    assert x[-1] == 1
-
-    # it's in a ring
-    assert x[-2] == 1

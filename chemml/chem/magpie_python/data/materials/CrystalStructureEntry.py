@@ -276,8 +276,6 @@ class CrystalStructureEntry(CompositionEntry):
     def clear_representations(self):
         """Function to clear out the representations used when computing
         attributes.
-
-
         """
 
         self.voronoi = None

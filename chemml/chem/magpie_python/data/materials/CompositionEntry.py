@@ -12,7 +12,6 @@ from ...data.materials.util.LookUpData import LookUpData
 @total_ordering
 class CompositionEntry(object):
     """Class that defines a CompositionEntry object.
-
     Mainly used to store ids, names and fractions of elements belonging to a
     single compound.
 
@@ -102,7 +101,6 @@ class CompositionEntry(object):
 
     def parse_composition(self, composition):
         """Function to parse a string containing the composition.
-
         Supports parentheses and addition compounds (ex: Na_2CO_3-10H_2O).
         Note, will not properly parse addition compounds inside parentheses
         (ex: Na_2(CO_3 - 10H_2O)_1).
@@ -239,7 +237,6 @@ class CompositionEntry(object):
     def set_composition(self, amounts, element_ids=None, element_names=None,
                         to_sort=True):
         """Function to set the composition of this entry.
-
         Checks to make sure all elements have positive amounts.
 
         Parameters
@@ -454,7 +451,6 @@ class CompositionEntry(object):
 
     def __hash__(self):
         """Function to compute the hashcode of this instance.
-
         Computes the hashcode of the list of element ids and fractions
         separately. Then does the logical XOR operation between the two
         hashcodes and 1 and returns the result.
@@ -531,7 +527,6 @@ class CompositionEntry(object):
     def sort_and_normalize(self, to_sort=True):
         """Function to sort the element ids based on their electronegativity
         order and normalizes the fractions.
-
         Makes sure the entry is in a proper format. Must be run from
         constructor.
 

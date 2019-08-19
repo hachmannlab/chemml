@@ -5,11 +5,9 @@ from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class StructuralHeterogeneityAttributeGenerator:
     """Class to compute attributes based on heterogeneity in structure.
-
     Measures variance in bond lengths (both for a single atom and between
     different atoms) and atomic volumes. Also considers the number of unique
     coordination polyhedron shapes.
-
     Bond lengths, atomic volumes, and coordination polyhedra are based on the
     Voronoi tessellation of the structure.
 

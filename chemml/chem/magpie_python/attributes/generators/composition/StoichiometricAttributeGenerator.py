@@ -6,7 +6,6 @@ from ....data.materials.CompositionEntry import CompositionEntry
 class StoichiometricAttributeGenerator:
     """Class to set up and generate descriptors based on the stoichiometry of a
     given material.
-
     Includes features that are only based on fractions of elements, but not
     what those elements actually are.
 

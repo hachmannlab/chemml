@@ -7,7 +7,6 @@ from ....vassal.analysis.PairDistanceAnalysis import PairDistanceAnalysis
 class PRDFRegression:
     """Class that uses the partial radial distribution function to perform
     regression.
-
     Each material is represented by a matrix containing the PRDF
     between each element type. Distance between structures are computed as
     Frobenius norm of the difference between their PRDF matrices. If you use

@@ -160,13 +160,13 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
     return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
 
 
-def tensorise_smiles(molecules, max_degree=5, max_atoms=None):
+def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
     """
     Takes a list of molecules and provides tensor representation of atom and bond features.
 
     Parameters
     ----------
-    molecules: chemml.chem.Molecule object or list
+    molecules: chemml.chem.Molecule object or array
         If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
         In addition, all the molecule objects must provide the SMILES representation.
         We try to create the SMILES representation if it's not available.
@@ -203,8 +203,8 @@ def tensorise_smiles(molecules, max_degree=5, max_atoms=None):
         * Arguments for sparse vector encoding
 
     """
-
-    if isinstance(molecules, list):
+    # molecules
+    if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
         molecules = np.array(molecules)
     elif isinstance(molecules, Molecule):
         molecules = np.array([molecules])
@@ -274,15 +274,15 @@ def tensorise_smiles(molecules, max_degree=5, max_atoms=None):
                 edge_tensor = padaxis(edge_tensor, new_degree, axis=2, pad_value=-1)
 
             # store bond features
-            bond_features = np.array(bond_features(bond), dtype=int)
-            bond_tensor[mol_ix, a1_ix, a1_neigh, :] = bond_features
-            bond_tensor[mol_ix, a2_ix, a2_neigh, :] = bond_features
+            bond_feature = np.array(bond_features(bond), dtype=int)
+            bond_tensor[mol_ix, a1_ix, a1_neigh, :] = bond_feature
+            bond_tensor[mol_ix, a2_ix, a2_neigh, :] = bond_feature
 
-            #add to connectivity matrix
+            # add to connectivity matrix
             connectivity_mat[a1_ix].append(a2_ix)
             connectivity_mat[a2_ix].append(a1_ix)
 
-        #store connectivity matrix
+        # store connectivity matrix
         for a1_ix, neighbours in enumerate(connectivity_mat):
             degree = len(neighbours)
             edge_tensor[mol_ix, a1_ix, : degree] = neighbours
@@ -291,7 +291,7 @@ def tensorise_smiles(molecules, max_degree=5, max_atoms=None):
 
 
 def concat_mol_tensors(mol_tensors_list, match_degree=True, match_max_atoms=False):
-    '''Concatenates a list of molecule tensors
+    """Concatenates a list of molecule tensors
 
     # Arguments:
         mol_tensor_list: list of molecule tensors (e.g. list of
@@ -302,7 +302,7 @@ def concat_mol_tensors(mol_tensors_list, match_degree=True, match_max_atoms=Fals
 
     # Retuns:
         a single molecule tensor (as returned by `tensorise_smiles`)
-    '''
+    """
 
     assert isinstance(mol_tensors_list, (tuple, list)), 'Provide a list or tuple of molecule tensors to concatenate'
 
@@ -353,27 +353,76 @@ def concat_mol_tensors(mol_tensors_list, match_degree=True, match_max_atoms=Fals
     return atoms, bonds, edges
 
 
-def tensorise_smiles_mp(smiles, max_degree=5, max_atoms=None, workers=cpu_count()-1, chunksize=3000, verbose=True):
-    ''' Multiprocess implementation of `tensorise_smiles`
+def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batch_size=3000, verbose=True):
+    """
+    Takes a list of molecules and provides tensor representation of atom and bond features.
+    This representation is based on the "convolutional networks on graphs for learning molecular fingerprints" by
+    David Duvenaud et al., NIPS 2015.
 
-    # Arguments:
-        See `tensorise_smiles` documentation
+    Parameters
+    ----------
+    molecules: chemml.chem.Molecule object or array
+        If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+        In addition, all the molecule objects must provide the SMILES representation.
+        We try to create the SMILES representation if it's not available.
 
-    # Additional arguments:
-        workers: int, num parallel processes
-        chunksize: int, num molecules tensorised per worker, bigger chunksize is
-            preffered as each process will preallocate np.arrays
+    max_degree: int, optional (default=5)
+        The maximum number of neighbour per atom that each molecule can have
+        (to which all molecules will be padded), use 'None' for auto
 
-    # Returns:
-        See `tensorise_smiles` documentation
+    max_atoms: int, optional (default=None)
+        The maximum number of atoms per molecule (to which all
+        molecules will be padded), use 'None' for auto
+
+    n_jobs: int, optional(default=-1)
+        The number of parallel processes. If -1, uses all cores minus one.
+
+    batch_size: int, optional(default=3000)
+        The number of molecules per cpu worker, bigger chunksize is preffered as each process will preallocate np.arrays
+
+    verbose: bool, optional(default=True)
+        The verbosity of messages.
+
+    Notes
+    -----
+        It is not recommended to set max_degree to `None`/auto when
+        using `NeuralGraph` layers. Max_degree determines the number of
+        trainable parameters and is essentially a hyperparameter.
+        While models can be rebuilt using different `max_atoms`, they cannot
+        be rebuild for different values of `max_degree`, as the architecture
+        will be different.
+
+        For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)
+
+
+    Returns
+    -------
+        atoms: ndarray
+            An atom feature array of shape (molecules, max_atoms, atom_features)
+        bonds: ndarray
+            A bonds array of shape (molecules, max_atoms, max_degree)
+        edges: ndarray
+        A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
+
 
     # TODO:
         - fix python keyboardinterrupt bug:
           https://noswap.com/blog/python-multiprocessing-keyboardinterrupt
         - replace progbar with proper logging
-    '''
+    """
+    # molecules
+    if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
+        molecules = np.array(molecules)
+    elif isinstance(molecules, Molecule):
+        molecules = np.array([molecules])
+    else:
+        msg = "The input molecules must be a chemml.chem.Molecule object or a list of objects."
+        raise ValueError(msg)
 
-    pool = Pool(processes=workers)
+    # pool of processes
+    if n_jobs == -1:
+        n_jobs = cpu_count()-1
+    pool = Pool(processes=n_jobs)
 
     # Create an iterator
     #http://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
@@ -381,18 +430,18 @@ def tensorise_smiles_mp(smiles, max_degree=5, max_atoms=None, workers=cpu_count(
         """Yield successive n-sized chunks from l."""
         for i in range(0, len(l), n):
             yield l[i:i + n]
-    smiles_chunks = chunks(smiles, chunksize)
+    smiles_chunks = chunks(molecules, batch_size)
 
     # MAP: Tensorise in parallel
-    map_function = partial(tensorise_smiles, max_degree=max_degree, max_atoms=max_atoms)
+    map_function = partial(tensorise_molecules_singlecore, max_degree=max_degree, max_atoms=max_atoms)
     if verbose:
-        print('Tensorising molecules in batches...')
-        pbar = Progbar(len(smiles), width=50)
+        print('Tensorising molecules in batches of %i ...'%batch_size)
+        pbar = Progbar(len(molecules), width=50)
         tensor_list = []
         for tensors in pool.imap(map_function, smiles_chunks):
             pbar.add(tensors[0].shape[0])
             tensor_list.append(tensors)
-        print('Merging batch tensors...    ', end='')
+        print('Merging batch tensors ...    ', end='')
     else:
         tensor_list = pool.map(map_function, smiles_chunks)
     if verbose:

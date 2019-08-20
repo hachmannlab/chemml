@@ -22,6 +22,7 @@ from multiprocessing import cpu_count, Pool
 import rdkit
 from rdkit import Chem
 from chemml.chem import Molecule
+from chemml.utils import padaxis
 
 from keras.utils.generic_utils import Progbar
 
@@ -123,35 +124,6 @@ def num_bond_features():
     simple_mol = Chem.MolFromSmiles('CC')
     Chem.SanitizeMol(simple_mol)
     return len(bond_features(simple_mol.GetBonds()[0]))
-
-
-def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
-    """Padds one axis of an array to a new size
-
-    This is just a wrapper for np.pad, more usefull when only padding a single axis
-
-    # Arguments:
-        array: the array to pad
-        new_size: the new size of the specified axis
-        axis: axis along which to pad
-        pad_value: pad value,
-        pad_right: boolean, pad on the right or left side
-
-    # Returns:
-        padded_array: np.array
-
-    """
-    add_size = new_size - array.shape[axis]
-    assert add_size >= 0, 'Cannot pad dimension {0} of size {1} to smaller size {2}'.format(axis, array.shape[axis], new_size)
-    pad_width = [(0,0)]*len(array.shape)
-
-    #pad after if int is provided
-    if pad_right:
-        pad_width[axis] = (0, add_size)
-    else:
-        pad_width[axis] = (add_size, 0)
-
-    return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
 
 
 def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
@@ -369,10 +341,10 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         molecules will be padded), use 'None' for auto
 
     n_jobs: int, optional(default=-1)
-        The number of parallel processes. If -1, uses all cores minus one.
+        The number of parallel processes. If -1, uses all minus one.
 
     batch_size: int, optional(default=3000)
-        The number of molecules per cpu worker, bigger chunksize is preffered as each process will preallocate np.arrays
+        The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays
 
     verbose: bool, optional(default=True)
         The verbosity of messages.
@@ -424,7 +396,7 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         """Yield successive n-sized chunks from l."""
         for i in range(0, len(l), n):
             yield l[i:i + n]
-    smiles_chunks = chunks(molecules, batch_size)
+    molecule_chunks = chunks(molecules, batch_size)
 
     # MAP: Tensorise in parallel
     map_function = partial(tensorise_molecules_singlecore, max_degree=max_degree, max_atoms=max_atoms)
@@ -432,12 +404,12 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         print('Tensorising molecules in batches of %i ...'%batch_size)
         pbar = Progbar(len(molecules), width=50)
         tensor_list = []
-        for tensors in pool.imap(map_function, smiles_chunks):
+        for tensors in pool.imap(map_function, molecule_chunks):
             pbar.add(tensors[0].shape[0])
             tensor_list.append(tensors)
         print('Merging batch tensors ...    ', end='')
     else:
-        tensor_list = pool.map(map_function, smiles_chunks)
+        tensor_list = pool.map(map_function, molecule_chunks)
     if verbose:
         print('[DONE]')
 

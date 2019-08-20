@@ -12,6 +12,7 @@ from .utilities import chunk
 # from .utilities import choice
 # from .utilities import return2Dshape
 from .utilities import bool_formatter
+from .utilities import padaxis
 
 from .validation import isfloat
 from .validation import islist

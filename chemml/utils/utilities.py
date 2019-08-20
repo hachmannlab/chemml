@@ -128,7 +128,7 @@ def tot_exec_time_str(time_start):
 
 def chunk(xs, n, X=None, Y=None):
     """
-    X and Y must be np array
+    X and Y must be numpy array
     n is the number of chunks (#total_batch).
 
     Examples
@@ -143,9 +143,9 @@ def chunk(xs, n, X=None, Y=None):
     leftovers= ys[size*n:]
     for c in range(n):
         if leftovers:
-           extra= [ leftovers.pop() ] 
+           extra = [ leftovers.pop() ]
         else:
-           extra= []
+           extra = []
         if isinstance(X,np.ndarray):
             if isinstance(Y, np.ndarray):
                 yield X[ys[c*size:(c+1)*size] + extra], Y[ys[c*size:(c+1)*size] + extra]
@@ -220,3 +220,44 @@ def bool_formatter(bool_value):
     else:
         msg = "bool_value must be a boolean"
         raise ValueError(msg)
+
+
+def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
+    """
+    Padds one axis of an array to a new size
+
+    This is just a wrapper for np.pad, more usefull when only padding a single axis
+
+    Parameters
+    ----------
+    array: array
+        the array to pad
+
+    new_size: int
+        the new size of the specified axis
+
+    axis: int
+        axis along which to pad
+
+    pad_value: float or int, optional(default=0)
+        pad value
+
+    pad_right: bool, optional(default=True)
+        if True pad on the right side, otherwise pad on left side
+
+    Returns
+    -------
+        padded_array: np.array
+
+    """
+    add_size = new_size - array.shape[axis]
+    assert add_size >= 0, 'Cannot pad dimension {0} of size {1} to smaller size {2}'.format(axis, array.shape[axis], new_size)
+    pad_width = [(0,0)]*len(array.shape)
+
+    #pad after if int is provided
+    if pad_right:
+        pad_width[axis] = (0, add_size)
+    else:
+        pad_width[axis] = (add_size, 0)
+
+    return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)

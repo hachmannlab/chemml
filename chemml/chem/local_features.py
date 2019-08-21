@@ -341,7 +341,7 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         molecules will be padded), use 'None' for auto
 
     n_jobs: int, optional(default=-1)
-        The number of parallel processes. If -1, uses all minus one.
+        The number of parallel processes. If -1, uses all the available processes.
 
     batch_size: int, optional(default=3000)
         The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays
@@ -387,7 +387,7 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
 
     # pool of processes
     if n_jobs == -1:
-        n_jobs = cpu_count()-1
+        n_jobs = cpu_count()
     pool = Pool(processes=n_jobs)
 
     # Create an iterator

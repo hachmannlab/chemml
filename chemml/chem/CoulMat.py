@@ -397,11 +397,15 @@ class BagofBonds(object):
         pool.join()
         return self.concat_mol_features(bbs_info)
 
-
     def _represent(self, molecules):
         BBs_matrix = [] # list of dictionaries for each molecule
         all_keys = {}   # dictionary of unique keys and their maximum length
-        for nmol,mol in enumerate(molecules):
+        for nmol, mol in enumerate(molecules):
+            # check molecules
+            if not isinstance(mol, Molecule):
+                msg = "The input molecules must be chemml.chem.Molecule object."
+                raise ValueError(msg)
+
             bags = {}
             mol = np.append(mol.xyz.atomic_numbers, mol.xyz.geometry, axis=1)
             for i in range(len(mol)):
@@ -446,14 +450,14 @@ class BagofBonds(object):
         """
         assert isinstance(bbs_info, (tuple, list)), 'Provide a list or tuple of molecule features to concatenate'
 
-        # join the list of bbs_matrix
-        bbs_matrix = list(itertools.chain.from_iterable(bbs_info[0]))
-
-        # join all the keys
-        keys_list = bbs_info[1]
-        print(keys_list)
+        bbs_matrix = []
         all_keys = {}
-        for keys in keys_list:
+        for item in bbs_info:
+            # join the list of bbs_matrix
+            bbs_matrix += item[0]
+
+            # join all the keys
+            keys = item[1]
             for key in keys:
                 if key in all_keys:
                     all_keys[key] = max(all_keys[key], keys[key])

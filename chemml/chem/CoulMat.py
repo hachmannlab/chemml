@@ -4,7 +4,6 @@ import numpy as np
 
 from functools import partial
 from multiprocessing import cpu_count, Pool
-import itertools
 
 from keras.utils.generic_utils import Progbar
 
@@ -403,7 +402,7 @@ class BagofBonds(object):
         for nmol, mol in enumerate(molecules):
             # check molecules
             if not isinstance(mol, Molecule):
-                msg = "The input molecules must be chemml.chem.Molecule object."
+                msg = "The input molecules must be chemml.chem.Molecule object with xyz information."
                 raise ValueError(msg)
 
             bags = {}

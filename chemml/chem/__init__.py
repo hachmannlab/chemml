@@ -5,6 +5,9 @@ The chemml.chem module includes (please click on links adjacent to function name
     - CoulombMatrix: :func:`~chemml.chem.CoulombMatrix`
     - BagofBonds: :func:`~chemml.chem.BagofBonds`
     - RDKitFingerprint: :func:`~chemml.chem.RDKitFingerprint`
+    - atom_features: :func:`~chemml.chem.atom_features`
+    - bond_features: :func:`~chemml.chem.bond_features`
+    - tensorise_molecules: :func:`~chemml.chem.tensorise_molecules`
     - Dragon: :func:`~chemml.chem.Dragon`
 """
 

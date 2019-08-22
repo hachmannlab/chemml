@@ -165,10 +165,8 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
             A bonds array of shape (molecules, max_atoms, max_degree)
         edges: array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
-    TODO:
-        * Arguments for sparse vector encoding
-
     """
+    # TODO: Arguments for sparse vector encoding
     # molecules
     if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
         molecules = np.array(molecules)
@@ -369,13 +367,12 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
             A bonds array of shape (molecules, max_atoms, max_degree)
         edges: array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
-
-
-    # TODO:
-        - fix python keyboardinterrupt bug:
-          https://noswap.com/blog/python-multiprocessing-keyboardinterrupt
-        - replace progbar with proper logging
     """
+    # TODO:
+    #  - fix python keyboardinterrupt bug:
+    #  https://noswap.com/blog/python-multiprocessing-keyboardinterrupt
+    #  - replace progbar with proper logging
+
     # molecules
     if isinstance(molecules, list) or isinstance(molecules, np.ndarray):
         molecules = np.array(molecules)

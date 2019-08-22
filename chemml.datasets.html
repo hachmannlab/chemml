@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Datasets module &mdash; ChemML 0.5.4 documentation</title>
+  <title>Datasets module &mdash; ChemML  documentation</title>
   
 
   
@@ -17,34 +17,38 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="chemml.preprocessing module" href="chemml.preprocessing.html" />
+    <link rel="next" title="Preprocessing module" href="chemml.preprocessing.html" />
     <link rel="prev" title="Initialization module" href="chemml.initialization.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,10 +60,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -103,10 +103,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -197,55 +197,54 @@
 </style>
 <div class="section" id="datasets-module">
 <h1>Datasets module<a class="headerlink" href="#datasets-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-chemml.datasets"></span><dl class="docutils">
-<dt>The chemml.datasets module includes (please click on links adjacent to function names for more information):</dt>
-<dd><ul class="first last simple">
-<li>load_cep_homo: <a class="reference internal" href="#chemml.datasets.load_cep_homo" title="chemml.datasets.load_cep_homo"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_cep_homo()</span></code></a></li>
-<li>load_organic_density: <a class="reference internal" href="#chemml.datasets.load_organic_density" title="chemml.datasets.load_organic_density"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_organic_density()</span></code></a></li>
-<li>load_xyz_polarizability: <a class="reference internal" href="#chemml.datasets.load_xyz_polarizability" title="chemml.datasets.load_xyz_polarizability"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_xyz_polarizability()</span></code></a></li>
-<li>load_comp_energy: <a class="reference internal" href="#chemml.datasets.load_comp_energy" title="chemml.datasets.load_comp_energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_comp_energy()</span></code></a></li>
-<li>load_crystal_structures: <a class="reference internal" href="#chemml.datasets.load_crystal_structures" title="chemml.datasets.load_crystal_structures"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_crystal_structures()</span></code></a></li>
+<span class="target" id="module-chemml.datasets"></span><dl class="simple">
+<dt>The chemml.datasets module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
+<li><p>load_cep_homo: <a class="reference internal" href="#chemml.datasets.load_cep_homo" title="chemml.datasets.load_cep_homo"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_cep_homo()</span></code></a></p></li>
+<li><p>load_organic_density: <a class="reference internal" href="#chemml.datasets.load_organic_density" title="chemml.datasets.load_organic_density"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_organic_density()</span></code></a></p></li>
+<li><p>load_xyz_polarizability: <a class="reference internal" href="#chemml.datasets.load_xyz_polarizability" title="chemml.datasets.load_xyz_polarizability"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_xyz_polarizability()</span></code></a></p></li>
+<li><p>load_comp_energy: <a class="reference internal" href="#chemml.datasets.load_comp_energy" title="chemml.datasets.load_comp_energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_comp_energy()</span></code></a></p></li>
+<li><p>load_crystal_structures: <a class="reference internal" href="#chemml.datasets.load_crystal_structures" title="chemml.datasets.load_crystal_structures"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_crystal_structures()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="function">
 <dt id="chemml.datasets.load_cep_homo">
-<code class="descclassname">chemml.datasets.</code><code class="descname">load_cep_homo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_cep_homo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">chemml.datasets.</code><code class="sig-name descname">load_cep_homo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_cep_homo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return a small sample of HOMO energies of organic photovoltaic candidates from CEP database (regression).
 Clean Energy Project (CEP) database is available at: <a class="reference external" href="https://cepdb.molecularspace.org">https://cepdb.molecularspace.org</a>
 The unit of HOMO (highest occupied molecular orbitals) energies is electron Volt (eV).
 The photovaltaic candidates are provided using SMILES representation.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="55%" />
-<col width="45%" />
+<col style="width: 55%" />
+<col style="width: 45%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rows</td>
-<td>500</td>
+<tbody>
+<tr class="row-odd"><td><p>rows</p></td>
+<td><p>500</p></td>
 </tr>
-<tr class="row-even"><td>Columns</td>
-<td>2</td>
+<tr class="row-even"><td><p>Columns</p></td>
+<td><p>2</p></td>
 </tr>
-<tr class="row-odd"><td>headers</td>
-<td>smiles,homo_eV</td>
+<tr class="row-odd"><td><p>headers</p></td>
+<td><p>smiles,homo_eV</p></td>
 </tr>
-<tr class="row-even"><td>molecules rep.</td>
-<td>SMILES</td>
+<tr class="row-even"><td><p>molecules rep.</p></td>
+<td><p>SMILES</p></td>
 </tr>
-<tr class="row-odd"><td>Features</td>
-<td>0</td>
+<tr class="row-odd"><td><p>Features</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td>Returns</td>
-<td>2 dataframes</td>
+<tr class="row-even"><td><p>Returns</p></td>
+<td><p>2 dataframes</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>pandas dataframe</dt>
-<dd>The SMILES representation of molecules, shape: (500,1)</dd>
-<dt>pandas dataframe</dt>
-<dd>The HOMO energies of the molecules (eV), shape: (500,1)</dd>
+<dl class="simple">
+<dt>pandas dataframe</dt><dd><p>The SMILES representation of molecules, shape: (500,1)</p>
+</dd>
+<dt>pandas dataframe</dt><dd><p>The HOMO energies of the molecules (eV), shape: (500,1)</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_cep_homo</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smi</span><span class="p">,</span> <span class="n">homo</span>  <span class="o">=</span> <span class="n">load_cep_homo</span><span class="p">()</span>
@@ -259,41 +258,41 @@ The photovaltaic candidates are provided using SMILES representation.</p>
 
 <dl class="function">
 <dt id="chemml.datasets.load_organic_density">
-<code class="descclassname">chemml.datasets.</code><code class="descname">load_organic_density</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_organic_density" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">chemml.datasets.</code><code class="sig-name descname">load_organic_density</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_organic_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return 500 small organic molecules with their density and molecular descriptors.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rows</td>
-<td>500</td>
+<tbody>
+<tr class="row-odd"><td><p>rows</p></td>
+<td><p>500</p></td>
 </tr>
-<tr class="row-even"><td>Columns</td>
-<td>202</td>
+<tr class="row-even"><td><p>Columns</p></td>
+<td><p>202</p></td>
 </tr>
-<tr class="row-odd"><td>last twoo headers</td>
-<td>smiles,density_Kg/m3</td>
+<tr class="row-odd"><td><p>last twoo headers</p></td>
+<td><p>smiles,density_Kg/m3</p></td>
 </tr>
-<tr class="row-even"><td>molecules rep.</td>
-<td>SMILES</td>
+<tr class="row-even"><td><p>molecules rep.</p></td>
+<td><p>SMILES</p></td>
 </tr>
-<tr class="row-odd"><td>Features</td>
-<td>200</td>
+<tr class="row-odd"><td><p>Features</p></td>
+<td><p>200</p></td>
 </tr>
-<tr class="row-even"><td>Returns</td>
-<td>3 dataframes</td>
+<tr class="row-even"><td><p>Returns</p></td>
+<td><p>3 dataframes</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>pandas dataframe</dt>
-<dd>The SMILES representation of molecules, shape: (500,1)</dd>
-<dt>pandas dataframe</dt>
-<dd>The density of molecules (Kg/m3), shape: (500,1)</dd>
-<dt>pandas dataframe</dt>
-<dd>The molecular descriptors of molecules, shape: (500,200)</dd>
+<dl class="simple">
+<dt>pandas dataframe</dt><dd><p>The SMILES representation of molecules, shape: (500,1)</p>
+</dd>
+<dt>pandas dataframe</dt><dd><p>The density of molecules (Kg/m3), shape: (500,1)</p>
+</dd>
+<dt>pandas dataframe</dt><dd><p>The molecular descriptors of molecules, shape: (500,200)</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_organic_density</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smi</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
@@ -307,41 +306,41 @@ The photovaltaic candidates are provided using SMILES representation.</p>
 
 <dl class="function">
 <dt id="chemml.datasets.load_xyz_polarizability">
-<code class="descclassname">chemml.datasets.</code><code class="descname">load_xyz_polarizability</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_xyz_polarizability" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">chemml.datasets.</code><code class="sig-name descname">load_xyz_polarizability</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_xyz_polarizability" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return xyz files and polarizability (Bohr^3).
 The xyz coordinates of small organic molecules are optimized with BP86/def2svp level of theory.
 Polarizability of the molecules are also calcualted in the same level of thoery.</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rows</td>
-<td>50</td>
+<tbody>
+<tr class="row-odd"><td><p>rows</p></td>
+<td><p>50</p></td>
 </tr>
-<tr class="row-even"><td>Columns</td>
-<td>1</td>
+<tr class="row-even"><td><p>Columns</p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-odd"><td>header</td>
-<td>polarizability</td>
+<tr class="row-odd"><td><p>header</p></td>
+<td><p>polarizability</p></td>
 </tr>
-<tr class="row-even"><td>molecules rep.</td>
-<td>xyz</td>
+<tr class="row-even"><td><p>molecules rep.</p></td>
+<td><p>xyz</p></td>
 </tr>
-<tr class="row-odd"><td>Features</td>
-<td>0</td>
+<tr class="row-odd"><td><p>Features</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td>Returns</td>
-<td>1 dataframe and 1 dict</td>
+<tr class="row-even"><td><p>Returns</p></td>
+<td><p>1 dataframe and 1 dict</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>dictionary</dt>
-<dd>The xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.</dd>
-<dt>pandas dataframe</dt>
-<dd>The polarizability of each molecule as a column of dataframe.</dd>
+<dl class="simple">
+<dt>dictionary</dt><dd><p>The xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.</p>
+</dd>
+<dt>pandas dataframe</dt><dd><p>The polarizability of each molecule as a column of dataframe.</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_xyz_polarizability</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">molecules</span><span class="p">,</span> <span class="n">polarizabilities</span> <span class="o">=</span> <span class="n">load_xyz_polarizability</span><span class="p">()</span>
@@ -355,37 +354,37 @@ Polarizability of the molecules are also calcualted in the same level of thoery.
 
 <dl class="function">
 <dt id="chemml.datasets.load_comp_energy">
-<code class="descclassname">chemml.datasets.</code><code class="descname">load_comp_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_comp_energy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">chemml.datasets.</code><code class="sig-name descname">load_comp_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_comp_energy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return composition entries and formation energies (eV).
 From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/magpie">https://bitbucket.org/wolverton/magpie</a></p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>rows</td>
-<td>630</td>
+<tbody>
+<tr class="row-odd"><td><p>rows</p></td>
+<td><p>630</p></td>
 </tr>
-<tr class="row-even"><td>header</td>
-<td>formation_energy</td>
+<tr class="row-even"><td><p>header</p></td>
+<td><p>formation_energy</p></td>
 </tr>
-<tr class="row-odd"><td>molecules rep.</td>
-<td>composition</td>
+<tr class="row-odd"><td><p>molecules rep.</p></td>
+<td><p>composition</p></td>
 </tr>
-<tr class="row-even"><td>Features</td>
-<td>0</td>
+<tr class="row-even"><td><p>Features</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td>Returns</td>
-<td>1 dataframe and 1 list</td>
+<tr class="row-odd"><td><p>Returns</p></td>
+<td><p>1 dataframe and 1 list</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>list</dt>
-<dd>The list of composition entries from CompositionEntry class.</dd>
-<dt>pandas dataframe</dt>
-<dd>The formation energy for each composition.</dd>
+<dl class="simple">
+<dt>list</dt><dd><p>The list of composition entries from CompositionEntry class.</p>
+</dd>
+<dt>pandas dataframe</dt><dd><p>The formation energy for each composition.</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_comp_energy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">entries</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">load_comp_energy</span><span class="p">()</span>
@@ -397,35 +396,35 @@ From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/
 
 <dl class="function">
 <dt id="chemml.datasets.load_crystal_structures">
-<code class="descclassname">chemml.datasets.</code><code class="descname">load_crystal_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_crystal_structures" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">chemml.datasets.</code><code class="sig-name descname">load_crystal_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.datasets.load_crystal_structures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load and return crystal structure entries.
 From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/magpie">https://bitbucket.org/wolverton/magpie</a></p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>length</td>
-<td>18</td>
+<tbody>
+<tr class="row-odd"><td><p>length</p></td>
+<td><p>18</p></td>
 </tr>
-<tr class="row-even"><td>header</td>
-<td>formation_energy</td>
+<tr class="row-even"><td><p>header</p></td>
+<td><p>formation_energy</p></td>
 </tr>
-<tr class="row-odd"><td>molecules rep.</td>
-<td>composition</td>
+<tr class="row-odd"><td><p>molecules rep.</p></td>
+<td><p>composition</p></td>
 </tr>
-<tr class="row-even"><td>Features</td>
-<td>0</td>
+<tr class="row-even"><td><p>Features</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td>Returns</td>
-<td>1 list</td>
+<tr class="row-odd"><td><p>Returns</p></td>
+<td><p>1 list</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>list</dt>
-<dd>The list of crystal structure entries from CrystalStructureEntry class.</dd>
+<dl class="simple">
+<dt>list</dt><dd><p>The list of crystal structure entries from CrystalStructureEntry class.</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_crystal_structures</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">entries</span> <span class="o">=</span> <span class="n">load_crystal_structures</span><span class="p">()</span>
@@ -445,10 +444,10 @@ From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="chemml.preprocessing.html" class="btn btn-neutral float-right" title="chemml.preprocessing module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="chemml.preprocessing.html" class="btn btn-neutral float-right" title="Preprocessing module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="chemml.initialization.html" class="btn btn-neutral" title="Initialization module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="chemml.initialization.html" class="btn btn-neutral float-left" title="Initialization module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -457,7 +456,7 @@ From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -474,35 +473,16 @@ From Magpie <a class="reference external" href="https://bitbucket.org/wolverton/
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

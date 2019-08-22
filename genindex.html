@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; ChemML 0.5.4 documentation</title>
+  <title>Index &mdash; ChemML  documentation</title>
   
 
   
@@ -18,32 +18,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -55,10 +59,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -183,6 +183,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -234,6 +235,8 @@
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.APRDFAttributeGenerator">APRDFAttributeGenerator (class in chemml.chem.magpie_python)</a>
 </li>
+      <li><a href="chemml.chem.html#chemml.chem.atom_features">atom_features() (in module chemml.chem)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -241,6 +244,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.html#chemml.chem.BagofBonds">BagofBonds (class in chemml.chem)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="chemml.chem.html#chemml.chem.bond_features">bond_features() (in module chemml.chem)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -278,10 +285,10 @@
       </ul></li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StoichiometricAttributeGenerator.clear_p_norms">clear_p_norms() (chemml.chem.magpie_python.StoichiometricAttributeGenerator method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CrystalStructureEntry.clear_representations">clear_representations() (chemml.chem.magpie_python.CrystalStructureEntry method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator.clear_shells">clear_shells() (chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator method)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CompositionEntry.combine_compositions">combine_compositions() (chemml.chem.magpie_python.CompositionEntry method)</a>
@@ -295,6 +302,10 @@
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CrystalStructureEntry.compute_composition">compute_composition() (chemml.chem.magpie_python.CrystalStructureEntry method)</a>
 </li>
       <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CrystalStructureEntry.compute_voronoi_tessellation">compute_voronoi_tessellation() (chemml.chem.magpie_python.CrystalStructureEntry method)</a>
+</li>
+      <li><a href="chemml.chem.html#chemml.chem.CoulombMatrix.concat_dataframes">concat_dataframes() (chemml.chem.CoulombMatrix static method)</a>
+</li>
+      <li><a href="chemml.chem.html#chemml.chem.BagofBonds.concat_mol_features">concat_mol_features() (chemml.chem.BagofBonds method)</a>
 </li>
       <li><a href="chemml.preprocessing.html#chemml.preprocessing.ConstantColumns">ConstantColumns (class in chemml.preprocessing)</a>
 </li>
@@ -391,11 +402,11 @@
 </li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator.generate_features">(chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator method)</a>
 </li>
+        <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator.generate_features">(chemml.chem.magpie_python.ElementalPropertyAttributeGenerator method)</a>
+</li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementFractionAttributeGenerator.generate_features">(chemml.chem.magpie_python.ElementFractionAttributeGenerator method)</a>
 </li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator.generate_features">(chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator method)</a>
-</li>
-        <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator.generate_features">(chemml.chem.magpie_python.ElementalPropertyAttributeGenerator method)</a>
 </li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.GCLPAttributeGenerator.generate_features">(chemml.chem.magpie_python.GCLPAttributeGenerator method)</a>
 </li>
@@ -409,9 +420,9 @@
 </li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.MeredigAttributeGenerator.generate_features">(chemml.chem.magpie_python.MeredigAttributeGenerator method)</a>
 </li>
-        <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PRDFAttributeGenerator.generate_features">(chemml.chem.magpie_python.PRDFAttributeGenerator method)</a>
-</li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator.generate_features">(chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator method)</a>
+</li>
+        <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PRDFAttributeGenerator.generate_features">(chemml.chem.magpie_python.PRDFAttributeGenerator method)</a>
 </li>
         <li><a href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StoichiometricAttributeGenerator.generate_features">(chemml.chem.magpie_python.StoichiometricAttributeGenerator method)</a>
 </li>
@@ -537,6 +548,18 @@
       <li><a href="chemml.models.html#chemml.models.MLP">MLP (class in chemml.models)</a>
 </li>
       <li><a href="chemml.chem.html#chemml.chem.Molecule">Molecule (class in chemml.chem)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="chemml.chem.html#chemml.chem.num_atom_features">num_atom_features() (in module chemml.chem)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="chemml.chem.html#chemml.chem.num_bond_features">num_bond_features() (in module chemml.chem)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -698,16 +721,18 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="chemml.chem.html#chemml.chem.tensorise_molecules">tensorise_molecules() (in module chemml.chem)</a>
+</li>
       <li><a href="chemml.chem.html#chemml.chem.Molecule.to_inchi">to_inchi() (chemml.chem.Molecule method)</a>
 </li>
       <li><a href="chemml.chem.html#chemml.chem.Molecule.to_smarts">to_smarts() (chemml.chem.Molecule method)</a>
 </li>
       <li><a href="chemml.chem.html#chemml.chem.Molecule.to_smiles">to_smiles() (chemml.chem.Molecule method)</a>
 </li>
-      <li><a href="chemml.chem.html#chemml.chem.Molecule.to_xyz">to_xyz() (chemml.chem.Molecule method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="chemml.chem.html#chemml.chem.Molecule.to_xyz">to_xyz() (chemml.chem.Molecule method)</a>
+</li>
       <li><a href="chemml.models.html#chemml.models.OrganicLorentzLorenz.train">train() (chemml.models.OrganicLorentzLorenz method)</a>
 </li>
       <li><a href="chemml.preprocessing.html#chemml.preprocessing.ConstantColumns.transform">transform() (chemml.preprocessing.ConstantColumns method)</a>
@@ -769,7 +794,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -786,35 +811,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

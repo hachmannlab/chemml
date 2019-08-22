@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Input File Templates &mdash; ChemML 0.5.4 documentation</title>
+  <title>Input File Templates &mdash; ChemML  documentation</title>
   
 
   
@@ -17,32 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -54,10 +58,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -101,10 +101,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -212,99 +212,88 @@ each node and you should connect them using unique random integers. In the ChemM
     <span class="o">&gt;&gt;</span> <span class="nb">id</span> <span class="n">token</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>All the methods in the ChemML Wrapper are available under these 8 tasks:</dt>
-<dd><ul class="first last simple">
-<li>Enter</li>
-<li>Represent</li>
-<li>Prepare</li>
-<li>Model</li>
-<li>Search</li>
-<li>Mix</li>
-<li>Visualize</li>
-<li>Store</li>
+<dl class="simple">
+<dt>All the methods in the ChemML Wrapper are available under these 8 tasks:</dt><dd><ul class="simple">
+<li><p>Enter</p></li>
+<li><p>Represent</p></li>
+<li><p>Prepare</p></li>
+<li><p>Model</p></li>
+<li><p>Search</p></li>
+<li><p>Mix</p></li>
+<li><p>Visualize</p></li>
+<li><p>Store</p></li>
 </ul>
 </dd>
 </dl>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">you always need an Enter method in your workflow to initialize the computation graph with some data.</p>
+<p class="admonition-title">Note</p>
+<p>you always need an Enter method in your workflow to initialize the computation graph with some data.</p>
 </div>
 </div>
 <div class="section" id="specific-characters">
 <h2>Specific Characters<a class="headerlink" href="#specific-characters" title="Permalink to this headline">¶</a></h2>
 <p>Only five specific characters (#, &lt;, =, &gt;, &#64;) are defined and can be used in the input files.</p>
 <ul>
-<li><dl class="first docutils">
-<dt>Pound sign (#)</dt>
-<dd><ul class="first last simple">
-<li>Pound sign (#) determines a computation block.</li>
-<li>It must be used to separate different blocks from each other.</li>
-<li>A double pound sign (##) is for an active block and a single pound sign (#) keeps the block out of the graph.</li>
-<li>No other specific signs can be in the same line as pound sign. Having a task name or any other text after the pound sign is arbitrary.</li>
+<li><dl class="simple">
+<dt>Pound sign (#)</dt><dd><ul class="simple">
+<li><p>Pound sign (#) determines a computation block.</p></li>
+<li><p>It must be used to separate different blocks from each other.</p></li>
+<li><p>A double pound sign (##) is for an active block and a single pound sign (#) keeps the block out of the graph.</p></li>
+<li><p>No other specific signs can be in the same line as pound sign. Having a task name or any other text after the pound sign is arbitrary.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Less-than sign (&lt;)</dt>
-<dd><ul class="first simple">
-<li>Less-than sign (&lt;) are used to pass the parameters’ value.</li>
-<li>The parameter’s name comes right after this sign.</li>
-<li>A Double less-than sign (&lt;&lt;) keeps a parameter in the block and single less-than sign (&lt;) ignore the assigned value to that parameter.</li>
-<li>If you are going to ignore a parameter value make sure it’s not a required parameter.</li>
+<li><dl>
+<dt>Less-than sign (&lt;)</dt><dd><ul class="simple">
+<li><p>Less-than sign (&lt;) are used to pass the parameters’ value.</p></li>
+<li><p>The parameter’s name comes right after this sign.</p></li>
+<li><p>A Double less-than sign (&lt;&lt;) keeps a parameter in the block and single less-than sign (&lt;) ignore the assigned value to that parameter.</p></li>
+<li><p>If you are going to ignore a parameter value make sure it’s not a required parameter.</p></li>
 </ul>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>two parameters are mandatory in all the blocks:</p>
 <ul class="simple">
-<li><strong>host</strong>: to specify the main library/dependency that you want to get the method from</li>
-<li><strong>function</strong>: to specify the ChemML Wrapper method</li>
+<li><p><strong>host</strong>: to specify the main library/dependency that you want to get the method from</p></li>
+<li><p><strong>function</strong>: to specify the ChemML Wrapper method</p></li>
 </ul>
-<p class="last">You can find a comprehensive list of the available methods in the <a class="reference internal" href="CMLWContentsTable.html#chemml-wrapper-table"><span class="std std-ref">Table of Contents</span></a></p>
+<p>You can find a comprehensive list of the available methods in the <a class="reference internal" href="CMLWContentsTable.html#chemml-wrapper-table"><span class="std std-ref">Table of Contents</span></a></p>
 </div>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Equals sign (=)</dt>
-<dd><ul class="first last simple">
-<li>Equals sign (=) is for setting the value of parameters.</li>
-<li>It comes right after the parameter name and is followed by its value.</li>
-<li>The parameter value should be in its python format.</li>
+<li><dl class="simple">
+<dt>Equals sign (=)</dt><dd><ul class="simple">
+<li><p>Equals sign (=) is for setting the value of parameters.</p></li>
+<li><p>It comes right after the parameter name and is followed by its value.</p></li>
+<li><p>The parameter value should be in its python format.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Greater-than sign (&gt;)</dt>
-<dd><ul class="first last">
-<li><p class="first">Greater-than sign (&gt;) is all you need to connect blocks to each other (to send outputs or to receive inputs).</p>
-</li>
-<li><p class="first">To keep track of inputs and outputs you have to assign a unique identification (ID) number to input/output tokens.</p>
-</li>
-<li><p class="first">The ID number can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input of another block through these unique IDs.</p>
-</li>
-<li><p class="first">Note that the tokens are predefined for each block and can be found in the <a class="reference internal" href="CMLWContentsTable.html#chemml-wrapper-table"><span class="std std-ref">Table of Contents</span></a>.</p>
-</li>
-<li><p class="first">To distinguish the send and receive actions you just need to switch the position of token and ID as described below:</p>
+<li><dl>
+<dt>Greater-than sign (&gt;)</dt><dd><ul>
+<li><p>Greater-than sign (&gt;) is all you need to connect blocks to each other (to send outputs or to receive inputs).</p></li>
+<li><p>To keep track of inputs and outputs you have to assign a unique identification (ID) number to input/output tokens.</p></li>
+<li><p>The ID number can be any integer. The ChemML Wrapper will extract, and assign the sent output of one block to the received input of another block through these unique IDs.</p></li>
+<li><p>Note that the tokens are predefined for each block and can be found in the <a class="reference internal" href="CMLWContentsTable.html#chemml-wrapper-table"><span class="std std-ref">Table of Contents</span></a>.</p></li>
+<li><p>To distinguish the send and receive actions you just need to switch the position of token and ID as described below:</p>
 <blockquote>
 <div><ul>
-<li><dl class="first docutils">
-<dt>to send an output token:</dt>
-<dd><blockquote class="first">
+<li><dl>
+<dt>to send an output token:</dt><dd><blockquote>
 <div><p>&gt;&gt; token  ID</p>
 </div></blockquote>
-<p class="last">e.g.    &gt;&gt; molfile 7</p>
+<p>e.g.    &gt;&gt; molfile 7</p>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>to receive an input token:</dt>
-<dd><blockquote class="first">
+<li><dl>
+<dt>to receive an input token:</dt><dd><blockquote>
 <div><p>&gt;&gt; ID token</p>
 </div></blockquote>
-<p class="last">e.g.    &gt;&gt; 7 molfile</p>
+<p>e.g.    &gt;&gt; 7 molfile</p>
 </dd>
 </dl>
 </li>
@@ -315,19 +304,18 @@ each node and you should connect them using unique random integers. In the ChemM
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>At sign (&#64;)</dt>
-<dd><ul class="first last simple">
-<li>At sign (&#64;) can be used to get a parameter value from the input/output values.</li>
-<li>It comes right after equals sign (=) and should be followed by one of the input tokens (e.g. parameter = &#64;df).</li>
+<li><dl class="simple">
+<dt>At sign (&#64;)</dt><dd><ul class="simple">
+<li><p>At sign (&#64;) can be used to get a parameter value from the input/output values.</p></li>
+<li><p>It comes right after equals sign (=) and should be followed by one of the input tokens (e.g. parameter = &#64;df).</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">please note that the first three characters (#, &lt;, &gt;) are reserved and you should avoid using them in the parameter values.</p>
+<p class="admonition-title">Note</p>
+<p>please note that the first three characters (#, &lt;, &gt;) are reserved and you should avoid using them in the parameter values.</p>
 </div>
 </div>
 <div class="section" id="general-rules">
@@ -335,12 +323,12 @@ each node and you should connect them using unique random integers. In the ChemM
 <p>A few general restrictions:</p>
 <blockquote>
 <div><ul class="simple">
-<li>You are not allowed to have two different specific charecters in one line of input file (except ‘=’ and ‘&#64;’ signs).</li>
-<li>The input tokens and output tokens of each block may be similar but they might not have similar values.</li>
-<li>Only one input per an input token can be received.</li>
-<li>You are allowed to send output tokens to as many input tokens of different block as you want.</li>
-<li>Avoid any type of short loop. A short loop will be made when inputs of any block_i are received from one or a set of blocks that they require an output of block_i.</li>
-<li>If you make a short loop any place inside your workflow your run will be aborted immediately.</li>
+<li><p>You are not allowed to have two different specific charecters in one line of input file (except ‘=’ and ‘&#64;’ signs).</p></li>
+<li><p>The input tokens and output tokens of each block may be similar but they might not have similar values.</p></li>
+<li><p>Only one input per an input token can be received.</p></li>
+<li><p>You are allowed to send output tokens to as many input tokens of different block as you want.</p></li>
+<li><p>Avoid any type of short loop. A short loop will be made when inputs of any block_i are received from one or a set of blocks that they require an output of block_i.</p></li>
+<li><p>If you make a short loop any place inside your workflow your run will be aborted immediately.</p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -357,7 +345,7 @@ each node and you should connect them using unique random integers. In the ChemM
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -374,35 +362,16 @@ each node and you should connect them using unique random integers. In the ChemM
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

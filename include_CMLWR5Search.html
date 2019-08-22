@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GA_DEAP &mdash; ChemML 0.5.4 documentation</title>
+  <title>GA_DEAP &mdash; ChemML  documentation</title>
   
 
   
@@ -17,34 +17,38 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="include_CMLWR6Mix.html" />
     <link rel="prev" title="MLP" href="include_CMLWR4Model.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,10 +60,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -123,10 +123,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -219,41 +219,37 @@
 </style>
 <div class="section" id="ga-deap">
 <span id="id1"></span><h1>GA_DEAP<a class="headerlink" href="#ga-deap" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">genetic algorithm</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">cheml</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">GA_DEAP</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> : a function that receives a list of individuals and returns the score</div>
 <div class="line-block">
 <div class="line">types: (“&lt;type ‘function’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">best_individual</span></code> : pandas dataframe of the best individual</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -263,28 +259,25 @@
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:algorithm_1)</div>
 <div class="line-block">
 <div class="line">a method of the GA_DEAP class that should be applied</div>
 <div class="line">choose one of: (‘algorithm_1’, ‘algorithm_2’, ‘algorithm_3’, ‘algorithm_4’)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 <div class="line">deap, 1.2.2</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">GA_DEAP</span></code></div>
@@ -311,43 +304,38 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters:</p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="gridsearchcv">
 <span id="id2"></span><h1>GridSearchCV<a class="headerlink" href="#gridsearchcv" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">grid</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">GridSearchCV</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -369,10 +357,9 @@
 <div class="line">types: (“&lt;type ‘generator’&gt;”, “&lt;class ‘sklearn.model_selection._split.KFold’&gt;”, “&lt;class ‘sklearn.model_selection._split.ShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.StratifiedShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.LeaveOneOut’&gt;”)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">cv_results_</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -386,27 +373,24 @@
 <div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
 <div class="line">choose one of: (True, False)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">GridSearchCV</span></code></div>
@@ -434,43 +418,38 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="cross-val-predict">
 <span id="id3"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">validate</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">cross_val_predict</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -492,36 +471,32 @@
 <div class="line">types: (“&lt;type ‘generator’&gt;”, “&lt;class ‘sklearn.model_selection._split.KFold’&gt;”, “&lt;class ‘sklearn.model_selection._split.ShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.StratifiedShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.LeaveOneOut’&gt;”)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
 <div class="line">choose one of: (True, False)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">cross_val_predict</span></code></div>
@@ -545,43 +520,38 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="cross-val-score">
 <span id="id4"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">validate</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">cross_val_score</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -603,36 +573,32 @@
 <div class="line">types: (“&lt;type ‘generator’&gt;”, “&lt;class ‘sklearn.model_selection._split.KFold’&gt;”, “&lt;class ‘sklearn.model_selection._split.ShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.StratifiedShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.LeaveOneOut’&gt;”)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scores</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
 <div class="line">choose one of: (True, False)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">cross_val_score</span></code></div>
@@ -656,43 +622,38 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="evaluate-regression">
 <span id="id5"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">evaluate_regression</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -702,10 +663,9 @@
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">evaluation_results_</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -715,10 +675,9 @@
 <div class="line">types: (“&lt;type ‘dict’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">mae_multioutput</span></code> : <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error">http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error</a>, (default:uniform_average)</div>
 <div class="line"><br /></div>
 <div class="line-block">
@@ -805,17 +764,15 @@
 <div class="line">choose one of: (‘raw_values’, ‘uniform_average’)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">evaluate_regression</span></code></div>
@@ -843,43 +800,38 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics">http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics">http://scikit-learn.org/dev/modules/model_evaluation.html#regression-metrics</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="learning-curve">
 <span id="id6"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">grid</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">learning_curve</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -901,10 +853,9 @@
 <div class="line">types: (“&lt;type ‘generator’&gt;”, “&lt;class ‘sklearn.model_selection._split.KFold’&gt;”, “&lt;class ‘sklearn.model_selection._split.ShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.StratifiedShuffleSplit’&gt;”, “&lt;class ‘sklearn.model_selection._split.LeaveOneOut’&gt;”)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">train_sizes_abs</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -922,27 +873,24 @@
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
 <div class="line">choose one of: (True, False)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">learning_curve</span></code></div>
@@ -972,58 +920,51 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html#sklearn.model_selection.learning_curve">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html#sklearn.model_selection.learning_curve</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html#sklearn.model_selection.learning_curve">http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html#sklearn.model_selection.learning_curve</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="scorer-regression">
 <span id="id7"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scorer_regression</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">this block doesn’t receive anything</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : Callable object that returns a scalar score</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘sklearn.metrics.scorer._PredictScorer’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
@@ -1035,17 +976,15 @@
 <div class="line">choose one of: (‘mae’, ‘mse’, ‘r2’)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">scorer_regression</span></code></div>
@@ -1059,67 +998,59 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer">http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer">http://scikit-learn.org/0.15/modules/generated/sklearn.metrics.make_scorer.html#sklearn.metrics.make_scorer</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 <div class="section" id="corr">
 <span id="id8"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">pandas</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">corr</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">required packages</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">config file view</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">pandas</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">corr</span></code></div>
@@ -1130,14 +1061,12 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 
 
@@ -1151,7 +1080,7 @@
         <a href="include_CMLWR6Mix.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="include_CMLWR4Model.html" class="btn btn-neutral" title="MLP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="include_CMLWR4Model.html" class="btn btn-neutral float-left" title="MLP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1160,7 +1089,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -1177,35 +1106,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

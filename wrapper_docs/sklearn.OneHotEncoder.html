@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OneHotEncoder &mdash; ChemML 0.5.4 documentation</title>
+  <title>OneHotEncoder &mdash; ChemML  documentation</title>
   
 
   
@@ -17,32 +17,36 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -54,10 +58,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -101,10 +101,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -195,32 +195,29 @@
 </style>
 <div class="section" id="onehotencoder">
 <span id="id1"></span><h1>OneHotEncoder<a class="headerlink" href="#onehotencoder" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">task:</th><td class="field-body"><div class="first line-block">
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">Prepare</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">subtask:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">feature representation</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">host:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">function:</th><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">OneHotEncoder</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">input tokens (receivers):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -230,10 +227,9 @@
 <div class="line">types: (“&lt;class ‘sklearn.preprocessing.data.OneHotEncoder’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">output tokens (senders):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
 <div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
@@ -243,10 +239,9 @@
 <div class="line">types: (“&lt;class ‘sklearn.preprocessing.data.OneHotEncoder’&gt;”,)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">wrapper parameters:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
 <div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
@@ -258,17 +253,15 @@
 <div class="line">choose one of: (‘fit_transform’, ‘transform’, None)</div>
 </div>
 </div>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">required packages:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">config file view:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><div class="first line-block">
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">OneHotEncoder</span></code></div>
@@ -286,14 +279,12 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="last admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder">http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder</a></p>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 
 
@@ -307,7 +298,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -324,35 +315,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="../None"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

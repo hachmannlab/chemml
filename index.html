@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to the ChemML’s documentation! &mdash; ChemML 0.5.4 documentation</title>
+  <title>Welcome to the ChemML’s documentation! &mdash; ChemML  documentation</title>
   
 
   
@@ -17,33 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="ChemML Wrapper Tutorial" href="CMLWTutorial.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -55,10 +59,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -200,7 +200,7 @@
 <p>ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.</p>
 <blockquote>
 <div><ul class="simple">
-<li>source repository on github: <a class="reference external" href="https://github.com/hachmannlab/chemml">https://github.com/hachmannlab/chemml</a></li>
+<li><p>source repository on github: <a class="reference external" href="https://github.com/hachmannlab/chemml">https://github.com/hachmannlab/chemml</a></p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="code-design">
@@ -216,7 +216,7 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 <h2>Latest Version:<a class="headerlink" href="#latest-version" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li>to find the latest version and release history, click here: <a class="reference external" href="https://pypi.org/project/chemml/#history">https://pypi.org/project/chemml/#history</a></li>
+<li><p>to find the latest version and release history, click here: <a class="reference external" href="https://pypi.org/project/chemml/#history">https://pypi.org/project/chemml/#history</a></p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -226,17 +226,16 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install chemml --user -U
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>Here is a list of external libraries that will be installed with chemml:</dt>
-<dd><ul class="first last simple">
-<li>numpy</li>
-<li>pandas</li>
-<li>tensorflow</li>
-<li>keras</li>
-<li>scikit-learn</li>
-<li>matplotlib</li>
-<li>seaborn</li>
-<li>lxml</li>
+<dl class="simple">
+<dt>Here is a list of external libraries that will be installed with chemml:</dt><dd><ul class="simple">
+<li><p>numpy</p></li>
+<li><p>pandas</p></li>
+<li><p>tensorflow</p></li>
+<li><p>keras</p></li>
+<li><p>scikit-learn</p></li>
+<li><p>matplotlib</p></li>
+<li><p>seaborn</p></li>
+<li><p>lxml</p></li>
 </ul>
 </dd>
 </dl>
@@ -244,18 +243,10 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 installing ChemML. For doing so, you need to follow the conda installer:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name my_chemml_env <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.6
 <span class="nb">source</span> activate my_chemml_env
-conda install -c openbabel openbabel
-conda install -c rdkit rdkit
+conda install -c conda-forge openbabel rdkit tensorflow keras
 pip install chemml
 </pre></div>
 </div>
-</div>
-<div class="section" id="python-2-fans">
-<h2>Python 2 Fans:<a class="headerlink" href="#python-2-fans" title="Permalink to this headline">¶</a></h2>
-<p>The library was initially compatible with Python 2 and 3, and we still develop compatible codes. However, since the Python community
-and some of the dependencies are phasing out support for Python 2, we also removed it from the classifier languages.
-However, you should still be able to clone the ChemML repository from github and install the older versions of some of the dependencies that
-support Python 2, prior to using ChemML locally.</p>
 </div>
 <div class="section" id="citation">
 <h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
@@ -389,40 +380,35 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
 </div>
 <div class="section" id="about-us">
 <h2>About us:<a class="headerlink" href="#about-us" title="Permalink to this headline">¶</a></h2>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Maintainers:</th><td class="field-body"><ul class="first simple">
-<li>Johannes Hachmann, <a class="reference external" href="mailto:hachmann&#37;&#52;&#48;buffalo&#46;edu">hachmann<span>&#64;</span>buffalo<span>&#46;</span>edu</a></li>
-<li>Mojtaba Haghighatlari</li>
+<dl class="field-list">
+<dt class="field-odd">Maintainers</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>Johannes Hachmann, <a class="reference external" href="mailto:hachmann&#37;&#52;&#48;buffalo&#46;edu">hachmann<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
+<li><p>Mojtaba Haghighatlari</p></li>
 </ul>
 <p>University at Buffalo - The State University of New York (UB)</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Contributors:</th><td class="field-body"><ul class="first simple">
-<li>Doaa Altarawy (MolSSI): scientific advice and software mentor</li>
-<li>Gaurav Vishwakarma (UB): automated model optimization</li>
-<li>Ramachandran Subramanian (UB): Magpie descriptor library port</li>
-<li>Bhargava Urala Kota (UB): library database</li>
-<li>Aditya Sonpal (UB): debugging</li>
-<li>Srirangaraj Setlur (UB): scientific advice</li>
-<li>Venugopal Govindaraju (UB): scientific advice</li>
-<li>Krishna Rajan (UB): scientific advice</li>
-<li>We encourage any contributions and feedback. Feel free to fork and make pull-request to the “development” branch.</li>
+</dd>
+<dt class="field-even">Contributors</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>Doaa Altarawy (MolSSI): scientific advice and software mentor</p></li>
+<li><p>Gaurav Vishwakarma (UB): automated model optimization</p></li>
+<li><p>Ramachandran Subramanian (UB): Magpie descriptor library port</p></li>
+<li><p>Bhargava Urala Kota (UB): library database</p></li>
+<li><p>Aditya Sonpal (UB): debugging</p></li>
+<li><p>Srirangaraj Setlur (UB): scientific advice</p></li>
+<li><p>Venugopal Govindaraju (UB): scientific advice</p></li>
+<li><p>Krishna Rajan (UB): scientific advice</p></li>
+<li><p>We encourage any contributions and feedback. Feel free to fork and make pull-request to the “development” branch.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Acknowledgements:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
-<li>ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.</li>
-<li>ChemML was also supported by start-up funds provided by UB’s School of Engineering and Applied Science and UB’s Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.</li>
-<li>Mojtaba Haghighatlari received 2018 Phase-I and 2019 Phase-II Software Fellowships by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.</li>
+</dd>
+<dt class="field-odd">Acknowledgements</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>ChemML is based upon work supported by the U.S. National Science Foundation under grant #OAC-1751161 and in part by #OAC-1640867.</p></li>
+<li><p>ChemML was also supported by start-up funds provided by UB’s School of Engineering and Applied Science and UB’s Department of Chemical and Biological Engineering, the New York State Center of Excellence in Materials Informatics through seed grant #1140384-8-75163, and the U.S. Department of Energy under grant #DE-SC0017193.</p></li>
+<li><p>Mojtaba Haghighatlari received 2018 Phase-I and 2019 Phase-II Software Fellowships by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -444,7 +430,7 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -461,35 +447,16 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

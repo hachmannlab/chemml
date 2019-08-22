@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Chem module &mdash; ChemML 0.5.4 documentation</title>
+  <title>Chem module &mdash; ChemML  documentation</title>
   
 
   
@@ -17,34 +17,38 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Magpie_Python module" href="chemml.chem.magpie_python.html" />
     <link rel="prev" title="Feature Selection" href="ga_feature_selection.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,10 +60,6 @@
 
           
             
-            
-              <div class="version">
-                0.5.4
-              </div>
             
           
 
@@ -103,10 +103,10 @@
 <li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">chemml.preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">chemml.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 
             
@@ -197,48 +197,47 @@
 </style>
 <div class="section" id="chem-module">
 <h1>Chem module<a class="headerlink" href="#chem-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-chemml.chem"></span><dl class="docutils">
-<dt>The chemml.chem module includes (please click on links adjacent to function names for more information):</dt>
-<dd><ul class="first last simple">
-<li>Molecule: <a class="reference internal" href="#chemml.chem.Molecule" title="chemml.chem.Molecule"><code class="xref py py-func docutils literal notranslate"><span class="pre">Molecule()</span></code></a></li>
-<li>XYZ: <a class="reference internal" href="#chemml.chem.XYZ" title="chemml.chem.XYZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">XYZ()</span></code></a></li>
-<li>CoulombMatrix: <a class="reference internal" href="#chemml.chem.CoulombMatrix" title="chemml.chem.CoulombMatrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">CoulombMatrix()</span></code></a></li>
-<li>BagofBonds: <a class="reference internal" href="#chemml.chem.BagofBonds" title="chemml.chem.BagofBonds"><code class="xref py py-func docutils literal notranslate"><span class="pre">BagofBonds()</span></code></a></li>
-<li>RDKitFingerprint: <a class="reference internal" href="#chemml.chem.RDKitFingerprint" title="chemml.chem.RDKitFingerprint"><code class="xref py py-func docutils literal notranslate"><span class="pre">RDKitFingerprint()</span></code></a></li>
-<li>Dragon: <a class="reference internal" href="#chemml.chem.Dragon" title="chemml.chem.Dragon"><code class="xref py py-func docutils literal notranslate"><span class="pre">Dragon()</span></code></a></li>
+<span class="target" id="module-chemml.chem"></span><dl class="simple">
+<dt>The chemml.chem module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
+<li><p>Molecule: <a class="reference internal" href="#chemml.chem.Molecule" title="chemml.chem.Molecule"><code class="xref py py-func docutils literal notranslate"><span class="pre">Molecule()</span></code></a></p></li>
+<li><p>XYZ: <a class="reference internal" href="#chemml.chem.XYZ" title="chemml.chem.XYZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">XYZ()</span></code></a></p></li>
+<li><p>CoulombMatrix: <a class="reference internal" href="#chemml.chem.CoulombMatrix" title="chemml.chem.CoulombMatrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">CoulombMatrix()</span></code></a></p></li>
+<li><p>BagofBonds: <a class="reference internal" href="#chemml.chem.BagofBonds" title="chemml.chem.BagofBonds"><code class="xref py py-func docutils literal notranslate"><span class="pre">BagofBonds()</span></code></a></p></li>
+<li><p>RDKitFingerprint: <a class="reference internal" href="#chemml.chem.RDKitFingerprint" title="chemml.chem.RDKitFingerprint"><code class="xref py py-func docutils literal notranslate"><span class="pre">RDKitFingerprint()</span></code></a></p></li>
+<li><p>atom_features: <a class="reference internal" href="#chemml.chem.atom_features" title="chemml.chem.atom_features"><code class="xref py py-func docutils literal notranslate"><span class="pre">atom_features()</span></code></a></p></li>
+<li><p>bond_features: <a class="reference internal" href="#chemml.chem.bond_features" title="chemml.chem.bond_features"><code class="xref py py-func docutils literal notranslate"><span class="pre">bond_features()</span></code></a></p></li>
+<li><p>tensorise_molecules: <a class="reference internal" href="#chemml.chem.tensorise_molecules" title="chemml.chem.tensorise_molecules"><code class="xref py py-func docutils literal notranslate"><span class="pre">tensorise_molecules()</span></code></a></p></li>
+<li><p>Dragon: <a class="reference internal" href="#chemml.chem.Dragon" title="chemml.chem.Dragon"><code class="xref py py-func docutils literal notranslate"><span class="pre">Dragon()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="class">
 <dt id="chemml.chem.Molecule">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">Molecule</code><span class="sig-paren">(</span><em>input</em>, <em>input_type</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">Molecule</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">input_type</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule" title="Permalink to this definition">¶</a></dt>
 <dd><p>The central class to construct a molecule from different chemical input formats.
 This module is built on top of RDKit and OpenBabel python API.
 We join the forces and strength of these two cheminformatic libraris for a consistent user experience.</p>
 <p>Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object.
 Several methods are available in this module to facilitate the manipulation of chemical data.</p>
-<dl class="docutils">
-<dt>input: str</dt>
-<dd>The representation string or path to a file.</dd>
-<dt>input_type: str</dt>
-<dd><p class="first">The input type.
+<dl>
+<dt>input: str</dt><dd><p>The representation string or path to a file.</p>
+</dd>
+<dt>input_type: str</dt><dd><p>The input type.
 The available types are enlisted here:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li>smiles: The input must be SMILES representation of a molecule.</li>
-<li>smarts: The input must be SMARTS representation of a molecule.</li>
-<li>inchi: The input must be InChi representation of a molecule.</li>
-<li>xyz:  The input must be the path to an xyz file.</li>
+<li><p>smiles: The input must be SMILES representation of a molecule.</p></li>
+<li><p>smarts: The input must be SMARTS representation of a molecule.</p></li>
+<li><p>inchi: The input must be InChi representation of a molecule.</p></li>
+<li><p>xyz:  The input must be the path to an xyz file.</p></li>
 </ul>
 </div></blockquote>
 </dd>
-<dt>kwargs:</dt>
-<dd><dl class="first last docutils">
-<dt>The corresponding RDKit arguments for each of the input types:</dt>
-<dd><ul class="first last simple">
-<li>smiles: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles</a></li>
-<li>smarts: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts</a></li>
-<li>inchi: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi">http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi</a></li>
+<dt>kwargs:</dt><dd><dl class="simple">
+<dt>The corresponding RDKit arguments for each of the input types:</dt><dd><ul class="simple">
+<li><p>smiles: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles</a></p></li>
+<li><p>smarts: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts</a></p></li>
+<li><p>inchi: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi">http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi</a></p></li>
 </ul>
 </dd>
 </dl>
@@ -246,27 +245,27 @@ The available types are enlisted here:</p>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The molecule will be creatd as an RDKit molecule object.</li>
-<li>The molecule object will be stored and available as <cite>rdkit_molecule</cite> attribute.</li>
-<li><dl class="first docutils">
-<dt>If you load a molecule from its SMARTS string, there is high probability that you can’t convert it to other</dt>
-<dd>types due to the abstract description of the molecules by SMARTS representation.</dd>
+<li><p>The molecule will be creatd as an RDKit molecule object.</p></li>
+<li><p>The molecule object will be stored and available as <cite>rdkit_molecule</cite> attribute.</p></li>
+<li><dl class="simple">
+<dt>If you load a molecule from its SMARTS string, there is high probability that you can’t convert it to other</dt><dd><p>types due to the abstract description of the molecules by SMARTS representation.</p>
+</dd>
 </dl>
 </li>
 </ul>
 </div></blockquote>
-<dl class="docutils">
-<dt>rdkit_molecule: object</dt>
-<dd>The <cite>rdkit.Chem.rdchem.Mol</cite> object</dd>
-<dt>smiles: str</dt>
-<dd>The SMILES string that you get by running the <cite>to_smiles</cite> method.</dd>
-<dt>smarts: str</dt>
-<dd>The SMARTS string that you get by running the <cite>to_smarts</cite> method.</dd>
-<dt>inchi: str</dt>
-<dd>The InChi string that you get by running the <cite>to_inchi</cite> method.</dd>
-<dt>xyz: instance of &lt;class ‘chemml.chem.molecule.XYZ’&gt;</dt>
-<dd>The class object that stores the 3D info. The available attributes in the class are ‘geometry’,
-‘atomic_numbers’, and ‘atomic_symbols’.</dd>
+<dl class="simple">
+<dt>rdkit_molecule: object</dt><dd><p>The <cite>rdkit.Chem.rdchem.Mol</cite> object</p>
+</dd>
+<dt>smiles: str</dt><dd><p>The SMILES string that you get by running the <cite>to_smiles</cite> method.</p>
+</dd>
+<dt>smarts: str</dt><dd><p>The SMARTS string that you get by running the <cite>to_smarts</cite> method.</p>
+</dd>
+<dt>inchi: str</dt><dd><p>The InChi string that you get by running the <cite>to_inchi</cite> method.</p>
+</dd>
+<dt>xyz: instance of &lt;class ‘chemml.chem.molecule.XYZ’&gt;</dt><dd><p>The class object that stores the 3D info. The available attributes in the class are ‘geometry’,
+‘atomic_numbers’, and ‘atomic_symbols’.</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="k">import</span> <span class="n">Molecule</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">&#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;</span>
@@ -413,105 +412,104 @@ The available types are enlisted here:</p>
 </div>
 <dl class="method">
 <dt id="chemml.chem.Molecule.hydrogens">
-<code class="descname">hydrogens</code><span class="sig-paren">(</span><em>action='add'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.hydrogens" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">hydrogens</code><span class="sig-paren">(</span><em class="sig-param">action='add'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.hydrogens" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function adds/removes hydrogens to/from a prebuilt molecule object.</p>
-<dl class="docutils">
-<dt>action: str</dt>
-<dd>Either ‘add’ or ‘remove’, to add hydrogns or remove them from the rdkit molecule.</dd>
-<dt>kwargs:</dt>
-<dd>The arguments that can be passed to the rdkit functions:
+<dl class="simple">
+<dt>action: str</dt><dd><p>Either ‘add’ or ‘remove’, to add hydrogns or remove them from the rdkit molecule.</p>
+</dd>
+<dt>kwargs:</dt><dd><p>The arguments that can be passed to the rdkit functions:
 - <cite>Chem.AddHs</cite>: documentation at <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.AddHs">http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.AddHs</a>
-- <cite>Chem.RemoveHs</cite>: documentation at <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs">http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs</a></dd>
+- <cite>Chem.RemoveHs</cite>: documentation at <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs">http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs</a></p>
+</dd>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The rdkit or pybel molecule object must be created in advance.</li>
-<li>Only rdkit or pybel molecule object will be modified in place.</li>
-<li>If you remove hydrogens from molecules, the atomic 3D coordinates might not be accurate for the conversion to xyz representation.</li>
+<li><p>The rdkit or pybel molecule object must be created in advance.</p></li>
+<li><p>Only rdkit or pybel molecule object will be modified in place.</p></li>
+<li><p>If you remove hydrogens from molecules, the atomic 3D coordinates might not be accurate for the conversion to xyz representation.</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.Molecule.to_inchi">
-<code class="descname">to_inchi</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_inchi" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_inchi</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_inchi" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates and stores the InChi string for a pre-built molecule.</p>
-<dl class="docutils">
-<dt>kwargs:</dt>
-<dd>The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available).
-The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi">http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi</a></dd>
+<dl class="simple">
+<dt>kwargs:</dt><dd><p>The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available).
+The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi">http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi</a></p>
+</dd>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The rdkit or pybel molecule object must be created in advance.</li>
-<li>The molecule will be modified in place.</li>
+<li><p>The rdkit or pybel molecule object must be created in advance.</p></li>
+<li><p>The molecule will be modified in place.</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.Molecule.to_smarts">
-<code class="descname">to_smarts</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_smarts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_smarts</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_smarts" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates and stores the SMARTS string for a pre-built molecule.</p>
-<dl class="docutils">
-<dt>kwargs:</dt>
-<dd>All the arguments that can be passed to the rdkit.Chem.MolToSmarts function.
-The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts</a></dd>
+<dl class="simple">
+<dt>kwargs:</dt><dd><p>All the arguments that can be passed to the rdkit.Chem.MolToSmarts function.
+The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts</a></p>
+</dd>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The rdkit or pybel molecule object must be created in advance.</li>
-<li>If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then create the SMARTS string using rdkit arguments.</li>
-<li>The molecule will be modified in place.</li>
+<li><p>The rdkit or pybel molecule object must be created in advance.</p></li>
+<li><p>If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then create the SMARTS string using rdkit arguments.</p></li>
+<li><p>The molecule will be modified in place.</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.Molecule.to_smiles">
-<code class="descname">to_smiles</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_smiles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_smiles</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_smiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates and stores the SMILES string for a pre-built molecule.</p>
-<dl class="docutils">
-<dt>kwargs:</dt>
-<dd>The arguments for the rdkit.Chem.MolToSmiles function.
-The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles</a></dd>
+<dl class="simple">
+<dt>kwargs:</dt><dd><p>The arguments for the rdkit.Chem.MolToSmiles function.
+The documentation is available at: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles">http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles</a></p>
+</dd>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The rdkit or pybel molecule object must be created in advance.</li>
-<li>If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then recreate the SMILES string using rdkit arguments.</li>
-<li>The molecule will be modified in place.</li>
-<li>For rdkit molecule the SMILES string is canocical by default, unless when one requests kekuleSmiles.</li>
+<li><p>The rdkit or pybel molecule object must be created in advance.</p></li>
+<li><p>If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then recreate the SMILES string using rdkit arguments.</p></li>
+<li><p>The molecule will be modified in place.</p></li>
+<li><p>For rdkit molecule the SMILES string is canocical by default, unless when one requests kekuleSmiles.</p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.Molecule.to_xyz">
-<code class="descname">to_xyz</code><span class="sig-paren">(</span><em>optimizer=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_xyz" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_xyz</code><span class="sig-paren">(</span><em class="sig-param">optimizer=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.to_xyz" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates and stores the xyz coordinates for a pre-built molecule object.</p>
-<dl class="docutils">
-<dt>optimizer: None or str, optional (default: None)</dt>
-<dd>If None, the geometries will be extracted from the available source of 3D structure (if any).
+<dl>
+<dt>optimizer: None or str, optional (default: None)</dt><dd><p>If None, the geometries will be extracted from the available source of 3D structure (if any).
 Otherwise, any of the ‘UFF’ or ‘MMFF’ force fileds should be passed to embed and optimize geometries using ‘rdkit.Chem.AllChem.UFFOptimizeMolecule’ or
-‘rdkit.Chem.AllChem.MMFFOptimizeMolecule’ methods, respectively.</dd>
-<dt>kwargs:</dt>
-<dd><p class="first">The arguments that can be passed to the corresponding forcefileds.
+‘rdkit.Chem.AllChem.MMFFOptimizeMolecule’ methods, respectively.</p>
+</dd>
+<dt>kwargs:</dt><dd><p>The arguments that can be passed to the corresponding forcefileds.
 The documentation is available at:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li>UFFOptimizeMolecule: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule">http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule</a></li>
-<li>MMFFOptimizeMolecule: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule">http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule</a></li>
+<li><p>UFFOptimizeMolecule: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule">http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule</a></p></li>
+<li><p>MMFFOptimizeMolecule: <a class="reference external" href="http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule">http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule</a></p></li>
 </ul>
 </div></blockquote>
 </dd>
 </dl>
 <blockquote>
 <div><ul class="simple">
-<li>The geometry will be stored in the <cite>xyz</cite> attribute.</li>
-<li>The molecule object must be created in advance.</li>
-<li>The hydrogens won’t be added to the molecule automatically. You should add it manually using <cite>hydrogens</cite> method.</li>
-<li>If the molecule object has been built using 2D representations (e.g., SMILES or InChi), the conformer</li>
+<li><p>The geometry will be stored in the <cite>xyz</cite> attribute.</p></li>
+<li><p>The molecule object must be created in advance.</p></li>
+<li><p>The hydrogens won’t be added to the molecule automatically. You should add it manually using <cite>hydrogens</cite> method.</p></li>
+<li><p>If the molecule object has been built using 2D representations (e.g., SMILES or InChi), the conformer</p></li>
 </ul>
 <p>doesn’t exist and you nedd to set the optimizer parameter to any of the force fields.
 - If the 3D info exist but you still need to run optimization, the 3D structure will be embedded from scratch (i.e., the current atom coordinates will be removed.)</p>
@@ -520,27 +518,26 @@ The documentation is available at:</p>
 
 <dl class="method">
 <dt id="chemml.chem.Molecule.visualize">
-<code class="descname">visualize</code><span class="sig-paren">(</span><em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.visualize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">visualize</code><span class="sig-paren">(</span><em class="sig-param">filename=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule.visualize" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function visualizes the molecule. If both rdkit and pybel objects are avaialble, the rdkit object
 will be used for visualization.</p>
-<dl class="docutils">
-<dt>filename: str, optional (default = None)</dt>
-<dd>This is the path to the file that you want write the image in it.
-Tkinter and Python Imaging Library are required for writing the image.</dd>
-<dt>kwargs:</dt>
-<dd><p class="first">any extra parameter that you want to pass to the rdkit or pybel draw tool.
+<dl>
+<dt>filename: str, optional (default = None)</dt><dd><p>This is the path to the file that you want write the image in it.
+Tkinter and Python Imaging Library are required for writing the image.</p>
+</dd>
+<dt>kwargs:</dt><dd><p>any extra parameter that you want to pass to the rdkit or pybel draw tool.
 Additional information at:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html">https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html</a></li>
-<li><a class="reference external" href="http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw">http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw</a></li>
+<li><p><a class="reference external" href="https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html">https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html</a></p></li>
+<li><p><a class="reference external" href="http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw">http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw</a></p></li>
 </ul>
 </div></blockquote>
 </dd>
 </dl>
-<dl class="docutils">
-<dt>object</dt>
-<dd>You will be able to display this object, e.g., inside the Jupyter Notebook.</dd>
+<dl class="simple">
+<dt>object</dt><dd><p>You will be able to display this object, e.g., inside the Jupyter Notebook.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -548,72 +545,112 @@ Additional information at:</p>
 
 <dl class="class">
 <dt id="chemml.chem.XYZ">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">XYZ</code><span class="sig-paren">(</span><em>geometry</em>, <em>atomic_numbers</em>, <em>atomic_symbols</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.XYZ" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">XYZ</code><span class="sig-paren">(</span><em class="sig-param">geometry</em>, <em class="sig-param">atomic_numbers</em>, <em class="sig-param">atomic_symbols</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.XYZ" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class stores the information that is typically carried by standard XYZ files.</p>
-<dl class="docutils">
-<dt>geometry: ndarray</dt>
-<dd>The numpy array of shape (number_of_atoms, 3).
-It stores the xyz coordinates for each atom of the molecule.</dd>
-<dt>atomic_numbers: ndarray</dt>
-<dd>The numpy array of shape (number_of_atoms, 1).
-It stores the atomic numbers of each atom in the molecule (in the same order as geometry).</dd>
-<dt>atomic_symbols: ndarray</dt>
-<dd>The numpy array of shape (number_of_atoms, 1).
-It stores the atomic symbols of each atom in the molecule (in the same order as geometry).</dd>
+<dl class="simple">
+<dt>geometry: ndarray</dt><dd><p>The numpy array of shape (number_of_atoms, 3).
+It stores the xyz coordinates for each atom of the molecule.</p>
+</dd>
+<dt>atomic_numbers: ndarray</dt><dd><p>The numpy array of shape (number_of_atoms, 1).
+It stores the atomic numbers of each atom in the molecule (in the same order as geometry).</p>
+</dd>
+<dt>atomic_symbols: ndarray</dt><dd><p>The numpy array of shape (number_of_atoms, 1).
+It stores the atomic symbols of each atom in the molecule (in the same order as geometry).</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="class">
 <dt id="chemml.chem.CoulombMatrix">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">CoulombMatrix</code><span class="sig-paren">(</span><em>CMtype='SC'</em>, <em>max_n_atoms='auto'</em>, <em>nPerm=3</em>, <em>const=1</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">CoulombMatrix</code><span class="sig-paren">(</span><em class="sig-param">cm_type='SC'</em>, <em class="sig-param">max_n_atoms='auto'</em>, <em class="sig-param">nPerm=3</em>, <em class="sig-param">const=1</em>, <em class="sig-param">n_jobs=-1</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>The implementation of coulomb matrix descriptors by Matthias Rupp et. al. 2012, PRL (All 3 different variations).</p>
-<dl class="docutils">
-<dt>CMtype: str, optional (default=’SC’)</dt>
-<dd><dl class="first last docutils">
-<dt>The coulomb matrix type, one of the following types:</dt>
-<dd><ul class="first last simple">
-<li>‘Unsorted_Matrix’ or ‘UM’</li>
-<li>‘Unsorted_Triangular’ or ‘UT’</li>
-<li>‘Eigenspectrum’ or ‘E’</li>
-<li>‘Sorted_Coulomb’ or ‘SC’</li>
-<li>‘Random_Coulomb’ or ‘RC’</li>
+<dl class="simple">
+<dt>cm_type: str, optional (default=’SC’)</dt><dd><dl class="simple">
+<dt>The coulomb matrix type, one of the following types:</dt><dd><ul class="simple">
+<li><p>‘Unsorted_Matrix’ or ‘UM’</p></li>
+<li><p>‘Unsorted_Triangular’ or ‘UT’</p></li>
+<li><p>‘Eigenspectrum’ or ‘E’</p></li>
+<li><p>‘Sorted_Coulomb’ or ‘SC’</p></li>
+<li><p>‘Random_Coulomb’ or ‘RC’</p></li>
 </ul>
 </dd>
 </dl>
 </dd>
-<dt>max_n_atoms: int or ‘auto’, optional (default = ‘auto’)</dt>
-<dd>Set the maximum number of atoms per molecule (to which all representations will be padded).
-If ‘auto’, we find it based on all input molecules.</dd>
-<dt>nPerm: int, optional (default = 3)</dt>
-<dd>Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
-type of representation.</dd>
-<dt>const: float, optional (default = 1)</dt>
-<dd>The constant value for coordinates unit conversion to atomic unit
+<dt>max_n_atoms: int or ‘auto’, optional (default = ‘auto’)</dt><dd><p>Set the maximum number of atoms per molecule (to which all representations will be padded).
+If ‘auto’, we find it based on all input molecules.</p>
+</dd>
+<dt>nPerm: int, optional (default = 3)</dt><dd><p>Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
+type of representation.</p>
+</dd>
+<dt>const: float, optional (default = 1)</dt><dd><p>The constant value for coordinates unit conversion to atomic unit
 example: atomic unit -&gt; const=1, Angstrom -&gt; const=0.529
 const/<a href="#id1"><span class="problematic" id="id2">|Ri-Rj|</span></a>, which denominator is the euclidean distance
-between atoms i and j</dd>
+between atoms i and j</p>
+</dd>
+<dt>n_jobs: int, optional(default=-1)</dt><dd><p>The number of parallel processes. If -1, uses all the available processes.</p>
+</dd>
+<dt>verbose: bool, optional(default=True)</dt><dd><p>The verbosity of messages.</p>
+</dd>
 </dl>
+<dl class="simple">
+<dt><a href="#id5"><span class="problematic" id="id6">n_molecules_</span></a>: int</dt><dd><p>Total number of molecules.</p>
+</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">max_n_atoms_</span></a>: int</dt><dd><p>Maximum number of atoms in all molecules.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="k">import</span> <span class="n">CoulombMatrix</span><span class="p">,</span> <span class="n">Molecule</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;c1ccc1&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CNC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m3</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m4</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CCC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">molecules</span> <span class="o">=</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">m4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>   <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;UFF&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cm</span> <span class="o">=</span> <span class="n">CoulombMatrix</span><span class="p">(</span><span class="n">cm_type</span><span class="o">=</span><span class="s1">&#39;SC&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">molecules</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="chemml.chem.CoulombMatrix.concat_dataframes">
+<em class="property">static </em><code class="sig-name descname">concat_dataframes</code><span class="sig-paren">(</span><em class="sig-param">mol_tensors_list</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix.concat_dataframes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenates a list of molecule tensors</p>
+<blockquote>
+<div><dl class="simple">
+<dt>mol_tensors_list: list</dt><dd><p>list of molecule tensors</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>features: dataframe</dt><dd><p>a single feature dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="chemml.chem.CoulombMatrix.represent">
-<code class="descname">represent</code><span class="sig-paren">(</span><em>molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix.represent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">represent</code><span class="sig-paren">(</span><em class="sig-param">molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix.represent" title="Permalink to this definition">¶</a></dt>
 <dd><p>provides coulomb matrix representation for input molecules.</p>
-<dl class="docutils">
-<dt>molecules: chemml.chem.Molecule object or list</dt>
-<dd>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+<dl class="simple">
+<dt>molecules: chemml.chem.Molecule object or array</dt><dd><p>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
 In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
-stored or optimized in advance.</dd>
+stored or optimized in advance.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>Pandas DataFrame</dt>
-<dd><p class="first">A data frame with same number of rows as number of molecules will be returned.
+<dl>
+<dt>Pandas DataFrame</dt><dd><p>A data frame with same number of rows as number of molecules will be returned.
 The exact shape of the dataframe depends on the type of CM as follows:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li>shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)</li>
-<li>shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)</li>
-<li>shape of eigenspectrums (E): (n_molecules, max_n_atoms)</li>
-<li>shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)</li>
-<li>shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)</li>
+<li><p>shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)</p></li>
+<li><p>shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)</p></li>
+<li><p>shape of eigenspectrums (E): (n_molecules, max_n_atoms)</p></li>
+<li><p>shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)</p></li>
+<li><p>shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)</p></li>
 </ul>
 </div></blockquote>
 </dd>
@@ -624,20 +661,23 @@ The exact shape of the dataframe depends on the type of CM as follows:</p>
 
 <dl class="class">
 <dt id="chemml.chem.BagofBonds">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">BagofBonds</code><span class="sig-paren">(</span><em>const=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">BagofBonds</code><span class="sig-paren">(</span><em class="sig-param">const=1.0</em>, <em class="sig-param">n_jobs=-1</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds" title="Permalink to this definition">¶</a></dt>
 <dd><p>The implementation of bag of bonds version of coulomb matrix by katja Hansen et. al. 2015, JPCL.</p>
-<dl class="docutils">
-<dt>const: float, optional (default = 1.0)</dt>
-<dd><p class="first">The constant value for coordinates unit conversion to atomic unit
+<dl>
+<dt>const: float, optional (default = 1.0)</dt><dd><p>The constant value for coordinates unit conversion to atomic unit
 if const=1.0, returns atomic unit
 if const=0.529, returns Angstrom</p>
-<p class="last">const/<a href="#id3"><span class="problematic" id="id4">|Ri-Rj|</span></a>, which denominator is the euclidean distance
+<p>const/<a href="#id3"><span class="problematic" id="id4">|Ri-Rj|</span></a>, which denominator is the euclidean distance
 between two atoms</p>
 </dd>
+<dt>n_jobs: int, optional(default=-1)</dt><dd><p>The number of parallel processes. If -1, uses all the available processes.</p>
+</dd>
+<dt>verbose: bool, optional(default=True)</dt><dd><p>The verbosity of messages.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt><a href="#id5"><span class="problematic" id="id6">header_</span></a>: list of header for the bag of bonds data frame</dt>
-<dd>contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)</dd>
+<dl class="simple">
+<dt><a href="#id9"><span class="problematic" id="id10">header_</span></a>: list of header for the bag of bonds data frame</dt><dd><p>contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)</p>
+</dd>
 </dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="k">import</span> <span class="n">load_xyz_polarizability</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="k">import</span> <span class="n">BagofBonds</span>
@@ -645,123 +685,135 @@ between two atoms</p>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_xyz_polarizability</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span> <span class="o">=</span> <span class="n">BagofBonds</span><span class="p">(</span><span class="n">const</span><span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="method">
-<dt id="chemml.chem.BagofBonds.represent">
-<code class="descname">represent</code><span class="sig-paren">(</span><em>molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds.represent" title="Permalink to this definition">¶</a></dt>
-<dd><p>provides bag of bonds representation for input molecules.</p>
-<dl class="docutils">
-<dt>molecules: chemml.chem.Molecule object or list</dt>
-<dd>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
-In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
-stored or optimized in advance.</dd>
+<dt id="chemml.chem.BagofBonds.concat_mol_features">
+<code class="sig-name descname">concat_mol_features</code><span class="sig-paren">(</span><em class="sig-param">bbs_info</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds.concat_mol_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function concatenates a list of molecules features from parallel run</p>
+<dl class="simple">
+<dt>bbs_info: list or tuple</dt><dd><p>The list or tuple of features and keys</p>
+</dd>
 </dl>
-<p>pandas data frame, shape: (n_molecules, max_length_of_combinations)</p>
+<dl class="simple">
+<dt>features: data frame</dt><dd><p>A single dataframe of all features</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.chem.BagofBonds.represent">
+<code class="sig-name descname">represent</code><span class="sig-paren">(</span><em class="sig-param">molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds.represent" title="Permalink to this definition">¶</a></dt>
+<dd><p>provides bag of bonds representation for input molecules.</p>
+<dl class="simple">
+<dt>molecules: chemml.chem.Molecule object or array</dt><dd><p>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
+stored or optimized in advance.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>features: pandas data frame, shape: (n_molecules, max_length_of_combinations)</dt><dd><p>The bag of bond features.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="chemml.chem.RDKitFingerprint">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">RDKitFingerprint</code><span class="sig-paren">(</span><em>fingerprint_type='Morgan'</em>, <em>vector='bit'</em>, <em>n_bits=1024</em>, <em>radius=2</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">RDKitFingerprint</code><span class="sig-paren">(</span><em class="sig-param">fingerprint_type='Morgan'</em>, <em class="sig-param">vector='bit'</em>, <em class="sig-param">n_bits=1024</em>, <em class="sig-param">radius=2</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is an interface to the available molecular fingerprints in the RDKit package.</p>
-<dl class="docutils">
-<dt>fingerprint_type <span class="classifier-delimiter">:</span> <span class="classifier">str, optional (default=’Morgan’)</span></dt>
-<dd><dl class="first last docutils">
-<dt>The type of fingerprint. Available fingerprint types:</dt>
-<dd><ul class="first last simple">
-<li>‘hashed_atom_pair’ or ‘hap’</li>
-<li>‘MACCS’ or ‘maccs’</li>
-<li>‘morgan’</li>
-<li>‘hashed_topological_torsion’ or ‘htt’</li>
-<li>‘topological_torsion’ or ‘tt’</li>
+<dl>
+<dt>fingerprint_type<span class="classifier">str, optional (default=’Morgan’)</span></dt><dd><dl class="simple">
+<dt>The type of fingerprint. Available fingerprint types:</dt><dd><ul class="simple">
+<li><p>‘hashed_atom_pair’ or ‘hap’</p></li>
+<li><p>‘MACCS’ or ‘maccs’</p></li>
+<li><p>‘morgan’</p></li>
+<li><p>‘hashed_topological_torsion’ or ‘htt’</p></li>
+<li><p>‘topological_torsion’ or ‘tt’</p></li>
 </ul>
 </dd>
 </dl>
 </dd>
-<dt>vector: str, optional (default = ‘bit’)</dt>
-<dd><dl class="first last docutils">
-<dt>Available options for vector:</dt>
-<dd><ul class="first last simple">
-<li><dl class="first docutils">
-<dt>‘int’ <span class="classifier-delimiter">:</span> <span class="classifier">represent counts for each fragment instead of bits</span></dt>
-<dd>It is not available for ‘MACCS’.</dd>
+<dt>vector: str, optional (default = ‘bit’)</dt><dd><dl class="simple">
+<dt>Available options for vector:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>‘int’<span class="classifier">represent counts for each fragment instead of bits</span></dt><dd><p>It is not available for ‘MACCS’.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>‘bit’ <span class="classifier-delimiter">:</span> <span class="classifier">only zeros and ones</span></dt>
-<dd>It is not available for ‘Topological_torsion’.</dd>
+<li><dl class="simple">
+<dt>‘bit’<span class="classifier">only zeros and ones</span></dt><dd><p>It is not available for ‘Topological_torsion’.</p>
+</dd>
 </dl>
 </li>
 </ul>
 </dd>
 </dl>
 </dd>
-<dt>n_bits: int, optional (default = 1024)</dt>
-<dd><p class="first">It sets number of elements/bits in the ‘bit’ type of fingerprint vectors.
+<dt>n_bits: int, optional (default = 1024)</dt><dd><p>It sets number of elements/bits in the ‘bit’ type of fingerprint vectors.
 Not availble for:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li>‘MACCS’ - (MACCS keys have a fixed length of 167 bits)</li>
-<li>‘Topological_torsion’ - doesn’t return a bit vector at all.</li>
+<li><p>‘MACCS’ - (MACCS keys have a fixed length of 167 bits)</p></li>
+<li><p>‘Topological_torsion’ - doesn’t return a bit vector at all.</p></li>
 </ul>
 </div></blockquote>
 </dd>
-<dt>radius: int, optional (default = 2)</dt>
-<dd>only applicable if calculating ‘Morgan’ fingerprint.</dd>
-<dt>kwargs:</dt>
-<dd>Any additional argument that should be passed to the rdkit fingerprint function.</dd>
+<dt>radius: int, optional (default = 2)</dt><dd><p>only applicable if calculating ‘Morgan’ fingerprint.</p>
+</dd>
+<dt>kwargs:</dt><dd><p>Any additional argument that should be passed to the rdkit fingerprint function.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt><a href="#id7"><span class="problematic" id="id8">n_molecules_</span></a>: int</dt>
-<dd>The number of molecules that are received.</dd>
-<dt><a href="#id9"><span class="problematic" id="id10">fps_</span></a>: list</dt>
-<dd>The list of rdkit fingerprint objects.</dd>
+<dl class="simple">
+<dt><a href="#id11"><span class="problematic" id="id12">n_molecules_</span></a>: int</dt><dd><p>The number of molecules that are received.</p>
+</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">fps_</span></a>: list</dt><dd><p>The list of rdkit fingerprint objects.</p>
+</dd>
 </dl>
 <dl class="method">
 <dt id="chemml.chem.RDKitFingerprint.load_sparse">
-<code class="descname">load_sparse</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.load_sparse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_sparse</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.load_sparse" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function enables you to load sparse matrix with the <cite>.npz</cite> format and convert it to a pandas dataframe.</p>
-<dl class="docutils">
-<dt>file: str</dt>
-<dd>Must be a path to the file with .npz format.</dd>
+<dl class="simple">
+<dt>file: str</dt><dd><p>Must be a path to the file with .npz format.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>pandas.DataFrame</dt>
-<dd>The dense dataframe of the passed sparse file.</dd>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>The dense dataframe of the passed sparse file.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.RDKitFingerprint.represent">
-<code class="descname">represent</code><span class="sig-paren">(</span><em>molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">represent</code><span class="sig-paren">(</span><em class="sig-param">molecules</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main function to provide fingerprint representation of input molecule(s).</p>
-<dl class="docutils">
-<dt>molecules: chemml.chem.Molecule object or list</dt>
-<dd>It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
+<dl class="simple">
+<dt>molecules: chemml.chem.Molecule object or list</dt><dd><p>It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
 If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
 smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
-kekulized, or canonical smiles.</dd>
+kekulized, or canonical smiles.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>pandas.DataFrame</dt>
-<dd>A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.</dd>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.RDKitFingerprint.store_sparse">
-<code class="descname">store_sparse</code><span class="sig-paren">(</span><em>file</em>, <em>features</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.store_sparse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">store_sparse</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">features</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.store_sparse" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function helps you to store higly sparse fingerprint feature sets using <cite>.npz</cite> format for memory efficiency and
 less store/load time.
 Another method of this class, <cite>load_sparse</cite>, enables you to load your <cite>.npz</cite> files and convert it back to pandas dataframe.</p>
-<dl class="docutils">
-<dt>file: str</dt>
-<dd>Must be a path to the file with .npz format.</dd>
-<dt>features: pandas.DataFrame</dt>
-<dd>Must be the pandas dataframe as you receive it from <cite>represent</cite> method.</dd>
+<dl class="simple">
+<dt>file: str</dt><dd><p>Must be a path to the file with .npz format.</p>
+</dd>
+<dt>features: pandas.DataFrame</dt><dd><p>Must be the pandas dataframe as you receive it from <cite>represent</cite> method.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -769,28 +821,27 @@ Another method of this class, <cite>load_sparse</cite>, enables you to load your
 
 <dl class="class">
 <dt id="chemml.chem.Dragon">
-<em class="property">class </em><code class="descclassname">chemml.chem.</code><code class="descname">Dragon</code><span class="sig-paren">(</span><em>version=7, molFile='required_required', molInput='file', CheckUpdates=True, SaveLayout=True, PreserveTemporaryProjects=True, ShowWorksheet=False, Decimal_Separator='.', Missing_String='NaN', DefaultMolFormat='1', HelpBrowser='/usr/bin/xdg-open', RejectUnusualValence=False, Add2DHydrogens=False, MaxSRforAllCircuit='19', MaxSR='35', MaxSRDetour='30', MaxAtomWalkPath='2000', LogPathWalk=True, LogEdge=True, Weights=('Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'), SaveOnlyData=False, SaveLabelsOnSeparateFile=False, SaveFormatBlock='%b-%n.txt', SaveFormatSubBlock='%b-%s-%n-%m.txt', SaveExcludeMisVal=False, SaveExcludeAllMisVal=False, SaveExcludeConst=False, SaveExcludeNearConst=False, SaveExcludeStdDev=False, SaveStdDevThreshold='0.0001', SaveExcludeCorrelated=False, SaveCorrThreshold='0.95', SaveExclusionOptionsToVariables=False, SaveExcludeMisMolecules=False, SaveExcludeRejectedMolecules=False, blocks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], molInputFormat='SMILES', SaveStdOut=False, SaveProject=False, SaveProjectFile='Dragon_project.drp', SaveFile=True, SaveType='singlefile', SaveFilePath='Dragon_descriptors.txt', logMode='file', logFile='Dragon_log.txt', external=False, fileName=None, delimiter=',', consecutiveDelimiter=False, MissingValue='NaN', RejectDisconnectedStrucuture=False, RetainBiggestFragment=False, DisconnectedCalculationOption='0', RoundCoordinates=True, RoundWeights=True, RoundDescriptorValues=True, knimemode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">Dragon</code><span class="sig-paren">(</span><em class="sig-param">version=7, molFile='required_required', molInput='file', CheckUpdates=True, SaveLayout=True, PreserveTemporaryProjects=True, ShowWorksheet=False, Decimal_Separator='.', Missing_String='NaN', DefaultMolFormat='1', HelpBrowser='/usr/bin/xdg-open', RejectUnusualValence=False, Add2DHydrogens=False, MaxSRforAllCircuit='19', MaxSR='35', MaxSRDetour='30', MaxAtomWalkPath='2000', LogPathWalk=True, LogEdge=True, Weights=('Mass', 'VdWVolume', 'Electronegativity', 'Polarizability', 'Ionization', 'I-State'), SaveOnlyData=False, SaveLabelsOnSeparateFile=False, SaveFormatBlock='%b-%n.txt', SaveFormatSubBlock='%b-%s-%n-%m.txt', SaveExcludeMisVal=False, SaveExcludeAllMisVal=False, SaveExcludeConst=False, SaveExcludeNearConst=False, SaveExcludeStdDev=False, SaveStdDevThreshold='0.0001', SaveExcludeCorrelated=False, SaveCorrThreshold='0.95', SaveExclusionOptionsToVariables=False, SaveExcludeMisMolecules=False, SaveExcludeRejectedMolecules=False, blocks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], molInputFormat='SMILES', SaveStdOut=False, SaveProject=False, SaveProjectFile='Dragon_project.drp', SaveFile=True, SaveType='singlefile', SaveFilePath='Dragon_descriptors.txt', logMode='file', logFile='Dragon_log.txt', external=False, fileName=None, delimiter=',', consecutiveDelimiter=False, MissingValue='NaN', RejectDisconnectedStrucuture=False, RetainBiggestFragment=False, DisconnectedCalculationOption='0', RoundCoordinates=True, RoundWeights=True, RoundDescriptorValues=True, knimemode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon" title="Permalink to this definition">¶</a></dt>
 <dd><p>An interface to Dragon 6 and 7 chemoinformatics software. Dragon is a commercial software and
 you should provide</p>
-<dl class="docutils">
-<dt>version: int, optional (default=7)</dt>
-<dd>The version of available Dragon on the user’s system. (available versions: 6 or 7)</dd>
-<dt>Weights: list, optional (default=[“Mass”,”VdWVolume”,”Electronegativity”,”Polarizability”,”Ionization”,”I-State”])</dt>
-<dd>A list of weights to be used</dd>
-<dt>blocks: list, optional (default = list(range(1,31)))</dt>
-<dd>A list of integers as descriptor blocks’ id. There are totally 29 and 30 blocks available in
+<dl class="simple">
+<dt>version: int, optional (default=7)</dt><dd><p>The version of available Dragon on the user’s system. (available versions: 6 or 7)</p>
+</dd>
+<dt>Weights: list, optional (default=[“Mass”,”VdWVolume”,”Electronegativity”,”Polarizability”,”Ionization”,”I-State”])</dt><dd><p>A list of weights to be used</p>
+</dd>
+<dt>blocks: list, optional (default = list(range(1,31)))</dt><dd><p>A list of integers as descriptor blocks’ id. There are totally 29 and 30 blocks available in
 version 6 and 7, respectively.
 This module is not atimed to cherry pick descriptors in each block.
-For doing so, please use Script Wizard in Drgon GUI.</dd>
-<dt>external: boolean, optional (default=False)</dt>
-<dd>If True, include external variables at the end of each saved file.</dd>
+For doing so, please use Script Wizard in Drgon GUI.</p>
+</dd>
+<dt>external: boolean, optional (default=False)</dt><dd><p>If True, include external variables at the end of each saved file.</p>
+</dd>
 </dl>
 <blockquote>
-<div><dl class="docutils">
-<dt>The documentation for the rest of parameters can be found in the following links:</dt>
-<dd><ul class="first last simple">
-<li><a class="reference external" href="http://www.talete.mi.it/help/dragon_help/index.html">http://www.talete.mi.it/help/dragon_help/index.html</a></li>
-<li><a class="reference external" href="https://chm.kode-solutions.net/products_dragon_tutorial.php">https://chm.kode-solutions.net/products_dragon_tutorial.php</a></li>
+<div><dl class="simple">
+<dt>The documentation for the rest of parameters can be found in the following links:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="http://www.talete.mi.it/help/dragon_help/index.html">http://www.talete.mi.it/help/dragon_help/index.html</a></p></li>
+<li><p><a class="reference external" href="https://chm.kode-solutions.net/products_dragon_tutorial.php">https://chm.kode-solutions.net/products_dragon_tutorial.php</a></p></li>
 </ul>
 </dd>
 </dl>
@@ -810,46 +861,142 @@ script = ‘new’</p>
 </div>
 <dl class="method">
 <dt id="chemml.chem.Dragon.convert_to_csv">
-<code class="descname">convert_to_csv</code><span class="sig-paren">(</span><em>remove=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.convert_to_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">convert_to_csv</code><span class="sig-paren">(</span><em class="sig-param">remove=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.convert_to_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function converts the tab-delimited txt file from Dragon to pandas dataframe.
 Note that this process might require large memory based on the number of data points and features.</p>
-<dl class="docutils">
-<dt>remove: bool, optional (default = True)</dt>
-<dd>if True, the original descriptors file (Dragon_descriptors.txt) will be removed.</dd>
+<dl class="simple">
+<dt>remove: bool, optional (default = True)</dt><dd><p>if True, the original descriptors file (Dragon_descriptors.txt) will be removed.</p>
+</dd>
 </dl>
-<dl class="docutils">
-<dt>pandas.DataFrame</dt>
-<dd>The 2D dataframe of the descriptors. Note that the first two columns are ‘No.’ and ‘NAME’.</dd>
+<dl class="simple">
+<dt>pandas.DataFrame</dt><dd><p>The 2D dataframe of the descriptors. Note that the first two columns are ‘No.’ and ‘NAME’.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="chemml.chem.Dragon.script_wizard">
-<code class="descname">script_wizard</code><span class="sig-paren">(</span><em>script='new'</em>, <em>output_directory='./'</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.script_wizard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">script_wizard</code><span class="sig-paren">(</span><em class="sig-param">script='new'</em>, <em class="sig-param">output_directory='./'</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon.script_wizard" title="Permalink to this definition">¶</a></dt>
 <dd><p>The script_wizard is designed to build a Dragon script file. The name and
 the functionality of this function is the same as available Script wizard
 in the Dragon Graphic User Interface.
 Note: All reported nodes are mandatory, except the &lt;EXTERNAL&gt; tag
 Note: Script for version 7 doesn’t support fingerprints block</p>
-<dl class="docutils">
-<dt>script: string, optional (default=”new”)</dt>
-<dd>If “new” start creating a new script from scratch. If you want to load an existing script,
-pass the filename with drs format.</dd>
-<dt>output_directory: string, optional (default = ‘./’)</dt>
-<dd>the path to the working directory to store output files.</dd>
-<dt>dragon: xml element</dt>
-<dd>Dragon script in  xml format.</dd>
-<dt>drs: string</dt>
-<dd>Dragon script file name</dd>
-<dt>data_path: string</dt>
-<dd>The path+name of saved data file in any format. If saveType is ‘block’
+<dl class="simple">
+<dt>script: string, optional (default=”new”)</dt><dd><p>If “new” start creating a new script from scratch. If you want to load an existing script,
+pass the filename with drs format.</p>
+</dd>
+<dt>output_directory: string, optional (default = ‘./’)</dt><dd><p>the path to the working directory to store output files.</p>
+</dd>
+<dt>dragon: xml element</dt><dd><p>Dragon script in  xml format.</p>
+</dd>
+<dt>drs: string</dt><dd><p>Dragon script file name</p>
+</dd>
+<dt>data_path: string</dt><dd><p>The path+name of saved data file in any format. If saveType is ‘block’
 or ‘subblock’ data_path is just the path to the directory that all data
-files have been saved.</dd>
+files have been saved.</p>
+</dd>
 </dl>
 <blockquote>
-<div>class parameters</div></blockquote>
+<div><p>class parameters</p>
+</div></blockquote>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="chemml.chem.atom_features">
+<code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">atom_features</code><span class="sig-paren">(</span><em class="sig-param">atom</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.atom_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function encodes the RDKit atom to a binary vector.</p>
+<dl class="simple">
+<dt>bond: rdkit.Chem.rdchem.Bond</dt><dd><p>The bond must be an RDKit Bond object.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>features: array</dt><dd><p>A binary array with length 6 that specifies the type of bond, if it is
+a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="chemml.chem.bond_features">
+<code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">bond_features</code><span class="sig-paren">(</span><em class="sig-param">bond</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.bond_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function encodes the RDKit bond to a binary vector.</p>
+<dl class="simple">
+<dt>bond: rdkit.Chem.rdchem.Bond</dt><dd><p>The bond must be an RDKit Bond object.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>features: array</dt><dd><p>A binary array with length 6 that specifies the type of bond, if it is
+a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="chemml.chem.num_atom_features">
+<code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">num_atom_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.num_atom_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the number of atomic features that are available by this module.</p>
+<dl class="simple">
+<dt>n_features: int</dt><dd><p>length of atomic feature vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="chemml.chem.num_bond_features">
+<code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">num_bond_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.num_bond_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the number of bond features that are available by this module.</p>
+<dl class="simple">
+<dt>n_features: int</dt><dd><p>length of bond feature vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="chemml.chem.tensorise_molecules">
+<code class="sig-prename descclassname">chemml.chem.</code><code class="sig-name descname">tensorise_molecules</code><span class="sig-paren">(</span><em class="sig-param">molecules</em>, <em class="sig-param">max_degree=5</em>, <em class="sig-param">max_atoms=None</em>, <em class="sig-param">n_jobs=-1</em>, <em class="sig-param">batch_size=3000</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.tensorise_molecules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a list of molecules and provides tensor representation of atom and bond features.
+This representation is based on the “convolutional networks on graphs for learning molecular fingerprints” by
+David Duvenaud et al., NIPS 2015.</p>
+<dl class="simple">
+<dt>molecules: chemml.chem.Molecule object or array</dt><dd><p>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
+In addition, all the molecule objects must provide the SMILES representation.
+We try to create the SMILES representation if it’s not available.</p>
+</dd>
+<dt>max_degree: int, optional (default=5)</dt><dd><p>The maximum number of neighbour per atom that each molecule can have
+(to which all molecules will be padded), use ‘None’ for auto</p>
+</dd>
+<dt>max_atoms: int, optional (default=None)</dt><dd><p>The maximum number of atoms per molecule (to which all
+molecules will be padded), use ‘None’ for auto</p>
+</dd>
+<dt>n_jobs: int, optional(default=-1)</dt><dd><p>The number of parallel processes. If -1, uses all the available processes.</p>
+</dd>
+<dt>batch_size: int, optional(default=3000)</dt><dd><p>The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays</p>
+</dd>
+<dt>verbose: bool, optional(default=True)</dt><dd><p>The verbosity of messages.</p>
+</dd>
+</dl>
+<blockquote>
+<div><p>It is not recommended to set max_degree to <cite>None</cite>/auto when
+using <cite>NeuralGraph</cite> layers. Max_degree determines the number of
+trainable parameters and is essentially a hyperparameter.
+While models can be rebuilt using different <cite>max_atoms</cite>, they cannot
+be rebuild for different values of <cite>max_degree</cite>, as the architecture
+will be different.</p>
+<p>For organic molecules <cite>max_degree=5</cite> is a good value (Duvenaud et. al, 2015)</p>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt>atoms: array</dt><dd><p>An atom feature array of shape (molecules, max_atoms, atom_features)</p>
+</dd>
+<dt>bonds: array</dt><dd><p>A bonds array of shape (molecules, max_atoms, max_degree)</p>
+</dd>
+</dl>
+<p>edges: array
+A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)</p>
+</div></blockquote>
 </dd></dl>
 
 </div>
@@ -865,7 +1012,7 @@ files have been saved.</dd>
         <a href="chemml.chem.magpie_python.html" class="btn btn-neutral float-right" title="Magpie_Python module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ga_feature_selection.html" class="btn btn-neutral" title="Feature Selection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ga_feature_selection.html" class="btn btn-neutral float-left" title="Feature Selection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -874,7 +1021,7 @@ files have been saved.</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari.
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
 
     </p>
   </div>
@@ -891,35 +1038,16 @@ files have been saved.</dd>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.4',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script type="text/javascript" src="None"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

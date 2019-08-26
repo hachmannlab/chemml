@@ -7,7 +7,6 @@ from ....utility.tools.OxidationStateGuesser import OxidationStateGuesser
 
 class IonicityAttributeGenerator:
     """Class to generate the attributes based on the ionicity of a compound.
-
     Creates attributes based on whether it is possible to form a
     charge-neutral ionic compound, and two features based on a simple measure
     of "bond ionicity" (see Ref. [1]).
@@ -16,7 +15,6 @@ class IonicityAttributeGenerator:
     -----
     Bond ionicity is defined as:
     .. math:: I(x,y) = 1 - \exp(-0.25* [\chi(x) - \chi(y)]^2)
-
     Maximum ionic character: Max I(x,y) between any two constituents.
     Mean ionic character: :math: `\sum x_i * x_j * I(i,j)` where :math: `x_i`
     is the fraction of element :math: `i` and :math: `\chi(x)` is the

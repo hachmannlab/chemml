@@ -6,9 +6,6 @@ class CoulombSineMatrixRegression:
     """Class to perform regression based on the Coulomb Sine Matrix approach of
     Faber et al. [1].
 
-    LW 1Apr15: This method does not appear to be insensitive to basis cell
-    selection.
-
     Attributes
     ----------
     sigma : float

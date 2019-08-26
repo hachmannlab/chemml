@@ -35,17 +35,17 @@ class GeneticAlgorithm(object):
             pop_size: integer, optional (default = 50)
                 Size of the population
 
+            crossover_size: int, optional (default = 30)
+                Number of individuals to select for crossover.
+
+            mutation_size: int, optional (default = 20)
+                Number of individuals to select for mutation.
+
             crossover_type: string, optional (default = "Blend")
                 Type of crossover: SinglePoint, DoublePoint, Blend, Uniform 
 
             mutation_prob: float, optional (default = 0.4)
                 Probability of mutation.
-
-            crossover_size: float, optional (default = 0.8)
-                Fraction of population to select for crossover.
-
-            mutation_size: float, optional (default = 0.3)
-                Fraction of population to select for mutation.
 
             algorithm: int, optional (default=1)
                 The algorithm to use for the search. Look at the 'search' method for a description of the various algorithms.
@@ -60,19 +60,20 @@ class GeneticAlgorithm(object):
                 space,
                 fitness=("Max", ), 
                 pop_size=50,
-                crossover_type="Blend", 
+                crossover_size=30,
+                mutation_size=20,
+                crossover_type="Blend",
+                fused_cutoff = 5,
                 mutation_prob=0.6,
-                crossover_size=0.6,
-                mutation_size=0.4,
-                algorithm=1,
+                algorithm=3,
                 initial_population=None):
 
         self.chromosome_length = len(space)
         if self.chromosome_length < 1:
             print("Space variable not defined. Aborting.")
             exit(code=1)
-        if self.chromosome_length <2 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for gene length 2.')
-        if self.chromosome_length <3 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for gene length 2.')
+        if self.chromosome_length <2 and crossover_type == "SinglePoint": raise Exception('Single point crossover not possible for chromosome length 1.')
+        if self.chromosome_length <3 and crossover_type == "DoublePoint": raise Exception('Double point crossover not possible for chromosome length 2.')
         self.chromosome_type, self.bit_limits, self.mutation_params, self.var_names = [], [], [], []
         
         uni = 0
@@ -102,6 +103,7 @@ class GeneticAlgorithm(object):
         self.pop_size = pop_size
         self.mutation_prob = mutation_prob
         self.crossover_type = crossover_type
+        self.fused_cutoff = fused_cutoff
         self.crossover_size = crossover_size
         self.mutation_size = mutation_size
         self.algo = algorithm
@@ -110,6 +112,7 @@ class GeneticAlgorithm(object):
         for i in fitness:
             if i.lower() == 'max': self.fit_val.append(1)
             else: self.fit_val.append(-1)
+        # if there is no uniform type in the space parameter, use a pre-defined crossover and mutation list as follows: 
         if uni == 0:
             if len(space) == 1: self.global_cm_list = self.bit_limits[0]
             else:
@@ -170,27 +173,48 @@ class GeneticAlgorithm(object):
         ind1, ind2 = [parents[random.randint(0, 1)][i] for i in range(len(x1))], [parents[random.randint(0, 1)][i] for i in range(len(x1))]   
         return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
 
-    def blend(self, ind1, ind2, z=0.4):
-        ind1, ind2 = list(ind1), list(ind2)
+    def blend(self, ind1, ind2, fitness_dict, z=0.4, alpha=0.5, beta=0.1):
+        # rank all individuals in fitness dict
+        ranked_list = self.select([i for i in fitness_dict], fitness_dict, len(fitness_dict.items()), choice="best")
+        # determine the better individual among the two for implementing the alpha-beta crossover
+        if ranked_list.index(ind1) < ranked_list.index(ind2): better, worse = deepcopy(list(ind1)), deepcopy(list(ind2))
+        else: better, worse = deepcopy(list(ind2)), deepcopy(list(ind1))
+        
         for i in range(self.chromosome_length):
+            # for type 'choice' apply roulette wheel selection by biasing the wheel towards the two current values
             if self.chromosome_type[i] == 'choice':
-                if len(self.bit_limits[i]) == 2: ind1[i], ind2[i] = ind2[i], ind1[i]
+                if len(self.bit_limits[i]) == 2: better[i], worse[i] = worse[i], better[i]
                 else:
                     scores = []
                     for inx, ch in enumerate(self.bit_limits[i]):
-                        if ch == ind1[i] or ch == ind2[i]: scores.append(3)
+                        if ch == better[i] or ch == worse[i]: scores.append(3)
                         else: scores.append(1)
                     sc_dict = {self.bit_limits[i][j]: scores[j] for j in range(len(scores))}
-                    ind1[i], ind2[i] = self.select(self.bit_limits[i], sc_dict, 2)
+                    better[i], worse[i] = self.select(self.bit_limits[i], sc_dict, 2)
             else:
                 while True:
-                    chi = (1 + z) * random.random() - z
-                    tm1, tm2 = (1-chi)*ind1[i]+chi*ind2[i], chi*ind1[i]+(1-chi)*ind2[i]
+                    d = abs(better[i] - worse[i])
+                    if (better[i] <= worse[i]):
+                        min = better[i] - d * alpha
+                        max = worse[i] + d * beta
+                    else:
+                        min = worse[i] - d * beta
+                        max = better[i] + d * alpha
+                    tm1, tm2 = min + random.random() * (max - min), min + random.random() * (max - min)
+                    # check new values with user-defined bounds
                     if self.bit_limits[i][0] <= tm1 <= self.bit_limits[i][1] and self.bit_limits[i][0] <= tm2 <= self.bit_limits[i][1]: break
-                ind1[i], ind2[i] = tm1, tm2
+                better[i], worse[i] = tm1, tm2
                 if self.chromosome_type[i] == 'int':
-                    ind1[i], ind2[i] = int(ind1[i]), int(ind2[i])
-        return tuple(deepcopy(ind1)), tuple(deepcopy(ind2))
+                    better[i], worse[i] = int(better[i]), int(worse[i])
+        return tuple(deepcopy(better)), tuple(deepcopy(worse))
+
+    def fused(self, ind1, ind2, fitness_dict):
+        ind1, ind2 = list(ind1), list(ind2)
+        x_ind1, y_ind1 = ind1[:self.fused_cutoff], ind1[self.fused_cutoff:]
+        x_ind2, y_ind2 = ind2[:self.fused_cutoff], ind2[self.fused_cutoff:]
+        x_ind1, x_ind2 = self.blend(x_ind1, x_ind2, fitness_dict)
+        y_ind1, y_ind2 = self.UniformCrossover(y_ind1, y_ind2)
+        return tuple(deepcopy(list(x_ind1) + list(y_ind1))), tuple(deepcopy(list(x_ind2) + list(y_ind2)))
 
     def select(self, population, fit_dict, num, choice="Roulette"):
         if num >= len(population): return population
@@ -226,7 +250,12 @@ class GeneticAlgorithm(object):
             return best
 
     def custom_mutate(self, indi, fitness_dict):
+        # rank all individuals in fitness dict
+        ranked_list = self.select([i for i in fitness_dict], fitness_dict, len(fitness_dict.items()), choice="best")
+        # calculate parameter to adjust Gaussian distribution according to individual's rank for uniform type
+        parent_fit_param = (ranked_list.index(indi) + 1)*2/len(ranked_list)
         indi = list(indi)
+        # if there is no uniform type hyperparamter in the space variable, run the 'if' condition below to select from a pre-defined superlist of mutations and crossovers.
         if self.global_cm_list is not None:
             try:
                 if self.chromosome_length == 1:
@@ -242,7 +271,9 @@ class GeneticAlgorithm(object):
             if self.chromosome_type[i] == 'uniform':
                 if random.random() < self.mutation_prob:
                     while True:
-                        add = random.gauss(self.mutation_params[i][0], self.mutation_params[i][1]) + indi[i]
+                        # modify the gaussian mean and standard deviation according to individual's rank
+                        add = random.gauss(self.mutation_params[i][0], parent_fit_param*self.mutation_params[i][1]) + indi[i]
+                        # check validity of new value in the user-defined range
                         if self.bit_limits[i][0] <= add <= self.bit_limits[i][1]: break
                     indi[i] = add
             elif self.chromosome_type[i] == 'int':
@@ -252,7 +283,7 @@ class GeneticAlgorithm(object):
             elif self.chromosome_type[i] == 'choice':
                 if random.random() < self.mutation_prob:
                     indi[i] = random.choice(list(set(self.bit_limits[i]) - set([indi[i]])))
-        if tuple(indi) in fitness_dict.keys(): indi = self.custom_mutate(indi, fitness_dict)
+        if tuple(indi) in fitness_dict.keys(): indi = self.custom_mutate(tuple(indi), fitness_dict)
         return tuple(indi)
 
     def search(self, n_generations=20, early_stopping=10, init_ratio = 0.35, crossover_ratio = 0.35):
@@ -318,8 +349,6 @@ class GeneticAlgorithm(object):
 
         if init_ratio >=1 or crossover_ratio >=1 or (init_ratio+crossover_ratio)>=1: raise Exception("Sum of parameters init_ratio and crossover_ratio should be in the range (0,1)")
         if self.population is not None:
-            # pop = [i for i in self.population]
-            # fitness_dict = self.population
             pop = self.population
             fitness_dict = self.fitness_dict
         else:
@@ -330,26 +359,29 @@ class GeneticAlgorithm(object):
         fitness_dict = fit_eval(pop, fitness_dict)
 
         best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
-        for _ in range(n_generations):
+        for c_gen in range(n_generations):
             if convergence >= early_stopping:
                 print("The search converged with convergence criteria = ", early_stopping)
                 break
             else:
                 st_time = time.time()
                 cross_pop, mutant_pop, co_pop, psum = [], [], [], len(list(fitness_dict.items()))
+                
                 # Generate crossover population
-                co_pop = self.select(pop, fitness_dict, int(math.ceil(self.crossover_size*len(pop))))
+                co_pop = self.select(pop, fitness_dict, int(math.ceil(self.crossover_size)))
                 co_pop = list(itertools.combinations(list(set(co_pop)), 2))
                 combi = list(itertools.combinations(list(set(pop + total_pop)), 2))
                 co_pop += combi
                 for child1, child2 in co_pop:
-                    if (len(list(fitness_dict.items())) - psum) >= int(math.ceil(self.crossover_size*len(pop))): break
+                    if (len(list(fitness_dict.items())) - psum) >= int(math.ceil(self.crossover_size)): break
                     if self.crossover_type == "SinglePoint":
                         c1, c2 = self.SinglePointCrossover(child1, child2)
                     elif self.crossover_type == "DoublePoint":
                         c1, c2 = self.DoublePointCrossover(child1, child2)
                     elif self.crossover_type == "Blend":
-                        c1, c2 = self.blend(child1, child2)
+                        c1, c2 = self.blend(child1, child2, fitness_dict)
+                    elif self.crossover_type == "Fused":
+                        c1, c2 = self.fused(child1, child2, fitness_dict)
                     elif self.crossover_type == "Uniform":
                         c1, c2 = self.UniformCrossover(child1, child2)
                     if c1 in fitness_dict.keys() or c2 in fitness_dict.keys() or c1==c2: continue
@@ -358,9 +390,9 @@ class GeneticAlgorithm(object):
                     
                 # Generate mutation population
                 if self.algo == 4:
-                    mu_pop = self.select(cross_pop, fitness_dict, int(math.ceil(self.pop_size*self.mutation_size)))
+                    mu_pop = self.select(cross_pop, fitness_dict, int(math.ceil(self.mutation_size)))
                 else:
-                    mu_pop = self.select(pop, fitness_dict, int(math.ceil(self.mutation_size*len(pop))))
+                    mu_pop = self.select(pop, fitness_dict, int(math.ceil(self.mutation_size)))
                 
                 for mutant in mu_pop:
                     a = self.custom_mutate(mutant, fitness_dict)
@@ -374,12 +406,12 @@ class GeneticAlgorithm(object):
                 
                 # Select the next generation individuals
                 total_pop = pop + cross_pop + mutant_pop
-                if self.algo == 2:
+                if self.algo == 2 and c_gen != n_generations - 1:
                     pop = self.select(total_pop, fitness_dict, self.pop_size)
                 elif self.algo == 3:
                     p1 = self.select(pop, fitness_dict, int(init_ratio*self.pop_size), choice="best")
                     p2 = self.select(cross_pop, fitness_dict, int(crossover_ratio*self.pop_size), choice="best")
-                    p3 = self.select(mutant_pop, fitness_dict, self.pop_size-len(p1)-len(p2), choice="best")
+                    p3 = self.select(mutant_pop, fitness_dict, self.crossover_size+self.mutation_size-len(p1)-len(p2), choice="best")
                     pop = p1 + p2 + p3
                 else: pop = self.select(total_pop, fitness_dict, self.pop_size, choice="best")
                 

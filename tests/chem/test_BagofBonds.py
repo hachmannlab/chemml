@@ -19,6 +19,22 @@ def mols():
     m._xyz = xyz
     return m
 
+
+@pytest.fixture()
+def mols2():
+    m1 = Molecule('c1ccc1', 'smiles')
+    m2 = Molecule('CNC', 'smiles')
+    m3 = Molecule('CC', 'smiles')
+    m4 = Molecule('CCC', 'smiles')
+
+    molecules = [m1, m2, m3, m4]
+
+    for mol in molecules:
+        mol.to_xyz(optimizer='UFF')
+
+    return molecules
+
+
 def test_h2o(mols):
     bob = BagofBonds(const=1.0)
     h2o_df = bob.represent(mols)
@@ -43,3 +59,21 @@ def test_h2o(mols):
     assert a[0][1] == pytest.approx(h2o_df.values[0][ind])
 
 
+def test_mollist(mols2):
+    bob = BagofBonds(const=1.0, n_jobs=2, verbose=False)
+    features = bob.represent(mols2)
+
+    assert features.shape == (4, 13)
+    assert bob.header_.count((6.0,6.0)) == 6
+
+
+def test_exception(mols):
+    # Value error: molecule object
+    bob = BagofBonds(n_jobs=10)
+    with pytest.raises(ValueError):
+        bob.represent('fake')
+    with pytest.raises(ValueError):
+        bob.represent(['fake'])
+    # Value error ndim>1
+    with pytest.raises(ValueError):
+        bob.represent(np.array([[mols],[mols]]))

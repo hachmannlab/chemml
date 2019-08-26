@@ -4,7 +4,6 @@ from .Line import Line
 
 class Plane:
     """Class to represent planes in a three dimensional space.
-
     Documentation obtained from: http://commons.apache.org/proper/commons-math
     /apidocs/org/apache/commons/math4/geometry/euclidean/threed/Plane.html
 
@@ -28,7 +27,6 @@ class Plane:
                  p1=None, p2=None, p3=None):
         """Function to build a plane normal to a given direction and containing
         the origin.
-
         If p is specified, the plane contains the point. If plane is
         specified, makes a copy of the plane.
 
@@ -105,11 +103,9 @@ class Plane:
 
     def orthogonal(self, w):
         """Function to compute a vector orthogonal to a given vector.
-
         Documentation obtained from:
         http://commons.apache.org/proper/commons-math/javadocs/api-3.3/org
         /apache/commons/math3/geometry/euclidean/threed/Vector3D.html
-
         There are an infinite number of normalized vectors orthogonal to the
         instance. This method picks up one of them almost arbitrarily. It is
         useful when one needs to compute a reference frame with one of the
@@ -308,7 +304,6 @@ class Plane:
     def get_offset(self, point=None, plane=None):
         """Function to get the offset (oriented distance) of a parallel plane
         or a point.
-
         This method should be called only for parallel planes
         otherwise the result is not meaningful. The offset is 0 if both
         planes are the same, it is positive if the plane is on the plus side

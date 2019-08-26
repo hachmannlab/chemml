@@ -8,7 +8,6 @@ from ....data.materials.util.LookUpData import LookUpData
 class ElementalPropertyAttributeGenerator:
     """Class to set up and generate descriptors based on elemental property
     statistics.
-
     Computes the mean, maximum, minimum, range, mode and mean
     absolute deviation of all elemental properties provided.
 

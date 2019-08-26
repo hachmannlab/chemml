@@ -9,7 +9,6 @@ from ....models.regression.crystal.PRDFRegression import PRDFRegression
 class PRDFAttributeGenerator:
     """Class to compute attributes based on the Pair Radial Distribution
     Function (PRDF).
-
     Based on work by Schutt et al. [1].
 
     Attributes

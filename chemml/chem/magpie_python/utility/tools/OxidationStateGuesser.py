@@ -50,7 +50,6 @@ class OxidationStateGuesser:
     def get_possible_states(self, entry):
         """Function to compute all the possible oxidation states of a material,
         given its input composition.
-
         The function works by finding all
         combinations of non-zero oxidation states for each element, computing
         which are the most reasonable, and finding which of those have minimum

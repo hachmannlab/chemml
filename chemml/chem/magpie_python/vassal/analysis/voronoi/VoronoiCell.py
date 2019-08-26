@@ -28,7 +28,6 @@ class VoronoiCell:
     """
     def __init__(self, atom, radical, faces=None):
         """Function to initialize a Voronoi cell for a specific atom.
-
         Creates a parallelepiped around the atom defined by its interactions
         with the periodic images across the cube face of the cell, or the
         walls of the cell.
@@ -220,7 +219,6 @@ class VoronoiCell:
     def get_extended_faces(self, cells, index):
         """Function to get faces on the outside of a polyhedron formed by the
         Voronoi cells and its neighbors.
-
         Note: The coordinates of the center of each face may not be correct.
 
         Parameters
@@ -281,7 +279,6 @@ class VoronoiCell:
     def get_neighbors_by_walks(self, cells, shell):
         """Function to get the neighbors in a certain shell, along with weights
         defined by face sizes.
-
         The neighbor shell of an atom is typically defined as all atoms that
         can be reach ed in no fewer than a certain number of steps along the
         a network defined by faces of a Voronoi tessellation. While this works
@@ -290,7 +287,6 @@ class VoronoiCell:
         problems. These atoms with very small faces would be conventionally
         defined as 2nd nearest neighbors but, due to the small faces,
         would be counted as as 1st nearest neighbors.
-
         To combat this problem, we weighing each neighbor based on the face
         sizes. For a first neighbor shell, the weight of an atom is associated
         with its the fraction of the surface area of the cell related to the
@@ -299,7 +295,6 @@ class VoronoiCell:
         this cell ends up at a certain atom after N, non-backtracking walks
         where the probability that it will take a certain step is related to
         the fraction of the face size area.
-
         For example, let's assume this cell is part of a simple-cubic crystal,
         where each cell has 6, equally-sized faces. The probability that it
         ends up at any first shell neighbor is 1/6. After this step,
@@ -391,7 +386,6 @@ class VoronoiCell:
 
     def get_neighbor_shell(self, cells, index):
         """Function to get list of atoms in a certain coordination shell.
-
         A neighbor shell includes all atoms that are a certain number of
         neighbors away that are not in any smaller neighbor shell (e.g. 2nd
         shell neighbors cannot also be 1st nearest neighbors).
@@ -413,10 +407,8 @@ class VoronoiCell:
 
     def get_num_shared_bonds(self, cell, direction, neighbors):
         """Function to compute number of shared bonds.
-
         Atoms are defined as bonded if they share a face between their
         Voronoi cells.
-
         This code determines how many common entries occur between a Voronoi
         cell and a list of neighbor IDs from this cell. Note that in order for
         bonds to be shared, they must connect to the same image of a certain
@@ -458,7 +450,6 @@ class VoronoiCell:
     def get_coordination_shell_shape(self, cells):
         """Function to get the shape of the coordination polyhedron around this
         atom.
-
         This is determined by counting the number of "bonds" between
         first neighbor shell atoms. Here, atoms are "bonded" if their Voronoi
         cells share a face. This is similar to get_polyhedron_shape. See
@@ -502,7 +493,6 @@ class VoronoiCell:
 
     def get_polyhedron_shape(self):
         """Function to compute the polyhedron shape index.
-
         This shape is defined by the "Voronoi Index", which is defined as the
         number of faces with a certain number of sides. This is often
         expressed as (n_3, n_4, n_5, n_6), where n_x is the number of faces
@@ -723,7 +713,6 @@ class VoronoiCell:
     def compute_direct_neighbors(self, faces):
         """Function to compute list of neighbors for the direct polyhedron
         and those that could contribute to the Voronoi polyhedron.
-
         See page 85 of Ref. [1].
 
         Parameters
@@ -802,7 +791,6 @@ class VoronoiCell:
 
     def compute_possible_indirect_neighbors(self, possible_faces):
         """Function to get list of faces that might possibly be indirect.
-
         You must already have computed direct faces and all vertices of the
         direct polyhedron.
 

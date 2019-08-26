@@ -7,10 +7,8 @@ from ....data.materials.util.LookUpData import LookUpData
 class ValenceShellAttributeGenerator:
     """Class that generates attributes based on fraction of electrons in
     valence shell of constituent elements.
-
     Creates 4 features: [Composition-weighted mean # of electrons in the {s,p,
     d,f} shells]/[Mean # of Valence Electrons]
-
     Originally presented by: Meredig et al. [1].
 
     References

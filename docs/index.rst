@@ -23,7 +23,7 @@ representation, preprocessing, analysis, mining, and modeling of large-scale che
 
 Latest Version:
 +++++++++++++++
-   - to find the latest version and release history, click here: https://pypi.org/project/chemml/#history
+   - to find out about the latest version and release history, click here: https://pypi.org/project/chemml/#history
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++

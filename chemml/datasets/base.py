@@ -5,6 +5,7 @@ import pandas as pd
 
 from chemml.chem import Molecule
 
+
 def load_cep_homo():
     """Load and return a small sample of HOMO energies of organic photovoltaic candidates from CEP database (regression).
     Clean Energy Project (CEP) database is available at: https://cepdb.molecularspace.org
@@ -22,10 +23,10 @@ def load_cep_homo():
 
     Returns
     -------
-    pandas dataframe
+    smiles: pandas dataframe
         The SMILES representation of molecules, shape: (500,1)
 
-    pandas dataframe
+    homo: pandas dataframe
         The HOMO energies of the molecules (eV), shape: (500,1)
 
     Examples
@@ -60,13 +61,13 @@ def load_organic_density():
 
     Returns
     -------
-    pandas dataframe
+    smiles: pandas dataframe
         The SMILES representation of molecules, shape: (500,1)
 
-    pandas dataframe
+    density: pandas dataframe
         The density of molecules (Kg/m3), shape: (500,1)
 
-    pandas dataframe
+    features: pandas dataframe
         The molecular descriptors of molecules, shape: (500,200)
 
     Examples
@@ -104,10 +105,10 @@ def load_xyz_polarizability():
 
     Returns
     -------
-    dictionary
-        The xyz coordinates and atomic numbers of each atom of the molecule will be in a numpy array.
+    molecules: list
+        The list of molecule objects with xyz coordinates.
 
-    pandas dataframe
+    pol: pandas dataframe
         The polarizability of each molecule as a column of dataframe.
 
     Examples
@@ -129,6 +130,8 @@ def load_xyz_polarizability():
     molecules = []
     for i in range(1,51):
         molecule = Molecule(os.path.join(DATA_PATH,"%i_opt.xyz"%i), "xyz")
+        molecule.to_smiles()
+        molecule.pybel_molecule = None
         molecules.append(molecule)
 
     df = pd.read_csv(os.path.join(DATA_PATH,'pol.csv'))
@@ -149,10 +152,10 @@ def load_comp_energy():
 
     Returns
     -------
-    list
+    entries: list
         The list of composition entries from CompositionEntry class.
 
-    pandas dataframe
+    energy: pandas dataframe
         The formation energy for each composition.
 
     Examples
@@ -185,7 +188,7 @@ def load_crystal_structures():
 
     Returns
     -------
-    list
+    entries: list
         The list of crystal structure entries from CrystalStructureEntry class.
 
     Examples

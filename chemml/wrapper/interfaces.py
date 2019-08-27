@@ -1,7 +1,6 @@
 import importlib
 
 
-
 def get_api(name, library, module):
     """
     This function import a python library and obtain a specific class or function of it by string names.
@@ -128,16 +127,26 @@ def evaluate_inputs(inputs, stack, typ='function'):
     dict
         A dictionary of all input parameters with their values.
 
+    Notes
+    -----
+    Some notes for developers:
+        - if var name is `*args`, delete it from input dictionary and return it separately
+        - if var name is `obj` in a class, that's an instance of the same class, delete it from input dictionary and
+            return it separately
+        - if there are more than one input per variable (more than two @ sign), keep them as a list. This is the case for:
+            - *args in a function
+            - a variable that can receive a list of data arrays
+        - if var name is **kwargs, make sure its value is a dictionary, then delete it , and add it to the inputs
+
     """
     args = None
     obj = None
     for var in inputs:
         val = evaluate_param_value(inputs[var])
+
+        # string values with @
         if isinstance(val, str) and val[0] == '@' and val.count('@') % 2 == 0:
-            temp = val.strip().split('@')[1:]  # "@ID2@df" >> ['', 'ID2', 'df']
-            val_array = []
-            for item in zip(temp[0::2], temp[1::2]):
-                val_array.append(stack.pull(item))
+            val_array = receiver(val, stack)
             if var == "*args":
                 args = val_array
             elif var == "obj" and typ == "class":
@@ -149,6 +158,21 @@ def evaluate_inputs(inputs, stack, typ='function'):
                     val = val_array
         inputs[var] = val
 
+        # kwargs and dictionary
+        if var=='**kwargs' and isinstance(val, dict):
+            for item in val:
+                item_val = evaluate_param_value(val[item])
+
+                # string and receive from input/output
+                if isinstance(item_val, str) and item_val[0] == '@' and item_val.count('@') % 2 == 0:
+                    val_array = receiver(item_val, stack)
+                    if len(val_array) == 1:
+                        val = val_array[0]
+                    else:
+                        val = val_array
+
+                inputs[item] = val
+
     if args is not None:
         del inputs['*args']
 
@@ -158,3 +182,9 @@ def evaluate_inputs(inputs, stack, typ='function'):
     return {'kwargs':inputs, 'args':args, 'obj': obj}
 
 
+def receiver(val, stack):
+    temp = val.strip().split('@')[1:]  # "@ID2@df" >> ['', 'ID2', 'df']
+    val_array = []
+    for item in zip(temp[0::2], temp[1::2]):
+        val_array.append(stack.pull(item))
+    return val_array

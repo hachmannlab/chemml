@@ -130,7 +130,7 @@ class CoulombMatrix(object):
 
         Returns
         -------
-        Pandas DataFrame
+        features: Pandas DataFrame
             A data frame with same number of rows as number of molecules will be returned.
             The exact shape of the dataframe depends on the type of CM as follows:
                 - shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)

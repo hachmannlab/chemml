@@ -18,10 +18,6 @@ import numpy as np
 import pandas as pd
 
 import chemml
-from .pandas_pd import pdw
-from .chemml_cml import cmlw
-from .sklearn_skl import sklw
-
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
 from .base import LIBRARY
 from .interfaces import get_api, get_method, get_attributes, evaluate_param_value, evaluate_inputs
@@ -251,7 +247,7 @@ class Parser(object):
             for item in send_recv[node_id]['recv']:
                 ref = send_recv.get(item[0], {})
                 if 'send' not in ref or item[1] not in ref['send']:
-                    msg = 'The input is not valid. Ther is a broken pipe in the graph construction.'
+                    msg = 'The input is not valid. There is a broken pipe in the graph construction.'
                     self.logger.error(msg)
                     raise ValueError(msg)
                 else:
@@ -406,10 +402,10 @@ class Stream(object):
 
     """
     def __init__(self, token, value, count=1):
-        self.token = token
-        self.value = value
-        self.count = count
-        self.size = sys.getsizeof(value)
+        self.token = token      # tuple
+        self.value = value      # arbitrary type
+        self.count = count      # int
+        self.size = sys.getsizeof(value)    # int (bytes)
 
 
 class Stack(object):
@@ -455,17 +451,8 @@ class Stack(object):
 
         """
         if token in self.initial_count:
-            if token in self.stack:
-                self.stack[token].count += 1
-            else:
-                self.stack[token] = Stream(token, value, 1)
-
-        # check max count
-        for token in self.stack:
-            if self.stack[token].count > self.initial_count[token]:
-                msg = "The input graph is not a valid workflow."
-                self.logger.error(msg)
-                raise ValueError(msg)
+            if token not in self.stack:
+                self.stack[token] = Stream(token, value, self.initial_count[token])
 
     def pull(self, token):
         """
@@ -475,7 +462,7 @@ class Stack(object):
         Parameters
         ----------
         token: tuple
-            A tuple of two elements: first element presents the node ID of sender, and the second element is the variable name.
+            A tuple of two elements: first element presents the ID of sender node, and the second element is the variable name.
 
         Returns
         -------
@@ -484,7 +471,7 @@ class Stack(object):
         """
         value = self.stack[token].value
 
-        # clean mempry
+        # clean memory
         if self.stack[token].count == 1:
             del self.stack[token]
         else:
@@ -691,7 +678,7 @@ class Wrapper(object):
         maps the output name to the index of output for functions/methods that return more than one.
         Parameters
         ----------
-        function_output_: list or anything else
+        function_output_: tuple or anything else
             the returned outputs of a function
 
         output: str
@@ -707,7 +694,7 @@ class Wrapper(object):
             name of submodule
 
         method_name: str, optional (default=None)
-            name of a method if it's a class
+            name of a method of a class
 
         Returns
         -------
@@ -719,39 +706,42 @@ class Wrapper(object):
 
         """
         lame_metadata = {
-            'sklearn.preprocessing':{
-                'StandardScaler.fit_transform': ['X_new'],
-
-            },
             'chemml.datasets':{
-                'load_organic_density': ['smiles', 'density', 'descriptors']
+                'load_cep_homo': ['smiles', 'homo'],
+                'load_organic_density': ['smiles', 'density', 'features'],
+                'load_xyz_polarizability': ['molecules', 'pol'],
+                'load_comp_energy': ['entries', 'energy'],
+                # 'load_crystal_structures': ['entries']
+
             }
         }
 
-        # parse metadata
-        if method_name is None:
-            output_names = lame_metadata['%s.%s'%(library,module)][name]
-        else:
-            output_names = lame_metadata['%s.%s'%(library,module)]['%s.%s'%(name,method_name)]
+        # if it's a multiple output, must be a tuple
+        # otherwise return the single output, I don't care about the output name (but GUI must care!!)
+        if isinstance(function_output_, tuple):
+            # parse metadata
+            if method_name is None:
+                if name == 'train_test_split' and library == 'sklearn':
+                    output_names = []
+                    for i in range(len(function_output_)):
+                        if i % 2 == 0:
+                            output_names.append("train%i" % (i + 1))
+                        else:
+                            output_names.append("test%i" % (i + 1))
+                else:
+                    output_names = lame_metadata['%s.%s'%(library,module)][name]
+            else:
+                output_names = lame_metadata['%s.%s'%(library,module)]['%s.%s'%(name,method_name)]
 
-        # extract info from metadata
-        n = len(output_names) # requires info from meta data if more than one
-        # print(function_output_)
-        if n > 1:
-            index = output_names.index(output)
-            return function_output_[index]
+            # extract info from metadata
+            n = len(output_names) # requires info from meta data if more than one
+            # print(function_output_)
+            if n > 1:
+                index = output_names.index(output)
+                return function_output_[index]
         else:
             return function_output_
 
-    @staticmethod
-    def run_function(method, inputs):
-        """
-        run function with different input types
-        """
-        if inputs['args'] is None:
-            return method(**inputs['kwargs'])
-        else:
-            return method(*inputs['args'], **inputs['kwargs'])
 
     def interface(self, block, block_id):
         # flags
@@ -789,7 +779,8 @@ class Wrapper(object):
                 inputs = evaluate_inputs(block['method']['inputs'], self.stack)
 
                 # run method
-                function_output_ = self.run_function(method, inputs)
+                function_output_ = self.run_function(name, library, module, block['method']['name'],
+                                                     method, inputs)
 
                 # method outputs
                 # requires info from meta data if more than one
@@ -827,7 +818,8 @@ class Wrapper(object):
             inputs = evaluate_inputs(block['inputs'], self.stack)
 
             # run function
-            function_output_ = self.run_function(api, inputs)
+            function_output_ = self.run_function(name, library, module, '',
+                                                 api, inputs)
 
             # function outputs
             if len(block['outputs']) > 0:
@@ -841,6 +833,21 @@ class Wrapper(object):
                         token = (block_id, out_)
                         self.stack.push(token, val)
                         self.prettyprint('output', out_, self.stack.getsizeof(token), val)
+
+    def run_function(self, name, library, module, method_name='', method=None, inputs=None):
+        """
+        run function with different input types
+        """
+        # exceptions
+        # takes care of nodes that are more tricky to just automatically run them.
+        if (name, library, module) == ("SaveCSV", "chemml", "wrapper.preprocessing"):
+            if method_name == 'fit':
+                inputs['kwargs']['main_directory'] = self.output_dir
+
+        if inputs['args'] is None:
+            return method(**inputs['kwargs'])
+        else:
+            return method(*inputs['args'], **inputs['kwargs'])
 
 
 class Settings(object):
@@ -887,7 +894,7 @@ class Settings(object):
     def copy_inputscript(self, input_dict):
         file_path = os.path.join(self.output_directory , 'input.json')
         with open(file_path, 'w') as f:
-            json.dump(input_dict, f, indent=4, sort_keys=True)
+            json.dump(input_dict, f, indent=2, sort_keys=True)
 
 
 def variable_description(input_dict=None,
@@ -1008,8 +1015,8 @@ def run(input_json, output_dir):
     
     Parameters
     __________
-    input_json: str
-        This should be a path to the ChemMLWrapper input file or the actual input script in string format.
+    input_json: str or dict
+        This should be a path to the ChemMLWrapper input file or the actual input script in string or dictionary format.
         The input must have a valid json format.
         
     output_dir: str
@@ -1017,23 +1024,26 @@ def run(input_json, output_dir):
         of the folder name incrementally, until the name of the folder is unique.
 
     """
-    # input must be string
-    if not isinstance(input_json, str):
-        msg = "First parameter must be the path to the input file with json format."
-        raise IOError(msg)
 
-    # try to convert json to dictionary
-    try:
-        file_json = open(input_json, 'rb')
-        input_dict = json.load(file_json)
-        tmp_str = "parsing input file: %s ..." % input_json
-    except:
+    # try to convert json to dictionary or just get it as a dictionary
+    if isinstance(input_json, dict):
+        input_dict = input_json
+        tmp_str = "parsing the input dictionary ..."
+    elif isinstance(input_json, str):
         try:
-            input_dict = json.loads(input_json)
-            tmp_str = "parsing the input string ..."
+            file_json = open(input_json, 'r')
+            input_dict = json.load(file_json)
+            tmp_str = "parsing input file: %s ..." % input_json
         except:
-            msg = "The input is not a serializable json format."
-            raise IOError(msg)
+            try:
+                input_dict = json.loads(input_json)
+                tmp_str = "parsing the input string ..."
+            except:
+                msg = "The input is not a serializable json format."
+                raise IOError(msg)
+    else:
+        msg = "First parameter must be the json object (a dictionary) or path to the input file with json format."
+        raise IOError(msg)
 
     # create output directory and logger
     settings = Settings(output_dir)
@@ -1045,7 +1055,7 @@ def run(input_json, output_dir):
     # print banner
     banner(logger)
 
-    # confirm the input string is parsed
+    # confirm if the input string is parsed
     print(tmp_str + '\n')
     logger.info(tmp_str + '\n')
 

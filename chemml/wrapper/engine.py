@@ -706,6 +706,9 @@ class Wrapper(object):
 
         """
         lame_metadata = {
+            'chemml.wrapper.preprocessing':{
+                'SplitColumns.fit': ['X1', 'X2']
+            },
             'chemml.datasets':{
                 'load_cep_homo': ['smiles', 'homo'],
                 'load_organic_density': ['smiles', 'density', 'features'],
@@ -721,15 +724,7 @@ class Wrapper(object):
         if isinstance(function_output_, tuple):
             # parse metadata
             if method_name is None:
-                if name == 'train_test_split' and library == 'sklearn':
-                    output_names = []
-                    for i in range(len(function_output_)):
-                        if i % 2 == 0:
-                            output_names.append("train%i" % (i + 1))
-                        else:
-                            output_names.append("test%i" % (i + 1))
-                else:
-                    output_names = lame_metadata['%s.%s'%(library,module)][name]
+                output_names = lame_metadata['%s.%s'%(library,module)][name]
             else:
                 output_names = lame_metadata['%s.%s'%(library,module)]['%s.%s'%(name,method_name)]
 
@@ -761,7 +756,21 @@ class Wrapper(object):
             raise ValueError(msg)
 
         # run api
-        if api_type == 'class':
+        if name == 'train_test_split' and library == 'sklearn':
+            from chemml.wrapper.sklearn_skl import train_test_split
+            output_dict = train_test_split(block, self.stack)
+
+            # function outputs
+            if len(block['outputs']) > 0:
+                outputs = block['outputs']
+                for out_ in outputs:
+                    if outputs[out_]:  # if it's True
+                        val = output_dict[out_]
+                        token = (block_id, out_)
+                        self.stack.push(token, val)
+                        self.prettyprint('output', out_, self.stack.getsizeof(token), val)
+
+        elif api_type == 'class':
             # evaluate inputs
             inputs = evaluate_inputs(block['inputs'], self.stack, 'class')
 
@@ -801,7 +810,7 @@ class Wrapper(object):
                 attributes = list(block['outputs'].keys())
                 for attr in attributes:
                     # all classes can send out an instance of that class, called obj
-                    if attr == 'obj':
+                    if attr == 'obj' and block['outputs'][attr]:
                         token = (block_id, 'obj')
                         self.stack.push(token, obj)
                         self.prettyprint('output', attr, self.stack.getsizeof(token), obj)
@@ -841,6 +850,9 @@ class Wrapper(object):
         # exceptions
         # takes care of nodes that are more tricky to just automatically run them.
         if (name, library, module) == ("SaveCSV", "chemml", "wrapper.preprocessing"):
+            if method_name == 'fit':
+                inputs['kwargs']['main_directory'] = self.output_dir
+        elif (name, library, module) == ("SaveFile", "chemml", "wrapper.preprocessing"):
             if method_name == 'fit':
                 inputs['kwargs']['main_directory'] = self.output_dir
 

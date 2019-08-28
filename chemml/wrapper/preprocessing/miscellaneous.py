@@ -15,7 +15,7 @@ class SplitColumns(object):
 
     Parameters
     ----------
-    selection: int, optional (default = 1)
+    selection : int, optional (default = 1)
         if positive integer, it's the number of columns to be selected from left side of dataframe and returns as first data frame (df1).
         if negative integer, it's the number of columns to be selected from right side of dataframe and returns as first data frame (df1).
     """
@@ -33,10 +33,10 @@ class SplitColumns(object):
 
         Returns
         -------
-        X1: array
+        X1 : array
             The array resulted based on the selection parameter
 
-        X2: array
+        X2 : array
             The array of columns that are not selected
         """
         X = np.array(X)
@@ -70,16 +70,16 @@ class SaveCSV(object):
 
     Parameters
     ----------
-    file_path: str
+    file_path : str
         The path for the CSV file
 
-    record_time: bool, optional(default=False)
+    record_time : bool, optional(default=False)
         If True, the current time will be added to the file name.
 
-    index: bool, optional(default=False)
+    index : bool, optional(default=False)
         If True, the index of the dataframe will be also stored as the first column.
 
-    header: bool, optional(default=False)
+    header : bool, optional(default=False)
         If True, the header of the dataframe will be stored.
 
     """
@@ -100,10 +100,10 @@ class SaveCSV(object):
 
         Parameters
         ----------
-        df: pandas DataFrame
+        df : pandas DataFrame
             The input pandas dataframe
 
-        main_directory: str, optional (default='')
+        main_directory : str, optional (default='')
             if there is a main directory for entire chemml wrapper project
         """
         if not isinstance(df, pd.DataFrame):
@@ -133,10 +133,10 @@ class SaveFile(object):
 
     Parameters
     ----------
-    file_path: str
+    file_path : str
         The path for the CSV file
 
-    record_time: bool, optional(default=False)
+    record_time : bool, optional(default=False)
         If True, the current time will be added to the file name.
 
     """
@@ -155,10 +155,10 @@ class SaveFile(object):
 
         Parameters
         ----------
-        df: pandas DataFrame
+        df : pandas DataFrame
             The input pandas dataframe
 
-        main_directory: str, optional (default='')
+        main_directory : str, optional (default='')
             if there is a main directory for entire chemml wrapper project
         """
 

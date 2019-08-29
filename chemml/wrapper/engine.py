@@ -709,6 +709,9 @@ class Wrapper(object):
             'chemml.wrapper.preprocessing':{
                 'SplitColumns.fit': ['X1', 'X2']
             },
+            'chemml.chem':{
+                'tensorise_molecules': ['atoms','bonds','edges']
+            },
             'chemml.datasets':{
                 'load_cep_homo': ['smiles', 'homo'],
                 'load_organic_density': ['smiles', 'density', 'features'],

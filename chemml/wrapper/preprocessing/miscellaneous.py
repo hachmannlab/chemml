@@ -94,20 +94,22 @@ class SaveCSV(object):
         self.index = index
         self.header = header
 
-    def fit(self, df, main_directory=''):
+    def fit(self, X, main_directory=''):
         """
         Write DataFrame to a comma-seprated-values CSV) file.
 
         Parameters
         ----------
-        df : pandas DataFrame
-            The input pandas dataframe
+        X : array-like
+            This array like input should be a pandas dataframe or should be convertible to a dataframe.
 
         main_directory : str, optional (default='')
             if there is a main directory for entire chemml wrapper project
         """
-        if not isinstance(df, pd.DataFrame):
-            msg = 'The input `df` must be a pandas dataframe.'
+        try:
+            df = pd.DataFrame(X)
+        except:
+            msg = 'The input `X` must be convertible to a pandas dataframe.'
             raise TypeError(msg)
 
         # create final output dir
@@ -120,7 +122,6 @@ class SaveCSV(object):
             self.file_path = '%s/%s_%s'%(self.output_directory, self.filename,std_datetime_str())
         else:
             self.file_path = '%s/%s' % (self.output_directory, self.filename)
-
 
         # store csv file
         df.to_csv(self.file_path, index=self.index, header=self.header)

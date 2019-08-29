@@ -40,12 +40,12 @@ def atom_features(atom):
 
     Parameters
     ----------
-    bond: rdkit.Chem.rdchem.Bond
+    bond : rdkit.Chem.rdchem.Bond
         The bond must be an RDKit Bond object.
 
     Returns
     -------
-    features: array
+    features : array
         A binary array with length 6 that specifies the type of bond, if it is
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
@@ -72,12 +72,12 @@ def bond_features(bond):
 
     Parameters
     ----------
-    bond: rdkit.Chem.rdchem.Bond
+    bond : rdkit.Chem.rdchem.Bond
         The bond must be an RDKit Bond object.
 
     Returns
     -------
-    features: array
+    features : array
         A binary array with length 6 that specifies the type of bond, if it is
         a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.
 
@@ -103,7 +103,7 @@ def num_atom_features():
 
     Returns
     -------
-    n_features: int
+    n_features : int
         length of atomic feature vector.
     """
     m = Chem.MolFromSmiles('CC')
@@ -118,7 +118,7 @@ def num_bond_features():
 
     Returns
     -------
-    n_features: int
+    n_features : int
         length of bond feature vector.
     """
     simple_mol = Chem.MolFromSmiles('CC')
@@ -132,16 +132,16 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
 
     Parameters
     ----------
-    molecules: chemml.chem.Molecule object or array
+    molecules : chemml.chem.Molecule object or array
         If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
         In addition, all the molecule objects must provide the SMILES representation.
         We try to create the SMILES representation if it's not available.
 
-    max_degree: int, optional (default=5)
+    max_degree : int, optional (default=5)
         The maximum number of neighbour per atom that each molecule can have
         (to which all molecules will be padded), use 'None' for auto
 
-    max_atoms: int, optional (default=None)
+    max_atoms : int, optional (default=None)
         The maximum number of atoms per molecule (to which all
         molecules will be padded), use 'None' for auto
 
@@ -159,12 +159,12 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
 
     Returns
     -------
-        atoms: array
-            An atom feature array of shape (molecules, max_atoms, atom_features)
-        bonds: array
-            A bonds array of shape (molecules, max_atoms, max_degree)
-        edges: array
-        A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
+    atoms : array
+        An atom feature array of shape (molecules, max_atoms, atom_features)
+    bonds : array
+        A bonds array of shape (molecules, max_atoms, max_degree)
+    edges : array
+    A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
     """
     # TODO: Arguments for sparse vector encoding
     # molecules
@@ -325,26 +325,26 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
 
     Parameters
     ----------
-    molecules: chemml.chem.Molecule object or array
+    molecules : chemml.chem.Molecule object or array
         If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
         In addition, all the molecule objects must provide the SMILES representation.
         We try to create the SMILES representation if it's not available.
 
-    max_degree: int, optional (default=5)
+    max_degree : int, optional (default=5)
         The maximum number of neighbour per atom that each molecule can have
         (to which all molecules will be padded), use 'None' for auto
 
-    max_atoms: int, optional (default=None)
+    max_atoms : int, optional (default=None)
         The maximum number of atoms per molecule (to which all
         molecules will be padded), use 'None' for auto
 
-    n_jobs: int, optional(default=-1)
+    n_jobs : int, optional(default=-1)
         The number of parallel processes. If -1, uses all the available processes.
 
-    batch_size: int, optional(default=3000)
+    batch_size : int, optional(default=3000)
         The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays
 
-    verbose: bool, optional(default=True)
+    verbose : bool, optional(default=True)
         The verbosity of messages.
 
     Notes
@@ -361,11 +361,11 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
 
     Returns
     -------
-        atoms: array
+        atoms : array
             An atom feature array of shape (molecules, max_atoms, atom_features)
-        bonds: array
+        bonds : array
             A bonds array of shape (molecules, max_atoms, max_degree)
-        edges: array
+        edges : array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
     """
     # TODO:

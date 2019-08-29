@@ -17,7 +17,7 @@ class CoulombMatrix(object):
 
     Parameters
     ----------
-    cm_type: str, optional (default='SC')
+    cm_type : str, optional (default='SC')
         The coulomb matrix type, one of the following types:
             * 'Unsorted_Matrix' or 'UM'
             * 'Unsorted_Triangular' or 'UT'
@@ -25,32 +25,32 @@ class CoulombMatrix(object):
             * 'Sorted_Coulomb' or 'SC'
             * 'Random_Coulomb' or 'RC'
 
-    max_n_atoms: int or 'auto', optional (default = 'auto')
+    max_n_atoms : int or 'auto', optional (default = 'auto')
         Set the maximum number of atoms per molecule (to which all representations will be padded).
         If 'auto', we find it based on all input molecules.
 
-    nPerm: int, optional (default = 3)
+    nPerm : int, optional (default = 3)
         Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) 
         type of representation.
 
-    const: float, optional (default = 1)
+    const : float, optional (default = 1)
             The constant value for coordinates unit conversion to atomic unit
             example: atomic unit -> const=1, Angstrom -> const=0.529
             const/|Ri-Rj|, which denominator is the euclidean distance
             between atoms i and j
 
-    n_jobs: int, optional(default=-1)
+    n_jobs : int, optional(default=-1)
         The number of parallel processes. If -1, uses all the available processes.
 
-    verbose: bool, optional(default=True)
+    verbose : bool, optional(default=True)
         The verbosity of messages.
 
     Attributes
     ----------
-    n_molecules_: int
+    n_molecules_ : int
         Total number of molecules.
 
-    max_n_atoms_: int
+    max_n_atoms_ : int
         Maximum number of atoms in all molecules.
 
     Examples
@@ -123,14 +123,14 @@ class CoulombMatrix(object):
 
         Parameters
         ----------
-        molecules: chemml.chem.Molecule object or array
+        molecules : chemml.chem.Molecule object or array
             If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
             In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
             stored or optimized in advance.
 
         Returns
         -------
-        features: Pandas DataFrame
+        features : Pandas DataFrame
             A data frame with same number of rows as number of molecules will be returned.
             The exact shape of the dataframe depends on the type of CM as follows:
                 - shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)
@@ -277,7 +277,7 @@ class CoulombMatrix(object):
 
         Returns
         -------
-        features: dataframe
+        features : dataframe
             a single feature dataframe
         """
 
@@ -295,7 +295,7 @@ class BagofBonds(object):
 
     Parameters
     ----------
-    const: float, optional (default = 1.0)
+    const : float, optional (default = 1.0)
             The constant value for coordinates unit conversion to atomic unit
             if const=1.0, returns atomic unit
             if const=0.529, returns Angstrom
@@ -303,15 +303,15 @@ class BagofBonds(object):
             const/|Ri-Rj|, which denominator is the euclidean distance
             between two atoms
 
-    n_jobs: int, optional(default=-1)
+    n_jobs : int, optional(default=-1)
         The number of parallel processes. If -1, uses all the available processes.
 
-    verbose: bool, optional(default=True)
+    verbose : bool, optional(default=True)
         The verbosity of messages.
 
     Attributes
     ----------
-    header_: list of header for the bag of bonds data frame
+    header_ : list of header for the bag of bonds data frame
         contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)
 
     Examples
@@ -334,14 +334,14 @@ class BagofBonds(object):
 
         Parameters
         ----------
-        molecules: chemml.chem.Molecule object or array
+        molecules : chemml.chem.Molecule object or array
             If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
             In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been
             stored or optimized in advance.
 
         Returns
         -------
-        features: pandas data frame, shape: (n_molecules, max_length_of_combinations)
+        features : pandas data frame, shape: (n_molecules, max_length_of_combinations)
             The bag of bond features.
 
         """
@@ -437,13 +437,13 @@ class BagofBonds(object):
 
         Parameters
         ----------
-        bbs_info: list or tuple
+        bbs_info : list or tuple
             The list or tuple of features and keys
 
 
         Returns
         -------
-        features: data frame
+        features : data frame
             A single dataframe of all features
 
         """

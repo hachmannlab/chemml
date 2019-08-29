@@ -30,29 +30,29 @@ class ActiveLearning(object):
 
     Parameters
     ----------
-    model_creator: FunctionType
+    model_creator : FunctionType
         It's a function that returns the model. We call this function a couple of times during the search to build
         fresh models with random weights.
         Note that you should also compile your model inside the function. We don't provide options to compile the model.
         The compile (e.g., for Keras models) defines the loss function, the optimizer/learning rate, and the metrics.
 
-    U: array-like
+    U : array-like
         The features/descriptors of unlabeled candidates that are available to be labeled.
 
-    target_layer: str or list or FunctionType
+    target_layer : str or list or FunctionType
         If str, it's the name of a layer of the Keras model that is linearly mapped to the outputs.
         If list, it's a list of str that each element corresponds to the name of layers.
         If a function, it should be able to receive a model that will be created using the 'model_creator' and the X inputs,
         and returns the outputs of the linear layer.
 
-    train_size: int, optional (default = 100)
+    train_size : int, optional (default = 100)
         It represents the absolute number of train samples that must be selected as the initial training set.
         The search will begin with this many training samples and labels are required immediately.
         Please choose a number based on:
             - your budget.
             - the minumum number that you think is enough to train your model.
 
-    test_size: int, optional (default = 100)
+    test_size : int, optional (default = 100)
         It represents the absolute number of test samples that will be held out for the evaluation of the model in all
         rounds of your active learning search.
         Note the test set will be acquired before search begins and won't be updated later during search.
@@ -60,12 +60,12 @@ class ActiveLearning(object):
             - your budget.
             - the diversity of the pool of candidates (U).
 
-    test_type: str, optional (default = 'passive')
+    test_type : str, optional (default = 'passive')
         The value must be either 'passive' or 'active'.
         If passive, test set will be sampled randomly at the initialization.
         If active, test set will be sampled randomly at each round.
 
-    batch_size: list, optional (default = [10])
+    batch_size : list, optional (default = [10])
         This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
         our active learning approaches should query every round. The order of active learning approaches are as follows:
             - Batch Expected Model Change Maximization (BEMCM)
@@ -74,37 +74,37 @@ class ActiveLearning(object):
 
         Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.
 
-    history: int, optional (default = 2)
+    history : int, optional (default = 2)
         This parameter must be an integer and greater than one. It specifies the number of previous active learning
         rounds to memorize for the distribution shift alleviation (DSA) approach.
 
     Attributes
     ----------
-    queries: list
+    queries : list
         This list provides information regarding the indices of queried candidates.
         for each element of the list:
             - The index-0 is a short description.
             - The index-1 is an array of indices.
 
-    query_number: int
+    query_number : int
         The number of rounds you have run the active learning search method.
 
-    U_indices: ndarray
+    U_indices : ndarray
         This is an array of the remaining unlabeled indices.
 
-    train_indices: ndarray
+    train_indices : ndarray
         This is an array of all candidates' indices that are used as the training data.
 
-    test_indices: ndarray
+    test_indices : ndarray
         This is an array of all candidates' indices that are used as the test data.
 
-    Y_pred: ndarray
+    Y_pred : ndarray
         The predicted Y values at the current stage. These values will be updated after each run of `search` method.
 
-    results: pandas.DataFrame
+    results : pandas.DataFrame
         The final results of the active learning approach.
 
-    random_results: pandas.DataFrame
+    random_results : pandas.DataFrame
         The final results of the random search.
 
 
@@ -266,7 +266,7 @@ class ActiveLearning(object):
 
         Returns
         -------
-        ndarray
+        target_layer : array-like
             The concatenated array of the specified hidden layers by parameter `target_layer`.
         """
         # import keras here
@@ -313,17 +313,17 @@ class ActiveLearning(object):
 
         Parameters
         ----------
-        random_state: int or RandomState, optional (default = 90)
+        random_state : int or RandomState, optional (default = 90)
             The random state will be directly passed to the sklearn.model_selection.ShuffleSplit
             extra info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn-model-selection-shufflesplit
 
         Returns
         -------
-        ndarray
+        train_indices : array-like
             The training set indices (Python 0-index) from the pool of candidates (U).
             This is a 1D array.
 
-        ndarray
+        test_indices : array-like
             The test set indices (Python 0-index) from the pool of candidates (U).
 
         """
@@ -357,7 +357,7 @@ class ActiveLearning(object):
 
         Parameters
         ----------
-        indices: ndarray or list or tuple
+        indices : array-like
             A 1D array of all the indices that should be removed from the list of `queries`.
 
         """
@@ -380,7 +380,7 @@ class ActiveLearning(object):
 
         Parameters
         ----------
-        indices: ndarray or list or tuple
+        indices: array-like
             A 1-dimensional array of indices that was queried by initialize or search methods.
             You can deposit the data partially and it doesn't have to be the entire array that is queried.
 
@@ -392,7 +392,7 @@ class ActiveLearning(object):
         Returns
         -------
 
-        bool
+        check : bool
             True, if deposited properly. False, otherwise.
 
         """
@@ -499,10 +499,10 @@ class ActiveLearning(object):
 
         Returns
         -------
-        scaler
+        scaler_x : scaler
             The X scaler.
 
-        scaler
+        scaler_y : scaler
             The Y scaler.
 
         """
@@ -528,28 +528,28 @@ class ActiveLearning(object):
 
         Parameters
         ----------
-        n_evaluation: int, optional (default = 3)
+        n_evaluation : int, optional (default = 3)
             number of times to repeat training of the model and evaluation on test set.
 
-        ensemble: str, optional (default = 'bootstrap')
+        ensemble : str, optional (default = 'bootstrap')
             The sampling method to create n ensembles and estimate the predictive distributions.
                 - 'bootstrap': standard bootstrap method (random choice with replacement)
                 - 'shuffle' : sklearn.model_selection.ShuffleSplit
                 - 'kfold' : sklearn.model_selection.KFold
             The 'shuffle' and 'kfold' methods draw samples that are smaller than training set.
 
-        n_ensemble: int, optional (default = 5)
+        n_ensemble : int, optional (default = 5)
             The size of the ensemble based on bootstrapping approach.
 
-        normalize_input: bool or list, optional (default = True)
+        normalize_input : bool or list, optional (default = True)
             if True, sklearn.preprocessing.StandardScaler will be used to normalize X and Y before training.
             You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
             for the X and Y, respectively.
 
-        normalize_internal: bool, optional (default = False)
+        normalize_internal : bool, optional (default = False)
             if True, the internal variables for estimation of gradients will be normalized.
 
-        random_state: int or RandomState, optional (default = 90)
+        random_state : int or RandomState, optional (default = 90)
             The random state will be directly passed to the sklearn.model_selection.KFold or ShuffleSplit
             Additional info at: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html
 
@@ -558,7 +558,7 @@ class ActiveLearning(object):
 
         Returns
         -------
-        ndarray
+        train_indices : array-like
             The training set indices (Python 0-index) from the pool of candidates (U).
             This is a 1D array.
 

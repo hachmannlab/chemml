@@ -23,10 +23,10 @@ def load_cep_homo():
 
     Returns
     -------
-    smiles: pandas dataframe
+    smiles : pandas dataframe
         The SMILES representation of molecules, shape: (500,1)
 
-    homo: pandas dataframe
+    homo : pandas dataframe
         The HOMO energies of the molecules (eV), shape: (500,1)
 
     Examples
@@ -61,13 +61,13 @@ def load_organic_density():
 
     Returns
     -------
-    smiles: pandas dataframe
+    smiles : pandas dataframe
         The SMILES representation of molecules, shape: (500,1)
 
-    density: pandas dataframe
+    density : pandas dataframe
         The density of molecules (Kg/m3), shape: (500,1)
 
-    features: pandas dataframe
+    features : pandas dataframe
         The molecular descriptors of molecules, shape: (500,200)
 
     Examples
@@ -105,10 +105,10 @@ def load_xyz_polarizability():
 
     Returns
     -------
-    molecules: list
+    molecules : list
         The list of molecule objects with xyz coordinates.
 
-    pol: pandas dataframe
+    pol : pandas dataframe
         The polarizability of each molecule as a column of dataframe.
 
     Examples
@@ -152,10 +152,10 @@ def load_comp_energy():
 
     Returns
     -------
-    entries: list
+    entries : list
         The list of composition entries from CompositionEntry class.
 
-    energy: pandas dataframe
+    energy : pandas dataframe
         The formation energy for each composition.
 
     Examples
@@ -188,7 +188,7 @@ def load_crystal_structures():
 
     Returns
     -------
-    entries: list
+    entries : list
         The list of crystal structure entries from CrystalStructureEntry class.
 
     Examples

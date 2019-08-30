@@ -363,8 +363,10 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
     -------
         atoms : array
             An atom feature array of shape (molecules, max_atoms, atom_features)
+
         bonds : array
             A bonds array of shape (molecules, max_atoms, max_degree)
+
         edges : array
         A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)
     """

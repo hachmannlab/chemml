@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import warnings
 import os
+import h5py
+
 
 from chemml.utils import std_datetime_str
 
@@ -94,7 +96,7 @@ class SaveCSV(object):
         self.index = index
         self.header = header
 
-    def fit(self, X, main_directory=''):
+    def write(self, X, main_directory=''):
         """
         Write DataFrame to a comma-seprated-values CSV) file.
 
@@ -135,7 +137,7 @@ class SaveFile(object):
     Parameters
     ----------
     file_path : str
-        The path for the CSV file
+        The path for the file
 
     record_time : bool, optional(default=False)
         If True, the current time will be added to the file name.
@@ -150,14 +152,14 @@ class SaveFile(object):
         self.output_directory = os.path.dirname(file_path)
         self.record_time = record_time
 
-    def fit(self, X, main_directory=''):
+    def write(self, X, main_directory=''):
         """
         This function Write an input data X to a file as a string.
 
         Parameters
         ----------
-        df : pandas DataFrame
-            The input pandas dataframe
+        X : array-like
+            The input in any format
 
         main_directory : str, optional (default='')
             if there is a main directory for entire chemml wrapper project
@@ -176,3 +178,61 @@ class SaveFile(object):
         # store file
         with open(self.file_path, 'a') as file:
             file.write('%s\n' % str(X))
+
+
+class SaveHDF5(object):
+    """
+    Write any input array to a HDF5 file format.
+    This is specifically useful for arrays with more than 2 dimensions.
+
+    Parameters
+    ----------
+    file_path : str
+        The path for the file
+
+    record_time : bool, optional(default=False)
+        If True, the current time will be added to the file name.
+
+    """
+
+    def __init__(self, file_path, record_time = False):
+        self.filename = os.path.basename(file_path)
+        if len(self.filename.strip())==0:
+            msg = "The input `file_path` must contain a file name."
+            raise ValueError(msg)
+        self.output_directory = os.path.dirname(file_path)
+        self.record_time = record_time
+
+    def write(self, X, main_directory=''):
+        """
+        This function Write an input data X to a file as a string.
+
+        Parameters
+        ----------
+        df : array-like
+            The input array
+
+        main_directory : str, optional (default='')
+            if there is a main directory for entire chemml wrapper project
+        """
+        X = np.array(X)
+
+        # create final output dir
+        self.output_directory = os.path.join(main_directory, self.output_directory)
+        if not os.path.exists(self.output_directory):
+            os.makedirs(self.output_directory)
+
+        if self.record_time:
+            self.file_path = '%s/%s_%s'%(self.output_directory, self.filename,std_datetime_str())
+        else:
+            self.file_path = '%s/%s' % (self.output_directory, self.filename)
+
+        # store file
+        f = h5py.File(self.file_path)
+        dst = f.create_dataset('dataset', shape=X.shape, data=X)
+
+    def read(self):
+        f = h5py.File(self.file_path, 'r')
+        key = [i for i in f][0]
+        return f[key][:]
+

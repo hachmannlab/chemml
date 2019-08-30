@@ -853,10 +853,13 @@ class Wrapper(object):
         # exceptions
         # takes care of nodes that are more tricky to just automatically run them.
         if (name, library, module) == ("SaveCSV", "chemml", "wrapper.preprocessing"):
-            if method_name == 'fit':
+            if method_name == 'write':
                 inputs['kwargs']['main_directory'] = self.output_dir
         elif (name, library, module) == ("SaveFile", "chemml", "wrapper.preprocessing"):
-            if method_name == 'fit':
+            if method_name == 'write':
+                inputs['kwargs']['main_directory'] = self.output_dir
+        elif (name, library, module) == ("SaveHDF5", "chemml", "wrapper.preprocessing"):
+            if method_name == 'write':
                 inputs['kwargs']['main_directory'] = self.output_dir
 
         if inputs['args'] is None:

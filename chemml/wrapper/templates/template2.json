@@ -1,0 +1,126 @@
+{
+  "nodes" : {
+    "ID1": {
+      "name": "load_xyz_polarizability",
+      "library": "chemml",
+      "module": "datasets",
+      "inputs": {
+      },
+      "method": {
+      },
+      "outputs": {
+        "molecules": true,
+        "pol": true
+      }
+    },
+    "ID2": {
+      "name": "RDKitFingerprint",
+      "library": "chemml",
+      "module": "chem",
+      "inputs": {
+        "fingerprint_type": "Morgan",
+        "vector": "bit",
+        "n_bits": 256
+      },
+      "method": {
+        "name": "represent",
+        "inputs": {
+          "molecules": "@ID1@molecules"
+        },
+        "outputs": {
+          "features": true
+        }
+      },
+      "outputs": {}
+    },
+    "ID3": {
+      "name": "tensorise_molecules",
+      "library": "chemml",
+      "module": "chem",
+      "inputs": {
+        "molecules": "@ID1@molecules",
+        "n_jobs": 2
+      },
+      "method": {},
+      "outputs": {
+        "atoms": true,
+        "bonds": true,
+        "edges": true
+      }
+    },
+    "ID4": {
+      "name": "SaveCSV",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "2d/fingerprint.csv"
+      },
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID2@features"
+        },
+        "outputs": {
+        }
+      },
+      "outputs": {}
+    },
+    "ID5": {
+      "name": "SaveHDF5",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "2d/local/atoms.h5"
+      },
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID3@atoms"
+        },
+        "outputs": {
+        }
+      },
+      "outputs": {}
+    },
+    "ID6": {
+      "name": "SaveHDF5",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "2d/local/bonds.h5"
+      },
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID3@bonds"
+        },
+        "outputs": {
+        }
+      },
+      "outputs": {}
+    },
+    "ID7": {
+      "name": "SaveHDF5",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "2d/local/edges.h5"
+      },
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID3@edges"
+        },
+        "outputs": {
+        }
+      },
+      "outputs": {}
+    }
+
+  },
+  "gui_format": {},
+  "template": {
+      "id": 2,
+      "description": "A template workflow for calculating 2D descriptors for organic molecules."
+  }
+}

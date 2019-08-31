@@ -19,7 +19,6 @@ import pandas as pd
 
 import chemml
 from ..utils import isint, value, std_datetime_str, tot_exec_time_str
-from .base import LIBRARY
 from .interfaces import get_api, get_method, get_attributes, evaluate_param_value, evaluate_inputs
 
 
@@ -379,7 +378,10 @@ class Parser(object):
             collected+=next_layer
 
         # validate layers
-        if set(end_nodes) != set(layers[-1]):
+        print(set(end_nodes))
+        print(set(layers[-1]))
+        print(layers)
+        if set(end_nodes) < set(layers[-1]):
             msg = "The input graph is not constructed properly."
             self.logger.error(msg)
             raise ValueError(msg)

@@ -1,0 +1,146 @@
+{
+  "nodes": {
+    "ID1": {
+      "name": "read_csv",
+      "library": "pandas",
+      "module": "",
+      "inputs": {
+        "filepath_or_buffer": "temp/Boston.csv",
+        "index_col": 0
+      },
+      "outputs": {
+        "df": true
+      },
+      "method": {}
+    },
+    "ID2": {
+      "name": "StandardScaler",
+      "library": "sklearn",
+      "module": "preprocessing",
+      "inputs": {},
+      "outputs": {},
+      "method": {
+        "name": "fit_transform",
+        "inputs": {
+          "X": "@ID1@df"
+        },
+        "outputs": {
+          "X_new": true
+        }
+      }
+    },
+    "ID3": {
+      "name": "PCA",
+      "library": "sklearn",
+      "module": "decomposition",
+      "inputs": {},
+      "outputs": {},
+      "method": {
+        "name": "fit_transform",
+        "inputs": {
+          "X": "@ID2@X_new"
+        },
+        "outputs": {
+          "X_new": true
+        }
+      }
+    },
+    "ID4": {
+      "name": "SplitColumns",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "selection": -1
+      },
+      "outputs": {},
+      "method": {
+        "name": "fit",
+        "inputs": {
+          "X": "@ID3@X_new"
+        },
+        "outputs": {
+          "X1": true,
+          "X2": true
+        }
+      }
+    },
+    "ID5": {
+      "name": "train_test_split",
+      "library": "sklearn",
+      "module": "model_selection",
+      "inputs": {
+        "*args": "@ID4@X2@ID4@X1",
+        "test_size": 0.2
+      },
+      "outputs": {
+        "train1": true,
+        "test1": true,
+        "train2": true,
+        "test2": true
+      },
+      "method": {}
+    },
+    "ID6": {
+      "name": "LinearRegression",
+      "library": "sklearn",
+      "module": "linear_model",
+      "inputs": {},
+      "outputs": {"obj": true},
+      "method": {
+        "name": "fit",
+        "inputs": {
+          "X": "@ID5@train1",
+          "y": "@ID5@train2"
+        },
+        "outputs": {}
+      }
+    },
+    "ID7": {
+      "name": "LinearRegression",
+      "library": "sklearn",
+      "module": "linear_model",
+      "inputs": {
+        "obj": "@ID6@obj"
+      },
+      "outputs": {},
+      "method": {
+        "name": "predict",
+        "inputs": {
+          "X": "@ID5@test1"
+        },
+        "outputs": {
+          "C": true
+        }
+      }
+    },
+    "ID8": {
+      "name": "mean_absolute_error",
+      "library": "sklearn",
+      "module": "metrics",
+      "inputs": {
+        "y_true": "@ID5@test2",
+        "y_pred": "@ID7@C"
+      },
+      "outputs": {
+        "loss": true
+      },
+      "method": {}
+    },
+    "ID9": {
+      "name": "SaveFile",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "metric/mae.txt"
+      },
+      "outputs": {},
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID8@loss"
+        },
+        "outputs": {}
+      }
+    }
+  }
+}

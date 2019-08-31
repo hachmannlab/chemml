@@ -1,0 +1,138 @@
+{
+  "nodes" : {
+    "ID1": {
+      "name": "load_xyz_polarizability",
+      "library": "chemml",
+      "module": "datasets",
+      "inputs": {
+      },
+      "method": {
+      },
+      "outputs": {
+        "molecules": true,
+        "pol": true
+      }
+    },
+    "ID2": {
+      "name": "CoulombMatrix",
+      "library": "chemml",
+      "module": "chem",
+      "inputs": {
+        "cm_type": "SC",
+        "n_jobs": 1
+      },
+      "method": {
+        "name": "represent",
+        "inputs": {
+          "molecules": "@ID1@molecules"
+        },
+        "outputs": {
+          "features": true
+        }
+      },
+      "outputs": {}
+    },
+    "ID4": {
+      "name": "SaveCSV",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "3d/coulmat.csv"
+      },
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID2@features"
+        },
+        "outputs": {
+        }
+      },
+      "outputs": {}
+    },
+    "ID5": {
+      "name": "train_test_split",
+      "library": "sklearn",
+      "module": "model_selection",
+      "inputs": {
+        "*args": "@ID2@features@ID1@pol",
+        "test_size": 0.2
+      },
+      "outputs": {
+        "train1": true,
+        "test1": true,
+        "train2": true,
+        "test2": true
+      },
+      "method": {}
+    },
+    "ID6": {
+      "name": "SVR",
+      "library": "sklearn",
+      "module": "svm",
+      "inputs": {
+        "cache_size": 500
+      },
+      "outputs": {"obj": true},
+      "method": {
+        "name": "fit",
+        "inputs": {
+          "X": "@ID5@train1",
+          "y": "@ID5@train2"
+        },
+        "outputs": {}
+      }
+    },
+    "ID7": {
+      "name": "SVR",
+      "library": "sklearn",
+      "module": "svm",
+      "inputs": {
+        "obj": "@ID6@obj"
+      },
+      "outputs": {},
+      "method": {
+        "name": "predict",
+        "inputs": {
+          "X": "@ID5@test1"
+        },
+        "outputs": {
+          "y_pred": true
+        }
+      }
+    },
+    "ID8": {
+      "name": "mean_absolute_error",
+      "library": "sklearn",
+      "module": "metrics",
+      "inputs": {
+        "y_true": "@ID5@test2",
+        "y_pred": "@ID7@y_pred"
+      },
+      "outputs": {
+        "loss": true
+      },
+      "method": {}
+    },
+    "ID9": {
+      "name": "SaveFile",
+      "library": "chemml",
+      "module": "wrapper.preprocessing",
+      "inputs": {
+        "file_path": "metric/mae.txt"
+      },
+      "outputs": {},
+      "method": {
+        "name": "write",
+        "inputs": {
+          "X": "@ID8@loss"
+        },
+        "outputs": {}
+      }
+    }
+  },
+  "gui_format": {},
+  "template": {
+      "id": 3,
+      "description": "A template workflow for calculating 3D CoulombMatrix descriptors for organic molecules and training support vector regression to predict their polarizabilities."
+  }
+}

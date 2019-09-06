@@ -236,3 +236,41 @@ class SaveHDF5(object):
         key = [i for i in f][0]
         return f[key][:]
 
+class TrainTestSplit():
+	"""
+	A module to split a data matrix into train and test (or validation) samples
+
+	Parameters
+	----------
+	test_fraction : float, optional, default = 0.25
+		The fraction of samples to be selected for the test. If a value not in (0, 1.0) is provided we default to 0.25		
+	"""
+
+	def __init__(self, test_fraction=0.25):
+		if not isinstance(test_fraction, float):
+			raise ValueError('test_fraction must be a float')
+		self.test_fraction = test_fraction
+		if not 0 < self.test_fraction < 1.0:
+			self.test_fraction = 0.25
+
+	def split(self, X):
+		"""
+		The function to call for performing the split of the data matrix
+
+		Parameters
+		----------
+		X : array-like
+			the input array
+
+		Returns
+		-------
+		X1 : array-like
+			The training data matrix with ((1 - test_fraction) * n_samples) rows
+
+		X2 : array-like
+			The testing data matrix with (test_fraction * n_samples) rows			
+		"""
+
+		n_train = int(X.shape[0] * (1 - test_fraction))
+		return X[:n_train, :], X[n_train:, :]
+

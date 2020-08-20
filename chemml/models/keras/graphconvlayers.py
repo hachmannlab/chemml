@@ -3,6 +3,7 @@ import tensorflow.keras.bakend as k
 
 from tensorflow.keras import layers
 from tensorflow.keras.layers import deserialize as layer_from_config
+from chemml.utils import mol_shapes_to_dims
 
 class NeuralGraphHidden(layers.layer):
     

@@ -1,10 +1,10 @@
 import tensorflow as tf
-#import tensorflow.keras.backend as k
-from keras.backend as K
-# from tensorflow.keras import layers
-# from tensorflow.keras.layers import deserialize as layer_from_config
-from keras import layers
-from keras.layers import deserialize as layer_from_config
+import tensorflow.keras.backend as k
+#from keras.backend as K
+from tensorflow.keras import layers
+from tensorflow.keras.layers import deserialize as layer_from_config
+# from keras import layers
+# from keras.layers import deserialize as layer_from_config
 
 from chemml.utils.utilities import mol_shapes_to_dims
 

@@ -5,7 +5,7 @@ import numpy as np
 from functools import partial
 from multiprocessing import cpu_count, Pool
 
-from keras.utils.generic_utils import Progbar
+from tensorflow.keras.utils import Progbar
 
 from chemml.chem import Molecule
 from chemml.utils import padaxis

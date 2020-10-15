@@ -24,7 +24,7 @@ from rdkit import Chem
 from chemml.chem import Molecule
 from chemml.utils import padaxis
 
-from keras.utils.generic_utils import Progbar
+from tensorflow.keras.utils import Progbar
 
 
 def one_of_k_encoding_unk(x, allowable_set):

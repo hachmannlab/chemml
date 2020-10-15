@@ -5,9 +5,9 @@ import pkg_resources
 import pandas as pd
 import numpy as np
 
-from keras.layers import Input, Dense, Concatenate
-from keras.models import Model
-from keras.optimizers import Adam
+from tensorflow.keras.layers import Input, Dense, Concatenate
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adam
 
 from chemml.optimization import ActiveLearning
 from chemml.datasets import load_organic_density

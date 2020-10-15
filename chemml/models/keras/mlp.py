@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd  # required to load tensorflow properly
 
-from keras.models import Sequential
-from keras.optimizers import SGD
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import SGD
 
 from json import load
 from importlib import import_module

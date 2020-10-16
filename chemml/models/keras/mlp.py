@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd  # required to load tensorflow properly
 
-from keras.models import Sequential
-from keras.optimizers import SGD
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import SGD
 
 from json import load
 from importlib import import_module
@@ -116,7 +116,7 @@ class MLP(object):
                 }))
         layer_name, layer_params = self.layers[0]
         layer_params['input_dim'] = X.shape[-1]
-        keras_layer_module = import_module('keras.layers')
+        keras_layer_module = import_module('tensorflow.keras.layers')
         for layer_name, layer_params in self.layers:
             layer = getattr(keras_layer_module, layer_name)
             self.model.add(layer(**layer_params))
@@ -210,6 +210,6 @@ class MLP(object):
         """
         with open(opt_config_file, 'r') as f:
             opt_name, opt_params = load(f)
-        keras_opt_module = import_module('keras.optimizers')
+        keras_opt_module = import_module('tensorflow.keras.optimizers')
         opt = getattr(keras_opt_module, opt_name)(**opt_params)
         return opt

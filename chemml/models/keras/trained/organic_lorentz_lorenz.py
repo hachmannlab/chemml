@@ -8,8 +8,8 @@ import os
 import pkg_resources
 import numpy as np
 import pandas as pd
-from keras import backend as K
-from keras.models import load_model
+from tensorflow.keras import backend as K
+from tensorflow.keras.models import load_model
 from rdkit import Chem
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
 
@@ -30,8 +30,7 @@ class OrganicLorentzLorenz():
     input layer to the output layer are as follow: 1024 --> 128 --> 64 --> 32 --> [1, 1, 1].
     """
     def __init__(self):
-        self.path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'models',
-                                                                           'keras', 'organic_lorentz_lorenz'))
+        self.path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data','organic_lorentz_lorenz'))
         # load x and y scalers
         self.x_scaler = pd.read_csv(os.path.join(self.path, 'x_standard_scaler.csv'))
         self.y_scaler = pd.read_csv(os.path.join(self.path, 'y_standard_scaler.csv'))
@@ -116,7 +115,7 @@ class OrganicLorentzLorenz():
         X: ndarray or dataframe
             If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
             If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format.
-            If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.
+            If dataframe, it can be a 2D frame with one column of SMILES or 1024 columns of features.
 
         Y: list or dataframe
             a list of three numpy arrays for refractive index, polarizability, and density, respectively.
@@ -193,7 +192,7 @@ class OrganicLorentzLorenz():
             raise ValueError(msg)
 
         # the actual compile and training
-        from keras.optimizers import Adam
+        from tensorflow.keras.optimizers import Adam
         adam = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
         default_kwargs = {'optimizer': adam,
                       'loss': 'mean_squared_error',
@@ -231,7 +230,6 @@ class OrganicLorentzLorenz():
                 X = np.array([self.__represent(i) for i in X])
             else:
                 raise ValueError(msg)
-
         get_layer_output = K.function([self.model.layers[0].input],
                                           [self.model.layers[id].output])
         return get_layer_output([X])[0]

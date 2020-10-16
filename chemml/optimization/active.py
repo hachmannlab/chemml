@@ -270,7 +270,7 @@ class ActiveLearning(object):
             The concatenated array of the specified hidden layers by parameter `target_layer`.
         """
         # import keras here
-        from keras import backend as K
+        from tensorflow.keras import backend as K
 
         # inputs
         inp = model.input
@@ -633,7 +633,7 @@ class ActiveLearning(object):
                 assert lin_layers[it].shape[0] == self.U_indices.shape[0]
 
                 # collect lr
-                from keras import backend as K
+                from tensorflow.keras import backend as K
                 learning_rate.append(K.eval(model.optimizer.lr))
 
             # metrics

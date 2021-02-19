@@ -262,8 +262,35 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
     return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
 
 def mol_shapes_to_dims(mol_tensors=None, mol_shapes=None):
-    ''' Helper function, returns dim sizes for molecule tensors given tensors or
+    ''' 
+    Helper function, returns dim sizes for molecule tensors given tensors or
     tensor shapes
+
+    Parameters
+    ----------
+    mol_tensors: tensorflow.tensor, default=None
+        tensor of molecule
+    
+    mol_shapes: tuple, default=None
+        shape of the molecule tensor
+
+    Returns
+    -------
+    max_atoms1
+        maximum number of atoms
+
+    max_degree1
+        maximum degree
+
+    num_atom_features
+        total features
+
+    num_bond_features
+        total bond features
+
+    num_molecules1
+        total number of molecules
+
     '''
 
     if not mol_shapes:
@@ -282,3 +309,33 @@ def mol_shapes_to_dims(mol_tensors=None, mol_shapes=None):
     assert len(set(max_degree_vals))==1, 'max_degree does not match within tensors (found: {})'.format(max_degree_vals)
 
     return max_atoms1, max_degree1, num_atom_features, num_bond_features, num_molecules1
+
+def is_iterable(obj):
+    try:
+        iter(obj)
+        return True
+    except TypeError:
+        return False
+
+def zip_mixed(*mixed_iterables, **kwargs):
+    ''' Zips a mix of iterables and non-iterables, non-iterables are repeated
+    for each entry.
+
+    # Arguments
+        mixed_iterables (any type): unnamed arguments (just like `zip`)
+        repeat_classes (list): named argument, which classes to repeat even though,
+            they are in fact iterable
+
+    '''
+
+    repeat_classes = tuple(kwargs.get('repeat_classes', []))
+    mixed_iterables = list(mixed_iterables)
+
+    for i, item in enumerate(mixed_iterables):
+        if not is_iterable(item):
+            mixed_iterables[i] = cycle([item])
+
+        if isinstance(item, repeat_classes):
+            mixed_iterables[i] = cycle([item])
+
+    return zip(*mixed_iterables)

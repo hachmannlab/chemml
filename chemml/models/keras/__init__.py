@@ -4,10 +4,10 @@ The chemml.models.keras module includes (please click on links adjacent to funct
 
 
 from .mlp import MLP
-
+from .graphconvlayers import NeuralGraphHidden, NeuralGraphOutput
 
 
 
 __all__ = [
-    'MLP',
+    'MLP', 'NeuralGraphHidden','NeuralGraphOutput'
     ]

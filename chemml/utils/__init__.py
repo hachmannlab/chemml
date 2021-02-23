@@ -13,7 +13,7 @@ from .utilities import chunk
 # from .utilities import return2Dshape
 from .utilities import bool_formatter
 from .utilities import padaxis
-
+from .utilities import mol_shapes_to_dims
 from .validation import isfloat
 from .validation import islist
 from .validation import istuple
@@ -28,4 +28,5 @@ __all__ = [
     'list_del_indices',
     'std_datetime_str',
     'isfloat',
+    'mol_shapes_to_dims',
 ]

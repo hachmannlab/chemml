@@ -339,3 +339,105 @@ def zip_mixed(*mixed_iterables, **kwargs):
             mixed_iterables[i] = cycle([item])
 
     return zip(*mixed_iterables)
+
+def regression_metrics(y_true, y_predicted, nfeatures = None):
+    """
+    calculates metrics to evaluate regression models
+    
+    Parameters
+    ----------
+    y_true : list or 1D array
+           actual values
+    
+    y_predicted : list or 1D array
+                predicted values
+
+    nfeatures : int, default = None
+              number of features required to calculated adjusted R squared
+
+    Returns
+    -------
+    metrics dict: dictionary with all metrics
+    """
+    metrics_dict = {}
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    ndata = len(y_true)
+    y_mean = np.mean(y_true)
+    # actual errors
+    e = y_true - y_predicted
+    # relative errors
+    re_flag = True
+    if 0 in list(y_true):
+        re_flag = False
+    else:
+        re = e/y_true
+    # absolute errors
+    ae = np.absolute(e)
+    # squared errors
+    se = np.square(e)
+
+    metrics_dict['E'] = list(e)
+    if re_flag == True:
+        metrics_dict['RE'] = list(re)
+    
+    metrics_dict['AE'] = list(ae)
+    metrics_dict['SE'] = list(se)
+
+    var = np.mean(np.square(y_predicted - y_mean))
+    
+    metrics_dict['ME'] = np.mean(e)
+    # mean absolute error
+    mae = np.mean(ae)
+    metrics_dict['MAE'] = mae
+    
+    # mean squared error
+    mse = np.mean(se)
+    metrics_dict['MSE'] = mse
+
+    # root mean squared error
+    rmse = np.sqrt(mse)
+    metrics_dict['RMSE'] = rmse
+    
+    # mean squared log error
+    msle = np.mean(np.square(np.log(1+y_true) - np.log(1+y_predicted)))
+    
+    if msle > 0:
+        metrics_dict['MSLE'] = msle
+        rmsle = np.sqrt(msle)
+        metrics_dict['RMSLE']=rmsle
+
+    if re_flag == True:
+        # mean absolute percentage error
+        mape = np.mean(np.abs(re)) * 100
+        metrics_dict['MAPE'] = mape
+        # maximum absolute percentage error
+        max_abs_perc_error = max(np.abs(re)) * 100
+        metrics_dict['MaxAPE'] = max_abs_perc_error
+        # root mean squared percentage error
+        rmspe = np.sqrt(np.mean(np.square(re))) * 100
+        metrics_dict['RMSPE'] = rmspe
+        # mean percentage error
+        mpe = np.mean(re) * 100
+        metrics_dict['MPE'] = mpe
+        
+    # maximum absolute error
+    max_ae = np.max(ae)
+    metrics_dict['MaxAE'] = max_ae
+    
+    # difference between max error and min error
+    delta_max_e = np.max(e) - np.min(e)
+    metrics_dict['deltaMaxE'] = delta_max_e
+    
+    # R squared
+    r2 = 1 - mse/var
+    metrics_dict['r_squared'] = r2
+    metrics_dict['std'] = np.sqrt(var)
+    
+    # adjusted R squared
+    if nfeatures != None:
+        adj_r2 = 1 - ((1-r2) * (ndata - 1)/(ndata - nfeatures -1))
+        metrics_dict['adjusted_r_squared'] = adj_r2
+
+    return metrics_dict
+        

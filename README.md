@@ -49,8 +49,7 @@ Since conda installation is not available for ChemML yet, we recommend installin
 
     conda create --name my_chemml_env python=3.6
     source activate my_chemml_env
-    conda install -c openbabel openbabel
-    conda install -c conda-forge rdkit
+    conda install -c conda-forge rdkit openbabel
     pip install chemml
 
 ## Citation:
@@ -103,6 +102,7 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 ### Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
     - Mojtaba Haghighatlari
+    - Aditya Sonpal
     University at Buffalo - The State University of New York (UB)
 
 ### Contributors:
@@ -110,7 +110,6 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
     - Gaurav Vishwakarma (UB): automated model optimization
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
-    - Aditya Sonpal (UB): debugging
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice

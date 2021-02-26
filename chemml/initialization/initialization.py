@@ -281,7 +281,7 @@ class XYZreader(object):
     def __file_reader(self, filename):
         if self.reader == 'auto':
             # sys.path.insert(0, "/user/m27/pkg/openbabel/2.3.2/lib")
-            import pybel
+            from openbabel import pybel
             # import openbabel
             mol = open(filename, 'r').read()
             mol = pybel.readstring("xyz", mol)
@@ -409,13 +409,16 @@ class ConvertFile(object):
             if not self.from_format == self.file_path[-len(self.from_format):]:
                 msg = 'file format is not the same as from_format'
                 raise ValueError(msg)
-
+            elif os.path.exists(self.file_path) == False:
+                msg = 'file does not exist at '+ self.file_path
+                raise FileNotFoundError(msg)
             else:
                 ob_from_format = '-i' + self.from_format
                 ob_to_format = '-o' + self.to_format
-                path = self.file_path[:self.file_path.rfind('.') + 1]
-                command = 'babel ' + ob_from_format + ' ' + self.file_path + ' ' + ob_to_format + ' ' + path + self.to_format
-                print(command)
+                path = self.file_path[:self.file_path.rfind('.') + 1] # = path-to-file.
+                command = 'obabel ' + ob_from_format + ' ' + self.file_path + ' ' + ob_to_format + ' -O ' + path + self.to_format 
+                # path + selt.to_format = path-to-file.newformat
+                # print(command)
                 os.system(command)
                 converted_file_paths[1] = {'file': path + self.to_format}
 
@@ -425,11 +428,15 @@ class ConvertFile(object):
                 if not fpath[-len(self.from_format):] == self.from_format:
                     msg = 'file format is not the same as from_format'
                     raise ValueError(msg)
+                elif os.path.exists(fpath) == False:
+                    msg = 'file does not exist at '+ fpath
+                    raise FileNotFoundError(msg)
                 else:
                     ob_from_format = '-i' + self.from_format
                     ob_to_format = '-o' + self.to_format
                     path = fpath[:fpath.rfind('.') + 1]
-                    command = 'babel ' + ob_from_format + ' ' + fpath + ' ' + ob_to_format + ' ' + path + self.to_format
+                    command = 'obabel ' + ob_from_format + ' ' + fpath + ' ' + ob_to_format + ' -O ' + path + self.to_format
+                    # print(command)
                     os.system(command)
                     converted_file_paths[it] = {'file': path + self.to_format}
 

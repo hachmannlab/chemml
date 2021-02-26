@@ -2,7 +2,7 @@ from __future__ import print_function
 import os
 from tensorflow import keras # required to go around the protobuf error after importing pybel prior to tensorflow
 from rdkit import Chem
-import pybel
+from openbabel import pybel
 from rdkit.Chem import AllChem
 import warnings
 import numpy as np

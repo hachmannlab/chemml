@@ -1,0 +1,159 @@
+CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+
+# Note: don't mix parameters and send&recv tokens in one line
+# Note: don't make a short loop on only one function!
+# Note: only one input per available legal input can be received
+# Note: send: >> var id
+# Note: recv: >> id var
+
+
+## DataRepresentation
+                << module = cheml                 << function = PolynomialFeatures
+
+                << degree = 2                     << interaction_only = False
+                << include_bias = True
+
+# Preprocessor
+                        << module = sklearn         << function = Imputer
+                        << missing_values = "NaN"   << strategy = 'mean'
+                        << axis = 0                 << verbose = 0
+                        << copy = True
+
+                        >> 1 df >> df 2 > api 3
+
+# Preprocessor
+                        << module = sklearn     << function = StandardScaler
+                        << copy = True          << with_mean = True
+                        << with_std = True
+                        >> df 1 >> 2 df >> 3 api
+
+# Preprocessor
+                        << module = sklearn   << function = MinMaxScaler
+                        << feature_range = (0,1)    << copy = True
+                        >> 16 df
+
+# Preprocessor
+                        << module = sklearn   << function = MaxAbsScaler
+                        << copy = True
+                        >> 16 df
+
+# Preprocessor
+                        << module = sklearn   << function = RobustScaler
+                        << with_centering = True    << with_scaling = True
+                        << copy = True
+                        >> 16 df
+
+# Preprocessor
+                        << module = sklearn   << function = Normalizer
+                        << norm = 'l2'  << copy = True
+                        >> 16 df
+
+# Preprocessor
+                        << module = sklearn   << function = Binarizer
+                        << threshold = 0.0      << copy = True
+                        >> 16 df
+
+# Use carefully
+# Preprocessor
+                        << module = sklearn     << function = OneHotEncoder
+                        << n_values = 'auto'    << categorical_features = 'all'
+                        << dtype = np.float     << sparse = True
+                        << handle_unknown = 'error'
+                        >> 16 df
+
+# FeatureSelection
+
+# FeatureTransformation
+                        << module = sklearn             << function = PCA
+                        << n_components = None          << copy = True
+                        << whiten = False               < svd_solver = 'auto'
+                        < tol = 0.0                    < iterated_power = 'auto'
+                        < random_state = None
+                        >> 1 df >> df 2 >> api 3
+
+# Divider
+                        << module = sklearn             << function = Train_Test_Split
+                        << test_size = None             << train_size = None    
+                        << random_state = None          << stratify = None
+                        >> 1 dfx   >> 2 dfy     >> dfx_train 3  >> dfx_test 4  >> dfy_train 5  >> dfy_test 6
+
+# Divider
+                        << module = sklearn             << function = KFold
+                        << n_splits = 3                 << shuffle = False
+                        << random_state = None
+                        >> CV 1
+
+
+
+
+
+
+## Regression
+                << module = sklearn      << function = SVR
+
+                              << C = 1.0
+                              << epsilon = 0.1
+                              << kernel = 'rbf'
+                              << degree = 3
+                              << gamma = 'auto'
+                              << coef0 = 0.0
+                              << tol = 1e-3
+                              << shrinking = True
+                              << cache_size = 200
+                              << verbose = False
+                              << max_iter = -1
+
+                > Note: can not pass multiple inputs
+                >> 1 dfx     >> 2 dfy    >> r2_train  >> api 6
+
+## Classification
+
+## Postprocessor
+                << module = sklearn      << function = Grid_SearchCV
+
+                              << estimator = '@estimator'
+                              << param_grid = {}
+                              << scoring = None
+                              << fit_params = None
+                              << n_jobs = 1
+                              << pre_dispatch = '2*n_jobs'
+                              << iid = True
+                              << cv = None
+                              << refit = True
+                              << verbose = 0
+                              << error_score = 'raise'
+
+                > Note: can not pass multiple inputs
+                >> id dfx     >> id dfy   >> id estimator  >> id pack   >> cv_results_  >> api 6  >> best_model_api
+
+## Postprocessor
+                << module = sklearn      << function = Evaluation
+                              << r2_score = True
+                              << r2_sample_weight = None       << r2_multioutput = None
+
+                              << mean_absolute_error = True
+                              << mae_sample_weight = None       << mae_multioutput = "uniform_average"
+
+                              << median_absolute_error = True
+
+                              << mean_squared_error = True
+                              << mse_sample_weight = None       << mse_multioutput = "uniform_average"
+
+                              << root_mean_squared_error = True
+                              << rmse_sample_weight = None       << rmse_multioutput = "uniform_average"
+
+                              << explained_variance_score = True
+                              << ev_sample_weight = None       << ev_multioutput = "uniform_average"
+
+                > Note: can not pass multiple inputs
+                >> 1 dfx     >> 2 dfy     >> 3 pack   >> cv_results_  >> api 6  >> best_model_api
+
+
+# Visualization
+
+                >> 4 api  >> 3 fake
+
+
+
+
+## Optimizer

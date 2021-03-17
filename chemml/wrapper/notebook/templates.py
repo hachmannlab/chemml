@@ -149,8 +149,8 @@ def template5():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print 'features.shape:', iv1.shape
-                    << line02 = print 'energies.shape:', iv2.shape
+                    << line01 = print ('features.shape:', iv1.shape)
+                    << line02 = print ('energies.shape:', iv2.shape)
                     >> 6 iv1
                     >> 7 iv2
 
@@ -191,7 +191,7 @@ def template6():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print 'shape of features:', iv1.shape
+                    << line01 = print ('shape of features:', iv1.shape)
                     >> 4 iv1
 
                 ## (Represent,inorganic descriptors)
@@ -242,7 +242,7 @@ def template7():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print iv1.head()
+                    << line01 = print (iv1.head())
                     >> 3 iv1
              """
     return script.strip().split('\n')
@@ -273,7 +273,7 @@ def template8():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print iv1.head()
+                    << line01 = print (iv1.head())
                     >> 1 iv1
 
                 ## (Enter,datasets)
@@ -315,7 +315,7 @@ def template9():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print iv1[1]
+                    << line01 = print(iv1[1])
                     >> 1 iv1
 
                 ## (Store,figure)
@@ -401,7 +401,7 @@ def template11():
                 ## (Enter,python script)
                     << host = cheml
                     << function = PyScript
-                    << line01 = print iv1.head(10)
+                    << line01 = print (iv1.head(10))
                     >> 9 iv1
 
                 ## (Store,file)

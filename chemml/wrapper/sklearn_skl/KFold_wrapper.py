@@ -16,8 +16,7 @@ def KFold(block, stack):
     fold_gen = kf.split(*inputs['args'])
     output_dict["api"] = kf
     output_dict["fold_gen"] = fold_gen
-    
-    
+        
     return output_dict
 
 

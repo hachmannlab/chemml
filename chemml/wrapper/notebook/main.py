@@ -7,10 +7,13 @@ from IPython.display import display
 from graphviz import Digraph
 import copy
 import os
+import pandas as pd     # newly added
+import sklearn          # newly added
+
 
 from chemml.wrapper.database import sklearn_db, cheml_db, pandas_db
-from chemml.wrapper.database.TSHF import tshf
-from chemml.utils import isint
+from chemml.wrapper.notebook.TSHF import tshf
+from chemml.utils.validation import isint
 
 ##########################################################
 # Todo: bring back receivers - no need another recursive function for bidR; (currentbids - bidS = bidR)
@@ -30,13 +33,13 @@ class ChemMLNotebook(object):
         self.blocks = {}  # similar to cmls in the parser, {'task':{}, 'subtask':{}, 'host':{}, 'function':{}, 'parameters':{}, 'send':{'NA':'here'}, 'recv':{'NA':'here'} }
         self.block_id = 1
         self.comp_graph = []    # list of (iblock_send,token,iblock_recv,token)
-        self.out_dir = "CMLWrapper.out"
+        self.out_dir = "CMLWrapper_out"
         self.pages = {}
         self.graph = widgets.Image()
         self.accordion = widgets.Accordion()
         self.home_page()
 
-    ################################
+    ######################################################
 
     def display_accordion(self, active_id=0, layout=widgets.Layout(border='solid gray 2px')):
         def index_change(change):
@@ -64,11 +67,11 @@ class ChemMLNotebook(object):
         pass
         # self.accordion.close()
 
-    ################################
+    ##########################################################
 
     def check_filename(self,filename):
         if filename is None:
-            filename = 'cheml_config.txt'
+            filename = 'chemml_config.txt'
         initial_file_name = filename
         i = 0
         while os.path.exists(filename):
@@ -128,7 +131,7 @@ class ChemMLNotebook(object):
         headerT = widgets.Label(value='Start with a template workflow', layout=widgets.Layout(width='50%'))
         # style = {'description_width': 'initial'}
         # outdir = widgets.Text(
-        #     value='CMLWrapper.out',
+        #     value='CMLWrapper_out',
         #     placeholder='Type something',
         #     description='Output directory:',
         #     disabled=False,
@@ -814,8 +817,8 @@ class ChemMLNotebook(object):
                     print( "    config file path: %s" % path)
                     print( "    current directory: %s" % os.getcwd())
                     print( "    what's next? run the ChemML Wrapper using the config file with the following codes:")
-                    print( "        >>> from chemeco import ChemEcoRun")
-                    print( "        >>> wrapperRUN(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = '%s')" % outdir.value)
+                    print( "        >>> from chemml.wrapper.engine import run")
+                    print( "        >>> run(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = '%s')" % outdir.value)
                     print( "... you can also create a python script of the above codes and run it on any cluster that ChemML is installed.")
                     save.icon = 'check'
                 else:
@@ -831,7 +834,7 @@ class ChemMLNotebook(object):
         # Tab: new script
         style = {'description_width': 'initial'}
         outdir = widgets.Text(
-            value='CMLWrapper.out',
+            value='CMLWrapper_out',
             placeholder='Type something',
             description='Output directory:',
             disabled=False,
@@ -860,9 +863,9 @@ class ChemMLNotebook(object):
         # f_label = widgets.Label('config file name:',layout=widgets.Layout(width='100%',margin='20px 0px 0px 20px'))
         style = {'description_width': 'initial'}
         filename = widgets.Text(
-            value='chemeco_config.txt',
+            value='chemML_config.txt',
             description = 'config file name:',
-            placeholder='chemeco_config.txt',
+            placeholder='chemML_config.txt',
             disabled=False,
             style= style,
             layout=widgets.Layout(margin='20px 0px 0px 20px'))
@@ -982,9 +985,10 @@ class ChemMLNotebook(object):
     ################################
 
     def db_extract_function(self, host, function):
+        print("host:", host)
         if host == 'sklearn':
             metadata = getattr(sklearn_db, function)()
-        elif host == 'chemml':
+        elif host == 'cheml':
             metadata = getattr(cheml_db, function)()
         elif host == 'pandas':
             metadata = getattr(pandas_db, function)()
@@ -1410,7 +1414,9 @@ class ChemMLNotebook(object):
         if not self.debut:
             self.current_bid = sorted(self.pages)[self.accordion.selected_index]
         host = self.pages[self.current_bid].block_params['host']
+        print('host_1',host)
         function = self.pages[self.current_bid].block_params['function']
+        print("funct_1",function)
         wparams, fparams, inputs, outputs, metadata = self.db_extract_function(host,function)
         self.pages[self.current_bid].block_params['wparams'] = wparams
         self.pages[self.current_bid].block_params['fparams'] = fparams
@@ -1526,6 +1532,7 @@ class ChemMLNotebook(object):
         self._transform()
 
     def _db_extract_function(self, host, function):
+        print("host_db_extract",host)
         if host == 'sklearn':
             metadata = getattr(sklearn_db, function)()
         elif host == 'chemml':
@@ -1570,18 +1577,21 @@ class ChemMLNotebook(object):
                 else:
                     args = line.strip()
                 arg = args.split()
+                print(arg)
                 if len(arg) == 2:
                     a, b = arg
+                    # print("Hello 1",a,b)
                     if isint(b) and not isint(a):
+                        # print("Hello 2",a,b)
                         send[(a, int(b))] = item
                     elif isint(a) and not isint(b):
                         recv[(b, int(a))] = item
                     else:
                         msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)' % (item+1, args)
-                        raise IOError(msg)
+                        # raise IOError(msg)
                 else:
                     msg = 'wrong format of send and receive in block #%i at %s (send: >> var id; recv: >> id var)'%(item+1,args)
-                    raise IOError(msg)
+                    # raise IOError(msg)
         return parameters, send, recv
 
     def _options(self, blocks):

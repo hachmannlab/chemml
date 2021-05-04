@@ -338,7 +338,7 @@ class SavePlot(object):
 
         else:
             self.file_path = '%s/%s.%s' %(main_directory,self.filename,self.format)
-            obj.figure.savefig(self.file_path,**self.kwargs)
+            obj.savefig(self.file_path,**self.kwargs)
         print('The Plot has been saved at: ', self.file_path)
 
 

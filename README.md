@@ -14,7 +14,7 @@ Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more
 
 
 <p align="center">
-  <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
+  <img align="middle" src="./imgs/logo.png" alt="ChemML" width="400px" class="center">
  </p>
 
 

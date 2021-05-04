@@ -41,8 +41,9 @@ class Dragon(object):
         The documentation for the rest of parameters can be found in the following links:
             - http://www.talete.mi.it/help/dragon_help/index.html
             - https://chm.kode-solutions.net/products_dragon_tutorial.php
-
-        In the current version, we recommend the user to use this class with the following parameters:
+        In the current version, if 3D descriptors are required, we recommend the user to provide .mol2 files that contain
+        3D information for the molecules. 
+        We also recommend the user to use this class with the following parameters:
         molInput = 'file'
         molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths
         script = 'new'
@@ -307,7 +308,11 @@ class Dragon(object):
                 if self.molInput == "file":
                     if isinstance(self.molFile, dict):
                         for f in range(1, len(self.molFile) + 1):
-                            MOLFILES.append(objectify.Element("molFile", value=self.molFile[f]['file']))
+                            if os.path.exists(self.molFile[f]['file']):
+                                MOLFILES.append(objectify.Element("molFile", value=self.molFile[f]['file']))
+                            else:
+                                msg = 'file does not exist at '+ self.molFile[f]['file']
+                                raise FileNotFoundError(msg)
                     elif isinstance(self.molFile, str):
                         MOLFILES.append(objectify.Element("molFile", value=self.molFile))
                     else:
@@ -459,7 +464,11 @@ class Dragon(object):
                 if self.molInput == "file":
                     if isinstance(self.molFile, dict):
                         for f in range(1, len(self.molFile) + 1):
-                            MOLFILES.append(objectify.Element("molFile", value=self.molFile[f]['file']))
+                            if os.path.exists(self.molFile[f]['file']):
+                                MOLFILES.append(objectify.Element("molFile", value=self.molFile[f]['file']))
+                            else:
+                                msg = "file not found at "+ self.molFile[f]['file']
+                                raise FileNotFoundError(msg)
                     elif isinstance(self.molFile, str):
                         MOLFILES.append(objectify.Element("molFile", value=self.molFile))
                     else:

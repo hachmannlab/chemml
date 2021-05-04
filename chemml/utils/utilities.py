@@ -400,9 +400,8 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
     metrics_dict['RMSE'] = rmse
     
     # mean squared log error
-    msle = np.mean(np.square(np.log(1+y_true) - np.log(1+y_predicted)))
-    
-    if msle > 0:
+    if sum(y_true) == sum(np.abs(y_true)) and sum(y_predicted) == sum(np.abs(y_predicted)):
+        msle = np.mean(np.square(np.log(1+y_true) - np.log(1+y_predicted)))
         metrics_dict['MSLE'] = msle
         rmsle = np.sqrt(msle)
         metrics_dict['RMSLE']=rmsle

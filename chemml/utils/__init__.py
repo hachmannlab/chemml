@@ -14,6 +14,7 @@ from .utilities import chunk
 from .utilities import bool_formatter
 from .utilities import padaxis
 from .utilities import mol_shapes_to_dims
+from .utilities import regression_metrics
 from .validation import isfloat
 from .validation import islist
 from .validation import istuple

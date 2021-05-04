@@ -1,3 +1,19 @@
+"""
+Generate features vectors for atoms and bonds
+
+# Source
+This code is adapted from:
+    - https://github.com/HIPS/neural-fingerprint/blob/2e8ef09/neuralfingerprint/features.py
+    - https://github.com/HIPS/neural-fingerprint/blob/2e8ef09/neuralfingerprint/util.py
+    - https://github.com/keiserlab/keras-neural-graph-fingerprint/blob/master/NGF/preprocessing.py
+
+# Copyright
+This code is governed by the MIT licence:
+    - https://github.com/HIPS/neural-fingerprint/blob/2e8ef09/license.txt
+    - https://github.com/keiserlab/keras-neural-graph-fingerprint/blob/master/license.txt
+
+"""
+
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.keras import layers
@@ -81,6 +97,57 @@ def neighbour_lookup(atoms, edges, maskvalue=0, include_self=False):
     return output
     
 class NeuralGraphHidden(layers.Layer):
+    ''' 
+    Hidden Convolutional layer in a Neural Graph (as in Duvenaud et. al.,
+        2015). This layer takes a graph as an input. The graph is represented as by
+        three tensors.
+        - The atoms tensor represents the features of the nodes.
+        - The bonds tensor represents the features of the edges.
+        - The edges tensor represents the connectivity (which atoms are connected to
+            which)
+        It returns the convolved features tensor, which is very similar to the atoms
+        tensor. Instead of each node being represented by a num_atom_features-sized
+        vector, each node now is represented by a convolved feature vector of size
+        conv_width.
+        # Example
+            Define the input:
+            ```python
+                atoms0 = Input(name='atom_inputs', shape=(max_atoms, num_atom_features))
+                bonds = Input(name='bond_inputs', shape=(max_atoms, max_degree, num_bond_features))
+                edges = Input(name='edge_inputs', shape=(max_atoms, max_degree), dtype='int32')
+            ```
+            The `NeuralGraphHidden` can be initialised in three ways:
+            1. Using an integer `conv_width` and possible kwags (`Dense` layer is used)
+                ```python
+                atoms1 = NeuralGraphHidden(conv_width, activation='relu', bias=False)([atoms0, bonds, edges])
+                ```
+            2. Using an initialised `Dense` layer
+                ```python
+                atoms1 = NeuralGraphHidden(Dense(conv_width, activation='relu', bias=False))([atoms0, bonds, edges])
+                ```
+            3. Using a function that returns an initialised `Dense` layer
+                ```python
+                atoms1 = NeuralGraphHidden(lambda: Dense(conv_width, activation='relu', bias=False))([atoms0, bonds, edges])
+                ```
+            Use `NeuralGraphOutput` to convert atom layer to fingerprint
+        # Arguments
+            inner_layer_arg: Either:
+                1. an int defining the `conv_width`, with optional kwargs for the
+                    inner Dense layer
+                2. An initialised but not build (`Dense`) keras layer (like a wrapper)
+                3. A function that returns an initialised keras layer.
+            kwargs: For initialisation 1. you can pass `Dense` layer kwargs
+        # Input shape
+            List of Atom and edge tensors of shape:
+            `[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,
+              bond_features), (samples, max_atoms, max_degrees)]`
+            where degrees referes to number of neighbours
+        # Output shape
+            New atom featuers of shape
+            `(samples, max_atoms, conv_width)`
+        # References
+            - [Convolutional Networks on Graphs for Learning Molecular Fingerprints](https://arxiv.org/abs/1509.09292)
+        '''
     
     def __init__(self, inner_layer_arg, **kwargs):
         # Initialise based on one of the three initialisation methods

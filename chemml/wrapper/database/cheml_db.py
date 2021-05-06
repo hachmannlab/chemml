@@ -175,6 +175,7 @@ class CoulombMatrix(object):
         nPerm = Parameter('nPerm', 3)
         const = Parameter('const', 1)
 
+<<<<<<< Updated upstream
 # class BagofBonds(object):
 #     task = 'Represent'
 #     subtask = 'molecular descriptors'
@@ -212,6 +213,46 @@ class CoulombMatrix(object):
 #     class FParameters:
 #         norm_type = Parameter('norm_type', 'fro')
 #         nCores = Parameter('nCores', 1)
+=======
+class BagofBonds(object):
+    task = 'Represent'
+    subtask = 'molecular descriptors'
+    host = 'cheml'
+    function = 'BagofBonds'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        molecules = Input("molecules","the molecule numpy array or data frame", ("<class 'pandas.core.frame.DataFrame'>",
+                                                                                 "<type 'numpy.ndarray'>","<class 'dict'>",
+                                                                                 "<class 'list'>"))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        const = Parameter('const', 1)
+
+class DistanceMatrix(object):
+    task = 'Represent'
+    subtask = 'distance matrix'
+    host = 'cheml'
+    function = 'DistanceMatrix'
+    modules = ('cheml','chem')
+    requirements = (req(0), req(2))
+    documentation = ""
+
+    class Inputs:
+        df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class Outputs:
+        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+    class WParameters:
+        pass
+    class FParameters:
+        norm_type = Parameter('norm_type', 'fro')
+        nCores = Parameter('nCores', 1)
+>>>>>>> Stashed changes
 
 class Split(object):
     task = 'Prepare'

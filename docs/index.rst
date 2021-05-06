@@ -108,6 +108,9 @@ Please cite the use of ChemML as:
    CMLWInputFileGenerator
    CMLWContentsTable
    CMLWReference
+   read_excel.ipynb 
+   generating_inorganic_descriptors.ipynb
+   simple_ml_model.ipynb
 
 .. toctree::
    :maxdepth: 2

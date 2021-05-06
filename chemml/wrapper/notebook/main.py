@@ -3,8 +3,13 @@ from __future__ import print_function
 import ipywidgets as widgets
 from IPython.display import display
 # from IPython.display import clear_output
+<<<<<<< Updated upstream
 
 from graphviz import Digraph
+=======
+import sys
+
+>>>>>>> Stashed changes
 import copy
 import os
 import pandas as pd     # newly added
@@ -15,6 +20,18 @@ from chemml.wrapper.database import sklearn_db, cheml_db, pandas_db
 from chemml.wrapper.notebook.TSHF import tshf
 from chemml.utils.validation import isint
 
+<<<<<<< Updated upstream
+=======
+try:
+    from graphviz import Digraph
+except Exception as e:
+    print("Graphviz not installed. Please install graphviz to view workflow. Use the following commands in the ChemmL environment: ")
+    print("conda install -c anaconda python-graphviz")
+    print("conda install -c anaconda pydot")
+    sys.exit(e)
+
+
+>>>>>>> Stashed changes
 ##########################################################
 # Todo: bring back receivers - no need another recursive function for bidR; (currentbids - bidS = bidR)
 # Todo: profile the cpu/clock time
@@ -148,23 +165,39 @@ class ChemMLNotebook(object):
         TEMPLATES.append(headerDATAOVER)
         
         ######################################################
+<<<<<<< Updated upstream
         ## Template7
         def on_selectTe7_clicked(b):
             # template7.txt is a cheml wrapper config file
             from .templates import template7
             script = template7()
+=======
+        ## Template1
+        def on_selectTe1_clicked(b):
+            # template1.txt is a cheml wrapper config file
+            from .templates import template1
+            script = template1()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe7.icon = 'check'
+=======
+                selectTe1.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe7.icon = 'remove'
+=======
+                selectTe1.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -183,6 +216,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te7 = widgets.Label(value="Template 1: load_cep_homo --> plot histogram of HOMO energies --> print 5 SMILES")#, layout=widgets.Layout(width='70%'))
         selectTe7 = widgets.Button(description="Select")
         selectTe7.style.button_color = 'lightblue'
@@ -201,18 +235,46 @@ class ChemMLNotebook(object):
             # template8.txt is a cheml wrapper config file
             from .templates import template8
             script = template8()
+=======
+        te1 = widgets.Label(value="Template 1: load_cep_homo --> plot histogram of HOMO energies --> print 5 SMILES")#, layout=widgets.Layout(width='70%'))
+        selectTe1 = widgets.Button(description="Select")
+        selectTe1.style.button_color = 'lightblue'
+        selectTe1.on_click(on_selectTe1_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe1 = widgets.HBox([te1, selectTe1],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe1)
+
+        ######################################################
+        ## Template2
+        def on_selectTe2_clicked(b):
+            # template8.txt is a cheml wrapper config file
+            from .templates import template2
+            script = template2()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe8.icon = 'check'
+=======
+                selectTe2.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe8.icon = 'remove'
+=======
+                selectTe2.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -231,6 +293,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te8 = widgets.Label(value="Template 2: load_organic_density --> plot feature AMW vs. density --> print 5 SMILES")#, layout=widgets.Layout(width='70%'))
         selectTe8 = widgets.Button(description="Select")
         selectTe8.style.button_color = 'lightblue'
@@ -249,18 +312,46 @@ class ChemMLNotebook(object):
             # template9.txt is a cheml wrapper config file
             from .templates import template9
             script = template9()
+=======
+        te2 = widgets.Label(value="Template 2: load_organic_density --> plot feature AMW vs. density --> print 5 SMILES")#, layout=widgets.Layout(width='70%'))
+        selectTe2 = widgets.Button(description="Select")
+        selectTe2.style.button_color = 'lightblue'
+        selectTe2.on_click(on_selectTe2_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe2 = widgets.HBox([te2, selectTe2],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe2)
+
+        ######################################################
+        ## Template3
+        def on_selectTe3_clicked(b):
+            # template9.txt is a cheml wrapper config file
+            from .templates import template3
+            script = template3()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe9.icon = 'check'
+=======
+                selectTe3.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe9.icon = 'remove'
+=======
+                selectTe3.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -279,6 +370,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te9 = widgets.Label(value="Template 3: load_xyz_polarizability --> plot all 50 polarizabilities --> print first item of coordinates output")#, layout=widgets.Layout(width='70%'))
         selectTe9 = widgets.Button(description="Select")
         selectTe9.style.button_color = 'lightblue'
@@ -290,6 +382,19 @@ class ChemMLNotebook(object):
                                                                # height='40px', align_items='center',   justify_content = 'space-between',
                                                                # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe9)
+=======
+        te3 = widgets.Label(value="Template 3: load_xyz_polarizability --> plot all 50 polarizabilities --> print first item of coordinates output")#, layout=widgets.Layout(width='70%'))
+        selectTe3 = widgets.Button(description="Select")
+        selectTe3.style.button_color = 'lightblue'
+        selectTe3.on_click(on_selectTe3_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe3 = widgets.HBox([te3, selectTe3],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe3)
+>>>>>>> Stashed changes
 
 
 
@@ -300,23 +405,39 @@ class ChemMLNotebook(object):
         TEMPLATES.append(headerMOLDES)
         
         ######################################################
+<<<<<<< Updated upstream
         ## Template1
         def on_selectTe1_clicked(b):
             # template1.txt is a cheml wrapper config file
             from .templates import template1
             script = template1()
+=======
+        ## Template4
+        def on_selectTe4_clicked(b):
+            # template4.txt is a cheml wrapper config file
+            from .templates import template4
+            script = template4()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe1.icon = 'check'
+=======
+                selectTe7.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe1.icon = 'remove'
+=======
+                selectTe4.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -335,6 +456,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te1 = widgets.Label(value="Template 1: load_xyz_polarizability --> generate CoulombMatrix features --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe1 = widgets.Button(description="Select")
         selectTe1.style.button_color = 'lightblue'
@@ -353,18 +475,46 @@ class ChemMLNotebook(object):
             # template1.txt is a cheml wrapper config file
             from .templates import template2
             script = template2()
+=======
+        te4 = widgets.Label(value="Template 1: load_xyz_polarizability --> generate CoulombMatrix features --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe4 = widgets.Button(description="Select")
+        selectTe4.style.button_color = 'lightblue'
+        selectTe4.on_click(on_selectTe4_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe4 = widgets.HBox([te4, selectTe4],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe4)
+
+        ######################################################
+        ## Template5
+        def on_selectTe5_clicked(b):
+            # template5.txt is a cheml wrapper config file
+            from .templates import template5
+            script = template5()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe2.icon = 'check'
+=======
+                selectTe5.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe2.icon = 'remove'
+=======
+                selectTe5.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -383,6 +533,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te2 = widgets.Label(value="Template 2: load_xyz_polarizability --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe2 = widgets.Button(description="Select")
         selectTe2.style.button_color = 'lightblue'
@@ -401,18 +552,46 @@ class ChemMLNotebook(object):
             # template3.txt is a cheml wrapper config file
             from .templates import template3
             script = template3()
+=======
+        te5 = widgets.Label(value="Template 2: load_xyz_polarizability --> generate BagofBonds features --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe5 = widgets.Button(description="Select")
+        selectTe5.style.button_color = 'lightblue'
+        selectTe5.on_click(on_selectTe5_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe5 = widgets.HBox([te5, selectTe5],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe5)
+
+        ######################################################
+        ## Template6
+        def on_selectTe6_clicked(b):
+            # template3.txt is a cheml wrapper config file
+            from .templates import template6
+            script = template6()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe3.icon = 'check'
+=======
+                selectTe6.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe3.icon = 'remove'
+=======
+                selectTe6.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -431,6 +610,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te3 = widgets.Label(value="Template 3: get SMILES reperesentaion of molecules --> save them --> generate Morgan Fingerprints  --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe3 = widgets.Button(description="Select")
         selectTe3.style.button_color = 'lightblue'
@@ -449,18 +629,46 @@ class ChemMLNotebook(object):
             # template4.txt is a cheml wrapper config file
             from .templates import template4
             script = template4()
+=======
+        te6 = widgets.Label(value="Template 3: get SMILES reperesentaion of molecules --> save them --> generate Morgan Fingerprints  --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe6 = widgets.Button(description="Select")
+        selectTe6.style.button_color = 'lightblue'
+        selectTe6.on_click(on_selectTe6_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe6 = widgets.HBox([te6, selectTe6],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe6)
+
+        ######################################################
+        ## Template7
+        def on_selectTe7_clicked(b):
+            # template7.txt is a cheml wrapper config file
+            from .templates import template7
+            script = template7()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe4.icon = 'check'
+=======
+                selectTe7.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe4.icon = 'remove'
+=======
+                selectTe7.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -479,6 +687,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te4 = widgets.Label(value="Template 4: get SMILES reperesentaion of molecules --> save them --> generate Dragon descriptors  --> save features")#, layout=widgets.Layout(width='70%'))
         selectTe4 = widgets.Button(description="Select")
         selectTe4.style.button_color = 'lightblue'
@@ -490,6 +699,19 @@ class ChemMLNotebook(object):
                                                                # height='40px', align_items='center',   justify_content = 'space-between',
                                                                # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe4)
+=======
+        te7 = widgets.Label(value="Template 4: get SMILES reperesentaion of molecules --> save them --> generate Dragon descriptors  --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe7 = widgets.Button(description="Select")
+        selectTe7.style.button_color = 'lightblue'
+        selectTe7.on_click(on_selectTe7_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe7 = widgets.HBox([te7, selectTe7],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe7)
+>>>>>>> Stashed changes
 
 
         #######################***********************#######################***********************
@@ -499,23 +721,39 @@ class ChemMLNotebook(object):
         TEMPLATES.append(headerInorgDes)
 
         ######################################################
+<<<<<<< Updated upstream
         ## Template5
         def on_selectTe5_clicked(b):
             # template5.txt is a cheml wrapper config file
             from .templates import template5
             script = template5()
+=======
+        ## Template8
+        def on_selectTe8_clicked(b):
+            # template8.txt is a cheml wrapper config file
+            from .templates import template8
+            script = template8()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe5.icon = 'check'
+=======
+                selectTe8.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe5.icon = 'remove'
+=======
+                selectTe8.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -534,6 +772,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te5 = widgets.Label(value="Template 1: load_comp_energy --> inorganic descriptors for composition entries --> concatenate and print shape")#, layout=widgets.Layout(width='70%'))
         selectTe5 = widgets.Button(description="Select")
         selectTe5.style.button_color = 'lightblue'
@@ -552,18 +791,46 @@ class ChemMLNotebook(object):
             # template6.txt is a cheml wrapper config file
             from .templates import template6
             script = template6()
+=======
+        te8 = widgets.Label(value="Template 1: load_comp_energy --> inorganic descriptors for composition entries --> concatenate and print shape")#, layout=widgets.Layout(width='70%'))
+        selectTe8 = widgets.Button(description="Select")
+        selectTe8.style.button_color = 'lightblue'
+        selectTe8.on_click(on_selectTe8_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe8 = widgets.HBox([te8, selectTe8],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe8)
+
+        ######################################################
+        ## Template9
+        def on_selectTe9_clicked(b):
+            # template9.txt is a cheml wrapper config file
+            from .templates import template9
+            script = template9()
+>>>>>>> Stashed changes
             old = [i for i in self.pages]
 
             try:
                 self.parser(script)
                 # update the current_bid
                 self.block_id = max(self.pages)
+<<<<<<< Updated upstream
                 selectTe6.icon = 'check'
+=======
+                selectTe9.icon = 'check'
+>>>>>>> Stashed changes
             except Exception as err:
                 print( "Invalid configuration file ...")
                 print( "    IOError: %s"%err.message)
                 print( "... Not loaded!")
+<<<<<<< Updated upstream
                 selectTe6.icon = 'remove'
+=======
+                selectTe9.icon = 'remove'
+>>>>>>> Stashed changes
                 rm = [i for i in self.pages if i not in old]
                 for ib in rm:
                     if ib in self.pages:
@@ -582,6 +849,7 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te6 = widgets.Label(value="Template 2: load_crystal_structures --> inorganic descriptors for crystal structures --> concatenate and print shape")#, layout=widgets.Layout(width='70%'))
         selectTe6 = widgets.Button(description="Select")
         selectTe6.style.button_color = 'lightblue'
@@ -594,6 +862,79 @@ class ChemMLNotebook(object):
                                                                # margin='0px 0px 0px 10px'))
         TEMPLATES.append(hboxTe6)
 
+=======
+        te9 = widgets.Label(value="Template 2: load_crystal_structures --> inorganic descriptors for crystal structures --> concatenate and print shape")#, layout=widgets.Layout(width='70%'))
+        selectTe9 = widgets.Button(description="Select")
+        selectTe9.style.button_color = 'lightblue'
+        selectTe9.on_click(on_selectTe9_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe9 = widgets.HBox([te9, selectTe9],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe9)
+
+
+        #######################***********************#######################***********************
+        #######################:::::::::::::::::::::::#######################:::::::::::::::::::::::
+        ### Custom Datasets
+        headerMOLDES = widgets.HTML(value='<b> Entering Custom Dataset from Excel: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES.append(headerMOLDES)
+        
+        ######################################################
+        #Template13
+        def on_selectTe13_clicked(b):
+            # template13.txt is a cheml wrapper config file
+            print("""
+                    Please ensure that you are supplying an excel file from your PC.\n 
+                    Template includes a random file which is not a part of the ChemML library.\n
+                    This template will not work if a custom file is not supplied.
+                    """)
+            from .templates import template13
+            script = template13()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe13.icon = 'check'
+            except Exception as err:
+                print( "Invalid configuration file ...")
+                print( "    IOError: %s"%err.message)
+                print( "... Not loaded!")
+                selectTe13.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te13 = widgets.Label(value="Template 1: load excel sheet with SMILES codes in first column --> save them --> generate Morgan Fingerprints \n --> save features")#, layout=widgets.Layout(width='70%'))
+        selectTe13 = widgets.Button(description="Select")
+        selectTe13.style.button_color = 'lightblue'
+        selectTe13.on_click(on_selectTe13_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe13 = widgets.HBox([te13, selectTe13],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe13)
+>>>>>>> Stashed changes
 
         #######################***********************#######################***********************
         #######################:::::::::::::::::::::::#######################:::::::::::::::::::::::
@@ -602,6 +943,58 @@ class ChemMLNotebook(object):
         TEMPLATES.append(headerDMine)
 
         ######################################################
+<<<<<<< Updated upstream
+=======
+        #Template14
+        def on_selectTe14_clicked(b):
+            # template14.txt is a cheml wrapper config file
+            from .templates import template14
+            script = template14()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe14.icon = 'check'
+            except Exception as err:
+                print( "Invalid configuration file ...")
+                print( "    IOError: %s"%err.message)
+                print( "... Not loaded!")
+                selectTe14.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te14 = widgets.Label(value="Template 1: A simple machine learning model workflow")#, layout=widgets.Layout(width='70%'))
+        selectTe14 = widgets.Button(description="Select")
+        selectTe14.style.button_color = 'lightblue'
+        selectTe14.on_click(on_selectTe14_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe14 = widgets.HBox([te14, selectTe14],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe14)
+
+
+        # ######################################################
+>>>>>>> Stashed changes
         ## Template11
         def on_selectTe11_clicked(b):
             # template11.txt is a cheml wrapper config file
@@ -637,7 +1030,11 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te11 = widgets.Label(value="Template 1: model selection with grid search and cross validation")#, layout=widgets.Layout(width='70%'))
+=======
+        te11 = widgets.Label(value="Template 2: model selection with grid search and cross validation")#, layout=widgets.Layout(width='70%'))
+>>>>>>> Stashed changes
         selectTe11 = widgets.Button(description="Select")
         selectTe11.style.button_color = 'lightblue'
         selectTe11.on_click(on_selectTe11_clicked)
@@ -685,7 +1082,11 @@ class ChemMLNotebook(object):
             self.graph = widgets.Image(value=dot.pipe(), format='png')
             display(self.graph)
 
+<<<<<<< Updated upstream
         te12 = widgets.Label(value="Template 2: a complete machine learning workflow")#, layout=widgets.Layout(width='70%'))
+=======
+        te12 = widgets.Label(value="Template 3: a complete machine learning workflow")#, layout=widgets.Layout(width='70%'))
+>>>>>>> Stashed changes
         selectTe12 = widgets.Button(description="Select")
         selectTe12.style.button_color = 'lightblue'
         selectTe12.on_click(on_selectTe12_clicked)
@@ -771,7 +1172,11 @@ class ChemMLNotebook(object):
             self.add_page()
 
         def on_selectE_clicked(b):
+<<<<<<< Updated upstream
             if txtarea.value is not '':
+=======
+            if txtarea.value != '':
+>>>>>>> Stashed changes
                 old = [i for i in self.pages]
                 try:
                     self.parser(txtarea.value.split('\n'))
@@ -985,7 +1390,11 @@ class ChemMLNotebook(object):
     ################################
 
     def db_extract_function(self, host, function):
+<<<<<<< Updated upstream
         print("host:", host)
+=======
+        # print("host:", host)
+>>>>>>> Stashed changes
         if host == 'sklearn':
             metadata = getattr(sklearn_db, function)()
         elif host == 'cheml':
@@ -1414,9 +1823,15 @@ class ChemMLNotebook(object):
         if not self.debut:
             self.current_bid = sorted(self.pages)[self.accordion.selected_index]
         host = self.pages[self.current_bid].block_params['host']
+<<<<<<< Updated upstream
         print('host_1',host)
         function = self.pages[self.current_bid].block_params['function']
         print("funct_1",function)
+=======
+        # print('host_1',host)
+        function = self.pages[self.current_bid].block_params['function']
+        # print("funct_1",function)
+>>>>>>> Stashed changes
         wparams, fparams, inputs, outputs, metadata = self.db_extract_function(host,function)
         self.pages[self.current_bid].block_params['wparams'] = wparams
         self.pages[self.current_bid].block_params['fparams'] = fparams
@@ -1577,7 +1992,11 @@ class ChemMLNotebook(object):
                 else:
                     args = line.strip()
                 arg = args.split()
+<<<<<<< Updated upstream
                 print(arg)
+=======
+                # print(arg)
+>>>>>>> Stashed changes
                 if len(arg) == 2:
                     a, b = arg
                     # print("Hello 1",a,b)

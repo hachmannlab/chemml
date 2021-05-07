@@ -201,11 +201,7 @@ class scatter2D(BASE):
             from chemml.visualization import scatter2D
             sc = scatter2D(**self.parameters)
             fig = sc.plot(dfx,dfy,x,y)
-<<<<<<< Updated upstream
-            # print(fig)
-=======
             # plt.show()
->>>>>>> Stashed changes
         except Exception as err:
             msg='@Task #%i(%s): ' % (self.iblock + 1,self.Task)+ type(err).__name__+': ' + str(err.message)
             raise TypeError(msg)
@@ -477,12 +473,9 @@ class CoulombMatrix(BASE):
         try:
             from chemml.chem import CoulombMatrix
             model = CoulombMatrix(**self.parameters)
-<<<<<<< Updated upstream
-=======
             # print("*************************************************************************\n \n")
             # print(molecules)
             # print("*************************************************************************\n \n")
->>>>>>> Stashed changes
             df = model.represent(molecules)
         except Exception as err:
             print (err.message)

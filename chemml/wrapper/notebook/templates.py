@@ -1,6 +1,4 @@
 def template1():
-<<<<<<< Updated upstream
-=======
     """load_cep_homo"""
     script = """
                 ## (Enter,datasets)
@@ -136,7 +134,6 @@ def template3():
     return script.strip().split('\n')
 
 def template4():
->>>>>>> Stashed changes
     """CoulombMatrix"""
     script = """
                 ## (Enter,datasets)
@@ -158,11 +155,7 @@ def template4():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template2():
-=======
 def template5():
->>>>>>> Stashed changes
     """BagofBonds"""
     script = """
                 ## (Enter,datasets)
@@ -185,11 +178,7 @@ def template5():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template3():
-=======
 def template6():
->>>>>>> Stashed changes
     """RDKitFingerprint"""
     script = """
                 ## (Enter,datasets)
@@ -221,11 +210,7 @@ def template6():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template4():
-=======
 def template7():
->>>>>>> Stashed changes
     """Dragon"""
     script = """
                 ## (Enter,datasets)
@@ -258,11 +243,7 @@ def template7():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template5():
-=======
 def template8():
->>>>>>> Stashed changes
     """composition"""
     script = """
                 ## (Enter,datasets)
@@ -311,11 +292,7 @@ def template8():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template6():
-=======
 def template9():
->>>>>>> Stashed changes
     """crystal"""
     script = """
                 ## (Enter,datasets)
@@ -360,145 +337,6 @@ def template9():
             """
     return script.strip().split('\n')
 
-<<<<<<< Updated upstream
-def template7():
-    """load_cep_homo"""
-    script = """
-                ## (Enter,datasets)
-                    << host = cheml
-                    << function = load_cep_homo
-                    >> homo 0
-                    >> smiles 3
-
-                ## (Visualize,plot)
-                    << host = cheml
-                    << function = hist
-                    << color = green
-                    << x = 0
-                    << bins = 20
-                    >> 0 dfx
-                    >> fig 1
-
-                ## (Store,figure)
-                    << host = cheml
-                    << function = SavePlot
-                    << kwargs = {'normed':True}
-                    << output_directory = plots
-                    << filename = homo_histogram
-                    >> 2 fig
-
-                ## (Visualize,artist)
-                    << host = cheml
-                    << function = decorator
-                    << title = CEP_HOMO
-                    << grid_color = b
-                    << xlabel = eHOMO (eV)
-                    << ylabel = %
-                    << grid = True
-                    >> 1 fig
-                    >> fig 2
-
-                ## (Enter,python script)
-                    << host = cheml
-                    << function = PyScript
-                    << line01 = print (iv1.head())
-                    >> 3 iv1
-             """
-    return script.strip().split('\n')
-
-def template8():
-    """load_cep_homo"""
-    script = """
-                ## (Store,figure)
-                    << host = cheml
-                    << function = SavePlot
-                    << kwargs = {'normed':True}
-                    << output_directory = plots
-                    << filename = amwVSdensity
-                    >> 0 fig
-
-                ## (Visualize,artist)
-                    << host = cheml
-                    << function = decorator
-                    << title = AMW vs. Density
-                    << grid_color = g
-                    << xlabel = density (Kg/m3)
-                    << ylabel = atomic molecular weight
-                    << grid = True
-                    << size = 18
-                    >> fig 0
-                    >> 4 fig
-
-                ## (Enter,python script)
-                    << host = cheml
-                    << function = PyScript
-                    << line01 = print (iv1.head())
-                    >> 1 iv1
-
-                ## (Enter,datasets)
-                    << host = cheml
-                    << function = load_organic_density
-                    >> smiles 1
-                    >> density 2
-                    >> features 3
-
-                ## (Visualize,plot)
-                    << host = cheml
-                    << function = scatter2D
-                    << y = 0
-                    << marker = o
-                    << x = 'AMW'
-                    >> 2 dfy
-                    >> 3 dfx
-                    >> fig 4
-            """
-    return script.strip().split('\n')
-
-def template9():
-    """load_organic_density"""
-    script = """
-                ## (Enter,datasets)
-                    << host = cheml
-                    << function = load_xyz_polarizability
-                    >> polarizability 0
-                    >> coordinates 1
-
-                ## (Visualize,plot)
-                    << host = pandas
-                    << function = plot
-                    << kind = area
-                    < subplots = True
-                    >> 0 df
-                    >> fig 3
-
-                ## (Enter,python script)
-                    << host = cheml
-                    << function = PyScript
-                    << line01 = print(iv1[1])
-                    >> 1 iv1
-
-                ## (Store,figure)
-                    << host = cheml
-                    << function = SavePlot
-                    << output_directory = plots
-                    << filename = pol_barplot
-                    >> 2 fig
-
-                ## (Visualize,artist)
-                    << host = cheml
-                    << function = decorator
-                    << title = polarizability area plot
-                    << ylim = (60, None)
-                    << grid_linestyle = :
-                    << grid = True
-                    >> fig 2
-                    >> 3 fig
-            """
-    return script.strip().split('\n')
-
-
-=======
->>>>>>> Stashed changes
 def template11():
     """Model selection"""
     script ="""
@@ -752,8 +590,6 @@ def template12():
                     >> ov1 24
             """
     return script.strip().split('\n')
-<<<<<<< Updated upstream
-=======
 
 def template13():
     """Enter custom data set"""
@@ -870,4 +706,3 @@ def template14():
                     >> 12 fig
             """
     return script.strip().split('\n')
->>>>>>> Stashed changes

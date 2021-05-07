@@ -69,11 +69,7 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-<<<<<<< Updated upstream
-        self._print_out(cmls)
-=======
         # self._print_out(cmls)
->>>>>>> Stashed changes
         return cmls, ImpOrder, CompGraph
 
     def _functions(self, line):

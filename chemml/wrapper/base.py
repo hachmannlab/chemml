@@ -64,33 +64,21 @@ class BASE(object):
                 msg = "@Task #%i(%s): received a non valid input token '%s', sent by block #%i" % (
                     self.iblock + 1, self.Task, edge[3], edge[0] + 1)
                 raise IOError(msg)
-<<<<<<< Updated upstream
-        for edge in recv:
-            key = edge[0:2]
-=======
         # print("recv: ", recv)
         for edge in recv:
             # print("edge: ", edge)
             key = edge[0:2]
             # print("self.Base.send: ", self.Base.send)
->>>>>>> Stashed changes
             if key in self.Base.send:
                 if self.Base.send[key].count > 0:
                     value = self.Base.send[key].value
                     # Todo: add an option to deepcopy(value)
-<<<<<<< Updated upstream
-                    print("type(value): ", type(value))
-                    print("value: ", value)
-                    print("input.types: ",self.inputs[edge[3]].types)
-                    print("We're here now!:", str(type(value)) in self.inputs[edge[3]].types)
-=======
                     # print("type(value): ", type(value))
                     # print("value: ", value)
                     # print("input.types: ",self.inputs[edge[3]].types)
                     # print("We're here now!:", str(type(value)) in self.inputs[edge[3]].types)
                     # print("edge[3].value: ", edge[3].value)
                     # print("(type(edge[3].value): ", type(edge[3].value))
->>>>>>> Stashed changes
                     if str(type(value)) in self.inputs[edge[3]].types or \
                                len(self.inputs[edge[3]].types)==0:
                         self.inputs[edge[3]].value = value
@@ -137,11 +125,8 @@ class BASE(object):
 
     def paramFROMinput(self):
         for param in self.parameters:
-<<<<<<< Updated upstream
-=======
             # print(self.parameters[param])
             # print(type(self.parameters[param]))
->>>>>>> Stashed changes
             if isinstance(self.parameters[param], str):
                 if self.parameters[param][0]=='@':
                     token = self.parameters[param][1:].strip()
@@ -157,11 +142,7 @@ class BASE(object):
         # print("type(value): ", type(value))
         # print("value: ", value)
         # print("output.types: ",self.outputs[token].types)
-<<<<<<< Updated upstream
-        print("We're here now!:", str(type(value)) in self.outputs[token].types)
-=======
         # print("We're here now!:", str(type(value)) in self.outputs[token].types)
->>>>>>> Stashed changes
         self.outputs[token].fro = (self.iblock,self.Host,self.Function)
         if str(type(value)) in self.outputs[token].types or \
                     len(self.outputs[token].types)==0:
@@ -343,11 +324,7 @@ class LIBRARY(object):
                 self.refs['rdkit'] = {'github': ref_g, 'paper': ref_p}
             elif function == 'Dragon':
                 ref_g = "http://www.talete.mi.it/products/dragon_description.htm"
-<<<<<<< Updated upstream
-                ref_p = "R. Todeschini,  V. Consonni,  R. Mannhold,H.  Kubinyi,  H.  Timmerman,  Handbook  ofMolecular Descriptors, Wiley-VCH, 2000."
-=======
                 ref_p = "R. Todeschini,  V. Consonni,  R. Mannhold,H.  Kubinyi,  H.  Timmerman,  Handbook  of Molecular Descriptors, Wiley-VCH, 2000."
->>>>>>> Stashed changes
                 self.refs['Dragon'] = {'url': ref_g, 'paper': ref_p}
             elif function == 'CoulombMatrix':
                 ref_g = "no software package"

@@ -43,11 +43,6 @@ class read_table(BASE):
 
 class read_excel(BASE):
     def fit(self):
-<<<<<<< Updated upstream
-        # step1: check inputs
-        # step2: assign inputs to parameters if necessary (param = @token)
-        self.paramFROMinput()
-=======
         # print(self)
         # step1: check inputs
         # step2: assign inputs to parameters if necessary (param = @token)
@@ -56,7 +51,6 @@ class read_excel(BASE):
             # print(param)
             # print(self.parameters[param])
         # print(self.paramFROMinput())
->>>>>>> Stashed changes
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
@@ -66,11 +60,7 @@ class read_excel(BASE):
             raise TypeError(msg)
 
         # step5: process
-<<<<<<< Updated upstream
-        print ('(rows, columns): ', df.shape)
-=======
         # print ('(rows, columns): ', df.shape)
->>>>>>> Stashed changes
         # if 'header' in self.parameters and self.parameters['header'] is not None:
         #     print 'header: ', df.columns
 

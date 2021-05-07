@@ -2,7 +2,7 @@ from __future__ import print_function
 import os
 import keras # required to go around the protobuf error after importing pybel prior to tensorflow
 from rdkit import Chem
-import pybel
+from openbabel import pybel
 from rdkit.Chem import AllChem
 import warnings
 import numpy as np
@@ -423,7 +423,7 @@ class Molecule(object):
         if input_type == 'xyz':
             self._load_pybel(input, input_type, **kwargs)
         elif input_type in ['smiles', 'smarts', 'inchi']:
-            print(input)
+            # print(input)
             self._load_rdkit(input, input_type, **kwargs)
         else:
             msg = "The input type '%s' is not supported." %input_type

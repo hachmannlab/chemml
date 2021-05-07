@@ -101,7 +101,7 @@ Please cite the use of ChemML as:
 
 .. toctree::
    :maxdepth: 2
-   :caption: ChemML Wrapper documentation
+   :caption: ChemML Wrapper documentation and tutorial
 
    CMLWTutorial
    CMLWInputFile

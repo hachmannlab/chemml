@@ -703,6 +703,19 @@ def template14():
                     << function = SavePlot
                     << filename = dfy_actual_vs_dfy_predict
                     << output_directory = .
+                    >> 13 fig
+
+                ## (Visualize,artist)
+                    << host = cheml
+                    << function = decorator
+                    << title = true vs. predicted HOMO energy
+                    << xlabel = predicted HOMO energy (eV)
+                    << ylabel = true HOMO energy (eV)
+                    << grid = True
+                    << grid_color = g
+                    << size = 18
                     >> 12 fig
-            """
+                    >> fig 13
+             """
+
     return script.strip().split('\n')

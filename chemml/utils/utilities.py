@@ -2,7 +2,6 @@ from builtins import range
 import datetime
 import numpy as np
 import time
-
 # Todo: polish docstrings
 
 
@@ -261,3 +260,183 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
         pad_width[axis] = (add_size, 0)
 
     return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
+
+def mol_shapes_to_dims(mol_tensors=None, mol_shapes=None):
+    ''' 
+    Helper function, returns dim sizes for molecule tensors given tensors or
+    tensor shapes
+
+    Parameters
+    ----------
+    mol_tensors: tensorflow.tensor, default=None
+        tensor of molecule
+    
+    mol_shapes: tuple, default=None
+        shape of the molecule tensor
+
+    Returns
+    -------
+    max_atoms1
+        maximum number of atoms
+
+    max_degree1
+        maximum degree
+
+    num_atom_features
+        total features
+
+    num_bond_features
+        total bond features
+
+    num_molecules1
+        total number of molecules
+
+    '''
+
+    if not mol_shapes:
+        mol_shapes = [t.shape for t in mol_tensors]
+
+    num_molecules0, max_atoms0, num_atom_features = mol_shapes[0]
+    num_molecules1, max_atoms1, max_degree1, num_bond_features = mol_shapes[1]
+    num_molecules2, max_atoms2, max_degree2 = mol_shapes[2]
+
+    num_molecules_vals = [num_molecules0, num_molecules1, num_molecules2]
+    max_atoms_vals = [max_atoms0, max_atoms1, max_atoms2]
+    max_degree_vals = [max_degree1, max_degree2]
+
+    assert len(set(num_molecules_vals))==1, 'num_molecules does not match within tensors (found: {})'.format(num_molecules_vals)
+    assert len(set(max_atoms_vals))==1, 'max_atoms does not match within tensors (found: {})'.format(max_atoms_vals)
+    assert len(set(max_degree_vals))==1, 'max_degree does not match within tensors (found: {})'.format(max_degree_vals)
+
+    return max_atoms1, max_degree1, num_atom_features, num_bond_features, num_molecules1
+
+def is_iterable(obj):
+    try:
+        iter(obj)
+        return True
+    except TypeError:
+        return False
+
+def zip_mixed(*mixed_iterables, **kwargs):
+    ''' Zips a mix of iterables and non-iterables, non-iterables are repeated
+    for each entry.
+
+    # Arguments
+        mixed_iterables (any type): unnamed arguments (just like `zip`)
+        repeat_classes (list): named argument, which classes to repeat even though,
+            they are in fact iterable
+
+    '''
+
+    repeat_classes = tuple(kwargs.get('repeat_classes', []))
+    mixed_iterables = list(mixed_iterables)
+
+    for i, item in enumerate(mixed_iterables):
+        if not is_iterable(item):
+            mixed_iterables[i] = cycle([item])
+
+        if isinstance(item, repeat_classes):
+            mixed_iterables[i] = cycle([item])
+
+    return zip(*mixed_iterables)
+
+def regression_metrics(y_true, y_predicted, nfeatures = None):
+    """
+    calculates metrics to evaluate regression models
+    
+    Parameters
+    ----------
+    y_true : list or 1D array
+           actual values
+    
+    y_predicted : list or 1D array
+                predicted values
+
+    nfeatures : int, default = None
+              number of features required to calculated adjusted R squared
+
+    Returns
+    -------
+    metrics dict: dictionary with all metrics
+    """
+    metrics_dict = {}
+    y_true = np.asarray(y_true)
+    y_predicted = np.asarray(y_predicted)
+    ndata = len(y_true)
+    y_mean = np.mean(y_true)
+    # actual errors
+    e = y_true - y_predicted
+    # relative errors
+    re_flag = True
+    if 0 in list(y_true):
+        re_flag = False
+    else:
+        re = e/y_true
+    # absolute errors
+    ae = np.absolute(e)
+    # squared errors
+    se = np.square(e)
+
+    metrics_dict['E'] = list(e)
+    if re_flag == True:
+        metrics_dict['RE'] = list(re)
+    
+    metrics_dict['AE'] = list(ae)
+    metrics_dict['SE'] = list(se)
+
+    var = np.mean(np.square(y_predicted - y_mean))
+    
+    metrics_dict['ME'] = np.mean(e)
+    # mean absolute error
+    mae = np.mean(ae)
+    metrics_dict['MAE'] = mae
+    
+    # mean squared error
+    mse = np.mean(se)
+    metrics_dict['MSE'] = mse
+
+    # root mean squared error
+    rmse = np.sqrt(mse)
+    metrics_dict['RMSE'] = rmse
+    
+    # mean squared log error
+    if sum(y_true) == sum(np.abs(y_true)) and sum(y_predicted) == sum(np.abs(y_predicted)):
+        msle = np.mean(np.square(np.log(1+y_true) - np.log(1+y_predicted)))
+        metrics_dict['MSLE'] = msle
+        rmsle = np.sqrt(msle)
+        metrics_dict['RMSLE']=rmsle
+
+    if re_flag == True:
+        # mean absolute percentage error
+        mape = np.mean(np.abs(re)) * 100
+        metrics_dict['MAPE'] = mape
+        # maximum absolute percentage error
+        max_abs_perc_error = max(np.abs(re)) * 100
+        metrics_dict['MaxAPE'] = max_abs_perc_error
+        # root mean squared percentage error
+        rmspe = np.sqrt(np.mean(np.square(re))) * 100
+        metrics_dict['RMSPE'] = rmspe
+        # mean percentage error
+        mpe = np.mean(re) * 100
+        metrics_dict['MPE'] = mpe
+        
+    # maximum absolute error
+    max_ae = np.max(ae)
+    metrics_dict['MaxAE'] = max_ae
+    
+    # difference between max error and min error
+    delta_max_e = np.max(e) - np.min(e)
+    metrics_dict['deltaMaxE'] = delta_max_e
+    
+    # R squared
+    r2 = 1 - mse/var
+    metrics_dict['r_squared'] = r2
+    metrics_dict['std'] = np.sqrt(var)
+    
+    # adjusted R squared
+    if nfeatures != None:
+        adj_r2 = 1 - ((1-r2) * (ndata - 1)/(ndata - nfeatures -1))
+        metrics_dict['adjusted_r_squared'] = adj_r2
+
+    return metrics_dict
+        

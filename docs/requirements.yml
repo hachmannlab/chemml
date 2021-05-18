@@ -10,10 +10,12 @@ dependencies:
     - nbsphinx
 
       # chemml depends
-    - openbabel
     - rdkit
     - tensorflow
-    - keras
 
-    - pip:
-      - chemml
+channels:
+    - openbabel
+
+dependencies:
+    - openbabel
+

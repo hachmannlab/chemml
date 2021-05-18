@@ -37,20 +37,20 @@ Here is a list of external libraries that will be installed with chemml:
    - numpy
    - pandas
    - tensorflow
-   - keras
    - scikit-learn
    - matplotlib
    - seaborn
    - lxml
 
-Since conda installation is not available for ChemML yet, we recommend installing rdkit and openbabel in a conda virtual environment prior to
+Since conda installation is not available for ChemML yet, we recommend installing rdkit and openbabel (please install Openbabel 2.x not Openbabel 3.xin a conda virtual environment prior to
 installing ChemML. For doing so, you need to follow the conda installer:
 
 .. code:: bash
 
     conda create --name my_chemml_env python=3.6
     source activate my_chemml_env
-    conda install -c conda-forge openbabel rdkit tensorflow keras
+    conda install -c openbabel openbabel
+    conda install -c conda-forge rdkit
     pip install chemml
 
 

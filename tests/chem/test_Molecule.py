@@ -1,7 +1,7 @@
 import pytest
 import os
 from rdkit import Chem
-import pybel
+from openbabel import pybel
 import warnings
 import pkg_resources
 

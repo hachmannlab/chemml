@@ -5,7 +5,7 @@ import numpy as np
 from functools import partial
 from multiprocessing import cpu_count, Pool
 
-from keras.utils.generic_utils import Progbar
+from tensorflow.keras.utils import Progbar
 
 from chemml.chem import Molecule
 from chemml.utils import padaxis
@@ -145,11 +145,11 @@ class CoulombMatrix(object):
         elif isinstance(molecules, Molecule):
             molecules = np.array([molecules])
         else:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
             raise ValueError(msg)
 
         if molecules.ndim >1:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
             raise ValueError(msg)
 
         self.n_molecules_ = molecules.shape[0]
@@ -354,7 +354,7 @@ class BagofBonds(object):
             raise ValueError(msg)
 
         if molecules.ndim > 1:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
             raise ValueError(msg)
 
         # pool of processes

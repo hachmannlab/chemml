@@ -296,9 +296,9 @@ class SavePlot(object):
     >>> from chemml.visualization import SavePlot
     >>> smiles, homo = load_cep_homo()
     >>> ax = homo.plot(kind='hist')
-    >>> sa=SavePlot(ax,filename='homo',output_directory='plots',kwargs={'facecolor':'w','dpi':100,'pad_inches':0.1, 'bbox_inches':'tight'})
-    >>> sa.save(main_directory='project')
-    The Plot has been saved at:  project/plots/abc1.png
+    >>> sa=SavePlot(filename='homo',output_directory='plots',kwargs={'facecolor':'w','dpi':100,'pad_inches':0.1, 'bbox_inches':'tight'})
+    >>> sa.save(obj=ax,main_directory='project')
+    The Plot has been saved at:  project/plots/homo.png
 
     """
     def __init__(self,filename, output_directory = None, format ='png',kwargs={}):

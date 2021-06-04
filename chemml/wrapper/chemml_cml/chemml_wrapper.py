@@ -305,6 +305,7 @@ class PyScript(BASE):
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
             if token == 'ov1':
+                # print("type(token): ", type(token))
                 self.set_value(token, ov1)
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
@@ -1551,7 +1552,7 @@ class Split(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.initialization import Split
+            from chemml.initialization import Split
             split = Split(**self.parameters)
             df1, df2 = split.fit(df)
         except Exception as err:

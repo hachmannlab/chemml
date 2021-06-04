@@ -215,7 +215,7 @@ class StandardScaler(object):
 
     class Inputs:
         df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api","instance of scikit-learn's StandardScaler class", ("<class 'sklearn.preprocessing.data.StandardScaler'>",))
+        api = Input("api","instance of scikit-learn's StandardScaler class", ("<class 'sklearn.preprocessing._data.StandardScaler'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         api = Output("api","instance of scikit-learn's StandardScaler class", ("<class 'sklearn.preprocessing._data.StandardScaler'>",))
@@ -1030,7 +1030,7 @@ class GridSearchCV(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", tuple(["<type 'str'>"]+list(regression_types())))
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics._scorer._PredictScorer'>",))
         cv = Input("cv", "instance of scikit-learn's cross validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
 
     class Outputs:
@@ -1068,7 +1068,7 @@ class cross_val_predict(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics._scorer._PredictScorer'>",))
         cv = Input("cv","cross-validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
@@ -1100,7 +1100,7 @@ class cross_val_score(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics._scorer._PredictScorer'>",))
         cv = Input("cv", "cross-validation generator or instance object", tuple(["<type 'generator'>"]+list(cv_classes())))
 
     class Outputs:
@@ -1133,7 +1133,7 @@ class learning_curve(object):
         dfy = Input("dfy","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         estimator = Input("estimator","instance of a machine learning class", regression_types())
-        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Input("scorer","instance of scikit-learn's make_scorer class", ("<class 'sklearn.metrics._scorer._PredictScorer'>",))
         cv = Input("cv","instance of scikit-learn's cross validation generator or instance object",
                    tuple(["<type 'generator'>"] + list(cv_classes())))
     class Outputs:
@@ -1245,7 +1245,7 @@ class scorer_regression(object):
         pass
 
     class Outputs:
-        scorer = Output("scorer","Callable object that returns a scalar score", ("<class 'sklearn.metrics.scorer._PredictScorer'>",))
+        scorer = Output("scorer","Callable object that returns a scalar score", ("<class 'sklearn.metrics._scorer._PredictScorer'>",))
 
     class WParameters:
         metric = Parameter('metric','mae',

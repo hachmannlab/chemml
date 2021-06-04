@@ -46,10 +46,10 @@ class BASE(object):
 
     def Receive(self):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
-        # print(recv)
-        # print("self.inputs: ", self.inputs)
-        # print("self.Base.graph: ", self.Base.graph)
-        # print("self.iblock: ", self.iblock)
+        print(recv)
+        print("self.inputs: ", self.inputs)
+        print("self.Base.graph: ", self.Base.graph)
+        print("self.iblock: ", self.iblock)
         self.Base.graph = tuple([edge for edge in self.Base.graph if edge[2] != self.iblock])
         # check received tokens to: (1) be a legal input, and (2) be unique.
         count = {token: 0 for token in self.inputs}
@@ -138,11 +138,11 @@ class BASE(object):
                         raise IOError(msg)
 
     def set_value(self,token,value):
-        # print("token: ", token)
-        # print("type(value): ", type(value))
-        # print("value: ", value)
-        # print("output.types: ",self.outputs[token].types)
-        # print("We're here now!:", str(type(value)) in self.outputs[token].types)
+        print("token: ", token)
+        print("type(value): ", type(value))
+        print("value: ", value)
+        print("output.types: ",self.outputs[token].types)
+        print("We're here now!:", str(type(value)) in self.outputs[token].types)
         self.outputs[token].fro = (self.iblock,self.Host,self.Function)
         if str(type(value)) in self.outputs[token].types or \
                     len(self.outputs[token].types)==0:

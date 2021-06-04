@@ -16,10 +16,7 @@ Code Design:
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries.
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
-The format of library is similar to the well known libraries like Scikit-learn. ChemML will be soon available
-via graphical user interface provided by [ChemEco](https://github.com/hachmannlab/chemeco).
-ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the
-representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
+The format of library is similar to the well known libraries like Scikit-learn. 
 
 Latest Version:
 +++++++++++++++
@@ -27,13 +24,16 @@ Latest Version:
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
-You can download ChemML from Python Package Index (PyPI) via pip.
+We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML's dependencies, and subsequently install Chemml using the Python Package Index (PyPI) via pip are as follows: 
 
 .. code:: bash
 
-    pip install chemml --user -U
+    conda create --name chemml_env python=3.8
+    source activate chemml_env
+    conda install -c conda-forge openbabel rdkit
+    pip install chemml
 
-Here is a list of external libraries that will be installed with chemml:
+Note: Here is a list of external libraries that will be installed with chemml:
    - numpy
    - pandas
    - tensorflow
@@ -41,18 +41,6 @@ Here is a list of external libraries that will be installed with chemml:
    - matplotlib
    - seaborn
    - lxml
-
-Since conda installation is not available for ChemML yet, we recommend installing rdkit and openbabel (please install Openbabel 2.x not Openbabel 3.xin a conda virtual environment prior to
-installing ChemML. For doing so, you need to follow the conda installer:
-
-.. code:: bash
-
-    conda create --name my_chemml_env python=3.6
-    source activate my_chemml_env
-    conda install -c openbabel openbabel
-    conda install -c conda-forge rdkit
-    pip install chemml
-
 
 Citation:
 +++++++++
@@ -98,52 +86,51 @@ Please cite the use of ChemML as:
     year = {2018}
     }
 
+    @article{vishwakarma2019towards,
+    title={Towards autonomous machine learning in chemistry via evolutionary algorithms},
+    author={Vishwakarma, Gaurav and Haghighatlari, Mojtaba and Hachmann, Johannes},
+    journal={ChemRxiv preprint},
+    year={2019}
+    }
 
 .. toctree::
    :maxdepth: 2
-   :caption: ChemML Wrapper documentation and tutorial
+   :caption: ChemML Library
 
+   ./ipython_notebooks/Molecule.ipynb
+   ./ipython_notebooks/feature_representation.ipynb
+   ./ipython_notebooks/ml_model.ipynb
+   ./ipython_notebooks/ga_hyper_opt.ipynb
+   ./ipython_notebooks/ga_feature_selection.ipynb
+   ./ipython_notebooks/active_model_based.ipynb
+   ./ipython_notebooks/Convo_nets.ipynb
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ChemML Wrapper
+
+   A dedicated template for the same exists in the _Template workflow_ tab of the GUI. For details regarding the file formats, inputs and outputs, we recommend that users view each of the click-able widget tasks and their respective _Parameters_ and _Input/Output_ tiles. 
    CMLWTutorial
    CMLWInputFile
    CMLWInputFileGenerator
-   CMLWContentsTable
-   CMLWReference
-   read_excel.ipynb 
-   generating_inorganic_descriptors.ipynb
-   simple_ml_model.ipynb
+   ./ipython_notebooks/read_excel.ipynb 
+   ./ipython_notebooks/generating_inorganic_descriptors.ipynb
+   ./ipython_notebooks/simple_ml_model.ipynb
 
 .. toctree::
    :maxdepth: 2
-   :caption: ChemML library Tutorial
+   :caption: ChemML API 
 
-   Molecule.ipynb
-   active_model_based.ipynb
-   ga_hyper_opt.ipynb
-   ga_feature_selection.ipynb
-
-..   tutorial.chem
-..   tutorial.optimization
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: ChemML library documentation
-
-   chemml.chem
-   chemml.chem.magpie_python
-   chemml.initialization
-   chemml.datasets
-   chemml.preprocessing
-   chemml.models
-   chemml.optimization
-   chemml.visualization
+   API
+   
 
 
 
 
 License:
 ++++++++
-ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
+ChemML is copyright (C) 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 
@@ -153,6 +140,9 @@ About us:
 :Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
     - Mojtaba Haghighatlari
+    - Aditya Sonpal
+    - Gaurav Vishwakarma
+    - Aatish Pradhan
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
@@ -173,6 +163,6 @@ About us:
     - Mojtaba Haghighatlari received 2018 Phase-I and 2019 Phase-II Software Fellowships by the Molecular Sciences Software Institute (MolSSI) for his work on ChemML.
 
 
-.. |logo| image:: images/logo.png
+.. |logo| image:: ./images/logo.png
    :width: 540 px
    :target: https://mojtabah.github.io/ChemML

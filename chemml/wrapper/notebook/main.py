@@ -607,7 +607,7 @@ class ChemMLNotebook(object):
         #######################***********************#######################***********************
         #######################:::::::::::::::::::::::#######################:::::::::::::::::::::::
         ### Custom Datasets
-        headerMOLDES = widgets.HTML(value='<b> Entering Custom Dataset from Excel: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        headerMOLDES = widgets.HTML(value='<b> Generate Morgan fingerprints from SMILES codes: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
         TEMPLATES.append(headerMOLDES)
         
         ######################################################

@@ -1,0 +1,16 @@
+NumPy:
+    github: https://github.com/numpy/numpy
+    paper: Travis E, Oliphant. A guide to NumPy, USA: Trelgol Publishing, (2006).
+
+Pandas:
+    github: https://github.com/pandas-dev/pandas
+    paper: Wes McKinney. Data Structures for Statistical Computing in Python, Proceedings of the 9th Python in Science Conference, 51-56 (2010)
+
+ChemML:
+    github: https://github.com/hachmannlab/ChemML
+    paper: Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017), ChemML: A machine learning and informatics program suite for the chemical and materials sciences, https://github.com/hachmannlab/ChemML
+
+rdkit:
+    github: https://github.com/rdkit
+    paper: no publication
+

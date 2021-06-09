@@ -397,7 +397,7 @@ class SavePlot(object):
 #
 #     Example:
 #     --------
-#     >>> from cheml.datasets import load_organic_density
+#     >>> from chemml.datasets import load_organic_density
 #     >>> smiles,density,features=load_organic_density()
 #     >>> pl3=Scatter_2D(['MW'],['AMW'],nod=1,xlabel='MW',ylabel='AMW',sc=['bo'],title='MW vs AMW', kwargs={'markersize':0.5,'alpha':0.25},xmin=800,xmax=2000,ymin=800,ymax=2000)
 #     >>> fig=pl3.plot(features)
@@ -597,9 +597,9 @@ class SavePlot(object):
 #
 #     Example:
 #     --------
-#     >>> from cheml.datasets import load_organic_density
+#     >>> from chemml.datasets import load_organic_density
 #     >>> smiles,density,features=load_organic_density()
-#     >>> from cheml.visualization import hist
+#     >>> from chemml.visualization import hist
 #     >>> pl4=hist(nbins= 20, kwargs={'normed':True,'facecolor':'blue', 'ec':'black'}, lineshapecolor='g-', formatter_type='percent', rwidth=0.8, xmin=800, xmax=2000)
 #     >>> fig1=pl4.plot(density)
 #

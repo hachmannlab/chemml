@@ -1,9 +1,9 @@
 """
 The chemml.visualization module includes (please click on links adjacent to function names for more information):
-    - scatter2D: :func:`~cheml.visualization.scatter2D`
-    - hist: :func:`~cheml.visualization.hist`
-    - decorator: :func:`~cheml.visualization.decorator`
-    - SavePlot: :func:`~cheml.visualization.SavePlot`
+    - scatter2D: :func:`~chemml.visualization.scatter2D`
+    - hist: :func:`~chemml.visualization.hist`
+    - decorator: :func:`~chemml.visualization.decorator`
+    - SavePlot: :func:`~chemml.visualization.SavePlot`
 
 """
 

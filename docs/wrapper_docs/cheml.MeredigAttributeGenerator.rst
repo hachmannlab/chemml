@@ -10,7 +10,7 @@ MeredigAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | MeredigAttributeGenerator
@@ -30,7 +30,7 @@ MeredigAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = MeredigAttributeGenerator``
+    |   ``<< host = chemml    << function = MeredigAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

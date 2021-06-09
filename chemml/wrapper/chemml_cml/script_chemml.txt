@@ -1,4 +1,4 @@
-CheML date="2016-01-21" time="16:30:29" version="1.1.0"
+chemml date="2016-01-21" time="16:30:29" version="1.1.0"
 
 # Note: don't mix parameters and send&recv tokens in one line
 # Note: don't make a short loop on only one function!
@@ -7,7 +7,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 # Note: recv: >> id var
 
 ## Input
-                << host = cheml                 << function = ReadTable
+                << host = chemml                 << function = ReadTable
 
                 << filepath = 'benchmarks/RI_project/d_pk_178/exp_RI_liq_organic_mols_Kp.csv'
                 << header = 0
@@ -16,17 +16,17 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> df 0
 
 ## Input
-                << host = cheml                 << function = Split
+                << host = chemml                 << function = Split
                 << select = ['SMILES']
                 >> 0 df  >> df2 2  >> df1 1
 
 ## Input
-                << host = cheml                 << function = Merge
+                << host = chemml                 << function = Merge
                 >> id df1   >> id df2   >> df id
 
 
 ## Output
-                << host = cheml                 << function = SaveFile
+                << host = chemml                 << function = SaveFile
 
                 << filename = '178'
                 << output_directory = 'smiles'
@@ -37,7 +37,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 1 df >> filepath 3
 
 ## DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'Morgan'
                 << vector = 'bit'                 << nBits = 1024
@@ -47,7 +47,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # Output
-                << host = cheml                 << function = SaveFile
+                << host = chemml                 << function = SaveFile
 
                 << filename = 'morgan_bit1024'
                 << output_directory = 'fp'
@@ -58,7 +58,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 4 df
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'Morgan'
                 << vector = 'int'                 << nBits = 1024
@@ -68,7 +68,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'MACCS'
                 << vector = 'bit'                 << nBits = 1024
@@ -78,7 +78,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'AP'
                 << vector = 'int'                 << nBits = 1024
@@ -89,7 +89,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
 # Not available yet
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'AP'
                 << vector = 'bit'                 << nBits = 1024
@@ -99,7 +99,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'HAP'
                 << vector = 'int'                 << nBits = 1024
@@ -109,7 +109,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'HAP'
                 << vector = 'bit'                 << nBits = 1024
@@ -119,7 +119,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'HTT'
                 << vector = 'int'                 << nBits = 1024
@@ -129,7 +129,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'HTT'
                 << vector = 'bit'                 << nBits = 1024
@@ -139,7 +139,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                 << function = RDKitFingerprint
+                << host = chemml                 << function = RDKitFingerprint
 
                 << removeHs = True                << FPtype = 'TT'
                 << vector = 'int'                 << nBits = 1024
@@ -149,7 +149,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 >> 3 molfile  >> df 4
 
 # DataRepresentation
-                << host = cheml                      << function = Dragon
+                << host = chemml                      << function = Dragon
                 << version = 7
                 << script = "new"
                 << output_directory = 'dragon'
@@ -197,7 +197,7 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
 
 
 ## DataRepresentation
-                << host = cheml                 << function = CoulombMatrix
+                << host = chemml                 << function = CoulombMatrix
 
                 << CMtype = 'SC'                  << nPerm = 6
                 << const = 1
@@ -206,41 +206,41 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                 << arguments = [0,0]
 
 ## DataRepresentation
-                << host = cheml                 << function = DistanceMatrix
+                << host = chemml                 << function = DistanceMatrix
                 << norm_type = 'fro'              << nCores = 1
 
 ## Preprocessor
-                        << host = cheml             << function = MissingValues
+                        << host = chemml             << function = MissingValues
                         << string_as_null = True    << missing_values = False
                         << inf_as_null = True       << strategy = 'ignore'
                         >> id dfx    >> id dfy     >> dfx id  >> dfy id   >> api id
 
 ## Preprocessor
-                        << host = cheml           << function = Trimmer
+                        << host = chemml           << function = Trimmer
                         << type="margins"           << sort = True
                         << cut = 0.05               << shuffle = True
                         >> id dfx   >> id dfy      >> dfx id    >> dfy id    >> api id
 
 ## Preprocessor
-                        << host = cheml            << function = Uniformer
+                        << host = chemml            << function = Uniformer
                         << bins =  10                << bin_pop = 0.5
                         << right = True              << include_lowest = True
                         << substitute = None
                         >> id dfx   >> id dfy      >> dfx id    >> dfy id    >> api id
 
 ## Preprocessor
-                        << host = cheml         << function = Constant
+                        << host = chemml         << function = Constant
 
                         >> ? df >> df ? >> removed_columns_ ?  >> api ?
 
 # Script
-                        << host = cheml           << function = PyScript
+                        << host = chemml           << function = PyScript
                         << l1 = "print 'df.shape:', df.shape"
                         < l2 = "print len(df.columns)"
                         >> 7 df
 
 ## Regression
-                        << host = cheml        << function = NN_PSGD
+                        << host = chemml        << function = NN_PSGD
                                             << nneurons = [20,10]
                                             << input_act_funcs = 'tanh'
                                             << validation_size = 0.2
@@ -255,6 +255,6 @@ CheML date="2016-01-21" time="16:30:29" version="1.1.0"
                                             << print_level = 1
 
 ## Regression
-                        << host = cheml         << function = NN_DSGD
+                        << host = chemml         << function = NN_DSGD
                                             <<
                                             <<

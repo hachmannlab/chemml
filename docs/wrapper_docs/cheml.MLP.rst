@@ -10,22 +10,22 @@ MLP
     | regression
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | MLP
 
 :input tokens (receivers):
-    | ``api`` : instance of cheml.nn.keras.MLP class
-    |   types: ("<class 'cheml.nn.keras.mlp.MLP'>",)
+    | ``api`` : instance of chemml.nn.keras.MLP class
+    |   types: ("<class 'chemml.nn.keras.mlp.MLP'>",)
     | ``dfy`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``dfx`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
 :output tokens (senders):
-    | ``api`` : instance of cheml.nn.keras.MLP class
-    |   types: ("<class 'cheml.nn.keras.mlp.MLP'>",)
+    | ``api`` : instance of chemml.nn.keras.MLP class
+    |   types: ("<class 'chemml.nn.keras.mlp.MLP'>",)
     | ``dfy_predict`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
@@ -41,7 +41,7 @@ MLP
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = MLP``
+    |   ``<< host = chemml    << function = MLP``
     |   ``<< func_method = None``
     |   ``<< nhidden = 1``
     |   ``<< loss = mean_squared_error``

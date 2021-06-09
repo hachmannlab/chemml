@@ -14,7 +14,7 @@
 
 ## (Store,file)
 
-    << host = cheml
+    << host = chemml
 
     << function = SaveFile
 
@@ -34,7 +34,7 @@
 
 ## (Represent,molecular descriptors)
 
-    << host = cheml
+    << host = chemml
 
     << function = RDKitFingerprint
 
@@ -46,7 +46,7 @@
 
 ## (Store,file)
 
-    << host = cheml
+    << host = chemml
 
     << function = SaveFile
 

@@ -1,7 +1,7 @@
 from chemml.wrapper.database.containers import Input, Output, Parameter, req, regression_types, cv_classes
 
 class read_table(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'table'
     host = 'pandas'
     function = 'read_table'
@@ -73,7 +73,7 @@ class read_table(object):
         float_precision = Parameter('float_precision', None)
 
 class read_excel(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'table'
     host = 'pandas'
     function = 'read_excel'
@@ -110,7 +110,7 @@ class read_excel(object):
         squeeze = Parameter('squeeze', False)
 
 class corr(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'evaluate'
     host = 'pandas'
     function = 'corr'

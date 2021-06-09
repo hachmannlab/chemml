@@ -10,7 +10,7 @@ PRDFAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | PRDFAttributeGenerator
@@ -30,7 +30,7 @@ PRDFAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = PRDFAttributeGenerator``
+    |   ``<< host = chemml    << function = PRDFAttributeGenerator``
     |   ``<< cut_off_distance = 10.0``
     |   ``<< n_points = 20``
     |   ``>> id entries``

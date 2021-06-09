@@ -10,7 +10,7 @@ load_comp_energy
     | datasets
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | load_comp_energy
@@ -31,7 +31,7 @@ load_comp_energy
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = load_comp_energy``
+    |   ``<< host = chemml    << function = load_comp_energy``
     |   ``>> id formation_energy``
     |   ``>> id entries``
     |

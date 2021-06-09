@@ -10,7 +10,7 @@ Outliers
     | data cleaning
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | Outliers
@@ -19,13 +19,13 @@ Outliers
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   types: ("<class 'cheml.preprocessing.purge.Outliers'>",)
+    |   types: ("<class 'chemml.preprocessing.purge.Outliers'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   types: ("<class 'cheml.preprocessing.purge.Outliers'>",)
+    |   types: ("<class 'chemml.preprocessing.purge.Outliers'>",)
     | ``removed_columns_`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
@@ -40,7 +40,7 @@ Outliers
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Outliers``
+    |   ``<< host = chemml    << function = Outliers``
     |   ``<< func_method = None``
     |   ``<< m = 2.0``
     |   ``<< strategy = median``

@@ -390,11 +390,11 @@ class ConvertFile(object):
     >>> from chemml.datasets import load_xyz_polarizability
     >>> coordinates,polarizability = load_xyz_polarizability()
     >>> coordinates
-    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.xyz', ...
+    {1: {'file': 'chemml/datasets/data/organic_xyz/1_opt.xyz', ...
     >>> from chemml.initialization import ConvertFile
     >>> model = ConvertFile(file_path=coordinates,from_format='xyz',to_format='cml')
     >>> converted_file_paths = model.convert()
-    {1: {'file': 'cheml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
+    {1: {'file': 'chemml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
 
     """
 
@@ -464,7 +464,7 @@ class SaveFile(object):
         ----------
         X: pandas DataFrame
         main_directory: string
-            if there is any main directory for entire cheml project
+            if there is any main directory for entire chemml project
         """
         if not isinstance(X, pd.DataFrame):
             msg = 'X must be a pandas dataframe'
@@ -503,7 +503,7 @@ class StoreFile(object):
         """
         Write DataFrame to a comma-seprated values (csv) file
         :param: X: pandas DataFrame
-        :param: main_directory: string, if there is any main directory for entire cheml project
+        :param: main_directory: string, if there is any main directory for entire chemml project
         :return: nothing
         """
 

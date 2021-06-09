@@ -40,17 +40,17 @@ def banner():
 class Parser(object):
     """
     script: list of strings
-        A list of lines in the cheml script file.
+        A list of lines in the chemml script file.
     """
     def __init__(self, script):
         self.script = script
 
     def fit(self):
         """
-        The main funtion for parsing cheml script.
+        The main funtion for parsing chemml script.
         It starts with finding blocks and then runs other functions.
         :return:
-        cmls: cheml script
+        cmls: chemml script
         """
         blocks={}
         it = -1
@@ -69,7 +69,7 @@ class Parser(object):
 
         cmls = self._options(blocks)
         ImpOrder,CompGraph = self.transform(cmls)
-        # self._print_out(cmls)
+        self._print_out(cmls)
         return cmls, ImpOrder, CompGraph
 
     def _functions(self, line):
@@ -199,7 +199,7 @@ class Parser(object):
             recv_all += block['recv'].items()
         # check send and recv
         if len(send_all) > len(recv_all):
-            msg = '@cheml script - number of sent tokens must be less or equal to number of received tokens'
+            msg = '@chemml script - number of sent tokens must be less or equal to number of received tokens'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all]
         recv_ids = [k[1] for k,v in recv_all]
@@ -320,7 +320,7 @@ class Wrapper(LIBRARY):
                     cml_interface = [klass[1] for klass in inspect.getmembers(sklw) if klass[0] == 'automatic_run'][0]
                     cmli = cml_interface(self.Base, parameters, iblock, task, function, host)
                     cmli.run()
-            elif host == 'cheml':
+            elif host == 'chemml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]
                 if function not in legal_functions:
@@ -372,7 +372,7 @@ class Settings(object):
     makes the output directory.
     Parameters
     ----------
-    output_directory: String, (default = "CheML.out")
+    output_directory: String, (default = "ChemML.out")
         The directory path/name to store all the results and outputs
     input_copy: Boolean, (default = True)
         If True, keeps a copy of input script in the output_directory
@@ -454,7 +454,7 @@ def run(INPUT_FILE, OUTPUT_DIRECTORY):
     print (tmp_str + '\n')
     settings.write_InputScript(script)
     cmls, ImpOrder, CompGraph = Parser(script).fit()
-    # print cmls
+    # print("CMLS: ",cmls)
     # print ImpOrder
     # print CompGraph
     # sys.exit('this is how much you get till now!')

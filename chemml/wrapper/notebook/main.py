@@ -11,7 +11,7 @@ import pandas as pd     # newly added
 import sklearn          # newly added
 
 
-from chemml.wrapper.database import sklearn_db, cheml_db, pandas_db
+from chemml.wrapper.database import sklearn_db, chemml_db, pandas_db
 from chemml.wrapper.notebook.TSHF import tshf
 from chemml.utils.validation import isint
 
@@ -159,7 +159,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template1
         def on_selectTe1_clicked(b):
-            # template1.txt is a cheml wrapper config file
+            # template1.txt is a chemml wrapper config file
             from .templates import template1
             script = template1()
             old = [i for i in self.pages]
@@ -207,7 +207,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template2
         def on_selectTe2_clicked(b):
-            # template8.txt is a cheml wrapper config file
+            # template8.txt is a chemml wrapper config file
             from .templates import template2
             script = template2()
             old = [i for i in self.pages]
@@ -255,7 +255,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template3
         def on_selectTe3_clicked(b):
-            # template9.txt is a cheml wrapper config file
+            # template9.txt is a chemml wrapper config file
             from .templates import template3
             script = template3()
             old = [i for i in self.pages]
@@ -311,7 +311,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template4
         def on_selectTe4_clicked(b):
-            # template4.txt is a cheml wrapper config file
+            # template4.txt is a chemml wrapper config file
             from .templates import template4
             script = template4()
             old = [i for i in self.pages]
@@ -359,7 +359,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template5
         def on_selectTe5_clicked(b):
-            # template5.txt is a cheml wrapper config file
+            # template5.txt is a chemml wrapper config file
             from .templates import template5
             script = template5()
             old = [i for i in self.pages]
@@ -407,7 +407,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template6
         def on_selectTe6_clicked(b):
-            # template3.txt is a cheml wrapper config file
+            # template3.txt is a chemml wrapper config file
             from .templates import template6
             script = template6()
             old = [i for i in self.pages]
@@ -455,7 +455,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template7
         def on_selectTe7_clicked(b):
-            # template7.txt is a cheml wrapper config file
+            # template7.txt is a chemml wrapper config file
             from .templates import template7
             script = template7()
             old = [i for i in self.pages]
@@ -510,7 +510,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template8
         def on_selectTe8_clicked(b):
-            # template8.txt is a cheml wrapper config file
+            # template8.txt is a chemml wrapper config file
             from .templates import template8
             script = template8()
             old = [i for i in self.pages]
@@ -558,7 +558,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template9
         def on_selectTe9_clicked(b):
-            # template9.txt is a cheml wrapper config file
+            # template9.txt is a chemml wrapper config file
             from .templates import template9
             script = template9()
             old = [i for i in self.pages]
@@ -613,7 +613,7 @@ class ChemMLNotebook(object):
         ######################################################
         #Template13
         def on_selectTe13_clicked(b):
-            # template13.txt is a cheml wrapper config file
+            # template13.txt is a chemml wrapper config file
             print("""
                     Please ensure that you are supplying an excel file from your PC.\n 
                     Template includes a random file which is not a part of the ChemML library.\n
@@ -672,7 +672,7 @@ class ChemMLNotebook(object):
         ######################################################
         #Template14
         def on_selectTe14_clicked(b):
-            # template14.txt is a cheml wrapper config file
+            # template14.txt is a chemml wrapper config file
             from .templates import template14
             script = template14()
             old = [i for i in self.pages]
@@ -721,7 +721,7 @@ class ChemMLNotebook(object):
         # ######################################################
         ## Template11
         def on_selectTe11_clicked(b):
-            # template11.txt is a cheml wrapper config file
+            # template11.txt is a chemml wrapper config file
             from .templates import template11
             script = template11()
             old = [i for i in self.pages]
@@ -769,7 +769,7 @@ class ChemMLNotebook(object):
         ######################################################
         ## Template12
         def on_selectTe12_clicked(b):
-            # template12.txt is a cheml wrapper config file
+            # template12.txt is a chemml wrapper config file
             from .templates import template12
             script = template12()
             old = [i for i in self.pages]
@@ -817,7 +817,7 @@ class ChemMLNotebook(object):
         ######################################################
         # ## TemplateMHL
         # def on_selectTeMHL_clicked(b):
-        #     # templateMHL.txt is a cheml wrapper config file
+        #     # templateMHL.txt is a chemml wrapper config file
         #     from .templates import templateMHL
         #     script = templateMHL()
         #     old = [i for i in self.pages]
@@ -1105,8 +1105,8 @@ class ChemMLNotebook(object):
         # print("host:", host)
         if host == 'sklearn':
             metadata = getattr(sklearn_db, function)()
-        elif host == 'cheml':
-            metadata = getattr(cheml_db, function)()
+        elif host == 'chemml':
+            metadata = getattr(chemml_db, function)()
         elif host == 'pandas':
             metadata = getattr(pandas_db, function)()
         wparams = {i:copy.deepcopy(vars(metadata.WParameters)[i]) for i in vars(metadata.WParameters).keys() if '__' not in i}
@@ -1622,7 +1622,7 @@ class ChemMLNotebook(object):
 
     def parser(self, script):
         """
-        The main funtion for parsing cheml script.
+        The main funtion for parsing chemml script.
         It starts with finding blocks and then runs other functions.
 
         :return:
@@ -1653,7 +1653,7 @@ class ChemMLNotebook(object):
         if host == 'sklearn':
             metadata = getattr(sklearn_db, function)()
         elif host == 'chemml':
-            metadata = getattr(cheml_db, function)()
+            metadata = getattr(chemml_db, function)()
         wparams = {i:copy.deepcopy(vars(metadata.WParameters)[i]) for i in vars(metadata.WParameters).keys() if
                      i not in ('__module__', '__doc__')}
         fparams = {i:copy.deepcopy(vars(metadata.FParameters)[i]) for i in vars(metadata.FParameters).keys() if
@@ -1761,7 +1761,7 @@ class ChemMLNotebook(object):
             recv_all += self.pages[bid].block_params['recv'].items()
         # check send and recv
         if len(send_all) > len(recv_all):
-            msg = '@cheml script - number of sent tokens must be less or equal to number of received tokens'
+            msg = '@chemml script - number of sent tokens must be less or equal to number of received tokens'
             raise ValueError(msg)
         send_ids = [k[1] for k,v in send_all]
         recv_ids = [k[1] for k,v in recv_all]
@@ -1785,17 +1785,17 @@ class ChemMLNotebook(object):
 # comp_graph = [[0, 'df', 2, 'df'], [0, 'api', 1, 'iv1'], [1, 'ov1', 3, 'df2'], [2, 'df', 3, 'df1'], [1, 'ov2', 4, 'df']]
 
 # self.pages[ib].block_params = { 'function': 'mlp_hogwild',
-#                                 'inputs': {'api': <cheml.wrappers.database.containers.Input object at 0x12351c510>,
-#                                             'dfy': <cheml.wrappers.database.containers.Input object at 0x12421a610>,
-#                                             'dfx': <cheml.wrappers.database.containers.Input object at 0x12421a690>},
+#                                 'inputs': {'api': <chemml.wrappers.database.containers.Input object at 0x12351c510>,
+#                                             'dfy': <chemml.wrappers.database.containers.Input object at 0x12421a610>,
+#                                             'dfx': <chemml.wrappers.database.containers.Input object at 0x12421a690>},
 #                                 'subtask': 'regression',
 #                                 'task': 'Model',
 #                                 'requirements': (('ChemML', '0.1.0'), ('scikit-learn', '0.19.0'), ('pandas', '0.20.3')),
-#                                 'wparams': {'func_method': <cheml.wrappers.database.containers.Parameter object at 0x123bf1d50>},
-#                                 'fparams': {'rms_decay': <cheml.wrappers.database.containers.Parameter object at 0x1235cc750>,
-#                                             'learn_rate': <cheml.wrappers.database.containers.Parameter object at 0x1235cc250>},
-#                                 'outputs': {'api': <cheml.wrappers.database.containers.Output object at 0x12421a6d0>,
-#                                             'dfy_predict': <cheml.wrappers.database.containers.Output object at 0x12421a710>},
+#                                 'wparams': {'func_method': <chemml.wrappers.database.containers.Parameter object at 0x123bf1d50>},
+#                                 'fparams': {'rms_decay': <chemml.wrappers.database.containers.Parameter object at 0x1235cc750>,
+#                                             'learn_rate': <chemml.wrappers.database.containers.Parameter object at 0x1235cc250>},
+#                                 'outputs': {'api': <chemml.wrappers.database.containers.Output object at 0x12421a6d0>,
+#                                             'dfy_predict': <chemml.wrappers.database.containers.Output object at 0x12421a710>},
 #                                 'documentation': '',
-#                                 'host': 'cheml'
+#                                 'host': 'chemml'
 #                               }

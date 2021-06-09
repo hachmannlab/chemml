@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from chemml.wrapper.database import sklearn_db
-from chemml.wrapper.database import cheml_db
+from chemml.wrapper.database import chemml_db
 from chemml.wrapper.database import pandas_db
 
 
@@ -33,8 +33,8 @@ class BASE(object):
     def IO(self):
         if self.Host == 'sklearn':
             self.metadata = getattr(sklearn_db, self.Function)()
-        elif self.Host == 'cheml':
-            self.metadata = getattr(cheml_db, self.Function)()
+        elif self.Host == 'chemml':
+            self.metadata = getattr(chemml_db, self.Function)()
         elif self.Host == 'pandas':
             self.metadata = getattr(pandas_db, self.Function)()
         self.inputs = {i:copy.deepcopy(vars(self.metadata.Inputs)[i]) for i in vars(self.metadata.Inputs).keys() if
@@ -46,10 +46,10 @@ class BASE(object):
 
     def Receive(self):
         recv = [edge for edge in self.Base.graph if edge[2] == self.iblock]
-        print(recv)
-        print("self.inputs: ", self.inputs)
-        print("self.Base.graph: ", self.Base.graph)
-        print("self.iblock: ", self.iblock)
+        # print(recv)
+        # print("self.inputs: ", self.inputs)
+        # print("self.Base.graph: ", self.Base.graph)
+        # print("self.iblock: ", self.iblock)
         self.Base.graph = tuple([edge for edge in self.Base.graph if edge[2] != self.iblock])
         # check received tokens to: (1) be a legal input, and (2) be unique.
         count = {token: 0 for token in self.inputs}
@@ -138,11 +138,11 @@ class BASE(object):
                         raise IOError(msg)
 
     def set_value(self,token,value):
-        print("token: ", token)
-        print("type(value): ", type(value))
-        print("value: ", value)
-        print("output.types: ",self.outputs[token].types)
-        print("We're here now!:", str(type(value)) in self.outputs[token].types)
+        # print("token: ", token)
+        # print("type(value): ", type(value))
+        # print("value: ", value)
+        # print("output.types: ",self.outputs[token].types)
+        # print("We're here now!:", str(type(value)) in self.outputs[token].types)
         self.outputs[token].fro = (self.iblock,self.Host,self.Function)
         if str(type(value)) in self.outputs[token].types or \
                     len(self.outputs[token].types)==0:
@@ -314,7 +314,7 @@ class LIBRARY(object):
             ref_g = "https://github.com/scikit-learn/scikit-learn"
             ref_p = "Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011."
             self.refs['scikit-learn'] = {'github':ref_g, 'paper':ref_p}
-        elif host == 'cheml':
+        elif host == 'chemml':
             ref_g = "https://github.com/hachmannlab/ChemML"
             ref_p = "Haghighatlari M, Subramanian R, Urala B, Vishwakarma G, Sonpal A, Chen P, Setlur S, Hachmann J (2017), ChemML: A machine learning and informatics program suite for the chemical and materials sciences, https://github.com/hachmannlab/ChemML"
             self.refs['ChemML'] =  {'github': ref_g, 'paper': ref_p}

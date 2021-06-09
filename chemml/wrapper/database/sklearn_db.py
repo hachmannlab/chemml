@@ -1018,7 +1018,7 @@ class SVR(object):
         gamma = Parameter('gamma', 'auto')
 
 class GridSearchCV(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'grid'
     host = 'sklearn'
     function = 'GridSearchCV'
@@ -1056,7 +1056,7 @@ class GridSearchCV(object):
         cv = Parameter('cv', None)
 
 class cross_val_predict(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'validate'
     host = 'sklearn'
     function = 'cross_val_predict'
@@ -1088,7 +1088,7 @@ class cross_val_predict(object):
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
         method = Parameter('method', 'predict')
 class cross_val_score(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'validate'
     host = 'sklearn'
     function = 'cross_val_score'
@@ -1121,7 +1121,7 @@ class cross_val_score(object):
         fit_params = Parameter('fit_params', None)
         pre_dispatch = Parameter('pre_dispatch', '2 * n_jobs')
 class learning_curve(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'grid'
     host = 'sklearn'
     function = 'learning_curve'
@@ -1160,7 +1160,7 @@ class learning_curve(object):
         shuffle = Parameter('shuffle', False)
         random_state = Parameter('random_state', None)
 class evaluate_regression(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'evaluate'
     host = 'sklearn'
     function = 'evaluate_regression'
@@ -1233,7 +1233,7 @@ class evaluate_regression(object):
     class FParameters:
         pass
 class scorer_regression(object):
-    task = 'Search'
+    task = 'Optimize'
     subtask = 'evaluate'
     host = 'sklearn'
     function = 'scorer_regression'

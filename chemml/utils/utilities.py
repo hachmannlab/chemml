@@ -64,7 +64,7 @@ def tot_exec_time_str(time_start):
 #     ----------
 #     pyscript_file: string
 #         This is the python script that includes nn_dsgd functions and you are
-#         going to run on the cluster. If you are using the cheml python script
+#         going to run on the cluster. If you are using the chemml python script
 #         maker this parameter is going to be the name of the final output file.
 #
 #     nnodes: int, optional(default = 1)

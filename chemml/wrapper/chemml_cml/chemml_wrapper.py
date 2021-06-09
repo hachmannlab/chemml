@@ -12,7 +12,7 @@ from chemml.wrapper.base import BASE
 class XYZreader(BASE):
     def fit(self):
         try:
-            from cheml.initialization import XYZreader
+            from chemml.initialization import XYZreader
             model = XYZreader(**self.parameters)
             molecules = model.read()
         except Exception as err:
@@ -163,7 +163,7 @@ class ConvertFile(BASE):
         # if 'file_path' not in self.parameters and '@' not in file_path:
             # self.parameters['file_path']=file_path
         try:
-            from cheml.initialization import ConvertFile
+            from chemml.initialization import ConvertFile
             model = ConvertFile(**self.parameters)
             converted_file_paths=model.convert()
         except Exception as err:
@@ -296,37 +296,24 @@ class PyScript(BASE):
     def fit(self):
         # step1: check inputs
         inputs = [token for token in self.inputs if self.inputs[token].value is not None]
+        _locals=locals()
+        # print("INPUTS: ",inputs)
+        # print("self.parameters.keys(): ", self.parameters.keys())
         for token in inputs:
+            # print("token,token.value : ",token,token.value)
+            # print("self.inputs['token'].value: ", self.inputs[token].value)
             code = compile("%s = self.inputs['%s'].value"%(token,token), "<string>", "exec")
             exec (code)
         for line in sorted(self.parameters.keys()):
+            # print("self.parameters[line]: ", self.parameters[line])
             code = compile(self.parameters[line], "<string>", "exec")
+            # print("code: ",code)
             exec (code)
         order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
         for token in set(order):
-            if token == 'ov1':
+            if token == 'ov1' or token == 'ov2' or token == 'ov3' or token == 'ov4' or token == 'ov5' or token == 'ov6':
                 # print("type(token): ", type(token))
-                self.set_value(token, ov1)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'ov2':
-                self.set_value(token, ov2)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'ov3':
-                self.set_value(token, ov3)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'ov4':
-                self.set_value(token, ov4)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'ov5':
-                self.set_value(token, ov5)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'ov6':
-                self.set_value(token, ov6)
+                self.set_value(token, _locals[token])
                 self.outputs[token].count = order.count(token)
                 self.Base.send[(self.iblock, token)] = self.outputs[token]
             else:
@@ -1314,7 +1301,7 @@ class MissingValues(BASE):
 
         # process
         try:
-            from cheml.preprocessing import MissingValues
+            from chemml.preprocessing import MissingValues
             if method is None:
                 model = MissingValues(**self.parameters)
             elif method == 'fit_transform':
@@ -1364,7 +1351,7 @@ class ConstantColumns(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.preprocessing import ConstantColumns
+            from chemml.preprocessing import ConstantColumns
             if method is None:
                 model = ConstantColumns()
             elif method == 'fit_transform':
@@ -1419,7 +1406,7 @@ class Outliers(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.preprocessing import Outliers
+            from chemml.preprocessing import Outliers
             if method is None:
                 model = Outliers(**self.parameters)
             elif method == 'fit_transform':
@@ -1469,13 +1456,13 @@ class Outliers(BASE):
 #     def legal_IO(self):
 #         self.legal_inputs = {'dfx': None, 'dfy': None}
 #         self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
-#         requirements = ['cheml', 'pandas']
+#         requirements = ['chemml', 'pandas']
 #         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 #
 #     def fit(self):
-#         from cheml.initializtion import Trimmer
-#         dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
-#         dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
+#         from chemml.initializtion import Trimmer
+#         dfx = self.type_check('dfx', chemml_type='dfx', req=True, py_type=pd.DataFrame)
+#         dfy = self.type_check('dfy', chemml_type='dfy', req=True, py_type=pd.DataFrame)
 #         try:
 #             model = Trimmer(**self.parameters)
 #             dfx, dfy = model.fit_transform(dfx,dfy)
@@ -1504,13 +1491,13 @@ class Outliers(BASE):
 #     def legal_IO(self):
 #         self.legal_inputs = {'dfx': None, 'dfy': None}
 #         self.legal_outputs = {'dfx': None, 'dfy': None, 'api': None}
-#         requirements = ['cheml', 'pandas']
+#         requirements = ['chemml', 'pandas']
 #         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 #
 #     def fit(self):
-#         from cheml.initializtion import Uniformer
-#         dfx = self.type_check('dfx', cheml_type='dfx', req=True, py_type=pd.DataFrame)
-#         dfy = self.type_check('dfy', cheml_type='dfy', req=True, py_type=pd.DataFrame)
+#         from chemml.initializtion import Uniformer
+#         dfx = self.type_check('dfx', chemml_type='dfx', req=True, py_type=pd.DataFrame)
+#         dfy = self.type_check('dfy', chemml_type='dfy', req=True, py_type=pd.DataFrame)
 #         try:
 #             model = Uniformer(**self.parameters)
 #             dfx, dfy = model.fit_transform(dfx, dfy)
@@ -1595,7 +1582,7 @@ class MLP(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.nn.keras import MLP
+            from chemml.nn.keras import MLP
             if method is None:
                 model = MLP(**self.parameters)
             elif method == 'fit':
@@ -1649,7 +1636,7 @@ class MLP_sklearn(BASE):
 
         # step4: import module and make APIs
         try:
-            from cheml.nn.keras import MLP_sklearn
+            from chemml.nn.keras import MLP_sklearn
             if method is None:
                 model = MLP_sklearn(**self.parameters)
             elif method == 'fit':
@@ -1710,7 +1697,7 @@ class MLP_sklearn(BASE):
 #
 #         # step4: import module and make APIs
 #         try:
-#             from cheml.nn import mlp_hogwild
+#             from chemml.nn import mlp_hogwild
 #             if method is None:
 #                 model = mlp_hogwild(**self.parameters)
 #             elif method == 'fit':
@@ -1755,25 +1742,25 @@ class MLP_sklearn(BASE):
 #
 # class mlp_dsgd(BASE):
 #     # must be run with slurm script
-#     # Todo: first fix the slurm script function at cheml.initialization
+#     # Todo: first fix the slurm script function at chemml.initialization
 #     # Todo: then embede the slurm commands in this class to run the slurm script
 #     # Todo: or make the slurm script in this function too
 #     def legal_IO(self):
 #         self.legal_inputs = {'dfx_train': None, 'dfx_test': None, 'dfy_train': None, 'dfy_test': None}
 #         self.legal_outputs = {'dfy_train_pred': None, 'model': None}
-#         requirements = ['cheml', 'pandas']
+#         requirements = ['chemml', 'pandas']
 #         self.Base.requirements += [i for i in requirements if i not in self.Base.requirements]
 #
 #     def fit(self):
-#         from cheml.nn import nn_dsgd
-#         cheml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
-#         self.Base.cheml_type['regressor'].append(cheml_type)
-#         dfx_train = self.type_check('dfx_train', cheml_type='df', req=True, py_type=pd.DataFrame).values
-#         dfx_test = self.type_check('dfx_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
-#         dfy_train = self.type_check('dfy_train', cheml_type='df', req=True, py_type=pd.DataFrame)
+#         from chemml.nn import nn_dsgd
+#         chemml_type = "%s_%s" % (self.Base.graph_info[self.iblock][0], self.Base.graph_info[self.iblock][1])
+#         self.Base.chemml_type['regressor'].append(chemml_type)
+#         dfx_train = self.type_check('dfx_train', chemml_type='df', req=True, py_type=pd.DataFrame).values
+#         dfx_test = self.type_check('dfx_test', chemml_type='df', req=True, py_type=pd.DataFrame).values
+#         dfy_train = self.type_check('dfy_train', chemml_type='df', req=True, py_type=pd.DataFrame)
 #         dfy_header = dfy_train.columns
 #         dfy_train = dfy_train.values
-#         dfy_test = self.type_check('dfy_test', cheml_type='df', req=True, py_type=pd.DataFrame).values
+#         dfy_test = self.type_check('dfy_test', chemml_type='df', req=True, py_type=pd.DataFrame).values
 #
 #         try:
 #             model = nn_psgd.train(dfx_train,dfx_test,dfy_train,dfy_test,**self.parameters)

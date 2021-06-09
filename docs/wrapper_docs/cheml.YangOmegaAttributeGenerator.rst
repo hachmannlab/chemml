@@ -10,7 +10,7 @@ YangOmegaAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | YangOmegaAttributeGenerator
@@ -30,7 +30,7 @@ YangOmegaAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = YangOmegaAttributeGenerator``
+    |   ``<< host = chemml    << function = YangOmegaAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

@@ -1,5 +1,5 @@
 """
-The cheml directory contains ...
+The chemml directory contains ...
 last modified date: Feb 21, 2016
 """
 

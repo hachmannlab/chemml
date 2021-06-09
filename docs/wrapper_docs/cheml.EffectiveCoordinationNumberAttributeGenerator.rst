@@ -10,7 +10,7 @@ EffectiveCoordinationNumberAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | EffectiveCoordinationNumberAttributeGenerator
@@ -30,7 +30,7 @@ EffectiveCoordinationNumberAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = EffectiveCoordinationNumberAttributeGenerator``
+    |   ``<< host = chemml    << function = EffectiveCoordinationNumberAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

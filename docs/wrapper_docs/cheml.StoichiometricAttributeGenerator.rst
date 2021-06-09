@@ -10,7 +10,7 @@ StoichiometricAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | StoichiometricAttributeGenerator
@@ -34,7 +34,7 @@ StoichiometricAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = StoichiometricAttributeGenerator``
+    |   ``<< host = chemml    << function = StoichiometricAttributeGenerator``
     |   ``<< use_default_norms = None``
     |   ``<< p_norms = None``
     |   ``>> id entries``

@@ -57,8 +57,8 @@ def regression_types():
                  "<class 'sklearn.linear_model.bayes.ARDRegression'>", "<class 'sklearn.linear_model.logistic.LogisticRegression'>",
                  "<class 'sklearn.linear_model.stochastic_gradient.SGDRegressor'>", "<class 'sklearn.svm.classes.SVR'>",
                  "<class 'sklearn.svm.classes.NuSVR'>", "<class 'sklearn.svm.classes.LinearSVR'>", "<class 'sklearn.neural_network._multilayer_perceptron.MLPRegressor'>"]
-    cheml_types = ["<class 'cheml.nn.keras.mlp.MLP_sklearn'>"]
-    all_types = tuple(sklearn_types+cheml_types)
+    chemml_types = ["<class 'chemml.nn.keras.mlp.MLP_sklearn'>"]
+    all_types = tuple(sklearn_types+chemml_types)
     return all_types
 
 def cv_classes():

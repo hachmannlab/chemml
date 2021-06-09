@@ -135,8 +135,8 @@ class Regressor(object):
             model[0].fit(X, Y)
             model_trained = model[0]
             r2score_training = model[0].score(X, Y)
-        elif model[1][2] == 'cheml' and model[1][3] == 'NN_PSGD':
-            from cheml.nn import nn_psgd
+        elif model[1][2] == 'chemml' and model[1][3] == 'NN_PSGD':
+            from chemml.nn import nn_psgd
             ev_inds = np.random.choice(np.arange(X.shape[0]),int(0.2*X.shape[0])+1,replace=False)
             tr_inds = np.delete(np.arange(X.shape[0]),ev_inds)
             x_tr = X.loc[tr_inds,:]
@@ -152,8 +152,8 @@ class Regressor(object):
     def predict(self, model, X):
         if model[1][2] == 'sklearn':
             Y_pred = pd.DataFrame(model[0].predict(X))
-        elif model[1][2] == 'cheml' and model[1][3] == 'NN_PSGD':
-            from cheml.nn import nn_psgd
+        elif model[1][2] == 'chemml' and model[1][3] == 'NN_PSGD':
+            from chemml.nn import nn_psgd
             Y_pred = nn_psgd.output(X.values, model[0])
         return Y_pred
 
@@ -266,7 +266,7 @@ def Fit(fn):
                 api = self.import_sklearn()
                 self.set_value('api', api)
                 fn(self)
-            elif self.method is 'fit_transform':
+            elif self.method == 'fit_transform':
                 api = self.import_sklearn()
                 self.required('df', req=True)
                 df = self.inputs['df'].value
@@ -274,7 +274,7 @@ def Fit(fn):
                 self.set_value('api', api)
                 self.set_value('df', df)
                 fn(self)
-            elif self.method is 'transform':
+            elif self.method == 'transform':
                 self.required('df', req=True)
                 self.required('api', req=True)
                 df = self.inputs['df'].value
@@ -283,7 +283,7 @@ def Fit(fn):
                 self.set_value('api', api)
                 self.set_value('df', df)
                 fn(self)
-            elif self.method is 'inverse_transform':
+            elif self.method == 'inverse_transform':
                 self.required('df', req=True)
                 self.required('api', req=True)
                 df = self.inputs['df'].value
@@ -291,7 +291,7 @@ def Fit(fn):
                 df = api.inverse_transform(df)
                 self.set_value('api', api)
                 self.set_value('df', df)
-            elif self.method is 'fit':
+            elif self.method == 'fit':
                 api = self.import_sklearn()
                 self.required('dfx', req=True)
                 self.required('dfy', req=True)
@@ -302,7 +302,7 @@ def Fit(fn):
                 self.set_value('api', api)
                 self.set_value('dfy_predict', dfy_predict)
                 fn(self)
-            elif self.method is 'predict':
+            elif self.method == 'predict':
                 self.required('dfx', req=True)
                 self.required('api', req=True)
                 dfx = self.inputs['dfx'].value

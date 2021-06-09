@@ -10,7 +10,7 @@ CompositionEntry
     | inorganic input
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | CompositionEntry
@@ -29,7 +29,7 @@ CompositionEntry
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = CompositionEntry``
+    |   ``<< host = chemml    << function = CompositionEntry``
     |   ``<< filepath = required_required``
     |   ``>> id entries``
     |

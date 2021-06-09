@@ -10,7 +10,7 @@ APEAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | APEAttributeGenerator
@@ -30,7 +30,7 @@ APEAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = APEAttributeGenerator``
+    |   ``<< host = chemml    << function = APEAttributeGenerator``
     |   ``<< packing_threshold = None``
     |   ``<< n_nearest_to_eval = None``
     |   ``<< radius_property = None``

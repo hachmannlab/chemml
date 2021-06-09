@@ -1,13 +1,13 @@
 def tutorial1():
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     << return_X_y = True
                     >> smiles 0
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << header = False
@@ -16,7 +16,7 @@ def tutorial1():
                     >> filepath 1
 
                 ## (Prepare,feature representation)
-                    << host = cheml
+                    << host = chemml
                     << function = RDKitFingerprint
                     << molfile = @molfile
                     >> 1 molfile
@@ -28,13 +28,13 @@ def tutorial1():
 def tutorial2():
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     << return_X_y = True
                     >> smiles 0
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << header = False
@@ -43,7 +43,7 @@ def tutorial2():
                     >> filepath 1
 
                 ## (Prepare,feature representation)
-                    << host = cheml
+                    << host = chemml
                     << function = RDKitFingerprint
                     << molfile = @molfile
                     >> 1 molfile

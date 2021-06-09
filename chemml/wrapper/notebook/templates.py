@@ -2,13 +2,13 @@ def template1():
     """load_cep_homo"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     >> homo 0
                     >> smiles 3
 
                 ## (Visualize,plot)
-                    << host = cheml
+                    << host = chemml
                     << function = hist
                     << color = green
                     << x = 0
@@ -17,7 +17,7 @@ def template1():
                     >> fig 1
 
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << kwargs = {'normed':True}
                     << output_directory = plots
@@ -25,7 +25,7 @@ def template1():
                     >> 2 fig
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = CEP_HOMO
                     << grid_color = b
@@ -36,7 +36,7 @@ def template1():
                     >> fig 2
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print (iv1.head())
                     >> 3 iv1
@@ -47,7 +47,7 @@ def template2():
     """load_cep_homo"""
     script = """
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << kwargs = {'normed':True}
                     << output_directory = plots
@@ -55,7 +55,7 @@ def template2():
                     >> 0 fig
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = AMW vs. Density
                     << grid_color = g
@@ -67,20 +67,20 @@ def template2():
                     >> 4 fig
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print (iv1.head())
                     >> 1 iv1
 
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_organic_density
                     >> smiles 1
                     >> density 2
                     >> features 3
 
                 ## (Visualize,plot)
-                    << host = cheml
+                    << host = chemml
                     << function = scatter2D
                     << y = 0
                     << marker = o
@@ -95,7 +95,7 @@ def template3():
     """load_organic_density"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_xyz_polarizability
                     >> polarizability 0
                     >> coordinates 1
@@ -109,20 +109,20 @@ def template3():
                     >> fig 3
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print(iv1[1])
                     >> 1 iv1
 
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << output_directory = plots
                     << filename = pol_barplot
                     >> 2 fig
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = polarizability area plot
                     << ylim = (60, None)
@@ -137,18 +137,18 @@ def template4():
     """CoulombMatrix"""
     script = """
                 ## (Enter,datasets)
-                << host = cheml
+                << host = chemml
                 << function = load_xyz_polarizability
                 >> coordinates 0
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = CoulombMatrix
                     >> 0 molecules
                     >> df 1
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = CM_features
                     >> 1 df
@@ -159,18 +159,18 @@ def template5():
     """BagofBonds"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_xyz_polarizability
                     >> coordinates 0
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = BagofBonds
                     >> 0 molecules
                     >> df 1
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << output_directory = descriptors
                     << filename = BoB_features
@@ -182,19 +182,19 @@ def template6():
     """RDKitFingerprint"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     >> smiles 2
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = RDKitFingerprint
                     << molfile = @molfile
                     >> 0 molfile
                     >> df 1
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << header = False
@@ -203,7 +203,7 @@ def template6():
                     >> 2 df
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = Fingerprints
                     >> 1 df
@@ -214,12 +214,12 @@ def template7():
     """Dragon"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     >> smiles 0
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << header = False
@@ -228,14 +228,14 @@ def template7():
                     >> filepath 1
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << output_directory = Dragon
                     << filename = Dragon_features
                     >> 2 df
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = Dragon
                     << molFile = @molfile
                     >> 1 molfile
@@ -247,7 +247,7 @@ def template8():
     """composition"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_comp_energy
                     >> entries 0
                     >> entries 1
@@ -255,19 +255,19 @@ def template8():
                     >> formation_energy 7
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = ElementFractionAttributeGenerator
                     >> 0 entries
                     >> df 5
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = IonicityAttributeGenerator
                     >> 1 entries
                     >> df 3
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = MeredigAttributeGenerator
                     >> 2 entries
                     >> df 4
@@ -282,7 +282,7 @@ def template8():
                     >> df 6
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print ('features.shape:', iv1.shape)
                     << line02 = print ('energies.shape:', iv2.shape)
@@ -296,20 +296,20 @@ def template9():
     """crystal"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_crystal_structures
                     >> entries 0
                     >> entries 1
                     >> entries 5
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = CoordinationNumberAttributeGenerator
                     >> 0 entries
                     >> df 2
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = CoulombMatrixAttributeGenerator
                     >> 1 entries
                     >> df 3
@@ -324,13 +324,13 @@ def template9():
                     >> 6 df1
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print ('shape of features:', iv1.shape)
                     >> 4 iv1
 
                 ## (Represent,inorganic descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = EffectiveCoordinationNumberAttributeGenerator
                     >> 5 entries
                     >> df 6
@@ -341,13 +341,13 @@ def template11():
     """Model selection"""
     script ="""
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_xyz_polarizability
                     >> coordinates 0
                     >> polarizability 2
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = BagofBonds
                     >> 0 molecules
                     >> df 1
@@ -398,13 +398,13 @@ def template11():
                     >> 11 estimator
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = print (iv1.head(10))
                     >> 9 iv1
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = txt
                     << output_directory = gridsearch
@@ -429,13 +429,13 @@ def template12():
     """Model selection"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_xyz_polarizability
                     >> coordinates 0
                     >> polarizability 2
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = BagofBonds
                     >> 0 molecules
                     >> df 1
@@ -504,7 +504,7 @@ def template12():
                     >> dfy_predict 18
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = txt
                     << output_directory = gridsearch
@@ -542,7 +542,7 @@ def template12():
                     >> df 20
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << output_directory = results
                     << filename = test_evaluation
@@ -554,7 +554,7 @@ def template12():
                     >> api 19
 
                 ## (Visualize,plot)
-                    << host = cheml
+                    << host = chemml
                     << function = scatter2D
                     << y = 0
                     << x = 0
@@ -563,7 +563,7 @@ def template12():
                     >> fig 22
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = calculated vs. predicted
                     << grid_color = g
@@ -574,14 +574,14 @@ def template12():
                     >> fig 23
 
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << output_directory = results
                     << filename = test_predVScalc
                     >> 24 fig
 
                 ## (Enter,python script)
-                    << host = cheml
+                    << host = chemml
                     << function = PyScript
                     << line01 = ax = iv1.axes[0]
                     << line02 = ax.plot([90,120],[90,120],'r-')
@@ -592,7 +592,7 @@ def template12():
     return script.strip().split('\n')
 
 def template13():
-    """Enter custom data set"""
+    """Generate Morgan fingerprints from SMILES codes"""
     script = """
                 ## (Enter,table)
                     << host = pandas
@@ -602,7 +602,7 @@ def template13():
                     >> df 0
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << output_directory = .
@@ -612,13 +612,13 @@ def template13():
                     >> filepath 1
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = RDKitFingerprint
                     >> 1 molfile
                     >> df 2
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = fingerprints
                     >> 2 df
@@ -629,13 +629,13 @@ def template14():
     """Simple ML workflow"""
     script = """
                 ## (Enter,datasets)
-                    << host = cheml
+                    << host = chemml
                     << function = load_cep_homo
                     >> smiles 0
                     >> homo 4
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << format = smi
                     << header = False
@@ -644,14 +644,14 @@ def template14():
                     >> filepath 1
 
                 ## (Represent,molecular descriptors)
-                    << host = cheml
+                    << host = chemml
                     << function = RDKitFingerprint
                     >> 1 molfile
                     >> df 2
                     >> df 3
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = fps_rdkfp
                     >> 2 df
@@ -684,13 +684,13 @@ def template14():
                     >> dfy_predict 10
 
                 ## (Store,file)
-                    << host = cheml
+                    << host = chemml
                     << function = SaveFile
                     << filename = dfy_predict
                     >> 9 df
 
                 ## (Visualize,plot)
-                    << host = cheml
+                    << host = chemml
                     << function = scatter2D
                     << x = 0
                     << y = 0
@@ -699,14 +699,14 @@ def template14():
                     >> fig 12
 
                 ## (Store,figure)
-                    << host = cheml
+                    << host = chemml
                     << function = SavePlot
                     << filename = dfy_actual_vs_dfy_predict
                     << output_directory = .
                     >> 13 fig
 
                 ## (Visualize,artist)
-                    << host = cheml
+                    << host = chemml
                     << function = decorator
                     << title = true vs. predicted HOMO energy
                     << xlabel = predicted HOMO energy (eV)

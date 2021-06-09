@@ -10,7 +10,7 @@ ChargeDependentAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ChargeDependentAttributeGenerator
@@ -30,7 +30,7 @@ ChargeDependentAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ChargeDependentAttributeGenerator``
+    |   ``<< host = chemml    << function = ChargeDependentAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

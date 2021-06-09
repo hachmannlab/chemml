@@ -26,7 +26,7 @@ for h in databases:
         classes = [klass[0] for klass in inspect.getmembers(db)]
     elif h == 'chemml':
         print(h)
-        from chemml.wrapper.database import cheml_db as db
+        from chemml.wrapper.database import chemml_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
     elif h == 'pd':
         print(h)

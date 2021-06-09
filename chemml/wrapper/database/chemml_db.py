@@ -1,11 +1,11 @@
 from chemml.wrapper.database.containers import Input, Output, Parameter, req, regression_types, cv_classes
 
 class PyScript(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'python script'
-    host = 'cheml'
+    host = 'chemml'
     function = 'PyScript'
-    modules = ('cheml','')
+    modules = ('chemml','')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -50,9 +50,9 @@ class PyScript(object):
 class RDKitFingerprint(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'RDKitFingerprint'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2), req(3))
     documentation = ""
 
@@ -76,9 +76,9 @@ class RDKitFingerprint(object):
 class Dragon(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'Dragon'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2), req(4), req(5))
     documentation = ""
 
@@ -156,9 +156,9 @@ class Dragon(object):
 class CoulombMatrix(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'CoulombMatrix'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -178,9 +178,9 @@ class CoulombMatrix(object):
 class BagofBonds(object):
     task = 'Represent'
     subtask = 'molecular descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'BagofBonds'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -198,9 +198,9 @@ class BagofBonds(object):
 class DistanceMatrix(object):
     task = 'Represent'
     subtask = 'distance matrix'
-    host = 'cheml'
+    host = 'chemml'
     function = 'DistanceMatrix'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -217,9 +217,9 @@ class DistanceMatrix(object):
 class Split(object):
     task = 'Prepare'
     subtask = 'data manipulation'
-    host = 'cheml'
+    host = 'chemml'
     function = 'Split'
-    modules = ('cheml','initialization')
+    modules = ('chemml','initialization')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -236,19 +236,19 @@ class Split(object):
 class ConstantColumns(object):
     task = 'Prepare'
     subtask = 'data cleaning'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ConstantColumns'
-    modules = ('cheml','preprocessing')
+    modules = ('chemml','preprocessing')
     requirements = (req(0), req(2))
     documentation = ""
 
     class Inputs:
         df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.ConstantColumns'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.ConstantColumns'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.ConstantColumns'>",))
     class WParameters:
         func_method = Parameter('func_method','None','string',
                         description = "",
@@ -259,19 +259,19 @@ class ConstantColumns(object):
 class Outliers(object):
     task = 'Prepare'
     subtask = 'data cleaning'
-    host = 'cheml'
+    host = 'chemml'
     function = 'Outliers'
-    modules = ('cheml','preprocessing')
+    modules = ('chemml','preprocessing')
     requirements = (req(0), req(2))
     documentation = ""
 
     class Inputs:
         df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+        api = Input("api", "instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.Outliers'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's Constant class", ("<class 'cheml.preprocessing.purge.Outliers'>",))
+        api = Output("api","instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.Outliers'>",))
     class WParameters:
         func_method = Parameter('func_method','None','string',
                         description = "",
@@ -283,18 +283,18 @@ class Outliers(object):
 class MissingValues(object):
     task = 'Prepare'
     subtask = 'data cleaning'
-    host = 'cheml'
+    host = 'chemml'
     function = 'MissingValues'
-    modules = ('cheml','preprocessing')
+    modules = ('chemml','preprocessing')
     requirements = (req(0), req(2))
     documentation = ""
 
     class Inputs:
-        api = Input("api","instance of ChemML's MissingValues class", ("<class 'cheml.preprocessing.handle_missing.missing_values'>",))
+        api = Input("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.handle_missing.missing_values'>",))
         df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's MissingValues class", ("<class 'cheml.preprocessing.handle_missing.missing_values'>",))
+        api = Output("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.handle_missing.missing_values'>",))
     class WParameters:
         func_method = Parameter('func_method','None','String',
                         description = "",
@@ -307,57 +307,22 @@ class MissingValues(object):
         inf_as_null = Parameter('inf_as_null', True, format = 'Boolean')
         missing_values = Parameter('missing_values', False, format = 'list of strings/floats/integers')
 
-# class mlp_hogwild(object):
-#     task = 'Model'
-#     subtask = 'regression'
-#     host = 'cheml'
-#     function = 'mlp_hogwild'
-#     modules = ('cheml','nn')
-#     requirements = (req(0), req(1), req(2))
-#     documentation = ""
-#
-#     class Inputs:
-#         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-#         dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-#         api = Input("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-#     class Outputs:
-#         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-#         api = Output("api", "instance of ChemML's mlp_hogwild class", ("<class 'cheml.nn.nn_psgd.mlp_hogwild'>",))
-#     class WParameters:
-#         func_method = Parameter('func_method','None','string',
-#                         description = "",
-#                         options = ('fit', 'predict', None))
-#     class FParameters:
-#         rms_decay = Parameter('rms_decay', 0.9)
-#         learn_rate = Parameter('learn_rate', 0.001)
-#         input_act_funcs = Parameter('input_act_funcs', '*required')
-#         nneurons = Parameter('nneurons', '*required')
-#         batch_size = Parameter('batch_size', 256)
-#         n_epochs = Parameter('n_epochs', 10000)
-#         validation_size = Parameter('validation_size', 0.2)
-#         print_level = Parameter('print_level', 1)
-#         n_hist = Parameter('n_hist', 20)
-#         threshold = Parameter('threshold', 0.1)
-#         model = Parameter('model', None)
-#         n_check = Parameter('n_check', 50)
-#         n_cores = Parameter('n_cores', 1)
-
 class MLP(object):
     task = 'Model'
     subtask = 'regression'
-    host = 'cheml'
+    host = 'chemml'
     function = 'MLP'
-    modules = ('cheml','nn.keras')
+    modules = ('chemml','nn.keras')
     requirements = (req(0), req(8), req(9))
     documentation = ""
 
     class Inputs:
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of cheml.nn.keras.MLP class", ("<class 'cheml.nn.keras.mlp.MLP'>",))
+        api = Input("api", "instance of chemml.nn.keras.MLP class", ("<class 'chemml.nn.keras.mlp.MLP'>",))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api", "instance of cheml.nn.keras.MLP class", ("<class 'cheml.nn.keras.mlp.MLP'>",))
+        api = Output("api", "instance of chemml.nn.keras.MLP class", ("<class 'chemml.nn.keras.mlp.MLP'>",))
     class WParameters:
         func_method = Parameter('func_method','None','string',
                         description = "",
@@ -379,19 +344,19 @@ class MLP(object):
 class MLP_sklearn(object):
     task = 'Model'
     subtask = 'regression'
-    host = 'cheml'
+    host = 'chemml'
     function = 'MLP_sklearn'
-    modules = ('cheml','nn.keras')
+    modules = ('chemml','nn.keras')
     requirements = (req(0), req(1), req(8), req(9))
     documentation = ""
 
     class Inputs:
         dfx = Input("dfx","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
         dfy = Input("dfy", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of cheml.nn.keras.MLP_sklearn class", ("<class 'cheml.nn.keras.mlp.MLP_sklearn'>",))
+        api = Input("api", "instance of chemml.nn.keras.MLP_sklearn class", ("<class 'chemml.nn.keras.mlp.MLP_sklearn'>",))
     class Outputs:
         dfy_predict = Output("dfy_predict","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api", "instance of cheml.nn.keras.MLP_sklearn class", ("<class 'cheml.nn.keras.mlp.MLP_sklearn'>",))
+        api = Output("api", "instance of chemml.nn.keras.MLP_sklearn class", ("<class 'chemml.nn.keras.mlp.MLP_sklearn'>",))
     class WParameters:
         func_method = Parameter('func_method','None','string',
                         description = "",
@@ -412,11 +377,11 @@ class MLP_sklearn(object):
 
 
 class SaveFile(object):
-    task = 'Store'
+    task = 'Output'
     subtask = 'file'
-    host = 'cheml'
+    host = 'chemml'
     function = 'SaveFile'
-    modules = ('cheml','initialization')
+    modules = ('chemml','initialization')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -435,11 +400,11 @@ class SaveFile(object):
         filename = Parameter('filename', 'required_required')
 
 class XYZreader(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'xyz'
-    host = 'cheml'
+    host = 'chemml'
     function = 'XYZreader'
-    modules = ('cheml','initialization')
+    modules = ('chemml','initialization')
     requirements = (req(0),)
     documentation = ""
 
@@ -459,11 +424,11 @@ class XYZreader(object):
         skip_lines = Parameter('skip_lines', [2,0])
 
 class ConvertFile(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'Convert'
-    host = 'cheml'
+    host = 'chemml'
     function ='ConvertFile'
-    modules = ('cheml','initialization')
+    modules = ('chemml','initialization')
     requirements = (req(0),req(6))
     documentation = "https://openbabel.org/wiki/Babel"
 
@@ -481,9 +446,9 @@ class ConvertFile(object):
 class scatter2D(object):
     task='Visualize'
     subtask = 'plot'
-    host = 'cheml'
+    host = 'chemml'
     function = 'scatter2D'
-    modules = ('cheml','visualization')
+    modules = ('chemml','visualization')
     requirements = (req(0),req(2),req(7))
     documentation = ""
 
@@ -508,9 +473,9 @@ class scatter2D(object):
 class hist(object):
     task='Visualize'
     subtask = 'plot'
-    host = 'cheml'
+    host = 'chemml'
     function = 'hist'
-    modules = ('cheml','visualization')
+    modules = ('chemml','visualization')
     requirements = (req(0),req(2),req(7))
     documentation = ""
 
@@ -532,9 +497,9 @@ class hist(object):
 class decorator(object):
     task='Visualize'
     subtask = 'artist'
-    host = 'cheml'
+    host = 'chemml'
     function = 'decorator'
-    modules = ('cheml','visualization')
+    modules = ('chemml','visualization')
     requirements = (req(0),req(2),req(7))
     documentation = ""
 
@@ -565,11 +530,11 @@ class decorator(object):
         variant = Parameter('variant', 'normal')
 
 class SavePlot(object):
-    task='Store'
+    task='Output'
     subtask = 'figure'
-    host = 'cheml'
+    host = 'chemml'
     function = 'SavePlot'
-    modules = ('cheml','visualization')
+    modules = ('chemml','visualization')
     requirements = (req(0),req(2),req(7))
     documentation = "https://matplotlib.org/users/index.html"
 
@@ -590,11 +555,11 @@ class SavePlot(object):
         kwargs = Parameter('kwargs', {})
 
 class GA_DEAP(object):
-    task='Search'
+    task='Optimize'
     subtask = 'genetic algorithm'
-    host = 'cheml'
+    host = 'chemml'
     function = 'GA_DEAP'
-    modules = ('cheml','search')
+    modules = ('chemml','optimize')
     requirements = (req(0),req(2),req(10))
     documentation = ""
 
@@ -633,11 +598,11 @@ class GA_DEAP(object):
 
 ####################################################
 class load_cep_homo(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'datasets'
-    host = 'cheml'
+    host = 'chemml'
     function = 'load_cep_homo'
-    modules = ('cheml','datasets')
+    modules = ('chemml','datasets')
     requirements = (req(0),req(2))
     documentation = ""
 
@@ -652,11 +617,11 @@ class load_cep_homo(object):
         pass
 
 class load_organic_density(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'datasets'
-    host = 'cheml'
+    host = 'chemml'
     function = 'load_organic_density'
-    modules = ('cheml','datasets')
+    modules = ('chemml','datasets')
     requirements = (req(0),req(2))
     documentation = ""
 
@@ -672,11 +637,11 @@ class load_organic_density(object):
         pass
 
 class load_xyz_polarizability(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'datasets'
-    host = 'cheml'
+    host = 'chemml'
     function = 'load_xyz_polarizability'
-    modules = ('cheml','datasets')
+    modules = ('chemml','datasets')
     requirements = (req(0),req(2))
     documentation = ""
 
@@ -692,11 +657,11 @@ class load_xyz_polarizability(object):
         pass
 
 class load_comp_energy(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'datasets'
-    host = 'cheml'
+    host = 'chemml'
     function = 'load_comp_energy'
-    modules = ('cheml','datasets')
+    modules = ('chemml','datasets')
     requirements = (req(0),req(2))
     documentation = ""
 
@@ -714,11 +679,11 @@ class load_comp_energy(object):
         pass
 
 class load_crystal_structures(object):
-    task = 'Enter'
+    task = 'Input'
     subtask = 'datasets'
-    host = 'cheml'
+    host = 'chemml'
     function = 'load_crystal_structures'
-    modules = ('cheml','datasets')
+    modules = ('chemml','datasets')
     requirements = (req(0),req(2))
     documentation = ""
 
@@ -738,9 +703,9 @@ class load_crystal_structures(object):
 class APEAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'APEAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -760,9 +725,9 @@ class APEAttributeGenerator(object):
 class ChargeDependentAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ChargeDependentAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -780,9 +745,9 @@ class ChargeDependentAttributeGenerator(object):
 class ElementalPropertyAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ElementalPropertyAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -801,9 +766,9 @@ class ElementalPropertyAttributeGenerator(object):
 class ElementFractionAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ElementFractionAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -821,9 +786,9 @@ class ElementFractionAttributeGenerator(object):
 class ElementPairPropertyAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ElementPairPropertyAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -841,9 +806,9 @@ class ElementPairPropertyAttributeGenerator(object):
 class GCLPAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'GCLPAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -869,9 +834,9 @@ class GCLPAttributeGenerator(object):
 class IonicCompoundProximityAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'IonicCompoundProximityAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -889,9 +854,9 @@ class IonicCompoundProximityAttributeGenerator(object):
 class IonicityAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'IonicityAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -909,9 +874,9 @@ class IonicityAttributeGenerator(object):
 class MeredigAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'MeredigAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -929,9 +894,9 @@ class MeredigAttributeGenerator(object):
 class StoichiometricAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'StoichiometricAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -949,9 +914,9 @@ class StoichiometricAttributeGenerator(object):
 class ValenceShellAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ValenceShellAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -969,9 +934,9 @@ class ValenceShellAttributeGenerator(object):
 class YangOmegaAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'YangOmegaAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -989,9 +954,9 @@ class YangOmegaAttributeGenerator(object):
 class APRDFAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'APRDFAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1014,9 +979,9 @@ class APRDFAttributeGenerator(object):
 class ChemicalOrderingAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'ChemicalOrderingAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1036,9 +1001,9 @@ class ChemicalOrderingAttributeGenerator(object):
 class CoordinationNumberAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'CoordinationNumberAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1057,9 +1022,9 @@ class CoordinationNumberAttributeGenerator(object):
 class CoulombMatrixAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'CoulombMatrixAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1078,9 +1043,9 @@ class CoulombMatrixAttributeGenerator(object):
 class EffectiveCoordinationNumberAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'EffectiveCoordinationNumberAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1099,9 +1064,9 @@ class EffectiveCoordinationNumberAttributeGenerator(object):
 class LatticeSimilarityAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'LatticeSimilarityAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1120,9 +1085,9 @@ class LatticeSimilarityAttributeGenerator(object):
 class LocalPropertyDifferenceAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'LocalPropertyDifferenceAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1143,9 +1108,9 @@ class LocalPropertyDifferenceAttributeGenerator(object):
 class LocalPropertyVarianceAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'LocalPropertyVarianceAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1166,9 +1131,9 @@ class LocalPropertyVarianceAttributeGenerator(object):
 class PackingEfficiencyAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'PackingEfficiencyAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1187,9 +1152,9 @@ class PackingEfficiencyAttributeGenerator(object):
 class PRDFAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'PRDFAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1209,9 +1174,9 @@ class PRDFAttributeGenerator(object):
 class StructuralHeterogeneityAttributeGenerator(object):
     task = 'Represent'
     subtask = 'inorganic descriptors'
-    host = 'cheml'
+    host = 'chemml'
     function = 'StructuralHeterogeneityAttributeGenerator'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1230,9 +1195,9 @@ class StructuralHeterogeneityAttributeGenerator(object):
 class CompositionEntry(object):
     task = 'Represent'
     subtask = 'inorganic input'
-    host = 'cheml'
+    host = 'chemml'
     function = 'CompositionEntry'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1253,9 +1218,9 @@ class CompositionEntry(object):
 class CrystalStructureEntry(object):
     task = 'Represent'
     subtask = 'inorganic input'
-    host = 'cheml'
+    host = 'chemml'
     function = 'CrystalStructureEntry'
-    modules = ('cheml','chem')
+    modules = ('chemml','chem')
     requirements = (req(0), req(2))
     documentation = ""
 
@@ -1276,4 +1241,4 @@ class CrystalStructureEntry(object):
 # class local_features(object):   #newly added (10.21.2020)
 #     task = 'Represent'
 #     subtask = 'Local Features'
-#     host = 'cheml'
+#     host = 'chemml'

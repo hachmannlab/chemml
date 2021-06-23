@@ -12,7 +12,7 @@ def tshf():
               'Parameter', 'req', 'regression_types', 'cv_classes']
 
     # for task in tasks:
-        # print(task)
+    #     print(task)
     combination = {task: {} for task in tasks}
     all_classes = [k[1] for k in inspect.getmembers(sklearn_db) if k[0][0:2]!='__']
     all_classes += [k[1] for k in inspect.getmembers(chemml_db) if k[0][0:2]!='__' ]

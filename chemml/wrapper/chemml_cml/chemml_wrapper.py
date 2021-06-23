@@ -1302,7 +1302,7 @@ class MissingValues(BASE):
         # process
         try:
             from chemml.preprocessing import MissingValues
-            if method is None:
+            if method == None:
                 model = MissingValues(**self.parameters)
             elif method == 'fit_transform':
                 model = MissingValues(**self.parameters)
@@ -1352,7 +1352,7 @@ class ConstantColumns(BASE):
         # step4: import module and make APIs
         try:
             from chemml.preprocessing import ConstantColumns
-            if method is None:
+            if method == None:
                 model = ConstantColumns()
             elif method == 'fit_transform':
                 model = ConstantColumns()
@@ -1407,7 +1407,7 @@ class Outliers(BASE):
         # step4: import module and make APIs
         try:
             from chemml.preprocessing import Outliers
-            if method is None:
+            if method == None:
                 model = Outliers(**self.parameters)
             elif method == 'fit_transform':
                 model = Outliers(**self.parameters)
@@ -1583,7 +1583,7 @@ class MLP(BASE):
         # step4: import module and make APIs
         try:
             from chemml.nn.keras import MLP
-            if method is None:
+            if method == None:
                 model = MLP(**self.parameters)
             elif method == 'fit':
                 model = MLP(**self.parameters)
@@ -1637,7 +1637,7 @@ class MLP_sklearn(BASE):
         # step4: import module and make APIs
         try:
             from chemml.nn.keras import MLP_sklearn
-            if method is None:
+            if method == None:
                 model = MLP_sklearn(**self.parameters)
             elif method == 'fit':
                 model = MLP_sklearn(**self.parameters)

@@ -262,7 +262,7 @@ def Fit(fn):
                 self.iblock, self.Task,self.method,self.Function)
             raise NameError(msg)
         else:
-            if self.method is None:
+            if self.method == None:
                 api = self.import_sklearn()
                 self.set_value('api', api)
                 fn(self)

@@ -227,7 +227,7 @@ class ShuffleSplit(BASE):
                 self.iblock, self.Task,method,self.Function)
             raise NameError(msg)
         else:
-            if method is None:
+            if method == None:
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
                     submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
@@ -237,7 +237,7 @@ class ShuffleSplit(BASE):
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.set_value('api', api)
-            elif method is 'split':
+            elif method == 'split':
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
                     submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
@@ -267,7 +267,7 @@ class StratifiedShuffleSplit(BASE):
                 self.iblock, self.Task,method,self.Function)
             raise NameError(msg)
         else:
-            if method is None:
+            if method == None:
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
                     submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])
@@ -277,7 +277,7 @@ class StratifiedShuffleSplit(BASE):
                     msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(err).__name__ + ': ' + err.message
                     raise TypeError(msg)
                 self.set_value('api', api)
-            elif method is 'split':
+            elif method == 'split':
                 try:
                     exec ("from %s.%s import %s" % (self.metadata.modules[0], self.metadata.modules[1], self.Function))
                     submodule = getattr(__import__(self.metadata.modules[0]), self.metadata.modules[1])

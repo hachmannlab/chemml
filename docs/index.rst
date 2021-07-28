@@ -30,7 +30,7 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 
     conda create --name chemml_env python=3.8
     source activate chemml_env
-    conda install -c conda-forge openbabel rdkit
+    conda install -c conda-forge openbabel rdkit nb_conda_kernels
     pip install chemml
 
 Note: Here is a list of external libraries that will be installed with chemml:
@@ -41,6 +41,9 @@ Note: Here is a list of external libraries that will be installed with chemml:
    - matplotlib
    - seaborn
    - lxml
+   - graphviz
+   - openpyxl 
+   - ipywidgets
 
 Citation:
 +++++++++
@@ -115,7 +118,7 @@ Please cite the use of ChemML as:
    CMLWInputFile
    CMLWInputFileGenerator
    ./ipython_notebooks/read_excel.ipynb 
-   ./ipython_notebooks/generating_inorganic_descriptors.ipynb
+   _./ipython_notebooks/pyscript_usage.ipynb
    ./ipython_notebooks/simple_ml_model.ipynb
 
 .. toctree::
@@ -140,9 +143,9 @@ About us:
 :Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
     - Mojtaba Haghighatlari
-    - Aditya Sonpal
+    - Aditya Sonpal, adityaso@buffalo.edu
     - Gaurav Vishwakarma
-    - Aatish Pradhan
+    - Aatish Pradhan aatishpr@buffalo.edu
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
@@ -150,10 +153,11 @@ About us:
     - Gaurav Vishwakarma (UB): automated model optimization
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
-    - Aditya Sonpal (UB): debugging
+    - Aditya Sonpal (UB): graph convolution NNs
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
+    - Aatish Pradhan (UB): Jupyter GUI developer
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

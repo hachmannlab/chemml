@@ -1,7 +1,7 @@
-.. include:: wrapper_docs/cheml.ConstantColumns.rst
-.. include:: wrapper_docs/cheml.MissingValues.rst
-.. include:: wrapper_docs/cheml.Outliers.rst
-.. include:: wrapper_docs/cheml.Split.rst
+.. include:: wrapper_docs/chemml.ConstantColumns.rst
+.. include:: wrapper_docs/chemml.MissingValues.rst
+.. include:: wrapper_docs/chemml.Outliers.rst
+.. include:: wrapper_docs/chemml.Split.rst
 .. include:: wrapper_docs/sklearn.Binarizer.rst
 .. include:: wrapper_docs/sklearn.Imputer.rst
 .. include:: wrapper_docs/sklearn.KFold.rst

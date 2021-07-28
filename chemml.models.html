@@ -1,40 +1,43 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Models module &mdash; ChemML  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Optimization module" href="chemml.optimization.html" />
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,36 +86,34 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Models module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -146,18 +148,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
         
       <li>Models module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/chemml.models.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -176,13 +182,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -204,94 +210,9 @@
 </ul>
 </dd>
 </dl>
-<dl class="class">
-<dt id="chemml.models.OrganicLorentzLorenz">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.models.</code><code class="sig-name descname">OrganicLorentzLorenz</code><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz" title="Permalink to this definition">¶</a></dt>
-<dd><p>A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.
-The model predicts refractive index, polarizability, and density of an organic molecule using its
-SMILES representation.</p>
-<p>The model is trained on 100K small organic molecules with their polarizabilities from DFT calculations, densities from
-molecular dynamics simulations, and refractive index by feeding calculated polarizabilities and densities into the
-LL model.</p>
-<p>The model is a fully connected artificial neural network with 3 hidden layers. The number of neurons per layers from
-input layer to the output layer are as follow: 1024 –&gt; 128 –&gt; 64 –&gt; 32 –&gt; [1, 1, 1].</p>
-<dl class="method">
-<dt id="chemml.models.OrganicLorentzLorenz.get_hidden_layer">
-<code class="sig-name descname">get_hidden_layer</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">id=1</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.get_hidden_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>This functions return the first hidden layer of the model.</p>
-<dl class="simple">
-<dt>X: ndarray</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
-If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.</p>
-</dd>
-<dt>id: int</dt><dd><p>This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second,
-or third hidden layer, respectively.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>ndarray</dt><dd><p>The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1).
-The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2).
-The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="chemml.models.OrganicLorentzLorenz.load">
-<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">summary=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function loads the Keras model. The model consists of 3 hidden layers and more than 140K parameters.
-Parameters
-———-
-summary: bool</p>
-<blockquote>
-<div><p>if True a summary of Keras model will be printed out.</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="method">
-<dt id="chemml.models.OrganicLorentzLorenz.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">smiles</em>, <em class="sig-param">pprint=False</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>After loading the model, this function predicts refractive index, polarizability, and density of the entery.</p>
-<dl class="simple">
-<dt>smiles: str</dt><dd><p>The SMILES representaion of a molecule.</p>
-</dd>
-<dt>pprint: bool</dt><dd><p>If True, a short description of the predicted properties will be printed out.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>tuple</dt><dd><p>includes estimates of refractive index, polarizability, and density, respectively.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="chemml.models.OrganicLorentzLorenz.train">
-<code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">scale=True</em>, <em class="sig-param">kwargs_for_compile={}</em>, <em class="sig-param">kwargs_for_fit={}</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.train" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function allows the user to retrain the model on a given data set for some further steps.
-Thus, all the parameters you are able to pass to a keras model’s compile or fit methods can be passed to this
-function as well.</p>
-<dl class="simple">
-<dt>X: ndarray or dataframe</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
-If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.
-If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.</p>
-</dd>
-<dt>Y: list or dataframe</dt><dd><p>a list of three numpy arrays for refractive index, polarizability, and density, respectively.
-The length of arrays must be same as the length of X.
-If dataframe, it must be a 2D frame with 3 columns, each for one of the properties.</p>
-</dd>
-<dt>scale: bool, optional (default: True)</dt><dd><p>If True the X and Y will be scaled in the same fashion as the original traning process (recommended).</p>
-</dd>
-<dt>kwargs_for_compile: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the compile method of keras models can receive.</p>
-</dd>
-<dt>kwargs_for_fit: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the fit method of keras models can receive.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
+<dl class="py class">
 <dt id="chemml.models.MLP">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.models.</code><code class="sig-name descname">MLP</code><span class="sig-paren">(</span><em class="sig-param">nhidden=1</em>, <em class="sig-param">nneurons=None</em>, <em class="sig-param">activations=None</em>, <em class="sig-param">learning_rate=0.01</em>, <em class="sig-param">lr_decay=0.0</em>, <em class="sig-param">nepochs=100</em>, <em class="sig-param">batch_size=100</em>, <em class="sig-param">loss='mean_squared_error'</em>, <em class="sig-param">regression=True</em>, <em class="sig-param">nclasses=None</em>, <em class="sig-param">layer_config_file=None</em>, <em class="sig-param">opt_config_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.models.</span></code><code class="sig-name descname"><span class="pre">MLP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nhidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nneurons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nepochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nclasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class associated with Multi-Layer Perceptron (Neural Network)</p>
 <dl class="simple">
 <dt>nhidden<span class="classifier">int, optional, default: 1</span></dt><dd><p>The number of hidden layers in the neural network (excluding input and output)</p>
@@ -319,9 +240,9 @@ Refer MLP test to see a sample file</p>
 Refer MLP test to see a sample file</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.models.MLP.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the MLP for training data X and targets y</p>
 <dl class="simple">
 <dt>X: array_like, shape=[n_samples, n_features]</dt><dd><p>Training data</p>
@@ -331,9 +252,9 @@ Refer MLP test to see a sample file</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.models.MLP.parse_layer_config">
-<code class="sig-name descname">parse_layer_config</code><span class="sig-paren">(</span><em class="sig-param">layer_config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_layer_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse_layer_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_layer_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internal method to parse a layer config file</p>
 <dl class="simple">
 <dt>layer_config_file: str</dt><dd><p>Filepath that contains the layer configuration file - Refer MLP test to see a sample file
@@ -347,9 +268,9 @@ for all possible types of layers and corresponding layer parameters</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.models.MLP.parse_opt_config">
-<code class="sig-name descname">parse_opt_config</code><span class="sig-paren">(</span><em class="sig-param">opt_config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_opt_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">parse_opt_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">opt_config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_opt_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internal method to parse a optimizer config file</p>
 <dl class="simple">
 <dt>opt_config_file: str</dt><dd><p>Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file
@@ -363,9 +284,9 @@ for all possible types of optimizers and corresponding optimizer parameters</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.models.MLP.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.predict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">predict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return prediction for test data X</p>
 <dl class="simple">
 <dt>X: array_like, shape=[n_samples, n_features]</dt><dd><p>Testing data</p>
@@ -377,9 +298,9 @@ for all possible types of optimizers and corresponding optimizer parameters</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.models.MLP.score">
-<code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.score" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict results for test data X and compare with true targets y. Returns root mean square error if regression,
 accuracy if classification</p>
 <dl class="simple">
@@ -396,6 +317,444 @@ accuracy if classification</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt id="chemml.models.NeuralGraphHidden">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.models.</span></code><code class="sig-name descname"><span class="pre">NeuralGraphHidden</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Hidden Convolutional layer in a Neural Graph (as in Duvenaud et. al.,</dt><dd><p>2015). This layer takes a graph as an input. The graph is represented as by
+three tensors.
+- The atoms tensor represents the features of the nodes.
+- The bonds tensor represents the features of the edges.
+- The edges tensor represents the connectivity (which atoms are connected to</p>
+<blockquote>
+<div><p>which)</p>
+</div></blockquote>
+<p>It returns the convolved features tensor, which is very similar to the atoms
+tensor. Instead of each node being represented by a num_atom_features-sized
+vector, each node now is represented by a convolved feature vector of size
+conv_width.
+# Example</p>
+<blockquote>
+<div><p>Define the input:
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python</p>
+<blockquote>
+<div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
+bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
+edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
+</div></blockquote>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>`
+The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
+1. Using an integer <cite>conv_width</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">atoms1</span> <span class="pre">=</span> <span class="pre">NeuralGraphHidden(conv_width,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False)([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt>Using an initialised <cite>Dense</cite> layer</dt><dd><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">atoms1</span> <span class="pre">=</span> <span class="pre">NeuralGraphHidden(Dense(conv_width,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False))([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Using a function that returns an initialised <cite>Dense</cite> layer</dt><dd><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">atoms1</span> <span class="pre">=</span> <span class="pre">NeuralGraphHidden(lambda:</span> <span class="pre">Dense(conv_width,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False))([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>Use <cite>NeuralGraphOutput</cite> to convert atom layer to fingerprint</p>
+</div></blockquote>
+<dl>
+<dt># Arguments</dt><dd><dl class="simple">
+<dt>inner_layer_arg: Either:</dt><dd><ol class="arabic simple">
+<li><dl class="simple">
+<dt>an int defining the <cite>conv_width</cite>, with optional kwargs for the</dt><dd><p>inner Dense layer</p>
+</dd>
+</dl>
+</li>
+<li><p>An initialised but not build (<cite>Dense</cite>) keras layer (like a wrapper)</p></li>
+<li><p>A function that returns an initialised keras layer.</p></li>
+</ol>
+</dd>
+</dl>
+<p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
+</dd>
+<dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
+<a href="#id7"><span class="problematic" id="id8">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<blockquote>
+<div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
+</div></blockquote>
+<p>where degrees referes to number of neighbours</p>
+</dd>
+<dt># Output shape</dt><dd><p>New atom featuers of shape
+<cite>(samples, max_atoms, conv_width)</cite></p>
+</dd>
+<dt># References</dt><dd><ul class="simple">
+<li><p>[Convolutional Networks on Graphs for Learning Molecular Fingerprints](<a class="reference external" href="https://arxiv.org/abs/1509.09292">https://arxiv.org/abs/1509.09292</a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphHidden.build">
+<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
+<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
+can override if they need a state-creation step in-between
+layer instantiation and layer call.</p>
+<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
+(one instance per input).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphHidden.call">
+<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
+from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
+layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
+method to support masking.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
+<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs: Additional keyword arguments. Currently unused.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphHidden.compute_output_shape">
+<code class="sig-name descname"><span class="pre">compute_output_shape</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.compute_output_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>If the layer has not been built, this method will call <cite>build</cite> on the
+layer. This assumes that the layer will later be used with inputs that
+match the input shape provided here.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>input_shape: Shape tuple (tuple of integers)</dt><dd><p>or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>An input shape tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphHidden.from_config">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a layer from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>,
+capable of instantiating the same layer from the config
+dictionary. It does not handle layer connectivity
+(handled by Network), nor weights (handled by <cite>set_weights</cite>).</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>config: A Python dictionary, typically the</dt><dd><p>output of get_config.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>A layer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphHidden.get_config">
+<code class="sig-name descname"><span class="pre">get_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the config of the layer.</p>
+<p>A layer config is a Python dictionary (serializable)
+containing the configuration of a layer.
+The same layer can be reinstantiated later
+(without its trained weights) from this configuration.</p>
+<p>The config of a layer does not include connectivity
+information, nor the layer class name. These are handled
+by <cite>Network</cite> (one layer of abstraction above).</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Python dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="chemml.models.NeuralGraphOutput">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.models.</span></code><code class="sig-name descname"><span class="pre">NeuralGraphOutput</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output Convolutional layer in a Neural Graph (as in Duvenaud et. al.,
+2015). This layer takes a graph as an input. The graph is represented as by
+three tensors.</p>
+<ul class="simple">
+<li><p>The atoms tensor represents the features of the nodes.</p></li>
+<li><p>The bonds tensor represents the features of the edges.</p></li>
+<li><dl class="simple">
+<dt>The edges tensor represents the connectivity (which atoms are connected to</dt><dd><p>which)</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It returns the fingerprint vector for each sample for the given layer.</p>
+<p>According to the original paper, the fingerprint outputs of each hidden layer
+need to be summed in the end to come up with the final fingerprint.</p>
+<dl>
+<dt># Example</dt><dd><p>Define the input:
+<a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>python</p>
+<blockquote>
+<div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
+bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
+edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
+</div></blockquote>
+<p><a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a></p>
+<p>The <cite>NeuralGraphOutput</cite> can be initialised in three ways:
+1. Using an integer <cite>fp_length</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">fp_out</span> <span class="pre">=</span> <span class="pre">NeuralGraphOutput(fp_length,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False)([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt>Using an initialised <cite>Dense</cite> layer</dt><dd><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">fp_out</span> <span class="pre">=</span> <span class="pre">NeuralGraphOutput(Dense(fp_length,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False))([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Using a function that returns an initialised <cite>Dense</cite> layer</dt><dd><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">fp_out</span> <span class="pre">=</span> <span class="pre">NeuralGraphOutput(lambda:</span> <span class="pre">Dense(fp_length,</span> <span class="pre">activation='relu',</span> <span class="pre">bias=False))([atoms0,</span> <span class="pre">bonds,</span> <span class="pre">edges])</span>
+<span class="pre">`</span></code></p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>Predict for regression:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">main_prediction</span> <span class="pre">=</span> <span class="pre">Dense(1,</span> <span class="pre">activation='linear',</span> <span class="pre">name='main_prediction')(fp_out)</span>
+<span class="pre">`</span></code></p>
+</dd>
+<dt># Arguments</dt><dd><dl class="simple">
+<dt>inner_layer_arg: Either:</dt><dd><ol class="arabic simple">
+<li><dl class="simple">
+<dt>an int defining the <cite>fp_length</cite>, with optional kwargs for the</dt><dd><p>inner Dense layer</p>
+</dd>
+</dl>
+</li>
+<li><p>An initialised but not build (<cite>Dense</cite>) keras layer (like a wrapper)</p></li>
+<li><p>A function that returns an initialised keras layer.</p></li>
+</ol>
+</dd>
+</dl>
+<p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
+</dd>
+<dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
+<a href="#id19"><span class="problematic" id="id20">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<blockquote>
+<div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
+</div></blockquote>
+<p>where degrees referes to number of neighbours</p>
+</dd>
+<dt># Output shape</dt><dd><p>Fingerprints matrix
+<cite>(samples, fp_length)</cite></p>
+</dd>
+<dt># References</dt><dd><ul class="simple">
+<li><p>[Convolutional Networks on Graphs for Learning Molecular Fingerprints](<a class="reference external" href="https://arxiv.org/abs/1509.09292">https://arxiv.org/abs/1509.09292</a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphOutput.build">
+<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
+<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
+can override if they need a state-creation step in-between
+layer instantiation and layer call.</p>
+<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
+(one instance per input).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphOutput.call">
+<code class="sig-name descname"><span class="pre">call</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
+from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
+layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
+method to support masking.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
+<a href="#id21"><span class="problematic" id="id22">**</span></a>kwargs: Additional keyword arguments. Currently unused.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphOutput.compute_output_shape">
+<code class="sig-name descname"><span class="pre">compute_output_shape</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.compute_output_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>If the layer has not been built, this method will call <cite>build</cite> on the
+layer. This assumes that the layer will later be used with inputs that
+match the input shape provided here.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>input_shape: Shape tuple (tuple of integers)</dt><dd><p>or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>An input shape tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphOutput.from_config">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a layer from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>,
+capable of instantiating the same layer from the config
+dictionary. It does not handle layer connectivity
+(handled by Network), nor weights (handled by <cite>set_weights</cite>).</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><dl class="simple">
+<dt>config: A Python dictionary, typically the</dt><dd><p>output of get_config.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>A layer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.NeuralGraphOutput.get_config">
+<code class="sig-name descname"><span class="pre">get_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the config of the layer.</p>
+<p>A layer config is a Python dictionary (serializable)
+containing the configuration of a layer.
+The same layer can be reinstantiated later
+(without its trained weights) from this configuration.</p>
+<p>The config of a layer does not include connectivity
+information, nor the layer class name. These are handled
+by <cite>Network</cite> (one layer of abstraction above).</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Python dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="chemml.models.OrganicLorentzLorenz">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.models.</span></code><code class="sig-name descname"><span class="pre">OrganicLorentzLorenz</span></code><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz" title="Permalink to this definition">¶</a></dt>
+<dd><p>A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.
+The model predicts refractive index, polarizability, and density of an organic molecule using its
+SMILES representation.</p>
+<p>The model is trained on 100K small organic molecules with their polarizabilities from DFT calculations, densities from
+molecular dynamics simulations, and refractive index by feeding calculated polarizabilities and densities into the
+LL model.</p>
+<p>The model is a fully connected artificial neural network with 3 hidden layers. The number of neurons per layers from
+input layer to the output layer are as follow: 1024 –&gt; 128 –&gt; 64 –&gt; 32 –&gt; [1, 1, 1].</p>
+<dl class="py method">
+<dt id="chemml.models.OrganicLorentzLorenz.get_hidden_layer">
+<code class="sig-name descname"><span class="pre">get_hidden_layer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.get_hidden_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions return the first hidden layer of the model.</p>
+<dl class="simple">
+<dt>X: ndarray</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
+If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.</p>
+</dd>
+<dt>id: int</dt><dd><p>This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second,
+or third hidden layer, respectively.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>ndarray</dt><dd><p>The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1).
+The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2).
+The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.OrganicLorentzLorenz.load">
+<code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function loads the Keras model. The model consists of 3 hidden layers and more than 140K parameters.
+Parameters
+———-
+summary: bool</p>
+<blockquote>
+<div><p>if True a summary of Keras model will be printed out.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.OrganicLorentzLorenz.predict">
+<code class="sig-name descname"><span class="pre">predict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>After loading the model, this function predicts refractive index, polarizability, and density of the entery.</p>
+<dl class="simple">
+<dt>smiles: str</dt><dd><p>The SMILES representaion of a molecule.</p>
+</dd>
+<dt>pprint: bool</dt><dd><p>If True, a short description of the predicted properties will be printed out.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>tuple</dt><dd><p>includes estimates of refractive index, polarizability, and density, respectively.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.models.OrganicLorentzLorenz.train">
+<code class="sig-name descname"><span class="pre">train</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_compile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows the user to retrain the model on a given data set for some further steps.
+Thus, all the parameters you are able to pass to a keras model’s compile or fit methods can be passed to this
+function as well.</p>
+<dl class="simple">
+<dt>X: ndarray or dataframe</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
+If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.
+If dataframe, it can be a 2D frame with one column of SMILES or 1024 columns of features.</p>
+</dd>
+<dt>Y: list or dataframe</dt><dd><p>a list of three numpy arrays for refractive index, polarizability, and density, respectively.
+The length of arrays must be same as the length of X.
+If dataframe, it must be a 2D frame with 3 columns, each for one of the properties.</p>
+</dd>
+<dt>scale: bool, optional (default: True)</dt><dd><p>If True the X and Y will be scaled in the same fashion as the original traning process (recommended).</p>
+</dd>
+<dt>kwargs_for_compile: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the compile method of keras models can receive.</p>
+</dd>
+<dt>kwargs_for_fit: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the fit method of keras models can receive.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -403,29 +762,29 @@ accuracy if classification</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="chemml.optimization.html" class="btn btn-neutral float-right" title="Optimization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="chemml.preprocessing.html" class="btn btn-neutral float-left" title="Preprocessing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="chemml.optimization.html" class="btn btn-neutral float-right" title="Optimization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chemml.preprocessing.html" class="btn btn-neutral float-left" title="Preprocessing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -433,7 +792,6 @@ accuracy if classification</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

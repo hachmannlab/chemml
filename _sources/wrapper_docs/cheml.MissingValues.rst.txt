@@ -10,7 +10,7 @@ MissingValues
     | data cleaning
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | MissingValues
@@ -19,13 +19,13 @@ MissingValues
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   types: ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'chemml.preprocessing.handle_missing.missing_values'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   types: ("<class 'cheml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'chemml.preprocessing.handle_missing.missing_values'>",)
 
 :wrapper parameters:
     | ``func_method`` : String, (default:None)
@@ -38,7 +38,7 @@ MissingValues
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = MissingValues``
+    |   ``<< host = chemml    << function = MissingValues``
     |   ``<< func_method = None``
     |   ``<< strategy = ignore_row``
     |   ``<< inf_as_null = True``

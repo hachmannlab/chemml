@@ -1,40 +1,43 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Preprocessing module &mdash; ChemML  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Models module" href="chemml.models.html" />
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,36 +86,34 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Preprocessing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -146,18 +148,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
         
       <li>Preprocessing module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/chemml.preprocessing.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -176,13 +182,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -198,16 +204,46 @@
 <div class="section" id="preprocessing-module">
 <h1>Preprocessing module<a class="headerlink" href="#preprocessing-module" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-chemml.preprocessing"></span><dl class="simple">
-<dt>The cheml.preprocessing module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
-<li><p>MissingValues: <code class="xref py py-func docutils literal notranslate"><span class="pre">MissingValues()</span></code></p></li>
-<li><p>ConstantColumns: <code class="xref py py-func docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></p></li>
-<li><p>Outliers: <code class="xref py py-func docutils literal notranslate"><span class="pre">Outliers()</span></code></p></li>
+<dt>The chemml.preprocessing module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
+<li><p>MissingValues: <a class="reference internal" href="#chemml.preprocessing.MissingValues" title="chemml.preprocessing.MissingValues"><code class="xref py py-func docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></p></li>
+<li><p>ConstantColumns: <a class="reference internal" href="#chemml.preprocessing.ConstantColumns" title="chemml.preprocessing.ConstantColumns"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></p></li>
+<li><p>Outliers: <a class="reference internal" href="#chemml.preprocessing.Outliers" title="chemml.preprocessing.Outliers"><code class="xref py py-func docutils literal notranslate"><span class="pre">Outliers()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
-<dl class="class">
+<dl class="py class">
+<dt id="chemml.preprocessing.ConstantColumns">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></code><code class="sig-name descname"><span class="pre">ConstantColumns</span></code><a class="headerlink" href="#chemml.preprocessing.ConstantColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove constant columns</p>
+<p>removed_columns: list of column headers that have been removed</p>
+<p>df: pandas dataframe</p>
+<dl class="py method">
+<dt id="chemml.preprocessing.ConstantColumns.fit_transform">
+<code class="sig-name descname"><span class="pre">fit_transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit the method to the input dataframe and change it accordingly</p>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
+</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="chemml.preprocessing.ConstantColumns.transform">
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>find and remove headers that are in the <a href="#id1"><span class="problematic" id="id2">removed_columns_</span></a> attribute of the previous fit_transform method</p>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
+</dd>
+</dl>
+<p>transformed dataframe</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="chemml.preprocessing.MissingValues">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.preprocessing.</code><code class="sig-name descname">MissingValues</code><span class="sig-paren">(</span><em class="sig-param">strategy='ignore_row'</em>, <em class="sig-param">string_as_null=True</em>, <em class="sig-param">inf_as_null=True</em>, <em class="sig-param">missing_values=None</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></code><code class="sig-name descname"><span class="pre">MissingValues</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore_row'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string_as_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inf_as_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>find missing values and interpolate/replace or remove them.</p>
 <p>strategy: string, optional (default=”ignore_row”)</p>
 <blockquote>
@@ -227,9 +263,9 @@
 </dl>
 <p>data frame
 mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed</p>
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.preprocessing.MissingValues.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">fit_transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>use fit_transform for:</dt><dd><ul class="simple">
 <li><p>replace missing values with nan.</p></li>
@@ -248,9 +284,9 @@ on that. The mask can later be used in the transform method to change other data
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.preprocessing.MissingValues.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Only if the class is fitted with ‘ignore_row’ or ‘ignore_column’ strategies.</p>
 <p>df : pandas dataframe</p>
 <p>transformed data frame based on the mask vector from fit_transform method.</p>
@@ -258,39 +294,9 @@ on that. The mask can later be used in the transform method to change other data
 
 </dd></dl>
 
-<dl class="class">
-<dt id="chemml.preprocessing.ConstantColumns">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.preprocessing.</code><code class="sig-name descname">ConstantColumns</code><a class="headerlink" href="#chemml.preprocessing.ConstantColumns" title="Permalink to this definition">¶</a></dt>
-<dd><p>remove constant columns</p>
-<p>removed_columns: list of column headers that have been removed</p>
-<p>df: pandas dataframe</p>
-<dl class="method">
-<dt id="chemml.preprocessing.ConstantColumns.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>fit the method to the input dataframe and change it accordingly</p>
-<dl class="simple">
-<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
-</dd>
-</dl>
-<p>transformed dataframe</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="chemml.preprocessing.ConstantColumns.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>find and remove headers that are in the <a href="#id1"><span class="problematic" id="id2">removed_columns_</span></a> attribute of the previous fit_transform method</p>
-<dl class="simple">
-<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
-</dd>
-</dl>
-<p>transformed dataframe</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
+<dl class="py class">
 <dt id="chemml.preprocessing.Outliers">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.preprocessing.</code><code class="sig-name descname">Outliers</code><span class="sig-paren">(</span><em class="sig-param">m=2.0</em>, <em class="sig-param">strategy='median'</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></code><code class="sig-name descname"><span class="pre">Outliers</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'median'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove all rows where the values of a certain column are within an specified
 standard deviation from mean/median.</p>
 <dl class="simple">
@@ -302,9 +308,9 @@ Values of each column will be compared to the ‘mean’ or ‘median’ of that
 </dl>
 <p><a href="#id3"><span class="problematic" id="id4">removed_rows_</span></a>: numpy array of indices that have been removed</p>
 <p>We highly recommend you to remove constant columns first and then remove outliers.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.preprocessing.Outliers.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">fit_transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>fit the method to the input dataframe and change it accordingly</p>
 <dl class="simple">
 <dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
@@ -313,9 +319,9 @@ Values of each column will be compared to the ‘mean’ or ‘median’ of that
 <p>transformed dataframe</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.preprocessing.Outliers.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>find and remove rows/indices that are in the <a href="#id5"><span class="problematic" id="id6">removed_rows_</span></a> attribute of the previous fit_transform method</p>
 <dl class="simple">
 <dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
@@ -333,29 +339,29 @@ Values of each column will be compared to the ‘mean’ or ‘median’ of that
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="chemml.models.html" class="btn btn-neutral float-right" title="Models module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="chemml.datasets.html" class="btn btn-neutral float-left" title="Datasets module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="chemml.models.html" class="btn btn-neutral float-right" title="Models module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chemml.datasets.html" class="btn btn-neutral float-left" title="Datasets module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -363,7 +369,6 @@ Values of each column will be compared to the ‘mean’ or ‘median’ of that
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

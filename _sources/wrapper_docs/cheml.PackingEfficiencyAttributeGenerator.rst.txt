@@ -10,7 +10,7 @@ PackingEfficiencyAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | PackingEfficiencyAttributeGenerator
@@ -30,7 +30,7 @@ PackingEfficiencyAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = PackingEfficiencyAttributeGenerator``
+    |   ``<< host = chemml    << function = PackingEfficiencyAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

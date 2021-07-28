@@ -10,7 +10,7 @@ DistanceMatrix
     | distance matrix
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | DistanceMatrix
@@ -30,7 +30,7 @@ DistanceMatrix
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = DistanceMatrix``
+    |   ``<< host = chemml    << function = DistanceMatrix``
     |   ``<< norm_type = fro``
     |   ``<< nCores = 1``
     |   ``>> id df``

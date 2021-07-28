@@ -10,7 +10,7 @@ load_crystal_structures
     | datasets
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | load_crystal_structures
@@ -29,7 +29,7 @@ load_crystal_structures
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = load_crystal_structures``
+    |   ``<< host = chemml    << function = load_crystal_structures``
     |   ``>> id entries``
     |
     .. note:: The documentation page for function parameters: 

@@ -10,7 +10,7 @@ LocalPropertyVarianceAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | LocalPropertyVarianceAttributeGenerator
@@ -30,7 +30,7 @@ LocalPropertyVarianceAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = LocalPropertyVarianceAttributeGenerator``
+    |   ``<< host = chemml    << function = LocalPropertyVarianceAttributeGenerator``
     |   ``<< elemental_properties = required_required``
     |   ``<< shells = [1]``
     |   ``>> id entries``

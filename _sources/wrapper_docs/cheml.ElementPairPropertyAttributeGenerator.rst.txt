@@ -10,7 +10,7 @@ ElementPairPropertyAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ElementPairPropertyAttributeGenerator
@@ -30,7 +30,7 @@ ElementPairPropertyAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ElementPairPropertyAttributeGenerator``
+    |   ``<< host = chemml    << function = ElementPairPropertyAttributeGenerator``
     |   ``<< elemental_pair_properties = None``
     |   ``>> id entries``
     |   ``>> id df``

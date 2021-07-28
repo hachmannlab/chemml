@@ -10,7 +10,7 @@ CoulombMatrix
     | molecular descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | CoulombMatrix
@@ -30,7 +30,7 @@ CoulombMatrix
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = CoulombMatrix``
+    |   ``<< host = chemml    << function = CoulombMatrix``
     |   ``<< const = 1``
     |   ``<< CMtype = SC``
     |   ``<< nPerm = 3``

@@ -10,7 +10,7 @@ ElementFractionAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ElementFractionAttributeGenerator
@@ -30,7 +30,7 @@ ElementFractionAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ElementFractionAttributeGenerator``
+    |   ``<< host = chemml    << function = ElementFractionAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

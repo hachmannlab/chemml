@@ -10,7 +10,7 @@ BagofBonds
     | molecular descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | BagofBonds
@@ -30,7 +30,7 @@ BagofBonds
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = BagofBonds``
+    |   ``<< host = chemml    << function = BagofBonds``
     |   ``<< const = 1``
     |   ``>> id molecules``
     |   ``>> id df``

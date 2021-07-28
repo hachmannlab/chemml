@@ -10,7 +10,7 @@ SavePlot
     | figure
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | SavePlot
@@ -30,7 +30,7 @@ SavePlot
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = SavePlot``
+    |   ``<< host = chemml    << function = SavePlot``
     |   ``<< format = png``
     |   ``<< output_directory = None``
     |   ``<< kwargs = {}``

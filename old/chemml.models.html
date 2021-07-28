@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Models module &mdash; ChemML  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Optimization module" href="chemml.optimization.html" />
+    <link rel="prev" title="Preprocessing module" href="chemml.preprocessing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ChemML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ChemML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Models module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chemml.models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="models-module">
+<h1>Models module<a class="headerlink" href="#models-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-chemml.models"></span><dl class="simple">
+<dt>The ‘chemml.models’ module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
+<li><p>OrganicLorentzLorenz: <code class="xref py py-func docutils literal notranslate"><span class="pre">OrganicLorentzLorenz()</span></code></p></li>
+<li><p>MLP: <code class="xref py py-func docutils literal notranslate"><span class="pre">MLP()</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="chemml.models.OrganicLorentzLorenz">
+<em class="property">class </em><code class="sig-prename descclassname">chemml.models.</code><code class="sig-name descname">OrganicLorentzLorenz</code><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz" title="Permalink to this definition">¶</a></dt>
+<dd><p>A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.
+The model predicts refractive index, polarizability, and density of an organic molecule using its
+SMILES representation.</p>
+<p>The model is trained on 100K small organic molecules with their polarizabilities from DFT calculations, densities from
+molecular dynamics simulations, and refractive index by feeding calculated polarizabilities and densities into the
+LL model.</p>
+<p>The model is a fully connected artificial neural network with 3 hidden layers. The number of neurons per layers from
+input layer to the output layer are as follow: 1024 –&gt; 128 –&gt; 64 –&gt; 32 –&gt; [1, 1, 1].</p>
+<dl class="method">
+<dt id="chemml.models.OrganicLorentzLorenz.get_hidden_layer">
+<code class="sig-name descname">get_hidden_layer</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">id=1</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.get_hidden_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions return the first hidden layer of the model.</p>
+<dl class="simple">
+<dt>X: ndarray</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
+If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.</p>
+</dd>
+<dt>id: int</dt><dd><p>This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second,
+or third hidden layer, respectively.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>ndarray</dt><dd><p>The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1).
+The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2).
+The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.OrganicLorentzLorenz.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">summary=True</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function loads the Keras model. The model consists of 3 hidden layers and more than 140K parameters.
+Parameters
+———-
+summary: bool</p>
+<blockquote>
+<div><p>if True a summary of Keras model will be printed out.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.OrganicLorentzLorenz.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">smiles</em>, <em class="sig-param">pprint=False</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>After loading the model, this function predicts refractive index, polarizability, and density of the entery.</p>
+<dl class="simple">
+<dt>smiles: str</dt><dd><p>The SMILES representaion of a molecule.</p>
+</dd>
+<dt>pprint: bool</dt><dd><p>If True, a short description of the predicted properties will be printed out.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>tuple</dt><dd><p>includes estimates of refractive index, polarizability, and density, respectively.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.OrganicLorentzLorenz.train">
+<code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">scale=True</em>, <em class="sig-param">kwargs_for_compile={}</em>, <em class="sig-param">kwargs_for_fit={}</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.OrganicLorentzLorenz.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows the user to retrain the model on a given data set for some further steps.
+Thus, all the parameters you are able to pass to a keras model’s compile or fit methods can be passed to this
+function as well.</p>
+<dl class="simple">
+<dt>X: ndarray or dataframe</dt><dd><p>If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.
+If 1D array, must be an array of <cite>str</cite> type, each element represents a molecule in the SMILES format.
+If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.</p>
+</dd>
+<dt>Y: list or dataframe</dt><dd><p>a list of three numpy arrays for refractive index, polarizability, and density, respectively.
+The length of arrays must be same as the length of X.
+If dataframe, it must be a 2D frame with 3 columns, each for one of the properties.</p>
+</dd>
+<dt>scale: bool, optional (default: True)</dt><dd><p>If True the X and Y will be scaled in the same fashion as the original traning process (recommended).</p>
+</dd>
+<dt>kwargs_for_compile: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the compile method of keras models can receive.</p>
+</dd>
+<dt>kwargs_for_fit: dict, optional (default: {})</dt><dd><p>This dictionary could contain all the parameters that the fit method of keras models can receive.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="chemml.models.MLP">
+<em class="property">class </em><code class="sig-prename descclassname">chemml.models.</code><code class="sig-name descname">MLP</code><span class="sig-paren">(</span><em class="sig-param">nhidden=1</em>, <em class="sig-param">nneurons=None</em>, <em class="sig-param">activations=None</em>, <em class="sig-param">learning_rate=0.01</em>, <em class="sig-param">lr_decay=0.0</em>, <em class="sig-param">nepochs=100</em>, <em class="sig-param">batch_size=100</em>, <em class="sig-param">loss='mean_squared_error'</em>, <em class="sig-param">regression=True</em>, <em class="sig-param">nclasses=None</em>, <em class="sig-param">layer_config_file=None</em>, <em class="sig-param">opt_config_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class associated with Multi-Layer Perceptron (Neural Network)</p>
+<dl class="simple">
+<dt>nhidden<span class="classifier">int, optional, default: 1</span></dt><dd><p>The number of hidden layers in the neural network (excluding input and output)</p>
+</dd>
+<dt>nneurons: list, optional, default: [100] * nhidden</dt><dd><p>The number of nodes in each hidden layer. Must be of same length as nhidden</p>
+</dd>
+<dt>activations: list, optional, default: [‘sigmoid’] * nhidden</dt><dd><p>The activation type for each hidden layer. Must be of same length as nhidden.
+Refer <a class="reference external" href="https://keras.io/activations/">https://keras.io/activations/</a> for list of valid activations</p>
+</dd>
+<dt>nepochs: int, optional, default: 100</dt><dd><p>Number of training epochs.</p>
+</dd>
+<dt>batch_size: int, optional, default: 100</dt><dd><p>Number of training samples in mini-batch</p>
+</dd>
+<dt>loss: str, optional, default: ‘mean_squared_error’</dt><dd><p>Type of loss used to train the neural network.
+Refer <a class="reference external" href="https://keras.io/losses/">https://keras.io/losses/</a> for list of valid losses</p>
+</dd>
+<dt>regression: bool, optional, default: True</dt><dd><p>Decides whether we are training for regression or classification task</p>
+</dd>
+<dt>nclasses: int, optional, default: None</dt><dd><p>Number of classes labels needs to be specified if regression is False</p>
+</dd>
+<dt>layer_config_file: str, optional, default: None</dt><dd><p>Path to the file that specifies layer configuration
+Refer MLP test to see a sample file</p>
+</dd>
+<dt>opt_config_file: str, optional, default: None</dt><dd><p>Path to the file that specifies optimizer configuration
+Refer MLP test to see a sample file</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="chemml.models.MLP.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the MLP for training data X and targets y</p>
+<dl class="simple">
+<dt>X: array_like, shape=[n_samples, n_features]</dt><dd><p>Training data</p>
+</dd>
+<dt>y: array_like, shape=[n_samples,]</dt><dd><p>Training targets</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.MLP.parse_layer_config">
+<code class="sig-name descname">parse_layer_config</code><span class="sig-paren">(</span><em class="sig-param">layer_config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_layer_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method to parse a layer config file</p>
+<dl class="simple">
+<dt>layer_config_file: str</dt><dd><p>Filepath that contains the layer configuration file - Refer MLP test to see a sample file
+Refer MLP test to see a sample file and <a class="reference external" href="https://keras.io/layers/about-keras-layers/">https://keras.io/layers/about-keras-layers/</a>
+for all possible types of layers and corresponding layer parameters</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>layers: list</dt><dd><p>List of tuples containing layer type and dictionary of layer parameter arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.MLP.parse_opt_config">
+<code class="sig-name descname">parse_opt_config</code><span class="sig-paren">(</span><em class="sig-param">opt_config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.parse_opt_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method to parse a optimizer config file</p>
+<dl class="simple">
+<dt>opt_config_file: str</dt><dd><p>Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file
+Refer MLP test to see a sample file and <a class="reference external" href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>
+for all possible types of optimizers and corresponding optimizer parameters</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>opt: keras.optimizers</dt><dd><p>keras optimizer created out of contents of optmizer configuration file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.MLP.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return prediction for test data X</p>
+<dl class="simple">
+<dt>X: array_like, shape=[n_samples, n_features]</dt><dd><p>Testing data</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>Predicted value from model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="chemml.models.MLP.score">
+<code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict results for test data X and compare with true targets y. Returns root mean square error if regression,
+accuracy if classification</p>
+<dl class="simple">
+<dt>X: array_like, shape=[n_samples, n_features]</dt><dd><p>Test data</p>
+</dd>
+<dt>y: array_like, shape=[n_samples,]</dt><dd><p>True targets</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>root mean square error if regression, accuracy if classification</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chemml.optimization.html" class="btn btn-neutral float-right" title="Optimization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chemml.preprocessing.html" class="btn btn-neutral float-left" title="Preprocessing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

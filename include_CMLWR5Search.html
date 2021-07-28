@@ -1,44 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>GA_DEAP &mdash; ChemML  documentation</title>
+  <title>GridSearchCV &mdash; ChemML  documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="include_CMLWR6Mix.html" />
-    <link rel="prev" title="MLP" href="include_CMLWR4Model.html" /> 
+    <link rel="next" title="plot" href="include_CMLWR7Visualize.html" />
+    <link rel="prev" title="ARDRegression" href="include_CMLWR4Model.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,56 +86,56 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
-<ul class="current">
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html#search">Search</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">GA_DEAP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#gridsearchcv">GridSearchCV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cross-val-predict">cross_val_predict</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cross-val-score">cross_val_score</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#evaluate-regression">evaluate_regression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#learning-curve">learning_curve</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scorer-regression">scorer_regression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#corr">corr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#input">Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="CMLWReference.html#optimize">Optimize</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">GridSearchCV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cross-val-predict">cross_val_predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cross-val-score">cross_val_score</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluate-regression">evaluate_regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#learning-curve">learning_curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scorer-regression">scorer_regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corr">corr</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#mix">Mix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#output">Output</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+</li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -166,20 +170,24 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
         
           <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
         
-      <li>GA_DEAP</li>
+      <li>GridSearchCV</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/include_CMLWR5Search.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -198,13 +206,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -217,102 +225,8 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="ga-deap">
-<span id="id1"></span><h1>GA_DEAP<a class="headerlink" href="#ga-deap" title="Permalink to this headline">¶</a></h1>
-<dl class="field-list">
-<dt class="field-odd">task</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">Search</div>
-</div>
-</dd>
-<dt class="field-even">subtask</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">genetic algorithm</div>
-</div>
-</dd>
-<dt class="field-odd">host</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">cheml</div>
-</div>
-</dd>
-<dt class="field-even">function</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">GA_DEAP</div>
-</div>
-</dd>
-<dt class="field-odd">input tokens (receivers)</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> : a function that receives a list of individuals and returns the score</div>
-<div class="line-block">
-<div class="line">types: (“&lt;type ‘function’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">output tokens (senders)</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">best_individual</span></code> : pandas dataframe of the best individual</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">best_ind_df</span></code> : pandas dataframe of best individuals after each iteration</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-odd">wrapper parameters</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:algorithm_1)</div>
-<div class="line-block">
-<div class="line">a method of the GA_DEAP class that should be applied</div>
-<div class="line">choose one of: (‘algorithm_1’, ‘algorithm_2’, ‘algorithm_3’, ‘algorithm_4’)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">required packages</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">ChemML, 0.4.1</div>
-<div class="line">pandas, 0.20.3</div>
-<div class="line">deap, 1.2.2</div>
-</div>
-</dd>
-<dt class="field-odd">config file view</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">GA_DEAP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">algorithm_1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">mut_float_dev</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">init_pop_frac</span> <span class="pre">=</span> <span class="pre">0.35</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">crossover_type</span> <span class="pre">=</span> <span class="pre">Blend</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">chromosome_type</span> <span class="pre">=</span> <span class="pre">(1,)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_generations</span> <span class="pre">=</span> <span class="pre">20</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">Evaluate</span> <span class="pre">=</span> <span class="pre">&#64;evaluate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">chromosome_length</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">crossover_pop_frac</span> <span class="pre">=</span> <span class="pre">0.35</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">crossover_prob</span> <span class="pre">=</span> <span class="pre">0.4</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">Weights</span> <span class="pre">=</span> <span class="pre">(-1.0,)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">mut_float_mean</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">bit_limits</span> <span class="pre">=</span> <span class="pre">((0,</span> <span class="pre">10),)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">mut_int_lower</span> <span class="pre">=</span> <span class="pre">(1,)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">mut_int_upper</span> <span class="pre">=</span> <span class="pre">(10,)</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">pop_size</span> <span class="pre">=</span> <span class="pre">50</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">mutation_prob</span> <span class="pre">=</span> <span class="pre">0.4</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">evaluate</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">best_individual</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">best_ind_df</span></code></div>
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The documentation page for function parameters:</p>
-</div>
-</dd>
-</dl>
-</div>
 <div class="section" id="gridsearchcv">
-<span id="id2"></span><h1>GridSearchCV<a class="headerlink" href="#gridsearchcv" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>GridSearchCV<a class="headerlink" href="#gridsearchcv" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -346,7 +260,7 @@
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">estimator</span></code> : instance of a machine learning class</div>
 <div class="line-block">
-<div class="line">types: (“&lt;type ‘str’&gt;”, “&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
+<div class="line">types: (“&lt;type ‘str’&gt;”, “&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : instance of scikit-learn’s make_scorer class</div>
 <div class="line-block">
@@ -370,7 +284,7 @@
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">best_estimator_</span></code> : instance of a machine learning class</div>
 <div class="line-block">
-<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 </div>
 </dd>
@@ -426,7 +340,7 @@
 </dl>
 </div>
 <div class="section" id="cross-val-predict">
-<span id="id3"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline">¶</a></h1>
+<span id="id2"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -460,7 +374,7 @@
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">estimator</span></code> : instance of a machine learning class</div>
 <div class="line-block">
-<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : instance of scikit-learn’s make_scorer class</div>
 <div class="line-block">
@@ -528,7 +442,7 @@
 </dl>
 </div>
 <div class="section" id="cross-val-score">
-<span id="id4"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline">¶</a></h1>
+<span id="id3"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -562,7 +476,7 @@
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">estimator</span></code> : instance of a machine learning class</div>
 <div class="line-block">
-<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : instance of scikit-learn’s make_scorer class</div>
 <div class="line-block">
@@ -630,7 +544,7 @@
 </dl>
 </div>
 <div class="section" id="evaluate-regression">
-<span id="id5"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline">¶</a></h1>
+<span id="id4"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -808,7 +722,7 @@
 </dl>
 </div>
 <div class="section" id="learning-curve">
-<span id="id6"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline">¶</a></h1>
+<span id="id5"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -842,7 +756,7 @@
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">estimator</span></code> : instance of a machine learning class</div>
 <div class="line-block">
-<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”, “&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”, “&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”, “&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”, “&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”, “&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”, “&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”, “&lt;class ‘sklearn.svm.classes.SVR’&gt;”, “&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”, “&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”, “&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”, “&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”)</div>
 </div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : instance of scikit-learn’s make_scorer class</div>
 <div class="line-block">
@@ -928,7 +842,7 @@
 </dl>
 </div>
 <div class="section" id="scorer-regression">
-<span id="id7"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline">¶</a></h1>
+<span id="id6"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1006,7 +920,7 @@
 </dl>
 </div>
 <div class="section" id="corr">
-<span id="id8"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this headline">¶</a></h1>
+<span id="id7"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1074,29 +988,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="include_CMLWR6Mix.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="include_CMLWR4Model.html" class="btn btn-neutral float-left" title="MLP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="include_CMLWR7Visualize.html" class="btn btn-neutral float-right" title="plot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="include_CMLWR4Model.html" class="btn btn-neutral float-left" title="ARDRegression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1104,7 +1018,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

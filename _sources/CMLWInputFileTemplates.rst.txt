@@ -27,13 +27,12 @@ Here you can see a pseudo block of ChemML Wrapper computation graph in the input
         >> token id
         >> id token
 
-All the methods in the ChemML Wrapper are available under these 8 tasks:
+All the methods in the ChemML Wrapper are available under these 7 tasks:
     - Enter
     - Represent
     - Prepare
     - Model
     - Search
-    - Mix
     - Visualize
     - Store
 

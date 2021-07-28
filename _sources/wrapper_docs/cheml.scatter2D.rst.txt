@@ -10,7 +10,7 @@ scatter2D
     | plot
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | scatter2D
@@ -33,7 +33,7 @@ scatter2D
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = scatter2D``
+    |   ``<< host = chemml    << function = scatter2D``
     |   ``<< color = b``
     |   ``<< marker = .``
     |   ``<< y = required_required``

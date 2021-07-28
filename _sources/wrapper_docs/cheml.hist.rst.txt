@@ -10,7 +10,7 @@ hist
     | plot
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | hist
@@ -31,7 +31,7 @@ hist
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = hist``
+    |   ``<< host = chemml    << function = hist``
     |   ``<< color = None``
     |   ``<< kwargs = {}``
     |   ``<< x = required_required``

@@ -10,7 +10,7 @@ StructuralHeterogeneityAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | StructuralHeterogeneityAttributeGenerator
@@ -30,7 +30,7 @@ StructuralHeterogeneityAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = StructuralHeterogeneityAttributeGenerator``
+    |   ``<< host = chemml    << function = StructuralHeterogeneityAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

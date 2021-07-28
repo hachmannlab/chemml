@@ -10,7 +10,7 @@ GA_DEAP
     | genetic algorithm
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | GA_DEAP
@@ -37,7 +37,7 @@ GA_DEAP
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = GA_DEAP``
+    |   ``<< host = chemml    << function = GA_DEAP``
     |   ``<< func_method = algorithm_1``
     |   ``<< mut_float_dev = 1``
     |   ``<< init_pop_frac = 0.35``

@@ -1,44 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>MLP &mdash; ChemML  documentation</title>
+  <title>ARDRegression &mdash; ChemML  documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="GA_DEAP" href="include_CMLWR5Search.html" />
-    <link rel="prev" title="ConstantColumns" href="include_CMLWR3Prepare.html" /> 
+    <link rel="next" title="GridSearchCV" href="include_CMLWR5Search.html" />
+    <link rel="prev" title="Binarizer" href="include_CMLWR3Prepare.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,67 +86,66 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
-<ul class="current">
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#enter">Enter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html#model">Model</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">MLP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mlp-sklearn">MLP_sklearn</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ardregression">ARDRegression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bayesianridge">BayesianRidge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#elasticnet">ElasticNet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#kernelridge">KernelRidge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#lars">Lars</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#lasso">Lasso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#lassolars">LassoLars</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#linearregression">LinearRegression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#linearsvr">LinearSVR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#logisticregression">LogisticRegression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mlpregressor">MLPRegressor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multitaskelasticnet">MultiTaskElasticNet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multitasklasso">MultiTaskLasso</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#nusvr">NuSVR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ridge">Ridge</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#sgdregressor">SGDRegressor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#svr">SVR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#input">Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="CMLWReference.html#model">Model</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ARDRegression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bayesianridge">BayesianRidge</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elasticnet">ElasticNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kernelridge">KernelRidge</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lars">Lars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lasso">Lasso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lassolars">LassoLars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linearregression">LinearRegression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linearsvr">LinearSVR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logisticregression">LogisticRegression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mlpregressor">MLPRegressor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multitaskelasticnet">MultiTaskElasticNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multitasklasso">MultiTaskLasso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nusvr">NuSVR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ridge">Ridge</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sgdregressor">SGDRegressor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#svr">SVR</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#search">Search</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#mix">Mix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CMLWReference.html#store">Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#optimize">Optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CMLWReference.html#output">Output</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+</li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -177,20 +180,24 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
         
           <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
         
-      <li>MLP</li>
+      <li>ARDRegression</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/include_CMLWR4Model.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -209,13 +216,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -228,209 +235,8 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="mlp">
-<span id="id1"></span><h1>MLP<a class="headerlink" href="#mlp" title="Permalink to this headline">¶</a></h1>
-<dl class="field-list">
-<dt class="field-odd">task</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">Model</div>
-</div>
-</dd>
-<dt class="field-even">subtask</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">regression</div>
-</div>
-</dd>
-<dt class="field-odd">host</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">cheml</div>
-</div>
-</dd>
-<dt class="field-even">function</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">MLP</div>
-</div>
-</dd>
-<dt class="field-odd">input tokens (receivers)</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of cheml.nn.keras.MLP class</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘cheml.nn.keras.mlp.MLP’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">output tokens (senders)</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of cheml.nn.keras.MLP class</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘cheml.nn.keras.mlp.MLP’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-odd">wrapper parameters</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">required packages</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">ChemML, 0.4.1</div>
-<div class="line">keras, 2.1.2</div>
-<div class="line">tensorflow, 1.4.1</div>
-</div>
-</dd>
-<dt class="field-odd">config file view</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MLP</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nhidden</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">mean_squared_error</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">0.01</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">layer_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lr_decay</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">regression</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nclasses</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">activations</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">opt_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nepochs</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nneurons</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The documentation page for function parameters:</p>
-</div>
-</dd>
-</dl>
-</div>
-<div class="section" id="mlp-sklearn">
-<span id="id2"></span><h1>MLP_sklearn<a class="headerlink" href="#mlp-sklearn" title="Permalink to this headline">¶</a></h1>
-<dl class="field-list">
-<dt class="field-odd">task</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">Model</div>
-</div>
-</dd>
-<dt class="field-even">subtask</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">regression</div>
-</div>
-</dd>
-<dt class="field-odd">host</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">cheml</div>
-</div>
-</dd>
-<dt class="field-even">function</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">MLP_sklearn</div>
-</div>
-</dd>
-<dt class="field-odd">input tokens (receivers)</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of cheml.nn.keras.MLP_sklearn class</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">output tokens (senders)</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of cheml.nn.keras.MLP_sklearn class</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘cheml.nn.keras.mlp.MLP_sklearn’&gt;”,)</div>
-</div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
-<div class="line-block">
-<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
-</div>
-</div>
-</dd>
-<dt class="field-odd">wrapper parameters</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
-</div>
-</div>
-</dd>
-<dt class="field-even">required packages</dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">ChemML, 0.4.1</div>
-<div class="line">scikit-learn, 0.19.0</div>
-<div class="line">keras, 2.1.2</div>
-<div class="line">tensorflow, 1.4.1</div>
-</div>
-</dd>
-<dt class="field-odd">config file view</dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">cheml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MLP_sklearn</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nhidden</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">mean_squared_error</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">0.01</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">layer_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lr_decay</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">regression</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nclasses</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">activations</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">opt_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nepochs</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nneurons</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
-<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The documentation page for function parameters:</p>
-</div>
-</dd>
-</dl>
-</div>
 <div class="section" id="ardregression">
-<span id="id3"></span><h1>ARDRegression<a class="headerlink" href="#ardregression" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>ARDRegression<a class="headerlink" href="#ardregression" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -535,7 +341,7 @@
 </dl>
 </div>
 <div class="section" id="bayesianridge">
-<span id="id4"></span><h1>BayesianRidge<a class="headerlink" href="#bayesianridge" title="Permalink to this headline">¶</a></h1>
+<span id="id2"></span><h1>BayesianRidge<a class="headerlink" href="#bayesianridge" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -639,7 +445,7 @@
 </dl>
 </div>
 <div class="section" id="elasticnet">
-<span id="id5"></span><h1>ElasticNet<a class="headerlink" href="#elasticnet" title="Permalink to this headline">¶</a></h1>
+<span id="id3"></span><h1>ElasticNet<a class="headerlink" href="#elasticnet" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -744,7 +550,7 @@
 </dl>
 </div>
 <div class="section" id="kernelridge">
-<span id="id6"></span><h1>KernelRidge<a class="headerlink" href="#kernelridge" title="Permalink to this headline">¶</a></h1>
+<span id="id4"></span><h1>KernelRidge<a class="headerlink" href="#kernelridge" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -843,7 +649,7 @@
 </dl>
 </div>
 <div class="section" id="lars">
-<span id="id7"></span><h1>Lars<a class="headerlink" href="#lars" title="Permalink to this headline">¶</a></h1>
+<span id="id5"></span><h1>Lars<a class="headerlink" href="#lars" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -945,7 +751,7 @@
 </dl>
 </div>
 <div class="section" id="lasso">
-<span id="id8"></span><h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline">¶</a></h1>
+<span id="id6"></span><h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1049,7 +855,7 @@
 </dl>
 </div>
 <div class="section" id="lassolars">
-<span id="id9"></span><h1>LassoLars<a class="headerlink" href="#lassolars" title="Permalink to this headline">¶</a></h1>
+<span id="id7"></span><h1>LassoLars<a class="headerlink" href="#lassolars" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1152,7 +958,7 @@
 </dl>
 </div>
 <div class="section" id="linearregression">
-<span id="id10"></span><h1>LinearRegression<a class="headerlink" href="#linearregression" title="Permalink to this headline">¶</a></h1>
+<span id="id8"></span><h1>LinearRegression<a class="headerlink" href="#linearregression" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1249,7 +1055,7 @@
 </dl>
 </div>
 <div class="section" id="linearsvr">
-<span id="id11"></span><h1>LinearSVR<a class="headerlink" href="#linearsvr" title="Permalink to this headline">¶</a></h1>
+<span id="id9"></span><h1>LinearSVR<a class="headerlink" href="#linearsvr" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1352,7 +1158,7 @@
 </dl>
 </div>
 <div class="section" id="logisticregression">
-<span id="id12"></span><h1>LogisticRegression<a class="headerlink" href="#logisticregression" title="Permalink to this headline">¶</a></h1>
+<span id="id10"></span><h1>LogisticRegression<a class="headerlink" href="#logisticregression" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1459,7 +1265,7 @@
 </dl>
 </div>
 <div class="section" id="mlpregressor">
-<span id="id13"></span><h1>MLPRegressor<a class="headerlink" href="#mlpregressor" title="Permalink to this headline">¶</a></h1>
+<span id="id11"></span><h1>MLPRegressor<a class="headerlink" href="#mlpregressor" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1573,7 +1379,7 @@
 </dl>
 </div>
 <div class="section" id="multitaskelasticnet">
-<span id="id14"></span><h1>MultiTaskElasticNet<a class="headerlink" href="#multitaskelasticnet" title="Permalink to this headline">¶</a></h1>
+<span id="id12"></span><h1>MultiTaskElasticNet<a class="headerlink" href="#multitaskelasticnet" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1676,7 +1482,7 @@
 </dl>
 </div>
 <div class="section" id="multitasklasso">
-<span id="id15"></span><h1>MultiTaskLasso<a class="headerlink" href="#multitasklasso" title="Permalink to this headline">¶</a></h1>
+<span id="id13"></span><h1>MultiTaskLasso<a class="headerlink" href="#multitasklasso" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1778,7 +1584,7 @@
 </dl>
 </div>
 <div class="section" id="nusvr">
-<span id="id16"></span><h1>NuSVR<a class="headerlink" href="#nusvr" title="Permalink to this headline">¶</a></h1>
+<span id="id14"></span><h1>NuSVR<a class="headerlink" href="#nusvr" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1882,7 +1688,7 @@
 </dl>
 </div>
 <div class="section" id="ridge">
-<span id="id17"></span><h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this headline">¶</a></h1>
+<span id="id15"></span><h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -1983,7 +1789,7 @@
 </dl>
 </div>
 <div class="section" id="sgdregressor">
-<span id="id18"></span><h1>SGDRegressor<a class="headerlink" href="#sgdregressor" title="Permalink to this headline">¶</a></h1>
+<span id="id16"></span><h1>SGDRegressor<a class="headerlink" href="#sgdregressor" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -2091,7 +1897,7 @@
 </dl>
 </div>
 <div class="section" id="svr">
-<span id="id19"></span><h1>SVR<a class="headerlink" href="#svr" title="Permalink to this headline">¶</a></h1>
+<span id="id17"></span><h1>SVR<a class="headerlink" href="#svr" title="Permalink to this headline">¶</a></h1>
 <dl class="field-list">
 <dt class="field-odd">task</dt>
 <dd class="field-odd"><div class="line-block">
@@ -2200,29 +2006,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="include_CMLWR5Search.html" class="btn btn-neutral float-right" title="GA_DEAP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="include_CMLWR3Prepare.html" class="btn btn-neutral float-left" title="ConstantColumns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="include_CMLWR5Search.html" class="btn btn-neutral float-right" title="GridSearchCV" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="include_CMLWR3Prepare.html" class="btn btn-neutral float-left" title="Binarizer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -2230,7 +2036,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

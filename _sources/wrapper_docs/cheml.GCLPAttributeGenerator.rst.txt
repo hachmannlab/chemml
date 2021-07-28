@@ -10,7 +10,7 @@ GCLPAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | GCLPAttributeGenerator
@@ -34,7 +34,7 @@ GCLPAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = GCLPAttributeGenerator``
+    |   ``<< host = chemml    << function = GCLPAttributeGenerator``
     |   ``<< count_phases = None``
     |   ``<< energies = []``
     |   ``<< phases = []``

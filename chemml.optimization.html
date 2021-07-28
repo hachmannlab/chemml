@@ -1,40 +1,43 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Optimization module &mdash; ChemML  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Visualization module" href="chemml.visualization.html" />
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,36 +86,34 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -146,18 +148,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
         
       <li>Optimization module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/chemml.optimization.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -176,13 +182,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -198,97 +204,15 @@
 <div class="section" id="optimization-module">
 <h1>Optimization module<a class="headerlink" href="#optimization-module" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-chemml.optimization"></span><dl class="simple">
-<dt>The cheml.optimization module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
+<dt>The chemml.optimization module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
 <li><p>GeneticAlgorithm: <a class="reference internal" href="#chemml.optimization.GeneticAlgorithm" title="chemml.optimization.GeneticAlgorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">GeneticAlgorithm()</span></code></a></p></li>
 <li><p>ActiveLearning: <a class="reference internal" href="#chemml.optimization.ActiveLearning" title="chemml.optimization.ActiveLearning"><code class="xref py py-func docutils literal notranslate"><span class="pre">ActiveLearning()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
-<dl class="class">
-<dt id="chemml.optimization.GeneticAlgorithm">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.optimization.</code><code class="sig-name descname">GeneticAlgorithm</code><span class="sig-paren">(</span><em class="sig-param">evaluate</em>, <em class="sig-param">space</em>, <em class="sig-param">fitness=('Max'</em>, <em class="sig-param">)</em>, <em class="sig-param">pop_size=50</em>, <em class="sig-param">crossover_size=30</em>, <em class="sig-param">mutation_size=20</em>, <em class="sig-param">crossover_type='Blend'</em>, <em class="sig-param">fused_cutoff=5</em>, <em class="sig-param">mutation_prob=0.6</em>, <em class="sig-param">algorithm=3</em>, <em class="sig-param">initial_population=None</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm" title="Permalink to this definition">¶</a></dt>
-<dd><p>A python implementation of real-valued, genetic algorithm for solving optimization problems.</p>
-<dl>
-<dt>evaluate: function</dt><dd><p>The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization.</p>
-</dd>
-<dt>space: tuple, </dt><dd><p>A tuple of dict objects specifying the hyper-parameter space to search in. 
-Each hyper-parameter should be a python dict object with the name of the hyper-parameter as the key. 
-Value is also a dict object with one mandatory key among: ‘uniform’, ‘int’ and ‘choice’ for defining floating point, integer and choice variables respectively. 
-Values for these keys should be a list defining the valid hyper-parameter search space (lower and upper bounds for ‘int’ and ‘uniform’, and all valid choices for ‘choice’). 
-For uniform, a ‘mutation’ key is also required for which the value is [mean, standard deviation] for the gaussian distribution.
-Example:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>({‘alpha’: {‘uniform’: [0.001, 1], </dt><dd><p>‘mutation’: [0, 1]}},</p>
-</dd>
-</dl>
-<p>{‘layers’: {‘int’: [1, 3]}},
-{‘neurons’: {‘choice’: range(0,200,20)}})</p>
-</div></blockquote>
-</dd>
-<dt>fitness: tuple, optional (default = (‘Max’,)</dt><dd><p>A tuple of string(s) for Maximizing (Max) or minimizing (Min) the objective function(s).</p>
-</dd>
-<dt>pop_size: integer, optional (default = 50)</dt><dd><p>Size of the population</p>
-</dd>
-<dt>crossover_size: int, optional (default = 30)</dt><dd><p>Number of individuals to select for crossover.</p>
-</dd>
-<dt>mutation_size: int, optional (default = 20)</dt><dd><p>Number of individuals to select for mutation.</p>
-</dd>
-<dt>crossover_type: string, optional (default = “Blend”)</dt><dd><p>Type of crossover: SinglePoint, DoublePoint, Blend, Uniform</p>
-</dd>
-<dt>mutation_prob: float, optional (default = 0.4)</dt><dd><p>Probability of mutation.</p>
-</dd>
-<dt>algorithm: int, optional (default=1)</dt><dd><p>The algorithm to use for the search. Look at the ‘search’ method for a description of the various algorithms.</p>
-</dd>
-<dt>initial_population: list, optional (default=None)</dt><dd><p>The initial population for the algorithm to start with. If not provided, initial population is randomly generated.</p>
-</dd>
-</dl>
-<dl class="method">
-<dt id="chemml.optimization.GeneticAlgorithm.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param">n_generations=20</em>, <em class="sig-param">early_stopping=10</em>, <em class="sig-param">init_ratio=0.35</em>, <em class="sig-param">crossover_ratio=0.35</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm.search" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Algorithm 1:</dt><dd><p>Initial population is instantiated. 
-Roulette wheel selection is used for selecting individuals for crossover and mutation.
-The initial population, crossovered and mutated individuals form the pool of individuals from which the best
-n members are selected as the initial population for the next generation, where n is the size of population.</p>
-</dd>
-<dt>Algorithm 2:</dt><dd><p>Same as algorithm 1 but when selecting individuals for next generation, n members are selected using Roulette wheel selection.</p>
-</dd>
-<dt>Algorithm 3:</dt><dd><p>Same as algorithm 1 but when selecting individuals for next generation, best members from each of the three pools (initital population, crossover and mutation) are selected according to the input parameters in the search method.</p>
-</dd>
-<dt>Algorithm 4:</dt><dd><p>Same as algorithm 1 but mutation population is selected from the crossover population and not from the parents directly.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>n_generations: integer, optional (default = 20)</dt><dd><p>An integer for the number of generations to evolve the population for.</p>
-</dd>
-<dt>early_stopping: int, optional (default=10)</dt><dd><p>Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
-the search terminates.</p>
-</dd>
-<dt>init_ratio: float, optional (default = 0.4)</dt><dd><p>Fraction of initial population to select for next generation. Required only for algorithm 3.</p>
-</dd>
-<dt>crossover_ratio: float, optional (default = 0.3)</dt><dd><p>Fraction of crossover population to select for next generation. Required only for algorithm 3.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>population: list,</dt><dd><p>list of individuals from the final generation</p>
-</dd>
-<dt>fitness_dict: dict,</dt><dd><p>dictionary of all individuals evaluated by the algorithm</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>best_ind_df:  pandas dataframe</dt><dd><p>A pandas dataframe of best individuals of each generation</p>
-</dd>
-<dt>best_ind:  dict,</dt><dd><p>The best individual after the last generation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
+<dl class="py class">
 <dt id="chemml.optimization.ActiveLearning">
-<em class="property">class </em><code class="sig-prename descclassname">chemml.optimization.</code><code class="sig-name descname">ActiveLearning</code><span class="sig-paren">(</span><em class="sig-param">model_creator, U, target_layer, train_size=100, test_size=100, test_type='passive', batch_size=[10], history=2</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></code><code class="sig-name descname"><span class="pre">ActiveLearning</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_creator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'passive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition">¶</a></dt>
 <dd><p>The implementation of active learning of regression models using BEMCM and QBC methods and approaches for distribution shift alleviations.
 This algorithm assumes that you have a pool of unlabeled data points and a limited budget to label them.
 Thus, we combine the efficiency of the machine learning models with our active learning approach to suggest
@@ -296,19 +220,19 @@ optimal number of calculations to provide labeled data.</p>
 <p>The implementation of this algorithm follows an interactive approach.
 In other words, we often ask you to provide labels for the selected data points.</p>
 <dl>
-<dt>model_creator: FunctionType</dt><dd><p>It’s a function that returns the model. We call this function a couple of times during the search to build
+<dt>model_creator<span class="classifier">FunctionType</span></dt><dd><p>It’s a function that returns the model. We call this function a couple of times during the search to build
 fresh models with random weights.
 Note that you should also compile your model inside the function. We don’t provide options to compile the model.
 The compile (e.g., for Keras models) defines the loss function, the optimizer/learning rate, and the metrics.</p>
 </dd>
-<dt>U: array-like</dt><dd><p>The features/descriptors of unlabeled candidates that are available to be labeled.</p>
+<dt>U<span class="classifier">array-like</span></dt><dd><p>The features/descriptors of unlabeled candidates that are available to be labeled.</p>
 </dd>
-<dt>target_layer: str or list or FunctionType</dt><dd><p>If str, it’s the name of a layer of the Keras model that is linearly mapped to the outputs.
+<dt>target_layer<span class="classifier">str or list or FunctionType</span></dt><dd><p>If str, it’s the name of a layer of the Keras model that is linearly mapped to the outputs.
 If list, it’s a list of str that each element corresponds to the name of layers.
 If a function, it should be able to receive a model that will be created using the ‘model_creator’ and the X inputs,
 and returns the outputs of the linear layer.</p>
 </dd>
-<dt>train_size: int, optional (default = 100)</dt><dd><p>It represents the absolute number of train samples that must be selected as the initial training set.
+<dt>train_size<span class="classifier">int, optional (default = 100)</span></dt><dd><p>It represents the absolute number of train samples that must be selected as the initial training set.
 The search will begin with this many training samples and labels are required immediately.
 Please choose a number based on:</p>
 <blockquote>
@@ -318,7 +242,7 @@ Please choose a number based on:</p>
 </ul>
 </div></blockquote>
 </dd>
-<dt>test_size: int, optional (default = 100)</dt><dd><p>It represents the absolute number of test samples that will be held out for the evaluation of the model in all
+<dt>test_size<span class="classifier">int, optional (default = 100)</span></dt><dd><p>It represents the absolute number of test samples that will be held out for the evaluation of the model in all
 rounds of your active learning search.
 Note the test set will be acquired before search begins and won’t be updated later during search.
 Please choose a number based on:</p>
@@ -329,11 +253,11 @@ Please choose a number based on:</p>
 </ul>
 </div></blockquote>
 </dd>
-<dt>test_type: str, optional (default = ‘passive’)</dt><dd><p>The value must be either ‘passive’ or ‘active’.
+<dt>test_type<span class="classifier">str, optional (default = ‘passive’)</span></dt><dd><p>The value must be either ‘passive’ or ‘active’.
 If passive, test set will be sampled randomly at the initialization.
 If active, test set will be sampled randomly at each round.</p>
 </dd>
-<dt>batch_size: list, optional (default = [10])</dt><dd><p>This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
+<dt>batch_size<span class="classifier">list, optional (default = [10])</span></dt><dd><p>This is a list of maxumum three non-negative int values. Each value specifies the number of data points that
 our active learning approaches should query every round. The order of active learning approaches are as follows:</p>
 <blockquote>
 <div><ul class="simple">
@@ -344,12 +268,12 @@ our active learning approaches should query every round. The order of active lea
 </div></blockquote>
 <p>Note that the last method (i.e., DSA) is a complement to the first two methods and can not be specified alone.</p>
 </dd>
-<dt>history: int, optional (default = 2)</dt><dd><p>This parameter must be an integer and greater than one. It specifies the number of previous active learning
+<dt>history<span class="classifier">int, optional (default = 2)</span></dt><dd><p>This parameter must be an integer and greater than one. It specifies the number of previous active learning
 rounds to memorize for the distribution shift alleviation (DSA) approach.</p>
 </dd>
 </dl>
 <dl>
-<dt>queries: list</dt><dd><p>This list provides information regarding the indices of queried candidates.
+<dt>queries<span class="classifier">list</span></dt><dd><p>This list provides information regarding the indices of queried candidates.
 for each element of the list:</p>
 <blockquote>
 <div><ul class="simple">
@@ -358,19 +282,19 @@ for each element of the list:</p>
 </ul>
 </div></blockquote>
 </dd>
-<dt>query_number: int</dt><dd><p>The number of rounds you have run the active learning search method.</p>
+<dt>query_number<span class="classifier">int</span></dt><dd><p>The number of rounds you have run the active learning search method.</p>
 </dd>
-<dt>U_indices: ndarray</dt><dd><p>This is an array of the remaining unlabeled indices.</p>
+<dt>U_indices<span class="classifier">ndarray</span></dt><dd><p>This is an array of the remaining unlabeled indices.</p>
 </dd>
-<dt>train_indices: ndarray</dt><dd><p>This is an array of all candidates’ indices that are used as the training data.</p>
+<dt>train_indices<span class="classifier">ndarray</span></dt><dd><p>This is an array of all candidates’ indices that are used as the training data.</p>
 </dd>
-<dt>test_indices: ndarray</dt><dd><p>This is an array of all candidates’ indices that are used as the test data.</p>
+<dt>test_indices<span class="classifier">ndarray</span></dt><dd><p>This is an array of all candidates’ indices that are used as the test data.</p>
 </dd>
-<dt>Y_pred: ndarray</dt><dd><p>The predicted Y values at the current stage. These values will be updated after each run of <cite>search</cite> method.</p>
+<dt>Y_pred<span class="classifier">ndarray</span></dt><dd><p>The predicted Y values at the current stage. These values will be updated after each run of <cite>search</cite> method.</p>
 </dd>
-<dt>results: pandas.DataFrame</dt><dd><p>The final results of the active learning approach.</p>
+<dt>results<span class="classifier">pandas.DataFrame</span></dt><dd><p>The final results of the active learning approach.</p>
 </dd>
-<dt>random_results: pandas.DataFrame</dt><dd><p>The final results of the random search.</p>
+<dt>random_results<span class="classifier">pandas.DataFrame</span></dt><dd><p>The final results of the random search.</p>
 </dd>
 </dl>
 <p>initialize
@@ -382,12 +306,12 @@ get_target_layer</p>
 <ul class="simple">
 <li><p>You won’t be able to resume the search unless you deposit the requested labeled data.</p></li>
 </ul>
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.deposit">
-<code class="sig-name descname">deposit</code><span class="sig-paren">(</span><em class="sig-param">indices</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.deposit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">deposit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.deposit" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function helps you to deposit the data for candidates that were queried by initialize or search functions.</p>
 <dl class="simple">
-<dt>indices: ndarray or list or tuple</dt><dd><p>A 1-dimensional array of indices that was queried by initialize or search methods.
+<dt>indices: array-like</dt><dd><p>A 1-dimensional array of indices that was queried by initialize or search methods.
 You can deposit the data partially and it doesn’t have to be the entire array that is queried.</p>
 </dd>
 <dt>Y: array-like</dt><dd><p>The 2-dimensional labels of the data points as it will be used for the training of the model.
@@ -396,54 +320,54 @@ Y must be at least 2 dimensional.</p>
 </dd>
 </dl>
 <dl class="simple">
-<dt>bool</dt><dd><p>True, if deposited properly. False, otherwise.</p>
+<dt>check<span class="classifier">bool</span></dt><dd><p>True, if deposited properly. False, otherwise.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.get_target_layer">
-<code class="sig-name descname">get_target_layer</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.get_target_layer" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_target_layer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.get_target_layer" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main function to get the latent features from the linear layer of the keras model.</p>
 <dl class="simple">
-<dt>ndarray</dt><dd><p>The concatenated array of the specified hidden layers by parameter <cite>target_layer</cite>.</p>
+<dt>target_layer<span class="classifier">array-like</span></dt><dd><p>The concatenated array of the specified hidden layers by parameter <cite>target_layer</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.ignore">
-<code class="sig-name descname">ignore</code><span class="sig-paren">(</span><em class="sig-param">indices</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.ignore" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ignore</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.ignore" title="Permalink to this definition">¶</a></dt>
 <dd><p>If you found out that the experimental setup or computational research on some of the candidates
 is not feasible, just pass a list of their indices here and we remove them from the list of queries.</p>
 <dl class="simple">
-<dt>indices: ndarray or list or tuple</dt><dd><p>A 1D array of all the indices that should be removed from the list of <cite>queries</cite>.</p>
+<dt>indices<span class="classifier">array-like</span></dt><dd><p>A 1D array of all the indices that should be removed from the list of <cite>queries</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">random_state=90</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function to initialize the training and test set for the search.
 You can run this function only once before starting the search.</p>
 <dl class="simple">
-<dt>random_state: int or RandomState, optional (default = 90)</dt><dd><p>The random state will be directly passed to the sklearn.model_selection.ShuffleSplit
+<dt>random_state<span class="classifier">int or RandomState, optional (default = 90)</span></dt><dd><p>The random state will be directly passed to the sklearn.model_selection.ShuffleSplit
 extra info at: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn-model-selection-shufflesplit">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn-model-selection-shufflesplit</a></p>
 </dd>
 </dl>
 <dl class="simple">
-<dt>ndarray</dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
+<dt>train_indices<span class="classifier">array-like</span></dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
 This is a 1D array.</p>
 </dd>
-<dt>ndarray</dt><dd><p>The test set indices (Python 0-index) from the pool of candidates (U).</p>
+<dt>test_indices<span class="classifier">array-like</span></dt><dd><p>The test set indices (Python 0-index) from the pool of candidates (U).</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.random_search">
-<code class="sig-name descname">random_search</code><span class="sig-paren">(</span><em class="sig-param">Y</em>, <em class="sig-param">test_type='passive'</em>, <em class="sig-param">scale=True</em>, <em class="sig-param">n_evaluation=10</em>, <em class="sig-param">random_state=90</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.random_search" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">random_search</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'passive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_evaluation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.random_search" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function randomly select same number of data points as the active learning rounds and store the results.</p>
 <dl class="simple">
 <dt>Y: array-like</dt><dd><p>The 2-dimensional label for all the candidates in the pool. Basically, you won’t run this method unless you have the labels
@@ -480,16 +404,16 @@ You need to</p>
 </div></blockquote>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.search">
-<code class="sig-name descname">search</code><span class="sig-paren">(</span><em class="sig-param">n_evaluation=3</em>, <em class="sig-param">ensemble='bootstrap'</em>, <em class="sig-param">n_ensemble=4</em>, <em class="sig-param">normalize_input=True</em>, <em class="sig-param">normalize_internal=False</em>, <em class="sig-param">random_state=90</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.search" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_evaluation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bootstrap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ensemble</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_internal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.search" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main function to start or continue an active learning search.
 The bootstrap approach is used to generate an ensemble of models that estimate the prediction
 distribution of the candidates’ labels.</p>
 <dl>
-<dt>n_evaluation: int, optional (default = 3)</dt><dd><p>number of times to repeat training of the model and evaluation on test set.</p>
+<dt>n_evaluation<span class="classifier">int, optional (default = 3)</span></dt><dd><p>number of times to repeat training of the model and evaluation on test set.</p>
 </dd>
-<dt>ensemble: str, optional (default = ‘bootstrap’)</dt><dd><dl class="simple">
+<dt>ensemble<span class="classifier">str, optional (default = ‘bootstrap’)</span></dt><dd><dl class="simple">
 <dt>The sampling method to create n ensembles and estimate the predictive distributions.</dt><dd><ul class="simple">
 <li><p>‘bootstrap’: standard bootstrap method (random choice with replacement)</p></li>
 <li><p>‘shuffle’ : sklearn.model_selection.ShuffleSplit</p></li>
@@ -499,30 +423,30 @@ distribution of the candidates’ labels.</p>
 </dl>
 <p>The ‘shuffle’ and ‘kfold’ methods draw samples that are smaller than training set.</p>
 </dd>
-<dt>n_ensemble: int, optional (default = 5)</dt><dd><p>The size of the ensemble based on bootstrapping approach.</p>
+<dt>n_ensemble<span class="classifier">int, optional (default = 5)</span></dt><dd><p>The size of the ensemble based on bootstrapping approach.</p>
 </dd>
-<dt>normalize_input: bool or list, optional (default = True)</dt><dd><p>if True, sklearn.preprocessing.StandardScaler will be used to normalize X and Y before training.
+<dt>normalize_input<span class="classifier">bool or list, optional (default = True)</span></dt><dd><p>if True, sklearn.preprocessing.StandardScaler will be used to normalize X and Y before training.
 You can also pass a list of two scaler instances that perform sklearn-style fit_transform and transform methods
 for the X and Y, respectively.</p>
 </dd>
-<dt>normalize_internal: bool, optional (default = False)</dt><dd><p>if True, the internal variables for estimation of gradients will be normalized.</p>
+<dt>normalize_internal<span class="classifier">bool, optional (default = False)</span></dt><dd><p>if True, the internal variables for estimation of gradients will be normalized.</p>
 </dd>
-<dt>random_state: int or RandomState, optional (default = 90)</dt><dd><p>The random state will be directly passed to the sklearn.model_selection.KFold or ShuffleSplit
+<dt>random_state<span class="classifier">int or RandomState, optional (default = 90)</span></dt><dd><p>The random state will be directly passed to the sklearn.model_selection.KFold or ShuffleSplit
 Additional info at: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html</a></p>
 </dd>
 <dt>kwargs</dt><dd><p>Any argument (except input data) that should be passed to the model’s fit method.</p>
 </dd>
 </dl>
 <dl class="simple">
-<dt>ndarray</dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
+<dt>train_indices<span class="classifier">array-like</span></dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
 This is a 1D array.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="chemml.optimization.ActiveLearning.visualize">
-<code class="sig-name descname">visualize</code><span class="sig-paren">(</span><em class="sig-param">Y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.visualize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">visualize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.visualize" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function plot distribution of labels and principal components of the features for the last round of the
 active learning search.
 Note that this function uses the prediction values in the attribute <cite>Y_pred</cite>. This attribute will be updated after
@@ -541,6 +465,102 @@ If you have all the labels, we will be able to produce additional cool visualiza
 
 </dd></dl>
 
+<dl class="py class">
+<dt id="chemml.optimization.GeneticAlgorithm">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></code><code class="sig-name descname"><span class="pre">GeneticAlgorithm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evaluate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Max')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blend'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fused_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A python implementation of real-valued, genetic algorithm for solving optimization problems.</p>
+<dl>
+<dt>evaluate<span class="classifier">function</span></dt><dd><p>The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization.</p>
+</dd>
+<dt>space<span class="classifier">tuple,</span></dt><dd><p>A tuple of dict objects specifying the hyper-parameter space to search in.
+Each hyper-parameter should be a python dict object with the name of the hyper-parameter as the key.
+Value is also a dict object with one mandatory key among: ‘uniform’, ‘int’ and ‘choice’ for defining floating point, integer and choice variables respectively.
+Values for these keys should be a list defining the valid hyper-parameter search space (lower and upper bounds for ‘int’ and ‘uniform’, and all valid choices for ‘choice’).
+For uniform, a ‘mutation’ key is also required for which the value is [mean, standard deviation] for the gaussian distribution.
+Example:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>({‘alpha’: {‘uniform’: [0.001, 1],</dt><dd><p>‘mutation’: [0, 1]}},</p>
+</dd>
+</dl>
+<p>{‘layers’: {‘int’: [1, 3]}},
+{‘neurons’: {‘choice’: range(0,200,20)}})</p>
+</div></blockquote>
+</dd>
+<dt>fitness<span class="classifier">tuple, optional (default = (‘Max’,)</span></dt><dd><p>A tuple of string(s) for Maximizing (Max) or minimizing (Min) the objective function(s).</p>
+</dd>
+<dt>pop_size<span class="classifier">integer, optional (default = 50)</span></dt><dd><p>Size of the population</p>
+</dd>
+<dt>crossover_size<span class="classifier">int, optional (default = 30)</span></dt><dd><p>Number of individuals to select for crossover.</p>
+</dd>
+<dt>mutation_size<span class="classifier">int, optional (default = 20)</span></dt><dd><p>Number of individuals to select for mutation.</p>
+</dd>
+<dt>crossover_type<span class="classifier">string, optional (default = “Blend”)</span></dt><dd><p>Type of crossover: SinglePoint, DoublePoint, Blend, Uniform</p>
+</dd>
+<dt>mutation_prob<span class="classifier">float, optional (default = 0.4)</span></dt><dd><p>Probability of mutation.</p>
+</dd>
+<dt>algorithm<span class="classifier">int, optional (default=1)</span></dt><dd><p>The algorithm to use for the search. Look at the ‘search’ method for a description of the various algorithms.</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>Algorithm 1:</dt><dd><p>Initial population is instantiated.
+Roulette wheel selection is used for selecting individuals for crossover and mutation.
+The initial population, crossovered and mutated individuals form the pool of individuals from which the best
+n members are selected as the initial population for the next generation, where n is the size of population.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Algorithm 2:</dt><dd><p>Same as algorithm 1 but when selecting individuals for next generation, n members are selected using Roulette wheel selection.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Algorithm 3:</dt><dd><p>Same as algorithm 1 but when selecting individuals for next generation, best members from each of the three pools (initital population, crossover and mutation) are selected according to the input parameters in the search method.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Algorithm 4:</dt><dd><p>Same as algorithm 1 but mutation population is selected from the crossover population and not from the parents directly.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>initial_population<span class="classifier">list, optional (default=None)</span></dt><dd><p>The initial population for the algorithm to start with. If not provided, initial population is randomly generated.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="chemml.optimization.GeneticAlgorithm.search">
+<code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_generations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm.search" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>n_generations<span class="classifier">integer, optional (default = 20)</span></dt><dd><p>An integer for the number of generations to evolve the population for.</p>
+</dd>
+<dt>early_stopping<span class="classifier">int, optional (default=10)</span></dt><dd><p>Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
+the search terminates.</p>
+</dd>
+<dt>init_ratio<span class="classifier">float, optional (default = 0.4)</span></dt><dd><p>Fraction of initial population to select for next generation. Required only for algorithm 3.</p>
+</dd>
+<dt>crossover_ratio<span class="classifier">float, optional (default = 0.3)</span></dt><dd><p>Fraction of crossover population to select for next generation. Required only for algorithm 3.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>population<span class="classifier">list,</span></dt><dd><p>list of individuals from the final generation</p>
+</dd>
+<dt>fitness_dict<span class="classifier">dict,</span></dt><dd><p>dictionary of all individuals evaluated by the algorithm</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>best_ind_df<span class="classifier">pandas dataframe</span></dt><dd><p>A pandas dataframe of best individuals of each generation</p>
+</dd>
+<dt>best_ind<span class="classifier">dict,</span></dt><dd><p>The best individual after the last generation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -548,29 +568,29 @@ If you have all the labels, we will be able to produce additional cool visualiza
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="chemml.visualization.html" class="btn btn-neutral float-right" title="Visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="chemml.models.html" class="btn btn-neutral float-left" title="Models module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="chemml.visualization.html" class="btn btn-neutral float-right" title="Visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chemml.models.html" class="btn btn-neutral float-left" title="Models module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -578,7 +598,6 @@ If you have all the labels, we will be able to produce additional cool visualiza
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,44 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>ChemML Wrapper Tutorial &mdash; ChemML  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Input File Manual" href="CMLWInputFile.html" />
-    <link rel="prev" title="Welcome to the ChemML’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Neural Fingerprints" href="ipython_notebooks/Convo_nets.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -82,7 +86,17 @@
               
             
             
-              <p class="caption"><span class="caption-text">ChemML Wrapper documentation</span></p>
+              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Molecule.html">Molecule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ml_model.html">Build a Neural Network using ChemML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/Convo_nets.html">Neural Fingerprints</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ChemML Wrapper Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#step-1-prepare-an-input-file">Step #1: prepare an input file</a></li>
@@ -96,31 +110,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML library Tutorial</span></p>
+<p class="caption"><span class="caption-text">ChemML API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga_feature_selection.html">Feature Selection</a></li>
-</ul>
-<p class="caption"><span class="caption-text">ChemML library documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -155,18 +157,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>ChemML Wrapper Tutorial</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/CMLWTutorial.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -185,13 +189,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -206,7 +210,7 @@
 </style>
 <div class="section" id="chemml-wrapper-tutorial">
 <h1>ChemML Wrapper Tutorial<a class="headerlink" href="#chemml-wrapper-tutorial" title="Permalink to this headline">¶</a></h1>
-<p>…::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::…</p>
+<p>…::: ChemML Wrapper is currently available in the version 0.7. :::…</p>
 <p>ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.
@@ -302,8 +306,8 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this headline">¶</a></h3>
 <p>You can also run your input script with python codes as a python script or interactively, using:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
-<span class="kn">from</span> <span class="nn">cheml</span> <span class="kn">import</span> <span class="n">wrapperRUN</span>
-<span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">chemml.wrapper.engine</span> <span class="kn">import</span> <span class="n">run</span>
+<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 
@@ -368,7 +372,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <span class="s2">                &gt;&gt; dfy_predict 7</span>
 
 <span class="s2">         &quot;&quot;&quot;</span>
-<span class="n">wrapperRUN</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="n">script</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="n">script</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Although you can run your script interactively, we recommend using the first method
@@ -394,29 +398,29 @@ and citation file.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="CMLWInputFile.html" class="btn btn-neutral float-right" title="Input File Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to the ChemML’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="CMLWInputFile.html" class="btn btn-neutral float-right" title="Input File Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ipython_notebooks/Convo_nets.html" class="btn btn-neutral float-left" title="Neural Fingerprints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2018 Johannes Hachmann, Mojtaba Haghighatlari
+        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -424,7 +428,6 @@ and citation file.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -10,7 +10,7 @@ LatticeSimilarityAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | LatticeSimilarityAttributeGenerator
@@ -30,7 +30,7 @@ LatticeSimilarityAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = LatticeSimilarityAttributeGenerator``
+    |   ``<< host = chemml    << function = LatticeSimilarityAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

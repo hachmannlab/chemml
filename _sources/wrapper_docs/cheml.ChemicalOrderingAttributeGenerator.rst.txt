@@ -10,7 +10,7 @@ ChemicalOrderingAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ChemicalOrderingAttributeGenerator
@@ -30,7 +30,7 @@ ChemicalOrderingAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ChemicalOrderingAttributeGenerator``
+    |   ``<< host = chemml    << function = ChemicalOrderingAttributeGenerator``
     |   ``<< weighted = True``
     |   ``<< shells = [1, 2, 3]``
     |   ``>> id entries``

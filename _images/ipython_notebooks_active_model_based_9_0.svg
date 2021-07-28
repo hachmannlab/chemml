@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="323pt" height="547pt" viewBox="0.00 0.00 242.00 410.00">
+<g id="graph0" class="graph" transform="scale(0.75 0.75) rotate(0) translate(4 406)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-406 238,-406 238,4 -4,4"/>
+<!-- 139714280881264 -->
+<g id="node1" class="node">
+<title>139714280881264</title>
+<polygon fill="none" stroke="black" points="49,-365.5 49,-401.5 185,-401.5 185,-365.5 49,-365.5"/>
+<text text-anchor="middle" x="117" y="-379.8" font-family="Times,serif" font-size="14.00">inp1: InputLayer</text>
+</g>
+<!-- 139711195269152 -->
+<g id="node2" class="node">
+<title>139711195269152</title>
+<polygon fill="none" stroke="black" points="75.5,-292.5 75.5,-328.5 158.5,-328.5 158.5,-292.5 75.5,-292.5"/>
+<text text-anchor="middle" x="117" y="-306.8" font-family="Times,serif" font-size="14.00">l1: Dense</text>
+</g>
+<!-- 139714280881264&#45;&gt;139711195269152 -->
+<g id="edge1" class="edge">
+<title>139714280881264-&gt;139711195269152</title>
+<path fill="none" stroke="black" d="M117,-365.31C117,-357.29 117,-347.55 117,-338.57"/>
+<polygon fill="black" stroke="black" points="120.5,-338.53 117,-328.53 113.5,-338.53 120.5,-338.53"/>
+</g>
+<!-- 139711186458752 -->
+<g id="node3" class="node">
+<title>139711186458752</title>
+<polygon fill="none" stroke="black" points="0,-219.5 0,-255.5 108,-255.5 108,-219.5 0,-219.5"/>
+<text text-anchor="middle" x="54" y="-233.8" font-family="Times,serif" font-size="14.00">b1_l1: Dense</text>
+</g>
+<!-- 139711195269152&#45;&gt;139711186458752 -->
+<g id="edge2" class="edge">
+<title>139711195269152-&gt;139711186458752</title>
+<path fill="none" stroke="black" d="M101.75,-292.31C94.01,-283.59 84.47,-272.84 75.96,-263.25"/>
+<polygon fill="black" stroke="black" points="78.37,-260.69 69.11,-255.53 73.13,-265.33 78.37,-260.69"/>
+</g>
+<!-- 139711186036720 -->
+<g id="node4" class="node">
+<title>139711186036720</title>
+<polygon fill="none" stroke="black" points="126,-219.5 126,-255.5 234,-255.5 234,-219.5 126,-219.5"/>
+<text text-anchor="middle" x="180" y="-233.8" font-family="Times,serif" font-size="14.00">b2_l1: Dense</text>
+</g>
+<!-- 139711195269152&#45;&gt;139711186036720 -->
+<g id="edge3" class="edge">
+<title>139711195269152-&gt;139711186036720</title>
+<path fill="none" stroke="black" d="M132.25,-292.31C139.99,-283.59 149.53,-272.84 158.04,-263.25"/>
+<polygon fill="black" stroke="black" points="160.87,-265.33 164.89,-255.53 155.63,-260.69 160.87,-265.33"/>
+</g>
+<!-- 139711185897600 -->
+<g id="node5" class="node">
+<title>139711185897600</title>
+<polygon fill="none" stroke="black" points="0,-146.5 0,-182.5 108,-182.5 108,-146.5 0,-146.5"/>
+<text text-anchor="middle" x="54" y="-160.8" font-family="Times,serif" font-size="14.00">b1_l2: Dense</text>
+</g>
+<!-- 139711186458752&#45;&gt;139711185897600 -->
+<g id="edge4" class="edge">
+<title>139711186458752-&gt;139711185897600</title>
+<path fill="none" stroke="black" d="M54,-219.31C54,-211.29 54,-201.55 54,-192.57"/>
+<polygon fill="black" stroke="black" points="57.5,-192.53 54,-182.53 50.5,-192.53 57.5,-192.53"/>
+</g>
+<!-- 139711185898656 -->
+<g id="node6" class="node">
+<title>139711185898656</title>
+<polygon fill="none" stroke="black" points="126,-146.5 126,-182.5 234,-182.5 234,-146.5 126,-146.5"/>
+<text text-anchor="middle" x="180" y="-160.8" font-family="Times,serif" font-size="14.00">b2_l2: Dense</text>
+</g>
+<!-- 139711186036720&#45;&gt;139711185898656 -->
+<g id="edge5" class="edge">
+<title>139711186036720-&gt;139711185898656</title>
+<path fill="none" stroke="black" d="M180,-219.31C180,-211.29 180,-201.55 180,-192.57"/>
+<polygon fill="black" stroke="black" points="183.5,-192.53 180,-182.53 176.5,-192.53 183.5,-192.53"/>
+</g>
+<!-- 139711186054112 -->
+<g id="node7" class="node">
+<title>139711186054112</title>
+<polygon fill="none" stroke="black" points="32,-73.5 32,-109.5 202,-109.5 202,-73.5 32,-73.5"/>
+<text text-anchor="middle" x="117" y="-87.8" font-family="Times,serif" font-size="14.00">merged: Concatenate</text>
+</g>
+<!-- 139711185897600&#45;&gt;139711186054112 -->
+<g id="edge6" class="edge">
+<title>139711185897600-&gt;139711186054112</title>
+<path fill="none" stroke="black" d="M69.25,-146.31C76.99,-137.59 86.53,-126.84 95.04,-117.25"/>
+<polygon fill="black" stroke="black" points="97.87,-119.33 101.89,-109.53 92.63,-114.69 97.87,-119.33"/>
+</g>
+<!-- 139711185898656&#45;&gt;139711186054112 -->
+<g id="edge7" class="edge">
+<title>139711185898656-&gt;139711186054112</title>
+<path fill="none" stroke="black" d="M164.75,-146.31C157.01,-137.59 147.47,-126.84 138.96,-117.25"/>
+<polygon fill="black" stroke="black" points="141.37,-114.69 132.11,-109.53 136.13,-119.33 141.37,-114.69"/>
+</g>
+<!-- 139711186095552 -->
+<g id="node8" class="node">
+<title>139711186095552</title>
+<polygon fill="none" stroke="black" points="66,-0.5 66,-36.5 168,-36.5 168,-0.5 66,-0.5"/>
+<text text-anchor="middle" x="117" y="-14.8" font-family="Times,serif" font-size="14.00">outp: Dense</text>
+</g>
+<!-- 139711186054112&#45;&gt;139711186095552 -->
+<g id="edge8" class="edge">
+<title>139711186054112-&gt;139711186095552</title>
+<path fill="none" stroke="black" d="M117,-73.31C117,-65.29 117,-55.55 117,-46.57"/>
+<polygon fill="black" stroke="black" points="120.5,-46.53 117,-36.53 113.5,-46.53 120.5,-46.53"/>
+</g>
+</g>
+</svg>

@@ -10,7 +10,7 @@ CrystalStructureEntry
     | inorganic input
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | CrystalStructureEntry
@@ -29,7 +29,7 @@ CrystalStructureEntry
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = CrystalStructureEntry``
+    |   ``<< host = chemml    << function = CrystalStructureEntry``
     |   ``<< directory_path = required_required``
     |   ``>> id entries``
     |

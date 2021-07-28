@@ -10,7 +10,7 @@ IonicCompoundProximityAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | IonicCompoundProximityAttributeGenerator
@@ -30,7 +30,7 @@ IonicCompoundProximityAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = IonicCompoundProximityAttributeGenerator``
+    |   ``<< host = chemml    << function = IonicCompoundProximityAttributeGenerator``
     |   ``<< max_formula_unit = 14``
     |   ``>> id entries``
     |   ``>> id df``

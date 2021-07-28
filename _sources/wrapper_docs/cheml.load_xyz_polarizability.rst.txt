@@ -10,7 +10,7 @@ load_xyz_polarizability
     | datasets
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | load_xyz_polarizability
@@ -31,7 +31,7 @@ load_xyz_polarizability
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = load_xyz_polarizability``
+    |   ``<< host = chemml    << function = load_xyz_polarizability``
     |   ``>> id coordinates``
     |   ``>> id polarizability``
     |

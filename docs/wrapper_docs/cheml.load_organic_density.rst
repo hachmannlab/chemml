@@ -10,7 +10,7 @@ load_organic_density
     | datasets
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | load_organic_density
@@ -33,7 +33,7 @@ load_organic_density
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = load_organic_density``
+    |   ``<< host = chemml    << function = load_organic_density``
     |   ``>> id smiles``
     |   ``>> id features``
     |   ``>> id density``

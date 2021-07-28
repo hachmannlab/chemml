@@ -116,6 +116,7 @@ def isint(val):
         True if the input can become an integer, False otherwise
 
     """
+    # print("hello",val)
     try:
         int(val)
         return True
@@ -125,7 +126,7 @@ def isint(val):
 
 def value(entry):
     """
-    check if the string entry can
+    check if the string entry can be evaluated to python data structure
 
     Parameters
     ----------

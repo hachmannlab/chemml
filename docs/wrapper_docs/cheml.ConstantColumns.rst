@@ -10,7 +10,7 @@ ConstantColumns
     | data cleaning
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ConstantColumns
@@ -19,13 +19,13 @@ ConstantColumns
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   types: ("<class 'cheml.preprocessing.purge.ConstantColumns'>",)
+    |   types: ("<class 'chemml.preprocessing.purge.ConstantColumns'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's Constant class
-    |   types: ("<class 'cheml.preprocessing.purge.ConstantColumns'>",)
+    |   types: ("<class 'chemml.preprocessing.purge.ConstantColumns'>",)
     | ``removed_columns_`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
 
@@ -40,7 +40,7 @@ ConstantColumns
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ConstantColumns``
+    |   ``<< host = chemml    << function = ConstantColumns``
     |   ``<< func_method = None``
     |   ``>> id df``
     |   ``>> id api``

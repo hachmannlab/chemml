@@ -1,8 +1,9 @@
 """
-The cheml.initialization module includes (please click on links adjacent to function names for more information):
-    - XYZreader: :func:`~cheml.initialization.XYZreader`
-    - ConvertFile: :func:`~cheml.initialization.ConvertFile`
-    - Split: :func:`~cheml.initialization.Split`
+The chemml.initialization module includes (please click on links adjacent to function names for more information):
+    - XYZreader: :func:`~chemml.initialization.XYZreader`
+    - ConvertFile: :func:`~chemml.initialization.ConvertFile`
+    - Split: :func:`~chemml.initialization.Split`
+    - SaveFile: :func:`~chemml.initialization.SaveFile`
 
 """
 
@@ -12,8 +13,11 @@ from .initialization import XYZreader
 
 from .initialization import ConvertFile
 
+from .initialization import SaveFile
+
 __all__ = [
     'XYZreader',
     'ConvertFile',
     'Split',
+    'SaveFile',
 ]

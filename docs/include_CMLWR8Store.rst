@@ -1,2 +1,2 @@
-.. include:: wrapper_docs/cheml.SaveFile.rst
-.. include:: wrapper_docs/cheml.SavePlot.rst
+.. include:: wrapper_docs/chemml.SaveFile.rst
+.. include:: wrapper_docs/chemml.SavePlot.rst

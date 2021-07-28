@@ -1,8 +1,8 @@
 """
-The cheml.preprocessing module includes (please click on links adjacent to function names for more information):
-    - MissingValues: :func:`~cheml.preprocessing.MissingValues`
-    - ConstantColumns: :func:`~cheml.preprocessing.ConstantColumns`
-    - Outliers: :func:`~cheml.preprocessing.Outliers`
+The chemml.preprocessing module includes (please click on links adjacent to function names for more information):
+    - MissingValues: :func:`~chemml.preprocessing.MissingValues`
+    - ConstantColumns: :func:`~chemml.preprocessing.ConstantColumns`
+    - Outliers: :func:`~chemml.preprocessing.Outliers`
 """
 
 from .handle_missing import MissingValues

@@ -10,7 +10,7 @@ APRDFAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | APRDFAttributeGenerator
@@ -30,7 +30,7 @@ APRDFAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = APRDFAttributeGenerator``
+    |   ``<< host = chemml    << function = APRDFAttributeGenerator``
     |   ``<< cut_off_distance = 10.0``
     |   ``<< num_points = 6``
     |   ``<< elemental_properties = required_required``

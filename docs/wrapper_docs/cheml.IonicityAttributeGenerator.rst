@@ -10,7 +10,7 @@ IonicityAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | IonicityAttributeGenerator
@@ -30,7 +30,7 @@ IonicityAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = IonicityAttributeGenerator``
+    |   ``<< host = chemml    << function = IonicityAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

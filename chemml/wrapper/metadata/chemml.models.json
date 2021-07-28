@@ -1,0 +1,444 @@
+{
+    "name": "chemml.models",
+    "docstring": "",
+    "inputs": [],
+    "outputs": [],
+    "node_functions": [],
+    "nodes": [
+        {
+            "name": "MLP",
+            "docstring": "\n    Class associated with Multi-Layer Perceptron (Neural Network)\n\n    Parameters\n    ----------\n    nhidden : int, optional, default: 1\n        The number of hidden layers in the neural network (excluding input and output)\n\n    nneurons: list, optional, default: [100] * nhidden\n        The number of nodes in each hidden layer. Must be of same length as nhidden\n\n    activations: list, optional, default: ['sigmoid'] * nhidden\n        The activation type for each hidden layer. Must be of same length as nhidden.\n        Refer https://keras.io/activations/ for list of valid activations\n\n    nepochs: int, optional, default: 100\n        Number of training epochs.\n\n    batch_size: int, optional, default: 100\n        Number of training samples in mini-batch\n\n    loss: str, optional, default: 'mean_squared_error'\n        Type of loss used to train the neural network.\n        Refer https://keras.io/losses/ for list of valid losses\n\n    regression: bool, optional, default: True\n        Decides whether we are training for regression or classification task\n\n    nclasses: int, optional, default: None\n        Number of classes labels needs to be specified if regression is False\n\n    layer_config_file: str, optional, default: None\n        Path to the file that specifies layer configuration\n        Refer MLP test to see a sample file\n\n    opt_config_file: str, optional, default: None\n        Path to the file that specifies optimizer configuration\n        Refer MLP test to see a sample file\n\n\n\n    ",
+            "inputs": [
+                {
+                    "name": "nhidden",
+                    "docstring": "The number of hidden layers in the neural network (excluding input and output)",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "1",
+                    "options": null
+                },
+                {
+                    "name": "nneurons: list, optional, default: [100] * nhidden",
+                    "docstring": "The number of nodes in each hidden layer. Must be of same length as nhidden",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "activations: list, optional, default: ['sigmoid'] * nhidden",
+                    "docstring": "The activation type for each hidden layer. Must be of same length as nhidden. Refer https://keras.io/activations/ for list of valid activations",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "nepochs: int, optional, default: 100",
+                    "docstring": "Number of training epochs.",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "batch_size: int, optional, default: 100",
+                    "docstring": "Number of training samples in mini-batch",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "loss: str, optional, default: 'mean_squared_error'",
+                    "docstring": "Type of loss used to train the neural network. Refer https://keras.io/losses/ for list of valid losses",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "regression: bool, optional, default: True",
+                    "docstring": "Decides whether we are training for regression or classification task",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "nclasses: int, optional, default: None",
+                    "docstring": "Number of classes labels needs to be specified if regression is False",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "layer_config_file: str, optional, default: None",
+                    "docstring": "Path to the file that specifies layer configuration Refer MLP test to see a sample file",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "opt_config_file: str, optional, default: None",
+                    "docstring": "Path to the file that specifies optimizer configuration Refer MLP test to see a sample file",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [],
+            "node_functions": [
+                {
+                    "name": "__init__",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "fit",
+                    "docstring": "\n        Train the MLP for training data X and targets y\n\n        Parameters\n        ----------\n        X: array_like, shape=[n_samples, n_features]\n            Training data\n\n        y: array_like, shape=[n_samples,]\n            Training targets\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "X: array_like, shape=[n_samples, n_features]",
+                            "docstring": "Training data",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "y: array_like, shape=[n_samples,]",
+                            "docstring": "Training targets",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "parse_layer_config",
+                    "docstring": "\n        Internal method to parse a layer config file\n\n        Parameters\n        ----------\n        layer_config_file: str\n            Filepath that contains the layer configuration file - Refer MLP test to see a sample file\n            Refer MLP test to see a sample file and https://keras.io/layers/about-keras-layers/\n            for all possible types of layers and corresponding layer parameters\n\n        Returns\n        -------\n        layers: list\n            List of tuples containing layer type and dictionary of layer parameter arguments\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "layer_config_file: str",
+                            "docstring": "Filepath that contains the layer configuration file - Refer MLP test to see a sample file Refer MLP test to see a sample file and https://keras.io/layers/about-keras-layers/ for all possible types of layers and corresponding layer parameters",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "List of tuples containing layer type and dictionary of layer parameter arguments",
+                            "param_type": [
+                                "list"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_opt_config",
+                    "docstring": "\n        Internal method to parse a optimizer config file\n\n        Parameters\n        ----------\n        opt_config_file: str\n            Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file\n            Refer MLP test to see a sample file and https://keras.io/optimizers/\n            for all possible types of optimizers and corresponding optimizer parameters\n\n        Returns\n        -------\n        opt: keras.optimizers\n            keras optimizer created out of contents of optmizer configuration file\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "opt_config_file: str",
+                            "docstring": "Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file Refer MLP test to see a sample file and https://keras.io/optimizers/ for all possible types of optimizers and corresponding optimizer parameters",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "keras optimizer created out of contents of optmizer configuration file",
+                            "param_type": [
+                                null
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "predict",
+                    "docstring": "\n        Return prediction for test data X\n\n        Parameters\n        ----------\n        X: array_like, shape=[n_samples, n_features]\n            Testing data\n\n        Returns\n        -------\n        float\n            Predicted value from model\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "X: array_like, shape=[n_samples, n_features]",
+                            "docstring": "Testing data",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "Predicted value from model",
+                            "param_type": [
+                                "float"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "score",
+                    "docstring": "\n        Predict results for test data X and compare with true targets y. Returns root mean square error if regression,\n        accuracy if classification\n\n        Parameters\n        ----------\n        X: array_like, shape=[n_samples, n_features]\n            Test data\n\n        y: array_like, shape=[n_samples,]\n            True targets\n\n        Returns\n        -------\n        float\n            root mean square error if regression, accuracy if classification\n        ",
+                    "inputs": [
+                        {
+                            "name": "X: array_like, shape=[n_samples, n_features]",
+                            "docstring": "Test data",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "y: array_like, shape=[n_samples,]",
+                            "docstring": "True targets",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "root mean square error if regression, accuracy if classification",
+                            "param_type": [
+                                "float"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "OrganicLorentzLorenz",
+            "docstring": "\n    A machine learning model for Lorentz-Lorenz (LL) estimates of refractive index.\n    The model predicts refractive index, polarizability, and density of an organic molecule using its\n    SMILES representation.\n\n    The model is trained on 100K small organic molecules with their polarizabilities from DFT calculations, densities from\n    molecular dynamics simulations, and refractive index by feeding calculated polarizabilities and densities into the\n    LL model.\n\n    The model is a fully connected artificial neural network with 3 hidden layers. The number of neurons per layers from\n    input layer to the output layer are as follow: 1024 --> 128 --> 64 --> 32 --> [1, 1, 1].\n    ",
+            "inputs": [],
+            "outputs": [],
+            "node_functions": [
+                {
+                    "name": "_OrganicLorentzLorenz__represent",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "get_hidden_layer",
+                    "docstring": "\n        This functions return the first hidden layer of the model.\n\n        Parameters\n        ----------\n        X: ndarray\n            If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.\n            If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format.\n\n        id: int\n            This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second,\n            or third hidden layer, respectively.\n\n        Returns\n        -------\n        ndarray\n            The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1).\n            The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2).\n            The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).\n        ",
+                    "inputs": [
+                        {
+                            "name": "X: ndarray",
+                            "docstring": "If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules. If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "id: int",
+                            "docstring": "This is the id of hidden layers. It can be any of 1, 2, or 3 for the first, second, or third hidden layer, respectively.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "The array of shape (length_of_X, 128) as the outputs of the first hidden layer (id=1). The array of shape (length_of_X, 64) as the outputs of the first hidden layer (id=2). The array of shape (length_of_X, 32) as the outputs of the first hidden layer (id=3).",
+                            "param_type": [
+                                "array"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "load",
+                    "docstring": "This function loads the Keras model. The model consists of 3 hidden layers and more than 140K parameters.\n        Parameters\n        ----------\n        summary: bool\n            if True a summary of Keras model will be printed out.\n\n        ",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "predict",
+                    "docstring": "After loading the model, this function predicts refractive index, polarizability, and density of the entery.\n\n        Parameters\n        ----------\n        smiles: str\n            The SMILES representaion of a molecule.\n\n        pprint: bool\n            If True, a short description of the predicted properties will be printed out.\n\n        Returns\n        -------\n        tuple\n            includes estimates of refractive index, polarizability, and density, respectively.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "smiles: str",
+                            "docstring": "The SMILES representaion of a molecule.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "pprint: bool",
+                            "docstring": "If True, a short description of the predicted properties will be printed out.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "docstring": "includes estimates of refractive index, polarizability, and density, respectively.",
+                            "param_type": [
+                                "tuple"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "train",
+                    "docstring": "\n        This function allows the user to retrain the model on a given data set for some further steps.\n        Thus, all the parameters you are able to pass to a keras model's compile or fit methods can be passed to this\n        function as well.\n\n        Parameters\n        ----------\n        X: ndarray or dataframe\n            If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules.\n            If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format.\n            If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.\n\n        Y: list or dataframe\n            a list of three numpy arrays for refractive index, polarizability, and density, respectively.\n            The length of arrays must be same as the length of X.\n            If dataframe, it must be a 2D frame with 3 columns, each for one of the properties.\n\n        scale: bool, optional (default: True)\n            If True the X and Y will be scaled in the same fashion as the original traning process (recommended).\n\n        kwargs_for_compile: dict, optional (default: {})\n            This dictionary could contain all the parameters that the compile method of keras models can receive.\n\n        kwargs_for_fit: dict, optional (default: {})\n            This dictionary could contain all the parameters that the fit method of keras models can receive.\n\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "X: ndarray or dataframe",
+                            "docstring": "If 2D array, must be with 1024 dimension and numerical type. It is recommended to be Morgan fingerprint representation of the molecules. If 1D array, must be an array of `str` type, each element represents a molecule in the SMILES format. If dataframe, it can be a 2D frame with one columnd of SMILES or 1024 columns of features.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "Y: list or dataframe",
+                            "docstring": "a list of three numpy arrays for refractive index, polarizability, and density, respectively. The length of arrays must be same as the length of X. If dataframe, it must be a 2D frame with 3 columns, each for one of the properties.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "scale: bool, optional (default: True)",
+                            "docstring": "If True the X and Y will be scaled in the same fashion as the original traning process (recommended).",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "kwargs_for_compile: dict, optional (default: {})",
+                            "docstring": "This dictionary could contain all the parameters that the compile method of keras models can receive.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "kwargs_for_fit: dict, optional (default: {})",
+                            "docstring": "This dictionary could contain all the parameters that the fit method of keras models can receive.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                }
+            ],
+            "nodes": []
+        }
+    ],
+    "library": "chemml",
+    "module": "models"
+}

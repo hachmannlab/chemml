@@ -21,19 +21,19 @@ class Dragon(object):
 
     Parameters
     ----------
-    version: int, optional (default=7)
+    version : int, optional (default=7)
         The version of available Dragon on the user's system. (available versions: 6 or 7)
 
-    Weights: list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
+    Weights : list, optional (default=["Mass","VdWVolume","Electronegativity","Polarizability","Ionization","I-State"])
         A list of weights to be used
 
-    blocks: list, optional (default = list(range(1,31)))
+    blocks : list, optional (default = list(range(1,31)))
         A list of integers as descriptor blocks' id. There are totally 29 and 30 blocks available in
         version 6 and 7, respectively.
         This module is not atimed to cherry pick descriptors in each block.
         For doing so, please use Script Wizard in Drgon GUI.
 
-    external: boolean, optional (default=False)
+    external : boolean, optional (default=False)
         If True, include external variables at the end of each saved file.
 
     Notes
@@ -191,27 +191,23 @@ class Dragon(object):
 
         Parameters
         ----------
-        script: string, optional (default="new")
+        script : string, optional (default="new")
             If "new" start creating a new script from scratch. If you want to load an existing script,
             pass the filename with drs format.
 
-        output_directory: string, optional (default = './')
+        output_directory : string, optional (default = './')
             the path to the working directory to store output files.
 
-        dragon: xml element
+        dragon : xml element
             Dragon script in  xml format.
 
-        drs: string
+        drs : string
             Dragon script file name
 
-        data_path: string
+        data_path : string
             The path+name of saved data file in any format. If saveType is 'block'
             or 'subblock' data_path is just the path to the directory that all data
             files have been saved.
-
-        Returns
-        -------
-            class parameters
         """
         self.output_directory = output_directory
         if not os.path.exists(self.output_directory):
@@ -560,12 +556,12 @@ class Dragon(object):
 
         Parameters
         ----------
-        remove: bool, optional (default = True)
+        remove : bool, optional (default = True)
             if True, the original descriptors file (Dragon_descriptors.txt) will be removed.
 
         Returns
         -------
-        pandas.DataFrame
+        features : pandas DataFrame
             The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.
 
         """

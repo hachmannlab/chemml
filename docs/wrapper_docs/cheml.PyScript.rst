@@ -10,7 +10,7 @@ PyScript
     | python script
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | PyScript
@@ -50,7 +50,7 @@ PyScript
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = PyScript``
+    |   ``<< host = chemml    << function = PyScript``
     |   ``<< line08 = type python code``
     |   ``<< line09 = type python code``
     |   ``<< line01 = type python code``

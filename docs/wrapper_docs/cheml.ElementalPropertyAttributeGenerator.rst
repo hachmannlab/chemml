@@ -10,7 +10,7 @@ ElementalPropertyAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ElementalPropertyAttributeGenerator
@@ -34,7 +34,7 @@ ElementalPropertyAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ElementalPropertyAttributeGenerator``
+    |   ``<< host = chemml    << function = ElementalPropertyAttributeGenerator``
     |   ``<< elemental_properties = None``
     |   ``<< use_default_properties = True``
     |   ``>> id entries``

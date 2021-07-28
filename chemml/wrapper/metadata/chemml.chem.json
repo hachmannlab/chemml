@@ -1,0 +1,1008 @@
+{
+    "name": "chemml.chem",
+    "docstring": "",
+    "inputs": [],
+    "outputs": [],
+    "node_functions": [
+        {
+            "name": "atom_features",
+            "docstring": "This function encodes the RDKit atom to a binary vector.\n\n    Parameters\n    ----------\n    bond : rdkit.Chem.rdchem.Bond\n        The bond must be an RDKit Bond object.\n\n    Returns\n    -------\n    features : array\n        A binary array with length 6 that specifies the type of bond, if it is\n        a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.\n\n    ",
+            "inputs": [
+                {
+                    "name": "bond",
+                    "docstring": "The bond must be an RDKit Bond object.",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "features",
+                    "docstring": "A binary array with length 6 that specifies the type of bond, if it is a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.",
+                    "param_type": [
+                        "array"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "bond_features",
+            "docstring": "This function encodes the RDKit bond to a binary vector.\n\n    Parameters\n    ----------\n    bond : rdkit.Chem.rdchem.Bond\n        The bond must be an RDKit Bond object.\n\n    Returns\n    -------\n    features : array\n        A binary array with length 6 that specifies the type of bond, if it is\n        a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.\n\n    ",
+            "inputs": [
+                {
+                    "name": "bond",
+                    "docstring": "The bond must be an RDKit Bond object.",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "features",
+                    "docstring": "A binary array with length 6 that specifies the type of bond, if it is a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.",
+                    "param_type": [
+                        "array"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "num_atom_features",
+            "docstring": "This function returns the number of atomic features that are available by this module.\n\n    Returns\n    -------\n    n_features : int\n        length of atomic feature vector.\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "n_features",
+                    "docstring": "length of atomic feature vector.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "num_bond_features",
+            "docstring": "This function returns the number of bond features that are available by this module.\n\n    Returns\n    -------\n    n_features : int\n        length of bond feature vector.\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "n_features",
+                    "docstring": "length of bond feature vector.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "tensorise_molecules",
+            "docstring": "Takes a list of molecules and provides tensor representation of atom and bond features.\n    This representation is based on the \"convolutional networks on graphs for learning molecular fingerprints\" by\n    David Duvenaud et al., NIPS 2015.\n\n    Parameters\n    ----------\n    molecules : chemml.chem.Molecule object or array\n        If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.\n        In addition, all the molecule objects must provide the SMILES representation.\n        We try to create the SMILES representation if it's not available.\n\n    max_degree : int, optional (default=5)\n        The maximum number of neighbour per atom that each molecule can have\n        (to which all molecules will be padded), use 'None' for auto\n\n    max_atoms : int, optional (default=None)\n        The maximum number of atoms per molecule (to which all\n        molecules will be padded), use 'None' for auto\n\n    n_jobs : int, optional(default=-1)\n        The number of parallel processes. If -1, uses all the available processes.\n\n    batch_size : int, optional(default=3000)\n        The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays\n\n    verbose : bool, optional(default=True)\n        The verbosity of messages.\n\n    Notes\n    -----\n        It is not recommended to set max_degree to `None`/auto when\n        using `NeuralGraph` layers. Max_degree determines the number of\n        trainable parameters and is essentially a hyperparameter.\n        While models can be rebuilt using different `max_atoms`, they cannot\n        be rebuild for different values of `max_degree`, as the architecture\n        will be different.\n\n        For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)\n\n\n    Returns\n    -------\n        atoms : array\n            An atom feature array of shape (molecules, max_atoms, atom_features)\n        bonds : array\n            A bonds array of shape (molecules, max_atoms, max_degree)\n        edges : array\n        A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)\n    ",
+            "inputs": [
+                {
+                    "name": "molecules",
+                    "docstring": "If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError. In addition, all the molecule objects must provide the SMILES representation. We try to create the SMILES representation if it's not available.",
+                    "param_type": [
+                        "array",
+                        "object"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "max_degree",
+                    "docstring": "The maximum number of neighbour per atom that each molecule can have (to which all molecules will be padded), use 'None' for auto",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "5",
+                    "options": null
+                },
+                {
+                    "name": "max_atoms",
+                    "docstring": "The maximum number of atoms per molecule (to which all molecules will be padded), use 'None' for auto",
+                    "param_type": [
+                        "int",
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "None",
+                    "options": null
+                },
+                {
+                    "name": "n_jobs",
+                    "docstring": "The number of parallel processes. If -1, uses all the available processes.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "-1",
+                    "options": null
+                },
+                {
+                    "name": "batch_size",
+                    "docstring": "The number of molecules per process, bigger chunksize is preffered as each process will preallocate np.arrays",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "3000",
+                    "options": null
+                },
+                {
+                    "name": "verbose",
+                    "docstring": "The verbosity of messages.",
+                    "param_type": [
+                        "bool"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "True",
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "atoms",
+                    "docstring": "An atom feature array of shape (molecules, max_atoms, atom_features)",
+                    "param_type": [
+                        "array"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "bonds",
+                    "docstring": "A bonds array of shape (molecules, max_atoms, max_degree)",
+                    "param_type": [
+                        "array"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "edges",
+                    "docstring": "edges : array A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)",
+                    "param_type": [
+                        "array"
+                    ],
+                    "returned": true
+                }
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "name": "BagofBonds",
+            "docstring": "\n    The implementation of bag of bonds version of coulomb matrix by katja Hansen et. al. 2015, JPCL.\n\n    Parameters\n    ----------\n    const : float, optional (default = 1.0)\n            The constant value for coordinates unit conversion to atomic unit\n            if const=1.0, returns atomic unit\n            if const=0.529, returns Angstrom\n\n            const/|Ri-Rj|, which denominator is the euclidean distance\n            between two atoms\n\n    n_jobs : int, optional(default=-1)\n        The number of parallel processes. If -1, uses all the available processes.\n\n    verbose : bool, optional(default=True)\n        The verbosity of messages.\n\n    Attributes\n    ----------\n    header_ : list of header for the bag of bonds data frame\n        contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_xyz_polarizability\n    >>> from chemml.chem import BagofBonds\n\n    >>> coordinates, y = load_xyz_polarizability()\n    >>> bob = BagofBonds(const= 1.0)\n    >>> features = bob.represent(coordinates)\n    ",
+            "inputs": [
+                {
+                    "name": "const",
+                    "docstring": "The constant value for coordinates unit conversion to atomic unit if const=1.0, returns atomic unit if const=0.529, returns Angstrom  const/|Ri-Rj|, which denominator is the euclidean distance between two atoms",
+                    "param_type": [
+                        "float"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "1.0",
+                    "options": null
+                },
+                {
+                    "name": "n_jobs",
+                    "docstring": "The number of parallel processes. If -1, uses all the available processes.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "-1",
+                    "options": null
+                },
+                {
+                    "name": "verbose",
+                    "docstring": "The verbosity of messages.",
+                    "param_type": [
+                        "bool"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "True",
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "header_",
+                    "docstring": "contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)",
+                    "param_type": [
+                        "list"
+                    ],
+                    "returned": false
+                }
+            ],
+            "node_functions": [
+                {
+                    "name": "represent",
+                    "docstring": "\n        provides bag of bonds representation for input molecules.\n\n        Parameters\n        ----------\n        molecules : chemml.chem.Molecule object or array\n            If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.\n            In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been\n            stored or optimized in advance.\n\n        Returns\n        -------\n        features : pandas data frame, shape: (n_molecules, max_length_of_combinations)\n            The bag of bond features.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "molecules",
+                            "docstring": "If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError. In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been stored or optimized in advance.",
+                            "param_type": [
+                                "array",
+                                "object"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "features",
+                            "docstring": "The bag of bond features.",
+                            "param_type": [
+                                null
+                            ],
+                            "returned": true
+                        }
+                    ]
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "CoulombMatrix",
+            "docstring": "\n    The implementation of coulomb matrix descriptors by Matthias Rupp et. al. 2012, PRL (All 3 different variations).\n\n    Parameters\n    ----------\n    cm_type : str, optional (default='SC')\n        The coulomb matrix type, one of the following types:\n            * 'Unsorted_Matrix' or 'UM'\n            * 'Unsorted_Triangular' or 'UT'\n            * 'Eigenspectrum' or 'E' \n            * 'Sorted_Coulomb' or 'SC'\n            * 'Random_Coulomb' or 'RC'\n\n    max_n_atoms : int or 'auto', optional (default = 'auto')\n        Set the maximum number of atoms per molecule (to which all representations will be padded).\n        If 'auto', we find it based on all input molecules.\n\n    nPerm : int, optional (default = 3)\n        Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC) \n        type of representation.\n\n    const : float, optional (default = 1)\n            The constant value for coordinates unit conversion to atomic unit\n            example: atomic unit -> const=1, Angstrom -> const=0.529\n            const/|Ri-Rj|, which denominator is the euclidean distance\n            between atoms i and j\n\n    n_jobs : int, optional(default=-1)\n        The number of parallel processes. If -1, uses all the available processes.\n\n    verbose : bool, optional(default=True)\n        The verbosity of messages.\n\n    Attributes\n    ----------\n    n_molecules_ : int\n        Total number of molecules.\n\n    max_n_atoms_ : int\n        Maximum number of atoms in all molecules.\n\n    Examples\n    --------\n    >>> from chemml.chem import CoulombMatrix, Molecule\n\n    >>> m1 = Molecule('c1ccc1', 'smiles')\n    >>> m2 = Molecule('CNC', 'smiles')\n    >>> m3 = Molecule('CC', 'smiles')\n    >>> m4 = Molecule('CCC', 'smiles')\n\n    >>> molecules = [m1, m2, m3, m4]\n\n    >>> for mol in molecules:   mol.to_xyz(optimizer='UFF')\n    >>> cm = CoulombMatrix(cm_type='SC', n_jobs=-1)\n    >>> features = cm.represent(molecules)\n    ",
+            "inputs": [
+                {
+                    "name": "cm_type",
+                    "docstring": "The coulomb matrix type, one of the following types:     * 'Unsorted_Matrix' or 'UM'     * 'Unsorted_Triangular' or 'UT'     * 'Eigenspectrum' or 'E'      * 'Sorted_Coulomb' or 'SC'     * 'Random_Coulomb' or 'RC'",
+                    "param_type": [
+                        "str"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "SC",
+                    "options": null
+                },
+                {
+                    "name": "max_n_atoms",
+                    "docstring": "Set the maximum number of atoms per molecule (to which all representations will be padded). If 'auto', we find it based on all input molecules.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "auto",
+                    "options": null
+                },
+                {
+                    "name": "nPerm",
+                    "docstring": "Number of permutation of coulomb matrix per molecule for Random_Coulomb (RC)  type of representation.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "3",
+                    "options": null
+                },
+                {
+                    "name": "const",
+                    "docstring": "The constant value for coordinates unit conversion to atomic unit example: atomic unit -> const=1, Angstrom -> const=0.529 const/|Ri-Rj|, which denominator is the euclidean distance between atoms i and j",
+                    "param_type": [
+                        "float"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "1",
+                    "options": null
+                },
+                {
+                    "name": "n_jobs",
+                    "docstring": "The number of parallel processes. If -1, uses all the available processes.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "-1",
+                    "options": null
+                },
+                {
+                    "name": "verbose",
+                    "docstring": "The verbosity of messages.",
+                    "param_type": [
+                        "bool"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "True",
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "n_molecules_",
+                    "docstring": "Total number of molecules.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "max_n_atoms_",
+                    "docstring": "Maximum number of atoms in all molecules.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "returned": false
+                }
+            ],
+            "node_functions": [
+                {
+                    "name": "represent",
+                    "docstring": "\n        provides coulomb matrix representation for input molecules.\n\n        Parameters\n        ----------\n        molecules : chemml.chem.Molecule object or array\n            If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.\n            In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been\n            stored or optimized in advance.\n\n        Returns\n        -------\n        features : Pandas DataFrame\n            A data frame with same number of rows as number of molecules will be returned.\n            The exact shape of the dataframe depends on the type of CM as follows:\n                - shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)\n                - shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)\n                - shape of eigenspectrums (E): (n_molecules, max_n_atoms)\n                - shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)\n                - shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)\n        ",
+                    "inputs": [
+                        {
+                            "name": "molecules",
+                            "docstring": "If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError. In addition, all the molecule objects must provide the XYZ information. Please make sure the XYZ geometry has been stored or optimized in advance.",
+                            "param_type": [
+                                "array",
+                                "object"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "features",
+                            "docstring": "A data frame with same number of rows as number of molecules will be returned. The exact shape of the dataframe depends on the type of CM as follows:     - shape of Unsorted_Matrix (UM): (n_molecules, max_n_atoms**2)     - shape of Unsorted_Triangular (UT): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)     - shape of eigenspectrums (E): (n_molecules, max_n_atoms)     - shape of Sorted_Coulomb (SC): (n_molecules, max_n_atoms*(max_n_atoms+1)/2)     - shape of Random_Coulomb (RC): (n_molecules, nPerm * max_n_atoms * (max_n_atoms+1)/2)",
+                            "param_type": [
+                                "dataframe"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "Dragon",
+            "docstring": "\n    An interface to Dragon 6 and 7 chemoinformatics software. Dragon is a commercial software and\n    you should provide\n\n    Parameters\n    ----------\n    version : int, optional (default=7)\n        The version of available Dragon on the user's system. (available versions: 6 or 7)\n\n    Weights : list, optional (default=[\"Mass\",\"VdWVolume\",\"Electronegativity\",\"Polarizability\",\"Ionization\",\"I-State\"])\n        A list of weights to be used\n\n    blocks : list, optional (default = list(range(1,31)))\n        A list of integers as descriptor blocks' id. There are totally 29 and 30 blocks available in\n        version 6 and 7, respectively.\n        This module is not atimed to cherry pick descriptors in each block.\n        For doing so, please use Script Wizard in Drgon GUI.\n\n    external : boolean, optional (default=False)\n        If True, include external variables at the end of each saved file.\n\n    Notes\n    -----\n        The documentation for the rest of parameters can be found in the following links:\n            - http://www.talete.mi.it/help/dragon_help/index.html\n            - https://chm.kode-solutions.net/products_dragon_tutorial.php\n\n        In the current version, we recommend the user to use this class with the following parameters:\n        molInput = 'file'\n        molfile = path to one SMILES representation file with .smi format or a dictionary of many filepaths\n        script = 'new'\n\n\n    Examples\n    --------\n        >>> import pandas as pd\n        >>> from chemml.chem import Dragon\n        >>> drg = Dragon()\n        >>> drg.script_wizard(script='new', output_directory='./')\n        >>> drg.run()\n        >>> df = drg.convert_to_csv(remove=True)\n        >>> df = df.drop(['No.','NAME'], axis=1)\n    ",
+            "inputs": [
+                {
+                    "name": "version",
+                    "docstring": "The version of available Dragon on the user's system. (available versions: 6 or 7)",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "7",
+                    "options": null
+                },
+                {
+                    "name": "Weights",
+                    "docstring": "A list of weights to be used",
+                    "param_type": [
+                        "list"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "blocks",
+                    "docstring": "A list of integers as descriptor blocks' id. There are totally 29 and 30 blocks available in version 6 and 7, respectively. This module is not atimed to cherry pick descriptors in each block. For doing so, please use Script Wizard in Drgon GUI.",
+                    "param_type": [
+                        "list"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "external",
+                    "docstring": "If True, include external variables at the end of each saved file.",
+                    "param_type": [
+                        "bool"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "False",
+                    "options": null
+                }
+            ],
+            "outputs": [],
+            "node_functions": [
+                {
+                    "name": "__init__",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "_save_script",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "convert_to_csv",
+                    "docstring": "\n        This function converts the tab-delimited txt file from Dragon to pandas dataframe.\n        Note that this process might require large memory based on the number of data points and features.\n\n        Parameters\n        ----------\n        remove : bool, optional (default = True)\n            if True, the original descriptors file (Dragon_descriptors.txt) will be removed.\n\n        Returns\n        -------\n        features : pandas DataFrame\n            The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "remove",
+                            "docstring": "if True, the original descriptors file (Dragon_descriptors.txt) will be removed.",
+                            "param_type": [
+                                "bool"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": true,
+                            "default_value": "True",
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "features",
+                            "docstring": "The 2D dataframe of the descriptors. Note that the first two columns are 'No.' and 'NAME'.",
+                            "param_type": [
+                                "dataframe"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "printout",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "run",
+                    "docstring": "None",
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "name": "script_wizard",
+                    "docstring": "\n        The script_wizard is designed to build a Dragon script file. The name and\n        the functionality of this function is the same as available Script wizard\n        in the Dragon Graphic User Interface.\n        Note: All reported nodes are mandatory, except the <EXTERNAL> tag\n        Note: Script for version 7 doesn't support fingerprints block\n\n        Parameters\n        ----------\n        script : string, optional (default=\"new\")\n            If \"new\" start creating a new script from scratch. If you want to load an existing script,\n            pass the filename with drs format.\n\n        output_directory : string, optional (default = './')\n            the path to the working directory to store output files.\n\n        dragon : xml element\n            Dragon script in  xml format.\n\n        drs : string\n            Dragon script file name\n\n        data_path : string\n            The path+name of saved data file in any format. If saveType is 'block'\n            or 'subblock' data_path is just the path to the directory that all data\n            files have been saved.\n        ",
+                    "inputs": [
+                        {
+                            "name": "script",
+                            "docstring": "If \"new\" start creating a new script from scratch. If you want to load an existing script, pass the filename with drs format.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": true,
+                            "default_value": "\"new\"",
+                            "options": null
+                        },
+                        {
+                            "name": "output_directory",
+                            "docstring": "the path to the working directory to store output files.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": true,
+                            "default_value": "./",
+                            "options": null
+                        },
+                        {
+                            "name": "dragon",
+                            "docstring": "Dragon script in  xml format.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "drs",
+                            "docstring": "Dragon script file name",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "data_path",
+                            "docstring": "The path+name of saved data file in any format. If saveType is 'block' or 'subblock' data_path is just the path to the directory that all data files have been saved.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "Molecule",
+            "docstring": "The central class to construct a molecule from different chemical input formats.\n    This module is built on top of RDKit and OpenBabel python API.\n    We join the forces and strength of these two cheminformatic libraris for a consistent user experience.\n\n    Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object.\n    Several methods are available in this module to facilitate the manipulation of chemical data.\n\n    Parameters\n    ----------\n    input : str\n        The representation string or path to a file.\n\n    input_type : str\n        The input type.\n        The available types are enlisted here:\n            - smiles: The input must be SMILES representation of a molecule.\n            - smarts: The input must be SMARTS representation of a molecule.\n            - inchi: The input must be InChi representation of a molecule.\n            - xyz:  The input must be the path to an xyz file.\n\n    kwargs :\n        The corresponding RDKit arguments for each of the input types:\n            - smiles: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles\n            - smarts: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts\n            - inchi: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi\n\n    Notes\n    -----\n        - The molecule will be creatd as an RDKit molecule object.\n        - The molecule object will be stored and available as `rdkit_molecule` attribute.\n        - If you load a molecule from its SMARTS string, there is high probability that you can't convert it to other\n            types due to the abstract description of the molecules by SMARTS representation.\n\n    Attributes\n    ----------\n    rdkit_molecule : object\n        The `rdkit.Chem.rdchem.Mol` object\n\n    smiles : str\n        The SMILES string that you get by running the `to_smiles` method.\n\n    smarts : str\n        The SMARTS string that you get by running the `to_smarts` method.\n\n    inchi : str\n        The InChi string that you get by running the `to_inchi` method.\n\n    xyz : instance of <class 'chemml.chem.molecule.XYZ'>\n        The class object that stores the 3D info. The available attributes in the class are 'geometry',\n        'atomic_numbers', and 'atomic_symbols'.\n\n    Examples\n    --------\n    >>> from chemml.chem import Molecule\n    >>> caffeine_smiles = 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'\n    >>> caffeine_smarts = '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'\n    >>> caffeine_inchi = 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'\n    >>> mol = Molecule(caffeine_smiles, 'smiles')\n    >>> mol\n    <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060a8a0>,\n          creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),\n          smiles         : 'Cn1c(=O)c2c(ncn2C)n(C)c1=O',\n          smarts         : None,\n          inchi          : None,\n          xyz            : None)>\n    >>> mol.smiles # this is the canonical SMILES by default\n    'Cn1c(=O)c2c(ncn2C)n(C)c1=O'\n    >>> mol.creator\n    ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C')\n    >>> mol.to_smiles(kekuleSmiles=True)\n    >>> mol\n    <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060a8a0>,\n          creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),\n          smiles         : 'CN1C(=O)C2=C(N=CN2C)N(C)C1=O',\n          smarts         : None,\n          inchi          : None,\n          xyz            : None)>\n    >>> mol.smiles # the kukule SMILES is not canonical\n    'CN1C(=O)C2=C(N=CN2C)N(C)C1=O'\n    >>> mol.inchi is None\n    True\n    >>> mol.to_inchi()\n    >>> mol\n    <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060a8a0>,\n          creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),\n          smiles         : 'CN1C(=O)C2=C(N=CN2C)N(C)C1=O',\n          smarts         : None,\n          inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',\n          xyz            : None)>\n    >>> mol.inchi\n    'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'\n    >>> mol.to_smarts(isomericSmiles=False)\n    >>> mol.smarts\n    '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'\n    >>>\n    >>> # add hydrogens and recreate smiles and inchi\n    >>> mol.hydrogens('add')\n    >>> mol.to_smiles()\n    >>> mol.to_inchi()\n    <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060ab70>,\n          creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),\n          smiles         : '[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]',\n          smarts         : '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]',\n          inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',\n          xyz            : None)>\n    >>> # note that by addition of hydrogens, the smiles string changed, but not inchi\n    >>> mol.to_xyz()\n    ValueError: The conformation has not been built yet. Maybe due to the 2D representation of the creator.\n    You should set the optimizer value if you wish to embed and optimize the 3D geometries.\n    >>> mol.to_xyz('MMFF', maxIters=300, mmffVariant='MMFF94s')\n    >>> mol\n    <Molecule(rdkit_molecule : <rdkit.Chem.rdchem.Mol object at 0x11060ab70>,\n          creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),\n          smiles         : '[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]',\n          smarts         : '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]',\n          inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',\n          xyz            : <chemml.chem.molecule.XYZ object at 0x1105f34e0>)>\n    >>> mol.xyz\n    <chemml.chem.molecule.XYZ object at 0x1105f34e0>\n    >>> mol.xyz.geometry\n    array([[-3.13498321,  1.08078307,  0.33372515],\n       [-2.15703638,  0.0494926 ,  0.0969075 ],\n       [-2.41850776, -1.27323453, -0.14538583],\n       [-1.30933543, -1.96359887, -0.32234393],\n       [-0.31298208, -1.04463051, -0.1870366 ],\n       [-0.80033326,  0.20055608,  0.07079013],\n       [ 0.02979071,  1.33923464,  0.25484381],\n       [-0.41969338,  2.45755985,  0.48688003],\n       [ 1.39083332,  1.04039479,  0.14253256],\n       [ 1.93405927, -0.23430839, -0.12320318],\n       [ 3.15509616, -0.39892779, -0.20417755],\n       [ 1.03516373, -1.28860035, -0.28833489],\n       [ 1.51247526, -2.63123373, -0.56438513],\n       [ 2.34337825,  2.12037198,  0.31039958],\n       [-3.03038469,  1.84426033, -0.44113804],\n       [-2.95880047,  1.50667225,  1.32459816],\n       [-4.13807215,  0.64857048,  0.29175711],\n       [-3.4224011 , -1.6776074 , -0.18199971],\n       [ 2.60349515, -2.67375289, -0.61674561],\n       [ 1.10339164, -2.96582894, -1.52299068],\n       [ 1.17455601, -3.30144289,  0.23239402],\n       [ 2.94406381,  2.20916763, -0.60086251],\n       [ 1.86156872,  3.07985237,  0.51337935],\n       [ 3.01465788,  1.87625024,  1.14039627]])\n    >>> mol.xyz.atomic_numbers\n    array([[6],\n       [7],\n       [6],\n       [7],\n       [6],\n       [6],\n       [6],\n       [8],\n       [7],\n       [6],\n       [8],\n       [7],\n       [6],\n       [6],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1],\n       [1]])\n    >>> mol.xyz.atomic_symbols\n    array([['C'],\n           ['N'],\n           ['C'],\n           ['N'],\n           ['C'],\n           ['C'],\n           ['C'],\n           ['O'],\n           ['N'],\n           ['C'],\n           ['O'],\n           ['N'],\n           ['C'],\n           ['C'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H'],\n           ['H']], dtype='<U1')\n    ",
+            "inputs": [
+                {
+                    "name": "input",
+                    "docstring": "The representation string or path to a file.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "input_type",
+                    "docstring": "The input type. The available types are enlisted here:     - smiles: The input must be SMILES representation of a molecule.     - smarts: The input must be SMARTS representation of a molecule.     - inchi: The input must be InChi representation of a molecule.     - xyz:  The input must be the path to an xyz file.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "kwargs :",
+                    "docstring": "The corresponding RDKit arguments for each of the input types:     - smiles: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles     - smarts: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts     - inchi: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolFromInchi",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "rdkit_molecule",
+                    "docstring": "The `rdkit.Chem.rdchem.Mol` object",
+                    "param_type": [
+                        "object"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "smiles",
+                    "docstring": "The SMILES string that you get by running the `to_smiles` method.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "smarts",
+                    "docstring": "The SMARTS string that you get by running the `to_smarts` method.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "inchi",
+                    "docstring": "The InChi string that you get by running the `to_inchi` method.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "xyz",
+                    "docstring": "The class object that stores the 3D info. The available attributes in the class are 'geometry', 'atomic_numbers', and 'atomic_symbols'.",
+                    "param_type": [
+                        null
+                    ],
+                    "returned": false
+                }
+            ],
+            "node_functions": [
+                {
+                    "name": "hydrogens",
+                    "docstring": "\n        This function adds/removes hydrogens to/from a prebuilt molecule object.\n\n        Parameters\n        ----------\n        action : str\n            Either 'add' or 'remove', to add hydrogns or remove them from the rdkit molecule.\n\n        kwargs :\n            The arguments that can be passed to the rdkit functions:\n            - `Chem.AddHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.AddHs\n            - `Chem.RemoveHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs\n\n        Notes\n        -----\n            - The rdkit or pybel molecule object must be created in advance.\n            - Only rdkit or pybel molecule object will be modified in place.\n            - If you remove hydrogens from molecules, the atomic 3D coordinates might not be accurate for the conversion to xyz representation.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "action",
+                            "docstring": "Either 'add' or 'remove', to add hydrogns or remove them from the rdkit molecule.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "kwargs :",
+                            "docstring": "The arguments that can be passed to the rdkit functions: - `Chem.AddHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.AddHs - `Chem.RemoveHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "to_inchi",
+                    "docstring": "\n        This function creates and stores the InChi string for a pre-built molecule.\n\n        Parameters\n        ----------\n        kwargs :\n            The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available).\n            The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi\n\n        Notes\n        -----\n            - The rdkit or pybel molecule object must be created in advance.\n            - The molecule will be modified in place.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "kwargs :",
+                            "docstring": "The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available). The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "to_smarts",
+                    "docstring": "\n        This function creates and stores the SMARTS string for a pre-built molecule.\n\n        Parameters\n        ----------\n        kwargs :\n            All the arguments that can be passed to the rdkit.Chem.MolToSmarts function.\n            The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts\n\n        Notes\n        -----\n            - The rdkit or pybel molecule object must be created in advance.\n            - If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then create the SMARTS string using rdkit arguments.\n            - The molecule will be modified in place.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "kwargs :",
+                            "docstring": "All the arguments that can be passed to the rdkit.Chem.MolToSmarts function. The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "to_smiles",
+                    "docstring": "\n        This function creates and stores the SMILES string for a pre-built molecule.\n\n        Parameters\n        ----------\n        kwargs :\n            The arguments for the rdkit.Chem.MolToSmiles function.\n            The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles\n\n        Notes\n        -----\n            - The rdkit or pybel molecule object must be created in advance.\n            - If only pybel molecule is available, we create an rdkit molecule using its SMILES representation, and then recreate the SMILES string using rdkit arguments.\n            - The molecule will be modified in place.\n            - For rdkit molecule the SMILES string is canocical by default, unless when one requests kekuleSmiles.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "kwargs :",
+                            "docstring": "The arguments for the rdkit.Chem.MolToSmiles function. The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "to_xyz",
+                    "docstring": "\n        This function creates and stores the xyz coordinates for a pre-built molecule object.\n\n        Parameters\n        ----------\n        optimizer : None or str, optional (default: None)\n            If None, the geometries will be extracted from the available source of 3D structure (if any).\n            Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or\n            'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.\n\n        kwargs :\n            The arguments that can be passed to the corresponding forcefileds.\n            The documentation is available at:\n                - UFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule\n                - MMFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule\n\n        Notes\n        -----\n            - The geometry will be stored in the `xyz` attribute.\n            - The molecule object must be created in advance.\n            - The hydrogens won't be added to the molecule automatically. You should add it manually using `hydrogens` method.\n            - If the molecule object has been built using 2D representations (e.g., SMILES or InChi), the conformer\n            doesn't exist and you nedd to set the optimizer parameter to any of the force fields.\n            - If the 3D info exist but you still need to run optimization, the 3D structure will be embedded from scratch (i.e., the current atom coordinates will be removed.)\n\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "optimizer",
+                            "docstring": "If None, the geometries will be extracted from the available source of 3D structure (if any). Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or 'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.",
+                            "param_type": [
+                                "str",
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": true,
+                            "default_value": "None",
+                            "options": null
+                        },
+                        {
+                            "name": "kwargs :",
+                            "docstring": "The arguments that can be passed to the corresponding forcefileds. The documentation is available at:     - UFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule     - MMFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                },
+                {
+                    "name": "visualize",
+                    "docstring": "\n        This function visualizes the molecule. If both rdkit and pybel objects are avaialble, the rdkit object\n        will be used for visualization.\n\n        Parameters\n        ----------\n        filename: str, optional (default = None)\n            This is the path to the file that you want write the image in it.\n            Tkinter and Python Imaging Library are required for writing the image.\n\n        kwargs:\n            any extra parameter that you want to pass to the rdkit or pybel draw tool.\n            Additional information at:\n                - https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html\n                - http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw\n\n        Returns\n        -------\n        fig : object\n            You will be able to display this object, e.g., inside the Jupyter Notebook.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "filename: str, optional (default = None)",
+                            "docstring": "This is the path to the file that you want write the image in it. Tkinter and Python Imaging Library are required for writing the image.",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "kwargs:",
+                            "docstring": "any extra parameter that you want to pass to the rdkit or pybel draw tool. Additional information at:     - https://www.rdkit.org/docs/source/rdkit.Chem.Draw.html     - http://openbabel.org/docs/dev/UseTheLibrary/Python_PybelAPI.html#pybel.Molecule.draw",
+                            "param_type": [
+                                null
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "fig",
+                            "docstring": "You will be able to display this object, e.g., inside the Jupyter Notebook.",
+                            "param_type": [
+                                "object"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "RDKitFingerprint",
+            "docstring": "\n    This is an interface to the available molecular fingerprints in the RDKit package.\n\n    Parameters\n    ----------\n    fingerprint_type : str, optional (default='Morgan')\n        The type of fingerprint. Available fingerprint types:\n            - 'hashed_atom_pair' or 'hap'\n            - 'MACCS' or 'maccs'\n            - 'morgan'\n            - 'hashed_topological_torsion' or 'htt'\n            - 'topological_torsion' or 'tt'\n\n    vector : str, optional (default = 'bit')\n        Available options for vector:\n            - 'int' : represent counts for each fragment instead of bits\n                    It is not available for 'MACCS'.\n            - 'bit' : only zeros and ones\n                    It is not available for 'Topological_torsion'.\n\n    n_bits : int, optional (default = 1024)\n        It sets number of elements/bits in the 'bit' type of fingerprint vectors.\n        Not availble for:\n            - 'MACCS' - (MACCS keys have a fixed length of 167 bits)\n            - 'Topological_torsion' - doesn't return a bit vector at all.\n\n    radius : int, optional (default = 2)\n        only applicable if calculating 'Morgan' fingerprint.\n\n    kwargs :\n        Any additional argument that should be passed to the rdkit fingerprint function.\n\n    Attributes\n    ----------\n    n_molecules_ : int\n        The number of molecules that are received.\n\n    fps_ : list\n        The list of rdkit fingerprint objects.\n\n    ",
+            "inputs": [
+                {
+                    "name": "fingerprint_type",
+                    "docstring": "The type of fingerprint. Available fingerprint types:     - 'hashed_atom_pair' or 'hap'     - 'MACCS' or 'maccs'     - 'morgan'     - 'hashed_topological_torsion' or 'htt'     - 'topological_torsion' or 'tt'",
+                    "param_type": [
+                        "str"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "Morgan",
+                    "options": null
+                },
+                {
+                    "name": "vector",
+                    "docstring": "Available options for vector:     - 'int' : represent counts for each fragment instead of bits             It is not available for 'MACCS'.     - 'bit' : only zeros and ones             It is not available for 'Topological_torsion'.",
+                    "param_type": [
+                        "str"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "bit",
+                    "options": null
+                },
+                {
+                    "name": "n_bits",
+                    "docstring": "It sets number of elements/bits in the 'bit' type of fingerprint vectors. Not availble for:     - 'MACCS' - (MACCS keys have a fixed length of 167 bits)     - 'Topological_torsion' - doesn't return a bit vector at all.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "1024",
+                    "options": null
+                },
+                {
+                    "name": "radius",
+                    "docstring": "only applicable if calculating 'Morgan' fingerprint.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": true,
+                    "default_value": "2",
+                    "options": null
+                },
+                {
+                    "name": "kwargs :",
+                    "docstring": "Any additional argument that should be passed to the rdkit fingerprint function.",
+                    "param_type": [
+                        null
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "n_molecules_",
+                    "docstring": "The number of molecules that are received.",
+                    "param_type": [
+                        "int"
+                    ],
+                    "returned": false
+                },
+                {
+                    "name": "fps_",
+                    "docstring": "The list of rdkit fingerprint objects.",
+                    "param_type": [
+                        "list"
+                    ],
+                    "returned": false
+                }
+            ],
+            "node_functions": [
+                {
+                    "name": "load_sparse",
+                    "docstring": "\n        This function enables you to load sparse matrix with the `.npz` format and convert it to a pandas dataframe.\n\n        Parameters\n        ----------\n        file : str\n            Must be a path to the file with .npz format.\n\n        Returns\n        -------\n        features : pandas.DataFrame\n            The dense dataframe of the passed sparse file.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "file",
+                            "docstring": "Must be a path to the file with .npz format.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "features",
+                            "docstring": "The dense dataframe of the passed sparse file.",
+                            "param_type": [
+                                "dataframe"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "represent",
+                    "docstring": "\n        The main function to provide fingerprint representation of input molecule(s).\n\n        Parameters\n        ----------\n        molecules : chemml.chem.Molecule object or list\n            It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.\n            If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to\n            smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,\n            kekulized, or canonical smiles.\n\n        Returns\n        -------\n        features : pandas.DataFrame\n            A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "molecules",
+                            "docstring": "It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised. If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens, kekulized, or canonical smiles.",
+                            "param_type": [
+                                "object",
+                                "list"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "features",
+                            "docstring": "A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.",
+                            "param_type": [
+                                "dataframe"
+                            ],
+                            "returned": true
+                        }
+                    ]
+                },
+                {
+                    "name": "store_sparse",
+                    "docstring": "\n        This function helps you to store higly sparse fingerprint feature sets using `.npz` format for memory efficiency and\n        less store/load time.\n        Another method of this class, `load_sparse`, enables you to load your `.npz` files and convert it back to pandas dataframe.\n\n        Parameters\n        ----------\n        file : str\n            Must be a path to the file with .npz format.\n\n        features : pandas DataFrame\n            Must be the pandas dataframe as you receive it from `represent` method.\n\n        ",
+                    "inputs": [
+                        {
+                            "name": "file",
+                            "docstring": "Must be a path to the file with .npz format.",
+                            "param_type": [
+                                "str"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        },
+                        {
+                            "name": "features",
+                            "docstring": "Must be the pandas dataframe as you receive it from `represent` method.",
+                            "param_type": [
+                                "dataframe"
+                            ],
+                            "expected_shape": null,
+                            "is_optional": false,
+                            "default_value": null,
+                            "options": null
+                        }
+                    ],
+                    "outputs": []
+                }
+            ],
+            "nodes": []
+        },
+        {
+            "name": "XYZ",
+            "docstring": "\n    This class stores the information that is typically carried by standard XYZ files.\n\n    Parameters\n    ----------\n    geometry : ndarray\n        The numpy array of shape (number_of_atoms, 3).\n        It stores the xyz coordinates for each atom of the molecule.\n\n    atomic_numbers : ndarray\n        The numpy array of shape (number_of_atoms, 1).\n        It stores the atomic numbers of each atom in the molecule (in the same order as geometry).\n\n    atomic_symbols : ndarray\n        The numpy array of shape (number_of_atoms, 1).\n        It stores the atomic symbols of each atom in the molecule (in the same order as geometry).\n\n    ",
+            "inputs": [
+                {
+                    "name": "geometry",
+                    "docstring": "The numpy array of shape (number_of_atoms, 3). It stores the xyz coordinates for each atom of the molecule.",
+                    "param_type": [
+                        "array"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "atomic_numbers",
+                    "docstring": "The numpy array of shape (number_of_atoms, 1). It stores the atomic numbers of each atom in the molecule (in the same order as geometry).",
+                    "param_type": [
+                        "array"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                },
+                {
+                    "name": "atomic_symbols",
+                    "docstring": "The numpy array of shape (number_of_atoms, 1). It stores the atomic symbols of each atom in the molecule (in the same order as geometry).",
+                    "param_type": [
+                        "array"
+                    ],
+                    "expected_shape": null,
+                    "is_optional": false,
+                    "default_value": null,
+                    "options": null
+                }
+            ],
+            "outputs": [],
+            "node_functions": [
+            ],
+            "nodes": []
+        }
+    ],
+    "library": "chemml",
+    "module": "chem"
+}

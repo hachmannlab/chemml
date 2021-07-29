@@ -201,11 +201,17 @@
 </style>
 <div class="section" id="input-file-gui">
 <span id="chemml-wrapper-infilegen"></span><h1>Input File GUI<a class="headerlink" href="#input-file-gui" title="Permalink to this headline">¶</a></h1>
+<p>MAC OS and Linux users may run the commands directly in the terminal once ChemML has been installed.</p>
+<dl class="simple">
+<dt>For Windows users, we recommend installing WSL: <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a></dt><dd><ul class="simple">
+<li><p>Through the WSL terminal, install ChemML using the Python Package Index (PyPI) via pip as specified in the installation tutorial.</p></li>
+<li><p>The steps that follow must be run in the WSL terminal.</p></li>
+</ul>
+</dd>
+</dl>
 <p>The ChemML wrapper’s graphical user interface (GUI) facilitates the generation of input files.</p>
-<p>To install the dependencies for ChemML Wrapper GUI, activate the virtual environment and run the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install nb_conda_kernels
-pip install graphviz
-pip install openpyxl
+<p>To run a notebook, the user must run the following commands in the terminal with the environment, which has ChemML installed, activated:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook
 </pre></div>
 </div>
 <dl class="simple">
@@ -237,15 +243,19 @@ pip install openpyxl
 </ul>
 </dd>
 </dl>
-<p>To run a notebook, you just need to run the following command in the Terminal:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook
-</pre></div>
-</div>
+<p>A Jupyter notebook will open for the current environment.
+In the new Jupyter notebook, ensure the Kernel for the desired environment is activated. This can be done using:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Under Kernel &gt; Change Kernel &gt; Python (environment name)</p></li>
+</ul>
+</div></blockquote>
 <p>Run the GUI locally in the Jupyter notebook via:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.wrapper.notebook</span> <span class="kn">import</span> <span class="n">ChemMLNotebook</span>
 <span class="n">ui</span> <span class="o">=</span> <span class="n">ChemMLNotebook</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Instructions to run the input files, created using the Jupyter GUI, will appear once the input file is saved using the GUI.</p>
 </div>
 
 

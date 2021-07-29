@@ -4,15 +4,19 @@
 Input File GUI
 ==============
 
+MAC OS and Linux users may run the commands directly in the terminal once ChemML has been installed.
+
+For Windows users, we recommend installing WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10 
+       * Through the WSL terminal, install ChemML using the Python Package Index (PyPI) via pip as specified in the installation tutorial.
+       * The steps that follow must be run in the WSL terminal.
+
 The ChemML wrapper's graphical user interface (GUI) facilitates the generation of input files.
 
-To install the dependencies for ChemML Wrapper GUI, activate the virtual environment and run the following commands:
+To run a notebook, the user must run the following commands in the terminal with the environment, which has ChemML installed, activated:
 
 .. code:: bash
 
-   conda install nb_conda_kernels
-   pip install graphviz
-   pip install openpyxl
+   jupyter notebook
 
 Requirements:
     - Jupyter notebook
@@ -25,11 +29,10 @@ Requirements:
         * Using graphviz library, you will see a graphical visualization of your project's workflow simultaneously.
         * graphviz will be installed accompanied by chemml via pip.
 
-To run a notebook, you just need to run the following command in the Terminal:
+A Jupyter notebook will open for the current environment.
+In the new Jupyter notebook, ensure the Kernel for the desired environment is activated. This can be done using: 
+        * Under Kernel > Change Kernel > Python (environment name)
 
-.. code:: bash
-
-   jupyter notebook
 
 Run the GUI locally in the Jupyter notebook via: 
 
@@ -37,3 +40,5 @@ Run the GUI locally in the Jupyter notebook via:
 
     from chemml.wrapper.notebook import ChemMLNotebook
     ui = ChemMLNotebook()
+
+Instructions to run the input files, created using the Jupyter GUI, will appear once the input file is saved using the GUI.

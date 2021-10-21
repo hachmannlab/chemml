@@ -1,0 +1,11 @@
+def error_metric(y_true,y_pred):
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+    ndata = len(y_true)
+    y_mean = np.mean(y_true)
+    e = y_true - y_pred
+    ae = np.absolute(e)
+    se = np.square(e)
+    var = np.mean(np.square(y_true - y_mean))
+    MAE = np.mean(ae)
+    return MAE

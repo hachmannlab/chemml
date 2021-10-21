@@ -1,0 +1,27 @@
+def ga_eval(indi):
+        
+        layers = [indi[i] for i in range(2,5) if indi[i] != 0]
+        #print(np.exp(indi[0]))
+        
+        #count iterations of GA
+        count=open("tmp.txt", "a")
+        count.write("GA search iteration in process... \n")
+        count.close()
+        file = open("tmp.txt","r")
+        Counter = 0
+        # Reading number of lines from file
+        Content = file.read()
+        CoList = Content.split("\n")
+        for i in CoList:
+            if i:
+                Counter += 1
+        print("GA search iteration in process... ",Counter)
+        mlp = MLPRegressor(alpha=np.exp(indi[0]), activation=indi[1], hidden_layer_sizes=tuple(layers),learning_rate='invscaling', max_iter=10,early_stopping=True)
+        ga_search = single_obj(mlp=mlp, x=X.values, y=Y.values,n_splits=n_splits)
+        #print("GA search iteration in process...")
+        f=open("GA.txt", "a")
+        f.write("%f %s %d %d %d %f \n" %(float(np.exp(indi[0])), str(indi[1]), int(indi[2]), int(indi[3]), int(indi[4]),float(ga_search)))
+        f.close()
+        #gui_return ={"ga_search": ga_search}
+        #print(gui_return)
+        return ga_search

@@ -815,6 +815,60 @@ class ChemMLNotebook(object):
         TEMPLATES.append(hboxTe12)
 
         ######################################################
+
+        ### Hyperparamter Optimization (GA_optimize)
+        headerGA_optimize = widgets.HTML(value='<b> Hyperparamter Optimization: </b>', layout=widgets.Layout(width='50%',margin='10px 0px 10px 0px'))
+        TEMPLATES.append(headerGA_optimize)
+
+
+        #Template15
+        def on_selectTe15_clicked(b):
+            # template15.txt is a chemml wrapper config file
+            from .templates import template15
+            script = template15()
+            old = [i for i in self.pages]
+
+            try:
+                self.parser(script)
+                # update the current_bid
+                self.block_id = max(self.pages)
+                selectTe15.icon = 'check'
+            except Exception as err:
+                print( "Invalid configuration file ...")
+                print( "    IOError: %s"%err.message)
+                print( "... Not loaded!")
+                selectTe15.icon = 'remove'
+                rm = [i for i in self.pages if i not in old]
+                for ib in rm:
+                    if ib in self.pages:
+                        del self.pages[ib]
+
+            self.debut = False
+            self.add_page()
+
+            ## clear ouput and update the graph viz
+            self.graph.close()
+            dot = Digraph(format='png')
+            for edge in self.comp_graph:
+                dot.node('%i' % edge[0], label='%i %s' % (edge[0], self.pages[edge[0]].title))
+                dot.node('%i' % edge[2], label='%i %s' % (edge[2], self.pages[edge[2]].title))
+                dot.edge('%i' % edge[0], '%i' % edge[2], label='%s > %s' % (edge[1], edge[3]), labelfontcolor='green')
+            self.graph = widgets.Image(value=dot.pipe(), format='png')
+            display(self.graph)
+
+        te15 = widgets.Label(value="Template 1: Genetic Algorithm for MLPRegressor")#, layout=widgets.Layout(width='70%'))
+        selectTe15 = widgets.Button(description="Select")
+        selectTe15.style.button_color = 'lightblue'
+        selectTe15.on_click(on_selectTe15_clicked)
+        # viewT1 = widgets.Button(description="Overview")
+        # viewT1.style.button_color = 'lightblue'
+        # viewT1.on_click(on_viewT1_clicked)
+        hboxTe15 = widgets.HBox([te15, selectTe15],layout=widgets.Layout( border='dotted black 1px',justify_content = 'space-between'))
+                                                               # height='40px', align_items='center',   justify_content = 'space-between',
+                                                               # margin='0px 0px 0px 10px'))
+        TEMPLATES.append(hboxTe15)
+
+        ######################################################
         # ## TemplateMHL
         # def on_selectTeMHL_clicked(b):
         #     # templateMHL.txt is a chemml wrapper config file
@@ -1645,7 +1699,7 @@ class ChemMLNotebook(object):
                 continue
         self.loading_bids = range(min(blocks),max(blocks)+1)
         self._options(blocks)
-        # to make self.comp_graph with cmls (onlly requires send and receive)
+        # to make self.comp_graph with cmls (only requires send and receive)
         self._transform()
 
     def _db_extract_function(self, host, function):
@@ -1730,6 +1784,8 @@ class ChemMLNotebook(object):
             self.pages[bid].widget = custom_function_VBox
 
             # change the widget values to the values from config file
+            # print("parameters: ",parameters)
+            # print(self.pages[bid].block_params['fparams'])
             for param in parameters:
                 if param not in ['host', 'function']:
                     if param in self.pages[bid].block_params['wparams']:

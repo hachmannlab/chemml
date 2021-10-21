@@ -1,4 +1,6 @@
 from chemml.wrapper.database.containers import Input, Output, Parameter, req, regression_types, cv_classes
+import warnings
+warnings.filterwarnings("ignore")
 
 class Binarizer(object):
     task = 'Prepare'

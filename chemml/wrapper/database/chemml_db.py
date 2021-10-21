@@ -554,46 +554,74 @@ class SavePlot(object):
         format=Parameter('format','png')
         kwargs = Parameter('kwargs', {})
 
-class GA_DEAP(object):
+class GA(object):
     task='Optimize'
     subtask = 'genetic algorithm'
     host = 'chemml'
-    function = 'GA_DEAP'
+    function = 'GA'
     modules = ('chemml','optimize')
     requirements = (req(0),req(2),req(10))
-    documentation = ""
+    documentation = """Hyperparamter optimization is a time consuming process. The amount of time required to find the best hyperparameters relies on multiple factors which depend on the parameters specified below. Please be patient! 
+    Link: https://github.com/hachmannlab/chemml/blob/master/chemml/optimization/genetic_algorithm.py """
 
     class Inputs:
-        evaluate = Input('evaluate', "a function that receives a list of individuals and returns the score",
-                    ("<type 'function'>",))
+        # evaluate = Input('evaluate', "a function that receives a list of individuals and returns the score",
+                    # ("<type 'function'>",))
+        dfx_test = Input("dfx_test","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy_train = Input("dfy_train","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfy_test = Input("dfy_test","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
+        dfx_train = Input("dfx_train","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
 
     class Outputs:
         best_ind_df = Output('best_ind_df',"pandas dataframe of best individuals after each iteration", ("<class 'pandas.core.frame.DataFrame'>",))
         best_individual = Output('best_individual', "pandas dataframe of the best individual",("<class 'pandas.core.frame.DataFrame'>",))
 
     class WParameters:
-        func_method = Parameter('func_method','algorithm_1','string',
-                        description = "a method of the GA_DEAP class that should be applied",
-                        options = ('algorithm_1', 'algorithm_2', 'algorithm_3', 'algorithm_4'))
+        algorithm = Parameter('algorithm','1','int',
+                        description = "A method of the GA class that should be applied",
+                        options = (1, 2, 3, 4), required=True)
+        ml_model = Parameter('ml_model','MLPRegressor','string',
+                        description = "ML model for which hyperparameters need to be optmized",
+                        options = ('MLPRegressor', 'More options to be added'),required=True)
 
     class FParameters:
-        Evaluate = Parameter('Evaluate', '@evaluate', required=True)
-        Weights = Parameter('Weights', (-1.0,))
-        chromosome_length = Parameter('chromosome_length', 1)
-        chromosome_type = Parameter('chromosome_type', (1,))
-        bit_limits = Parameter('bit_limits', ((0, 10),))
-        pop_size = Parameter('pop_size', 50)
-        crossover_prob = Parameter('crossover_prob', 0.4)
-        crossover_type = Parameter('crossover_type', 'Blend')
-        mutation_prob = Parameter('mutation_prob', 0.4)
-        mut_float_mean = Parameter('mut_float_mean', 0)
-        mut_float_dev = Parameter('mut_float_dev', 1)
-        mut_int_lower = Parameter('mut_int_lower', (1,))
-        mut_int_upper = Parameter('mut_int_upper', (10,))
-        n_generations = Parameter('n_generations', 20)
 
-        init_pop_frac = Parameter('init_pop_frac', 0.35,'float, only for algorithm 2')
-        crossover_pop_frac = Parameter('crossover_pop_frac', 0.35, 'float, only for algorithms 2 and 4')
+        #Note: do not change first 4!!!
+        evaluate = Parameter('evaluate', 'ga_eval.txt', required=True)
+        space = Parameter('space', 'space.txt', required=True)
+        error_metric = Parameter('error_metric', 'error_metric.txt', required=True)
+        test_hyperparameters = Parameter('test_hyperparameters', 'test_hyperparameters.txt', required=True)
+        single_obj = Parameter('single_obj', 'single_obj.txt', required=True)
+        fitness = Parameter('fitness','(min,)', 'tuple', required=True)
+        pop_size = Parameter('pop_size', 5, 'int', required = True)
+        crossover_size = Parameter('crossover_size', 30, 'int', required = True)
+        mutation_size = Parameter('mutation_size', 20, 'int', required = True)
+        n_splits = Parameter('n_splits',5,'int', required = True)
+        crossover_type = Parameter('crossover_type', 'Blend', 'string')
+        mutation_prob = Parameter('mutation_prob', 0.4, 'float')
+        initial_population = Parameter('initial_population', None, 'list')
+        n_generations = Parameter('n_generations', 5, 'int',required = True)
+        early_stopping = Parameter('early_stopping',10, 'int')
+        init_ratio = Parameter('init_ratio',0.4,'float')
+        crossover_ratio = Parameter('crossover_ratio',0.3,'float')
+        # algorithm = Parameter('algorithm','1','int',
+        #                 description = "A method of the GA class that should be applied",
+        #                 options = (1, 2, 3, 4), required=True)
+        # n_splits = Parameter('n_splits',5,'int')
+        # Weights = Parameter('Weights', (-1.0,))
+        # chromosome_length = Parameter('chromosome_length', 1)
+        # chromosome_type = Parameter('chromosome_type', (1,))
+        # bit_limits = Parameter('bit_limits', ((0, 10),))
+        # crossover_prob = Parameter('crossover_prob', 0.4)
+        # mutation_prob = Parameter('mutation_prob', 0.4)
+        # mut_float_mean = Parameter('mut_float_mean', 0)
+        # mut_float_dev = Parameter('mut_float_dev', 1)
+        # mut_int_lower = Parameter('mut_int_lower', (1,))
+        # mut_int_upper = Parameter('mut_int_upper', (10,))
+        
+
+        # init_pop_frac = Parameter('init_pop_frac', 0.35,'float, only for algorithm 2')
+        # crossover_pop_frac = Parameter('crossover_pop_frac', 0.35, 'float, only for algorithms 2 and 4')
 
 
 ####################################################

@@ -339,7 +339,7 @@ class LIBRARY(object):
                 # ref_p = "@misc{chollet2015keras,title={Keras},author={Chollet, Fran\c{c}ois and others},year={2015},publisher={GitHub},howpublished={\url{https://github.com/keras-team/keras}},}"
                 ref_p = "ABCD"
                 self.refs['keras'] = {'url': ref_g, 'paper': ref_p}
-            elif function in ['GA_DEAP']:
+            elif function in ['GA']:
                 ref_g = "https://github.com/deap/deap"
                 ref_p = """@article{DEAP_JMLR2012,
                                 author    = " F\'elix-Antoine Fortin and Fran\c{c}ois-Michel {De Rainville} and Marc-Andr\'e Gardner and Marc Parizeau and Christian Gagn\'e ",

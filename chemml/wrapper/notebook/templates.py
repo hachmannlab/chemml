@@ -719,3 +719,83 @@ def template14():
              """
 
     return script.strip().split('\n')
+
+def template15():
+    """Genetic Algorithm"""
+    script= """
+                ## (Input,datasets)
+                    << host = chemml
+                    << function = load_cep_homo
+                    >> smiles 0
+                    >> homo 4
+
+                ## (Output,file)
+                    << host = chemml
+                    << function = SaveFile
+                    << format = smi
+                    << header = False
+                    << filename = smiles
+                    >> 0 df
+                    >> filepath 1
+
+                ## (Represent,molecular descriptors)
+                    << host = chemml
+                    << function = RDKitFingerprint
+                    >> 1 molfile
+                    >> df 2
+                    >> df 3
+
+                ## (Output,file)
+                    << host = chemml
+                    << function = SaveFile
+                    << filename = fps_rdkfp
+                    >> 2 df
+
+                ## (Prepare,split)
+                    << host = sklearn
+                    << function = train_test_split
+                    >> 3 dfx
+                    >> 4 dfy
+                    >> dfx_train 5
+                    >> dfy_train 6
+                    >> dfx_test 7
+                    >> dfy_test 8
+
+                ## (Optimize,genetic algorithm)
+                    << host = chemml
+                    << function = GA
+                    << algorithm = 3
+                    << ml_model = MLPRegressor
+                    << evaluate = ./chemml/chemml/datasets/GA_files/ga_eval.txt
+                    << space = ./chemml/chemml/datasets/GA_files/space.txt
+                    << error_metric = ./chemml/chemml/datasets/GA_files/error_metric.txt
+                    << test_hyperparameters = ./chemml/chemml/datasets/GA_files/test_hyperparameters.txt
+                    << single_obj = ./chemml/chemml/datasets/GA_files/single_obj.txt
+                    << fitness = (min,)
+                    << pop_size = 5
+                    << crossover_size = 2
+                    << mutation_size = 2
+                    << n_splits = 5
+                    << n_generations = 5
+                    >> 5 dfx_train
+                    >> 6 dfy_train
+                    >> 7 dfx_test
+                    >> 8 dfy_test
+                    >> best_ind_df 9
+                    >> best_individual 10
+
+                ## (Output,file)
+                    << host = chemml
+                    << function = SaveFile
+                    << format = csv
+                    << filename = best_ind_df
+                    >> 9 df
+
+                ## (Output,file)
+                    << host = chemml
+                    << function = SaveFile
+                    << format = csv
+                    << filename = best_individual
+                    >> 10 df
+            """
+    return script.strip().split('\n')

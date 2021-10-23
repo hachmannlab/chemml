@@ -41,7 +41,6 @@ Here is a list of external libraries that will be installed with chemml:
    - matplotlib
    - seaborn
    - lxml
-   - graphviz
    - openpyxl
    - ipywidgets
 

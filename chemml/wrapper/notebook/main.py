@@ -985,7 +985,7 @@ class ChemMLNotebook(object):
                         for line in lines:
                             config.write(line)
                     print( "\nThe ChemML Wrapper's config file has been successfully saved ...")
-                    print( "    config file path: %s" % path)
+                    print( "    config file name: %s" % path)
                     print( "    current directory: %s" % os.getcwd())
                     print( "    what's next? run the ChemML Wrapper using the config file with the following codes:")
                     print( "        >>> from chemml.wrapper.engine import run")

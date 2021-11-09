@@ -7,7 +7,7 @@ from chemml.utils import std_datetime_str
 from chemml.utils import tot_exec_time_str
 from chemml.utils import chunk
 from chemml.utils import bool_formatter
-
+from chemml.utils import regression_metrics
 
 def test_list_del_indices():
     mylist = list_del_indices([9,3,5,7,1], [4,2])
@@ -55,3 +55,7 @@ def test_bool_formatter():
 def test_bool_formatter_exception():
     with pytest.raises(ValueError):
         bool_formatter('true')
+
+def test_regression_metrics():
+    metrics = regression_metrics([i for i in range(1,10)],[i for i in range(11,20)])
+    

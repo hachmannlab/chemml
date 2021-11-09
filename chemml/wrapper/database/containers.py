@@ -30,7 +30,7 @@ class Parameter(object):
         self.options = options
 
 def req(ind):
-    all_req = { 0 : ('ChemML','0.6'),
+    all_req = { 0 : ('ChemML','0.8'),
                 1 : ('scikit-learn','0.19.0'),
                 2 : ('pandas', '1.1.3'),
                 3 : ('RDKit','2016.03.1'),
@@ -40,7 +40,7 @@ def req(ind):
                 7 : ('matplotlib','1.5.1'),
                 8 : ('keras', '2.1.2'),
                 9 : ('tensorflow', '1.4.1'),
-                10: ('deap', '1.2.2')
+                10: ('geneticalgorithm', '2.0')
               }
     return all_req[ind]
 

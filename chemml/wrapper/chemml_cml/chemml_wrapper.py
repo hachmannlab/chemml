@@ -1868,3 +1868,229 @@ class SaveFile(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
+class GA(BASE):
+    def fit(self):
+        self.paramFROMinput()
+        # txt_files = list(self.parameters.keys())[:4]      #keys = evaluate, space, error_metric, objecive
+        # ga_eval = self.parameters[txt_files[0]]
+        # space = self.parameters[txt_files[1]]
+        # error_metric = self.parameters[txt_files[2]]
+        # single_obj = self.parameters[txt_files[3]]
+        
+        # for key in self.parameters:
+        #     print(key," : ", self.parameters[key])
+        
+            
+        try:
+            from chemml.optimization import GeneticAlgorithm
+            from sklearn.neural_network import MLPRegressor
+            from sklearn.model_selection import train_test_split
+            from datetime import date, datetime
+
+
+            import numpy as np
+            
+            # for files in list(self.parameters.keys())[:4]:      #keys = evaluate, space, error_metric, objecive
+            #     with open(self.parameters[files],'r') as f:
+            #         contents = f.read()
+            #         # print("files: ", files, "contents: ", contents)
+            #     files = compile(contents, "<string>", "exec")
+            
+            for key in list(self.parameters.keys()):
+                if key == 'fitness':
+                    final_fit=[]
+                    fitness = str(self.parameters[key])[-6:-3]
+                    fitness = fitness[0]+fitness[1]+fitness[2]
+                    final_fit.append(fitness)
+                    final_fit = tuple(final_fit)
+                    # print("fitness: ",final_fit)
+                    # print("type(fitness): ", type(final_fit))
+                elif key == 'pop_size':
+                    pop_size = self.parameters[key]
+                elif key == 'crossover_size':
+                    crossover_size = self.parameters[key]
+                elif key == 'mutation_size':
+                    mutation_size = self.parameters[key]
+                elif key == 'n_splits':
+                    global n_splits
+                    n_splits = self.parameters[key]
+                elif key == 'crossover_type':
+                    crossover_type = self.parameters[key]
+                elif key == 'mutation_prob':
+                    mutation_prob = self.parameters[key]
+                elif key == 'initial_population':
+                    initial_population = self.parameters[key]
+                elif key == 'n_generations':
+                    n_generations = self.parameters[key]
+                elif key == 'early_stopping':
+                    early_stopping = self.parameters[key]
+                elif key == 'init_ratio':
+                   init_ratio = self.parameters[key]
+                elif key == 'crossover_ratio':
+                    crossover_ratio = self.parameters[key]
+                elif key == 'algorithm':
+                    global algorithm
+                    algorithm = self.parameters[key]
+
+            #default in chemml.optimizaiton.geneticalgorithm
+            if 'early_stopping' not in list(self.parameters.keys())[4:]:
+                early_stopping = 10
+
+            with open(self.parameters['error_metric'],'r') as f:
+                contents = f.read()
+                    # print("files: ", files, "contents: ", contents)
+                code = compile(contents, "<string>", "exec")
+                loc = {}
+                try:
+                    exec(code,globals(), loc)
+                    global mae
+                    mae = loc['error_metric']
+                except:
+                    print("Something wrong with the code...")
+                    print("error_metric: ", mae)
+                    print("type(error_metric): ",type(mae))
+
+            with open(self.parameters['space'],'r') as f:
+                contents = f.read()
+                code = compile(contents, "<string>", "exec")
+                loc = {}
+                try:
+                    exec(code,globals(), loc)
+                    space = loc['space']
+                except:
+                    print("Something wrong with the code...")
+                    print("Space: ", space)
+                    print("type(space): ",type(space))
+
+                            
+            with open(self.parameters['single_obj'],'r') as f:
+                contents = f.read()
+                    # print("files: ", files, "contents: ", contents)
+                code = compile(contents, "<string>", "exec")
+                loc = {}
+                try:
+                    exec(code,globals(), loc)
+                    global single_obj
+                    single_obj = loc['single_obj']
+                except:
+                    print("Something wrong with the code...")
+                    print("single_obj: ", single_obj)
+                    print("type(single_obj): ",type(single_obj))
+                
+                # print("single_obj: ", single_obj)
+                # print("type(single_obj): ",type(single_obj))
+
+            with open(self.parameters['evaluate'],'r') as f:
+                contents = f.read()
+                    # print("files: ", files, "contents: ", contents)
+                code = compile(contents, "<string>", "exec")
+                loc = {}
+                try:
+                    exec(code,globals(), loc)
+                    ga_eval = loc['ga_eval']
+                except:
+                    print("Something wrong with the code...")
+                    print("ga_eval: ", ga_eval)
+                    print("type(ga_eval): ",type(ga_eval))
+                # print("ga_eval: ", ga_eval)
+                # print("type(ga_eval): ",type(ga_eval))
+            
+            with open(self.parameters['test_hyperparameters'],'r') as f:
+                contents = f.read()
+                    # print("files: ", files, "contents: ", contents)
+                code = compile(contents, "<string>", "exec")
+                loc = {}
+                try:
+                    exec(code,globals(), loc)
+                    test_hyp = loc['test_hyp']
+                except:
+                    print("Something wrong with the code...")
+                    print("test_hyperparameters: ", test_hyperparameters)
+                    print("type(test_hyperparameters): ",type(test_hyperparameters))
+
+
+            ##### GA happening here#########
+            def ga_mlpregressor(x_train, y_train, x_test, y_test, al=algorithm,n_splits=n_splits,n_generations=n_generations,early_stopping=early_stopping): 
+                global X 
+                global Y
+                X=x_train
+                Y=y_train 
+                print("Hyperparameter optimization is a time consuming process - do not shutdown Kernel....\n")
+                print('Total GA search iterations = ', n_generations*pop_size)
+                gann = GeneticAlgorithm(evaluate=ga_eval, space=space, fitness=final_fit, pop_size = pop_size, crossover_size=crossover_size, mutation_size=mutation_size, algorithm=al)
+                global MLPRegressor
+                from sklearn.neural_network import MLPRegressor
+                global KFold
+                from sklearn.model_selection import KFold
+                import warnings
+                warnings.filterwarnings("ignore")  
+                best_ind_df, best_individual = gann.search(n_generations=n_generations, early_stopping=early_stopping)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+                print("GeneticAlgorithm - complete!")
+ 
+                all_items = list(gann.fitness_dict.items())
+                all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
+                print("\n\ngenetic algorithm results for each generation: \n", best_ind_df, "\n\nbest particle: ", best_individual, "\n")
+                print("Calculating accuracy on test data....")
+                l = [best_individual['neurons1'], best_individual['neurons2'], best_individual['neurons3']]
+                layers = [i for i in l if i != 0]
+                ga_mlp = MLPRegressor(alpha=np.exp(best_individual['alpha']), activation=best_individual['activation'], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=20, early_stopping=True)
+                ga_accuracy_test = test_hyp(mlp=ga_mlp, x=X, y=Y, xtest=x_test, ytest=y_test)
+                print("\n\nTest set error_metric (default = MAE) for the best GA hyperparameter: ", ga_accuracy_test, "\n")
+                return all_items_df , best_ind_df
+
+
+            #Read data here
+            self.required('dfx_train', req=True)
+            dfx_train= self.inputs['dfx_train'].value
+            self.required('dfy_train', req=True)
+            dfy_train= self.inputs['dfy_train'].value
+            self.required('dfx_test', req=True)
+            dfx_test= self.inputs['dfx_test'].value
+            self.required('dfy_test', req=True)
+            dfy_test= self.inputs['dfy_test'].value
+
+
+            # dfx_train = self.inputs['dfx_train'].value
+            # dfy_train = self.inputs['dfy_train'].value
+            # dfx_test = self.inputs['dfx_test'].value
+            # dfy_test = self.inputs['dfy_test'].value
+        
+            # type of ML model defined here
+            for key in list(self.parameters.keys()):
+                if key == 'ml_model':
+                    ml_model = self.parameters[key]
+                    if ml_model == 'MLPRegressor':
+                        
+                        best_ind_df, best_individual = ga_mlpregressor(x_train=dfx_train, y_train=dfy_train, x_test=dfx_test,y_test=dfy_test, al = algorithm, n_splits=n_splits, n_generations=n_generations, early_stopping=early_stopping)
+                        # print(all_items_df)
+
+
+            os.remove("tmp.txt")            #remove tmp file to count  umber of GA iterations
+            os.remove("GA.txt")             #remove file with all GA iterations
+
+            # now = datetime.now()            #to save with current date and time
+            # dt_string = now.strftime("%m-%d-%Y %H-%M-%S")
+            # all_items_df.to_csv('best_ind_df' + str(dt_string) + '.csv')
+            # best_ind_df.to_csv('best_individual' + str(dt_string) + '.csv')
+            # print("GA DONEE!!!")
+
+        except Exception as err:
+            msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err)
+            raise TypeError(msg)
+
+        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
+        for token in set(order):
+            if token not in self.outputs:
+                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
+                raise NameError(msg)
+            elif token == 'best_ind_df':
+                self.set_value(token, best_ind_df)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+            elif token == 'best_individual':
+                self.set_value(token, best_individual)
+                self.outputs[token].count = order.count(token)
+                self.Base.send[(self.iblock, token)] = self.outputs[token]
+
+        # step7: delete all inputs from memory
+        del self.inputs

@@ -323,8 +323,9 @@ class Wrapper(LIBRARY):
             elif host == 'chemml':
                 # check methods
                 legal_functions = [klass[0] for klass in inspect.getmembers(cmlw)]
+                # print("legal_functions: ", legal_functions)
                 if function not in legal_functions:
-                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrarpper" %(iblock,function,host)
+                    msg = "@function #%i: couldn't find function '%s' in the module '%s' wrapper" %(iblock,function,host)
                     raise NameError(msg)
                 self.references(host,function) # check references
                 self.Base.graph_info[iblock] = (host, function)

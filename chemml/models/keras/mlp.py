@@ -130,6 +130,7 @@ class MLP(object):
         obj_dict['path_to_file'] = path +'/'+ filename+'.h5'
         obj_df = pd.DataFrame.from_dict(obj_dict,orient='index')
         obj_df.to_csv(path+'/'+filename+'_chemml_model.csv')
+        print("File saved as "+path+"/"+filename+"_chemml_model.csv")
         
     def load(self, path_to_model):
         """

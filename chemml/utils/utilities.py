@@ -384,7 +384,7 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
     metrics_dict['AE'] = [list(ae)]
     metrics_dict['SE'] = [list(se)]
 
-    var = np.mean(np.square(y_predicted - y_mean))
+    var = np.mean(np.square(y_true - y_mean))
     
     metrics_dict['ME'] = np.mean(e)
     # mean absolute error

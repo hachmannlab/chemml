@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd  # required to load tensorflow properly
 
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.optimizers import SGD
 
 from json import load
@@ -44,8 +44,9 @@ class MLP(object):
         Path to the file that specifies layer configuration
         Refer MLP test to see a sample file
 
-    opt_config_file: str, optional, default: None
-        Path to the file that specifies optimizer configuration
+    opt_config: list, optional, default: None
+        optimizer configuration (for e.g., ["Adam",{"learning_rate":0.01}] or 
+        ["SGD",{"lr":0.01, "momentum":0.9, "lr_decay":0.0, nesterov=False)
         Refer MLP test to see a sample file
 
 
@@ -64,18 +65,21 @@ class MLP(object):
                  regression=True,
                  nclasses=None,
                  layer_config_file=None,
-                 opt_config_file=None):
+                 opt_config=None):
         self.model = Sequential()
         if layer_config_file:
             self.layers = self.parse_layer_config(layer_config_file)
+            self.nhidden = None
+            self.nneurons = None
+            self.activations = None
         else:
             self.layers = []
             self.nhidden = nhidden
             self.nneurons = nneurons if nneurons else [100] * nhidden
             self.activations = activations if activations else ['sigmoid'
                                                                 ] * nhidden
-        if opt_config_file:
-            self.opt = self.parse_opt_config(opt_config_file)
+        if opt_config:
+            self.opt = self.parse_opt_config(opt_config)
         else:
             self.opt = SGD(
                 lr=learning_rate, momentum=0.9, decay=lr_decay, nesterov=False)
@@ -84,6 +88,89 @@ class MLP(object):
         self.loss = loss
         self.is_regression = regression
         self.nclasses = nclasses
+        
+        
+    def get_keras_model(self, include_output=True):
+        """
+        Returns the entire Keras model or the model without the output layer in 
+        its current state (fitted or compiled)
+        
+        Parameters
+        __________
+        include_output: bool
+            if True it will return the entire model, if False it will return 
+            the model without the output layer
+        
+        Returns
+        _______
+        self.model: tensorflow.python.keras type object
+            
+        """
+        if not include_output:
+            head_model = Model(self.model.input, self.model.layers[-2].output)
+            return head_model
+        else:
+            return self.model
+   
+    def save(self, path, filename):
+        """
+        Saves the chemml.models.MLP object along with the underlying 
+        tensorflow.python.keras object
+        
+        Parameters
+        __________
+        path: str
+            the path to the directory where the models should be saved
+        filename: str
+            the name of the model file without the file type
+            
+        """
+        obj_dict = vars(self)
+        self.model.save(path+'/'+filename+'.h5')
+        obj_dict['path_to_file'] = path +'/'+ filename+'.h5'
+        obj_df = pd.DataFrame.from_dict(obj_dict,orient='index')
+        obj_df.to_csv(path+'/'+filename+'_chemml_model.csv')
+        
+    def load(self, path_to_model):
+        """
+        Loads the chemml.models.MLP object along with the underlying 
+        tensorflow.python.keras object
+        
+        Parameters
+        __________
+        path_to_model: str
+            path to the chemml.models.MLP object
+    
+        """
+        chemml_model = pd.read_csv(path_to_model,index_col=0)
+        self.model = load_model(chemml_model.loc['path_to_file'][0])
+        # optimizer config
+        opt = self.model.optimizer.get_config()
+        opt_list = [opt['name']]
+        del opt['name']
+        opt_list.append(opt)
+        self.opt = self.parse_opt_config(opt_list)
+        
+        self.nepochs=int(chemml_model.loc['nepochs'][0])
+        self.batch_size=int(chemml_model.loc['batch_size'][0])
+        self.loss=chemml_model.loc['loss'][0]
+        self.is_regression=eval(chemml_model.loc['is_regression'][0])
+        self.nclasses=chemml_model.loc['nclasses'][0]
+        
+        if str(self.nclasses).lower() == 'nan':
+            self.nclasses = None
+        else:
+            self.nclasses = int(self.nclasses)
+            
+        self.feature_size = int(chemml_model.loc['feature_size'][0])
+        
+        # layer config
+        self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]
+        self.nhidden = None
+        self.nneurons = None
+        self.activations = None
+        
+        return self
 
     def fit(self, X, y):
         """
@@ -114,6 +201,8 @@ class MLP(object):
                     'units': self.nclasses,
                     'activation': 'softmax'
                 }))
+                
+        self.feature_size = X.shape[-1]
         layer_name, layer_params = self.layers[0]
         layer_params['input_dim'] = X.shape[-1]
         keras_layer_module = import_module('tensorflow.keras.layers')
@@ -191,25 +280,27 @@ class MLP(object):
             layers = load(f)
         return layers
 
-    def parse_opt_config(self, opt_config_file):
+    def parse_opt_config(self, opt_config):
         """
         Internal method to parse a optimizer config file
 
         Parameters
         ----------
-        opt_config_file: str
-            Filepath that contains the optimizer configuration file - Refer MLP test to see a sample file
-            Refer MLP test to see a sample file and https://keras.io/optimizers/
-            for all possible types of optimizers and corresponding optimizer parameters
-
+        opt_config: list
+            optimizer configuration (for e.g., ["Adam",{"learning_rate":0.01}] 
+            or ["SGD",{"lr":0.01, "momentum":0.9, "lr_decay":0.0, nesterov=False)
+            refer https://keras.io/optimizers/ for all possible types of 
+            optimizers and corresponding optimizer parameters
+    
         Returns
         -------
         opt: keras.optimizers
             keras optimizer created out of contents of optmizer configuration file
 
         """
-        with open(opt_config_file, 'r') as f:
-            opt_name, opt_params = load(f)
+        if isinstance(opt_config, list):
+            opt_name, opt_params = opt_config[0], opt_config[1]
+            
         keras_opt_module = import_module('tensorflow.keras.optimizers')
         opt = getattr(keras_opt_module, opt_name)(**opt_params)
         return opt

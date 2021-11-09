@@ -59,8 +59,8 @@ def test_init_via_config(data, setup_teardown):
 
     # make opt config file
     opt = ['SGD', {'lr': 0.1, 'momentum': 0.9}]
-    with open(os.path.join(temp_path, 'opt.config'), 'w') as f:
-        dump(opt, f)
+    # with open(os.path.join(temp_path, 'opt.config'), 'w') as f:
+    #     dump(opt, f)
 
     mlp = MLP(
         regression=True,
@@ -68,13 +68,16 @@ def test_init_via_config(data, setup_teardown):
         batch_size=20,
         loss='mse',
         layer_config_file=os.path.join(temp_path, 'layers.config'),
-        opt_config_file=os.path.join(temp_path, 'opt.config'))
+        opt_config=opt)
     Xtr, ytr, Xte, yte = data
     # mlp.model.summary()
     warnings.simplefilter("always")
     with warnings.catch_warnings(record=True) as w:
         mlp.fit(Xtr, ytr)
-        mlp.score(Xte, yte)
+        mlp.save(temp_path, 'temp_model')
+        new_mlp = MLP()
+        new_mlp = new_mlp.load(os.path.join(temp_path,'temp_model_chemml_model.csv'))
+        new_mlp.score(Xte, yte)
 
 
 def test_init_via_params(data):

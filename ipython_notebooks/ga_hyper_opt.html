@@ -1,74 +1,38 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Hyperparameter Optimization using chemml.optimization.GeneticAlgorithm &mdash; ChemML  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Feature Selection using chemml.optimization.GeneticAlgorithm" href="ga_feature_selection.html" />
     <link rel="prev" title="Build a Neural Network using ChemML" href="ml_model.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> ChemML
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,19 +40,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Molecule.html">Molecule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="feature_representation.html">Feature Representation Methods in ChemML</a></li>
@@ -104,85 +57,46 @@
 <li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Convo_nets.html">Neural Fingerprints</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWInputFileGenerator.html">Input File GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyscript_usage.html">Pyscript Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="simple_ml_model.html">Build a simple ML model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GA_tutorial.html">Genetic Algorithm GUI tutorial</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML API</span></p>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../API.html">Library API documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">ChemML</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/ipython_notebooks/ga_hyper_opt.ipynb.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
@@ -453,8 +367,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Hyperparameter-Optimization-using-chemml.optimization.GeneticAlgorithm">
-<h1>Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code><a class="headerlink" href="#Hyperparameter-Optimization-using-chemml.optimization.GeneticAlgorithm" title="Permalink to this headline">¶</a></h1>
+<section id="Hyperparameter-Optimization-using-chemml.optimization.GeneticAlgorithm">
+<h1>Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code><a class="headerlink" href="#Hyperparameter-Optimization-using-chemml.optimization.GeneticAlgorithm" title="Permalink to this headline"></a></h1>
 <p>We use a sample dataset from ChemML library which has the SMILES codes and Dragon molecular descriptors for 500 small organic molecules with their densities in <span class="math notranslate nohighlight">\(kg/m^3\)</span>.</p>
 <p>For more information on Genetic Algorithm, please refer to our <a class="reference external" href="https://doi.org/10.26434/chemrxiv.9782387.v1">paper</a></p>
 <div class="nbinput docutils container">
@@ -475,6 +389,17 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-11-09 18:23:58.580965: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-11-09 18:23:58.581035: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemml/chemml/datasets/base.py:87: FutureWarning: In a future version of pandas all arguments of DataFrame.drop except for the argument &#39;labels&#39; will be keyword-only
+  features = df.drop([&#39;smiles&#39;, &#39;density_Kg/m3&#39;],1)
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -483,8 +408,8 @@ div.rendered_html tbody tr:hover {
 (500, 1) (500, 200)
 </pre></div></div>
 </div>
-<div class="section" id="Defining-hyperparameter-space">
-<h2>Defining hyperparameter space<a class="headerlink" href="#Defining-hyperparameter-space" title="Permalink to this headline">¶</a></h2>
+<section id="Defining-hyperparameter-space">
+<h2>Defining hyperparameter space<a class="headerlink" href="#Defining-hyperparameter-space" title="Permalink to this headline"></a></h2>
 <p>Lets consider <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html">kernel ridge regression from scikit-learn</a> for training. The hyperparameters of interest are: alpha, kernel and degree.</p>
 <p>The space variable is a tuple of dictionaries for each hyperparameter. The dictionary is specified as:</p>
 <p><code class="docutils literal notranslate"><span class="pre">{'name'</span> <span class="pre">:</span> <span class="pre">{'type'</span> <span class="pre">:</span> <span class="pre">&lt;range&gt;}}</span></code></p>
@@ -502,9 +427,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Defining-objective-function">
-<h2>Defining objective function<a class="headerlink" href="#Defining-objective-function" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Defining-objective-function">
+<h2>Defining objective function<a class="headerlink" href="#Defining-objective-function" title="Permalink to this headline"></a></h2>
 <p>The objective function is defined as a function that receives one ‘individual’ of the genetic algorithm’s population that is an ordered list of the hyperparameters defined in the space variable. Within the objective function, the user does all the required calculations and returns the metric (as a tuple) that is supposed to be optimized. If multiple metrics are returned, all the metrics are optimized according to the fitness defined in the initialization of the Genetic Algorithm class.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -517,14 +442,14 @@ div.rendered_html tbody tr:hover {
     <span class="n">krr</span> <span class="o">=</span> <span class="n">KernelRidge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kernel</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">degree</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">krr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">400</span><span class="p">],</span> <span class="n">density</span><span class="p">[:</span><span class="mi">400</span><span class="p">])</span>
     <span class="n">pred</span> <span class="o">=</span> <span class="n">krr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">400</span><span class="p">:])</span>
-    <span class="n">mae</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">density</span><span class="p">[</span><span class="mi">400</span><span class="p">:],</span><span class="n">pred</span><span class="p">)[</span><span class="s1">&#39;MAE&#39;</span><span class="p">]</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">density</span><span class="p">[</span><span class="mi">400</span><span class="p">:],</span><span class="n">pred</span><span class="p">)[</span><span class="s1">&#39;MAE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">mae</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Optimize-the-model">
-<h2>Optimize the model<a class="headerlink" href="#Optimize-the-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Optimize-the-model">
+<h2>Optimize the model<a class="headerlink" href="#Optimize-the-model" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -585,33 +510,33 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>(4.3428571428571425, linear, 1)</td>
-      <td>0.105177</td>
-      <td>0.001049</td>
+      <td>(2.928571428571429, linear, 1)</td>
+      <td>0.102514</td>
+      <td>0.000390</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>(4.3428571428571425, linear, 1)</td>
-      <td>0.105177</td>
-      <td>0.001099</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000230</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>(1.3309342128829402, linear, 1)</td>
-      <td>0.096677</td>
-      <td>0.000536</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000312</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>(1.1297049580471703, linear, 5)</td>
-      <td>0.095685</td>
-      <td>0.000572</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000143</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>(1.1297049580471703, linear, 5)</td>
-      <td>0.095685</td>
-      <td>0.001062</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000309</td>
     </tr>
   </tbody>
 </table>
@@ -631,12 +556,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;alpha&#39;: 1.1297049580471703, &#39;kernels&#39;: &#39;linear&#39;, &#39;degree&#39;: 5}
+{&#39;alpha&#39;: 1.1057547599530448, &#39;kernels&#39;: &#39;linear&#39;, &#39;degree&#39;: 1}
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Resume-optimization">
-<h2>Resume optimization<a class="headerlink" href="#Resume-optimization" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Resume-optimization">
+<h2>Resume optimization<a class="headerlink" href="#Resume-optimization" title="Permalink to this headline"></a></h2>
 <p>The Genetic Algorithm can resume the search for a combination of the best hyperparameters from the last checkpoint. This feature can be useful when the objective function is computationally expensive.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -687,98 +612,72 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>(1.1297049580471703, linear, 5)</td>
-      <td>0.095685</td>
-      <td>0.001405</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000271</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>(1.1297049580471703, linear, 5)</td>
-      <td>0.095685</td>
-      <td>0.000581</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000260</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>(0.37125764950137985, linear, 2)</td>
-      <td>0.091373</td>
-      <td>0.000673</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000471</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>(0.37125764950137985, linear, 2)</td>
-      <td>0.091373</td>
-      <td>0.000532</td>
+      <td>(1.1057547599530448, linear, 1)</td>
+      <td>0.095582</td>
+      <td>0.000116</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>(0.37125764950137985, linear, 2)</td>
-      <td>0.091373</td>
-      <td>0.000353</td>
+      <td>(1.0210089362161252, linear, 4)</td>
+      <td>0.095203</td>
+      <td>0.000316</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
-</script></div>
-</div>
+</script></section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="ga_feature_selection.html" class="btn btn-neutral float-right" title="Feature Selection using chemml.optimization.GeneticAlgorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ml_model.html" class="btn btn-neutral float-left" title="Build a Neural Network using ChemML" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ga_feature_selection.html" class="btn btn-neutral float-right" title="Feature Selection using chemml.optimization.GeneticAlgorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
-
-    </p>
+    <p>&#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

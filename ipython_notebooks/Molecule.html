@@ -1,74 +1,38 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Molecule &mdash; ChemML  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Feature Representation Methods in ChemML" href="feature_representation.html" />
     <link rel="prev" title="Welcome to the ChemML’s documentation!" href="../index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> ChemML
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,19 +40,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">ChemML Library</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Molecule</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Construct-a-molecule-using-SMILES">Construct a molecule using SMILES</a></li>
@@ -107,85 +60,46 @@
 <li class="toctree-l1"><a class="reference internal" href="active_model_based.html">Active Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Convo_nets.html">Neural Fingerprints</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML Wrapper</span></p>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWTutorial.html">ChemML Wrapper Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWInputFile.html">Input File Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CMLWInputFileGenerator.html">Input File GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyscript_usage.html">Pyscript Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="simple_ml_model.html">Build a simple ML model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GA_tutorial.html">Genetic Algorithm GUI tutorial</a></li>
 </ul>
-<p class="caption"><span class="caption-text">ChemML API</span></p>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../API.html">Library API documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../API.html#wrapper-api-documentation">Wrapper API documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">ChemML</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Molecule</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/ipython_notebooks/Molecule.ipynb.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
@@ -456,8 +370,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Molecule">
-<h1>Molecule<a class="headerlink" href="#Molecule" title="Permalink to this headline">¶</a></h1>
+<section id="Molecule">
+<h1>Molecule<a class="headerlink" href="#Molecule" title="Permalink to this headline"></a></h1>
 <p>The central class to construct a molecule from different chemical input formats. This class is built on top of the RDKit and OpenBabel python APIs. We join the forces and strengths of these two cheminformatic libraries for a consistent user experience.</p>
 <p>Several methods are available in this module to facilitate the manipulation of chemical data.</p>
 <div class="nbinput nblast docutils container">
@@ -473,8 +387,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="section" id="Construct-a-molecule-using-SMILES">
-<h2>Construct a molecule using SMILES<a class="headerlink" href="#Construct-a-molecule-using-SMILES" title="Permalink to this headline">¶</a></h2>
+<section id="Construct-a-molecule-using-SMILES">
+<h2>Construct a molecule using SMILES<a class="headerlink" href="#Construct-a-molecule-using-SMILES" title="Permalink to this headline"></a></h2>
 <p>You can always see a representation of the available attributes and chemical formats. The creator shows you how this molecule was originally constructed. The rdkit and pybel molecule objects are also accessible if they have been used to create the molecule.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -505,9 +419,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;)
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Construct-a-molecule-using-3D-atomic-coordinates">
-<h2>Construct a molecule using 3D atomic coordinates<a class="headerlink" href="#Construct-a-molecule-using-3D-atomic-coordinates" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Construct-a-molecule-using-3D-atomic-coordinates">
+<h2>Construct a molecule using 3D atomic coordinates<a class="headerlink" href="#Construct-a-molecule-using-3D-atomic-coordinates" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -534,9 +448,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
         xyz            : &lt;XYZ(geometry: (28, 3), atomic_numbers: (28, 1), atomic_symbols: (28, 1))&gt;)&gt;
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Construct-a-molecule-using-InChi">
-<h2>Construct a molecule using InChi<a class="headerlink" href="#Construct-a-molecule-using-InChi" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Construct-a-molecule-using-InChi">
+<h2>Construct a molecule using InChi<a class="headerlink" href="#Construct-a-molecule-using-InChi" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -563,9 +477,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
         xyz            : None)&gt;
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Visualize-the-molecule">
-<h2>Visualize the molecule<a class="headerlink" href="#Visualize-the-molecule" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Visualize-the-molecule">
+<h2>Visualize the molecule<a class="headerlink" href="#Visualize-the-molecule" title="Permalink to this headline"></a></h2>
 <p>The visualize method shows or allows us to save a molecule image.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -584,9 +498,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <img alt="../_images/ipython_notebooks_Molecule_9_0.png" src="../_images/ipython_notebooks_Molecule_9_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Add-or-remove-hydrogens">
-<h2>Add or remove hydrogens<a class="headerlink" href="#Add-or-remove-hydrogens" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Add-or-remove-hydrogens">
+<h2>Add or remove hydrogens<a class="headerlink" href="#Add-or-remove-hydrogens" title="Permalink to this headline"></a></h2>
 <p>You may need to add hydrogens if you want to optimize the geometry of this molecule to get the spatial information.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -624,9 +538,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <img alt="../_images/ipython_notebooks_Molecule_12_0.png" src="../_images/ipython_notebooks_Molecule_12_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Convert-chemical-formats">
-<h2>Convert chemical formats<a class="headerlink" href="#Convert-chemical-formats" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Convert-chemical-formats">
+<h2>Convert chemical formats<a class="headerlink" href="#Convert-chemical-formats" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -655,9 +569,9 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
         xyz            : None)&gt;
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Optimize-XYZ-geometry">
-<h2>Optimize XYZ geometry<a class="headerlink" href="#Optimize-XYZ-geometry" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Optimize-XYZ-geometry">
+<h2>Optimize XYZ geometry<a class="headerlink" href="#Optimize-XYZ-geometry" title="Permalink to this headline"></a></h2>
 <p>You can optimize a molecule’s structure using force fields via to_xyz method. If the 3D info is not available you should specify a force field as an optimizer.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -729,55 +643,38 @@ array([[-2.36692757, -2.28335772,  0.53992304],
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
-</script></div>
-</div>
+</script></section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="feature_representation.html" class="btn btn-neutral float-right" title="Feature Representation Methods in ChemML" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to the ChemML’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="feature_representation.html" class="btn btn-neutral float-right" title="Feature Representation Methods in ChemML" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.
-
-    </p>
+    <p>&#169; Copyright 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

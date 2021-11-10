@@ -29,8 +29,8 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 .. code:: bash
 
     conda create --name chemml_env python=3.8
-    source activate chemml_env
-    conda install -c conda-forge openbabel rdkit nb_conda_kernels
+    source activate chemml_env    
+    conda install -c conda-forge openbabel rdkit nb_conda_kernels python-graphviz
     pip install chemml
 
 Note: Here is a list of external libraries that will be installed with chemml:
@@ -118,8 +118,9 @@ Please cite the use of ChemML as:
    CMLWInputFile
    CMLWInputFileGenerator
    ./ipython_notebooks/read_excel.ipynb 
-   _./ipython_notebooks/pyscript_usage.ipynb
+   ./ipython_notebooks/pyscript_usage.ipynb
    ./ipython_notebooks/simple_ml_model.ipynb
+   ./ipython_notebooks/GA_tutorial.ipynb
 
 .. toctree::
    :maxdepth: 2

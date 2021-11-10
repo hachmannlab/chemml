@@ -2,8 +2,6 @@
 ChemML Wrapper Tutorial
 =======================
 
-ChemML Wrapper is currently available in the version 0.8. 
-
 ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.

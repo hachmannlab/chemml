@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'ChemML'
-copyright = u'2014-2018 Johannes Hachmann, Mojtaba Haghighatlari'
+copyright = u'2014-2021 Johannes Hachmann, Mojtaba Haghighatlari'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -73,8 +73,8 @@ release = ''#chemml.__version__
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 exclude_patterns = ['_build']
-# exclude_patterns += ['**/cheml/wrappers', 'cheml/wrappers', '*cheml/wrappers', 'cheml/wrappers*', 'cheml/wrappers/*', 'cheml/wrappers/*.*']
-# exclude_patterns += ['**/cheml/utils', 'cheml/utils', '*cheml/utils', 'cheml/utils*', 'cheml/utils/*', 'cheml/utils/*.*']
+# exclude_patterns += ['**/chemml/wrappers', 'chemml/wrappers', '*chemml/wrappers', 'chemml/wrappers*', 'chemml/wrappers/*', 'chemml/wrappers/*.*']
+# exclude_patterns += ['**/chemml/utils', 'chemml/utils', '*chemml/utils', 'chemml/utils*', 'chemml/utils/*', 'chemml/utils/*.*']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.

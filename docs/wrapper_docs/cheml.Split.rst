@@ -10,7 +10,7 @@ Split
     | data manipulation
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | Split
@@ -32,7 +32,7 @@ Split
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Split``
+    |   ``<< host = chemml    << function = Split``
     |   ``<< selection = 1``
     |   ``>> id df``
     |   ``>> id df1``

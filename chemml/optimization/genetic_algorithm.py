@@ -10,50 +10,65 @@ import itertools
 
 class GeneticAlgorithm(object):
     """
-            A python implementation of real-valued, genetic algorithm for solving optimization problems.
+    A python implementation of real-valued, genetic algorithm for solving optimization problems.
 
-            Parameters
-            ----------
-            evaluate: function
-                The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization. 
+    Parameters
+    ----------
+    evaluate : function
+        The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization.
 
-            space: tuple, 
-                A tuple of dict objects specifying the hyper-parameter space to search in. 
-                Each hyper-parameter should be a python dict object with the name of the hyper-parameter as the key. 
-                Value is also a dict object with one mandatory key among: 'uniform', 'int' and 'choice' for defining floating point, integer and choice variables respectively. 
-                Values for these keys should be a list defining the valid hyper-parameter search space (lower and upper bounds for 'int' and 'uniform', and all valid choices for 'choice'). 
-                For uniform, a 'mutation' key is also required for which the value is [mean, standard deviation] for the gaussian distribution.
-                Example: 
-                        ({'alpha': {'uniform': [0.001, 1], 
-                                    'mutation': [0, 1]}}, 
-                        {'layers': {'int': [1, 3]}},
-                        {'neurons': {'choice': range(0,200,20)}})
+    space : tuple,
+        A tuple of dict objects specifying the hyper-parameter space to search in.
+        Each hyper-parameter should be a python dict object with the name of the hyper-parameter as the key.
+        Value is also a dict object with one mandatory key among: 'uniform', 'int' and 'choice' for defining floating point, integer and choice variables respectively.
+        Values for these keys should be a list defining the valid hyper-parameter search space (lower and upper bounds for 'int' and 'uniform', and all valid choices for 'choice').
+        For uniform, a 'mutation' key is also required for which the value is [mean, standard deviation] for the gaussian distribution.
+        Example:
+                ({'alpha': {'uniform': [0.001, 1],
+                            'mutation': [0, 1]}},
+                {'layers': {'int': [1, 3]}},
+                {'neurons': {'choice': range(0,200,20)}})
 
-            fitness: tuple, optional (default = ('Max',)
-                A tuple of string(s) for Maximizing (Max) or minimizing (Min) the objective function(s).
-                
-            pop_size: integer, optional (default = 50)
-                Size of the population
+    fitness : tuple, optional (default = ('Max',)
+        A tuple of string(s) for Maximizing (Max) or minimizing (Min) the objective function(s).
 
-            crossover_size: int, optional (default = 30)
-                Number of individuals to select for crossover.
+    pop_size : integer, optional (default = 50)
+        Size of the population
 
-            mutation_size: int, optional (default = 20)
-                Number of individuals to select for mutation.
+    crossover_size : int, optional (default = 30)
+        Number of individuals to select for crossover.
 
-            crossover_type: string, optional (default = "Blend")
-                Type of crossover: SinglePoint, DoublePoint, Blend, Uniform 
+    mutation_size : int, optional (default = 20)
+        Number of individuals to select for mutation.
 
-            mutation_prob: float, optional (default = 0.4)
-                Probability of mutation.
+    crossover_type : string, optional (default = "Blend")
+        Type of crossover: SinglePoint, DoublePoint, Blend, Uniform
 
-            algorithm: int, optional (default=1)
-                The algorithm to use for the search. Look at the 'search' method for a description of the various algorithms.
+    mutation_prob : float, optional (default = 0.4)
+        Probability of mutation.
 
-            initial_population: list, optional (default=None)
-                The initial population for the algorithm to start with. If not provided, initial population is randomly generated.
+    algorithm : int, optional (default=1)
+        The algorithm to use for the search. Look at the 'search' method for a description of the various algorithms.
 
-            """
+            - Algorithm 1:
+                Initial population is instantiated.
+                Roulette wheel selection is used for selecting individuals for crossover and mutation.
+                The initial population, crossovered and mutated individuals form the pool of individuals from which the best
+                n members are selected as the initial population for the next generation, where n is the size of population.
+
+            - Algorithm 2:
+                Same as algorithm 1 but when selecting individuals for next generation, n members are selected using Roulette wheel selection.
+
+            - Algorithm 3:
+                Same as algorithm 1 but when selecting individuals for next generation, best members from each of the three pools (initital population, crossover and mutation) are selected according to the input parameters in the search method.
+
+            - Algorithm 4:
+                Same as algorithm 1 but mutation population is selected from the crossover population and not from the parents directly.
+
+    initial_population : list, optional (default=None)
+        The initial population for the algorithm to start with. If not provided, initial population is randomly generated.
+
+    """
 
     def __init__(self, 
                 evaluate, 
@@ -288,53 +303,37 @@ class GeneticAlgorithm(object):
 
     def search(self, n_generations=20, early_stopping=10, init_ratio = 0.35, crossover_ratio = 0.35):
         """
-        Algorithm 1:
-            Initial population is instantiated. 
-            Roulette wheel selection is used for selecting individuals for crossover and mutation.
-            The initial population, crossovered and mutated individuals form the pool of individuals from which the best
-            n members are selected as the initial population for the next generation, where n is the size of population.
-
-        Algorithm 2:
-            Same as algorithm 1 but when selecting individuals for next generation, n members are selected using Roulette wheel selection.
-
-        Algorithm 3:
-            Same as algorithm 1 but when selecting individuals for next generation, best members from each of the three pools (initital population, crossover and mutation) are selected according to the input parameters in the search method.
-
-        Algorithm 4:
-            Same as algorithm 1 but mutation population is selected from the crossover population and not from the parents directly.
-
-
         Parameters
         ----------
-        n_generations: integer, optional (default = 20)
+        n_generations : integer, optional (default = 20)
                 An integer for the number of generations to evolve the population for.
 
-        early_stopping: int, optional (default=10)
+        early_stopping : int, optional (default=10)
                 Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
                 the search terminates.
 
-        init_ratio: float, optional (default = 0.4)
+        init_ratio : float, optional (default = 0.4)
             Fraction of initial population to select for next generation. Required only for algorithm 3.
 
-        crossover_ratio: float, optional (default = 0.3)
+        crossover_ratio : float, optional (default = 0.3)
             Fraction of crossover population to select for next generation. Required only for algorithm 3.
 
         
         Attributes
         ----------
-        population: list,
+        population : list,
             list of individuals from the final generation
 
-        fitness_dict: dict,
+        fitness_dict : dict,
             dictionary of all individuals evaluated by the algorithm
 
 
         Returns
         -------
-        best_ind_df:  pandas dataframe
+        best_ind_df :  pandas dataframe
             A pandas dataframe of best individuals of each generation
 
-        best_ind:  dict,
+        best_ind :  dict,
             The best individual after the last generation.
 
         """

@@ -45,7 +45,6 @@ All the methods in the ChemML Wrapper are divided into the following 8 tasks:
     - Prepare
     - Model
     - Search
-    - Mix
     - Visualize
     - Store
 

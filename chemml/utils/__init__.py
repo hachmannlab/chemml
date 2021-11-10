@@ -1,5 +1,5 @@
 """
-The 'cheml.utils' module includes list_del_indices, std_datetime_str, slurm_script_exclusive,
+The 'chemml.utils' module includes list_del_indices, std_datetime_str, slurm_script_exclusive,
 isfloat, string2nan, 
 last modified date: April 25, 2016
 """

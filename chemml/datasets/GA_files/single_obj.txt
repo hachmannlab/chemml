@@ -1,0 +1,12 @@
+def single_obj(mlp, x, y, n_splits=n_splits):
+    n_splits=n_splits
+    kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
+    accuracy_kfold = []
+    for training, testing in kf.split(x):
+        mlp.fit(x[training], y[training])
+        y_pred = mlp.predict(x[testing])
+        y_pred, y_act =y_pred.reshape(-1,1), y[testing].reshape(-1,1)
+        model_accuracy=mae(y_act,y_pred)                             # evaluation metric:  mae
+        accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
+    #print("def single_obj - completed")
+    return np.mean(accuracy_kfold)

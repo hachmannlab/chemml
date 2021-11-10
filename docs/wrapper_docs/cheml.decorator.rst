@@ -10,7 +10,7 @@ decorator
     | artist
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | decorator
@@ -31,7 +31,7 @@ decorator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = decorator``
+    |   ``<< host = chemml    << function = decorator``
     |   ``<< weight = normal``
     |   ``<< family = normal``
     |   ``<< xlim = (None, None)``

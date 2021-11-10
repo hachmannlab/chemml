@@ -21,31 +21,31 @@ class RDKitFingerprint(object):
             - 'hashed_topological_torsion' or 'htt'
             - 'topological_torsion' or 'tt'
 
-    vector: str, optional (default = 'bit')
+    vector : str, optional (default = 'bit')
         Available options for vector:
             - 'int' : represent counts for each fragment instead of bits
                     It is not available for 'MACCS'.
             - 'bit' : only zeros and ones
                     It is not available for 'Topological_torsion'.
 
-    n_bits: int, optional (default = 1024)
+    n_bits : int, optional (default = 1024)
         It sets number of elements/bits in the 'bit' type of fingerprint vectors.
         Not availble for:
             - 'MACCS' - (MACCS keys have a fixed length of 167 bits)
             - 'Topological_torsion' - doesn't return a bit vector at all.
 
-    radius: int, optional (default = 2)
+    radius : int, optional (default = 2)
         only applicable if calculating 'Morgan' fingerprint.
 
-    kwargs:
+    kwargs :
         Any additional argument that should be passed to the rdkit fingerprint function.
 
     Attributes
     ----------
-    n_molecules_: int
+    n_molecules_ : int
         The number of molecules that are received.
 
-    fps_: list
+    fps_ : list
         The list of rdkit fingerprint objects.
 
     """
@@ -72,7 +72,7 @@ class RDKitFingerprint(object):
 
         Parameters
         ----------
-        molecules: chemml.chem.Molecule object or list
+        molecules : chemml.chem.Molecule object or list
             It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
             If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
             smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
@@ -80,7 +80,7 @@ class RDKitFingerprint(object):
 
         Returns
         -------
-        pandas.DataFrame
+        features : pandas.DataFrame
             A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.
 
         """
@@ -224,10 +224,10 @@ class RDKitFingerprint(object):
 
         Parameters
         ----------
-        file: str
+        file : str
             Must be a path to the file with .npz format.
 
-        features: pandas.DataFrame
+        features : pandas DataFrame
             Must be the pandas dataframe as you receive it from `represent` method.
 
         """
@@ -248,12 +248,12 @@ class RDKitFingerprint(object):
 
         Parameters
         ----------
-        file: str
+        file : str
             Must be a path to the file with .npz format.
 
         Returns
         -------
-        pandas.DataFrame
+        features : pandas.DataFrame
             The dense dataframe of the passed sparse file.
 
         """

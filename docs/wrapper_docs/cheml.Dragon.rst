@@ -10,7 +10,7 @@ Dragon
     | molecular descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | Dragon
@@ -36,7 +36,7 @@ Dragon
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = Dragon``
+    |   ``<< host = chemml    << function = Dragon``
     |   ``<< script = new``
     |   ``<< SaveExcludeConst = False``
     |   ``<< MaxSR = '35'``

@@ -64,7 +64,7 @@ def tot_exec_time_str(time_start):
 #     ----------
 #     pyscript_file: string
 #         This is the python script that includes nn_dsgd functions and you are
-#         going to run on the cluster. If you are using the cheml python script
+#         going to run on the cluster. If you are using the chemml python script
 #         maker this parameter is going to be the name of the final output file.
 #
 #     nnodes: int, optional(default = 1)
@@ -357,7 +357,7 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
 
     Returns
     -------
-    metrics dict: dictionary with all metrics
+    metrics_df: dataframe with all metrics
     """
     metrics_dict = {}
     y_true = np.asarray(y_true)
@@ -377,14 +377,14 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
     # squared errors
     se = np.square(e)
 
-    metrics_dict['E'] = list(e)
+    metrics_dict['E'] = [list(e)]
     if re_flag == True:
-        metrics_dict['RE'] = list(re)
+        metrics_dict['RE'] = [list(re)]
     
-    metrics_dict['AE'] = list(ae)
-    metrics_dict['SE'] = list(se)
+    metrics_dict['AE'] = [list(ae)]
+    metrics_dict['SE'] = [list(se)]
 
-    var = np.mean(np.square(y_predicted - y_mean))
+    var = np.mean(np.square(y_true - y_mean))
     
     metrics_dict['ME'] = np.mean(e)
     # mean absolute error
@@ -411,7 +411,7 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
         mape = np.mean(np.abs(re)) * 100
         metrics_dict['MAPE'] = mape
         # maximum absolute percentage error
-        max_abs_perc_error = max(np.abs(re)) * 100
+        max_abs_perc_error = np.max(np.abs(re)) * 100
         metrics_dict['MaxAPE'] = max_abs_perc_error
         # root mean squared percentage error
         rmspe = np.sqrt(np.mean(np.square(re))) * 100
@@ -437,6 +437,7 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
     if nfeatures != None:
         adj_r2 = 1 - ((1-r2) * (ndata - 1)/(ndata - nfeatures -1))
         metrics_dict['adjusted_r_squared'] = adj_r2
-
-    return metrics_dict
+    import pandas as pd
+    metrics_df = pd.DataFrame.from_dict(metrics_dict)
+    return metrics_df
         

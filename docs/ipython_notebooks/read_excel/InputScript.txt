@@ -1,0 +1,58 @@
+## (Enter,table)
+
+    << host = pandas
+
+    << function = read_excel
+
+    << io = pi_smiles.xlsx
+
+    << engine = openpyxl
+
+    >> df 0
+
+
+
+## (Store,file)
+
+    << host = chemml
+
+    << function = SaveFile
+
+    << format = smi
+
+    << output_directory = .
+
+    << header = False
+
+    << filename = smiles
+
+    >> 0 df
+
+    >> filepath 1
+
+
+
+## (Represent,molecular descriptors)
+
+    << host = chemml
+
+    << function = RDKitFingerprint
+
+    >> 1 molfile
+
+    >> df 2
+
+
+
+## (Store,file)
+
+    << host = chemml
+
+    << function = SaveFile
+
+    << filename = fingerprints
+
+    >> 2 df
+
+
+

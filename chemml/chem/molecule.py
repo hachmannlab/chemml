@@ -16,15 +16,15 @@ class XYZ(object):
 
     Parameters
     ----------
-    geometry: ndarray
+    geometry : ndarray
         The numpy array of shape (number_of_atoms, 3).
         It stores the xyz coordinates for each atom of the molecule.
 
-    atomic_numbers: ndarray
+    atomic_numbers : ndarray
         The numpy array of shape (number_of_atoms, 1).
         It stores the atomic numbers of each atom in the molecule (in the same order as geometry).
 
-    atomic_symbols: ndarray
+    atomic_symbols : ndarray
         The numpy array of shape (number_of_atoms, 1).
         It stores the atomic symbols of each atom in the molecule (in the same order as geometry).
 
@@ -82,10 +82,10 @@ class Molecule(object):
 
     Parameters
     ----------
-    input: str
+    input : str
         The representation string or path to a file.
 
-    input_type: str
+    input_type : str
         The input type.
         The available types are enlisted here:
             - smiles: The input must be SMILES representation of a molecule.
@@ -93,7 +93,7 @@ class Molecule(object):
             - inchi: The input must be InChi representation of a molecule.
             - xyz:  The input must be the path to an xyz file.
 
-    kwargs:
+    kwargs :
         The corresponding RDKit arguments for each of the input types:
             - smiles: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmiles
             - smarts: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolFromSmarts
@@ -108,19 +108,19 @@ class Molecule(object):
 
     Attributes
     ----------
-    rdkit_molecule: object
+    rdkit_molecule : object
         The `rdkit.Chem.rdchem.Mol` object
 
-    smiles: str
+    smiles : str
         The SMILES string that you get by running the `to_smiles` method.
 
-    smarts: str
+    smarts : str
         The SMARTS string that you get by running the `to_smarts` method.
 
-    inchi: str
+    inchi : str
         The InChi string that you get by running the `to_inchi` method.
 
-    xyz: instance of <class 'chemml.chem.molecule.XYZ'>
+    xyz : instance of <class 'chemml.chem.molecule.XYZ'>
         The class object that stores the 3D info. The available attributes in the class are 'geometry',
         'atomic_numbers', and 'atomic_symbols'.
 
@@ -383,10 +383,10 @@ class Molecule(object):
 
         Parameters
         ----------
-        action: str
+        action : str
             Either 'add' or 'remove', to add hydrogns or remove them from the rdkit molecule.
 
-        kwargs:
+        kwargs :
             The arguments that can be passed to the rdkit functions:
             - `Chem.AddHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.AddHs
             - `Chem.RemoveHs`: documentation at http://rdkit.org/docs/source/rdkit.Chem.rdmolops.html?highlight=addhs#rdkit.Chem.rdmolops.RemoveHs
@@ -423,6 +423,7 @@ class Molecule(object):
         if input_type == 'xyz':
             self._load_pybel(input, input_type, **kwargs)
         elif input_type in ['smiles', 'smarts', 'inchi']:
+            # print(input)
             self._load_rdkit(input, input_type, **kwargs)
         else:
             msg = "The input type '%s' is not supported." %input_type
@@ -528,7 +529,7 @@ class Molecule(object):
 
         Parameters
         ----------
-        kwargs:
+        kwargs :
             The arguments for the rdkit.Chem.MolToSmiles function.
             The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmiles
 
@@ -570,7 +571,7 @@ class Molecule(object):
 
         Parameters
         ----------
-        kwargs:
+        kwargs :
             All the arguments that can be passed to the rdkit.Chem.MolToSmarts function.
             The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html#rdkit.Chem.rdmolfiles.MolToSmarts
 
@@ -608,7 +609,7 @@ class Molecule(object):
 
         Parameters
         ----------
-        kwargs:
+        kwargs :
             The arguments that can be passed to the rdkit.Chem.MolToInchi function (will be used only if rdkit molecule is available).
             The documentation is available at: http://rdkit.org/docs/source/rdkit.Chem.inchi.html?highlight=inchi#rdkit.Chem.inchi.MolToInchi
 
@@ -648,12 +649,12 @@ class Molecule(object):
 
         Parameters
         ----------
-        optimizer: None or str, optional (default: None)
+        optimizer : None or str, optional (default: None)
             If None, the geometries will be extracted from the available source of 3D structure (if any).
             Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or
             'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.
 
-        kwargs:
+        kwargs :
             The arguments that can be passed to the corresponding forcefileds.
             The documentation is available at:
                 - UFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule
@@ -881,7 +882,7 @@ class Molecule(object):
 
         Returns
         -------
-        object
+        fig : object
             You will be able to display this object, e.g., inside the Jupyter Notebook.
 
         """

@@ -10,7 +10,7 @@ RDKitFingerprint
     | molecular descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | RDKitFingerprint
@@ -33,7 +33,7 @@ RDKitFingerprint
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = RDKitFingerprint``
+    |   ``<< host = chemml    << function = RDKitFingerprint``
     |   ``<< nBits = 1024``
     |   ``<< molfile = required_required``
     |   ``<< removeHs = True``

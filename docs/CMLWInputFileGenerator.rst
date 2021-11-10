@@ -4,16 +4,19 @@
 Input File GUI
 ==============
 
-...::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::...
+MAC OS and Linux users may run the commands directly in the terminal once ChemML has been installed.
 
-The ChemML wrapper's graphical user interface (GUI) facilitate the generation of the input files.
-You can run GUI locally in the Jupyter notebook with two lines of python code:
+For Windows users, we recommend installing WSL: https://docs.microsoft.com/en-us/windows/wsl/install-win10 
+       * Through the WSL terminal, install ChemML using the Python Package Index (PyPI) via pip as specified in the installation tutorial.
+       * The steps that follow must be run in the WSL terminal.
 
-.. code:: python
+The ChemML wrapper's graphical user interface (GUI) facilitates the generation of input files.
 
-    from cheml.notebooks import wrapperGUI
-    ui = wrapperGUI()
+To run a notebook, the user must run the following commands in the terminal with the environment, which has ChemML installed, activated:
 
+.. code:: bash
+
+   jupyter notebook
 
 Requirements:
     - Jupyter notebook
@@ -26,35 +29,16 @@ Requirements:
         * Using graphviz library, you will see a graphical visualization of your project's workflow simultaneously.
         * graphviz will be installed accompanied by chemml via pip.
 
-We recommend downloading and installing Anaconda for python 2. This way Jupyter will be installed automatically.
-If you are using anaconda and you plan to use a virtual environment, please run the following commands to
-install ChemML and wrapperGUI (the first and third lines are unnecessary if you have already installed chemml):
-
-.. code:: bash
-
-   conda create --name my_chemml_env python=2.7
-   source activate my_chemml_env
-   pip install chemml --user -U
-
-   jupyter nbextension install --py widgetsnbextension --user
-   jupyter nbextension enable --sys-prefix --py widgetsnbextension
-   conda install -c conda-forge nb_conda_kernels
-
-The last command installs nb_conda_kernels, which provides a seprate Jupyter kernel for each conda environment. You need it to run
-a Jupyter notebook with a kernel pointing to 'my_chemml_env' environment.
-
-To run a notebook, you just need to run the following command in the Terminal:
-
-.. code:: bash
-
-   jupyter notebook
-
-This will consequently open a notebook dashboard in your browser.
-Now if you click on the 'New' button in the top right corner and select the
-'python: my_chemml_env', an empty notebook will be opened in a new tab.
-Please type the two above-mentioned lines of python code
-and press Ctrl+Enter to run the wrapperGUI.
+A Jupyter notebook will open for the current environment.
+In the new Jupyter notebook, ensure the Kernel for the desired environment is activated. This can be done using: 
+        * Under Kernel > Change Kernel > Python (environment name)
 
 
+Run the GUI locally in the Jupyter notebook via: 
 
-A link to the web application of this GUI will be posted here soon.
+.. code:: python
+
+    from chemml.wrapper.notebook import ChemMLNotebook
+    ui = ChemMLNotebook()
+
+Instructions to run the input files, created using the Jupyter GUI, will appear once the input file is saved using the GUI.

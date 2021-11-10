@@ -10,7 +10,7 @@ load_cep_homo
     | datasets
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | load_cep_homo
@@ -31,7 +31,7 @@ load_cep_homo
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = load_cep_homo``
+    |   ``<< host = chemml    << function = load_cep_homo``
     |   ``>> id smiles``
     |   ``>> id homo``
     |

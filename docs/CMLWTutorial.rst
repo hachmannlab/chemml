@@ -2,8 +2,6 @@
 ChemML Wrapper Tutorial
 =======================
 
-...::: ChemML Wrapper is currently only available in the version 0.4.* (Python 2.7) :::...
-
 ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.
@@ -90,7 +88,7 @@ Here you can see a simple input script::
 Let's create a text file with name 'tutorial.config' and copy the above input script into that file.
 If we copy this script into 'existing script' tab of the :ref:`ChemML_Wrapper_InFileGen`, a graphical visualization of the workflow will be presented as follow:
 
-.. image:: images/tut_graph.png
+.. image:: ./images/tut_graph.png
 
 ----
 ===========================
@@ -118,8 +116,8 @@ You can also run your input script with python codes as a python script or inter
 .. code:: python
 
     # we assume you saved your script with the name 'tutorial.config' in your Desktop folder
-    from cheml import wrapperRUN
-    wrapperRUN(INPUT_FILE = '/Desktop/tutorial.config', OUTPUT_DIRECTORY = 'output_directory')
+    from chemml.wrapper.engine import run
+    run(INPUT_FILE = '/Desktop/tutorial.config', OUTPUT_DIRECTORY = 'output_directory')
 
     # or
 
@@ -184,7 +182,7 @@ You can also run your input script with python codes as a python script or inter
                     >> dfy_predict 7
 
              """
-    wrapperRUN(INPUT_FILE = script, OUTPUT_DIRECTORY = 'output_directory')
+    run(INPUT_FILE = script, OUTPUT_DIRECTORY = 'output_directory')
 
 
 Although you can run your script interactively, we recommend using the first method

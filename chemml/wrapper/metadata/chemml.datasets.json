@@ -1,0 +1,126 @@
+{
+    "name": "chemml.datasets",
+    "docstring": "",
+    "inputs": [],
+    "outputs": [],
+    "node_functions": [
+        {
+            "name": "load_cep_homo",
+            "docstring": "Load and return a small sample of HOMO energies of organic photovoltaic candidates from CEP database (regression).\n    Clean Energy Project (CEP) database is available at: https://cepdb.molecularspace.org\n    The unit of HOMO (highest occupied molecular orbitals) energies is electron Volt (eV).\n    The photovaltaic candidates are provided using SMILES representation.\n\n    =================   ==============\n    rows                           500\n    Columns                          2\n    headers             smiles,homo_eV\n    molecules rep.              SMILES\n    Features                         0\n    Returns               2 dataframes\n    =================   ==============\n\n    Returns\n    -------\n    smiles: pandas dataframe\n        The SMILES representation of molecules, shape: (500,1)\n\n    homo: pandas dataframe\n        The HOMO energies of the molecules (eV), shape: (500,1)\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_cep_homo\n    >>> smi, homo  = load_cep_homo()\n    >>> print(list(smi.columns))\n    ['smiles']\n    >>> print(homo.shape)\n    (500, 1)\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "smiles",
+                    "docstring": "The SMILES representation of molecules, shape: (500,1)",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "homo",
+                    "docstring": "The HOMO energies of the molecules (eV), shape: (500,1)",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "load_comp_energy",
+            "docstring": "Load and return composition entries and formation energies (eV).\n    From Magpie https://bitbucket.org/wolverton/magpie\n\n    =================   ======================\n    rows                                   630\n    header                    formation_energy\n    molecules rep.                 composition\n    Features                                 0\n    Returns             1 dataframe and 1 list\n    =================   ======================\n\n    Returns\n    -------\n    entries: list\n        The list of composition entries from CompositionEntry class.\n\n    energy: pandas dataframe\n        The formation energy for each composition.\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_comp_energy\n    >>> entries, df = load_comp_energy()\n    >>> print(df.shape)\n    (630, 1)\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "entries",
+                    "docstring": "The list of composition entries from CompositionEntry class.",
+                    "param_type": [
+                        "list"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "energy",
+                    "docstring": "The formation energy for each composition.",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "load_crystal_structures",
+            "docstring": "Load and return crystal structure entries.\n    From Magpie https://bitbucket.org/wolverton/magpie\n\n    =================   ======================\n    length                                  18\n    header                    formation_energy\n    molecules rep.                 composition\n    Features                                 0\n    Returns                             1 list\n    =================   ======================\n\n    Returns\n    -------\n    entries: list\n        The list of crystal structure entries from CrystalStructureEntry class.\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_crystal_structures\n    >>> entries = load_crystal_structures()\n    >>> print(len(entries))\n    18\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "entries",
+                    "docstring": "The list of crystal structure entries from CrystalStructureEntry class.",
+                    "param_type": [
+                        "list"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "load_organic_density",
+            "docstring": "Load and return 500 small organic molecules with their density and molecular descriptors.\n\n    =================   ======================\n    rows                                   500\n    Columns                                202\n    last twoo headers     smiles,density_Kg/m3\n    molecules rep.                      SMILES\n    Features                               200\n    Returns                       3 dataframes\n    =================   ======================\n\n    Returns\n    -------\n    smiles: pandas dataframe\n        The SMILES representation of molecules, shape: (500,1)\n\n    density: pandas dataframe\n        The density of molecules (Kg/m3), shape: (500,1)\n\n    features: pandas dataframe\n        The molecular descriptors of molecules, shape: (500,200)\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_organic_density\n    >>> smi, density, features = load_organic_density()\n    >>> print(list(smi.columns))\n    ['smiles']\n    >>> print(features.shape)\n    (500, 200)\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "smiles",
+                    "docstring": "The SMILES representation of molecules, shape: (500,1)",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "density",
+                    "docstring": "The density of molecules (Kg/m3), shape: (500,1)",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "features",
+                    "docstring": "The molecular descriptors of molecules, shape: (500,200)",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                }
+            ]
+        },
+        {
+            "name": "load_xyz_polarizability",
+            "docstring": "Load and return xyz files and polarizability (Bohr^3).\n    The xyz coordinates of small organic molecules are optimized with BP86/def2svp level of theory.\n    Polarizability of the molecules are also calcualted in the same level of thoery.\n\n    =================   ======================\n    rows                                    50\n    Columns                                  1\n    header                      polarizability\n    molecules rep.                         xyz\n    Features                                 0\n    Returns             1 dataframe and 1 dict\n    =================   ======================\n\n    Returns\n    -------\n    molecules: list\n        The list of molecule objects with xyz coordinates.\n\n    pol: pandas dataframe\n        The polarizability of each molecule as a column of dataframe.\n\n    Examples\n    --------\n    >>> from chemml.datasets import load_xyz_polarizability\n    >>> molecules, polarizabilities = load_xyz_polarizability()\n    >>> print(len(molecules))\n    50\n    >>> print(polarizabilities.shape)\n    (50, 1)\n    ",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "molecules",
+                    "docstring": "The list of molecule objects with xyz coordinates.",
+                    "param_type": [
+                        "list"
+                    ],
+                    "returned": true
+                },
+                {
+                    "name": "pol",
+                    "docstring": "The polarizability of each molecule as a column of dataframe.",
+                    "param_type": [
+                        "dataframe"
+                    ],
+                    "returned": true
+                }
+            ]
+        }
+    ],
+    "nodes": [],
+    "library": "chemml",
+    "module": "datasets"
+}

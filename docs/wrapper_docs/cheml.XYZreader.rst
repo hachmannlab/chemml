@@ -10,7 +10,7 @@ XYZreader
     | xyz
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | XYZreader
@@ -28,7 +28,7 @@ XYZreader
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = XYZreader``
+    |   ``<< host = chemml    << function = XYZreader``
     |   ``<< path_root = None``
     |   ``<< skip_lines = [2, 0]``
     |   ``<< reader = auto``

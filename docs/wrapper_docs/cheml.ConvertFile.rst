@@ -10,7 +10,7 @@ ConvertFile
     | Convert
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ConvertFile
@@ -30,7 +30,7 @@ ConvertFile
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ConvertFile``
+    |   ``<< host = chemml    << function = ConvertFile``
     |   ``<< to_format = required_required``
     |   ``<< file_path = required_required``
     |   ``<< from_format = required_required``

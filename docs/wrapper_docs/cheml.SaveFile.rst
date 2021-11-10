@@ -10,7 +10,7 @@ SaveFile
     | file
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | SaveFile
@@ -30,7 +30,7 @@ SaveFile
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = SaveFile``
+    |   ``<< host = chemml    << function = SaveFile``
     |   ``<< index = False``
     |   ``<< record_time = False``
     |   ``<< format = csv``

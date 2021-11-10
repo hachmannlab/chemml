@@ -10,7 +10,7 @@ LocalPropertyDifferenceAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | LocalPropertyDifferenceAttributeGenerator
@@ -30,7 +30,7 @@ LocalPropertyDifferenceAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = LocalPropertyDifferenceAttributeGenerator``
+    |   ``<< host = chemml    << function = LocalPropertyDifferenceAttributeGenerator``
     |   ``<< elemental_properties = required_required``
     |   ``<< shells = [1]``
     |   ``>> id entries``

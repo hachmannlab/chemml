@@ -1,5 +1,5 @@
 """
-The cheml.optimization module includes (please click on links adjacent to function names for more information):
+The chemml.optimization module includes (please click on links adjacent to function names for more information):
     - GeneticAlgorithm: :func:`~chemml.optimization.GeneticAlgorithm`
     - ActiveLearning: :func:`~chemml.optimization.ActiveLearning`
 """

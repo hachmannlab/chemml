@@ -1,0 +1,6 @@
+def test_hyp(mlp, x, y, xtest, ytest):                                          
+    mlp.fit(x, y)
+    ypred = mlp.predict(xtest)
+    acc=mae(ytest,ypred)
+    # print(" test_hyp completed ")
+    return np.mean(acc)

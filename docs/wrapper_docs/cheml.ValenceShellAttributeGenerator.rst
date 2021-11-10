@@ -10,7 +10,7 @@ ValenceShellAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | ValenceShellAttributeGenerator
@@ -30,7 +30,7 @@ ValenceShellAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = ValenceShellAttributeGenerator``
+    |   ``<< host = chemml    << function = ValenceShellAttributeGenerator``
     |   ``>> id entries``
     |   ``>> id df``
     |

@@ -22,10 +22,7 @@ Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more
 ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
-The format of library is similar to the well known libraries like Scikit-learn. ChemML will be soon available 
-via graphical user interface provided by [ChemEco](https://github.com/hachmannlab/chemeco).
-ChemEco is a general-purpose framework for data mining without coding. It also interfaces with many of the libraries that supply methods for the 
-representation, preprocessing, analysis, mining, and modeling of large-scale chemical data sets.
+The format of library is similar to the well known libraries like Scikit-learn. 
 
 
 ## Latest Version:
@@ -44,12 +41,14 @@ Here is a list of external libraries that will be installed with chemml:
    - matplotlib
    - seaborn
    - lxml
+   - openpyxl
+   - ipywidgets
 
-Since conda installation is not available for ChemML yet, we recommend installing rdkit and openbabel (please install openbabel 2.x not openbabel 3.x) in a conda virtual environment prior to installing ChemML. For doing so, you need to follow the conda installer:
+We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install Chemml using the Python Package Index (PyPI) via pip are as follows:
 
-    conda create --name my_chemml_env python=3.6
-    source activate my_chemml_env
-    conda install -c conda-forge rdkit openbabel
+    conda create --name chemml_env python=3.8
+    source activate chemml_env
+    conda install -c conda-forge openbabel rdkit nb_conda_kernels python-graphviz
     pip install chemml
 
 ## Citation:
@@ -93,6 +92,13 @@ Please cite the use of ChemML as:
     year = {2018}
     }
 
+    @article{vishwakarma2019towards,
+    title={Towards autonomous machine learning in chemistry via evolutionary algorithms},
+    author={Vishwakarma, Gaurav and Haghighatlari, Mojtaba and Hachmann, Johannes},
+    journal={ChemRxiv preprint},
+    year={2019}
+    }
+
 ## License:
 ChemML is copyright (C) 2014-2018 Johannes Hachmann and Mojtaba Haghighatlari, all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
@@ -102,7 +108,8 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 ### Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
     - Mojtaba Haghighatlari
-    - Aditya Sonpal
+    - Aditya Sonpal, adityaso@buffalo.edu
+    - Aatish Pradhan, aatishpr@buffalo.edu
     University at Buffalo - The State University of New York (UB)
 
 ### Contributors:
@@ -110,9 +117,11 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
     - Gaurav Vishwakarma (UB): automated model optimization
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
+    - Aditya Sonpal (UB): graph convolution NNs
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
+    - Aatish Pradhan (UB): Jupyter GUI developer
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

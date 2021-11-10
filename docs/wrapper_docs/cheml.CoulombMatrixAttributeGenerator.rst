@@ -10,7 +10,7 @@ CoulombMatrixAttributeGenerator
     | inorganic descriptors
 
 :host:
-    | cheml
+    | chemml
 
 :function:
     | CoulombMatrixAttributeGenerator
@@ -30,7 +30,7 @@ CoulombMatrixAttributeGenerator
 
 :config file view:
     | ``##``
-    |   ``<< host = cheml    << function = CoulombMatrixAttributeGenerator``
+    |   ``<< host = chemml    << function = CoulombMatrixAttributeGenerator``
     |   ``<< n_eigenvalues = 30``
     |   ``>> id entries``
     |   ``>> id df``

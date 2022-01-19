@@ -61,9 +61,11 @@ def test_h2o(mols):
 
 def test_mollist(mols2):
     bob = BagofBonds(const=1.0, n_jobs=2, verbose=False)
+    for i in mols2:
+        i.hydrogens('remove')
     features = bob.represent(mols2)
-
-    assert features.shape == (4, 13)
+    
+    assert features.shape == (4, 80)
     assert bob.header_.count((6.0,6.0)) == 6
 
 

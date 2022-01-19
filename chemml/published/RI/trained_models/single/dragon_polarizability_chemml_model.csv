@@ -1,0 +1,14 @@
+,0
+model,<keras.engine.sequential.Sequential object at 0x2ba078014c90>
+layers,"[('Dense', {'units': 64, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba077fecfd0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba078c0c510>, 'activation': 'relu', 'input_dim': 1893}), ('Dropout', {'rate': 0.002}), ('Dense', {'units': 32, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba07e80dad0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba078c0c110>, 'activation': 'relu'}), ('Dropout', {'rate': 0.002}), ('Dense', {'units': 64, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba078c0c490>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba078c0c5d0>, 'activation': 'relu'}), ('Dropout', {'rate': 0.002}), ('Dense', {'units': 1, 'activation': 'linear'})]"
+nhidden,1
+nneurons,[100]
+activations,['sigmoid']
+opt,<keras.optimizer_v2.adam.Adam object at 0x2ba078c0c3d0>
+nepochs,500
+batch_size,50
+loss,mean_squared_error
+is_regression,True
+nclasses,
+feature_size,1893
+path_to_file,/projects/academic/hachmann/gaurav/book_chapter/chemml_scripts/results/models/single//dragon_pol.h5

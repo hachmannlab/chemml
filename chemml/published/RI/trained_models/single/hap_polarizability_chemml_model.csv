@@ -1,0 +1,14 @@
+,0
+model,<keras.engine.sequential.Sequential object at 0x2ba07e88da10>
+layers,"[('Dense', {'units': 256, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba0791ad6d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba0791ad790>, 'activation': 'relu', 'input_dim': 1024}), ('Dropout', {'rate': 0.12}), ('Dense', {'units': 64, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba0791ad7d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba0791ad890>, 'activation': 'relu'}), ('Dropout', {'rate': 0.12}), ('Dense', {'units': 1, 'activation': 'linear'})]"
+nhidden,1
+nneurons,[100]
+activations,['sigmoid']
+opt,<keras.optimizer_v2.adam.Adam object at 0x2ba07e88da50>
+nepochs,500
+batch_size,50
+loss,mean_squared_error
+is_regression,True
+nclasses,
+feature_size,1024
+path_to_file,/projects/academic/hachmann/gaurav/book_chapter/chemml_scripts/results/models/single//hap_pol.h5

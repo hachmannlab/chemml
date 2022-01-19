@@ -1,0 +1,14 @@
+,0
+model,<keras.engine.sequential.Sequential object at 0x2ba078fe4f50>
+layers,"[('Dense', {'units': 32, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba079041850>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba07936cad0>, 'activation': 'relu', 'input_dim': 1893}), ('Dropout', {'rate': 0.0}), ('Dense', {'units': 64, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba07936c4d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba07936c490>, 'activation': 'relu'}), ('Dropout', {'rate': 0.0}), ('Dense', {'units': 128, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba07936c5d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba07936c350>, 'activation': 'relu'}), ('Dropout', {'rate': 0.0}), ('Dense', {'units': 256, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba07936c2d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba07936cd50>, 'activation': 'relu'}), ('Dropout', {'rate': 0.0}), ('Dense', {'units': 128, 'kernel_initializer': <keras.initializers.initializers_v2.GlorotUniform object at 0x2ba07936c6d0>, 'kernel_regularizer': <keras.regularizers.L2 object at 0x2ba07936cdd0>, 'activation': 'relu'}), ('Dropout', {'rate': 0.0}), ('Dense', {'units': 1, 'activation': 'linear'})]"
+nhidden,1
+nneurons,[100]
+activations,['sigmoid']
+opt,<keras.optimizer_v2.adam.Adam object at 0x2ba079251d10>
+nepochs,500
+batch_size,50
+loss,mean_squared_error
+is_regression,True
+nclasses,
+feature_size,1893
+path_to_file,/projects/academic/hachmann/gaurav/book_chapter/chemml_scripts/results/models/single//dragon_ri.h5

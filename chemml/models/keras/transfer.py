@@ -15,21 +15,32 @@ class TransferLearning(object):
     base_model: chemml.models.keras.MLP object or tensorflow.python.keras object
         pre-trained base model
     
-    n_features: int or None, default: None
+    n_features: int or None (default=None)
         no. of input features provided for training the base model. If base_model
         is a tensorflow.python.keras object then n_features must be int, else it 
         can be None.
     
+    n_layers: int, optional (default=None)
+            remove the last 'n' hidden layers from the base model. 
+            Note that this number should not include the output layer.
+    
     """
-    def __init__(self, base_model, n_features=None):
+    def __init__(self, base_model, n_features=None, n_layers=None):
         # getting the keras model from the chemml object
         # self.base_model will now be a keras object without the initial layer
         if type(base_model) is chemml.models.keras.mlp.MLP:
             self.base_features = base_model.feature_size
-            self.base_model = base_model.get_keras_model(include_output=False)
+            self.base_model = base_model.get_keras_model(include_output=False, n_layers=n_layers)
             
         elif 'tensorflow.python.keras' in str(type(base_model)):
-            self.base_model = Model(base_model.input, base_model.layers[-2].output) #removing output from base tensorflow model
+            #removing output from base tensorflow model
+            if n_layers is not None:
+                if isinstance(n_layers, int):
+                    self.base_model = Model(base_model.input, base_model.layers[-(2+n_layers)].output)
+                else:
+                    raise ValueError('n_layers should be an integer.')
+            else:
+                self.base_model = Model(base_model.input, base_model.layers[-2].output) 
             
             if n_features == None:
                 raise ValueError('When using a keras model as a base model, the no. of features for base model have to be provided.')

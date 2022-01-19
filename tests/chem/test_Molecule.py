@@ -168,7 +168,7 @@ def test_load_xyzfile(xyz_path):
     assert isinstance(m.pybel_molecule, pybel.Molecule)
     assert m.xyz.geometry.shape == (28, 3)
     m.to_smiles()
-    assert m.smiles == 'c1ccc(CC2CCCC2)cc1'
+    assert m.smiles == 'C1CCC(C1)Cc1ccccc1' #'c1ccc(CC2CCCC2)cc1'
     m.to_smarts()
     assert m.smarts == '[#6]1-[#6]-[#6]-[#6](-[#6]-1)-[#6]-[#6]1:[#6]:[#6]:[#6]:[#6]:[#6]:1'
     m.to_inchi()
@@ -178,7 +178,7 @@ def test_load_xyz_scenarios(xyz_path):
     path = os.path.join(xyz_path,'1_opt.xyz')
     m = Molecule(path, 'xyz')
     # 1 : xyz exist and optimizer is none
-    assert m.to_xyz()
+    assert m.to_xyz() is None
     # 2 xyz doesn't exist and pybel exist and optimizer is none
     m._xyz = None
     m.to_xyz()

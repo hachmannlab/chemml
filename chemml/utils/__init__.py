@@ -25,9 +25,13 @@ from .validation import value
 from .validation import check_object_col
 from .validation import update_default_kwargs
 
+from .utilities import ConvertFile
+
+
 __all__ = [
     'list_del_indices',
     'std_datetime_str',
     'isfloat',
     'mol_shapes_to_dims',
+    'ConvertFile'
 ]

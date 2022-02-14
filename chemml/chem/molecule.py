@@ -9,6 +9,7 @@ import numpy as np
 
 from ..utils import update_default_kwargs
 
+# pybel.ob.obErrorLog.StopLogging()
 
 class XYZ(object):
     """
@@ -92,6 +93,7 @@ class Molecule(object):
             - smarts: The input must be SMARTS representation of a molecule.
             - inchi: The input must be InChi representation of a molecule.
             - xyz:  The input must be the path to an xyz file.
+            - mol2: The input must be the path to an mol2 file.
 
     kwargs :
         The corresponding RDKit arguments for each of the input types:
@@ -268,13 +270,15 @@ class Molecule(object):
            ['H'],
            ['H']], dtype='<U1')
     """
-    def __init__(self, input, input_type, **kwargs):
+    def __init__(self, input_mol, input_type, engine='rdkit', **kwargs):
+        
         self.rdkit_molecule = None
         self.pybel_molecule = None
         self.creator = None
         self._init_attributes()
         self._extra_docs()
-        self._load(input, input_type, **kwargs)
+        self._load(input_mol, input_type, engine, **kwargs)
+
 
     def __repr__(self):
         return '<chemml.chem.Molecule(\n' \
@@ -285,6 +289,7 @@ class Molecule(object):
                '        smarts         : {self.smarts!r},\n' \
                '        inchi          : {self.inchi!r},\n' \
                '        xyz            : {self.xyz!r})>'.format(self=self)
+
 
     def _init_attributes(self):
         # SMILES
@@ -298,6 +303,7 @@ class Molecule(object):
         self._inchi_args = None
         # xyz
         self._xyz = None
+        self._mol2 = None
         self._UFF_args = None
         self._MMFF_args = None
         # default arguments
@@ -307,6 +313,7 @@ class Molecule(object):
         self._default_rdkit_inchi_args = {"options":'', 'logLevel':None, 'treatWarningAsError':False}
         self._default_UFF_args = {'maxIters':200, 'vdwThresh':10.0, 'confId':-1, 'ignoreInterfragInteractions':True}
         self._default_MMFF_args = {'mmffVariant':'MMFF94', 'maxIters':200, 'nonBondedThresh':100.0, 'confId':-1, 'ignoreInterfragInteractions':True}
+
 
     def _extra_docs(self):
         # method: to_smiles
@@ -329,53 +336,72 @@ class Molecule(object):
             "http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule"
         )
 
+
     @property
     def smiles(self):
         return self._smiles
+
 
     @property
     def smiles_args(self):
         return self._smiles_args
 
+
     @property
     def smarts(self):
         return self._smarts
+
 
     @property
     def smarts_args(self):
         return self._smarts_args
 
+
     @property
     def inchi(self):
         return self._inchi
+
 
     @property
     def inchi_args(self):
         return self._inchi_args
 
+
     @property
     def xyz(self):
         return self._xyz
 
+    
+    @property
+    def mol2(self):
+        return self._mol2
+        
+    
     @property
     def UFF_args(self):
         return self._UFF_args
+
 
     @property
     def MMFF_args(self):
         return self._MMFF_args
 
-    def _check_original_molecule(self):
+
+
+    def _check_original_molecule(self): 
+
         if self.rdkit_molecule is None and self.pybel_molecule is None:
             msg = "Neither rdkit nor pybel molecule object has been created yet."
             raise ValueError(msg)
         elif self.rdkit_molecule is None:
-            return 'pybel'
+            return 'openbabel'
         elif self.pybel_molecule is None:
             return 'rdkit'
         # in case both of them are available go with rdkit
         else:
             return 'rdkit'
+
+
 
     def hydrogens(self, action='add', **kwargs):
         """
@@ -416,33 +442,45 @@ class Molecule(object):
         else:
             raise ValueError("The parameter 'action' must be either of 'add' or 'remove'.")
 
-    def _load(self, input, input_type, **kwargs):
+
+
+    def _load(self, input_mol, input_type, engine, **kwargs):
         """
         The main internal function to load a molecule.
         """
-        if input_type == 'xyz':
-            self._load_pybel(input, input_type, **kwargs)
-        elif input_type in ['smiles', 'smarts', 'inchi']:
-            # print(input)
-            self._load_rdkit(input, input_type, **kwargs)
-        else:
+        if input_type not in ['smiles', 'smarts', 'inchi', 'xyz', 'mol2']:
             msg = "The input type '%s' is not supported." %input_type
             raise ValueError(msg)
+        
+        if engine == 'openbabel' or input_type.lower() == 'xyz':
+            try:
+                self._load_pybel(input_mol, input_type)
+            except:
+                raise ValueError('Not a valid openbabel input.')
+                
+        elif engine == 'rdkit':
+            self._load_rdkit(input_mol, input_type, **kwargs)
+            
+        else:
+            msg = "The engine '%s' is not supported." %engine
+            raise ValueError(msg)
 
-    def _load_rdkit(self, input, input_type, from_load=True, **kwargs):
+
+
+    def _load_rdkit(self, input_mol, input_type, from_load=True, **kwargs):
         """
         The internal function to load a molecule using rdkit engine.
         """
 
         if input_type == 'smiles':
-            creator = ('SMILES', input)
-            rdkit_mol = Chem.MolFromSmiles(input, **kwargs)
+            creator = ('SMILES', input_mol)
+            rdkit_mol = Chem.MolFromSmiles(input_mol, **kwargs)
         elif input_type == 'smarts':
-            creator = ('SMARTS', input)
-            rdkit_mol = Chem.MolFromSmarts(input, **kwargs)
+            creator = ('SMARTS', input_mol)
+            rdkit_mol = Chem.MolFromSmarts(input_mol, **kwargs)
         elif input_type == 'inchi':
-            creator = ('InChi', input)
-            rdkit_mol = Chem.MolFromInchi(input, **kwargs)
+            creator = ('InChi', input_mol)
+            rdkit_mol = Chem.MolFromInchi(input_mol, **kwargs)
         else:
             msg = "The input type '%s' is not available from 'rdkit' engine." % (input_type)
             raise ValueError(msg)
@@ -474,47 +512,85 @@ class Molecule(object):
         elif self.creator[0]=='InChi':
             self.to_inchi()
 
-    def _load_pybel(self, input, input_type, **kwargs):
+
+
+    def _load_pybel(self, input_mol, input_type, from_load=True):
         """
-        The internal function to load a molecule using rdkit engine.
+        The internal function to load a molecule using openbabel engine.
 
         """
-        # available variables
-        pybel_mol = None
-        creator = None
-
-        if input_type == 'xyz':
-            if os.path.isfile(input):
-                creator = ('XYZ', input)
-                gen = pybel.readfile("xyz", input)
-                mols = list(gen)
-                if len(mols) == 1:
-                    pybel_mol = mols[0]
-                else:
-                    warnings.warn('More than one Molecule object is created and is returned as a generator.')
-                    return self._multiple_molecules(mols, creator)
-            else:
-                msg = "The input '%s' is not a valid XYZ input file."%input
-                raise ValueError(msg)
-
-        if pybel_mol is None:
-            msg = 'The input is not a legit %s string. Refere to the error message that was already displayed by Pybel library!' % \
-              creator[0]
-            raise ValueError(msg)
-
         # if the molecule is already being created warn the user
         if self.pybel_molecule and self.creator:
-            msg = "The molecule was already built using %s, is now overwritten by %s" % (
-            str(self.creator), str(creator))
+            msg = "The molecule was already built using %s" % (
+            str(self.creator))
             warnings.warn(msg)
+            
+        else:
+            # available variables
+            pybel_mol = None
+            creator = None
+    
+            if input_type.lower() == 'xyz':
+                if os.path.isfile(input_mol):
+                    creator = ('XYZ', input_mol)
+                    gen = pybel.readfile("xyz", input_mol)
+                    mols = list(gen)
+                    if len(mols) == 1:
+                        pybel_mol = mols[0]
+                    else:
+                        warnings.warn('More than one Molecule object is created and is returned as a generator.')
+                        return self._multiple_molecules(mols, creator)
+                else:
+                    msg = "The input '%s' is not a valid XYZ input file."%input_mol
+                    raise ValueError(msg)
+            
+            
+            elif input_type.lower() == 'mol2':
+                if os.path.isfile(input_mol):
+                    creator = ('MOL2', input_mol)
+                    gen = pybel.readfile("mol2", input_mol)
+                    mols = list(gen)
+                    if len(mols) == 1:
+                        pybel_mol = mols[0]
+                    else:
+                        warnings.warn('More than one Molecule object is created and is returned as a generator.')
+                        return self._multiple_molecules(mols, creator)
+                else:
+                    msg = "The input '%s' is not a valid XYZ input file."%input_mol
+                    raise ValueError(msg)
+            
+                
+            elif input_type.lower() == 'smiles':
+                creator = ('SMILES', input_mol)
+                pybel_mol = pybel.readstring('smi', input_mol)
+                
+                
+            elif input_type.lower() == 'inchi':
+                creator = ('InChi', input_mol)
+                pybel_mol = pybel.readstring('inchi', input_mol)
+            
+            
+            else:
+                msg = "The input type '%s' is not available from 'openbabel' engine." % (input_type)
+                raise ValueError(msg)
 
-        self.creator = creator
-        self.pybel_molecule = pybel_mol
+            if from_load:
+                self.creator = creator
+                self._init_attributes()
+            
+            self.pybel_molecule = pybel_mol
+    
+            
+            if self.creator[0]=='XYZ':
+                self.to_xyz()
+            if self.creator[0]=='MOL2':
+                self.to_mol2()
+            if self.creator[0]=='SMILES':
+                self.to_smiles()
+            if self.creator[0]=='InChi':
+                self.to_inchi()
+        
 
-        self._init_attributes()
-
-        if self.creator[0]=='XYZ':
-            self.to_xyz()
 
     def _multiple_molecules(self, mols, creator):
         for mol in mols:
@@ -522,6 +598,8 @@ class Molecule(object):
             m.pybel_molecule = mol
             m.creator = creator
             yield m
+
+
 
     def to_smiles(self, **kwargs):
         """
@@ -543,27 +621,22 @@ class Molecule(object):
         """
         # molecule must exist
         engine = self._check_original_molecule()
-        if engine == 'pybel':
-            smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
-            self._load_rdkit(smiles, 'smiles', from_load=False)
-            self.to_smiles()
+        if engine == 'openbabel':
+            self._smiles = self.pybel_molecule.write('can').strip().split('\t')[0]
+            
         else:
-            self._to_smiles_rdkit(**kwargs)
+            # kekulize flag
+            if 'kekuleSmiles' in kwargs and kwargs['kekuleSmiles']:
+                Chem.Kekulize(self.rdkit_molecule)
+    
+            # store arguments for future reference
+            self._smiles = Chem.MolToSmiles(self.rdkit_molecule, **kwargs)
+    
+            # arguments
+            self._smiles_args = update_default_kwargs(self._default_rdkit_smiles_args, kwargs,
+                                                     self._to_smiles_core_names[0], self._to_smiles_core_docs[0])
 
-    def _to_smiles_rdkit(self, **kwargs):
-        """
-        This internal function creates and stores the SMILES string for rdkit molecule.
-        """
-        # kekulize flag
-        if 'kekuleSmiles' in kwargs and kwargs['kekuleSmiles']:
-            Chem.Kekulize(self.rdkit_molecule)
 
-        # store arguments for future reference
-        self._smiles = Chem.MolToSmiles(self.rdkit_molecule, **kwargs)
-
-        # arguments
-        self._smiles_args = update_default_kwargs(self._default_rdkit_smiles_args, kwargs,
-                                                 self._to_smiles_core_names[0], self._to_smiles_core_docs[0])
 
     def to_smarts(self, **kwargs):
         """
@@ -584,24 +657,19 @@ class Molecule(object):
         """
         # molecule must exist
         engine = self._check_original_molecule()
-
-        if engine == 'rdkit':
-            self._to_smarts_rdkit(**kwargs)
-        else:
+        
+        if engine == 'openbabel':
             smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
             self._load_rdkit(smiles, 'smiles', from_load=False)
-            self._to_smarts_rdkit(**kwargs)
-
-    def _to_smarts_rdkit(self, **kwargs):
-        """
-        The internal
-        """
+        
         # store arguments for future reference
         self._smarts = Chem.MolToSmarts(self.rdkit_molecule, **kwargs)
 
         # arguments
         self._smarts_args = update_default_kwargs(self._default_rdkit_smarts_args, kwargs,
                                                  self._to_smarts_core_names[0], self._to_smarts_core_docs[0])
+
+
 
     def to_inchi(self, **kwargs):
         """
@@ -622,37 +690,31 @@ class Molecule(object):
         # molecule must exist
         engine = self._check_original_molecule()
         if engine == 'pybel':
-            self._to_inchi_pybel()
+            self._inchi = self.pybel_molecule.write('inchi').strip()
+            
         else:
-            self._to_inchi_rdkit(**kwargs)
+            # store arguments for future reference
+            self._inchi = Chem.MolToInchi(self.rdkit_molecule, **kwargs)
+    
+            # arguments
+            self._inchi_args = update_default_kwargs(self._default_rdkit_inchi_args, kwargs,
+                                                     self._to_inchi_core_names[0], self._to_inchi_core_docs[0])
 
-    def _to_inchi_rdkit(self, **kwargs):
-        """
-        This internal function creates and stores the InChi string for rdkit molecule.
-        """
-        # store arguments for future reference
-        self._inchi = Chem.MolToInchi(self.rdkit_molecule, **kwargs)
 
-        # arguments
-        self._inchi_args = update_default_kwargs(self._default_rdkit_inchi_args, kwargs,
-                                                 self._to_inchi_core_names[0], self._to_inchi_core_docs[0])
-
-    def _to_inchi_pybel(self):
-        """
-        This internal function creates and stores the InChi string for pybel molecule.
-        """
-        self._inchi = self.pybel_molecule.write('inchi').strip()
-
-    def to_xyz(self, optimizer=None, **kwargs):
+    
+    def to_mol2(self, filename=None):
         """
         This function creates and stores the xyz coordinates for a pre-built molecule object.
 
         Parameters
         ----------
         optimizer : None or str, optional (default: None)
-            If None, the geometries will be extracted from the available source of 3D structure (if any).
-            Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or
-            'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.
+            The geometries will be extracted from the available source of 3D structure (if any).
+            For openbabel: 
+                ['uff', 'mmff94', 'mmff94s', 'ghemical']
+            For rdkit:
+                Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or
+                'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.
 
         kwargs :
             The arguments that can be passed to the corresponding forcefileds.
@@ -669,32 +731,82 @@ class Molecule(object):
             doesn't exist and you nedd to set the optimizer parameter to any of the force fields.
             - If the 3D info exist but you still need to run optimization, the 3D structure will be embedded from scratch (i.e., the current atom coordinates will be removed.)
 
+        """
+        engine = self._check_original_molecule()
+        
+        if engine == 'rdkit':
+            self._load_pybel(self.creator[1], self.creator[0], from_load=False)
+            self.rdkit_molecule = None
+                
+        if self.xyz is None:
+            self.to_xyz()
+            
+        self._mol2 = self.pybel_molecule.write('mol2')
+        if filename is not None:
+            self.pybel_molecule.write('mol2', filename)
+
+
+
+    def to_xyz(self, optimizer=None, steps=500, filename=None, **kwargs):
+        """
+        This function creates and stores the xyz coordinates for a pre-built molecule object.
+
+        Parameters
+        ----------
+        optimizer : None or str, optional (default: None)
+            The geometries will be extracted from the available source of 3D structure (if any).
+            For openbabel: 
+                ['uff', 'mmff94', 'mmff94s', 'ghemical']
+            For rdkit:
+                Otherwise, any of the 'UFF' or 'MMFF' force fileds should be passed to embed and optimize geometries using 'rdkit.Chem.AllChem.UFFOptimizeMolecule' or
+                'rdkit.Chem.AllChem.MMFFOptimizeMolecule' methods, respectively.
+
+        kwargs :
+            The arguments that can be passed to the corresponding forcefileds.
+            The documentation is available at:
+                - UFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.UFFOptimizeMolecule
+                - MMFFOptimizeMolecule: http://rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html?highlight=mmff#rdkit.Chem.rdForceFieldHelpers.MMFFOptimizeMolecule
+
+        Notes
+        -----
+            - The geometry will be stored in the `xyz` attribute.
+            - The molecule object must be created in advance.
+            - The hydrogens won't be added to the molecule automatically. You should add it manually using `hydrogens` method.
+            - If the molecule object has been built using 2D representations (e.g., SMILES or InChi), the conformer
+            doesn't exist and you nedd to set the optimizer parameter to any of the force fields.
+            - If the 3D info exist but you still need to run optimization, the 3D structure will be embedded from scratch (i.e., the current atom coordinates will be removed.)
 
         """
-        # rdkit molecule must exist
         engine = self._check_original_molecule()
-        # any futher process depends on the state of the optimizer and available 3D info
-        if self.xyz and optimizer is None:
-            return True     # the required info is available
-        elif self.pybel_molecule:
-            if optimizer is None :
-                self._to_xyz_pybel()    # pybel molecule always contains the 3D info
+        
+        if optimizer is None:
+            if self.xyz is not None:
+                return
+
             else:
-                # build the rdkit molecule from 2D info
-                smiles = self.pybel_molecule.write('smi').strip().split('\t')[0]
-                self._load_rdkit(smiles, 'smiles', from_load=False)
-                self.creator = ('SMILES', smiles)
-                self.hydrogens('add')
-                self._to_xyz_rdkit(optimizer, **kwargs)
+                optimizer = 'mmff94'
+        
+        
+        if engine == 'openbabel':
+            if optimizer.lower() in ['uff', 'mmff94', 'mmff94s', 'ghemical']:
+                self.pybel_molecule.make3D(forcefield=optimizer, steps=steps)
+                if filename is not None:
+                    self.pybel_molecule.write('xyz', filename)
+                self._to_xyz_pybel()
+            else:
+                raise ValueError("Please specify a valid optimizer for openbabel 3D geometry.")
+        
         elif engine == 'rdkit':
             self._to_xyz_rdkit(optimizer, **kwargs)
+
+
 
     def _to_xyz_rdkit(self, optimizer, **kwargs):
         """
         The internal function creates and stores the xyz coordinates for a pre-built molecule object.
         """
         # add hydrogens >> commented out and left for the users to take care of it using hydrogens method.
-        # self.hydrogens('add')
+        self.hydrogens('add')
 
         # embeding and optimization
         if optimizer:
@@ -734,6 +846,8 @@ class Molecule(object):
         elif optimizer=='MMFF':
             self._MMFF_args = update_default_kwargs(self._default_MMFF_args, kwargs,
                                                  self._to_xyz_core_names[0], self._to_xyz_core_docs[0])
+
+
 
     def _to_xyz_pybel(self):
         """
@@ -863,6 +977,8 @@ class Molecule(object):
         atomic_symbols = np.array([Z[i] for i in atomic_nums])
         self._xyz = XYZ(geometry, atomic_nums.reshape(-1, 1), atomic_symbols.reshape(-1, 1))
 
+
+
     def visualize(self, filename=None, **kwargs):
         """
         This function visualizes the molecule. If both rdkit and pybel objects are avaialble, the rdkit object
@@ -898,4 +1014,7 @@ class Molecule(object):
                 self.pybel_molecule.draw(show=False, filename=filename, **kwargs)
             else:
                 return self.pybel_molecule # it seems that the object alone is displayable
+
+
+
 

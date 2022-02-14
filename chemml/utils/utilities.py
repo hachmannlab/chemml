@@ -2,7 +2,7 @@ from builtins import range
 import datetime
 import numpy as np
 import time
-# Todo: polish docstrings
+import os
 
 
 def list_del_indices(mylist,indices):
@@ -261,6 +261,7 @@ def padaxis(array, new_size, axis, pad_value=0, pad_right=True):
 
     return np.pad(array, pad_width=pad_width, mode='constant', constant_values=pad_value)
 
+
 def mol_shapes_to_dims(mol_tensors=None, mol_shapes=None):
     ''' 
     Helper function, returns dim sizes for molecule tensors given tensors or
@@ -310,12 +311,14 @@ def mol_shapes_to_dims(mol_tensors=None, mol_shapes=None):
 
     return max_atoms1, max_degree1, num_atom_features, num_bond_features, num_molecules1
 
+
 def is_iterable(obj):
     try:
         iter(obj)
         return True
     except TypeError:
         return False
+
 
 def zip_mixed(*mixed_iterables, **kwargs):
     ''' Zips a mix of iterables and non-iterables, non-iterables are repeated
@@ -339,6 +342,7 @@ def zip_mixed(*mixed_iterables, **kwargs):
             mixed_iterables[i] = cycle([item])
 
     return zip(*mixed_iterables)
+
 
 def regression_metrics(y_true, y_predicted, nfeatures = None):
     """
@@ -440,4 +444,97 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
     import pandas as pd
     metrics_df = pd.DataFrame.from_dict(metrics_dict)
     return metrics_df
+
+
+
+def ConvertFile(file_path, from_format, to_format):
+    """
+    Convert a file from 'from_format' to 'to_format'
+    using openbabel (https://openbabel.org/wiki/Babel).
+
+    Parameters:
+    ----------
+    file_path : string or list
+        string or list of strings containing paths of files that need to be converted
+
+    from_format: string
+        String of letters that specify the format of the file that needs to be converted.
+        This will be checked against 'file_path' that is provided by the user.
+        If the file_path does not contain 'from_format' an error message will be raised.
+        List of possible 'from_format's are on https://openbabel.org/wiki/Babel
+
+    to_format: string
+        String of letters that specify the target file format or the desired format.
+        An openbabel command is generated which converts the files specified by 'file_path' to the target format.
+        List of possible 'to_format's are on https://openbabel.org/wiki/Babel
+
+    Returns:
+    ------
+    converted_file_paths: str or list
+        string or list of converted file paths depending on input type.
+
+    Examples:
+    --------
+    >>> from chemml.datasets import load_xyz_polarizability
+    >>> coordinates,polarizability = load_xyz_polarizability()
+    >>> coordinates
+    {1: {'file': 'chemml/datasets/data/organic_xyz/1_opt.xyz', ...
+    >>> from chemml.utils import ConvertFile
+    >>> converted_file_paths = ConvertFile(file_path=coordinates,from_format='xyz',to_format='cml')
+    {1: {'file': 'chemml/datasets/data/organic_xyz/1_opt.cml'}, 2: ...
+
+    """
+    
+
+    if isinstance(file_path, str):
+        if not from_format == file_path[-len(from_format):]:
+            msg = 'file format is not the same as from_format'
+            raise ValueError(msg)
+        elif os.path.exists(file_path) == False:
+            msg = 'file does not exist at '+ file_path
+            raise FileNotFoundError(msg)
+        else:
+            ob_from_format = '-i' + from_format
+            ob_to_format = '-o' + to_format
+            path = file_path[:file_path.rfind('.') + 1] # = path-to-file.
+            command = 'obabel ' + ob_from_format + ' ' + file_path + ' ' + ob_to_format + ' -O ' + path + to_format 
+            # path + selt.to_format = path-to-file.newformat
+            # print(command)
+            os.system(command)
+            converted_file_paths = path + to_format
+
+
+    elif isinstance(file_path, list):
+        converted_file_paths = []
         
+        # for it in range(1, len(self.file_path) + 1):
+        for fpath in file_path:
+            # fpath = self.file_path[it]['file']
+            if not fpath[-len(from_format):] == from_format:
+                msg = 'file format is not the same as from_format'
+                raise ValueError(msg)
+            elif os.path.exists(fpath) == False:
+                msg = 'file does not exist at '+ fpath
+                raise FileNotFoundError(msg)
+            else:
+                ob_from_format = '-i' + from_format
+                ob_to_format = '-o' + to_format
+                path = fpath[:fpath.rfind('.') + 1]
+                command = 'obabel ' + ob_from_format + ' ' + fpath + ' ' + ob_to_format + ' -O ' + path + to_format
+                # print(command)
+                os.system(command)
+                converted_file_paths.append(path + to_format)
+
+    else:
+        converted_file_paths = None
+        raise ValueError('File path must be a string or a list of strings.')
+    
+    return converted_file_paths
+    
+
+
+
+
+
+
+

@@ -90,7 +90,7 @@ class MLP(object):
         self.nclasses = nclasses
         
         
-    def get_keras_model(self, include_output=True):
+    def get_keras_model(self, include_output=True, n_layers=None):
         """
         Returns the entire Keras model or the model without the output layer in 
         its current state (fitted or compiled)
@@ -100,6 +100,10 @@ class MLP(object):
         include_output: bool
             if True it will return the entire model, if False it will return 
             the model without the output layer
+            
+        n_layers: int, optional (default=None)
+            remove the last 'n' hidden layers from the model in addition to the output layer. 
+            Note that this number should not include the output layer.
         
         Returns
         _______
@@ -108,6 +112,11 @@ class MLP(object):
         """
         if not include_output:
             head_model = Model(self.model.input, self.model.layers[-2].output)
+            if n_layers is not None:
+                if isinstance(n_layers, int):
+                    head_model = Model(head_model.input, head_model.layers[-(1+n_layers)].output)
+                else:
+                    raise ValueError('n_layers should be an integer.')
             return head_model
         else:
             return self.model
@@ -127,7 +136,7 @@ class MLP(object):
         """
         obj_dict = vars(self)
         self.model.save(path+'/'+filename+'.h5')
-        obj_dict['path_to_file'] = path +'/'+ filename+'.h5'
+        # obj_dict['path_to_file'] = path +'/'+ filename+'.h5'
         obj_df = pd.DataFrame.from_dict(obj_dict,orient='index')
         obj_df.to_csv(path+'/'+filename+'_chemml_model.csv')
         print("File saved as "+path+"/"+filename+"_chemml_model.csv")
@@ -140,11 +149,12 @@ class MLP(object):
         Parameters
         __________
         path_to_model: str
-            path to the chemml.models.MLP object
+            path to the chemml.models.MLP csv file
     
         """
         chemml_model = pd.read_csv(path_to_model,index_col=0)
-        self.model = load_model(chemml_model.loc['path_to_file'][0])
+        # self.model = load_model(chemml_model.loc['path_to_file'][0])
+        self.model = load_model(path_to_model.split('_chemml_model.csv')[0] + '.h5')
         # optimizer config
         opt = self.model.optimizer.get_config()
         opt_list = [opt['name']]

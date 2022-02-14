@@ -7,12 +7,17 @@ import numpy as np
 from chemml.utils import check_object_col
 
 
-class MissingValues(object):
+def MissingValues(df, strategy="ignore_row",
+                    string_as_null=True,
+                    inf_as_null=True,
+                    missing_values=None):
     """
     find missing values and interpolate/replace or remove them.
 
     Parameters
     ----------
+    df : pandas dataframe
+
     strategy: string, optional (default="ignore_row")
         
         list of strategies:
@@ -32,98 +37,160 @@ class MissingValues(object):
 
     Returns
     -------
-    data frame
-    mask: Only if strategy = ignore_row. Mask is a binary pandas series which stores the information regarding removed
+    dataframe
+
+    Notes
+    ----------
+    mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
+    if the row/column in the same position has been removed or not.
+    The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
+    on that. The mask can later be used in the transform method to change other data frames in the same way.
     """
+    if inf_as_null == True:
+        df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, True)
+    if string_as_null == True:
+        for col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+    if isinstance(missing_values, (list, tuple)):
+        for pattern in missing_values:
+            df.replace(pattern, np.nan, True)
 
-    def __init__(self,
-                 strategy="ignore_row",
-                 string_as_null=True,
-                 inf_as_null=True,
-                 missing_values=None):
-        self.strategy = strategy
-        self.string_as_null = string_as_null
-        self.inf_as_null = inf_as_null
-        self.missing_values = missing_values
+    df = check_object_col(df, 'df')
+    # drop null columns
+    df = df.dropna(axis=1, how='all', inplace=False)
 
-    def fit_transform(self, df):
-        """
-        use fit_transform for:
-            - replace missing values with nan.
-            - drop columns with all nan values.
-            - fill nan values with the specified strategy.
+    if strategy == 'zero':
+        for col in df.columns:
+            df[col].fillna(value=0, inplace=True)
+        return df
+    elif strategy == 'ignore_row':
+        dfi = df.index
+        df = df.dropna(axis=0, how='any', inplace=False)
+        mask = [i in df.index for i in dfi]
+        mask = pd.Series(mask, index=dfi)
+        # mask = pd.notnull(df).all(1)
+        # df = df[mask]
+        return df
+    elif strategy == 'ignore_column':
+        dfc = df.columns
+        df = df.dropna(axis=1, how='any', inplace=False)
+        mask = [i in df.columns for i in dfc]
+        mask = pd.Series(mask, index=dfc)
+        # mask = pd.notnull(df).all(0)
+        # df = df.T[mask].T
+        return df
+    elif strategy == 'interpolate':
+        df = df.interpolate()
+        df = df.fillna(
+            method='ffill', axis=1, inplace=False
+        )  # because of nan in the first and last element of column
+        return df
+    else:
+        msg = "Wrong strategy has been passed"
+        raise TypeError(msg)
 
-        Parameters
-        ----------
-        df : pandas data frame
+def Outliers(df, m=2.0,strategy='median'):
+    """
+    remove all rows where the values of a certain column are within an specified
+    standard deviation from mean/median.
 
-        Attributes
-        ----------
-        binary pandas series, only if strategy = 'ignore_row' or 'ignore_column'
-            mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
-            if the row/column in the same position has been removed or not.
-            The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
-            on that. The mask can later be used in the transform method to change other data frames in the same way.
-        """
-        if self.inf_as_null == True:
-            df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, True)
-        if self.string_as_null == True:
-            for col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors='coerce')
-        if isinstance(self.missing_values, (list, tuple)):
-            for pattern in self.missing_values:
-                df.replace(pattern, np.nan, True)
+    Parameters
+    ----------
+    df: pandas dataframe
+        input dataframe
 
-        df = check_object_col(df, 'df')
-        # drop null columns
-        df.dropna(axis=1, how='all', inplace=True)
+    m: float, optional (default=3.0)
+        the outlier threshold with respect to the standard deviation
 
-        if self.strategy == 'zero':
-            for col in df.columns:
-                df[col].fillna(value=0, inplace=True)
-            return df
-        elif self.strategy == 'ignore_row':
-            dfi = df.index
-            df.dropna(axis=0, how='any', inplace=True)
-            mask = [i in df.index for i in dfi]
-            self.mask = pd.Series(mask, index=dfi)
-            # self.mask = pd.notnull(df).all(1)
-            # df = df[self.mask]
-            return df
-        elif self.strategy == 'ignore_column':
-            dfc = df.columns
-            df.dropna(axis=1, how='any', inplace=True)
-            mask = [i in df.columns for i in dfc]
-            self.mask = pd.Series(mask, index=dfc)
-            # self.mask = pd.notnull(df).all(0)
-            # df = df.T[self.mask].T
-            return df
-        elif self.strategy == 'interpolate':
-            df = df.interpolate()
-            df.fillna(
-                method='ffill', axis=1, inplace=True
-            )  # because of nan in the first and last element of column
-            return df
-        else:
-            msg = "Wrong strategy has been passed"
-            raise TypeError(msg)
+    strategy: string, optional (default='median')
+        available options: 'mean' and 'median'
+        Values of each column will be compared to the 'mean' or 'median' of that column.
+    
+    Returns
+    -------
+    dataframe
 
-    def transform(self, df):
-        """
-        Only if the class is fitted with 'ignore_row' or 'ignore_column' strategies.
+    Notes
+    -----
+    We highly recommend you to remove constant columns first and then remove outliers. 
 
-        Parameters
-        ----------
-        df : pandas dataframe
+    """
+    if strategy == 'mean':
+        mask = ((df - df.mean()).abs() <= m * df.std(ddof=0)).T.all()
+    elif strategy == 'median':
+        mask = (((df - df.median()).abs()) <=
+                m * df.std(ddof=0)).T.all()
+    df = df.loc[mask, :]
+    removed_rows_ = np.array(mask[mask == False].index)
+    return df
 
-        Returns
-        -------
-        transformed data frame based on the mask vector from fit_transform method.
-        """
-        if self.strategy == 'ignore_row':
-            return df[self.mask]
-        elif self.strategy == 'ignore_column':
-            return df.loc[:, self.mask]
-        else:
-            msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform the new dataframe with those methods."
-            warnings.warn(msg)
+def ConstantColumns(df):
+    """
+    remove constant columns
+
+    Parameters
+    ----------
+    df: pandas dataframe
+        input dataframe
+
+    Returns
+    -------
+    df: pandas dataframe
+
+    """
+    dfc = df.columns
+    df = df.loc[:, (df != df.iloc[0]).any()]
+    removed_columns_ = np.array(
+        [i for i in dfc if i not in df.columns])
+    return df
+
+# def transform_constant_cols(self, df):
+#     """
+#     find and remove headers that are in the removed_columns_ attribute of the previous fit_transform method
+
+#     Parameters
+#     ----------
+#     df: pandas dataframe
+#         input dataframe
+
+#     Returns
+#     -------
+#     transformed dataframe
+#     """
+#     df = df.drop(self.removed_columns_, 1)
+#     return df
+# def transform_outliers(self, df):
+#     """
+#     find and remove rows/indices that are in the removed_rows_ attribute of the previous fit_transform method
+
+#     Parameters
+#     ----------
+#     df: pandas dataframe
+#         input dataframe
+
+#     Returns
+#     -------
+#     transformed dataframe
+#     """
+#     df = df.drop(removed_rows_, 0)
+#     return df
+
+# def transform(self, df):
+#     """
+#     Only if the class is fitted with 'ignore_row' or 'ignore_column' strategies.
+
+#     Parameters
+#     ----------
+#     df : pandas dataframe
+
+#     Returns
+#     -------
+#     transformed data frame based on the mask vector from fit_transform method.
+#     """
+#     if strategy == 'ignore_row':
+#         return df[mask]
+#     elif strategy == 'ignore_column':
+#         return df.loc[:, mask]
+#     else:
+#         msg = "The transform method doesn't change the dataframe if strategy='zero' or 'interpolate'. You should fit_transform the new dataframe with those methods."
+#         warnings.warn(msg)

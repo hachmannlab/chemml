@@ -21,7 +21,7 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
         target property -- "refractive_index", "number_density", "polarizability"
         
     model_type: str
-        options -- "single", "multitask", "lorentz_lorenz", "single_10k"
+        options -- "single", "multitask", "lorentz_lorenz", "single_10k", "transfer_learning"
     """
     
     hyperparameters = hyperparams()
@@ -36,8 +36,8 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
     if targets not in ['polarizability', 'refractive_index', 'number_density']:
         raise ValueError("targets should be either 'polarizability', 'refractive_index' or 'number_density' ")
     
-    if model_type not in ['single', 'multitask', 'lorentz_lorenz', 'single_10k']:
-        raise ValueError("model_type should be either 'single', 'multitask', 'lorentz_lorenz' or 'single_10k' ")
+    if model_type not in ['single', 'multitask', 'lorentz_lorenz', 'single_10k', 'transfer_learning']:
+        raise ValueError("model_type should be either 'single', 'multitask', 'lorentz_lorenz', 'transfer_learning' or 'single_10k' ")
         
         
     mlp_obj = MLP(*hyperparameters[model_type][features][targets])
@@ -77,7 +77,7 @@ def load_model(features, targets, model='single'):
         model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'lorentz_lorenz.h5'))
         
     if model == 'transfer_learning':
-        model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'transfer_learning_chemml_model.csv'))
+        model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'single', 'morgan' + '_' + 'polarizability' + '_chemml_model.csv'))
         
     return model_path
 
@@ -152,7 +152,13 @@ def hyperparams():
                             
                     "single_10k": {
                         
-                            }
+                            },
+                    "transfer_learning": {
+                        "morgan": {
+                                    "polarizability": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':8.78e-05}]]
+                        }
+                        
+                            }        
                     }
     return hyperparameters
 
@@ -601,6 +607,50 @@ def layers_conf():
                 {
                     
                 },
+            "transfer_learning": {
+                "morgan": {
+                            "polarizability": [
+                                    ('Dense', {
+                                    'units': 256 ,
+                                    'kernel_initializer':tf.keras.initializers.glorot_uniform(seed=1369),
+                                    'kernel_regularizer':tf.keras.regularizers.l2(7.26e-5),
+                                    'activation': 'relu'
+                                    }), 
+                                    ('Dropout', {
+                                    'rate': 0.006}), 
+                                    ('Dense', {
+                                    'units': 64,
+                                    'kernel_initializer':tf.keras.initializers.glorot_uniform(seed=1369),
+                                    'kernel_regularizer':tf.keras.regularizers.l2(7.26e-5),
+                                    'activation': 'relu'
+                                    }), 
+                                    ('Dropout', {
+                                    'rate': 0.006
+                                    }), 
+                                    ('Dense', {
+                                    'units': 128,
+                                    'kernel_initializer':tf.keras.initializers.glorot_uniform(seed=1369),
+                                    'kernel_regularizer':tf.keras.regularizers.l2(7.26e-5),
+                                    'activation': 'relu'
+                                    }),
+                                    ('Dropout', {
+                                    'rate': 0.006
+                                    }), 
+                                    ('Dense', {
+                                    'units': 256,
+                                    'kernel_initializer':tf.keras.initializers.glorot_uniform(seed=1369),
+                                    'kernel_regularizer':tf.keras.regularizers.l2(7.26e-5),
+                                    'activation': 'relu'
+                                    }),
+                                    ('Dropout', {
+                                    'rate': 0.006
+                                    }),
+                                    ('Dense', {
+                                    'units': 1,
+                                    'activation': 'linear'    #do not change
+                                    })
+                                ],}
+            }
             }
     return layers_config
 

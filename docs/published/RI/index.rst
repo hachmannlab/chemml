@@ -101,7 +101,7 @@ Physics Infused DNN
 
     # process input data according to the format required for this class
     X_train, X_test, y_train, y_test, scaler_y = physics_infused_model.preprocessing(
-                                            features=features, targets=targets, return_scaler=True)
+                                            features=feature_sets, targets=targets, return_scaler=True)
 
     # fit the model to training data
     physics_infused_model = physics_infused_model.fit(X_train, y_train)
@@ -116,13 +116,13 @@ Transfer learning TZVP Polarizabilities
 .. code:: python
 
     # load TZVP data
-    from chemml.published.RI import load_small_organic_data_10k()
+    from chemml.published.RI import load_small_organic_data_10k
 
     molecules, targets = load_small_organic_data_10k()
 
 
     # convert the SMILES representation of molecules to chemml.chem.Molecule object
-    mol_list = [Molecule(i['smiles'], 'smiles') for i in molecules]
+    mol_list = [Molecule(i, 'smiles') for i in molecules]
 
     # generate Dragon descriptors
     dragon_tzvp = Dragon().represent(mol_list)

@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'ChemML'
-copyright = u'2014-2021 Johannes Hachmann, Mojtaba Haghighatlari'
+copyright = u'2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

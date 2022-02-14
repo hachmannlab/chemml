@@ -96,37 +96,41 @@ Please cite the use of ChemML as:
     year={2019}
     }
 
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: ChemML Library
-
-   ./ipython_notebooks/Molecule.ipynb
-   ./ipython_notebooks/feature_representation.ipynb
-   ./ipython_notebooks/ml_model.ipynb
-   ./ipython_notebooks/ga_hyper_opt.ipynb
-   ./ipython_notebooks/ga_feature_selection.ipynb
-   ./ipython_notebooks/active_model_based.ipynb
-   ./ipython_notebooks/Convo_nets.ipynb
+   
+   chemml_library
+   ./input_task/index
+   ./represent_task/index
+   ./prepare_task/index
+   ./model_task/index
+   ./optimize_task/index
+   ./visualize_task/index
+   
+   
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: ChemML Wrapper
 
-   A dedicated template for the same exists in the _Template workflow_ tab of the GUI. For details regarding the file formats, inputs and outputs, we recommend that users view each of the click-able widget tasks and their respective _Parameters_ and _Input/Output_ tiles. 
-   CMLWTutorial
-   CMLWInputFile
-   CMLWInputFileGenerator
-   ./ipython_notebooks/read_excel.ipynb 
-   ./ipython_notebooks/pyscript_usage.ipynb
-   ./ipython_notebooks/simple_ml_model.ipynb
-   ./ipython_notebooks/GA_tutorial.ipynb
+   chemml_wrapper
+   ./wrapper/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   :caption: Published Models
+
+   ./published/index
+
+
+.. toctree::
+   :maxdepth: 3
    :caption: ChemML API 
 
-   API
+   ./API/index
    
 
 
@@ -134,7 +138,7 @@ Please cite the use of ChemML as:
 
 License:
 ++++++++
-ChemML is copyright (C) 2014-2021 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+ChemML is copyright (C) 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 

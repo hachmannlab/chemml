@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLP &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GridSearchCV" href="include_CMLWR5Search.html" />
+    <link rel="prev" title="ConstantColumns" href="include_CMLWR3Prepare.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ChemML API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="API.html">Library API documentation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="API.html#wrapper-api-documentation">Wrapper API documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="CMLWContentsTable.html">Table of Contents</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="CMLWReference.html">Wrapper Reference</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="CMLWReference.html#input">Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CMLWReference.html#represent">Represent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CMLWReference.html#prepare">Prepare</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="CMLWReference.html#model">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CMLWReference.html#optimize">Optimize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CMLWReference.html#visualize">Visualize</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">ChemML API</a> &raquo;</li>
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
+          <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
+      <li>MLP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/API/include_CMLWR4Model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="mlp">
+<span id="id1"></span><h1>MLP<a class="headerlink" href="#mlp" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">chemml</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">MLP</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘chemml.nn.keras.mlp.MLP’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘chemml.nn.keras.mlp.MLP’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">ChemML, 0.4.1</div>
+<div class="line">keras, 2.1.2</div>
+<div class="line">tensorflow, 1.4.1</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">chemml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MLP</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nhidden</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">mean_squared_error</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">0.01</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">layer_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lr_decay</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">regression</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nclasses</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">activations</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">opt_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nepochs</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nneurons</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters:</p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="mlp-sklearn">
+<span id="id2"></span><h1>MLP_sklearn<a class="headerlink" href="#mlp-sklearn" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">chemml</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">MLP_sklearn</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP_sklearn class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP_sklearn class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘chemml.nn.keras.mlp.MLP_sklearn’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">ChemML, 0.4.1</div>
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">keras, 2.1.2</div>
+<div class="line">tensorflow, 1.4.1</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">chemml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MLP_sklearn</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nhidden</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">mean_squared_error</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">0.01</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">layer_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lr_decay</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">regression</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nclasses</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">activations</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">opt_config_file</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nepochs</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nneurons</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters:</p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="ardregression">
+<span id="id3"></span><h1>ARDRegression<a class="headerlink" href="#ardregression" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">ARDRegression</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ARDRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ARDRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.bayes.ARDRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">ARDRegression</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_iter</span> <span class="pre">=</span> <span class="pre">300</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lambda_2</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">threshold_lambda</span> <span class="pre">=</span> <span class="pre">10000.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">compute_score</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha_2</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha_1</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lambda_1</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ARDRegression.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ARDRegression.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="bayesianridge">
+<span id="id4"></span><h1>BayesianRidge<a class="headerlink" href="#bayesianridge" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">BayesianRidge</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s BayesianRidge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s BayesianRidge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.bayes.BayesianRidge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">BayesianRidge</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_iter</span> <span class="pre">=</span> <span class="pre">300</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lambda_2</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">compute_score</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha_2</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha_1</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">lambda_1</span> <span class="pre">=</span> <span class="pre">1e-06</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.BayesianRidge.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.BayesianRidge.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="elasticnet">
+<span id="id5"></span><h1>ElasticNet<a class="headerlink" href="#elasticnet" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">ElasticNet</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ElasticNet class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ElasticNet class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.ElasticNet’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">ElasticNet</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">cyclic</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">l1_ratio</span> <span class="pre">=</span> <span class="pre">0.5</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">1000</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">precompute</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">positive</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="kernelridge">
+<span id="id6"></span><h1>KernelRidge<a class="headerlink" href="#kernelridge" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">KernelRidge</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s KernelRidge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s KernelRidge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.kernel_ridge.KernelRidge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">KernelRidge</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">kernel</span> <span class="pre">=</span> <span class="pre">linear</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">degree</span> <span class="pre">=</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">kernel_params</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">coef0</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">gamma</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html">http://scikit-learn.org/stable/modules/generated/sklearn.kernel_ridge.KernelRidge.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="lars">
+<span id="id7"></span><h1>Lars<a class="headerlink" href="#lars" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">Lars</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lars class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lars class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.least_angle.Lars’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Lars</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_nonzero_coefs</span> <span class="pre">=</span> <span class="pre">500</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_path</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">positive</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">eps</span> <span class="pre">=</span> <span class="pre">2.22044604925e-16</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">precompute</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lars.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lars.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="lasso">
+<span id="id8"></span><h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">Lasso</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lasso class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lasso class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.Lasso’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Lasso</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">cyclic</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">positive</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">1000</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">precompute</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="lassolars">
+<span id="id9"></span><h1>LassoLars<a class="headerlink" href="#lassolars" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">LassoLars</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LassoLars class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LassoLars class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.least_angle.LassoLars’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">LassoLars</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_path</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">positive</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">500</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">eps</span> <span class="pre">=</span> <span class="pre">2.22044604925e-16</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">precompute</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoLars.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoLars.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="linearregression">
+<span id="id10"></span><h1>LinearRegression<a class="headerlink" href="#linearregression" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">LinearRegression</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.base.LinearRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">LinearRegression</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_jobs</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="linearsvr">
+<span id="id11"></span><h1>LinearSVR<a class="headerlink" href="#linearsvr" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">LinearSVR</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearSVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearSVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.LinearSVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">LinearSVR</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">epsilon_insensitive</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">intercept_scaling</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">epsilon</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">1000</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">C</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">dual</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html">http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="logisticregression">
+<span id="id12"></span><h1>LogisticRegression<a class="headerlink" href="#logisticregression" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">LogisticRegression</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LogisticRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LogisticRegression class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.logistic.LogisticRegression’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">LogisticRegression</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_jobs</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">intercept_scaling</span> <span class="pre">=</span> <span class="pre">1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">100</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">class_weight</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">C</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">penalty</span> <span class="pre">=</span> <span class="pre">l2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">multi_class</span> <span class="pre">=</span> <span class="pre">ovr</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">dual</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">liblinear</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="mlpregressor">
+<span id="id13"></span><h1>MLPRegressor<a class="headerlink" href="#mlpregressor" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">MLPRegressor</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MLPRegressor class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MLPRegressor class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.neural_network.multilayer_perceptron.MLPRegressor’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MLPRegressor</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">shuffle</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">validation_fraction</span> <span class="pre">=</span> <span class="pre">0.1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">constant</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">momentum</span> <span class="pre">=</span> <span class="pre">0.9</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">epsilon</span> <span class="pre">=</span> <span class="pre">1e-08</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">activation</span> <span class="pre">=</span> <span class="pre">relu</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">200</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">early_stopping</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">beta_1</span> <span class="pre">=</span> <span class="pre">0.9</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">beta_2</span> <span class="pre">=</span> <span class="pre">0.999</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nesterovs_momentum</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">hidden_layer_sizes</span> <span class="pre">=</span> <span class="pre">(100,)</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">adam</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">power_t</span> <span class="pre">=</span> <span class="pre">0.5</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate_init</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor">http://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="multitaskelasticnet">
+<span id="id14"></span><h1>MultiTaskElasticNet<a class="headerlink" href="#multitaskelasticnet" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">MultiTaskElasticNet</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskElasticNet class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskElasticNet class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskElasticNet’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MultiTaskElasticNet</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">cyclic</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">l1_ratio</span> <span class="pre">=</span> <span class="pre">0.5</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">1000</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskElasticNet.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskElasticNet.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="multitasklasso">
+<span id="id15"></span><h1>MultiTaskLasso<a class="headerlink" href="#multitasklasso" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">MultiTaskLasso</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskLasso class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskLasso class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.coordinate_descent.MultiTaskLasso’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">MultiTaskLasso</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">cyclic</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">1000</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskLasso.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.MultiTaskLasso.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="nusvr">
+<span id="id16"></span><h1>NuSVR<a class="headerlink" href="#nusvr" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">NuSVR</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s NuSVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s NuSVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.NuSVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">NuSVR</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">kernel</span> <span class="pre">=</span> <span class="pre">rbf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">degree</span> <span class="pre">=</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">coef0</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">-1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">C</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">cache_size</span> <span class="pre">=</span> <span class="pre">200</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">shrinking</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">nu</span> <span class="pre">=</span> <span class="pre">0.5</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">gamma</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html">http://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="ridge">
+<span id="id17"></span><h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">Ridge</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Ridge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Ridge class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.ridge.Ridge’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">Ridge</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">normalize</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">copy_X</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">solver</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="sgdregressor">
+<span id="id18"></span><h1>SGDRegressor<a class="headerlink" href="#sgdregressor" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">SGDRegressor</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SGDRegressor class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SGDRegressor class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.linear_model.stochastic_gradient.SGDRegressor’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">SGDRegressor</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">warm_start</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">loss</span> <span class="pre">=</span> <span class="pre">squared_loss</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">eta0</span> <span class="pre">=</span> <span class="pre">0.01</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">l1_ratio</span> <span class="pre">=</span> <span class="pre">0.15</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">average</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n_iter</span> <span class="pre">=</span> <span class="pre">5</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">penalty</span> <span class="pre">=</span> <span class="pre">l2</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">power_t</span> <span class="pre">=</span> <span class="pre">0.25</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">0.0001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">random_state</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">epsilon</span> <span class="pre">=</span> <span class="pre">0.1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">shuffle</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">learning_rate</span> <span class="pre">=</span> <span class="pre">invscaling</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="svr">
+<span id="id19"></span><h1>SVR<a class="headerlink" href="#svr" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Model</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">regression</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">sklearn</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">SVR</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.SVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfx</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SVR class</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘sklearn.svm.classes.SVR’&gt;”,)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">wrapper parameters</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
+<div class="line-block">
+<div class="line">if True, the input dataframe’s header will be transformed to the output dataframe</div>
+<div class="line">choose one of: (True, False)</div>
+</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">choose one of: (‘fit’, ‘predict’, None)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">required packages</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">scikit-learn, 0.19.0</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-odd">config file view</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">sklearn</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">SVR</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">track_header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">func_method</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">kernel</span> <span class="pre">=</span> <span class="pre">rbf</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">verbose</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">degree</span> <span class="pre">=</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">coef0</span> <span class="pre">=</span> <span class="pre">0.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">epsilon</span> <span class="pre">=</span> <span class="pre">0.1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">max_iter</span> <span class="pre">=</span> <span class="pre">-1</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">C</span> <span class="pre">=</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">tol</span> <span class="pre">=</span> <span class="pre">0.001</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">cache_size</span> <span class="pre">=</span> <span class="pre">200</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">shrinking</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">gamma</span> <span class="pre">=</span> <span class="pre">auto</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfx</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">api</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">dfy_predict</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters: <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html">http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html</a></p>
+</div>
+</dd>
+</dl>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="include_CMLWR3Prepare.html" class="btn btn-neutral float-left" title="ConstantColumns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="include_CMLWR5Search.html" class="btn btn-neutral float-right" title="GridSearchCV" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

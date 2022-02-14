@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaveFile &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../prepare_task/index.html">Prepare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualize_task/index.html">Visualize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">ChemML API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>SaveFile</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/API/wrapper_docs/chemml.SaveFile.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="savefile">
+<span id="id1"></span><h1>SaveFile<a class="headerlink" href="#savefile" title="Permalink to this headline"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">task</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">Store</div>
+</div>
+</dd>
+<dt class="field-even">subtask</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">file</div>
+</div>
+</dd>
+<dt class="field-odd">host</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">chemml</div>
+</div>
+</dd>
+<dt class="field-even">function</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">SaveFile</div>
+</div>
+</dd>
+<dt class="field-odd">input tokens (receivers)</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;class ‘pandas.core.frame.DataFrame’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-even">output tokens (senders)</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">filepath</span></code> : pandas dataframe</div>
+<div class="line-block">
+<div class="line">types: (“&lt;type ‘str’&gt;”,)</div>
+</div>
+</div>
+</dd>
+<dt class="field-odd">required packages</dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">ChemML, 0.4.1</div>
+<div class="line">pandas, 0.20.3</div>
+</div>
+</dd>
+<dt class="field-even">config file view</dt>
+<dd class="field-even"><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">chemml</span>&#160;&#160;&#160; <span class="pre">&lt;&lt;</span> <span class="pre">function</span> <span class="pre">=</span> <span class="pre">SaveFile</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">index</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">record_time</span> <span class="pre">=</span> <span class="pre">False</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">format</span> <span class="pre">=</span> <span class="pre">csv</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">output_directory</span> <span class="pre">=</span> <span class="pre">None</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">header</span> <span class="pre">=</span> <span class="pre">True</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">filename</span> <span class="pre">=</span> <span class="pre">required_required</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">df</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span> <span class="pre">id</span> <span class="pre">filepath</span></code></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The documentation page for function parameters:</p>
+</div>
+</dd>
+</dl>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

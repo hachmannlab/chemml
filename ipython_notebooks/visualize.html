@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualize &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Introduction to ChemML Wrapper" href="../chemml_wrapper.html" />
+    <link rel="prev" title="Visualize" href="../visualize_task/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../visualize_task/index.html">Visualize</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visualize</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">ChemML API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../visualize_task/index.html">Visualize</a> &raquo;</li>
+      <li>Visualize</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ipython_notebooks/visualize.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Visualize">
+<h1>Visualize<a class="headerlink" href="#Visualize" title="Permalink to this headline"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chemml.visualization</span> <span class="kn">import</span> <span class="n">scatter2D</span><span class="p">,</span> <span class="n">SavePlot</span><span class="p">,</span> <span class="n">decorator</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Actual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Predicted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">scatter2D</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dfx</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">dfy</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Actual&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+
+<span class="n">dec</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Actual vs. Predicted&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Actual&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Predicted&#39;</span><span class="p">,</span>
+                <span class="n">xlim</span><span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">grid_color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">grid_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">dec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># print(type(fig))</span>
+<span class="n">sa</span><span class="o">=</span><span class="n">SavePlot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Parity&#39;</span><span class="p">,</span><span class="n">output_directory</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;dpi&#39;</span><span class="p">:</span><span class="mi">330</span><span class="p">,</span><span class="s1">&#39;pad_inches&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">})</span>
+<span class="n">sa</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The Plot has been saved at:  ./images/Parity.png
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_visualize_2_1.png" src="../_images/ipython_notebooks_visualize_2_1.png" />
+</div>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"02015445e7ee4e14b27f86c73110e2e2": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_1d7a7748a397429b8019298b31cb22b3", "style": "IPY_MODEL_c6ebee017960418d873d92118fd48534"}}, "046fac1fc47f486b9cbd93155e672441": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_be6b81e5f06d478f8826de0b1f7c0592", "style": "IPY_MODEL_122e9bf52fa94737b5a993695b1c7813", "value": "<b> Data Mining: </b>"}}, "0496f7f941944773b43e0e78aeccee61": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "058c8311124c498a95f8e7e9f59cdd67": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "05efd3440c074ff3a284b9b041477bda": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_598dbd7029de4d57acca968e5e9cea3b", "style": "IPY_MODEL_1dbfc76089fe4540884a1dce78e5f794", "value": "Template 3: get SMILES reperesentaion of molecules --> save them --> generate Morgan Fingerprints  --> save features"}}, "061aed2cf490484b9960e6b7c0963c59": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "06c451be1b19426f9aa1c6664e5ba443": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "095b17a575774667809bfb0b0ee49168": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "30px 0px 10px 0px"}}, "0a5e304eeaeb4d30b64f65aa4d5b9c20": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": "initial"}}, "0c796cd50d014c0a836d10af815ecf9f": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "0d4e29801bc64d27a7608fcad8c3cd80": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "0d906855957147d49de20fe7ee6eacfb": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_e6b3ca7f4111479dbe6190e1ee2eff47", "IPY_MODEL_286bdc44ed1248388b3c9afee3128bdd"], "layout": "IPY_MODEL_1a443d81370c43e79b79b46e6f6deed0"}}, "122e9bf52fa94737b5a993695b1c7813": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "159442696bc2429abb1b6fcf80cef95c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "177e5d96e5f1401387698eabbcebd3ae": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "1a443d81370c43e79b79b46e6f6deed0": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "1a7e51d8d27a45309e65c8ad2deca634": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "1c6618a1e0894bc093ab4888b3e1c619": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "1cf1cbd404f347879c58bdf47da7ec8e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "1d7a7748a397429b8019298b31cb22b3": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "1dbfc76089fe4540884a1dce78e5f794": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "1f3b9f6997594efba8f4a85814f408c5": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"width": "50%"}}, "1f65a4bb74374c02ba9b323824b1c51f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "1fedcf543bdc4af2a8da0cf5c7f7f997": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "2089712c6ecb440494c378ff32be080b": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_8cdec2b9e2234851a2f14bc9a7eeaf34", "IPY_MODEL_a120d482b4244563b684477afff41b69"], "layout": "IPY_MODEL_68dd0c8f9d1b4873a054c824876af653"}}, "2254c5f4d4db49a88f510056a0dab180": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "22a2c61ca0b046f0ae40ba90f1a4ec02": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "22a663dea8884f2587bb0653d3fd15af": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_d7976a043a2547b082c47460dd499661", "style": "IPY_MODEL_62455fc892784a979e97cf5b6be319ce"}}, "2657743006164f4ba64b2732576f91b9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_40c80dcf5f5c43eb9140f94a60907b9c", "style": "IPY_MODEL_0d4e29801bc64d27a7608fcad8c3cd80"}}, "286bdc44ed1248388b3c9afee3128bdd": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_edd24b33c72a458483fdfe7543703bef", "style": "IPY_MODEL_a65e77b5b6c7414eb2e427e8360298d6"}}, "288d80a47d1844538e0f5acd9d3cb095": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "2b62a0d6054245ef956c97368e83518a": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "2bb9c57e32ed42d8aac8d85da94f25c0": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "2dbb17eebca44dd9951e9a2411b1964c": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "31a56f64c3f74d91b3defc8c3564cbb7": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"align_items": "center", "justify_content": "center", "margin": "10px 0px 0px 0px"}}, "32a45f87f0984de4b6a916ea1f856919": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_7803eff94cd44020a60bef74ec778082", "style": "IPY_MODEL_bc74e2389f7048df862e30ebb4f9be4c", "value": "Template 1: A simple machine learning model workflow"}}, "37ef1f24ae7a4ba7b467e8ee2f337d27": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_a5f9f5427cef4aa2a0f9b32ea3a44bdd", "IPY_MODEL_02015445e7ee4e14b27f86c73110e2e2"], "layout": "IPY_MODEL_c0e0fa5ff9b44537a5c6b9ba48aa2d6f"}}, "3879f7012ffb4fb586841f91a435c701": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_b307b61f939544d0b8b0fda0ecc2c2fb", "style": "IPY_MODEL_0496f7f941944773b43e0e78aeccee61"}}, "3ab75652cca44458acd1ad2fffe32fe5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "3feb50fd87844ea394b8dca0926fbeef": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "20px 0px 0px 0px", "width": "120px"}}, "40c80dcf5f5c43eb9140f94a60907b9c": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "420a19d97b5e4961b4dc9095dd539455": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "42fde3ffd40342d081b6c34143855eb6": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_681c8faf19cc4c7b981825a57c182d8e", "IPY_MODEL_22a663dea8884f2587bb0653d3fd15af"], "layout": "IPY_MODEL_619a95f295934db8aac5974a32e5638b"}}, "45d737fb8ae9486884472289dd2fc5f6": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "height": "0px", "margin": "20px 0px 0px 0px"}}, "47c85fc01161492b946ea9757eed0287": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "48c882cfaf5c402e95657346bda54700": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_2b62a0d6054245ef956c97368e83518a", "style": "IPY_MODEL_1f65a4bb74374c02ba9b323824b1c51f", "value": "Template 2: model selection with grid search and cross validation"}}, "4ab911cdc42f4d8f8b07a576f32721f6": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_420a19d97b5e4961b4dc9095dd539455", "style": "IPY_MODEL_3ab75652cca44458acd1ad2fffe32fe5"}}, "4c2e98c8af034066adee387f42222c92": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"width": "50%"}}, "4c572b3068934ded946a33f67eb384ad": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "4d736f53e1a14e468fbcfd74eb347f04": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_8c8a85410e5e4d4eaf4839966631916a", "style": "IPY_MODEL_e07e3c43f5d345f3842daed931b5e250"}}, "4ef4adc459b54ecdbd5351db15366714": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "TextareaModel", "state": {"layout": "IPY_MODEL_1f3b9f6997594efba8f4a85814f408c5", "placeholder": "copy a ChemML script (config file) here", "style": "IPY_MODEL_df68f72e7c8249e1a0fd1e9ee383d1d4"}}, "4f16842723294aea86c881a7ef1fade4": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "4f3bffdf48624d5e8f351962207fc521": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "5084b9b3d56646fca744ea0693a11c42": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "50f2c625afde406f9f01fa476db50fb0": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "0px 0px 0px 10px", "width": "100%"}}, "5425cf2e82084907817cf345bdd57bb7": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Start", "layout": "IPY_MODEL_950ebbe97d2e4c26874e4ff83a56d2b9", "style": "IPY_MODEL_061aed2cf490484b9960e6b7c0963c59"}}, "55467c82a6ac4d019fcdab7cfdf2acd7": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"layout": "IPY_MODEL_45d737fb8ae9486884472289dd2fc5f6"}}, "592b5d4ef2fe4e6685203ae3aef103c4": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "598dbd7029de4d57acca968e5e9cea3b": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "5bdce829fd5d43448f93880103f71637": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "VBoxModel", "state": {"children": ["IPY_MODEL_6600b85510af4dc19d455fbf4e4d5506", "IPY_MODEL_fc90ed21071f497cb350bb554e3c7958", "IPY_MODEL_fd614601f325424a8b09d3779bad7f6d", "IPY_MODEL_99d6ab67e6d24beca21c3a3808c4b904", "IPY_MODEL_6d7ef376e68548f2a6a9e77839481f4c", "IPY_MODEL_ee0a1c0782a549fe8eba3f7244060415", "IPY_MODEL_76fe960253c844b1b0c2e7a3662279c9", "IPY_MODEL_42fde3ffd40342d081b6c34143855eb6", "IPY_MODEL_c8d2f2d25ff746a88431359463b8af38", "IPY_MODEL_2089712c6ecb440494c378ff32be080b", "IPY_MODEL_861e309836154c63a8e325300beb9b1f", "IPY_MODEL_ba6dcc7fa7e44bdab087da4c5b1b346f", "IPY_MODEL_37ef1f24ae7a4ba7b467e8ee2f337d27", "IPY_MODEL_b1f4dad0e0d642efb8379247de71cc01", "IPY_MODEL_be178b04d8694561abe7e9e209e4ed47", "IPY_MODEL_046fac1fc47f486b9cbd93155e672441", "IPY_MODEL_e1105b8ddf9b463abce655da1993f945", "IPY_MODEL_c0b82904f27d4fee92fa732aa10a2b3b", "IPY_MODEL_0d906855957147d49de20fe7ee6eacfb", "IPY_MODEL_8ce1c2d81deb459fbb8a9c88eaff39e1", "IPY_MODEL_87c637baadf146d39dede9a4ead3221c"], "layout": "IPY_MODEL_ae90e5e7ccd04c19857264cbc75177be"}}, "5e8f4e0c9636462493b5d345b284374f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "5f7b1e889a8240689efa017fe184b79e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "60d930b4405f47ef964bca4fefd56d0b": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "6118da6ea801475681f1f506ddbc6af9": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "619a95f295934db8aac5974a32e5638b": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "61cf3535b0f040ccba1fba856c64dc55": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "61e36490a4f5419fb1ff17cf1363568e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "62455fc892784a979e97cf5b6be319ce": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "6406820018704a27931788072dc6bbc3": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_9e4506176712418199461823d0682b52", "style": "IPY_MODEL_73e6d19292224fa89fa50545b9efffb0", "value": "Choose how to start:"}}, "655fce5d67244a57b50fd8d9729616c2": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "65a7a38ac85049f795a8198ce3ce484d": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "TextareaModel", "state": {"layout": "IPY_MODEL_50f2c625afde406f9f01fa476db50fb0", "placeholder": "Press the 'print Script' button to print the ChemML Wrapper's configuration script here. Copy and save it for the future use.", "style": "IPY_MODEL_4f16842723294aea86c881a7ef1fade4"}}, "6600b85510af4dc19d455fbf4e4d5506": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_da6e4ba16a924824b698141e1f059e68", "style": "IPY_MODEL_eb4bd74f06904454b9f615455a80f6d4", "value": "Start with a template workflow"}}, "681c8faf19cc4c7b981825a57c182d8e": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_592b5d4ef2fe4e6685203ae3aef103c4", "style": "IPY_MODEL_06c451be1b19426f9aa1c6664e5ba443", "value": "Template 2: load_xyz_polarizability --> generate BagofBonds features --> save features"}}, "68dd0c8f9d1b4873a054c824876af653": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "69b751d7e58040998d528bad8f40927d": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "6a18359114164b13808f68205784b057": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"align_items": "center", "justify_content": "center", "margin": "10px 0px 0px 0px"}}, "6b2b12b3cdcf4db39e45791c757ed7dc": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_fcbb39de46ad4fa5b9703278a07f0e82", "style": "IPY_MODEL_5084b9b3d56646fca744ea0693a11c42", "value": "Template 1: load_comp_energy --> inorganic descriptors for composition entries --> concatenate and print shape"}}, "6be8c7fedea74a63a71bb813b445ddb9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": "initial"}}, "6d7ef376e68548f2a6a9e77839481f4c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_f4892d0b15ce40f6803860a132bbf65c", "IPY_MODEL_ec1d7386dbdc4400a64bfa78f172f635"], "layout": "IPY_MODEL_e99c75b840da4c91ba6cc94fa6c4314d"}}, "6e3ae482c1864b2793e2d42402bdfedc": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "20px 0px 0px 20px"}}, "6e8822a230f44f888fb38e3b6cbd5c99": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "6fd80659623147fba08247df6372d084": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "72d8422d8db942a88df419ac29d6b49f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "732b5ade2c56477a8858d541fcda7acd": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "73e6d19292224fa89fa50545b9efffb0": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "755d4c11a2274dc287136ba749631c6e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "7691a28452cf44268613481433f201fb": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_4c2e98c8af034066adee387f42222c92", "style": "IPY_MODEL_eb91328c7b104889bce4164b179281a3", "value": "Start with a new script"}}, "76ea14ae737748f990a4255416cc5c71": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 0px 0px"}}, "76fe960253c844b1b0c2e7a3662279c9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_d755c0b38c714a3b934097fd9327f4c2", "IPY_MODEL_3879f7012ffb4fb586841f91a435c701"], "layout": "IPY_MODEL_97ce48fd2c524a038d7ada6a9c1a479f"}}, "7803eff94cd44020a60bef74ec778082": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "793d411195e74687bb2ebf797856dcba": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "81de97b68564476b9ec29ececea79a7c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "849d5bff0e0b44909ba8d919bf81cfd7": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "861e309836154c63a8e325300beb9b1f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_da0ea20b5c1b4097bad3c7ba5c852d00", "style": "IPY_MODEL_2bb9c57e32ed42d8aac8d85da94f25c0", "value": "<b> Inorganic Descriptors: </b>"}}, "87c637baadf146d39dede9a4ead3221c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_9d9d691865da4bb8a367ba7b935a9bac", "IPY_MODEL_ec12a1acbcf5436cb563bd08e6fe1dff"], "layout": "IPY_MODEL_cc652132f70848939790b4831c654b40"}}, "89e8fd23799e43a780f6694bca388e01": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "8c8a85410e5e4d4eaf4839966631916a": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "8cdec2b9e2234851a2f14bc9a7eeaf34": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_aabea836a66c4741aed5742fd40e827e", "style": "IPY_MODEL_e2f80408907c4d1282830bfc29808b17", "value": "Template 4: get SMILES reperesentaion of molecules --> save them --> generate Dragon descriptors  --> save features"}}, "8ce1c2d81deb459fbb8a9c88eaff39e1": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_9fa3548217f74259b62e2e5f5ad53dd1", "style": "IPY_MODEL_f1d264ff8dd64aa594287f505b3ea232", "value": "<b> Hyperparamter Optimization: </b>"}}, "8d671dd8d69f43f09f4fc17ca936fab1": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_76ea14ae737748f990a4255416cc5c71", "style": "IPY_MODEL_732b5ade2c56477a8858d541fcda7acd", "value": "<b>Note:</b> Don't forget to print/save the ChemML Wrapper's input file (configuration script) when you are done with editing:"}}, "90332a6a58f7438e94159689d3ba5975": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "908c2b300d5b45e9813120ce6082175c": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "90a7974832e24deaa67553ce61fd309f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "92fe6df516584bb8bd4f1e265ba5d6c5": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 0px 0px", "width": "120px"}}, "944a6772841e48f1843ab2a664deaa9d": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "950ebbe97d2e4c26874e4ff83a56d2b9": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "20px 0px 10px 115px"}}, "9682b2f6264b40d0b582988775abcddb": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "AccordionModel", "state": {"_titles": {"0": "Home page"}, "children": ["IPY_MODEL_beca077c51634c218b37523f471f5cb9"], "layout": "IPY_MODEL_9f67bb9b7ac14be3a20915e1b64aa794"}}, "976f39ac2c504d5f83621058aa36fd28": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Load", "layout": "IPY_MODEL_eb994e6a24064521a6fc9c93b42371f0", "style": "IPY_MODEL_60d930b4405f47ef964bca4fefd56d0b"}}, "97ce48fd2c524a038d7ada6a9c1a479f": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "98ac6cbbbf524beea361a852452baac4": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "993baf8e16a8473784736673da200853": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "99d3e4dfc48e4d5e962de027c5f5f438": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "99d6ab67e6d24beca21c3a3808c4b904": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_c5078c31a99545609165604fc3030b39", "IPY_MODEL_c28069d934b549928018a2eec726641d"], "layout": "IPY_MODEL_993baf8e16a8473784736673da200853"}}, "9d9d691865da4bb8a367ba7b935a9bac": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_c7d7c83a5a5c4f4dac5a4695489442b8", "style": "IPY_MODEL_159442696bc2429abb1b6fcf80cef95c", "value": "Template 1: Genetic Algorithm for MLPRegressor"}}, "9e4506176712418199461823d0682b52": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"width": "50%"}}, "9f67bb9b7ac14be3a20915e1b64aa794": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "solid gray 2px"}}, "9fa3548217f74259b62e2e5f5ad53dd1": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "a04ec86610c7453f9f787f3f73459c84": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "print Script", "layout": "IPY_MODEL_92fe6df516584bb8bd4f1e265ba5d6c5", "style": "IPY_MODEL_1fedcf543bdc4af2a8da0cf5c7f7f997"}}, "a120d482b4244563b684477afff41b69": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_288d80a47d1844538e0f5acd9d3cb095", "style": "IPY_MODEL_1c6618a1e0894bc093ab4888b3e1c619"}}, "a3ce21fbe2684652a20dfc8a9e8f348e": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "a5f9f5427cef4aa2a0f9b32ea3a44bdd": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_0c796cd50d014c0a836d10af815ecf9f", "style": "IPY_MODEL_655fce5d67244a57b50fd8d9729616c2", "value": "Template 2: load_crystal_structures --> inorganic descriptors for crystal structures --> concatenate and print shape"}}, "a65e77b5b6c7414eb2e427e8360298d6": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "a6824fa607ad49a397f6025dfbb6df46": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "a725cd367f41490da9e385a9ea688db4": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "aabea836a66c4741aed5742fd40e827e": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "ae1b47aef6854316adc2298996e482b4": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "ae90e5e7ccd04c19857264cbc75177be": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "b1f4dad0e0d642efb8379247de71cc01": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_5f7b1e889a8240689efa017fe184b79e", "style": "IPY_MODEL_4c572b3068934ded946a33f67eb384ad", "value": "<b> Generate Morgan fingerprints from SMILES codes: </b>"}}, "b307b61f939544d0b8b0fda0ecc2c2fb": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "b456e05456dc48f5891dae97022d1d53": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ImageModel", "state": {"layout": "IPY_MODEL_177e5d96e5f1401387698eabbcebd3ae"}}, "b61cfa5d65a14d85a4bf57b286bbcc78": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "b7469512031346dda206eaf4fe2e9f78": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "ba6dcc7fa7e44bdab087da4c5b1b346f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_6b2b12b3cdcf4db39e45791c757ed7dc", "IPY_MODEL_d2229921a11845f4a6be3619545acec2"], "layout": "IPY_MODEL_da7beea2110e4691a8f8e8c881a874c3"}}, "bc74e2389f7048df862e30ebb4f9be4c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "be178b04d8694561abe7e9e209e4ed47": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_dc7cead1ea724b2e99477cac248b776e", "IPY_MODEL_2657743006164f4ba64b2732576f91b9"], "layout": "IPY_MODEL_2254c5f4d4db49a88f510056a0dab180"}}, "be6b81e5f06d478f8826de0b1f7c0592": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "beca077c51634c218b37523f471f5cb9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "VBoxModel", "state": {"children": ["IPY_MODEL_6406820018704a27931788072dc6bbc3", "IPY_MODEL_bf340f8727514ed791a552e8f5db46b7", "IPY_MODEL_55467c82a6ac4d019fcdab7cfdf2acd7", "IPY_MODEL_8d671dd8d69f43f09f4fc17ca936fab1", "IPY_MODEL_ca9b7b0a85244cfabfbcb701e3d41523", "IPY_MODEL_e27f12840acb4d0c8fd502cf178b2ec4"], "layout": "IPY_MODEL_61cf3535b0f040ccba1fba856c64dc55"}}, "bf340f8727514ed791a552e8f5db46b7": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "TabModel", "state": {"_titles": {"0": "New script", "1": "Existing script", "2": "Template workflow"}, "children": ["IPY_MODEL_d9cef99d47b04bd7b7cb8530a32786d5", "IPY_MODEL_da7ffe1bfb464e078047d71fcd966715", "IPY_MODEL_5bdce829fd5d43448f93880103f71637"], "layout": "IPY_MODEL_98ac6cbbbf524beea361a852452baac4"}}, "bf5012bac1444815a32784ae54ef593c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "TextModel", "state": {"description": "Output directory:", "layout": "IPY_MODEL_095b17a575774667809bfb0b0ee49168", "placeholder": "Type something", "style": "IPY_MODEL_6be8c7fedea74a63a71bb813b445ddb9", "value": "CMLWrapper_out"}}, "c0b82904f27d4fee92fa732aa10a2b3b": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_48c882cfaf5c402e95657346bda54700", "IPY_MODEL_f0b3df7591e344aab6e8eb0a920da695"], "layout": "IPY_MODEL_61e36490a4f5419fb1ff17cf1363568e"}}, "c0e0fa5ff9b44537a5c6b9ba48aa2d6f": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "c2560a6459a94afbb7bdf93598496c3c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_cccb61e9f5174685a76b7d0c12fe0867", "style": "IPY_MODEL_89e8fd23799e43a780f6694bca388e01", "value": "Template 1: load_cep_homo --> plot histogram of HOMO energies --> print 5 SMILES"}}, "c28069d934b549928018a2eec726641d": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_f6d2d807bd2143bcb6c1d64d447ed18b", "style": "IPY_MODEL_90a7974832e24deaa67553ce61fd309f"}}, "c5078c31a99545609165604fc3030b39": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_1cf1cbd404f347879c58bdf47da7ec8e", "style": "IPY_MODEL_b7469512031346dda206eaf4fe2e9f78", "value": "Template 2: load_organic_density --> plot feature AMW vs. density --> print 5 SMILES"}}, "c6ebee017960418d873d92118fd48534": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "c7d7c83a5a5c4f4dac5a4695489442b8": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "c8d2f2d25ff746a88431359463b8af38": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_05efd3440c074ff3a284b9b041477bda", "IPY_MODEL_4ab911cdc42f4d8f8b07a576f32721f6"], "layout": "IPY_MODEL_6118da6ea801475681f1f506ddbc6af9"}}, "c995619e9e4e439fa05369460742300b": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Save Script", "layout": "IPY_MODEL_3feb50fd87844ea394b8dca0926fbeef", "style": "IPY_MODEL_5e8f4e0c9636462493b5d345b284374f"}}, "ca110f6da17e4f259aa0f7462563c03e": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "ca9b7b0a85244cfabfbcb701e3d41523": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_a04ec86610c7453f9f787f3f73459c84", "IPY_MODEL_65a7a38ac85049f795a8198ce3ce484d"], "layout": "IPY_MODEL_6a18359114164b13808f68205784b057"}}, "cc652132f70848939790b4831c654b40": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "cccb61e9f5174685a76b7d0c12fe0867": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "cdaa2c35c5b64b44a953570295866d9b": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "d2229921a11845f4a6be3619545acec2": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_90332a6a58f7438e94159689d3ba5975", "style": "IPY_MODEL_72d8422d8db942a88df419ac29d6b49f"}}, "d571d58fe0b645788b1bb8cf43e52738": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"width": "50%"}}, "d661f1a6c67b43c58d726d9f0d0909c7": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "d755c0b38c714a3b934097fd9327f4c2": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_755d4c11a2274dc287136ba749631c6e", "style": "IPY_MODEL_6fd80659623147fba08247df6372d084", "value": "Template 1: load_xyz_polarizability --> generate CoulombMatrix features --> save features"}}, "d7976a043a2547b082c47460dd499661": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "d9cef99d47b04bd7b7cb8530a32786d5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "VBoxModel", "state": {"children": ["IPY_MODEL_7691a28452cf44268613481433f201fb", "IPY_MODEL_bf5012bac1444815a32784ae54ef593c", "IPY_MODEL_5425cf2e82084907817cf345bdd57bb7"], "layout": "IPY_MODEL_944a6772841e48f1843ab2a664deaa9d"}}, "da0ea20b5c1b4097bad3c7ba5c852d00": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "da6e4ba16a924824b698141e1f059e68": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"width": "50%"}}, "da7beea2110e4691a8f8e8c881a874c3": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "da7ffe1bfb464e078047d71fcd966715": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "VBoxModel", "state": {"children": ["IPY_MODEL_e58e18127a5b40fabb45151a57cffc03", "IPY_MODEL_4ef4adc459b54ecdbd5351db15366714", "IPY_MODEL_976f39ac2c504d5f83621058aa36fd28"], "layout": "IPY_MODEL_b61cfa5d65a14d85a4bf57b286bbcc78"}}, "dc7cead1ea724b2e99477cac248b776e": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_2dbb17eebca44dd9951e9a2411b1964c", "style": "IPY_MODEL_a725cd367f41490da9e385a9ea688db4", "value": "Template 1: load excel sheet with SMILES codes in first column --> save them --> generate Morgan Fingerprints \n --> save features"}}, "df68f72e7c8249e1a0fd1e9ee383d1d4": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "e07e3c43f5d345f3842daed931b5e250": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonStyleModel", "state": {"button_color": "lightblue"}}, "e1105b8ddf9b463abce655da1993f945": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_32a45f87f0984de4b6a916ea1f856919", "IPY_MODEL_f6d6239a9be14c48ba9f327dc9b91612"], "layout": "IPY_MODEL_d661f1a6c67b43c58d726d9f0d0909c7"}}, "e27f12840acb4d0c8fd502cf178b2ec4": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_c995619e9e4e439fa05369460742300b", "IPY_MODEL_e88554886b334e9795938ee4a4a6940c"], "layout": "IPY_MODEL_31a56f64c3f74d91b3defc8c3564cbb7"}}, "e2f80408907c4d1282830bfc29808b17": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "e433397a9c9d44bdb3099cbd12c3375c": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "10px 0px 10px 0px", "width": "50%"}}, "e58e18127a5b40fabb45151a57cffc03": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_d571d58fe0b645788b1bb8cf43e52738", "style": "IPY_MODEL_a6824fa607ad49a397f6025dfbb6df46", "value": "Load an existing script"}}, "e6b3ca7f4111479dbe6190e1ee2eff47": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_22a2c61ca0b046f0ae40ba90f1a4ec02", "style": "IPY_MODEL_793d411195e74687bb2ebf797856dcba", "value": "Template 3: a complete machine learning workflow"}}, "e88554886b334e9795938ee4a4a6940c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "TextModel", "state": {"description": "config file name:", "layout": "IPY_MODEL_6e3ae482c1864b2793e2d42402bdfedc", "placeholder": "chemML_config.txt", "style": "IPY_MODEL_0a5e304eeaeb4d30b64f65aa4d5b9c20", "value": "chemML_config.txt"}}, "e99c75b840da4c91ba6cc94fa6c4314d": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"border": "dotted black 1px", "justify_content": "space-between"}}, "eb4bd74f06904454b9f615455a80f6d4": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "eb91328c7b104889bce4164b179281a3": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "eb994e6a24064521a6fc9c93b42371f0": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {"margin": "20px 0px 10px 115px"}}, "ec12a1acbcf5436cb563bd08e6fe1dff": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_cdaa2c35c5b64b44a953570295866d9b", "style": "IPY_MODEL_99d3e4dfc48e4d5e962de027c5f5f438"}}, "ec1d7386dbdc4400a64bfa78f172f635": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_058c8311124c498a95f8e7e9f59cdd67", "style": "IPY_MODEL_47c85fc01161492b946ea9757eed0287"}}, "edd24b33c72a458483fdfe7543703bef": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "ee0a1c0782a549fe8eba3f7244060415": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_e433397a9c9d44bdb3099cbd12c3375c", "style": "IPY_MODEL_4f3bffdf48624d5e8f351962207fc521", "value": "<b> Molecular Descriptors: </b>"}}, "f0b3df7591e344aab6e8eb0a920da695": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_908c2b300d5b45e9813120ce6082175c", "style": "IPY_MODEL_ca110f6da17e4f259aa0f7462563c03e"}}, "f1d264ff8dd64aa594287f505b3ea232": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "DescriptionStyleModel", "state": {"description_width": ""}}, "f4892d0b15ce40f6803860a132bbf65c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "LabelModel", "state": {"layout": "IPY_MODEL_6e8822a230f44f888fb38e3b6cbd5c99", "style": "IPY_MODEL_81de97b68564476b9ec29ececea79a7c", "value": "Template 3: load_xyz_polarizability --> plot all 50 polarizabilities --> print first item of coordinates output"}}, "f6d2d807bd2143bcb6c1d64d447ed18b": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "f6d6239a9be14c48ba9f327dc9b91612": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "ButtonModel", "state": {"description": "Select", "layout": "IPY_MODEL_ae1b47aef6854316adc2298996e482b4", "style": "IPY_MODEL_a3ce21fbe2684652a20dfc8a9e8f348e"}}, "fa0e4cd7edf440a79e908571cfbf1784": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "fc90ed21071f497cb350bb554e3c7958": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_69b751d7e58040998d528bad8f40927d", "style": "IPY_MODEL_1a7e51d8d27a45309e65c8ad2deca634", "value": "<b> Datasets Overview: </b>"}}, "fcbb39de46ad4fa5b9703278a07f0e82": {"model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "model_name": "LayoutModel", "state": {}}, "fd614601f325424a8b09d3779bad7f6d": {"model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_c2560a6459a94afbb7bdf93598496c3c", "IPY_MODEL_4d736f53e1a14e468fbcfd74eb347f04"], "layout": "IPY_MODEL_849d5bff0e0b44909ba8d919bf81cfd7"}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../visualize_task/index.html" class="btn btn-neutral float-left" title="Visualize" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../chemml_wrapper.html" class="btn btn-neutral float-right" title="Introduction to ChemML Wrapper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

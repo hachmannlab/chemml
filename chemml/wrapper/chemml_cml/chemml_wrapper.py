@@ -1846,9 +1846,11 @@ class SaveFile(BASE):
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
-            from chemml.initialization import SaveFile
-            model = SaveFile(**self.parameters)
-            model.fit(df, self.Base.output_directory)
+            # from chemml.initialization import SaveFile
+            # model = SaveFile(**self.parameters)
+            # model.fit(df, self.Base.output_directory)
+            df.to_csv(self.Base.output_directory)
+            
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err)
             raise TypeError(msg)

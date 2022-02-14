@@ -3,6 +3,7 @@ import os
 import shutil
 import inspect
 import pandas as pd
+import warnings
 # from tabulate import tabulate
 
 
@@ -16,7 +17,7 @@ direc = 'wrapper_docs'
 extras = ['np','__builtins__', '__doc__', '__file__', '__name__', '__package__','mask','Input', 'Output', 'Parameter', 'req', 'regression_types', 'cv_classes']
 cols = ['task', 'subtask', 'host', 'function', 'input tokens', 'output tokens']
 df = pd.DataFrame(columns = cols)
-info = {'Enter':[], 'Represent':[], 'Prepare':[],'Model':[],'Search':[],'Visualize':[],'Store':[]}
+info = {'Input':[], 'Represent':[], 'Prepare':[],'Model':[],'Optimize':[],'Visualize':[],'Output':[]}
 ind= 0
 count=0
 for h in databases:
@@ -24,6 +25,7 @@ for h in databases:
         print(h)
         from chemml.wrapper.database import sklearn_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
+        classes.remove('warnings')
     elif h == 'chemml':
         print(h)
         from chemml.wrapper.database import chemml_db as db
@@ -33,12 +35,13 @@ for h in databases:
         from chemml.wrapper.database import pandas_db as db
         classes = [klass[0] for klass in inspect.getmembers(db)]
     class_names = [c for c in classes if c not in extras]
+    # print("class_names: ", class_names)
     for n in class_names:
         if str(n) == "__cached__" or  str(n) == "__loader__" or  str(n) == "__spec__": continue
         ind += 1
         k = getattr(db, n)
-        print("k: ", k)
-        print("n: ",n) 
+        # print("k: ", k)
+        # print("n: ",n) 
         try:
             function = k.function
             host = k.host
@@ -46,6 +49,7 @@ for h in databases:
             print(k)
             count+=1
         filename = '%s.%s'%(host,function)
+        print("direc: ", direc, "filename: ", filename)
         info[k.task].append('.. include:: %s/%s.rst'%(direc, filename))
         row = [k.task, k.subtask, host, function]
         # print function

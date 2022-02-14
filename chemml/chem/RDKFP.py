@@ -93,7 +93,7 @@ class RDKitFingerprint(object):
             raise ValueError(msg)
 
         if molecules.ndim >1:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objets."
+            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
             raise ValueError(msg)
 
         self.n_molecules_ = molecules.shape[0]

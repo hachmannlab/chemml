@@ -5,10 +5,7 @@ The chemml.preprocessing module includes (please click on links adjacent to func
     - Outliers: :func:`~chemml.preprocessing.Outliers`
 """
 
-from .handle_missing import MissingValues
-
-from .purge import ConstantColumns
-from .purge import Outliers
+from .handle_missing import MissingValues, ConstantColumns, Outliers
 
 
 __all__ = [

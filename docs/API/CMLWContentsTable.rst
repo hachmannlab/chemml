@@ -14,6 +14,6 @@ Table's columns describe:
 
 .. csv-table:: Table of contents
    :align: left
-   :file: _tables/Table_of_contents.csv
+   :file: Table_of_contents.csv
    :header-rows: 1
 

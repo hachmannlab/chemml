@@ -1,5 +1,6 @@
 recursive-include chemml/datasets/data *
 recursive-include chemml/chem/magpie_python/lookup-data *
+recursive-include chemml/published/RI *
 
 include setup.py
 include README.md

@@ -11,7 +11,7 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
     
     Parameters 
     ----------
-    mlp_obj: <chemml.models.keras.mlp.MLP> object
+    mlp_obj: <chemml.models.mlp.MLP> object
         model object in which hyperparameters are to be loaded
         
     features: str
@@ -27,8 +27,8 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
     hyperparameters = hyperparams()
     layers_config = layers_conf()
     
-    if type(mlp_obj) is not chemml.models.keras.mlp.MLP:
-        raise TypeError("mlp_obj should be a <chemml.models.keras.mlp.MLP> object")
+    if type(mlp_obj) is not chemml.models.mlp.MLP:
+        raise TypeError("mlp_obj should be a <chemml.models.mlp.MLP> object")
         
     if features not in ['dragon', 'morgan', 'hap', 'htt']:
         raise ValueError("feature should be either 'dragon', 'morgan', 'hap' or 'htt' ")
@@ -39,9 +39,9 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
     if model_type not in ['single', 'multitask', 'lorentz_lorenz', 'single_10k']:
         raise ValueError("model_type should be either 'single', 'multitask', 'lorentz_lorenz' or 'single_10k' ")
         
-        
-    mlp_obj = MLP(*hyperparameters[model_type][features][targets])
-    mlp_obj.layers = layers_config[model_type][features][targets]
+    layers = layers_config[model_type][features][targets]
+    mlp_obj = MLP(engine='tensorflow', nfeatures=1893, layer_config_file=layers, nepochs=500,batch_size=50, loss='mean_squared_error', learning_rate=0.01, opt_config=hyperparameters[model_type][features][targets])
+    
     
     return mlp_obj
 
@@ -122,24 +122,24 @@ def hyperparams():
     hyperparameters = {
                     "single": {
                         "dragon":  {
-                                    "polarizability": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':1.69e-05}]], 
-                                    "refractive_index": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':3.98e-05}]],
-                                    "number_density": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':1.72e-05}]], 
+                                    "polarizability": ['Adam',{'learning_rate':1.69e-05}], 
+                                    "refractive_index": ['Adam',{'learning_rate':3.98e-05}],
+                                    "number_density": ['Adam',{'learning_rate':1.72e-05}], 
                                 },
                         "morgan": {
-                                    "polarizability": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':8.78e-05}]], 
-                                    "refractive_index": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':1.91e-05}]],
-                                    "number_density": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':9.04e-05}]],
+                                    "polarizability": ['Adam',{'learning_rate':8.78e-05}], 
+                                    "refractive_index": ['Adam',{'learning_rate':1.91e-05}],
+                                    "number_density": ['Adam',{'learning_rate':9.04e-05}],
                         	    },
             	        "hap": {
-                                    "polarizability": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':3.72e-05}]], 
-                                    "refractive_index": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None,['Adam',{'learning_rate':2.59e-05}]],
-                                    "number_density": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':1.83e-05}]],
+                                    "polarizability": ['Adam',{'learning_rate':3.72e-05}], 
+                                    "refractive_index": ['Adam',{'learning_rate':2.59e-05}],
+                                    "number_density": ['Adam',{'learning_rate':1.83e-05}],
                                 },
                         "htt": {
-                                    "polarizability": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':9.42e-05}]], 
-                                    "refractive_index": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':2.95e-05}]],
-                                    "number_density": [1, None, None, 0.01, 0.0, 500,50,'mean_squared_error', 'True', None, None, ['Adam',{'learning_rate':1.88e-05}]],
+                                    "polarizability": ['Adam',{'learning_rate':9.42e-05}], 
+                                    "refractive_index": ['Adam',{'learning_rate':2.95e-05}],
+                                    "number_density": ['Adam',{'learning_rate':1.88e-05}],
                                 } 
                             },
                     "multitask": {

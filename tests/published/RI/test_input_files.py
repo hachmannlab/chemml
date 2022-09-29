@@ -8,7 +8,7 @@ def test_load_hyperparameters():
     
     for f in ['dragon', 'morgan', 'hap', 'htt']:
         for t in ['polarizability', 'refractive_index', 'number_density']:
-            a = MLP()
+            a = MLP(engine='tensorflow', nfeatures=1893,nneurons=[10],activations=['ReLU'])
             a_with_hyp = load_hyperparameters(a, f, t, 'single')
             # print(vars(a_with_hyp))
     
@@ -40,7 +40,7 @@ def test_load_model():
     for f in ['dragon', 'morgan', 'hap', 'htt']:
         for t in ['polarizability', 'refractive_index', 'number_density']:
             model_path = load_model(f, t, model='single')
-            mlp = MLP()
+            mlp = MLP(engine='tensorflow', nfeatures=1893, nneurons=[10],activations=['ReLU'])
             mlp = mlp.load(model_path)
             
     # physics infused

@@ -1,19 +1,16 @@
 """
-The 'chemml.models' module includes (please click on links adjacent to function names for more information):
-    - OrganicLorentzLorenz: :func:`~chemml.models.keras.trained.OrganicLorentzLorenz`
-    - MLP: :func:`~chemml.models.keras.mlp.MLP`
+The chemml.models.keras module includes (please click on links adjacent to function names for more information):
 """
 
-from chemml.models.keras.mlp import MLP
 
-from chemml.models.keras.graphconvlayers import NeuralGraphHidden, NeuralGraphOutput
+# from chemml.models.mlp import MLP
+from .mlp import MLP
 
-from chemml.models.keras.transfer import TransferLearning
+from .graphconvlayers import NeuralGraphHidden, NeuralGraphOutput
+# from .graphconvnetwork import build_graph_conv_model, build_graph_conv_net
+from .transfer import TransferLearning
 
 
 __all__ = [
-    'MLP',
-    'NeuralGraphHidden',
-    'NeuralGraphOutput',
-    'TransferLearning'
-]
+    'MLP', 'NeuralGraphHidden','NeuralGraphOutput','TransferLearning'
+    ]

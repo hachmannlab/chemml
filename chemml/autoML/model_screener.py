@@ -5,8 +5,7 @@ import numpy as np
 from sklearn.utils import all_estimators
 from chemml.utils.utilities import regression_metrics
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -21,10 +20,13 @@ class ModelScreener(object):
             self.target = target
         else:
             print("df must be a DataFrame!")
-        if screener_type in ["regressor","classifier"]:
-            self.screener_type = screener_type
+        if isinstance(screener_type, str):
+            if screener_type == "None":
+                self.screener_type = None
+            else:
+                self.screener_type = screener_type
         else:
-            print("screener type must be a regressor or classifier")
+            print("screener_type must be a string!")
         
         if isinstance(self.target, str):
             print("Target column name given as string")
@@ -64,6 +66,28 @@ class ModelScreener(object):
                 pass
         return all_regs
 
+    def obtain_error_metrics(self, y_test, y_predict, model_name):
+        if self.screener_type == "regressor":
+            r2 = r2_score(y_test, y_predict)
+            # print("model_name: ", model_name)
+            # print("r2: ", r2)
+            mae = mean_absolute_error(y_test, y_predict)
+            scores = {"Model": model_name, "MAE": mae, "R2_score": r2}
+
+        elif self.screener_type == "classifier":
+            accuracy = accuracy_score(y_test, y_predict)
+            recall = recall_score(y_test, y_predict, average='macro')
+            precision = precision_score(y_test, y_predict, average='macro')
+            f1score = f1_score(y_test, y_predict, average='macro')
+            scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score}
+        
+        else:
+            print("Work in progress...\n")
+            print("classifier and regressor scores can be separately obtained: ")
+            print("""set screener_type to 'regressor' or 'classifier'  """)
+            scores = None
+        return scores
+
     def screen_models(self):
         start_time = time.time()
         scores_df = pd.DataFrame()
@@ -71,25 +95,20 @@ class ModelScreener(object):
         print("All possible Models: ", len(all_models))
         X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
         tmp_counter = 0
-        for model in all_models:
+        for model in all_models[:5]:
             tmp_counter = tmp_counter+1
             model_name = str(model)
             print("Running model no: ", tmp_counter, "; Name: ", model_name)
             try:
                 model.fit(X_train, y_train)
                 y_predict = model.predict(X_test)
-                r2 = r2_score(y_test, y_predict)
-                # print("model_name: ", model_name)
-                # print("r2: ", r2)
-                mae = mean_absolute_error(y_test, y_predict)
-                # print("mae: ", mae)
                 if scores_df.empty==True:
-                    scores = {"Model": model_name, "MAE": mae, "R2_score": r2}
+                    scores = self.obtain_error_metrics(y_test, y_predict, model_name)
                     scores_df = pd.DataFrame(data=scores, index=[0])
                     # scores_df = pd.concat([scores_df, regression_metrics(y_test, y_predict)], axis=1)
                     # print("scores_df: ", scores_df)
                 else:
-                    scores = {"Model": model_name, "MAE": mae, "R2_score": r2}
+                    scores = self.obtain_error_metrics(y_test, y_predict, model_name)
                     scores_df_1 = pd.DataFrame(data=scores, index=[0])
                     scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
                     # print(scores_df)

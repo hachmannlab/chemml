@@ -10,11 +10,51 @@ from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recal
 import warnings
 warnings.filterwarnings("ignore")
 
-
+# The class takes in a dataframe, a target column name (string or integer), and a screener type
+# (string). 
+# 
+# The class then checks if the target column name is a string or an integer. If it's a string, it
+# checks if the string exists in the dataframe. If it does, it obtains the target column and the rest
+# of the dataframe. If it doesn't, it throws an error. 
+# 
+# If the target column name is an integer, it checks if the integer exists in the dataframe. If it
+# does, it obtains the target column and the rest of the dataframe. If it doesn't, it throws an error.
+# 
+# 
+# The class then assigns the target column to the variable y and the rest of the dataframe to the
+# variable x. 
+# 
+# The class then assigns the variables x and y to the class variables x and y. 
+# 
+# The class then returns nothing.
 
 class ModelScreener(object):
 
     def __init__(self, df=None, target=None, screener_type="regressor"):
+        """
+        The function takes in a dataframe, a target column name (string or integer), and a screener type
+        (string). 
+        
+        The function then checks if the target column name is a string or an integer. If it's a string,
+        it checks if the string exists in the dataframe. If it does, it obtains the target column and
+        the rest of the dataframe. If it doesn't, it throws an error. 
+        
+        If the target column name is an integer, it checks if the integer exists in the dataframe. If it
+        does, it obtains the target column and the rest of the dataframe. If it doesn't, it throws an
+        error. 
+        
+        The function then assigns the target column to the variable y and the rest of the dataframe to
+        the variable x. 
+        
+        The function then assigns the variables x and y to the class variables x and y. 
+        
+        The function then returns nothing.
+        
+        :param df: The dataframe that you want to screen
+        :param target: The target column name or index
+        :param screener_type: This is the type of screener you want to use. It can be either a
+        classifier or a regressor, defaults to regressor (optional)
+        """
         if isinstance(df, pd.DataFrame):
             self.df = df
             self.target = target
@@ -55,6 +95,13 @@ class ModelScreener(object):
         self.y = y
 
     def get_all_models_sklearn(self, filter):
+        """
+        It returns a list of all the models in sklearn that match the filter
+        
+        :param filter: This is a string that is used to filter the models. For example, if you want to
+        get all the linear models, you can pass 'linear' as the filter
+        :return: A list of all the models that are available in sklearn.
+        """
         estimators = all_estimators(type_filter=filter)
         all_regs = []
         for name, RegClass in estimators:
@@ -67,6 +114,15 @@ class ModelScreener(object):
         return all_regs
 
     def obtain_error_metrics(self, y_test, y_predict, model_name):
+        """
+        It takes in the true values of the target variable, the predicted values of the target variable,
+        and the name of the model as input and returns a dictionary of the error metrics for the model
+        
+        :param y_test: the actual values of the target variable
+        :param y_predict: The predicted values of the target variable
+        :param model_name: The name of the model
+        :return: a dictionary of scores.
+        """
         if self.screener_type == "regressor":
             r2 = r2_score(y_test, y_predict)
             # print("model_name: ", model_name)
@@ -89,13 +145,26 @@ class ModelScreener(object):
         return scores
 
     def screen_models(self):
+        """
+        It takes a dataframe, splits it into train and test, and then runs all the models in the
+        screener_type list, and returns a dataframe with the error metrics for each model. 
+        
+        The screener_type list is a list of all the models that we want to run. 
+        
+        The function is called like this: 
+        
+        screener_obj = ModelScreener(df, 'regression', 'target_variable')
+        screener_obj.screen_models()
+        
+        The output is a dataframe with the error metrics for each model. 
+        """
         start_time = time.time()
         scores_df = pd.DataFrame()
         all_models = self.get_all_models_sklearn(self.screener_type)
         print("All possible Models: ", len(all_models))
         X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
         tmp_counter = 0
-        for model in all_models[:5]:
+        for model in all_models:
             tmp_counter = tmp_counter+1
             model_name = str(model)
             print("Running model no: ", tmp_counter, "; Name: ", model_name)

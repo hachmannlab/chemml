@@ -32,41 +32,30 @@ class ModelScreener(object):
 
     def __init__(self, df=None, target=None, screener_type="regressor"):
         """
-        The function takes in a dataframe, a target column name (string or integer), and a screener type
-        (string). 
-        
-        The function then checks if the target column name is a string or an integer. If it's a string,
-        it checks if the string exists in the dataframe. If it does, it obtains the target column and
-        the rest of the dataframe. If it doesn't, it throws an error. 
-        
-        If the target column name is an integer, it checks if the integer exists in the dataframe. If it
-        does, it obtains the target column and the rest of the dataframe. If it doesn't, it throws an
-        error. 
-        
-        The function then assigns the target column to the variable y and the rest of the dataframe to
-        the variable x. 
-        
-        The function then assigns the variables x and y to the class variables x and y. 
-        
-        The function then returns nothing.
+        The function takes in a dataframe and a target column name or index and returns the target
+        column and the rest of the dataframe
         
         :param df: The dataframe that you want to screen
         :param target: The target column name or index
         :param screener_type: This is the type of screener you want to use. It can be either a
         classifier or a regressor, defaults to regressor (optional)
         """
+        
         if isinstance(df, pd.DataFrame):
             self.df = df
             self.target = target
         else:
             print("df must be a DataFrame!")
         if isinstance(screener_type, str):
-            if screener_type == "None":
-                self.screener_type = None
+            if screener_type in ["classifier", "regressor", "None"]:
+                if screener_type == "None":
+                    self.screener_type = None
+                else:
+                    self.screener_type = screener_type
             else:
-                self.screener_type = screener_type
+                raise ValueError("Parameter screener_type must be 'classifier' or 'regressor' ")
         else:
-            print("screener_type must be a string!")
+            raise TypeError("Parameter screener_type must be a string")
         
         if isinstance(self.target, str):
             print("Target column name given as string")
@@ -91,6 +80,8 @@ class ModelScreener(object):
                 print("x.shape: ", x.shape)
             except:
                 print("Column number does not exist!")
+        else:
+            raise TypeError("Parameter target must be of type str or int")
         self.x = x
         self.y = y
 
@@ -99,7 +90,7 @@ class ModelScreener(object):
         It returns a list of all the models in sklearn that match the filter
         
         :param filter: This is a string that is used to filter the models. For example, if you want to
-        get all the linear models, you can pass 'linear' as the filter
+        get all the regression models, you can pass 'regression' as the filter
         :return: A list of all the models that are available in sklearn.
         """
         estimators = all_estimators(type_filter=filter)
@@ -112,7 +103,7 @@ class ModelScreener(object):
             except Exception as e:
                 pass
         return all_regs
-
+            
     def obtain_error_metrics(self, y_test, y_predict, model_name):
         """
         It takes in the true values of the target variable, the predicted values of the target variable,
@@ -153,14 +144,14 @@ class ModelScreener(object):
         
         The function is called like this: 
         
-        screener_obj = ModelScreener(df, 'regression', 'target_variable')
+        screener_obj = ModelScreener(df, target='target_variable', screener_type='regression')
         screener_obj.screen_models()
         
         The output is a dataframe with the error metrics for each model. 
         """
         start_time = time.time()
         scores_df = pd.DataFrame()
-        all_models = self.get_all_models_sklearn(self.screener_type)
+        all_models = self.get_all_models_sklearn(filter=self.screener_type)
         print("All possible Models: ", len(all_models))
         X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
         tmp_counter = 0

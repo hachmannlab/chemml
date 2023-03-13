@@ -216,32 +216,35 @@ class ModelScreener(object):
         for model in all_models[:6]:
             tmp_counter = tmp_counter+1
             model_name = str(model)
-            print("Running model no: ", tmp_counter, "; Name: ", model_name)
-            try:
-                model_start_time = time.time()
-                model.fit(X_train, y_train)
-                y_predict = model.predict(X_test)
-                if scores_df.empty==True:
-                    scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                    with open(self.output_file, 'w') as f: 
-                        for key, value in scores.items(): 
-                            f.write('%s:%s\n' % (key, value))
-                        f.write('\n')
-                    f.close()
-                    scores_df = pd.DataFrame(data=scores, index=[0])
-                    # print("scores_df: ", scores_df)
-                else:
-                    scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                    with open(self.output_file, 'a') as f: 
-                        for key, value in scores.items(): 
-                            f.write('%s:%s\n' % (key, value))
-                        f.write('\n')
-                    f.close()
-                    scores_df_1 = pd.DataFrame(data=scores, index=[0])
-                    scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
-                    # print("scores_df: ", scores_df)
-            except Exception as e: 
-                print(e)
+            if model_name != "QuantileRegressor()":
+                print("Running model no: ", tmp_counter, "; Name: ", model_name)
+                try:
+                    model_start_time = time.time()
+                    model.fit(X_train, y_train)
+                    y_predict = model.predict(X_test)
+                    if scores_df.empty==True:
+                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                        with open(self.output_file, 'w') as f: 
+                            for key, value in scores.items(): 
+                                f.write('%s:%s\n' % (key, value))
+                            f.write('\n')
+                        f.close()
+                        scores_df = pd.DataFrame(data=scores, index=[0])
+                        # print("scores_df: ", scores_df)
+                    else:
+                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                        with open(self.output_file, 'a') as f: 
+                            for key, value in scores.items(): 
+                                f.write('%s:%s\n' % (key, value))
+                            f.write('\n')
+                        f.close()
+                        scores_df_1 = pd.DataFrame(data=scores, index=[0])
+                        scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
+                        # print("scores_df: ", scores_df)
+                except Exception as e: 
+                    print(e)
+            else:
+                print("Skipping QuantileRegressor() - it takes too long")
         print("\n")
         print("--- %s seconds ---" % (time.time() - start_time))
         if self.screener_type == "regressor":
@@ -268,7 +271,7 @@ class ModelScreener(object):
             raise TypeError("Parameter 'file_name' must be of type str")
         
         if self.screener_type == "regressor":
-            sorted_df = self.scores_df.sort_values(by='R2_score', ascending=False)
+            sorted_df = self.scores_df.sort_values(by='r_squared', ascending=False)
         elif self.screener_type == "classifier":
             sorted_df = self.scores_df.sort_values(by='Accuracy', ascending=False)
         else:

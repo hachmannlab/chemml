@@ -344,7 +344,7 @@ def zip_mixed(*mixed_iterables, **kwargs):
     return zip(*mixed_iterables)
 
 
-def regression_metrics(y_true, y_predicted, nfeatures = None):
+def regression_metrics(y_true, y_predicted, nfeatures = None, individual_errors=False):
     """
     calculates metrics to evaluate regression models
     
@@ -443,6 +443,11 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
         metrics_dict['adjusted_r_squared'] = adj_r2
     import pandas as pd
     metrics_df = pd.DataFrame.from_dict(metrics_dict)
+    if individual_errors == False:
+        metrics_df.drop(labels=['E','AE','SE'], axis=1, inplace=True)
+        if re_flag:
+            metrics_df.drop(labels=['RE'], axis=1, inplace=True)
+            
     return metrics_df
 
 

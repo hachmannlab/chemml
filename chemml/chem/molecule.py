@@ -277,7 +277,7 @@ class Molecule(object):
         self.creator = None
         self._init_attributes()
         self._extra_docs()
-        self._load(input_mol, input_type, engine, **kwargs)
+        self._load(input_mol.strip(), input_type, engine, **kwargs)
 
 
     def __repr__(self):

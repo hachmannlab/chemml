@@ -497,7 +497,7 @@ class NeuralGraphPool(layers.Layer):
         atoms, bonds, edges = inputs
 
         # For each atom, look up the featues of it's neighbour
-        neighbour_atom_features = neighbour_lookup(atoms, edges, maskvalue=-inf,
+        neighbour_atom_features = neighbour_lookup(atoms, edges, maskvalue=float('-inf'),
                                                    include_self=True)
 
         # Take max along `degree` axis (2) to get max of neighbours and self

@@ -3,6 +3,7 @@ import datetime
 import numpy as np
 import time
 import os
+import pandas as pd
 
 
 def list_del_indices(mylist,indices):
@@ -343,6 +344,46 @@ def zip_mixed(*mixed_iterables, **kwargs):
 
     return zip(*mixed_iterables)
 
+def classification_metrics(y_true, y_predicted):
+
+    #find different classes 
+    if isinstance(y_true,np.ndarray):
+        all_classes = np.unique(y_true)
+    else:
+        y_true_tmp = np.array(y_true)
+        all_classes = np.unique(y_true_tmp)
+    
+    #create confusion matrix
+    confusion_matrix = np.zeros((len(all_classes), len(all_classes)))
+
+        #loop across the different combinations of y_true / y_predicted classes
+    for i in range(len(all_classes)):
+        for j in range(len(all_classes)):
+
+           # count the number of instances in each combination of actual / predicted classes
+           confusion_matrix[i, j] = np.sum((y_true == all_classes[i]) & (y_predicted == all_classes[j]))
+
+    # #accuracy_score
+    accuracy = confusion_matrix.diagonal()/confusion_matrix.sum(axis=1)
+    print("Accuracy: ", accuracy)
+
+    #precision_score
+    precision = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 0)
+    # precision = np.mean(precision)
+    print("Precision: ", precision)
+
+    #recall_score
+    recall = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 1)
+    # recall = np.mean(recall)
+    print("Recall: ", recall)
+
+    # #f1_score
+    f1_score = 2 * (precision * recall) / (precision + recall)
+    print("f1_score: ", f1_score)
+
+    # recall = np.mean(recall)
+    # precision = np.mean(precision)
+    return accuracy, precision, recall, f1_score
 
 def regression_metrics(y_true, y_predicted, nfeatures = None):
     """

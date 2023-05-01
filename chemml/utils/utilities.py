@@ -345,6 +345,14 @@ def zip_mixed(*mixed_iterables, **kwargs):
     return zip(*mixed_iterables)
 
 def classification_metrics(y_true, y_predicted):
+    """
+    This function calculates and prints accuracy, precision, recall, and f1_score for a given set of
+    true and predicted labels.
+    
+    :param y_true: The true labels of the data, i.e. the ground truth
+    :param y_predicted: The predicted labels for a classification problem
+    :return: four arrays: accuracy, precision, recall, and f1_score.
+    """
 
     #find different classes 
     if isinstance(y_true,np.ndarray):
@@ -356,34 +364,64 @@ def classification_metrics(y_true, y_predicted):
     #create confusion matrix
     confusion_matrix = np.zeros((len(all_classes), len(all_classes)))
 
-        #loop across the different combinations of y_true / y_predicted classes
+    #loop across the different combinations of y_true / y_predicted classes
     for i in range(len(all_classes)):
         for j in range(len(all_classes)):
 
            # count the number of instances in each combination of actual / predicted classes
            confusion_matrix[i, j] = np.sum((y_true == all_classes[i]) & (y_predicted == all_classes[j]))
+    
+    # print(confusion_matrix)
+
+    class_id = set(y_true).union(set(y_predicted))
+    TP = []
+    FP = []
+    TN = []
+    FN = []
+
+    for index ,_id in enumerate(class_id):
+        TP.append(0)
+        FP.append(0)
+        TN.append(0)
+        FN.append(0)
+        for i in range(len(y_predicted)):
+            if y_true[i] == y_predicted[i] == _id:
+                TP[index] += 1
+            if y_predicted[i] == _id and y_true[i] != y_predicted[i]:
+                FP[index] += 1
+            if y_true[i] == y_predicted[i] != _id:
+                TN[index] += 1
+            if y_true[i] != _id and y_true[i] != y_predicted[i]:
+                FN[index] += 1
+
+    print("TP: ", TP)
+    print("FP: ", FP) 
+    print("TN: ", TN)
+    print("FN :", FN)
 
     # #accuracy_score
-    accuracy = confusion_matrix.diagonal()/confusion_matrix.sum(axis=1)
+    accuracy = (sum(TP)+sum(TN))/(sum(TP)+sum(FP)+sum(FN)+sum(TN))
     print("Accuracy: ", accuracy)
 
     #precision_score
     precision = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 0)
-    # precision = np.mean(precision)
+    # precision = round(np.mean(precision), 4)
     print("Precision: ", precision)
 
     #recall_score
     recall = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 1)
-    # recall = np.mean(recall)
+    # recall = round(np.mean(recall), 4)
     print("Recall: ", recall)
 
     # #f1_score
+    np.seterr(invalid='ignore')
     f1_score = 2 * (precision * recall) / (precision + recall)
+    f1_score = np.nan_to_num(f1_score)
     print("f1_score: ", f1_score)
 
-    # recall = np.mean(recall)
-    # precision = np.mean(precision)
-    return accuracy, precision, recall, f1_score
+    # # recall = np.mean(recall)
+    # # precision = np.mean(precision)
+    return None
 
 def regression_metrics(y_true, y_predicted, nfeatures = None):
     """

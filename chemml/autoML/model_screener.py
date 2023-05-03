@@ -320,14 +320,44 @@ class ModelScreener(object):
                             {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
                             'mutation': [0, 1]}},
                             {'degree': {'choice': range(3,12,1)}}
-                            ]
-                            
+                            ],
+            'ElasticNetCV()':[
+                            {'l1_ratio': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}}, 
+                            {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
+                            ],
+            'LassoCV()':[ 
+                            {'n_alphas': {'choice': [100, 50, 200, 10]}},
+                            {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
+                            {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}},
+                            ],
+            'BayesianRidge()':[
+                            {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}}, 
+                            {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}}, 
+                            ],
+            'OrthogonalMatchingPursuitCV()':[
+                            {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}}, 
+                            {'cv':  {'choice': range(1,6)}},
+                            ],
+            'TweedieRegressor()':[
+                            {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                            'mutation': [0, 1]}}, 
+                            {'link': {'choice': ['auto', 'identity', 'log']}},
+                            {'solver': {'lbfgs', 'newton-cholesky'}}
+                            ],
+                    
                     }
-        
+            
         X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
         print("Train_Test_Split_done!")
+        print("Starting to optimize screened models...")
 
         def single_obj(model, x, y):
+            # print("running single_obj")
             n_splits=4
             kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
             accuracy_kfold = []
@@ -368,15 +398,36 @@ class ModelScreener(object):
             elif model_name == 'KernelRidge()':
                 from sklearn.kernel_ridge import KernelRidge
                 model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
+            elif model_name == 'ElasticNetCV()':
+                from sklearn.linear_model import ElasticNetCV
+                model = ElasticNetCV(l1_ratio=np.exp(parameters_list[0]), eps= parameters_list[1])
+            elif model_name == 'LassoCV()':
+                from sklearn.linear_model import LassoCV
+                model = LassoCV(n_alphas=parameters_list[0], eps=parameters_list[1])
+            elif model_name == 'BayesianRidge()':
+                from sklearn.linear_model import BayesianRidge
+                model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
+            elif model_name == 'OrthogonalMatchingPursuitCV()':
+                from sklearn.linear_model import OrthogonalMatchingPursuitCV
+                model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
+            elif model_name == 'TweedieRegressor()':
+                from sklearn.linear_model import TweedieRegressor
+                model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
             else:
                 raise ValueError("Not yet incorporated!")
             
+            print("model obtained!")
             return model
 
         def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
             start_time_ga = time.time()
                         
             def ga_eval(indi,model_name=model_name):
+                # print("indi: ", indi)
+                # print("model_name: ", model_name)
+                ga_progress = open(self.output_file,"a")
+                ga_progress.write(str(indi))
+                ga_progress.close()
                 model = set_hyper_params(parameters_list=indi, model_name=model_name)
                 ga_search = single_obj(model=model, x=X_train, y=y_train)
                 return ga_search 
@@ -412,7 +463,13 @@ class ModelScreener(object):
             # if model_name == 'RidgeCV()':
             space_final=tuple(space_models[model_name])
             try:
+                ga_progress = open(self.output_file,"a")
+                ga_progress.write(model_name)
+                ga_progress.write("\n")
+                ga_progress.close()
                 ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
+                ga_progress.write("\nPerforming GA on next model \n")
+                
             except Exception as e:
                 print("model_name: ", model_name)
                 print(e)

@@ -8,6 +8,7 @@ from chemml.utils.utilities import regression_metrics
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
 from chemml.optimization import GeneticAlgorithm
+from chemml.chem import RDKitFingerprint
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -341,13 +342,13 @@ class ModelScreener(object):
             'OrthogonalMatchingPursuitCV()':[
                             {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
                             'mutation': [0, 1]}}, 
-                            {'cv':  {'choice': range(1,6)}},
+                            {'cv':  {'choice': range(2,7)}},
                             ],
             'TweedieRegressor()':[
                             {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
                             'mutation': [0, 1]}}, 
                             {'link': {'choice': ['auto', 'identity', 'log']}},
-                            {'solver': {'lbfgs', 'newton-cholesky'}}
+                            {'solver': {'choice': ['lbfgs', 'newton-cholesky']}}
                             ],
                     
                     }
@@ -392,9 +393,6 @@ class ModelScreener(object):
             elif model_name == 'RidgeCV()':
                 from sklearn.linear_model import RidgeCV
                 model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
-            elif model_name == 'BayesianRidge()':
-                from sklearn.linear_model import BayesianRidge
-                model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), alpha_2=np.exp(parameters_list[1]), lambda_1=np.exp(parameters_list[2]), lambda_2=np.exp(parameters_list[3]))
             elif model_name == 'KernelRidge()':
                 from sklearn.kernel_ridge import KernelRidge
                 model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
@@ -405,12 +403,14 @@ class ModelScreener(object):
                 from sklearn.linear_model import LassoCV
                 model = LassoCV(n_alphas=parameters_list[0], eps=parameters_list[1])
             elif model_name == 'BayesianRidge()':
+                print("parameters_list: ", parameters_list)
                 from sklearn.linear_model import BayesianRidge
                 model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
             elif model_name == 'OrthogonalMatchingPursuitCV()':
                 from sklearn.linear_model import OrthogonalMatchingPursuitCV
                 model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
             elif model_name == 'TweedieRegressor()':
+                print("parameters_list: ", parameters_list)
                 from sklearn.linear_model import TweedieRegressor
                 model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
             else:
@@ -425,9 +425,10 @@ class ModelScreener(object):
             def ga_eval(indi,model_name=model_name):
                 # print("indi: ", indi)
                 # print("model_name: ", model_name)
-                ga_progress = open(self.output_file,"a")
-                ga_progress.write(str(indi))
-                ga_progress.close()
+                with open (self.output_file,'a') as ga_progress:
+                # ga_progress = open(self.output_file,"a")
+                    ga_progress.write(str(indi))
+                    ga_progress.close()
                 model = set_hyper_params(parameters_list=indi, model_name=model_name)
                 ga_search = single_obj(model=model, x=X_train, y=y_train)
                 return ga_search 
@@ -463,10 +464,10 @@ class ModelScreener(object):
             # if model_name == 'RidgeCV()':
             space_final=tuple(space_models[model_name])
             try:
-                ga_progress = open(self.output_file,"a")
-                ga_progress.write(model_name)
-                ga_progress.write("\n")
-                ga_progress.close()
+                with open (self.output_file,'a') as ga_progress:
+                    ga_progress.write("\n"+model_name)
+                    ga_progress.write("\n")
+                    ga_progress.close()
                 ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
                 ga_progress.write("\nPerforming GA on next model \n")
                 

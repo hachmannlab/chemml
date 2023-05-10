@@ -33,10 +33,10 @@ class pytorch_Net(nn.Module):
     '''
     def __init__(self, layers, layer_config_file):
         
-        super().__init__()
+        super(pytorch_Net,self).__init__()
         n = 0
         seq_l = []
-
+        # print(layers)
         nn_module = import_module('torch.nn')
         if layer_config_file is None:
             for i in range(len(layers)-1): # 0 - 4 
@@ -44,13 +44,14 @@ class pytorch_Net(nn.Module):
                 seq_l.append((str(n),pt_layer(layers[i][1]['units'],layers[i+1][1]['units'])))
                 n = n+1
                 try:
-                    if layers[i][1]['activation'] != 'None':
+                    if layers[i][1]['activation'] != 'None' and layers[i+1][1]['units'] !=1:
+                        # print(layers[i][1]['activation'],layers[i+1][1]['units'])
                         seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
                         n = n+1
                 except:
                     raise ValueError('Incorrect Activation Format. Pytorch activation functions are case sensistive e.g., \
                                         ReLU not relu')
-
+            # print(seq_l)
             self.base_model = nn.Sequential(OrderedDict(seq_l))
         else:
             self.base_model = nn.Sequential(*layers)
@@ -109,6 +110,7 @@ class MLP(object):
     layer_config_file: str, optional, default: None
         Path to the file that specifies layer configuration
         Refer MLP test to see a sample file
+        Note: this variable SHOULD be consolidated with the layers variable to reduce redundancy
 
     opt_config: list or str, optional, default: 'sgd'
         optimizer configuration. 
@@ -120,7 +122,7 @@ class MLP(object):
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
-                regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112):
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, **params):
 
         if engine not in ['tensorflow','pytorch']:
             raise ValueError('engine has to be \'tensorflow\' or \'pytorch\'')
@@ -139,7 +141,7 @@ class MLP(object):
         self.nepochs = nepochs
         self.batch_size = batch_size
         self.alpha = alpha
-        self.is_regression = regression
+        self.is_regression = is_regression
         self.nclasses = nclasses
 
 
@@ -159,16 +161,34 @@ class MLP(object):
             self.output_activation = 'linear'
         else:
             self.noutputs = self.nclasses
-            self.output_activation = 'softmax'
-
+            self.output_activation = 'softmax' 
+               
         ############ TENSORFLOW ############
         if self.engine == 'tensorflow':
-            self._initialize_tensorflow()
-
+            ############ load_model ############
+            if params:
+                self.path_to_file = params['path_to_file']
+                self.model = load_model(self.path_to_file)
+                self.layers = self.model.layers
+                self.opt = self.model.optimizer
+            else:
+                self._initialize_tensorflow()
 
         ############ PYTORCH ############
         elif self.engine == 'pytorch':
-            self._initialize_pytorch()
+            if params: 
+                self.path_to_file = params['path_to_file']
+                self.layers = params['layers']
+                self.losses = params['losses']
+                self.model = pytorch_Net(self.layers,self.layer_config_file).base_model
+                checkpoint = torch.load(self.path_to_file)
+                self.model.load_state_dict(checkpoint['model_state_dict'])
+                self.opt = self._parse_opt_config(self.opt_config)
+                self.opt.load_state_dict(checkpoint['optimizer_state_dict'])
+            else:
+                self._initialize_pytorch()
+
+        
 
 
     def _initialize_tensorflow(self):
@@ -187,6 +207,7 @@ class MLP(object):
                     self.model.add(layer(**layer_params))
 
                 self.layers.insert(0,('Input',{'shape':(self.nfeatures,)}))
+                # self.layer_config_file = self.layers 
             else:
                 for i in self.layers:
                     self.model.add(i)
@@ -254,15 +275,18 @@ class MLP(object):
             # self.activations = [i[1]['activation'] for i in self.layers]
             
         else:
-            self.layers = []
-            self.nneurons = [self.nfeatures] + self.nneurons + [self.noutputs] # len = 5
-            self.activations = ['None']+ self.activations + ['None']
-            for i in range(len(self.nneurons)):
+            self.layers = [('Linear',{'units':self.nfeatures, 'activation':self.activations[0]})]
+            # self.nneurons = [self.nfeatures] + self.nneurons + [self.noutputs] # len = 5
+            # self.nneu
+            # self.activations = ['ReLU']+ self.activations + ['None']
+            
+            for i in range(len(self.nneurons)): #0,1,2
                 self.layers.append(('Linear', {
                     'units': self.nneurons[i],
                     'activation': self.activations[i]
                 }))
-
+            # self.layer_config_file = self.layers
+            self.layers.append(('Linear',{'units':1,'activation':None}))
         self.model = pytorch_Net(self.layers,self.layer_config_file).base_model
 
         if self.loss == 'mean_squared_error':
@@ -274,9 +298,11 @@ class MLP(object):
         elif self.opt_config.lower() == 'sgd':
             self.opt = torch.optim.SGD(self.model.parameters(),
                 lr=self.learning_rate, momentum=0.9, weight_decay=self.alpha)
+            self.opt_config = [self.opt_config,{'lr':self.learning_rate,'weight_decay':self.alpha,'momentum':0.9}]
         elif self.opt_config.lower() == 'adam':
             self.opt = torch.optim.Adam(self.model.parameters(),
                 lr=self.learning_rate, weight_decay=self.alpha)
+            self.opt_config = [self.opt_config,{'lr':self.learning_rate,'weight_decay':self.alpha}]
         else:
             raise TypeError('opt_config should be a list/tuple or a str. If str, should either be "sgd" or "adam". If list, should provide exact configurations and parameters corresponding to the respective engines')
 
@@ -342,17 +368,32 @@ class MLP(object):
             the name of the model file without the file type
             
         """
+        required = ['engine','nfeatures','nepochs','batch_size','alpha',
+                    'is_regression','nclasses','layer_config_file','opt_config',
+                    'learning_rate','nneurons','activations','loss','random_seed']
+        
         obj_dict = vars(self)
+        chemml_options = {}
+        for i in required:
+            chemml_options[i] = obj_dict[i]
+        
         if self.engine == 'tensorflow':
             self.model.save(path+'/'+filename+'.h5')
+            chemml_options['path_to_file'] = path+'/'+filename+'.h5'
         elif self.engine == 'pytorch':
-            torch.save(self.model.state_dict(),path+'/'+filename+'_model.pt')
-            torch.save(self.opt.state_dict(),path+'/'+filename+'_optimizer.pt')
-            
-        # obj_dict['path_to_file'] = path +'/'+ filename+'.h5'
-        obj_df = pd.DataFrame.from_dict(obj_dict,orient='index')
-        obj_df.to_csv(path+'/'+filename+'_chemml_model.csv')
-        print("File saved as "+path+"/"+filename+"_chemml_model.csv")
+            checkpoint = {'model_state_dict':self.model.state_dict(),
+                          'optimizer_state_dict':self.opt.state_dict()}
+            torch.save(checkpoint, path+'/'+filename+'_checkpoint.pth')
+            self.path_to_file = path+'/'+filename+'_checkpoint.pth'
+            chemml_options['loss'] = str(self.loss)
+            chemml_options['path_to_file'] = self.path_to_file
+            # chemml_options['opt'] = self.opt
+            chemml_options['losses'] = self.losses
+            chemml_options['layers'] = self.layers
+        import json
+        with open(path+'/'+filename+'_chemml_model.json','w') as f:
+            json.dump(chemml_options, f)
+        print("File saved as "+path+"/"+filename+"_chemml_model.json")
 
 
     def load(self, path_to_model):
@@ -387,7 +428,7 @@ class MLP(object):
         else:
             self.nclasses = int(self.nclasses)
             
-        self.feature_size = int(chemml_model.loc['feature_size'][0])
+        self.nfeatures = int(chemml_model.loc['nfeatures'][0])
         
         # layer config
         self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]
@@ -653,7 +694,7 @@ class MLP(object):
             opt_params['weight_decay'] = self.alpha
             pytorch_opt_module = import_module('torch.optim')
             try:
-                opt = getattr(pytorch_opt_module, opt_name)(**opt_params)
+                opt = getattr(pytorch_opt_module, opt_name.upper())(**opt_params)
                 return opt
             except:
                 raise ValueError('incorrect optimizer name or parameter for opt_config')

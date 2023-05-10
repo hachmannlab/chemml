@@ -1,0 +1,1 @@
+{"engine": "tensorflow", "nfeatures": 200, "nepochs": 100, "batch_size": 50, "alpha": 0.002, "is_regression": true, "nclasses": null, "layer_config_file": null, "opt_config": "sgd", "learning_rate": 0.01, "nneurons": [32, 64, 128], "activations": ["ReLU", "ReLU", "ReLU"], "loss": "mean_squared_error", "random_seed": 112, "path_to_file": "./saved_MLP.h5"}

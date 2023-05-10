@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 import time
 import os
-
+import json
 
 def list_del_indices(mylist,indices):
     """
@@ -535,11 +535,30 @@ def ConvertFile(file_path, from_format, to_format):
         raise ValueError('File path must be a string or a list of strings.')
     
     return converted_file_paths
-    
+ 
+def load_chemml_model(file_path):
+    '''
+    Load a ChemML MLP model from a CSV file. 
 
+    Parameters
+    ----------
+    file_path: str
+        path to the csv file
 
+    Returns
+    -------
+    mlp_obj: chemml.mlp.MLP object
+        chemml mlp object 
+    '''
+    if isinstance(file_path, str) and os.path.exists(file_path):
+        with open (file_path,'r') as f:
+            chemml_dict = json.load(f)
 
+        from chemml.models import MLP
+        mlp_obj = MLP(**chemml_dict)
+        return mlp_obj
 
-
+    else:
+        raise ValueError('Incorrect file path provided')
 
 

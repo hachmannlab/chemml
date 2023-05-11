@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction to ChemML Wrapper &mdash; ChemML  documentation</title>
@@ -12,9 +12,8 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualize_task/index.html">Visualize</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
@@ -85,8 +89,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Introduction to ChemML Wrapper</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction to ChemML Wrapper</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/chemml_wrapper.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -96,39 +100,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="introduction-to-chemml-wrapper">
-<h1>Introduction to ChemML Wrapper<a class="headerlink" href="#introduction-to-chemml-wrapper" title="Permalink to this headline"></a></h1>
+  <section id="introduction-to-chemml-wrapper">
+<h1>Introduction to ChemML Wrapper<a class="headerlink" href="#introduction-to-chemml-wrapper" title="Permalink to this heading"></a></h1>
 <p>ChemML Wrapper carry out a workflow of operations hosted by different
 open-source or commercial libraries/software.
 The workflow is similar to a directed graph and it can be designed in a text file.
 An input file (configuration file) is required to run the ChemML Wrapper.</p>
 <p>In this section we walk you through all the required steps to run an input file.</p>
 <section id="step-1-prepare-an-input-file">
-<h2>Step #1: prepare an input file<a class="headerlink" href="#step-1-prepare-an-input-file" title="Permalink to this headline"></a></h2>
+<h2>Step #1: prepare an input file<a class="headerlink" href="#step-1-prepare-an-input-file" title="Permalink to this heading"></a></h2>
 <p>ChemML Wrapper requires an input file to configure and run an arbitrary workflow.
 This file must be a text file in any arbitrary format.
 If you want to create or modify an input file manually,
@@ -203,10 +183,10 @@ If we copy this script into ‘existing script’ tab of the <a class="reference
 <img alt="_images/tut_graph.png" src="_images/tut_graph.png" />
 </section>
 <section id="step-2-run-chemml-wrapper">
-<h2>Step #2: run ChemML Wrapper<a class="headerlink" href="#step-2-run-chemml-wrapper" title="Permalink to this headline"></a></h2>
+<h2>Step #2: run ChemML Wrapper<a class="headerlink" href="#step-2-run-chemml-wrapper" title="Permalink to this heading"></a></h2>
 <p>Now that we have prepared an input script/file, we can run it using any of the following ways.</p>
 <section id="method-one-running-in-the-terminal">
-<h3>method one: Running in the Terminal<a class="headerlink" href="#method-one-running-in-the-terminal" title="Permalink to this headline"></a></h3>
+<h3>method one: Running in the Terminal<a class="headerlink" href="#method-one-running-in-the-terminal" title="Permalink to this heading"></a></h3>
 <p>Let’s say you saved your script with the name ‘tutorial.config’ in your Desktop folder (name and format are both arbitrary).
 In the Terminal, navigate to the Desktop folder and enter the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chemmlwrapper -i tutorial.config -o output_directory
@@ -214,7 +194,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 </div>
 </section>
 <section id="method-two-running-in-any-python-interpreter">
-<h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this headline"></a></h3>
+<h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Permalink to this heading"></a></h3>
 <p>You can also run your input script with python codes as a python script or interactively, using:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
 <span class="kn">from</span> <span class="nn">chemml.wrapper.engine</span> <span class="kn">import</span> <span class="n">run</span>
@@ -296,7 +276,7 @@ chemML Wrapper automatically creates a folder with sequential number.</p>
 </section>
 </section>
 <section id="step-3-check-the-output-directory">
-<h2>Step #3: check the output directory<a class="headerlink" href="#step-3-check-the-output-directory" title="Permalink to this headline"></a></h2>
+<h2>Step #3: check the output directory<a class="headerlink" href="#step-3-check-the-output-directory" title="Permalink to this heading"></a></h2>
 <p>After running ChemML Wrapper you can collect all your saved files by navigating to the output directory.
 These saved files can be any type of results and fugures from your workflow,
 or default files, e.g. error file, log file, a copy of input file,

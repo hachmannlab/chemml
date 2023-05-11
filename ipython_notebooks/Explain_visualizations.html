@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualize" href="../visualize_task/index.html" />
+    <link rel="prev" title="Explain" href="../explain_task/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../explain_task/index.html">Explain</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generating Deep Neural Network Model Explanations via ChemML’s Explain Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model.">The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DeepSHAP-Explanations">DeepSHAP Explanations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library.">Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">ChemML API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../explain_task/index.html">Explain</a></li>
+      <li class="breadcrumb-item active">Generating Deep Neural Network Model Explanations via ChemML’s Explain Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ipython_notebooks/Explain_visualizations.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Generating-Deep-Neural-Network-Model-Explanations-via-ChemML's-Explain-Module">
+<h1>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module<a class="headerlink" href="#Generating-Deep-Neural-Network-Model-Explanations-via-ChemML's-Explain-Module" title="Permalink to this heading"></a></h1>
+<section id="The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model.">
+<h2>The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.<a class="headerlink" href="#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model." title="Permalink to this heading"></a></h2>
+<p>We use a sample dataset from ChemML library which has the SMILES codes and 200 Dragon molecular descriptors (features) for 500 small organic molecules with their densities in <span class="math notranslate nohighlight">\(kg/m^3\)</span>. We split the dataset into training and testing subsets and scale them. We then build and train a pytorch DNN on the training subset.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">shap</span>
+<span class="kn">from</span> <span class="nn">chemml.models</span> <span class="kn">import</span> <span class="n">MLP</span>
+<span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="kn">import</span> <span class="n">load_organic_density</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">chemml.explain</span> <span class="kn">import</span> <span class="n">Explain</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+<span class="c1"># split 0.9 train / 0.1 test</span>
+<span class="n">ytr</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">450</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">yte</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">450</span><span class="p">:,</span> <span class="p">:]</span>
+<span class="n">Xtr</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">450</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">Xte</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">450</span><span class="p">:,</span> <span class="p">:]</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scale_y</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">Xtr</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Xtr</span><span class="p">)</span>
+<span class="n">Xte</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span>
+<span class="n">ytr</span> <span class="o">=</span> <span class="n">scale_y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ytr</span><span class="p">)</span>
+
+<span class="c1"># PYTORCH</span>
+<span class="n">r1_pytorch</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pytorch&#39;</span><span class="p">,</span><span class="n">nfeatures</span><span class="o">=</span><span class="n">Xtr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nneurons</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">activations</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span><span class="s1">&#39;ReLU&#39;</span><span class="p">],</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">nepochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span>
+        <span class="n">regression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nclasses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layer_config_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opt_config</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">)</span>
+
+<span class="n">r1_pytorch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<span class="n">engine_model</span> <span class="o">=</span> <span class="n">r1_pytorch</span><span class="o">.</span><span class="n">get_model</span><span class="p">()</span>
+<span class="n">engine_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+In a future version of pandas all arguments of DataFrame.drop except for the argument &#39;labels&#39; will be keyword-only.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Sequential(
+  (0): Linear(in_features=200, out_features=100, bias=True)
+  (1): Linear(in_features=100, out_features=100, bias=True)
+  (2): ReLU()
+  (3): Linear(in_features=100, out_features=100, bias=True)
+  (4): ReLU()
+  (5): Linear(in_features=100, out_features=1, bias=True)
+  (6): ReLU()
+)
+</pre></div></div>
+</div>
+</section>
+<section id="DeepSHAP-Explanations">
+<h2>DeepSHAP Explanations<a class="headerlink" href="#DeepSHAP-Explanations" title="Permalink to this heading"></a></h2>
+<p>We instantiate the <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> object with an instance to be explained, the pytorch DNN object, and the feature names (columns). We then call the DeepSHAP method with a set of background or reference samples as directed by the <a class="reference external" href="https://shap-lrjball.readthedocs.io/en/latest/generated/shap.DeepExplainer.html">SHAP library</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="n">explanation</span><span class="p">,</span> <span class="n">shap_obj</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">DeepSHAP</span><span class="p">(</span><span class="n">X_background</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">explanation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>Sv</th>
+      <th>Se</th>
+      <th>Sp</th>
+      <th>Si</th>
+      <th>Mv</th>
+      <th>Me</th>
+      <th>Mp</th>
+      <th>Mi</th>
+      <th>...</th>
+      <th>X4Av</th>
+      <th>X5Av</th>
+      <th>X0sol</th>
+      <th>X1sol</th>
+      <th>X2sol</th>
+      <th>X3sol</th>
+      <th>X4sol</th>
+      <th>X5sol</th>
+      <th>XMOD</th>
+      <th>RDCHI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.004226</td>
+      <td>-0.017965</td>
+      <td>-0.002007</td>
+      <td>-0.000315</td>
+      <td>-0.00169</td>
+      <td>-0.000138</td>
+      <td>-0.005208</td>
+      <td>-0.047417</td>
+      <td>0.00027</td>
+      <td>-0.000075</td>
+      <td>...</td>
+      <td>-0.01016</td>
+      <td>-0.004733</td>
+      <td>-0.000346</td>
+      <td>0.000708</td>
+      <td>0.001949</td>
+      <td>0.001744</td>
+      <td>0.003523</td>
+      <td>0.003081</td>
+      <td>0.001851</td>
+      <td>-0.000127</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 200 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library.">
+<h2>Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.<a class="headerlink" href="#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library." title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_7_0.png" src="../_images/ipython_notebooks_Explain_visualizations_7_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="n">explanation</span><span class="p">,</span> <span class="n">shap_obj</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">DeepSHAP</span><span class="p">(</span><span class="n">X_background</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">explanation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>Sv</th>
+      <th>Se</th>
+      <th>Sp</th>
+      <th>Si</th>
+      <th>Mv</th>
+      <th>Me</th>
+      <th>Mp</th>
+      <th>Mi</th>
+      <th>...</th>
+      <th>X4Av</th>
+      <th>X5Av</th>
+      <th>X0sol</th>
+      <th>X1sol</th>
+      <th>X2sol</th>
+      <th>X3sol</th>
+      <th>X4sol</th>
+      <th>X5sol</th>
+      <th>XMOD</th>
+      <th>RDCHI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.004226</td>
+      <td>-0.017965</td>
+      <td>-0.002007</td>
+      <td>-0.000315</td>
+      <td>-0.001690</td>
+      <td>-0.000138</td>
+      <td>-0.005208</td>
+      <td>-0.047417</td>
+      <td>0.000270</td>
+      <td>-0.000075</td>
+      <td>...</td>
+      <td>-0.010160</td>
+      <td>-0.004733</td>
+      <td>-0.000346</td>
+      <td>0.000708</td>
+      <td>0.001949</td>
+      <td>0.001744</td>
+      <td>0.003523</td>
+      <td>0.003081</td>
+      <td>0.001851</td>
+      <td>-0.000127</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.028730</td>
+      <td>0.016923</td>
+      <td>0.008729</td>
+      <td>0.001357</td>
+      <td>0.006194</td>
+      <td>0.000647</td>
+      <td>0.007421</td>
+      <td>0.095255</td>
+      <td>-0.015222</td>
+      <td>0.001943</td>
+      <td>...</td>
+      <td>0.010119</td>
+      <td>0.004144</td>
+      <td>-0.005155</td>
+      <td>-0.008186</td>
+      <td>-0.016180</td>
+      <td>-0.012706</td>
+      <td>-0.022199</td>
+      <td>-0.010823</td>
+      <td>-0.022696</td>
+      <td>0.000656</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.033408</td>
+      <td>-0.022131</td>
+      <td>-0.010370</td>
+      <td>-0.001949</td>
+      <td>-0.005127</td>
+      <td>-0.000974</td>
+      <td>-0.007972</td>
+      <td>-0.009267</td>
+      <td>-0.020344</td>
+      <td>0.002649</td>
+      <td>...</td>
+      <td>0.002977</td>
+      <td>0.002012</td>
+      <td>0.008781</td>
+      <td>0.011291</td>
+      <td>0.016925</td>
+      <td>0.012719</td>
+      <td>0.015563</td>
+      <td>0.004058</td>
+      <td>0.029044</td>
+      <td>-0.002798</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.049662</td>
+      <td>0.035422</td>
+      <td>0.021034</td>
+      <td>0.002494</td>
+      <td>0.009761</td>
+      <td>0.001202</td>
+      <td>-0.011599</td>
+      <td>0.068437</td>
+      <td>-0.010441</td>
+      <td>-0.000044</td>
+      <td>...</td>
+      <td>-0.027242</td>
+      <td>-0.014504</td>
+      <td>-0.018708</td>
+      <td>-0.023040</td>
+      <td>-0.027916</td>
+      <td>-0.017599</td>
+      <td>-0.025875</td>
+      <td>-0.015381</td>
+      <td>-0.049061</td>
+      <td>0.005836</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.043910</td>
+      <td>0.027921</td>
+      <td>-0.007267</td>
+      <td>-0.001379</td>
+      <td>-0.004171</td>
+      <td>-0.000695</td>
+      <td>-0.002118</td>
+      <td>0.024150</td>
+      <td>0.002204</td>
+      <td>0.003459</td>
+      <td>...</td>
+      <td>0.001431</td>
+      <td>0.001361</td>
+      <td>0.007888</td>
+      <td>0.013086</td>
+      <td>0.018476</td>
+      <td>0.015196</td>
+      <td>0.030085</td>
+      <td>0.008146</td>
+      <td>0.041555</td>
+      <td>-0.001472</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>445</th>
+      <td>0.005420</td>
+      <td>0.363526</td>
+      <td>0.021909</td>
+      <td>0.005207</td>
+      <td>0.012532</td>
+      <td>0.002856</td>
+      <td>0.063025</td>
+      <td>0.353158</td>
+      <td>0.146915</td>
+      <td>0.001592</td>
+      <td>...</td>
+      <td>-0.000388</td>
+      <td>0.000952</td>
+      <td>-0.007028</td>
+      <td>-0.001970</td>
+      <td>-0.001590</td>
+      <td>0.001733</td>
+      <td>0.010887</td>
+      <td>-0.009257</td>
+      <td>0.012901</td>
+      <td>0.002078</td>
+    </tr>
+    <tr>
+      <th>446</th>
+      <td>0.022738</td>
+      <td>-0.000947</td>
+      <td>-0.008990</td>
+      <td>-0.000644</td>
+      <td>-0.005321</td>
+      <td>-0.000275</td>
+      <td>0.008555</td>
+      <td>-0.076582</td>
+      <td>0.034864</td>
+      <td>-0.003276</td>
+      <td>...</td>
+      <td>0.001233</td>
+      <td>0.001632</td>
+      <td>0.007859</td>
+      <td>0.008330</td>
+      <td>0.015024</td>
+      <td>0.011447</td>
+      <td>0.016477</td>
+      <td>0.011646</td>
+      <td>0.016196</td>
+      <td>-0.001541</td>
+    </tr>
+    <tr>
+      <th>447</th>
+      <td>0.040769</td>
+      <td>-0.017716</td>
+      <td>-0.012482</td>
+      <td>-0.002395</td>
+      <td>-0.006325</td>
+      <td>-0.001261</td>
+      <td>-0.006515</td>
+      <td>-0.010023</td>
+      <td>-0.017198</td>
+      <td>0.004421</td>
+      <td>...</td>
+      <td>0.004269</td>
+      <td>0.002139</td>
+      <td>0.011364</td>
+      <td>0.014354</td>
+      <td>0.018635</td>
+      <td>0.012219</td>
+      <td>0.019320</td>
+      <td>0.013332</td>
+      <td>0.037022</td>
+      <td>-0.002666</td>
+    </tr>
+    <tr>
+      <th>448</th>
+      <td>0.031687</td>
+      <td>0.000953</td>
+      <td>-0.011975</td>
+      <td>-0.001535</td>
+      <td>-0.007395</td>
+      <td>-0.000637</td>
+      <td>0.007118</td>
+      <td>-0.048946</td>
+      <td>0.023622</td>
+      <td>-0.005410</td>
+      <td>...</td>
+      <td>0.002070</td>
+      <td>0.000787</td>
+      <td>0.008766</td>
+      <td>0.011670</td>
+      <td>0.019803</td>
+      <td>0.014711</td>
+      <td>0.023315</td>
+      <td>0.013825</td>
+      <td>0.028351</td>
+      <td>-0.001976</td>
+    </tr>
+    <tr>
+      <th>449</th>
+      <td>0.086079</td>
+      <td>0.019403</td>
+      <td>-0.024792</td>
+      <td>-0.004013</td>
+      <td>-0.015506</td>
+      <td>-0.001990</td>
+      <td>0.006451</td>
+      <td>-0.047543</td>
+      <td>0.034029</td>
+      <td>-0.004332</td>
+      <td>...</td>
+      <td>-0.008165</td>
+      <td>-0.001471</td>
+      <td>0.019860</td>
+      <td>0.026304</td>
+      <td>0.049016</td>
+      <td>0.040434</td>
+      <td>0.062661</td>
+      <td>0.038612</td>
+      <td>0.073309</td>
+      <td>-0.005649</td>
+    </tr>
+  </tbody>
+</table>
+<p>450 rows × 200 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_9_0.png" src="../_images/ipython_notebooks_Explain_visualizations_9_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="n">explanation</span><span class="p">,</span> <span class="n">gb</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">LRP</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span> <span class="n">global_relevance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">explanation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>Sv</th>
+      <th>Se</th>
+      <th>Sp</th>
+      <th>Si</th>
+      <th>Mv</th>
+      <th>Me</th>
+      <th>Mp</th>
+      <th>Mi</th>
+      <th>...</th>
+      <th>X4Av</th>
+      <th>X5Av</th>
+      <th>X0sol</th>
+      <th>X1sol</th>
+      <th>X2sol</th>
+      <th>X3sol</th>
+      <th>X4sol</th>
+      <th>X5sol</th>
+      <th>XMOD</th>
+      <th>RDCHI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.852358e-08</td>
+      <td>5.460922e-08</td>
+      <td>-9.916600e-09</td>
+      <td>-4.480899e-11</td>
+      <td>-1.985339e-09</td>
+      <td>1.119740e-10</td>
+      <td>2.441856e-08</td>
+      <td>9.313563e-08</td>
+      <td>2.732422e-08</td>
+      <td>-4.074020e-12</td>
+      <td>...</td>
+      <td>4.698213e-08</td>
+      <td>2.548810e-08</td>
+      <td>1.979194e-08</td>
+      <td>1.979182e-08</td>
+      <td>2.497676e-08</td>
+      <td>1.692370e-08</td>
+      <td>2.368907e-08</td>
+      <td>1.703364e-08</td>
+      <td>3.827584e-08</td>
+      <td>-1.943156e-09</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 200 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_12_0.png" src="../_images/ipython_notebooks_Explain_visualizations_12_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># strategies + global relevance</span>
+<span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xte</span>
+
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="n">explanation</span><span class="p">,</span> <span class="n">gb</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">LRP</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span> <span class="n">global_relevance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">explanation</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>Sv</th>
+      <th>Se</th>
+      <th>Sp</th>
+      <th>Si</th>
+      <th>Mv</th>
+      <th>Me</th>
+      <th>Mp</th>
+      <th>Mi</th>
+      <th>...</th>
+      <th>X4Av</th>
+      <th>X5Av</th>
+      <th>X0sol</th>
+      <th>X1sol</th>
+      <th>X2sol</th>
+      <th>X3sol</th>
+      <th>X4sol</th>
+      <th>X5sol</th>
+      <th>XMOD</th>
+      <th>RDCHI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-5.442207e-08</td>
+      <td>-2.982853e-08</td>
+      <td>2.167618e-08</td>
+      <td>1.767643e-09</td>
+      <td>1.544903e-08</td>
+      <td>2.695936e-10</td>
+      <td>-2.647259e-08</td>
+      <td>6.734375e-08</td>
+      <td>-6.808682e-08</td>
+      <td>4.042306e-08</td>
+      <td>...</td>
+      <td>-2.645516e-09</td>
+      <td>2.371978e-09</td>
+      <td>-1.195341e-08</td>
+      <td>-1.840679e-08</td>
+      <td>-4.198224e-08</td>
+      <td>-3.480988e-08</td>
+      <td>-5.390743e-08</td>
+      <td>-2.671428e-08</td>
+      <td>-5.087783e-08</td>
+      <td>4.358562e-09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8.878673e-08</td>
+      <td>1.464898e-08</td>
+      <td>-1.634698e-08</td>
+      <td>1.121170e-09</td>
+      <td>-5.942520e-09</td>
+      <td>1.903390e-09</td>
+      <td>-4.117974e-09</td>
+      <td>-7.421733e-08</td>
+      <td>3.227762e-08</td>
+      <td>2.386731e-09</td>
+      <td>...</td>
+      <td>-1.618912e-08</td>
+      <td>-7.629301e-09</td>
+      <td>2.081515e-08</td>
+      <td>2.930467e-08</td>
+      <td>5.053745e-08</td>
+      <td>4.399344e-08</td>
+      <td>7.572330e-08</td>
+      <td>4.249878e-08</td>
+      <td>6.686418e-08</td>
+      <td>-4.847356e-10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-3.456890e-08</td>
+      <td>2.978082e-08</td>
+      <td>2.267381e-08</td>
+      <td>3.525580e-09</td>
+      <td>1.493623e-08</td>
+      <td>8.980043e-10</td>
+      <td>-1.094076e-08</td>
+      <td>7.575872e-08</td>
+      <td>-2.154179e-08</td>
+      <td>2.333245e-08</td>
+      <td>...</td>
+      <td>-4.833615e-09</td>
+      <td>3.671629e-09</td>
+      <td>-1.171651e-08</td>
+      <td>-1.357215e-08</td>
+      <td>-3.296293e-08</td>
+      <td>-2.410476e-08</td>
+      <td>-2.585398e-08</td>
+      <td>-1.818333e-08</td>
+      <td>-2.818089e-08</td>
+      <td>4.308143e-09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6.546318e-08</td>
+      <td>5.663755e-08</td>
+      <td>-1.276156e-08</td>
+      <td>4.163062e-11</td>
+      <td>-4.969179e-09</td>
+      <td>5.639444e-10</td>
+      <td>1.548547e-08</td>
+      <td>1.039503e-08</td>
+      <td>4.969042e-08</td>
+      <td>6.748551e-10</td>
+      <td>...</td>
+      <td>-1.720700e-09</td>
+      <td>-6.601595e-10</td>
+      <td>1.903842e-08</td>
+      <td>2.377851e-08</td>
+      <td>3.843494e-08</td>
+      <td>2.994525e-08</td>
+      <td>4.649269e-08</td>
+      <td>2.829363e-08</td>
+      <td>5.432086e-08</td>
+      <td>-1.720702e-09</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-1.094605e-02</td>
+      <td>-1.553468e-02</td>
+      <td>3.649520e-03</td>
+      <td>1.930702e-04</td>
+      <td>2.881745e-03</td>
+      <td>1.039482e-04</td>
+      <td>-6.698072e-03</td>
+      <td>2.903534e-02</td>
+      <td>-2.484877e-02</td>
+      <td>2.538170e-03</td>
+      <td>...</td>
+      <td>3.578953e-03</td>
+      <td>9.798985e-04</td>
+      <td>-3.169378e-03</td>
+      <td>-3.421158e-03</td>
+      <td>-7.285994e-03</td>
+      <td>-5.613479e-03</td>
+      <td>-1.128355e-02</td>
+      <td>-1.236324e-02</td>
+      <td>-8.190678e-03</td>
+      <td>-4.538567e-04</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 200 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gb</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean Absolute Relevance Score</th>
+      <th>Mean Relevance Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ON1V</th>
+      <td>5.134295e-02</td>
+      <td>4.494847e-02</td>
+    </tr>
+    <tr>
+      <th>TIE</th>
+      <td>4.496903e-02</td>
+      <td>3.684134e-02</td>
+    </tr>
+    <tr>
+      <th>C%</th>
+      <td>4.285664e-02</td>
+      <td>2.698204e-02</td>
+    </tr>
+    <tr>
+      <th>nHet</th>
+      <td>3.856633e-02</td>
+      <td>3.766285e-02</td>
+    </tr>
+    <tr>
+      <th>nCsp3</th>
+      <td>3.469539e-02</td>
+      <td>1.218661e-02</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>MPC06</th>
+      <td>1.640874e-04</td>
+      <td>-1.400087e-04</td>
+    </tr>
+    <tr>
+      <th>ZM1Kup</th>
+      <td>7.580742e-05</td>
+      <td>6.333340e-05</td>
+    </tr>
+    <tr>
+      <th>Psi_e_0d</th>
+      <td>4.498837e-05</td>
+      <td>4.498822e-05</td>
+    </tr>
+    <tr>
+      <th>Psi_i_1d</th>
+      <td>2.599327e-06</td>
+      <td>2.534556e-06</td>
+    </tr>
+    <tr>
+      <th>Psi_i_0d</th>
+      <td>2.923630e-07</td>
+      <td>2.585455e-07</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">gb</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_15_0.png" src="../_images/ipython_notebooks_Explain_visualizations_15_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xte</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+<span class="n">explanation</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">LIME</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">Xtr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Intercept 0.4380609945792554
+Prediction_local [-0.08527803]
+Right: 0.0
+Intercept 0.40218305862638054
+Prediction_local [0.39777754]
+Right: 0.0
+Intercept 0.5757294857850958
+Prediction_local [-0.27969124]
+Right: 0.0
+[                    labels  local_relevance
+0                C% &gt; 0.87    -1.129633e-01
+1            nHet &lt;= -0.60    -9.151605e-02
+2                nC &gt; 0.73    -8.467723e-02
+3                Mp &gt; 0.66     7.224304e-02
+4               PW2 &gt; 0.60     6.047326e-02
+..                     ...              ...
+195   -0.12 &lt; GMTI &lt;= 0.84     2.784028e-04
+196            GNar &gt; 0.73    -1.954540e-04
+197  -0.06 &lt; SMTIV &lt;= 0.86     1.333702e-05
+198   -0.12 &lt; SMTI &lt;= 0.83     3.270500e-06
+199     -0.03 &lt; X0 &lt;= 1.05    -3.281857e-07
+
+[200 rows x 2 columns],                    labels  local_relevance
+0           ON1V &lt;= -0.62         0.161804
+1            TIE &lt;= -0.66         0.160159
+2           ON0V &lt;= -0.64         0.114473
+3             nS &lt;= -0.60        -0.111190
+4           X0Av &lt;= -0.72        -0.089178
+..                    ...              ...
+195            X0A &gt; 0.35        -0.000132
+196        MPC05 &lt;= -0.58         0.000131
+197  -0.74 &lt; VAR &lt;= -0.05        -0.000056
+198      D/Dtr10 &lt;= -0.81        -0.000023
+199          BAC &lt;= -0.58         0.000002
+
+[200 rows x 2 columns],                  labels  local_relevance
+0            TIE &gt; 0.78        -0.134021
+1           nS &lt;= -0.60        -0.112305
+2          nHM &lt;= -0.60        -0.104204
+3           ON0V &gt; 0.79        -0.101720
+4             C% &gt; 0.87        -0.101234
+..                  ...              ...
+195      Psi_e_0 &gt; 1.02        -0.000238
+196  0.04 &lt; PW5 &lt;= 0.80         0.000217
+197        MWC03 &gt; 0.99         0.000120
+198           Dz &gt; 0.87         0.000106
+199      D/Dtr06 &gt; 0.68        -0.000071
+
+[200 rows x 2 columns]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">local_explanation</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel_df</span> <span class="o">=</span> <span class="n">local_explanation</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_17_0.png" src="../_images/ipython_notebooks_Explain_visualizations_17_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_17_1.png" src="../_images/ipython_notebooks_Explain_visualizations_17_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_17_2.png" src="../_images/ipython_notebooks_Explain_visualizations_17_2.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../explain_task/index.html" class="btn btn-neutral float-left" title="Explain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../visualize_task/index.html" class="btn btn-neutral float-right" title="Visualize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

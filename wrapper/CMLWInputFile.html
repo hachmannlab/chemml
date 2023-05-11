@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Input File Manual &mdash; ChemML  documentation</title>
@@ -12,9 +12,8 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
@@ -60,7 +64,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="CMLWInputFileGenerator.html">Input File GUI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../ipython_notebooks/read_excel.html">Generate Morgan fingerprints from SMILES codes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ipython_notebooks/pyscript_usage.html">Pyscript Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ipython_notebooks/simple_ml_model.html">Build a simple ML model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ipython_notebooks/GA_tutorial.html">Genetic Algorithm GUI tutorial</a></li>
@@ -89,9 +92,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">ChemML Wrapper Tutorial</a> &raquo;</li>
-      <li>Input File Manual</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ChemML Wrapper Tutorial</a></li>
+      <li class="breadcrumb-item active">Input File Manual</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/wrapper/CMLWInputFile.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -101,32 +104,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="input-file-manual">
-<span id="id1"></span><h1>Input File Manual<a class="headerlink" href="#input-file-manual" title="Permalink to this headline"></a></h1>
+  <section id="input-file-manual">
+<span id="id1"></span><h1>Input File Manual<a class="headerlink" href="#input-file-manual" title="Permalink to this heading"></a></h1>
 <p>An instruction to the ChemML Wrapper
 input file is provided here. The input file configures
 parameters and settings for running a data mining workflow
@@ -135,7 +114,7 @@ using ChemML Wrapper.</p>
 a graphical user interface is also available to facilitate this process
 (see <a class="reference internal" href="CMLWInputFileGenerator.html#chemml-wrapper-infilegen"><span class="std std-ref">Input File GUI</span></a>).</p>
 <section id="input-file-overview">
-<h2>Input File Overview<a class="headerlink" href="#input-file-overview" title="Permalink to this headline"></a></h2>
+<h2>Input File Overview<a class="headerlink" href="#input-file-overview" title="Permalink to this heading"></a></h2>
 <p>The input file structure corresponds to a directed graph,
 where nodes are computation <strong>blocks</strong> and represent any
 available method in the package (<a class="reference internal" href="../API/CMLWContentsTable.html#chemml-wrapper-table"><span class="std std-ref">Table of Contents</span></a>), and edges represent the
@@ -171,7 +150,7 @@ each node and you should connect them using unique random integers.</p>
 </div>
 </section>
 <section id="specific-characters">
-<h2>Specific Characters<a class="headerlink" href="#specific-characters" title="Permalink to this headline"></a></h2>
+<h2>Specific Characters<a class="headerlink" href="#specific-characters" title="Permalink to this heading"></a></h2>
 <p>Only five specific characters (#, &lt;, =, &gt;, &#64;) are defined and can be used in the input files.</p>
 <ul>
 <li><dl class="simple">
@@ -259,7 +238,7 @@ each node and you should connect them using unique random integers.</p>
 </div>
 </section>
 <section id="general-rules">
-<h2>General Rules<a class="headerlink" href="#general-rules" title="Permalink to this headline"></a></h2>
+<h2>General Rules<a class="headerlink" href="#general-rules" title="Permalink to this heading"></a></h2>
 <p>A few general restrictions:</p>
 <blockquote>
 <div><ul class="simple">

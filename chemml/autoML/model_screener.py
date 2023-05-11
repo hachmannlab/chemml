@@ -11,6 +11,7 @@ from chemml.optimization import GeneticAlgorithm
 from chemml.chem import RDKitFingerprint
 from chemml.chem import Molecule
 import warnings
+import random
 from importlib import import_module
 warnings.filterwarnings("ignore")
 
@@ -243,55 +244,163 @@ class ModelScreener(object):
             self._represent_smiles()
             
         scores_list=[]
+
+        from .space import space_models
         for x in self.x_list:
             start_time = time.time()
             scores_df = pd.DataFrame()
-            # all_models = self.get_all_models_sklearn(filter=self.screener_type)
-            # print("all_models: \n", all_models)
-            # exit()
-            # print("No. of Models: ", len(all_models))
-            # print("Model names: ", all_models)
+
             X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
             tmp_counter = 0
-            for model_name in ["Lasso", "ElasticNet"]:
+            
+            def single_obj(model, x, y):
+                # print("running single_obj")
+                n_splits=4
+                kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
+                accuracy_kfold = []
+                for train_index, test_index in kf.split(x):
+                    x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
+                    y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_training, y_training)
+                    y_pred = model.predict(x_testing)
+                    # y_pred, y_act = y_pred.reshape(-1,1), y_testing.reshape(-1,1)
+                    # from chemml.utilities import regression_metrics
+                    model_accuracy=r2_score(y_testing,y_pred)                             # evaluation metric:  r2_score
+                    accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
+                # print("def single_obj - completed")
+                return np.mean(accuracy_kfold)
+        
+            def test_hyp(ml_model, x, y, xtest, ytest):                                          
+                ml_model.fit(x, y)
+                ypred = ml_model.predict(xtest)
+                scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                # print(" test_hyp completed ")
+                return acc
+
+            def set_hyper_params(parameters_list, model_name):
+                print("parameters_list: ", parameters_list)
+                module = import_module("sklearn.linear_model")
+                model = getattr(module,model_name)()
+                # print(type(model))
+                # print(model)
+                if model_name == 'MLPRegressor()':
+                    layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
+                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
+                elif model_name == 'GradientBoostingRegressor()':
+                    model = getattr(module,model_name)(l2_regularization=np.exp(parameters_list[0]), min_samples_leaf=parameters_list[1], max_leaf_nodes=parameters_list[2], random_state=42)
+                elif model_name == 'TheilSenRegressor()':
+                    from sklearn.linear_model import TheilSenRegressor
+                    model = TheilSenRegressor(n_subsamples=parameters_list[0], max_subpopulation=parameters_list[1], random_state=42)
+                elif model_name == 'RidgeCV()':
+                    from sklearn.linear_model import RidgeCV
+                    model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
+                elif model_name == 'KernelRidge()':
+                    from sklearn.kernel_ridge import KernelRidge
+                    model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
+                elif model_name == 'ElasticNet':
+                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
+                elif model_name == 'Lasso':
+                    model = getattr(module, model_name)(alpha=np.exp(parameters_list[0]))
+                elif model_name == 'BayesianRidge()':
+                    print("parameters_list: ", parameters_list)
+                    from sklearn.linear_model import BayesianRidge
+                    model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
+                elif model_name == 'OrthogonalMatchingPursuitCV()':
+                    from sklearn.linear_model import OrthogonalMatchingPursuitCV
+                    model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
+                elif model_name == 'TweedieRegressor()':
+                    print("parameters_list: ", parameters_list)
+                    from sklearn.linear_model import TweedieRegressor
+                    model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
+                else:
+                    raise ValueError("Not yet incorporated!")
+                
+                # print("model obtained!")
+                return model
+
+            def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
+                start_time_ga = time.time()
+                            
+                def ga_eval(indi,model_name=model_name):
+                    # print("indi: ", indi)
+                    # print("model_name: ", model_name)
+                    with open (self.output_file,'a') as ga_progress:
+                    # ga_progress = open(self.output_file,"a")
+                        ga_progress.write(str(indi))
+                        ga_progress.close()
+                    model = set_hyper_params(parameters_list=indi, model_name=model_name)
+                    ga_search = single_obj(model=model, x=X_train, y=y_train)
+                    return ga_search 
+
+                
+                gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 5, crossover_size=5, mutation_size=2, algorithm=al)
+                best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+                print(model_name, ": GeneticAlgorithm - complete")
+                
+                all_items = list(gann.fitness_dict.items())
+                all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
+                all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
+                
+                best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
+                best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
+                ga_time = (time.time() - start_time_ga)/3600
+                
+                # print("type(best_ind_df['Best_individual'][0]): ", type(best_ind_df["Best_individual"][0]))
+                # print("best_ind_df['Best_individual'][0]: ", best_ind_df["Best_individual"][0])
+                best_hyper_params = best_ind_df["Best_individual"][0]
+                # print("best_hyper_params: ", best_hyper_params)
+                best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
+                
+                ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test)
+                print("Model:", model_name)
+                print("GA time(hours): ", ga_time)
+                print("Model params: ", best_ga_model.get_params())
+                print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
+                print("\n")
+                return 
+
+
+            for model_name in space_models.keys():
             # for model in all_models[:3]:
                 tmp_counter = tmp_counter+1
                 # model_name = str(model)
-                module = import_module("sklearn.linear_model")
-                model = getattr(module,model_name)()
-                print(type(model))
-                print(model)
+                
                 # system.exit()
-                if model_name != "QuantileRegressor()":
-                    print("Running model no: ", tmp_counter, "; Name: ", model_name)
-                    try:
-                        model_start_time = time.time()
+                print("Running model no: ", tmp_counter, "; Name: ", model_name)
+                try:
+                    model_start_time = time.time()
 
-                        model.fit(X_train, y_train)
-                        y_predict = model.predict(X_test)
-                        if scores_df.empty==True:
-                            scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                            with open(self.output_file, 'w') as f: 
-                                for key, value in scores.items(): 
-                                    f.write('%s:%s\n' % (key, value))
-                                f.write('\n')
-                            f.close()
-                            scores_df = pd.DataFrame(data=scores, index=[0])
-                            # print("scores_df: ", scores_df)
-                        else:
-                            scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                            with open(self.output_file, 'a') as f: 
-                                for key, value in scores.items(): 
-                                    f.write('%s:%s\n' % (key, value))
-                                f.write('\n')
-                            f.close()
-                            scores_df_1 = pd.DataFrame(data=scores, index=[0])
-                            scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
-                            # print("scores_df: ", scores_df)
-                    except Exception as e: 
-                        print(e)
-                else:
-                    print("Skipping QuantileRegressor() - it takes too long")
+                    space_final=tuple(space_models[model_name])
+                    with open (self.output_file,'a') as ga_progress:
+                        ga_progress.write("\n"+model_name)
+                        ga_progress.write("\n")
+                        ga_progress.close()
+                    ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
+                    ga_progress.write("\nPerforming GA on next model \n")
+                        
+                    if scores_df.empty==True:
+                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                        with open(self.output_file, 'w') as f: 
+                            for key, value in scores.items(): 
+                                f.write('%s:%s\n' % (key, value))
+                            f.write('\n')
+                        f.close()
+                        scores_df = pd.DataFrame(data=scores, index=[0])
+                        # print("scores_df: ", scores_df)
+                    else:
+                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                        with open(self.output_file, 'a') as f: 
+                            for key, value in scores.items(): 
+                                f.write('%s:%s\n' % (key, value))
+                            f.write('\n')
+                        f.close()
+                        scores_df_1 = pd.DataFrame(data=scores, index=[0])
+                        scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
+                        # print("scores_df: ", scores_df)
+                except Exception as e: 
+                    print("model_name: ", model_name)
+                    print(e)
+                    print("\n")
             print("\n")
             print("--- %s seconds ---" % (time.time() - start_time))
             if self.screener_type == "regressor":
@@ -300,9 +409,11 @@ class ModelScreener(object):
 
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list,n_best)
+
         return best_models
 
-    def optimize_screened_models(self, file_name=None):
+    # def optimize_screened_models(self, file_name=None):
+
 
         if file_name == None:
             if self.scores_df.empty==False:
@@ -329,199 +440,220 @@ class ModelScreener(object):
         self.sorted_df = sorted_df
         # print("sorted_df.head() :", self.sorted_df.head())
              
-        space_models = {
-            'MLPRegressor()':[
-                            {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
-                            {'neurons1':  {'choice': range(0,220,20)}},
-                            {'neurons2':  {'choice': range(0,220,20)}},
-                            {'neurons3':  {'choice': range(0,220,20)}}
-                            ],
-            'HistGradientBoostingRegressor()':[
-                            {'l2_regularization': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            {'min_samples_leaf': {'choice': range(10,100,10)}},
-                            {'max_leaf_nodes': {'choice': range(20,50,5)}}              
-                            ],
-            'TheilSenRegressor()':[
-                            {'n_subsamples': {'choice': range(0,100,10)}},
-                            {'max_subpopulation': {'uniform': [10, 50],                
-                            'mutation': [0, 1]}}
-                            ],
-            'RidgeCV()':    [
-                            {'cv': {'choice': range(3,10,1)}},
-                            {'gcv_mode': {'choice': ['auto', 'svd', 'eigen']}},
-                            {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            ],
-            'BayesianRidge()':[
-                            {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            {'alpha_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            {'lambda_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}
-                            ],
-            'KernelRidge()': [
-                            {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            {'degree': {'choice': range(3,12,1)}}
-                            ],
-            'ElasticNetCV()':[
-                            {'l1_ratio': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
-                            ],
-            'LassoCV()':[ 
-                            {'n_alphas': {'choice': [100, 50, 200, 10]}},
-                            {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
-                            {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}},
-                            ],
-            'BayesianRidge()':[
-                            {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            ],
-            'OrthogonalMatchingPursuitCV()':[
-                            {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            {'cv':  {'choice': range(2,7)}},
-                            ],
-            'TweedieRegressor()':[
-                            {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                            'mutation': [0, 1]}}, 
-                            {'link': {'choice': ['auto', 'identity', 'log']}},
-                            {'solver': {'choice': ['lbfgs', 'newton-cholesky']}}
-                            ],
+        # space_models = {
+        #     'MLPRegressor()':[
+        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
+        #                     {'neurons1':  {'choice': range(0,220,20)}},
+        #                     {'neurons2':  {'choice': range(0,220,20)}},
+        #                     {'neurons3':  {'choice': range(0,220,20)}}
+        #                     ],
+        #     'HistGradientBoostingRegressor()':[
+        #                     {'l2_regularization': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     {'min_samples_leaf': {'choice': range(10,100,10)}},
+        #                     {'max_leaf_nodes': {'choice': range(20,50,5)}}              
+        #                     ],
+        #     'TheilSenRegressor()':[
+        #                     {'n_subsamples': {'choice': range(0,100,10)}},
+        #                     {'max_subpopulation': {'uniform': [10, 50],                
+        #                     'mutation': [0, 1]}}
+        #                     ],
+        #     'RidgeCV()':    [
+        #                     {'cv': {'choice': range(3,10,1)}},
+        #                     {'gcv_mode': {'choice': ['auto', 'svd', 'eigen']}},
+        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     ],
+        #     'BayesianRidge()':[
+        #                     {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     {'alpha_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     {'lambda_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}
+        #                     ],
+        #     'KernelRidge()': [
+        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     {'degree': {'choice': range(3,12,1)}}
+        #                     ],
+        #     'ElasticNetCV()':[
+        #                     {'l1_ratio': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
+        #                     ],
+        #     'LassoCV()':[ 
+        #                     {'n_alphas': {'choice': [100, 50, 200, 10]}},
+        #                     {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
+        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}},
+        #                     ],
+        #     'BayesianRidge()':[
+        #                     {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     ],
+        #     'OrthogonalMatchingPursuitCV()':[
+        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     {'cv':  {'choice': range(2,7)}},
+        #                     ],
+        #     'TweedieRegressor()':[
+        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+        #                     'mutation': [0, 1]}}, 
+        #                     {'link': {'choice': ['auto', 'identity', 'log']}},
+        #                     {'solver': {'choice': ['lbfgs', 'newton-cholesky']}}
+        #                     ],
                     
-                    }
+        #             }
             
-        X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
-        print("Train_Test_Split_done!")
-        print("Starting to optimize screened models...")
+        # X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
+        # print("Train_Test_Split_done!")
+        # print("Starting to optimize screened models...")
 
-        def single_obj(model, x, y):
-            # print("running single_obj")
-            n_splits=4
-            kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
-            accuracy_kfold = []
-            for train_index, test_index in kf.split(x):
-                x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
-                y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
-                model.fit(x_training, y_training)
-                y_pred = model.predict(x_testing)
-                # y_pred, y_act = y_pred.reshape(-1,1), y_testing.reshape(-1,1)
-                model_accuracy=r2_score(y_testing,y_pred)                             # evaluation metric:  r2_score
-                accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
-            # print("def single_obj - completed")
-            return np.mean(accuracy_kfold)
+        # def single_obj(model, x, y):
+        #     # print("running single_obj")
+        #     n_splits=4
+        #     kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
+        #     accuracy_kfold = []
+        #     for train_index, test_index in kf.split(x):
+        #         x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
+        #         y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
+        #         model.fit(x_training, y_training)
+        #         y_pred = model.predict(x_testing)
+        #         # y_pred, y_act = y_pred.reshape(-1,1), y_testing.reshape(-1,1)
+        #         model_accuracy=r2_score(y_testing,y_pred)                             # evaluation metric:  r2_score
+        #         accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
+        #     # print("def single_obj - completed")
+        #     return np.mean(accuracy_kfold)
         
-        def test_hyp(ml_model, x, y, xtest, ytest):                                          
-            ml_model.fit(x, y)
-            ypred = ml_model.predict(xtest)
-            acc=r2_score(ytest,ypred)
-            # print(" test_hyp completed ")
-            return acc
+        # def test_hyp(ml_model, x, y, xtest, ytest):                                          
+        #     ml_model.fit(x, y)
+        #     ypred = ml_model.predict(xtest)
+        #     acc=r2_score(ytest,ypred)
+        #     # print(" test_hyp completed ")
+        #     return acc
         
-        def set_hyper_params(parameters_list, model_name):
-            if model_name == 'MLPRegressor()':
-                layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
-                model = MLPRegressor(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
-            elif model_name == 'HistGradientBoostingRegressor()':
-                from sklearn.ensemble import HistGradientBoostingRegressor
-                model = HistGradientBoostingRegressor(l2_regularization=np.exp(parameters_list[0]), min_samples_leaf=parameters_list[1], max_leaf_nodes=parameters_list[2], random_state=42)
-            elif model_name == 'TheilSenRegressor()':
-                from sklearn.linear_model import TheilSenRegressor
-                model = TheilSenRegressor(n_subsamples=parameters_list[0], max_subpopulation=parameters_list[1], random_state=42)
-            elif model_name == 'RidgeCV()':
-                from sklearn.linear_model import RidgeCV
-                model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
-            elif model_name == 'KernelRidge()':
-                from sklearn.kernel_ridge import KernelRidge
-                model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
-            elif model_name == 'ElasticNetCV()':
-                from sklearn.linear_model import ElasticNetCV
-                model = ElasticNetCV(l1_ratio=np.exp(parameters_list[0]), eps= parameters_list[1])
-            elif model_name == 'LassoCV()':
-                from sklearn.linear_model import LassoCV
-                model = LassoCV(n_alphas=parameters_list[0], eps=parameters_list[1])
-            elif model_name == 'BayesianRidge()':
-                print("parameters_list: ", parameters_list)
-                from sklearn.linear_model import BayesianRidge
-                model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
-            elif model_name == 'OrthogonalMatchingPursuitCV()':
-                from sklearn.linear_model import OrthogonalMatchingPursuitCV
-                model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
-            elif model_name == 'TweedieRegressor()':
-                print("parameters_list: ", parameters_list)
-                from sklearn.linear_model import TweedieRegressor
-                model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
-            else:
-                raise ValueError("Not yet incorporated!")
+        # def set_hyper_params(parameters_list, model_name):
+        #     if model_name == 'MLPRegressor()':
+        #         layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
+        #         model = MLPRegressor(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
+        #     elif model_name == 'HistGradientBoostingRegressor()':
+        #         from sklearn.ensemble import HistGradientBoostingRegressor
+        #         model = HistGradientBoostingRegressor(l2_regularization=np.exp(parameters_list[0]), min_samples_leaf=parameters_list[1], max_leaf_nodes=parameters_list[2], random_state=42)
+        #     elif model_name == 'TheilSenRegressor()':
+        #         from sklearn.linear_model import TheilSenRegressor
+        #         model = TheilSenRegressor(n_subsamples=parameters_list[0], max_subpopulation=parameters_list[1], random_state=42)
+        #     elif model_name == 'RidgeCV()':
+        #         from sklearn.linear_model import RidgeCV
+        #         model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
+        #     elif model_name == 'KernelRidge()':
+        #         from sklearn.kernel_ridge import KernelRidge
+        #         model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
+        #     elif model_name == 'ElasticNetCV()':
+        #         from sklearn.linear_model import ElasticNetCV
+        #         model = ElasticNetCV(l1_ratio=np.exp(parameters_list[0]), eps= parameters_list[1])
+        #     elif model_name == 'LassoCV()':
+        #         from sklearn.linear_model import LassoCV
+        #         model = LassoCV(n_alphas=parameters_list[0], eps=parameters_list[1])
+        #     elif model_name == 'BayesianRidge()':
+        #         print("parameters_list: ", parameters_list)
+        #         from sklearn.linear_model import BayesianRidge
+        #         model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
+        #     elif model_name == 'OrthogonalMatchingPursuitCV()':
+        #         from sklearn.linear_model import OrthogonalMatchingPursuitCV
+        #         model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
+        #     elif model_name == 'TweedieRegressor()':
+        #         print("parameters_list: ", parameters_list)
+        #         from sklearn.linear_model import TweedieRegressor
+        #         model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
+        #     else:
+        #         raise ValueError("Not yet incorporated!")
             
-            # print("model obtained!")
-            return model
+        #     # print("model obtained!")
+        #     return model
 
-        def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
-            start_time_ga = time.time()
+        # def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
+        #     start_time_ga = time.time()
                         
-            def ga_eval(indi,model_name=model_name):
-                # print("indi: ", indi)
-                # print("model_name: ", model_name)
-                with open (self.output_file,'a') as ga_progress:
-                # ga_progress = open(self.output_file,"a")
-                    ga_progress.write(str(indi))
-                    ga_progress.close()
-                model = set_hyper_params(parameters_list=indi, model_name=model_name)
-                ga_search = single_obj(model=model, x=X_train, y=y_train)
-                return ga_search 
+        #     def ga_eval(indi,model_name=model_name):
+        #         # print("indi: ", indi)
+        #         # print("model_name: ", model_name)
+        #         with open (self.output_file,'a') as ga_progress:
+        #         # ga_progress = open(self.output_file,"a")
+        #             ga_progress.write(str(indi))
+        #             ga_progress.close()
+        #         model = set_hyper_params(parameters_list=indi, model_name=model_name)
+        #         ga_search = single_obj(model=model, x=X_train, y=y_train)
+        #         return ga_search 
 
             
-            gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 5, crossover_size=5, mutation_size=2, algorithm=al)
-            best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
-            print(model_name, ": GeneticAlgorithm - complete")
+        #     gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 5, crossover_size=5, mutation_size=2, algorithm=al)
+        #     best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+        #     print(model_name, ": GeneticAlgorithm - complete")
             
-            all_items = list(gann.fitness_dict.items())
-            all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
-            all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
+        #     all_items = list(gann.fitness_dict.items())
+        #     all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
+        #     all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
             
-            best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
-            best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
-            ga_time = (time.time() - start_time_ga)/3600
+        #     best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
+        #     best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
+        #     ga_time = (time.time() - start_time_ga)/3600
             
-            # print("type(best_ind_df['Best_individual'][0]): ", type(best_ind_df["Best_individual"][0]))
-            # print("best_ind_df['Best_individual'][0]: ", best_ind_df["Best_individual"][0])
-            best_hyper_params = best_ind_df["Best_individual"][0]
-            # print("best_hyper_params: ", best_hyper_params)
-            best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
+        #     # print("type(best_ind_df['Best_individual'][0]): ", type(best_ind_df["Best_individual"][0]))
+        #     # print("best_ind_df['Best_individual'][0]: ", best_ind_df["Best_individual"][0])
+        #     best_hyper_params = best_ind_df["Best_individual"][0]
+        #     # print("best_hyper_params: ", best_hyper_params)
+        #     best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
             
-            ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test)
-            print("Model:", model_name)
-            print("GA time(hours): ", ga_time)
-            print("Model params: ", best_ga_model.get_params())
-            print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
-            print("\n")
+        #     ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test)
+        #     print("Model:", model_name)
+        #     print("GA time(hours): ", ga_time)
+        #     print("Model params: ", best_ga_model.get_params())
+        #     print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
+        #     print("\n")
 
-        for model_name in self.sorted_df["Model"][:5]:
-            # if model_name != 'TheilSenRegressor()':
-            # if model_name == 'RidgeCV()':
-            space_final=tuple(space_models[model_name])
-            try:
-                with open (self.output_file,'a') as ga_progress:
-                    ga_progress.write("\n"+model_name)
-                    ga_progress.write("\n")
-                    ga_progress.close()
-                ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
-                ga_progress.write("\nPerforming GA on next model \n")
+        # for model_name in self.sorted_df["Model"][:5]:
+        #     # if model_name != 'TheilSenRegressor()':
+        #     # if model_name == 'RidgeCV()':
+        #     space_final=tuple(space_models[model_name])
+        #     try:
+        #         with open (self.output_file,'a') as ga_progress:
+        #             ga_progress.write("\n"+model_name)
+        #             ga_progress.write("\n")
+        #             ga_progress.close()
+        #         ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
+        #         ga_progress.write("\nPerforming GA on next model \n")
                 
-            except Exception as e:
-                print("model_name: ", model_name)
-                print(e)
-                print("\n")
+        #     except Exception as e:
+        #         print("model_name: ", model_name)
+        #         print(e)
+        #         print("\n")
+        # # model_with_params
+        # return None
+
+    
+
+    # for model_name in self.sorted_df["Model"][:5]:
+        #     # if model_name != 'TheilSenRegressor()':
+        #     # if model_name == 'RidgeCV()':
+        #     space_final=tuple(space_models[model_name])
+        #     try:
+        #         with open (self.output_file,'a') as ga_progress:
+        #             ga_progress.write("\n"+model_name)
+        #             ga_progress.write("\n")
+        #             ga_progress.close()
+        #         ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
+        #         ga_progress.write("\nPerforming GA on next model \n")
+                
+        #     except Exception as e:
+        #         print("model_name: ", model_name)
+        #         print(e)
+        #         print("\n")
         # model_with_params
-        return None
+        # return None

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GridSearchCV &mdash; ChemML  documentation</title>
@@ -12,9 +12,8 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
@@ -92,11 +96,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">ChemML API</a> &raquo;</li>
-          <li><a href="API.html">Library API documentation</a> &raquo;</li>
-          <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
-      <li>GridSearchCV</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
+          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
+          <li class="breadcrumb-item"><a href="CMLWReference.html">Wrapper Reference</a></li>
+      <li class="breadcrumb-item active">GridSearchCV</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/include_CMLWR5Search.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,54 +110,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="gridsearchcv">
-<span id="id1"></span><h1>GridSearchCV<a class="headerlink" href="#gridsearchcv" title="Permalink to this headline"></a></h1>
+  <section id="gridsearchcv">
+<span id="id1"></span><h1>GridSearchCV<a class="headerlink" href="#gridsearchcv" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">grid</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">GridSearchCV</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -177,7 +157,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">cv_results_</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -193,7 +173,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -202,13 +182,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -245,29 +225,29 @@
 </dl>
 </section>
 <section id="cross-val-predict">
-<span id="id2"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this headline"></a></h1>
+<span id="id2"></span><h1>cross_val_predict<a class="headerlink" href="#cross-val-predict" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">validate</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">cross_val_predict</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -291,7 +271,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy_predict</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -299,7 +279,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -308,13 +288,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -347,29 +327,29 @@
 </dl>
 </section>
 <section id="cross-val-score">
-<span id="id3"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this headline"></a></h1>
+<span id="id3"></span><h1>cross_val_score<a class="headerlink" href="#cross-val-score" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">validate</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">cross_val_score</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -393,7 +373,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scores</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -401,7 +381,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -410,13 +390,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -449,29 +429,29 @@
 </dl>
 </section>
 <section id="evaluate-regression">
-<span id="id4"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this headline"></a></h1>
+<span id="id4"></span><h1>evaluate_regression<a class="headerlink" href="#evaluate-regression" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">evaluate_regression</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -483,7 +463,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">evaluation_results_</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -495,7 +475,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">mae_multioutput</span></code> : <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error">http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error</a>, (default:uniform_average)</div>
 <div class="line"><br /></div>
@@ -584,13 +564,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -627,29 +607,29 @@
 </dl>
 </section>
 <section id="learning-curve">
-<span id="id5"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this headline"></a></h1>
+<span id="id5"></span><h1>learning_curve<a class="headerlink" href="#learning-curve" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">grid</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">learning_curve</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">dfy</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -673,7 +653,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">train_sizes_abs</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -693,7 +673,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -702,13 +682,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -747,34 +727,34 @@
 </dl>
 </section>
 <section id="scorer-regression">
-<span id="id6"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this headline"></a></h1>
+<span id="id6"></span><h1>scorer_regression<a class="headerlink" href="#scorer-regression" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scorer_regression</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">this block doesn’t receive anything</div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">scorer</span></code> : Callable object that returns a scalar score</div>
 <div class="line-block">
@@ -782,7 +762,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -796,13 +776,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -825,29 +805,29 @@
 </dl>
 </section>
 <section id="corr">
-<span id="id7"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this headline"></a></h1>
+<span id="id7"></span><h1>corr<a class="headerlink" href="#corr" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Search</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">evaluate</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">pandas</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">corr</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -855,7 +835,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -863,12 +843,12 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">

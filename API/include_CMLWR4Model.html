@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MLP &mdash; ChemML  documentation</title>
@@ -12,9 +12,8 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
@@ -92,11 +96,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">ChemML API</a> &raquo;</li>
-          <li><a href="API.html">Library API documentation</a> &raquo;</li>
-          <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
-      <li>MLP</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
+          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
+          <li class="breadcrumb-item"><a href="CMLWReference.html">Wrapper Reference</a></li>
+      <li class="breadcrumb-item active">MLP</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/include_CMLWR4Model.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,54 +110,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="mlp">
-<span id="id1"></span><h1>MLP<a class="headerlink" href="#mlp" title="Permalink to this headline"></a></h1>
+  <section id="mlp">
+<span id="id1"></span><h1>MLP<a class="headerlink" href="#mlp" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MLP</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP class</div>
 <div class="line-block">
@@ -169,7 +149,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP class</div>
 <div class="line-block">
@@ -181,7 +161,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
 <div class="line"><br /></div>
@@ -190,14 +170,14 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">keras, 2.1.2</div>
 <div class="line">tensorflow, 1.4.1</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -231,29 +211,29 @@
 </dl>
 </section>
 <section id="mlp-sklearn">
-<span id="id2"></span><h1>MLP_sklearn<a class="headerlink" href="#mlp-sklearn" title="Permalink to this headline"></a></h1>
+<span id="id2"></span><h1>MLP_sklearn<a class="headerlink" href="#mlp-sklearn" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MLP_sklearn</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP_sklearn class</div>
 <div class="line-block">
@@ -269,7 +249,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of chemml.nn.keras.MLP_sklearn class</div>
 <div class="line-block">
@@ -281,7 +261,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">func_method</span></code> : string, (default:None)</div>
 <div class="line"><br /></div>
@@ -290,7 +270,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">scikit-learn, 0.19.0</div>
@@ -298,7 +278,7 @@
 <div class="line">tensorflow, 1.4.1</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -332,29 +312,29 @@
 </dl>
 </section>
 <section id="ardregression">
-<span id="id3"></span><h1>ARDRegression<a class="headerlink" href="#ardregression" title="Permalink to this headline"></a></h1>
+<span id="id3"></span><h1>ARDRegression<a class="headerlink" href="#ardregression" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ARDRegression</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ARDRegression class</div>
 <div class="line-block">
@@ -370,7 +350,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ARDRegression class</div>
 <div class="line-block">
@@ -382,7 +362,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -396,13 +376,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -437,29 +417,29 @@
 </dl>
 </section>
 <section id="bayesianridge">
-<span id="id4"></span><h1>BayesianRidge<a class="headerlink" href="#bayesianridge" title="Permalink to this headline"></a></h1>
+<span id="id4"></span><h1>BayesianRidge<a class="headerlink" href="#bayesianridge" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">BayesianRidge</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s BayesianRidge class</div>
 <div class="line-block">
@@ -475,7 +455,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s BayesianRidge class</div>
 <div class="line-block">
@@ -487,7 +467,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -501,13 +481,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -541,29 +521,29 @@
 </dl>
 </section>
 <section id="elasticnet">
-<span id="id5"></span><h1>ElasticNet<a class="headerlink" href="#elasticnet" title="Permalink to this headline"></a></h1>
+<span id="id5"></span><h1>ElasticNet<a class="headerlink" href="#elasticnet" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ElasticNet</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ElasticNet class</div>
 <div class="line-block">
@@ -579,7 +559,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s ElasticNet class</div>
 <div class="line-block">
@@ -591,7 +571,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -605,13 +585,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -646,29 +626,29 @@
 </dl>
 </section>
 <section id="kernelridge">
-<span id="id6"></span><h1>KernelRidge<a class="headerlink" href="#kernelridge" title="Permalink to this headline"></a></h1>
+<span id="id6"></span><h1>KernelRidge<a class="headerlink" href="#kernelridge" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">KernelRidge</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s KernelRidge class</div>
 <div class="line-block">
@@ -684,7 +664,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s KernelRidge class</div>
 <div class="line-block">
@@ -696,7 +676,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -710,13 +690,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -745,29 +725,29 @@
 </dl>
 </section>
 <section id="lars">
-<span id="id7"></span><h1>Lars<a class="headerlink" href="#lars" title="Permalink to this headline"></a></h1>
+<span id="id7"></span><h1>Lars<a class="headerlink" href="#lars" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">Lars</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lars class</div>
 <div class="line-block">
@@ -783,7 +763,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lars class</div>
 <div class="line-block">
@@ -795,7 +775,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -809,13 +789,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -847,29 +827,29 @@
 </dl>
 </section>
 <section id="lasso">
-<span id="id8"></span><h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline"></a></h1>
+<span id="id8"></span><h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">Lasso</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lasso class</div>
 <div class="line-block">
@@ -885,7 +865,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Lasso class</div>
 <div class="line-block">
@@ -897,7 +877,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -911,13 +891,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -951,29 +931,29 @@
 </dl>
 </section>
 <section id="lassolars">
-<span id="id9"></span><h1>LassoLars<a class="headerlink" href="#lassolars" title="Permalink to this headline"></a></h1>
+<span id="id9"></span><h1>LassoLars<a class="headerlink" href="#lassolars" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LassoLars</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LassoLars class</div>
 <div class="line-block">
@@ -989,7 +969,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LassoLars class</div>
 <div class="line-block">
@@ -1001,7 +981,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1015,13 +995,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1054,29 +1034,29 @@
 </dl>
 </section>
 <section id="linearregression">
-<span id="id10"></span><h1>LinearRegression<a class="headerlink" href="#linearregression" title="Permalink to this headline"></a></h1>
+<span id="id10"></span><h1>LinearRegression<a class="headerlink" href="#linearregression" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LinearRegression</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearRegression class</div>
 <div class="line-block">
@@ -1092,7 +1072,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearRegression class</div>
 <div class="line-block">
@@ -1104,7 +1084,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1118,13 +1098,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1151,29 +1131,29 @@
 </dl>
 </section>
 <section id="linearsvr">
-<span id="id11"></span><h1>LinearSVR<a class="headerlink" href="#linearsvr" title="Permalink to this headline"></a></h1>
+<span id="id11"></span><h1>LinearSVR<a class="headerlink" href="#linearsvr" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LinearSVR</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearSVR class</div>
 <div class="line-block">
@@ -1189,7 +1169,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LinearSVR class</div>
 <div class="line-block">
@@ -1201,7 +1181,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1215,13 +1195,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1254,29 +1234,29 @@
 </dl>
 </section>
 <section id="logisticregression">
-<span id="id12"></span><h1>LogisticRegression<a class="headerlink" href="#logisticregression" title="Permalink to this headline"></a></h1>
+<span id="id12"></span><h1>LogisticRegression<a class="headerlink" href="#logisticregression" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LogisticRegression</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LogisticRegression class</div>
 <div class="line-block">
@@ -1292,7 +1272,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s LogisticRegression class</div>
 <div class="line-block">
@@ -1304,7 +1284,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1318,13 +1298,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1361,29 +1341,29 @@
 </dl>
 </section>
 <section id="mlpregressor">
-<span id="id13"></span><h1>MLPRegressor<a class="headerlink" href="#mlpregressor" title="Permalink to this headline"></a></h1>
+<span id="id13"></span><h1>MLPRegressor<a class="headerlink" href="#mlpregressor" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MLPRegressor</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MLPRegressor class</div>
 <div class="line-block">
@@ -1399,7 +1379,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MLPRegressor class</div>
 <div class="line-block">
@@ -1411,7 +1391,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1425,13 +1405,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1475,29 +1455,29 @@
 </dl>
 </section>
 <section id="multitaskelasticnet">
-<span id="id14"></span><h1>MultiTaskElasticNet<a class="headerlink" href="#multitaskelasticnet" title="Permalink to this headline"></a></h1>
+<span id="id14"></span><h1>MultiTaskElasticNet<a class="headerlink" href="#multitaskelasticnet" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MultiTaskElasticNet</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskElasticNet class</div>
 <div class="line-block">
@@ -1513,7 +1493,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskElasticNet class</div>
 <div class="line-block">
@@ -1525,7 +1505,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1539,13 +1519,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1578,29 +1558,29 @@
 </dl>
 </section>
 <section id="multitasklasso">
-<span id="id15"></span><h1>MultiTaskLasso<a class="headerlink" href="#multitasklasso" title="Permalink to this headline"></a></h1>
+<span id="id15"></span><h1>MultiTaskLasso<a class="headerlink" href="#multitasklasso" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MultiTaskLasso</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskLasso class</div>
 <div class="line-block">
@@ -1616,7 +1596,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s MultiTaskLasso class</div>
 <div class="line-block">
@@ -1628,7 +1608,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1642,13 +1622,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1680,29 +1660,29 @@
 </dl>
 </section>
 <section id="nusvr">
-<span id="id16"></span><h1>NuSVR<a class="headerlink" href="#nusvr" title="Permalink to this headline"></a></h1>
+<span id="id16"></span><h1>NuSVR<a class="headerlink" href="#nusvr" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">NuSVR</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s NuSVR class</div>
 <div class="line-block">
@@ -1718,7 +1698,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s NuSVR class</div>
 <div class="line-block">
@@ -1730,7 +1710,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1744,13 +1724,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1784,29 +1764,29 @@
 </dl>
 </section>
 <section id="ridge">
-<span id="id17"></span><h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this headline"></a></h1>
+<span id="id17"></span><h1>Ridge<a class="headerlink" href="#ridge" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">Ridge</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Ridge class</div>
 <div class="line-block">
@@ -1822,7 +1802,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s Ridge class</div>
 <div class="line-block">
@@ -1834,7 +1814,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1848,13 +1828,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1885,29 +1865,29 @@
 </dl>
 </section>
 <section id="sgdregressor">
-<span id="id18"></span><h1>SGDRegressor<a class="headerlink" href="#sgdregressor" title="Permalink to this headline"></a></h1>
+<span id="id18"></span><h1>SGDRegressor<a class="headerlink" href="#sgdregressor" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">SGDRegressor</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SGDRegressor class</div>
 <div class="line-block">
@@ -1923,7 +1903,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SGDRegressor class</div>
 <div class="line-block">
@@ -1935,7 +1915,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -1949,13 +1929,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1993,29 +1973,29 @@
 </dl>
 </section>
 <section id="svr">
-<span id="id19"></span><h1>SVR<a class="headerlink" href="#svr" title="Permalink to this headline"></a></h1>
+<span id="id19"></span><h1>SVR<a class="headerlink" href="#svr" title="Permalink to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Model</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">regression</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">sklearn</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">SVR</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SVR class</div>
 <div class="line-block">
@@ -2031,7 +2011,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">api</span></code> : instance of scikit-learn’s SVR class</div>
 <div class="line-block">
@@ -2043,7 +2023,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">track_header</span></code> : Boolean, (default:True)</div>
 <div class="line-block">
@@ -2057,13 +2037,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">scikit-learn, 0.19.0</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">

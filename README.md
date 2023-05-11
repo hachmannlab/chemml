@@ -56,13 +56,15 @@ Please cite the use of ChemML as:
 
     Main citation:
 
-    @article{chemml2019,
-    author = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava Urala and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
-    journal = {ChemRxiv},
-    pages = {8323271},
-    title = {ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data},
-    doi = {10.26434/chemrxiv.8323271.v1},
-    year = {2019}
+    @article{haghighatlari2019chemml,
+        title        = {{ChemML}: A machine learning and informatics program package for the analysis, mining, and modeling of chemical and materials data},
+        author       = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava U and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
+        year         = 2020,
+        journal      = {Wiley Interdisciplinary Reviews: Computational Molecular Science},
+        publisher    = {Wiley Online Library},
+        volume       = 10,
+        doi          = {https://doi.org/10.1002/wcms.1458},
+        pages        = {e1458},
     }
 
     

@@ -3,9 +3,7 @@ import datetime
 import numpy as np
 import time
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-
+import json
 
 def list_del_indices(mylist,indices):
     """
@@ -451,7 +449,7 @@ def classification_metrics(y_true, y_predicted, thresholds=np.linspace(0, 1, 50)
     
     return accuracy, confusion_matrix, all_other_metrics
 
-def regression_metrics(y_true, y_predicted, nfeatures = None):
+def regression_metrics(y_true, y_predicted, nfeatures = None, individual_errors=False):
     """
     calculates metrics to evaluate regression models
     
@@ -550,6 +548,11 @@ def regression_metrics(y_true, y_predicted, nfeatures = None):
         metrics_dict['adjusted_r_squared'] = adj_r2
     import pandas as pd
     metrics_df = pd.DataFrame.from_dict(metrics_dict)
+    if individual_errors == False:
+        metrics_df.drop(labels=['E','AE','SE'], axis=1, inplace=True)
+        if re_flag:
+            metrics_df.drop(labels=['RE'], axis=1, inplace=True)
+            
     return metrics_df
 
 
@@ -637,11 +640,30 @@ def ConvertFile(file_path, from_format, to_format):
         raise ValueError('File path must be a string or a list of strings.')
     
     return converted_file_paths
-    
+ 
+def load_chemml_model(file_path):
+    '''
+    Load a ChemML MLP model from a CSV file. 
 
+    Parameters
+    ----------
+    file_path: str
+        path to the csv file
 
+    Returns
+    -------
+    mlp_obj: chemml.mlp.MLP object
+        chemml mlp object 
+    '''
+    if isinstance(file_path, str) and os.path.exists(file_path):
+        with open (file_path,'r') as f:
+            chemml_dict = json.load(f)
 
+        from chemml.models import MLP
+        mlp_obj = MLP(**chemml_dict)
+        return mlp_obj
 
-
+    else:
+        raise ValueError('Incorrect file path provided')
 
 

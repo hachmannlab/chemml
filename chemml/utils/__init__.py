@@ -26,7 +26,7 @@ from .validation import check_object_col
 from .validation import update_default_kwargs
 
 from .utilities import ConvertFile
-
+from .utilities import load_chemml_model
 
 __all__ = [
     'list_del_indices',
@@ -34,4 +34,5 @@ __all__ = [
     'isfloat',
     'mol_shapes_to_dims',
     'ConvertFile'
+    'load_chemml_model'
 ]

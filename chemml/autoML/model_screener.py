@@ -9,7 +9,9 @@ from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
 from chemml.optimization import GeneticAlgorithm
 from chemml.chem import RDKitFingerprint
+from chemml.chem import Molecule
 import warnings
+from importlib import import_module
 warnings.filterwarnings("ignore")
 
 # The class takes in a dataframe, a target column name (string or integer), and a screener type
@@ -30,9 +32,17 @@ warnings.filterwarnings("ignore")
 # 
 # The class then returns nothing.
 
+    # from chemml.autoML import ModelScreener
+
+    # model_screener = ModelScreener(df=df, target="RI", 
+    #                             screener_type="regressor",
+    #                             output_file="regressor_scores_dragon.txt")
+    # scores = model_screener.screen_models()
+
+
 class ModelScreener(object):
 
-    def __init__(self, df=None, target=None, screener_type="regressor", output_file="scores.txt"):
+    def __init__(self, df, target, featurization=None, smiles=None, screener_type="regressor", output_file="scores.txt"):
         """
         The function takes in a dataframe, a target column name or index, a screener type (classifier or
         regressor), and an output file name. 
@@ -46,6 +56,7 @@ class ModelScreener(object):
         The function then returns nothing.
         
         :param df: The dataframe containing the data
+        :param featurization: 
         :param target: The target column name or index
         :param screener_type: This is the type of screener you want to use. It can be either a
         classifier or a regressor, defaults to regressor (optional)
@@ -55,60 +66,51 @@ class ModelScreener(object):
         
         if isinstance(df, pd.DataFrame):
             self.df = df
-            self.target = target
+            # self.target = target
         else:
-            print("df must be a DataFrame!")
-        
-        if isinstance(screener_type, str):
-            if screener_type in ["classifier", "regressor", "None"]:
-                if screener_type == "None":
-                    self.screener_type = None
-                else:
-                    self.screener_type = screener_type
+            raise TypeError("df must be a DataFrame!")
+
+        if isinstance(target, str):
+            if target in df.columns:
+                self.target = target
             else:
+                raise ValueError("Column name does not exist!")
+        else:
+            raise TypeError("Parameter target must be of type str !")
+            
+        
+        if not isinstance(featurization, bool):
+            raise TypeError("Featurization must be True or False !")
+        self.featurization = featurization
+        if self.featurization == True:
+            if smiles == None:
+                raise ValueError("If feature screeening is required, smiles column must be provided!")
+            else:
+                if isinstance(smiles, str):
+                    if smiles in self.df.columns:
+                        self.smiles = self.df[smiles]
+                    else:
+                        raise ValueError("Column name does not exist!")
+                else:
+                    raise TypeError("Parameter smiles must be of type str !")  
+            self.x_list = []
+        else:
+            # make this a list of dataframes
+            self.x_list = [self.df.loc[:, self.df.columns != self.target]]
+                         
+        if isinstance(screener_type, str):
+            if screener_type not in ["classifier", "regressor"]:
                 raise ValueError("Parameter screener_type must be 'classifier' or 'regressor' ")
+            else:
+                self.screener_type = screener_type
         else:
             raise TypeError("Parameter screener_type must be of type str")
         
         if isinstance(output_file, str):
-            split_name = os.path.splitext(output_file)
-            # print("split_name: ", split_name)
-            if split_name[1] != "":
-                self.output_file = output_file
-                print("Output file name: ", self.output_file)
-            else:
-                raise TypeError("'output_file' extension not provided. Parameter 'output_file' must have extension (e.g. output_file = 'scores.txt')")
+            self.output_file = output_file
         else:
             raise TypeError("Parameter 'output_file' must be of type str")
-        
-        if isinstance(self.target, str):
-            print("Target column name given as string")
-            print("Obtaining target column...")
-            try:
-                y_col_index = self.df.columns.get_loc(self.target)
-                y = self.df.iloc[:, y_col_index]
-                print("y values obtained..")
-                print("y.shape: ", y.shape)
-                x = self.df.loc[:, self.df.columns != self.target]
-                print("x.shape: ", x.shape)
-            except:
-                print("Column name does not exist!")
-        elif isinstance(self.target, int):
-            print("Target column name given as integer")
-            print("Obtaining target column...")
-            try:
-                y = self.df.iloc[:, self.target]
-                print("y values obtained..")
-                print("y.shape: ", y.shape)
-                x = self.df.loc[:, self.df.columns != self.df.columns[target]]
-                print("x.shape: ", x.shape)
-            except:
-                print("Column number does not exist!")
-        else:
-            raise TypeError("Parameter target must be of type str or int")
 
-        self.x = x
-        self.y = y
 
     def get_all_models_sklearn(self, filter):
         """
@@ -184,7 +186,33 @@ class ModelScreener(object):
         return scores
         # return None
 
-    def screen_models(self):
+    def _represent_smiles(self):
+        from chemml.chem import RDKitFingerprint
+        from chemml.chem import CoulombMatrix
+        # generate all representation techniques here
+
+        mol_objs_list=[]
+        for smi in self.smiles:
+            mol = Molecule(smi, 'smiles')
+            mol.hydrogens('add')
+            mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
+            mol_objs_list.append(mol)
+
+        #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
+        CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
+        self.x_list.append(CM.represent(mol_objs_list))
+
+        # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
+        morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
+        self.x_list.append(morgan_fp.represent(mol_objs_list))
+        
+    def aggregate_scores(self,  scores_list, n_best):
+        scores_combined = pd.concat(scores_list)
+        self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=False)
+        return self.scores_combined[:n_best]
+
+
+    def screen_models(self, n_best=10):
         """
         It takes in a dataframe, splits it into train and test, and then runs all the models in the
         screener_type list, and returns a dataframe with the error metrics for each model. 
@@ -206,53 +234,73 @@ class ModelScreener(object):
         The function also prints the time taken to run
         :return: a dataframe with the error metrics for each model.
         """
-        
-        start_time = time.time()
-        scores_df = pd.DataFrame()
-        all_models = self.get_all_models_sklearn(filter=self.screener_type)
-        print("No. of Models: ", len(all_models))
-        # print("Model names: ", all_models)
-        X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
-        tmp_counter = 0
-        for model in all_models[:6]:
-            tmp_counter = tmp_counter+1
-            model_name = str(model)
-            if model_name != "QuantileRegressor()":
-                print("Running model no: ", tmp_counter, "; Name: ", model_name)
-                try:
-                    model_start_time = time.time()
-                    model.fit(X_train, y_train)
-                    y_predict = model.predict(X_test)
-                    if scores_df.empty==True:
-                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                        with open(self.output_file, 'w') as f: 
-                            for key, value in scores.items(): 
-                                f.write('%s:%s\n' % (key, value))
-                            f.write('\n')
-                        f.close()
-                        scores_df = pd.DataFrame(data=scores, index=[0])
-                        # print("scores_df: ", scores_df)
-                    else:
-                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                        with open(self.output_file, 'a') as f: 
-                            for key, value in scores.items(): 
-                                f.write('%s:%s\n' % (key, value))
-                            f.write('\n')
-                        f.close()
-                        scores_df_1 = pd.DataFrame(data=scores, index=[0])
-                        scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
-                        # print("scores_df: ", scores_df)
-                except Exception as e: 
-                    print(e)
-            else:
-                print("Skipping QuantileRegressor() - it takes too long")
-        print("\n")
-        print("--- %s seconds ---" % (time.time() - start_time))
-        if self.screener_type == "regressor":
-            scores_df = scores_df[['Model', 'time(seconds)', 'r_squared', 'ME', 'MAE', 'MSE', 'RMSE', 'MSLE', 'RMSLE', 'MAPE', 'MaxAPE', 'RMSPE', 'MPE', 'MaxAE', 'deltaMaxE', 'std']]
-        self.scores_df = scores_df
-        # print(self.scores_df)
-        return self.scores_df
+
+        y = self.df[self.target]
+
+        if self.featurization == True:
+            # convert smiles to dataframe of x
+            # return a lit of dataframes
+            self._represent_smiles()
+            
+        scores_list=[]
+        for x in self.x_list:
+            start_time = time.time()
+            scores_df = pd.DataFrame()
+            # all_models = self.get_all_models_sklearn(filter=self.screener_type)
+            # print("all_models: \n", all_models)
+            # exit()
+            # print("No. of Models: ", len(all_models))
+            # print("Model names: ", all_models)
+            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
+            tmp_counter = 0
+            for model_name in ["Lasso", "ElasticNet"]:
+            # for model in all_models[:3]:
+                tmp_counter = tmp_counter+1
+                # model_name = str(model)
+                module = import_module("sklearn.linear_model")
+                model = getattr(module,model_name)()
+                print(type(model))
+                print(model)
+                # system.exit()
+                if model_name != "QuantileRegressor()":
+                    print("Running model no: ", tmp_counter, "; Name: ", model_name)
+                    try:
+                        model_start_time = time.time()
+
+                        model.fit(X_train, y_train)
+                        y_predict = model.predict(X_test)
+                        if scores_df.empty==True:
+                            scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                            with open(self.output_file, 'w') as f: 
+                                for key, value in scores.items(): 
+                                    f.write('%s:%s\n' % (key, value))
+                                f.write('\n')
+                            f.close()
+                            scores_df = pd.DataFrame(data=scores, index=[0])
+                            # print("scores_df: ", scores_df)
+                        else:
+                            scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                            with open(self.output_file, 'a') as f: 
+                                for key, value in scores.items(): 
+                                    f.write('%s:%s\n' % (key, value))
+                                f.write('\n')
+                            f.close()
+                            scores_df_1 = pd.DataFrame(data=scores, index=[0])
+                            scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
+                            # print("scores_df: ", scores_df)
+                    except Exception as e: 
+                        print(e)
+                else:
+                    print("Skipping QuantileRegressor() - it takes too long")
+            print("\n")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            if self.screener_type == "regressor":
+                scores_df = scores_df[['Model', 'time(seconds)', 'r_squared', 'ME', 'MAE', 'MSE', 'RMSE', 'MSLE', 'RMSLE', 'MAPE', 'MaxAPE', 'RMSPE', 'MPE', 'MaxAE', 'deltaMaxE', 'std']]
+            scores_list.append(scores_df)
+
+        # aggregate scores list
+        best_models = self.aggregate_scores(scores_list,n_best)
+        return best_models
 
     def optimize_screened_models(self, file_name=None):
 
@@ -353,7 +401,7 @@ class ModelScreener(object):
                     
                     }
             
-        X_train, X_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.1, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
         print("Train_Test_Split_done!")
         print("Starting to optimize screened models...")
 
@@ -416,7 +464,7 @@ class ModelScreener(object):
             else:
                 raise ValueError("Not yet incorporated!")
             
-            print("model obtained!")
+            # print("model obtained!")
             return model
 
         def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):

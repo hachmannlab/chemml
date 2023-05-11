@@ -4,6 +4,7 @@ import numpy as np
 import time
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def list_del_indices(mylist,indices):
@@ -344,7 +345,7 @@ def zip_mixed(*mixed_iterables, **kwargs):
 
     return zip(*mixed_iterables)
 
-def classification_metrics(y_true, y_predicted):
+def classification_metrics(y_true, y_predicted, thresholds=np.linspace(0, 1, 50)):
     """
     This function calculates and prints accuracy, precision, recall, and f1_score for a given set of
     true and predicted labels.
@@ -371,7 +372,7 @@ def classification_metrics(y_true, y_predicted):
            # count the number of instances in each combination of actual / predicted classes
            confusion_matrix[i, j] = np.sum((y_true == all_classes[i]) & (y_predicted == all_classes[j]))
     
-    # print(confusion_matrix)
+    # print("Confusion_matrix:\n ", pd.DataFrame(confusion_matrix))
 
     class_id = set(y_true).union(set(y_predicted))
     TP = []
@@ -394,34 +395,61 @@ def classification_metrics(y_true, y_predicted):
             if y_true[i] != _id and y_true[i] != y_predicted[i]:
                 FN[index] += 1
 
+    # conf_for_each_class = pd.DataFrame(data=[TP,TN,FP,FN], columns=["TP", "TN", "FP", "FN"])
+    TP = np.asarray(TP)
+    TN = np.asarray(TN)
+    FP = np.asarray(FP)
+    FN = np.asarray(FN)
     print("TP: ", TP)
     print("FP: ", FP) 
     print("TN: ", TN)
     print("FN :", FN)
 
-    # #accuracy_score
+    # #accuracy
     accuracy = (sum(TP)+sum(TN))/(sum(TP)+sum(FP)+sum(FN)+sum(TN))
     print("Accuracy: ", accuracy)
 
-    #precision_score
+    #precision
     precision = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 0)
     # precision = round(np.mean(precision), 4)
     print("Precision: ", precision)
 
-    #recall_score
+    #recall
     recall = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 1)
     # recall = round(np.mean(recall), 4)
     print("Recall: ", recall)
 
-    # #f1_score
+    # f1_score
     np.seterr(invalid='ignore')
     f1_score = 2 * (precision * recall) / (precision + recall)
     f1_score = np.nan_to_num(f1_score)
     print("f1_score: ", f1_score)
 
-    # # recall = np.mean(recall)
-    # # precision = np.mean(precision)
-    return None
+    
+    # Sensitivity, hit rate, recall, or true positive rate
+    TPR = TP/(TP+FN)
+    # Specificity or true negative rate
+    TNR = TN/(TN+FP) 
+    # Precision or positive predictive value
+    PPV = TP/(TP+FP)
+    # Negative predictive value
+    NPV = TN/(TN+FN)
+    # Fall out or false positive rate
+    FPR = FP/(FP+TN)
+    # False negative rate
+    FNR = FN/(TP+FN)
+    # False discovery rate
+    FDR = FP/(TP+FP)
+
+    print("FPR: ", FPR)
+    print("TPR: ", TPR)
+
+    all_other_metrics=pd.DataFrame(data=[TP, TN, FP, FN, precision, recall, f1_score, TPR, FPR, TNR, PPV, NPV, FNR, FDR],index=["TP", "TN", "FP", "FN","precision", "recall", "f1_score", "TPR", "FPR", "TNR", "PPV", "NPV", "FNR", "FDR"])
+    print(all_other_metrics)
+    confusion_matrix=pd.DataFrame(confusion_matrix)
+
+    
+    return accuracy, confusion_matrix, all_other_metrics
 
 def regression_metrics(y_true, y_predicted, nfeatures = None):
     """

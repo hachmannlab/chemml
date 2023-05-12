@@ -1,20 +1,11 @@
 Explain module
-=============
-
-.. Subpackages
-.. -----------
-
-.. .. toctree::
-
-..    chemml.explain
-..    chemml.visualize
+==============
 
 
+.. chemml.explain
+.. --------------
 
-.. Module contents
-.. ---------------
-
-.. automodule:: chemml.Explain
+.. automodule:: chemml.explain
     :members:
-..    :undoc-members:
-    :show-inheritance:
+    .. :undoc-members:
+    .. :show-inheritance:

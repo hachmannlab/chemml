@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accelerated Discovery of High-Refractive-Index Molecules &mdash; ChemML  documentation</title>
@@ -12,13 +12,12 @@
   <![endif]-->
   
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -31,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../visualize_task/index.html">Visualize</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
@@ -87,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Published</a> &raquo;</li>
-      <li>Accelerated Discovery of High-Refractive-Index Molecules</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Published</a></li>
+      <li class="breadcrumb-item active">Accelerated Discovery of High-Refractive-Index Molecules</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/published/RI/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,32 +103,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="accelerated-discovery-of-high-refractive-index-molecules">
-<h1>Accelerated Discovery of High-Refractive-Index Molecules<a class="headerlink" href="#accelerated-discovery-of-high-refractive-index-molecules" title="Permalink to this headline"></a></h1>
+  <section id="accelerated-discovery-of-high-refractive-index-molecules">
+<h1>Accelerated Discovery of High-Refractive-Index Molecules<a class="headerlink" href="#accelerated-discovery-of-high-refractive-index-molecules" title="Permalink to this heading"></a></h1>
 <p>We present a high-throughput computational study to identify novel polyimides (PIs) with exceptional refractive index (RI) values for use as optic or optoelectronic materials. Our study utilizes an RI prediction protocol based on a combination of first-principles and data modeling developed in previous work, which we employ on a large-scale PI candidate library generated with the ChemLG code. We deploy the virtual screening software ChemHTPS to automate the assessment of this extensive pool of PI structures in order to determine the performance potential of each candidate. This rapid and efficient approach yields a number of highly promising leads compounds. Using the data mining and machine learning program package ChemML, we analyze the top candidates with respect to prevalent structural features and feature combinations that distinguish them from less promising ones. In particular, we explore the utility of various strategies that introduce highly polarizable moieties into the PI backbone to increase its RI yield. The derived insights provide a foundation for rational and targeted design that goes beyond traditional trial-and-error searches.</p>
 <p>For this study, we created a library of 1.5 million small organic molecules using an initial set of 15 building blocks (and constraints on molecular weight and number of ring-moieties per molecule) via ChemLG.</p>
 <p>We select a random subset of 100,000 molecules from this library and perform high-throughput electronic structure theory calculations to obtain Polarizability using the Kohn-Sham density functional theory (DFT). For these molecules, the initial geometries are generated using the MMFF94s forcefield (from Openbabel software), and are subsequently optimized using BP86 generalized gradient approximation (GGA) functional with the double-<span class="math notranslate nohighlight">\({\zeta}\)</span> basis set by the Karslruhe group. In order to calculate Polarizability, we then perform single point energy calculations using an all-electron restricted DFT framework with the PBE0 hybrid functional and the same double-<span class="math notranslate nohighlight">\({\zeta}\)</span> def2-SVP basis set along with Grimme’s D3 correction to account for dispersion interactions.</p>
@@ -139,7 +119,7 @@
 </div></blockquote>
 <p>A train-test split of 9:1 is used to fit the data to the DNNs with additional parameters for early stopping, dropout, and l2 regularization parameter to avoid overfitting. ChemML’s genetic algorithm implementation is used to optimize the hyperparameters, such as the regularization parameter, number of neurons and hidden layers, learning rate, etc., that dictate the architecture as well as the training of DNNs. . For assessing the ML model’s performance, we report the following regression metrics : mean absolute error (MAE), root mean squared error (RMSE), mean absolute percentage error (MAPE), and the coefficient of determination <span class="math notranslate nohighlight">\({R^2}\)</span>.</p>
 <section id="single-target-dnns">
-<h2>Single Target DNNs<a class="headerlink" href="#single-target-dnns" title="Permalink to this headline"></a></h2>
+<h2>Single Target DNNs<a class="headerlink" href="#single-target-dnns" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load SMILES representation and target properties of 100,000 molecules</span>
 <span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_small_organic_data</span><span class="p">()</span>
 
@@ -206,7 +186,7 @@
 </div>
 </section>
 <section id="physics-infused-dnn">
-<h2>Physics Infused DNN<a class="headerlink" href="#physics-infused-dnn" title="Permalink to this headline"></a></h2>
+<h2>Physics Infused DNN<a class="headerlink" href="#physics-infused-dnn" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">LorentzLorenz</span>
 
 <span class="c1"># instantiate LorentzLorenz() class object</span>
@@ -225,7 +205,7 @@
 </div>
 </section>
 <section id="transfer-learning-tzvp-polarizabilities">
-<h2>Transfer learning TZVP Polarizabilities<a class="headerlink" href="#transfer-learning-tzvp-polarizabilities" title="Permalink to this headline"></a></h2>
+<h2>Transfer learning TZVP Polarizabilities<a class="headerlink" href="#transfer-learning-tzvp-polarizabilities" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load TZVP data</span>
 <span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_small_organic_data_10k</span>
 
@@ -270,7 +250,7 @@
 </div>
 </section>
 <section id="citation">
-<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline"></a></h2>
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this heading"></a></h2>
 <p>Please cite the use of ChemML as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@article</span><span class="p">{</span><span class="n">Afzal2018a</span><span class="p">,</span>
 <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Afzal</span><span class="p">,</span> <span class="n">Mohammad</span> <span class="n">Atif</span> <span class="n">Faiz</span> <span class="ow">and</span> <span class="n">Cheng</span><span class="p">,</span> <span class="n">Chong</span> <span class="ow">and</span> <span class="n">Hachmann</span><span class="p">,</span> <span class="n">Johannes</span><span class="p">},</span>

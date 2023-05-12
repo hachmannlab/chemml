@@ -40,7 +40,7 @@ if __name__ == "__main__":
             'matplotlib>=1.5.1',
             'lxml', 'wget',
             'seaborn',
-            'openpyxl', 'ipywidgets'
+            'openpyxl', 'ipywidgets', 'shap','lime'
             ],
         extras_require={
             'docs': [

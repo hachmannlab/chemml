@@ -25,10 +25,10 @@ def test_init():
     # PYTORCH
     r1 = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
-                regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
     c1 = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200], activations=['ReLU','Sigmoid'],
                 learning_rate=0.01, alpha=0.201, nepochs=100, batch_size=100, loss='mean_squared_error', 
-                regression=False, nclasses=2, layer_config_file=None, opt_config='ADAM')
+                is_regression=False, nclasses=2, layer_config_file=None, opt_config='ADAM')
                 
     assert isinstance(r1, MLP)
     assert isinstance(r1.model, pytSeq)
@@ -39,10 +39,10 @@ def test_init():
     # TENSORFLOW
     r1 = MLP(engine='tensorflow',nfeatures=120, nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
-                regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
     c1 = MLP(engine='tensorflow',nfeatures=120, nneurons=[100,200], activations=['ReLU','Sigmoid'],
                 learning_rate=0.01, alpha=0.201, nepochs=100, batch_size=100, loss='mean_squared_error', 
-                regression=False, nclasses=2, layer_config_file=None, opt_config='ADAM')
+                is_regression=False, nclasses=2, layer_config_file=None, opt_config='ADAM')
     assert isinstance(r1, MLP)
     assert isinstance(r1.model, tfSeq)
 
@@ -76,7 +76,7 @@ def test_fit_via_params(data):
 
     mlp_pytorch = MLP(engine='pytorch', nfeatures=Xtr.shape[1], nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=20, batch_size=100, loss='mean_squared_error', 
-                regression=True, nclasses=None, layer_config_file=None, opt_config='SGD'
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD'
         )
     mlp_pytorch.fit(Xtr, ytr)
     y_pred = mlp_pytorch.predict(Xte).reshape(-1,1)
@@ -88,7 +88,7 @@ def test_fit_via_params(data):
 
     mlp_tensorflow = MLP(engine='tensorflow', nfeatures=Xtr.shape[1], nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=20, batch_size=100, loss='mean_squared_error', 
-                regression=True, nclasses=None, layer_config_file=None, opt_config='SGD'
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD'
         )
     mlp_tensorflow.fit(Xtr, ytr)
     y_pred = mlp_tensorflow.predict(Xte).reshape(-1,1)
@@ -123,7 +123,7 @@ def test_get_model():
 
     r1_tensorflow = MLP(engine='tensorflow',nfeatures=120, nneurons=[100,200,300], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
-            regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+            is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
 
     engine_model_2 = r1_tensorflow.get_model(include_output=False,n_layers=1)
     assert len(engine_model_2.layers) == 2
@@ -131,7 +131,7 @@ def test_get_model():
     # PYTORCH
     r1_pytorch = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200,300], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
-            regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+            is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
 
     engine_model = r1_pytorch.get_model()
     print(engine_model)
@@ -143,7 +143,7 @@ def test_get_model():
 
     r2_pytorch = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200,300], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
-            regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+            is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
 
     engine_model = r2_pytorch.get_model(n_layers=3)
     print(engine_model)

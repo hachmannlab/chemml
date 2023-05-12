@@ -33,7 +33,7 @@ def data():
     # PYTORCH
     r1_pytorch = MLP(engine='pytorch',nfeatures=Xtr.shape[1], nneurons=[100,100,100], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.001, alpha=0.0001, nepochs=100, batch_size=100, loss='mean_squared_error', 
-            regression=True, nclasses=None, layer_config_file=None, opt_config='Adam')
+            is_regression=True, nclasses=None, layer_config_file=None, opt_config='Adam')
 
     r1_pytorch.fit(Xtr, ytr)
     engine_model = r1_pytorch.get_model()

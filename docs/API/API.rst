@@ -11,6 +11,7 @@ Library API documentation
     chemml.preprocessing
     chemml.models
     chemml.optimization
+    chemml.explain
     chemml.visualization
 
 Wrapper API documentation

@@ -84,7 +84,7 @@ def load_organic_density():
 
     smi = pd.DataFrame(df['smiles'], columns=['smiles'])
     density = pd.DataFrame(df['density_Kg/m3'], columns=['density_Kg/m3'])
-    features = df.drop(['smiles', 'density_Kg/m3'],1)
+    features = df.drop(labels=['smiles', 'density_Kg/m3'], axis=1)
 
     return smi, density, features
 

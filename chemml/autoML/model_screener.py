@@ -4,9 +4,9 @@ import os
 import pandas as pd
 import numpy as np
 from sklearn.utils import all_estimators
-from chemml.utils.utilities import regression_metrics
+from chemml.utils import regression_metrics
 from sklearn.model_selection import train_test_split, KFold
-from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
+# from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
 from chemml.optimization import GeneticAlgorithm
 from chemml.chem import RDKitFingerprint
 from chemml.chem import Molecule
@@ -94,10 +94,10 @@ class ModelScreener(object):
                         raise ValueError("Column name does not exist!")
                 else:
                     raise TypeError("Parameter smiles must be of type str !")  
-            self.x_list = []
+            self.x_list = {}
         else:
             # make this a list of dataframes
-            self.x_list = [self.df.loc[:, self.df.columns != self.target]]
+            self.x_list = {"user_given": self.df.loc[:, self.df.columns != self.target]}
                          
         if isinstance(screener_type, str):
             if screener_type not in ["classifier", "regressor"]:
@@ -111,7 +111,6 @@ class ModelScreener(object):
             self.output_file = output_file
         else:
             raise TypeError("Parameter 'output_file' must be of type str")
-
 
     def get_all_models_sklearn(self, filter):
         """
@@ -164,10 +163,10 @@ class ModelScreener(object):
             
             scores = regression_metrics(y_true=y_test, y_predicted=y_predict)
             time_taken = time.time() - model_start_time
-            scores = scores.iloc[:,4:]
             scores = scores.to_dict()
             scores["time(seconds)"]= time_taken
             scores["Model"]=model_name
+            scores['Feature']=key
             # print(scores)
 
 
@@ -201,17 +200,54 @@ class ModelScreener(object):
 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
-        self.x_list.append(CM.represent(mol_objs_list))
+        self.x_list["CoulombMatrix"] = CM.represent(mol_objs_list)
 
         # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
         morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
-        self.x_list.append(morgan_fp.represent(mol_objs_list))
+        self.x_list["morganfingerprints_radius3"] = morgan_fp.represent(mol_objs_list)
+
+        MACCS = RDKitFingerprint(fingerprint_type='MACCS', vector='bit', n_bits=1024, radius=3)
+        self.x_list["MACCS_radius3"] = MACCS.represent(mol_objs_list)
+
+        hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
+        self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
+
+        # RDKit Descriptors
+        def getMolDescriptors(smiles_list, missingVal=np.nan):
+            ''' calculate the full list of descriptors for a molecule
+            
+                missingVal is used if the descriptor cannot be calculated
+            '''
+            from rdkit import Chem
+            from rdkit.Chem import Descriptors
+
+            res = {}
+            descriptors_df = pd.DataFrame()
+            for molecules_objs in mol_objs_list:
+                # res["smiles"] = molecules_objs.smiles
+                for nm,fn in Descriptors._descList:
+                    # some of the descriptor functions can throw errors if they fail, catch those here:
+                    try:
+                        val = fn(Chem.MolFromSmiles(molecules_objs.smiles))
+                    except:
+                        # print the error message:
+                        import traceback
+                        traceback.print_exc()
+                        # and set the descriptor value to whatever missingVal is
+                        val = missingVal
+                    res[nm] = val
+                all_descriptors = pd.DataFrame(res,index=[0])
+                descriptors_df = pd.concat([descriptors_df, all_descriptors], ignore_index=True)
+            return descriptors_df
+        
+        
+        allDescrs = getMolDescriptors(smiles_list = self.smiles)
+        self.x_list["rdkit_descriptors"] = allDescrs
         
     def aggregate_scores(self,  scores_list, n_best):
         scores_combined = pd.concat(scores_list)
         self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=False)
         return self.scores_combined[:n_best]
-
 
     def screen_models(self, n_best=10):
         """
@@ -246,11 +282,11 @@ class ModelScreener(object):
         scores_list=[]
 
         from .space import space_models
-        for x in self.x_list:
+        for key in self.x_list.keys():
             start_time = time.time()
             scores_df = pd.DataFrame()
 
-            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(self.x_list[key], y, test_size=0.1, random_state=42)
             tmp_counter = 0
             
             def single_obj(model, x, y):
@@ -263,55 +299,76 @@ class ModelScreener(object):
                     y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
                     model.fit(x_training, y_training)
                     y_pred = model.predict(x_testing)
-                    # y_pred, y_act = y_pred.reshape(-1,1), y_testing.reshape(-1,1)
-                    # from chemml.utilities import regression_metrics
-                    model_accuracy=r2_score(y_testing,y_pred)                             # evaluation metric:  r2_score
-                    accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
+                    score = regression_metrics(y_testing,y_pred)['r_squared'][0]
+                    # evaluation metric:  r2_score
+                    accuracy_kfold.append(score)                                   # creates list of accuracies for each fold
                 # print("def single_obj - completed")
                 return np.mean(accuracy_kfold)
         
-            def test_hyp(ml_model, x, y, xtest, ytest):                                          
+            def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
                 ml_model.fit(x, y)
                 ypred = ml_model.predict(xtest)
-                scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                # scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
+                if self.screener_type == "regressor":            
+                    scores = regression_metrics(y_true=y_test, y_predicted=ypred)
+                    time_taken = time.time() - model_start_time
+                    # scores = scores.to_dict()
+                    scores["time(seconds)"]= time_taken
+                    scores["Model"]=model_name
+                    scores['Feature']=key
+                    # print(scores)
+
+                elif self.screener_type == "classifier":
+                    accuracy = accuracy_score(y_test, y_predict)
+                    recall = recall_score(y_test, y_predict, average='macro')
+                    precision = precision_score(y_test, y_predict, average='macro')
+                    f1score = f1_score(y_test, y_predict, average='macro')
+                    time_taken = time.time() - model_start_time
+                    scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken}
+                
+                else:
+                    print("Work in progress...\n")
+                    print("classifier and regressor scores can be separately obtained: ")
+                    print("""set screener_type to 'regressor' or 'classifier'  """)
+                    scores = None
+
                 # print(" test_hyp completed ")
-                return acc
+                return scores
 
             def set_hyper_params(parameters_list, model_name):
-                print("parameters_list: ", parameters_list)
-                module = import_module("sklearn.linear_model")
-                model = getattr(module,model_name)()
+                # print("parameters_list: ", parameters_list)
+                from .models_dict import models_dict
+                module = import_module(models_dict[model_name])
+                # model = getattr(module,model_name)()
+                # module = import_module("sklearn.linear_model")
+                # model = getattr(module,model_name)()
                 # print(type(model))
                 # print(model)
-                if model_name == 'MLPRegressor()':
+                if model_name == 'MLPRegressor':
                     layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
-                elif model_name == 'GradientBoostingRegressor()':
-                    model = getattr(module,model_name)(l2_regularization=np.exp(parameters_list[0]), min_samples_leaf=parameters_list[1], max_leaf_nodes=parameters_list[2], random_state=42)
-                elif model_name == 'TheilSenRegressor()':
-                    from sklearn.linear_model import TheilSenRegressor
-                    model = TheilSenRegressor(n_subsamples=parameters_list[0], max_subpopulation=parameters_list[1], random_state=42)
-                elif model_name == 'RidgeCV()':
-                    from sklearn.linear_model import RidgeCV
-                    model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
-                elif model_name == 'KernelRidge()':
-                    from sklearn.kernel_ridge import KernelRidge
-                    model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
-                elif model_name == 'ElasticNet':
-                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
+
+                elif model_name == 'GradientBoostingRegressor':
+                    model = getattr(module,model_name)(loss=parameters_list[0], learning_rate=param[1], n_estimators=parameters_list[2], min_samples_split=parameters_list[3], min_samples_leaf=parameters_list[4], random_state=42)
+
+                elif model_name == 'RandomForestRegressor':
+                    model = getattr(module,model_name)(n_estimators=parameters_list[0],criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
+        
+                elif model_name == 'Ridge':
+                    model = getattr(module,model_name)(alpha=parameters_list[0])
+
                 elif model_name == 'Lasso':
                     model = getattr(module, model_name)(alpha=np.exp(parameters_list[0]))
-                elif model_name == 'BayesianRidge()':
-                    print("parameters_list: ", parameters_list)
-                    from sklearn.linear_model import BayesianRidge
-                    model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
-                elif model_name == 'OrthogonalMatchingPursuitCV()':
-                    from sklearn.linear_model import OrthogonalMatchingPursuitCV
-                    model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
-                elif model_name == 'TweedieRegressor()':
-                    print("parameters_list: ", parameters_list)
-                    from sklearn.linear_model import TweedieRegressor
-                    model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
+
+                elif model_name == 'SVR':
+                    model = getattr(module,model_name)(kernel=parameters_list[0], C=param[1])
+                                    
+                elif model_name == 'ElasticNet':
+                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
+
+                elif model_name == 'DecisionTreeRegressor':
+                    model = getattr(module,model_name)(criterion=parameters_list[0], spliitter=param[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
+
                 else:
                     raise ValueError("Not yet incorporated!")
                 
@@ -333,7 +390,7 @@ class ModelScreener(object):
                     return ga_search 
 
                 
-                gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 5, crossover_size=5, mutation_size=2, algorithm=al)
+                gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 3, crossover_size=2, mutation_size=1, algorithm=al)
                 best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
                 print(model_name, ": GeneticAlgorithm - complete")
                 
@@ -351,61 +408,35 @@ class ModelScreener(object):
                 # print("best_hyper_params: ", best_hyper_params)
                 best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
                 
-                ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test)
+                ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
                 print("Model:", model_name)
                 print("GA time(hours): ", ga_time)
-                print("Model params: ", best_ga_model.get_params())
-                print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
+                # print("Model params: ", best_ga_model.get_params())
+                # print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
                 print("\n")
-                return 
+                return ga_accuracy_test
 
 
             for model_name in space_models.keys():
-            # for model in all_models[:3]:
                 tmp_counter = tmp_counter+1
-                # model_name = str(model)
-                
-                # system.exit()
                 print("Running model no: ", tmp_counter, "; Name: ", model_name)
                 try:
                     model_start_time = time.time()
-
                     space_final=tuple(space_models[model_name])
                     with open (self.output_file,'a') as ga_progress:
                         ga_progress.write("\n"+model_name)
                         ga_progress.write("\n")
                         ga_progress.close()
-                    ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
+                    scores_list.append(ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3))
+                    print("scores_list: ", scores_list)
                     ga_progress.write("\nPerforming GA on next model \n")
                         
-                    if scores_df.empty==True:
-                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                        with open(self.output_file, 'w') as f: 
-                            for key, value in scores.items(): 
-                                f.write('%s:%s\n' % (key, value))
-                            f.write('\n')
-                        f.close()
-                        scores_df = pd.DataFrame(data=scores, index=[0])
-                        # print("scores_df: ", scores_df)
-                    else:
-                        scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
-                        with open(self.output_file, 'a') as f: 
-                            for key, value in scores.items(): 
-                                f.write('%s:%s\n' % (key, value))
-                            f.write('\n')
-                        f.close()
-                        scores_df_1 = pd.DataFrame(data=scores, index=[0])
-                        scores_df = pd.concat([scores_df,scores_df_1], ignore_index=True)
-                        # print("scores_df: ", scores_df)
                 except Exception as e: 
                     print("model_name: ", model_name)
                     print(e)
                     print("\n")
             print("\n")
             print("--- %s seconds ---" % (time.time() - start_time))
-            if self.screener_type == "regressor":
-                scores_df = scores_df[['Model', 'time(seconds)', 'r_squared', 'ME', 'MAE', 'MSE', 'RMSE', 'MSLE', 'RMSLE', 'MAPE', 'MaxAPE', 'RMSPE', 'MPE', 'MaxAE', 'deltaMaxE', 'std']]
-            scores_list.append(scores_df)
 
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list,n_best)

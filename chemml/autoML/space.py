@@ -52,8 +52,8 @@ space_models = {
                                         'mutation': [0, 1]}},
                                 {'l1_ratio': {'choice': np.arange(0.4,0.8,0.1).tolist()}}
                         ],
-                        
-                'DecisiontreeRegressor':[
+
+                'DecisionTreeRegressor':[
                                 {'criterion': {'choice': ['squared_error', 'absolute_error', 'friedman_mse', 'poisson']}},
                                 {'splitter': {'choice': ['best', 'random']}},
                                 {'min_samples_split': {'choice': range(2,50,10)}},

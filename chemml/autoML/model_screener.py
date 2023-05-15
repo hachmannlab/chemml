@@ -43,7 +43,7 @@ warnings.filterwarnings("ignore")
 
 class ModelScreener(object):
 
-    def __init__(self, df, target, featurization=None, smiles=None, screener_type="regressor", output_file="scores.txt"):
+    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", output_file="scores.txt"):
         """
         The function takes in a dataframe, a target column name or index, a screener type (classifier or
         regressor), and an output file name. 
@@ -246,7 +246,7 @@ class ModelScreener(object):
         
     def aggregate_scores(self,  scores_list, n_best):
         scores_combined = pd.concat(scores_list)
-        self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=False)
+        self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
         return self.scores_combined[:n_best]
 
     def screen_models(self, n_best=10):
@@ -349,7 +349,7 @@ class ModelScreener(object):
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
 
                 elif model_name == 'GradientBoostingRegressor':
-                    model = getattr(module,model_name)(loss=parameters_list[0], learning_rate=param[1], n_estimators=parameters_list[2], min_samples_split=parameters_list[3], min_samples_leaf=parameters_list[4], random_state=42)
+                    model = getattr(module,model_name)(loss=parameters_list[0], learning_rate=parameters_list[1], n_estimators=parameters_list[2], min_samples_split=parameters_list[3], min_samples_leaf=parameters_list[4], random_state=42)
 
                 elif model_name == 'RandomForestRegressor':
                     model = getattr(module,model_name)(n_estimators=parameters_list[0],criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
@@ -361,13 +361,13 @@ class ModelScreener(object):
                     model = getattr(module, model_name)(alpha=np.exp(parameters_list[0]))
 
                 elif model_name == 'SVR':
-                    model = getattr(module,model_name)(kernel=parameters_list[0], C=param[1])
+                    model = getattr(module,model_name)(kernel=parameters_list[0], C=parameters_list[1])
                                     
                 elif model_name == 'ElasticNet':
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
 
                 elif model_name == 'DecisionTreeRegressor':
-                    model = getattr(module,model_name)(criterion=parameters_list[0], spliitter=param[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
+                    model = getattr(module,model_name)(criterion=parameters_list[0], spliitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
                 else:
                     raise ValueError("Not yet incorporated!")

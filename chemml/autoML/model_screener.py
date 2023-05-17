@@ -349,7 +349,7 @@ class ModelScreener(object):
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
 
                 elif model_name == 'GradientBoostingRegressor':
-                    model = getattr(module,model_name)(loss=parameters_list[0], learning_rate=parameters_list[1], n_estimators=parameters_list[2], min_samples_split=parameters_list[3], min_samples_leaf=parameters_list[4], random_state=42)
+                    model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
 
                 elif model_name == 'RandomForestRegressor':
                     model = getattr(module,model_name)(n_estimators=parameters_list[0],criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
@@ -367,7 +367,7 @@ class ModelScreener(object):
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
 
                 elif model_name == 'DecisionTreeRegressor':
-                    model = getattr(module,model_name)(criterion=parameters_list[0], spliitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
+                    model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
                 else:
                     raise ValueError("Not yet incorporated!")
@@ -382,9 +382,7 @@ class ModelScreener(object):
                     # print("indi: ", indi)
                     # print("model_name: ", model_name)
                     with open (self.output_file,'a') as ga_progress:
-                    # ga_progress = open(self.output_file,"a")
                         ga_progress.write(str(indi))
-                        ga_progress.close()
                     model = set_hyper_params(parameters_list=indi, model_name=model_name)
                     ga_search = single_obj(model=model, x=X_train, y=y_train)
                     return ga_search 
@@ -419,17 +417,18 @@ class ModelScreener(object):
 
             for model_name in space_models.keys():
                 tmp_counter = tmp_counter+1
-                print("Running model no: ", tmp_counter, "; Name: ", model_name)
+                print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
                 try:
                     model_start_time = time.time()
                     space_final=tuple(space_models[model_name])
                     with open (self.output_file,'a') as ga_progress:
                         ga_progress.write("\n"+model_name)
                         ga_progress.write("\n")
-                        ga_progress.close()
                     scores_list.append(ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3))
                     print("scores_list: ", scores_list)
-                    ga_progress.write("\nPerforming GA on next model \n")
+                    print("--------------------------------------------------------------------------------")
+                    with open (self.output_file,'a') as ga_progress:
+                        ga_progress.write("\nPerforming GA on next model \n")
                         
                 except Exception as e: 
                     print("model_name: ", model_name)
@@ -443,248 +442,26 @@ class ModelScreener(object):
 
         return best_models
 
-    # def optimize_screened_models(self, file_name=None):
-
-
-        if file_name == None:
-            if self.scores_df.empty==False:
-                print("scores_df obtained...")
-            else:
-                raise ValueError("Please ensure ModelScreener.scores_df has been created. Use ModelScreener.screen_models() to obtain scores_df \nOr provide 'file_name' to access file with error metric for each model")
-        elif isinstance(file_name, str):
-                split_name = os.path.splitext(file_name)
-                # print("split_name: ", split_name)
-                if split_name[1] == ".csv":
-                    self.scores_df = pd.read_csv(file_name)
-                else:
-                    raise TypeError("Parameter 'file_name' must have '.csv' extension (e.g. file_name = 'scores_regressor.csv')")
-        else:
-            raise TypeError("Parameter 'file_name' must be of type str")
-        
-        if self.screener_type == "regressor":
-            sorted_df = self.scores_df.sort_values(by='r_squared', ascending=False)
-        elif self.screener_type == "classifier":
-            sorted_df = self.scores_df.sort_values(by='Accuracy', ascending=False)
-        else:
-            raise TypeError("Parameter screener_type must be 'regressor' or 'classifier'")
-
-        self.sorted_df = sorted_df
-        # print("sorted_df.head() :", self.sorted_df.head())
-             
-        # space_models = {
-        #     'MLPRegressor()':[
-        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
-        #                     {'neurons1':  {'choice': range(0,220,20)}},
-        #                     {'neurons2':  {'choice': range(0,220,20)}},
-        #                     {'neurons3':  {'choice': range(0,220,20)}}
-        #                     ],
-        #     'HistGradientBoostingRegressor()':[
-        #                     {'l2_regularization': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     {'min_samples_leaf': {'choice': range(10,100,10)}},
-        #                     {'max_leaf_nodes': {'choice': range(20,50,5)}}              
-        #                     ],
-        #     'TheilSenRegressor()':[
-        #                     {'n_subsamples': {'choice': range(0,100,10)}},
-        #                     {'max_subpopulation': {'uniform': [10, 50],                
-        #                     'mutation': [0, 1]}}
-        #                     ],
-        #     'RidgeCV()':    [
-        #                     {'cv': {'choice': range(3,10,1)}},
-        #                     {'gcv_mode': {'choice': ['auto', 'svd', 'eigen']}},
-        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     ],
-        #     'BayesianRidge()':[
-        #                     {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     {'alpha_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     {'lambda_2': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}
-        #                     ],
-        #     'KernelRidge()': [
-        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     {'degree': {'choice': range(3,12,1)}}
-        #                     ],
-        #     'ElasticNetCV()':[
-        #                     {'l1_ratio': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
-        #                     ],
-        #     'LassoCV()':[ 
-        #                     {'n_alphas': {'choice': [100, 50, 200, 10]}},
-        #                     {'eps': {'choice': [1e-3, 1e-4, 1e-5, 0.01]}},
-        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}},
-        #                     ],
-        #     'BayesianRidge()':[
-        #                     {'alpha_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     {'lambda_1': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     ],
-        #     'OrthogonalMatchingPursuitCV()':[
-        #                     {'dummy_variable': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     {'cv':  {'choice': range(2,7)}},
-        #                     ],
-        #     'TweedieRegressor()':[
-        #                     {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-        #                     'mutation': [0, 1]}}, 
-        #                     {'link': {'choice': ['auto', 'identity', 'log']}},
-        #                     {'solver': {'choice': ['lbfgs', 'newton-cholesky']}}
-        #                     ],
-                    
-        #             }
-            
-        # X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=42)
-        # print("Train_Test_Split_done!")
-        # print("Starting to optimize screened models...")
-
-        # def single_obj(model, x, y):
-        #     # print("running single_obj")
-        #     n_splits=4
-        #     kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
-        #     accuracy_kfold = []
-        #     for train_index, test_index in kf.split(x):
-        #         x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
-        #         y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
-        #         model.fit(x_training, y_training)
-        #         y_pred = model.predict(x_testing)
-        #         # y_pred, y_act = y_pred.reshape(-1,1), y_testing.reshape(-1,1)
-        #         model_accuracy=r2_score(y_testing,y_pred)                             # evaluation metric:  r2_score
-        #         accuracy_kfold.append(model_accuracy)                                   # creates list of accuracies for each fold
-        #     # print("def single_obj - completed")
-        #     return np.mean(accuracy_kfold)
-        
-        # def test_hyp(ml_model, x, y, xtest, ytest):                                          
-        #     ml_model.fit(x, y)
-        #     ypred = ml_model.predict(xtest)
-        #     acc=r2_score(ytest,ypred)
-        #     # print(" test_hyp completed ")
-        #     return acc
-        
-        # def set_hyper_params(parameters_list, model_name):
-        #     if model_name == 'MLPRegressor()':
-        #         layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
-        #         model = MLPRegressor(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
-        #     elif model_name == 'HistGradientBoostingRegressor()':
-        #         from sklearn.ensemble import HistGradientBoostingRegressor
-        #         model = HistGradientBoostingRegressor(l2_regularization=np.exp(parameters_list[0]), min_samples_leaf=parameters_list[1], max_leaf_nodes=parameters_list[2], random_state=42)
-        #     elif model_name == 'TheilSenRegressor()':
-        #         from sklearn.linear_model import TheilSenRegressor
-        #         model = TheilSenRegressor(n_subsamples=parameters_list[0], max_subpopulation=parameters_list[1], random_state=42)
-        #     elif model_name == 'RidgeCV()':
-        #         from sklearn.linear_model import RidgeCV
-        #         model = RidgeCV(cv=parameters_list[1], gcv_mode=parameters_list[1])
-        #     elif model_name == 'KernelRidge()':
-        #         from sklearn.kernel_ridge import KernelRidge
-        #         model = KernelRidge(alpha = np.exp(parameters_list[0]), degree=parameters_list[1])
-        #     elif model_name == 'ElasticNetCV()':
-        #         from sklearn.linear_model import ElasticNetCV
-        #         model = ElasticNetCV(l1_ratio=np.exp(parameters_list[0]), eps= parameters_list[1])
-        #     elif model_name == 'LassoCV()':
-        #         from sklearn.linear_model import LassoCV
-        #         model = LassoCV(n_alphas=parameters_list[0], eps=parameters_list[1])
-        #     elif model_name == 'BayesianRidge()':
-        #         print("parameters_list: ", parameters_list)
-        #         from sklearn.linear_model import BayesianRidge
-        #         model = BayesianRidge(alpha_1=np.exp(parameters_list[0]), lambda_1=np.exp(parameters_list[1]))
-        #     elif model_name == 'OrthogonalMatchingPursuitCV()':
-        #         from sklearn.linear_model import OrthogonalMatchingPursuitCV
-        #         model = OrthogonalMatchingPursuitCV(cv=parameters_list[1])
-        #     elif model_name == 'TweedieRegressor()':
-        #         print("parameters_list: ", parameters_list)
-        #         from sklearn.linear_model import TweedieRegressor
-        #         model = TweedieRegressor(alpha=np.exp(parameters_list[0]), link=parameters_list[1], solver=parameters_list[2])
+        # if file_name == None:
+        #     if self.scores_df.empty==False:
+        #         print("scores_df obtained...")
         #     else:
-        #         raise ValueError("Not yet incorporated!")
-            
-        #     # print("model obtained!")
-        #     return model
+        #         raise ValueError("Please ensure ModelScreener.scores_df has been created. Use ModelScreener.screen_models() to obtain scores_df \nOr provide 'file_name' to access file with error metric for each model")
+        # elif isinstance(file_name, str):
+        #         split_name = os.path.splitext(file_name)
+        #         # print("split_name: ", split_name)
+        #         if split_name[1] == ".csv":
+        #             self.scores_df = pd.read_csv(file_name)
+        #         else:
+        #             raise TypeError("Parameter 'file_name' must have '.csv' extension (e.g. file_name = 'scores_regressor.csv')")
+        # else:
+        #     raise TypeError("Parameter 'file_name' must be of type str")
+        
+        # if self.screener_type == "regressor":
+        #     sorted_df = self.scores_df.sort_values(by='r_squared', ascending=False)
+        # elif self.screener_type == "classifier":
+        #     sorted_df = self.scores_df.sort_values(by='Accuracy', ascending=False)
+        # else:
+        #     raise TypeError("Parameter screener_type must be 'regressor' or 'classifier'")
 
-        # def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
-        #     start_time_ga = time.time()
-                        
-        #     def ga_eval(indi,model_name=model_name):
-        #         # print("indi: ", indi)
-        #         # print("model_name: ", model_name)
-        #         with open (self.output_file,'a') as ga_progress:
-        #         # ga_progress = open(self.output_file,"a")
-        #             ga_progress.write(str(indi))
-        #             ga_progress.close()
-        #         model = set_hyper_params(parameters_list=indi, model_name=model_name)
-        #         ga_search = single_obj(model=model, x=X_train, y=y_train)
-        #         return ga_search 
-
-            
-        #     gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 5, crossover_size=5, mutation_size=2, algorithm=al)
-        #     best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
-        #     print(model_name, ": GeneticAlgorithm - complete")
-            
-        #     all_items = list(gann.fitness_dict.items())
-        #     all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
-        #     all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
-            
-        #     best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
-        #     best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
-        #     ga_time = (time.time() - start_time_ga)/3600
-            
-        #     # print("type(best_ind_df['Best_individual'][0]): ", type(best_ind_df["Best_individual"][0]))
-        #     # print("best_ind_df['Best_individual'][0]: ", best_ind_df["Best_individual"][0])
-        #     best_hyper_params = best_ind_df["Best_individual"][0]
-        #     # print("best_hyper_params: ", best_hyper_params)
-        #     best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
-            
-        #     ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test)
-        #     print("Model:", model_name)
-        #     print("GA time(hours): ", ga_time)
-        #     print("Model params: ", best_ga_model.get_params())
-        #     print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
-        #     print("\n")
-
-        # for model_name in self.sorted_df["Model"][:5]:
-        #     # if model_name != 'TheilSenRegressor()':
-        #     # if model_name == 'RidgeCV()':
-        #     space_final=tuple(space_models[model_name])
-        #     try:
-        #         with open (self.output_file,'a') as ga_progress:
-        #             ga_progress.write("\n"+model_name)
-        #             ga_progress.write("\n")
-        #             ga_progress.close()
-        #         ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
-        #         ga_progress.write("\nPerforming GA on next model \n")
-                
-        #     except Exception as e:
-        #         print("model_name: ", model_name)
-        #         print(e)
-        #         print("\n")
-        # # model_with_params
-        # return None
-
-    
-
-    # for model_name in self.sorted_df["Model"][:5]:
-        #     # if model_name != 'TheilSenRegressor()':
-        #     # if model_name == 'RidgeCV()':
-        #     space_final=tuple(space_models[model_name])
-        #     try:
-        #         with open (self.output_file,'a') as ga_progress:
-        #             ga_progress.write("\n"+model_name)
-        #             ga_progress.write("\n")
-        #             ga_progress.close()
-        #         ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3) 
-        #         ga_progress.write("\nPerforming GA on next model \n")
-                
-        #     except Exception as e:
-        #         print("model_name: ", model_name)
-        #         print(e)
-        #         print("\n")
-        # model_with_params
-        # return None
+        # self.sorted_df = sorted_df

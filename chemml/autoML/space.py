@@ -11,7 +11,7 @@ space_models = {
                                 ],
                 'GradientBoostingRegressor':[
                                 {'loss': {'choice': ['squared_error', 'absolute_error', 'huber', 'quantile']}},
-                                {'learning_rate': {'choice': np.arange(0,2000,50).tolist()}},
+                                # {'learning_rate': {'choice': np.arange(0,2000,50).tolist()}},
                                 {'n_estimators': {'choice': np.random.randint(100,4000,size=10).tolist()}},
                                 {'min_samples_split': {'choice': range(2,50,10)}},
                                 {'min_samples_leaf': {'choice': range(10,100,10)}},

@@ -6,7 +6,6 @@ import numpy as np
 from sklearn.utils import all_estimators
 from chemml.utils import regression_metrics
 from sklearn.model_selection import train_test_split, KFold
-# from sklearn.metrics import r2_score, mean_absolute_error, accuracy_score, recall_score, precision_score, f1_score
 from chemml.optimization import GeneticAlgorithm
 from chemml.chem import RDKitFingerprint
 from chemml.chem import Molecule
@@ -15,59 +14,37 @@ import random
 from importlib import import_module
 warnings.filterwarnings("ignore")
 
-# The class takes in a dataframe, a target column name (string or integer), and a screener type
-# (string). 
-# 
-# The class then checks if the target column name is a string or an integer. If it's a string, it
-# checks if the string exists in the dataframe. If it does, it obtains the target column and the rest
-# of the dataframe. If it doesn't, it throws an error. 
-# 
-# If the target column name is an integer, it checks if the integer exists in the dataframe. If it
-# does, it obtains the target column and the rest of the dataframe. If it doesn't, it throws an error.
-# 
-# 
-# The class then assigns the target column to the variable y and the rest of the dataframe to the
-# variable x. 
-# 
-# The class then assigns the variables x and y to the class variables x and y. 
-# 
-# The class then returns nothing.
-
-    # from chemml.autoML import ModelScreener
-
-    # model_screener = ModelScreener(df=df, target="RI", 
-    #                             screener_type="regressor",
-    #                             output_file="regressor_scores_dragon.txt")
-    # scores = model_screener.screen_models()
 
 
 class ModelScreener(object):
 
+#   from chemml.autoML import ModelScreener
+
+#   MS = ModelScreener(df, target="density_Kg/m3", featurization=True, smiles="smiles", 
+#                    screener_type="regressor", output_file="testing.txt")
+
+#   scores = MS.screen_models(n_best=4)
+
     def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", output_file="scores.txt"):
         """
-        The function takes in a dataframe, a target column name or index, a screener type (classifier or
-        regressor), and an output file name. 
+        This is a constructor function that initializes various parameters for a machine learning model.
         
-        The function then splits the dataframe into a target column and a feature matrix. 
-        
-        The function then stores the feature matrix and target column as attributes of the class. 
-        
-        The function also stores the screener type and output file name as attributes of the class. 
-        
-        The function then returns nothing.
-        
-        :param df: The dataframe containing the data
-        :param featurization: 
-        :param target: The target column name or index
-        :param screener_type: This is the type of screener you want to use. It can be either a
-        classifier or a regressor, defaults to regressor (optional)
+        :param df: a pandas DataFrame containing the data to be used for modeling
+        :param target: The name of the target column in the input DataFrame that the model will predict
+        :param featurization: A boolean indicating whether feature screening is required or not,
+        defaults to False (optional)
+        :param smiles: A string representing the name of the column in the input DataFrame that contains
+        the SMILES strings for the molecules. This is only required if featurization is set to True
+        :param screener_type: This parameter specifies whether the screener model should be a classifier
+        or a regressor. It must be set to either "classifier" or "regressor", defaults to regressor
+        (optional)
         :param output_file: The name of the file where the scores will be written to, defaults to
         scores.txt (optional)
         """
         
+        
         if isinstance(df, pd.DataFrame):
             self.df = df
-            # self.target = target
         else:
             raise TypeError("df must be a DataFrame!")
 
@@ -187,6 +164,10 @@ class ModelScreener(object):
         # return None
 
     def _represent_smiles(self):
+        """
+        This function generates various molecular representations (Coulomb matrix, RDKit fingerprints,
+        and RDKit descriptors) for a list of molecules represented by SMILES strings.
+        """
         from chemml.chem import RDKitFingerprint
         from chemml.chem import CoulombMatrix
         # generate all representation techniques here
@@ -245,38 +226,32 @@ class ModelScreener(object):
         self.x_list["rdkit_descriptors"] = allDescrs
         
     def aggregate_scores(self,  scores_list, n_best):
+        """
+        This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by
+        RMSE in ascending order, and returns the top n_best scores.
+        
+        :param scores_list: a list of pandas dataframes containing scores for different models or
+        experiments
+        :param n_best: The number of best scores to return from the combined scores list
+        :return: the top n_best scores from the combined scores list, sorted by RMSE in ascending order.
+        """
         scores_combined = pd.concat(scores_list)
         self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
         return self.scores_combined[:n_best]
 
     def screen_models(self, n_best=10):
         """
-        It takes in a dataframe, splits it into train and test, and then runs all the models in the
-        screener_type list, and returns a dataframe with the error metrics for each model. 
+        This function performs genetic algorithm hyperparameter tuning on a list of regression models
+        and returns the best performing models.
         
-        The screener_type list is a list of all the models that you want to run. 
-        
-        The output_file is the file where you want to store the error metrics for each model. 
-        
-        The obtain_error_metrics function is a function that takes in the actual and predicted values,
-        and returns a dictionary with the error metrics. 
-        
-        The get_all_models_sklearn function is a function that returns a list of all the models that you
-        want to run. 
-        
-        The function returns a dataframe with the error metrics for each model. 
-        
-        The function also stores the error metrics for each model in the output_file. 
-        
-        The function also prints the time taken to run
-        :return: a dataframe with the error metrics for each model.
+        :param n_best: The number of best models to return as output, defaults to 10 (optional)
+        :return: the best models based on their scores, as determined by the genetic algorithm. The
+        number of best models returned is determined by the `n_best` parameter
         """
-
+        
         y = self.df[self.target]
 
         if self.featurization == True:
-            # convert smiles to dataframe of x
-            # return a lit of dataframes
             self._represent_smiles()
             
         scores_list=[]
@@ -290,7 +265,6 @@ class ModelScreener(object):
             tmp_counter = 0
             
             def single_obj(model, x, y):
-                # print("running single_obj")
                 n_splits=4
                 kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
                 accuracy_kfold = []
@@ -302,21 +276,17 @@ class ModelScreener(object):
                     score = regression_metrics(y_testing,y_pred)['r_squared'][0]
                     # evaluation metric:  r2_score
                     accuracy_kfold.append(score)                                   # creates list of accuracies for each fold
-                # print("def single_obj - completed")
                 return np.mean(accuracy_kfold)
         
             def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
                 ml_model.fit(x, y)
                 ypred = ml_model.predict(xtest)
-                # scores = self.obtain_error_metrics(y_test, y_predict, model_name, model_start_time)
                 if self.screener_type == "regressor":            
                     scores = regression_metrics(y_true=y_test, y_predicted=ypred)
                     time_taken = time.time() - model_start_time
-                    # scores = scores.to_dict()
                     scores["time(seconds)"]= time_taken
                     scores["Model"]=model_name
                     scores['Feature']=key
-                    # print(scores)
 
                 elif self.screener_type == "classifier":
                     accuracy = accuracy_score(y_test, y_predict)
@@ -332,18 +302,13 @@ class ModelScreener(object):
                     print("""set screener_type to 'regressor' or 'classifier'  """)
                     scores = None
 
-                # print(" test_hyp completed ")
                 return scores
 
             def set_hyper_params(parameters_list, model_name):
                 # print("parameters_list: ", parameters_list)
                 from .models_dict import models_dict
                 module = import_module(models_dict[model_name])
-                # model = getattr(module,model_name)()
-                # module = import_module("sklearn.linear_model")
-                # model = getattr(module,model_name)()
-                # print(type(model))
-                # print(model)
+
                 if model_name == 'MLPRegressor':
                     layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
                     model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
@@ -400,17 +365,12 @@ class ModelScreener(object):
                 best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
                 ga_time = (time.time() - start_time_ga)/3600
                 
-                # print("type(best_ind_df['Best_individual'][0]): ", type(best_ind_df["Best_individual"][0]))
-                # print("best_ind_df['Best_individual'][0]: ", best_ind_df["Best_individual"][0])
                 best_hyper_params = best_ind_df["Best_individual"][0]
-                # print("best_hyper_params: ", best_hyper_params)
                 best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
                 
                 ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
                 print("Model:", model_name)
                 print("GA time(hours): ", ga_time)
-                # print("Model params: ", best_ga_model.get_params())
-                # print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
                 print("\n")
                 return ga_accuracy_test
 
@@ -441,27 +401,3 @@ class ModelScreener(object):
         best_models = self.aggregate_scores(scores_list,n_best)
 
         return best_models
-
-        # if file_name == None:
-        #     if self.scores_df.empty==False:
-        #         print("scores_df obtained...")
-        #     else:
-        #         raise ValueError("Please ensure ModelScreener.scores_df has been created. Use ModelScreener.screen_models() to obtain scores_df \nOr provide 'file_name' to access file with error metric for each model")
-        # elif isinstance(file_name, str):
-        #         split_name = os.path.splitext(file_name)
-        #         # print("split_name: ", split_name)
-        #         if split_name[1] == ".csv":
-        #             self.scores_df = pd.read_csv(file_name)
-        #         else:
-        #             raise TypeError("Parameter 'file_name' must have '.csv' extension (e.g. file_name = 'scores_regressor.csv')")
-        # else:
-        #     raise TypeError("Parameter 'file_name' must be of type str")
-        
-        # if self.screener_type == "regressor":
-        #     sorted_df = self.scores_df.sort_values(by='r_squared', ascending=False)
-        # elif self.screener_type == "classifier":
-        #     sorted_df = self.scores_df.sort_values(by='Accuracy', ascending=False)
-        # else:
-        #     raise TypeError("Parameter screener_type must be 'regressor' or 'classifier'")
-
-        # self.sorted_df = sorted_df

@@ -109,58 +109,58 @@ class ModelScreener(object):
                 pass
         return all_regs
             
-    def obtain_error_metrics(self, y_test, y_predict, model_name, model_start_time):
-        """
-        It takes in the true values of the target variable, the predicted values of the target variable,
-        the name of the model, and the time at which the model started training. 
+    # def obtain_error_metrics(self, y_test, y_predict, model_name, model_start_time):
+    #     """
+    #     It takes in the true values of the target variable, the predicted values of the target variable,
+    #     the name of the model, and the time at which the model started training. 
         
-        It then returns a dictionary containing the error metrics for the model. 
+    #     It then returns a dictionary containing the error metrics for the model. 
         
-        The error metrics returned depend on the type of the target variable. 
+    #     The error metrics returned depend on the type of the target variable. 
         
-        If the target variable is a continuous variable, then the function returns the mean absolute
-        error and the R2 score. 
+    #     If the target variable is a continuous variable, then the function returns the mean absolute
+    #     error and the R2 score. 
         
-        If the target variable is a categorical variable, then the function returns the accuracy,
-        recall, precision, and F1 score. 
+    #     If the target variable is a categorical variable, then the function returns the accuracy,
+    #     recall, precision, and F1 score. 
         
-        If the target variable is neither continuous nor categorical, then the function returns None.
+    #     If the target variable is neither continuous nor categorical, then the function returns None.
         
-        :param y_test: the actual values of the target variable
-        :param y_predict: the predicted values of the target variable
-        :param model_name: name of the model
-        :param model_start_time: The time at which the model started training
-        """
+    #     :param y_test: the actual values of the target variable
+    #     :param y_predict: the predicted values of the target variable
+    #     :param model_name: name of the model
+    #     :param model_start_time: The time at which the model started training
+    #     """
         
-        if self.screener_type == "regressor":
-            # r2 = r2_score(y_test, y_predict)
-            # mae = mean_absolute_error(y_test, y_predict)
-            # time_taken = time.time() - model_start_time
-            # scores = {"Model": model_name, "MAE": mae, "R2_score": r2, "time(seconds)": time_taken}
+    #     if self.screener_type == "regressor":
+    #         # r2 = r2_score(y_test, y_predict)
+    #         # mae = mean_absolute_error(y_test, y_predict)
+    #         # time_taken = time.time() - model_start_time
+    #         # scores = {"Model": model_name, "MAE": mae, "R2_score": r2, "time(seconds)": time_taken}
             
-            scores = regression_metrics(y_true=y_test, y_predicted=y_predict)
-            time_taken = time.time() - model_start_time
-            scores = scores.to_dict()
-            scores["time(seconds)"]= time_taken
-            scores["Model"]=model_name
-            scores['Feature']=key
-            # print(scores)
+    #         scores = regression_metrics(y_true=y_test, y_predicted=y_predict)
+    #         time_taken = time.time() - model_start_time
+    #         scores = scores.to_dict()
+    #         scores["time(seconds)"]= time_taken
+    #         scores["Model"]=model_name
+    #         scores["Feature"]=key
+    #         # print(scores)
 
 
-        elif self.screener_type == "classifier":
-            accuracy = accuracy_score(y_test, y_predict)
-            recall = recall_score(y_test, y_predict, average='macro')
-            precision = precision_score(y_test, y_predict, average='macro')
-            f1score = f1_score(y_test, y_predict, average='macro')
-            time_taken = time.time() - model_start_time
-            scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken}
+    #     elif self.screener_type == "classifier":
+    #         accuracy = accuracy_score(y_test, y_predict)
+    #         recall = recall_score(y_test, y_predict, average='macro')
+    #         precision = precision_score(y_test, y_predict, average='macro')
+    #         f1score = f1_score(y_test, y_predict, average='macro')
+    #         time_taken = time.time() - model_start_time
+    #         scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken}
         
-        else:
-            print("Work in progress...\n")
-            print("classifier and regressor scores can be separately obtained: ")
-            print("""set screener_type to 'regressor' or 'classifier'  """)
-            scores = None
-        return scores
+    #     else:
+    #         print("Work in progress...\n")
+    #         print("classifier and regressor scores can be separately obtained: ")
+    #         print("""set screener_type to 'regressor' or 'classifier'  """)
+    #         scores = None
+    #     return scores
         # return None
 
     def _represent_smiles(self):
@@ -286,7 +286,9 @@ class ModelScreener(object):
                     time_taken = time.time() - model_start_time
                     scores["time(seconds)"]= time_taken
                     scores["Model"]=model_name
+                    scores['parameters']=[ml_model.get_params()]
                     scores['Feature']=key
+                    
 
                 elif self.screener_type == "classifier":
                     accuracy = accuracy_score(y_test, y_predict)
@@ -354,7 +356,7 @@ class ModelScreener(object):
 
                 
                 gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 3, crossover_size=2, mutation_size=1, algorithm=al)
-                best_ind_df, best_individual = gann.search(n_generations=2, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+                best_ind_df, best_individual = gann.search(n_generations=10, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
                 print(model_name, ": GeneticAlgorithm - complete")
                 
                 all_items = list(gann.fitness_dict.items())
@@ -371,11 +373,14 @@ class ModelScreener(object):
                 ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
                 print("Model:", model_name)
                 print("GA time(hours): ", ga_time)
+                # print("Model params: ", best_ga_model.get_params())
+                # print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
                 print("\n")
                 return ga_accuracy_test
 
 
             for model_name in space_models.keys():
+            # for model_name in ['RandomForestRegressor', 'Ridge', 'Lasso', 'ElasticNet']:
                 tmp_counter = tmp_counter+1
                 print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
                 try:

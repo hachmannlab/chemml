@@ -25,23 +25,33 @@ class ModelScreener(object):
 
 #   scores = MS.screen_models(n_best=4)
 
-    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", output_file="scores.txt"):
+    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_file="scores.txt"):
         """
         This is a constructor function that initializes various parameters for a machine learning model.
         
-        :param df: a pandas DataFrame containing the data to be used for modeling
-        :param target: The name of the target column in the input DataFrame that the model will predict
-        :param featurization: A boolean indicating whether feature screening is required or not,
-        defaults to False (optional)
-        :param smiles: A string representing the name of the column in the input DataFrame that contains
-        the SMILES strings for the molecules. This is only required if featurization is set to True
-        :param screener_type: This parameter specifies whether the screener model should be a classifier
-        or a regressor. It must be set to either "classifier" or "regressor", defaults to regressor
-        (optional)
-        :param output_file: The name of the file where the scores will be written to, defaults to
-        scores.txt (optional)
-        """
+
+        Parameters
+        ----------
+        df : pandas DataFrame
+            a pandas DataFrame containing the data to be used for modeling
+        target : str
+            The name of the target column in the input DataFrame that the model will predict
+        featurization : bool, optional
+            A boolean indicating whether feature screening is required or not, by default False
+        smiles : str , optional
+            A string representing the name of the column in the input DataFrame that contains
+            the SMILES strings for the molecules. This is only required if featurization is set to True, by default None
+        screener_type : str, optional
+            This parameter specifies whether the screener model should be a classifier
+            or a regressor. It must be set to either "classifier" or "regressor",, by default "regressor"
+        n_gen : int, optional
+            number of generations that genetic algorithm should run, by default 10
+        output_file : str, optional
+            The name of the file where the scores will be written to, by default "scores.txt"
+
+        """        
         
+        self.n_gen=n_gen
         
         if isinstance(df, pd.DataFrame):
             self.df = df
@@ -92,11 +102,17 @@ class ModelScreener(object):
     def get_all_models_sklearn(self, filter):
         """
         It returns a list of all the models in sklearn that match the filter
-        
-        :param filter: This is a function that takes a class and returns True if the class should be
-        included in the list of estimators
-        :return: A list of all the models that are in the sklearn library.
-        """
+
+        Parameters
+        ----------
+        filter : str
+            This is a function that takes a class and returns True if the class should be included in the list of estimators
+
+        Returns
+        -------
+        list
+            A list of all the models that are in the sklearn library
+        """        
         
         estimators = all_estimators(type_filter=filter)
         all_regs = []
@@ -167,7 +183,12 @@ class ModelScreener(object):
         """
         This function generates various molecular representations (Coulomb matrix, RDKit fingerprints,
         and RDKit descriptors) for a list of molecules represented by SMILES strings.
-        """
+
+        Returns
+        -------
+        list 
+            list of pandas DataFrames consisting of various molecular representations
+        """        
         from chemml.chem import RDKitFingerprint
         from chemml.chem import CoulombMatrix
         # generate all representation techniques here
@@ -195,10 +216,21 @@ class ModelScreener(object):
 
         # RDKit Descriptors
         def getMolDescriptors(smiles_list, missingVal=np.nan):
-            ''' calculate the full list of descriptors for a molecule
+            """ 
+            Calculate the full list of descriptors for a molecule
             
-                missingVal is used if the descriptor cannot be calculated
-            '''
+            Parameters
+            ----------
+            smiles_list : list
+                list of smiles codes of molecules
+            missingVal : _type_, optional
+                used if the descriptor cannot be calculated, by default np.nan
+
+            Returns
+            -------
+            pandas Dataframe
+                DataFrame consisting of all descriptors available in rdkit
+            """            
             from rdkit import Chem
             from rdkit.Chem import Descriptors
 
@@ -226,15 +258,27 @@ class ModelScreener(object):
         self.x_list["rdkit_descriptors"] = allDescrs
         
     def aggregate_scores(self,  scores_list, n_best):
-        """
+        """ 
         This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by
         RMSE in ascending order, and returns the top n_best scores.
         
-        :param scores_list: a list of pandas dataframes containing scores for different models or
-        experiments
-        :param n_best: The number of best scores to return from the combined scores list
-        :return: the top n_best scores from the combined scores list, sorted by RMSE in ascending order.
-        """
+        :param scores_list: 
+        :param n_best: 
+        
+
+        Parameters
+        ----------
+        scores_list : list
+            a list of pandas dataframes containing scores for different models or experiments
+        n_best : int
+            The number of best scores to return from the combined scores list
+         
+
+        Returns
+        -------
+        pandas DataFrame
+            the top n_best scores from the combined scores list, sorted by RMSE in ascending order.
+        """       
         scores_combined = pd.concat(scores_list)
         self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
         return self.scores_combined[:n_best]
@@ -244,10 +288,23 @@ class ModelScreener(object):
         This function performs genetic algorithm hyperparameter tuning on a list of regression models
         and returns the best performing models.
         
-        :param n_best: The number of best models to return as output, defaults to 10 (optional)
-        :return: the best models based on their scores, as determined by the genetic algorithm. The
+
+        Parameters
+        ----------
+        n_best : int, optional
+            The number of best models to return as output, by default 10
+
+        Returns
+        -------
+        pandas DataFrame
+            the best models based on their scores, as determined by the genetic algorithm. The
         number of best models returned is determined by the `n_best` parameter
-        """
+
+        Raises
+        ------
+        ValueError
+            _description_
+        """        
         
         y = self.df[self.target]
 
@@ -337,7 +394,7 @@ class ModelScreener(object):
                     model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
                 else:
-                    raise ValueError("Not yet incorporated!")
+                    raise ValueError("This model cannot be used currently. Please refer to documentation. ")
                 
                 # print("model obtained!")
                 return model
@@ -356,7 +413,7 @@ class ModelScreener(object):
 
                 
                 gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 3, crossover_size=2, mutation_size=1, algorithm=al)
-                best_ind_df, best_individual = gann.search(n_generations=10, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+                best_ind_df, best_individual = gann.search(n_generations=self.n_gen, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
                 print(model_name, ": GeneticAlgorithm - complete")
                 
                 all_items = list(gann.fitness_dict.items())
@@ -406,3 +463,27 @@ class ModelScreener(object):
         best_models = self.aggregate_scores(scores_list,n_best)
 
         return best_models
+
+
+# Raises
+#         ------
+#         TypeError
+#             _description_
+#         ValueError
+#             _description_
+#         TypeError
+#             _description_
+#         TypeError
+#             _description_
+#         ValueError
+#             _description_
+#         ValueError
+#             _description_
+#         TypeError
+#             _description_
+#         ValueError
+#             _description_
+#         TypeError
+#             _description_
+#         TypeError
+#             _description_

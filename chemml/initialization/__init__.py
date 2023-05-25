@@ -11,9 +11,12 @@ from .initialization import Split
 
 from .initialization import XYZreader
 
+from .initialization import SaveFile
+
 
 
 __all__ = [
     'XYZreader',
     'Split',
+    'SaveFile'
 ]

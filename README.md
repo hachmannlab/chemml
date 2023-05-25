@@ -116,14 +116,15 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
 
 ### Contributors:
     - Doaa Altarawy (MolSSI): scientific advice and software mentor 
+    - Aditya Sonpal (UB): graph convolution NNs, XAI
+    - Aatish Pradhan (UB): autoML and Jupyter GUI developer
     - Gaurav Vishwakarma (UB): automated model optimization
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
-    - Aditya Sonpal (UB): graph convolution NNs
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
-    - Aatish Pradhan (UB): Jupyter GUI developer
+    
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

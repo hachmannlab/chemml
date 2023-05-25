@@ -343,6 +343,111 @@ def zip_mixed(*mixed_iterables, **kwargs):
 
     return zip(*mixed_iterables)
 
+def classification_metrics(y_true, y_predicted, thresholds=np.linspace(0, 1, 50)):
+    """
+    This function calculates and prints accuracy, precision, recall, and f1_score for a given set of
+    true and predicted labels.
+    
+    :param y_true: The true labels of the data, i.e. the ground truth
+    :param y_predicted: The predicted labels for a classification problem
+    :return: four arrays: accuracy, precision, recall, and f1_score.
+    """
+
+    #find different classes 
+    if isinstance(y_true,np.ndarray):
+        all_classes = np.unique(y_true)
+    else:
+        y_true_tmp = np.array(y_true)
+        all_classes = np.unique(y_true_tmp)
+    
+    #create confusion matrix
+    confusion_matrix = np.zeros((len(all_classes), len(all_classes)))
+
+    #loop across the different combinations of y_true / y_predicted classes
+    for i in range(len(all_classes)):
+        for j in range(len(all_classes)):
+
+           # count the number of instances in each combination of actual / predicted classes
+           confusion_matrix[i, j] = np.sum((y_true == all_classes[i]) & (y_predicted == all_classes[j]))
+    
+    # print("Confusion_matrix:\n ", pd.DataFrame(confusion_matrix))
+
+    class_id = set(y_true).union(set(y_predicted))
+    TP = []
+    FP = []
+    TN = []
+    FN = []
+
+    for index ,_id in enumerate(class_id):
+        TP.append(0)
+        FP.append(0)
+        TN.append(0)
+        FN.append(0)
+        for i in range(len(y_predicted)):
+            if y_true[i] == y_predicted[i] == _id:
+                TP[index] += 1
+            if y_predicted[i] == _id and y_true[i] != y_predicted[i]:
+                FP[index] += 1
+            if y_true[i] == y_predicted[i] != _id:
+                TN[index] += 1
+            if y_true[i] != _id and y_true[i] != y_predicted[i]:
+                FN[index] += 1
+
+    # conf_for_each_class = pd.DataFrame(data=[TP,TN,FP,FN], columns=["TP", "TN", "FP", "FN"])
+    TP = np.asarray(TP)
+    TN = np.asarray(TN)
+    FP = np.asarray(FP)
+    FN = np.asarray(FN)
+    print("TP: ", TP)
+    print("FP: ", FP) 
+    print("TN: ", TN)
+    print("FN :", FN)
+
+    # #accuracy
+    accuracy = (sum(TP)+sum(TN))/(sum(TP)+sum(FP)+sum(FN)+sum(TN))
+    print("Accuracy: ", accuracy)
+
+    #precision
+    precision = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 0)
+    # precision = round(np.mean(precision), 4)
+    print("Precision: ", precision)
+
+    #recall
+    recall = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis = 1)
+    # recall = round(np.mean(recall), 4)
+    print("Recall: ", recall)
+
+    # f1_score
+    np.seterr(invalid='ignore')
+    f1_score = 2 * (precision * recall) / (precision + recall)
+    f1_score = np.nan_to_num(f1_score)
+    print("f1_score: ", f1_score)
+
+    
+    # Sensitivity, hit rate, recall, or true positive rate
+    TPR = TP/(TP+FN)
+    # Specificity or true negative rate
+    TNR = TN/(TN+FP) 
+    # Precision or positive predictive value
+    PPV = TP/(TP+FP)
+    # Negative predictive value
+    NPV = TN/(TN+FN)
+    # Fall out or false positive rate
+    FPR = FP/(FP+TN)
+    # False negative rate
+    FNR = FN/(TP+FN)
+    # False discovery rate
+    FDR = FP/(TP+FP)
+
+    print("FPR: ", FPR)
+    print("TPR: ", TPR)
+
+    all_other_metrics=pd.DataFrame(data=[TP, TN, FP, FN, precision, recall, f1_score, TPR, FPR, TNR, PPV, NPV, FNR, FDR],index=["TP", "TN", "FP", "FN","precision", "recall", "f1_score", "TPR", "FPR", "TNR", "PPV", "NPV", "FNR", "FDR"])
+    print(all_other_metrics)
+    confusion_matrix=pd.DataFrame(confusion_matrix)
+
+    
+    return accuracy, confusion_matrix, all_other_metrics
 
 def regression_metrics(y_true, y_predicted, nfeatures = None, individual_errors=False):
     """

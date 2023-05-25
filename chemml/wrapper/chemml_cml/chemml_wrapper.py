@@ -375,7 +375,7 @@ class RDKitFingerprint(BASE):
                 mols = open(molfile, 'r')
                 mols = mols.readlines()
                 for i,x in enumerate(mols):
-                    mol = Molecule(input = x.strip(), input_type = input_type)
+                    mol = Molecule(input_mol = x.strip(), input_type = input_type)
                     if mol is None:
                         # self.removed_rows.append(i)
                         pass
@@ -1839,6 +1839,7 @@ class SaveFile(BASE):
         # step1: check inputs
         self.required('df', req=True)
         df = self.inputs['df'].value
+        # print("df: ", df )
 
         # step2: assign inputs to parameters if necessary (param = @token)
         self.paramFROMinput()
@@ -1846,11 +1847,25 @@ class SaveFile(BASE):
         # step3: check the dimension of input data frame
         # step4: import module and make APIs
         try:
-            # from chemml.initialization import SaveFile
-            # model = SaveFile(**self.parameters)
-            # model.fit(df, self.Base.output_directory)
-            df.to_csv(self.Base.output_directory)
-            
+            from chemml.initialization import SaveFile
+            model = SaveFile(**self.parameters)
+            model.fit(df, self.Base.output_directory)
+            # self.filename = os.path.basename(file_path)
+            # df.to_csv(self.Base.output_directory)
+            # print("self.Base.output_directory: ", self.Base.output_directory)
+            # print(type(self.Base.output_directory))
+            # print("**self.parameters: ", self.parameters)
+            # if self.parameters["format"] == "csv":
+            #     tmp_str = self.Base.output_directory + self.parameters["filename"] +".csv"
+            #     df.to_csv(tmp_str)
+            # elif self.parameters["format"] == "smi":
+            #     tmp_str = self.Base.output_directory + self.parameters["filename"] +".smi"
+            #     for i in df["smiles"]:
+            #         smiles_file = open("tmp_str", "a")
+            #         smiles_file.write("i")
+            #         smiles_file.close()
+
+
         except Exception as err:
             msg = '@Task #%i(%s): '%(self.iblock+1, self.Task) + type(err).__name__ + ': '+ str(err)
             raise TypeError(msg)

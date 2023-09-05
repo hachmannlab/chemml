@@ -199,6 +199,6 @@ Step #3: check the output directory
 ====================================
 
 After running ChemML Wrapper you can collect all your saved files by navigating to the output directory.
-These saved files can be any type of results and fugures from your workflow,
+These saved files can be any type of results and figures from your workflow,
 or default files, e.g. error file, log file, a copy of input file,
 and citation file.

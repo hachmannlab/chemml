@@ -27,9 +27,6 @@ We give a brief overview of the types of methods that are covered by each of the
 - Optimize
    This task class provides methods to quantify and improve both the accuracy and reliability of predictions. We can optimize a given model in  hyper-parameter space using a coarse grid search or evolutionary algorithm. In addition, ML design methodologies such as active learning (AL) and transfer learning (TL) are available to enhance the efficiency of the exploration of compound space. The available optimization methods link to other elements of an ML workflow and ChemML allows us to automatize the modeling of specified search spaces.
 
-- Explain
-   This class provides explainations for deep neural networks using XAI three XAI methods. It supports intuitive vizualization methods which further illuminate the black-box of deep neural networks. The module provides a ranking of features based on their contribution towards the predictions of our deep neural network. 
-   
 - Visualize
    Data visualization methods that help facilitate a better comprehension of the modeling results are available via a separate module, which builds on the Matplotlib and Seaborn libraries for key visualization elements. These elements are accessible as part of any ML workflow.
 
@@ -41,13 +38,11 @@ Please cite the use of ChemML as:
 
    Main citation:
 
-    @article{haghighatlari2019chemml,
-        title        = {{ChemML}: A machine learning and informatics program package for the analysis, mining, and modeling of chemical and materials data},
-        author       = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava U and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
-        year         = 2020,
-        journal      = {Wiley Interdisciplinary Reviews: Computational Molecular Science},
-        publisher    = {Wiley Online Library},
-        volume       = 10,
-        doi          = {https://doi.org/10.1002/wcms.1458},
-        pages        = {e1458},
-    }
+   @article{chemml2019,
+   author = {Haghighatlari, Mojtaba and Vishwakarma, Gaurav and Altarawy, Doaa and Subramanian, Ramachandran and Kota, Bhargava Urala and Sonpal, Aditya and Setlur, Srirangaraj and Hachmann, Johannes},
+   journal = {ChemRxiv},
+   pages = {8323271},
+   title = {ChemML: A Machine Learning and Informatics Program Package for the Analysis, Mining, and Modeling of Chemical and Materials Data},
+   doi = {10.26434/chemrxiv.8323271.v1},
+   year = {2019}
+   }

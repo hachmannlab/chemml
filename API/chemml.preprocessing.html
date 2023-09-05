@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preprocessing module &mdash; ChemML  documentation</title>
@@ -12,8 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -28,15 +29,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            ChemML
+            <a href="../index.html" class="icon icon-home"> ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -50,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -70,15 +67,9 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Preprocessing module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.ConstantColumns"><code class="docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.MissingValues"><code class="docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.Outliers"><code class="docutils literal notranslate"><span class="pre">Outliers()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Preprocessing module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemml.explain.html">Explain module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 </li>
@@ -100,10 +91,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
-          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
-      <li class="breadcrumb-item active">Preprocessing module</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">ChemML API</a> &raquo;</li>
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
+      <li>Preprocessing module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/chemml.preprocessing.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -113,8 +104,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="preprocessing-module">
-<h1>Preprocessing module<a class="headerlink" href="#preprocessing-module" title="Permalink to this heading"></a></h1>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="preprocessing-module">
+<h1>Preprocessing module<a class="headerlink" href="#preprocessing-module" title="Permalink to this headline"></a></h1>
 <span class="target" id="module-chemml.preprocessing"></span><dl class="simple">
 <dt>The chemml.preprocessing module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
 <li><p>MissingValues: <a class="reference internal" href="#chemml.preprocessing.MissingValues" title="chemml.preprocessing.MissingValues"><code class="xref py py-func docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></p></li>
@@ -127,25 +142,17 @@
 <dt class="sig sig-object py" id="chemml.preprocessing.ConstantColumns">
 <span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">ConstantColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns" title="Permalink to this definition"></a></dt>
 <dd><p>remove constant columns</p>
-<section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <dl class="simple">
 <dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
 </dd>
 </dl>
-</section>
-<section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h2>
 <p>df: pandas dataframe</p>
-</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="chemml.preprocessing.MissingValues">
 <span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">MissingValues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore_row'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string_as_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inf_as_null</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.MissingValues" title="Permalink to this definition"></a></dt>
 <dd><p>find missing values and interpolate/replace or remove them.</p>
-<section id="id1">
-<h2>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <p>df : pandas dataframe</p>
 <p>strategy: string, optional (default=”ignore_row”)</p>
 <blockquote>
@@ -163,18 +170,11 @@
 <dt>inf_as_null: boolean, optional (default=True)</dt><dd><p>If True inf and -inf elements are considered to be null in computations.</p>
 </dd>
 </dl>
-</section>
-<section id="id2">
-<h2>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>dataframe</p>
-</section>
-<section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <p>mask is a binary vector whose length is the number of rows/indices in the df. The index of each bit shows
 if the row/column in the same position has been removed or not.
 The goal is keeping track of removed rows/columns to change the target data frame or other input data frames based
 on that. The mask can later be used in the transform method to change other data frames in the same way.</p>
-</section>
 </dd></dl>
 
 <dl class="py function">
@@ -182,8 +182,6 @@ on that. The mask can later be used in the transform method to change other data
 <span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">Outliers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'median'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.Outliers" title="Permalink to this definition"></a></dt>
 <dd><p>remove all rows where the values of a certain column are within an specified
 standard deviation from mean/median.</p>
-<section id="id3">
-<h2>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <dl class="simple">
 <dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
 </dd>
@@ -193,15 +191,8 @@ standard deviation from mean/median.</p>
 Values of each column will be compared to the ‘mean’ or ‘median’ of that column.</p>
 </dd>
 </dl>
-</section>
-<section id="id4">
-<h2>Returns<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <p>dataframe</p>
-</section>
-<section id="id5">
-<h2>Notes<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <p>We highly recommend you to remove constant columns first and then remove outliers.</p>
-</section>
 </dd></dl>
 
 </section>

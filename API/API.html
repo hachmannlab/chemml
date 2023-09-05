@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Library API documentation &mdash; ChemML  documentation</title>
@@ -12,8 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -28,15 +29,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            ChemML
+            <a href="../index.html" class="icon icon-home"> ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -50,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -73,7 +70,6 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemml.explain.html">Explain module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 </li>
@@ -99,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
-      <li class="breadcrumb-item active">Library API documentation</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">ChemML API</a> &raquo;</li>
+      <li>Library API documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/API.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -111,97 +107,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="library-api-documentation">
-<h1>Library API documentation<a class="headerlink" href="#library-api-documentation" title="Permalink to this heading"></a></h1>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="library-api-documentation">
+<h1>Library API documentation<a class="headerlink" href="#library-api-documentation" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">ChemML Library API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.BagofBonds"><code class="docutils literal notranslate"><span class="pre">BagofBonds</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.CoulombMatrix"><code class="docutils literal notranslate"><span class="pre">CoulombMatrix</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.Dragon"><code class="docutils literal notranslate"><span class="pre">Dragon</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.Molecule"><code class="docutils literal notranslate"><span class="pre">Molecule</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.RDKitFingerprint"><code class="docutils literal notranslate"><span class="pre">RDKitFingerprint</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.XYZ"><code class="docutils literal notranslate"><span class="pre">XYZ</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.atom_features"><code class="docutils literal notranslate"><span class="pre">atom_features()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.bond_features"><code class="docutils literal notranslate"><span class="pre">bond_features()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.num_atom_features"><code class="docutils literal notranslate"><span class="pre">num_atom_features()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.num_bond_features"><code class="docutils literal notranslate"><span class="pre">num_bond_features()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.html#chemml.chem.tensorise_molecules"><code class="docutils literal notranslate"><span class="pre">tensorise_molecules()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.APEAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">APEAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.APRDFAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">APRDFAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ChargeDependentAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ChargeDependentAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ChemicalOrderingAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ChemicalOrderingAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CompositionEntry"><code class="docutils literal notranslate"><span class="pre">CompositionEntry</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CoordinationNumberAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">CoordinationNumberAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CoulombMatrixAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">CoulombMatrixAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.CrystalStructureEntry"><code class="docutils literal notranslate"><span class="pre">CrystalStructureEntry</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">EffectiveCoordinationNumberAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementFractionAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ElementFractionAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ElementPairPropertyAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ElementalPropertyAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.GCLPAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">GCLPAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">IonicCompoundProximityAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.IonicityAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">IonicityAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.LatticeSimilarityAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">LatticeSimilarityAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">LocalPropertyDifferenceAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.LocalPropertyVarianceAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">LocalPropertyVarianceAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.MeredigAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">MeredigAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PRDFAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">PRDFAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">PackingEfficiencyAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StoichiometricAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">StoichiometricAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.StructuralHeterogeneityAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">StructuralHeterogeneityAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.ValenceShellAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">ValenceShellAttributeGenerator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.chem.magpie_python.html#chemml.chem.magpie_python.YangOmegaAttributeGenerator"><code class="docutils literal notranslate"><span class="pre">YangOmegaAttributeGenerator</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.initialization.html#chemml.initialization.Split"><code class="docutils literal notranslate"><span class="pre">Split</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.initialization.html#chemml.initialization.XYZreader"><code class="docutils literal notranslate"><span class="pre">XYZreader</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html#chemml.datasets.load_cep_homo"><code class="docutils literal notranslate"><span class="pre">load_cep_homo()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html#chemml.datasets.load_comp_energy"><code class="docutils literal notranslate"><span class="pre">load_comp_energy()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html#chemml.datasets.load_crystal_structures"><code class="docutils literal notranslate"><span class="pre">load_crystal_structures()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html#chemml.datasets.load_organic_density"><code class="docutils literal notranslate"><span class="pre">load_organic_density()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.datasets.html#chemml.datasets.load_xyz_polarizability"><code class="docutils literal notranslate"><span class="pre">load_xyz_polarizability()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.ConstantColumns"><code class="docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.MissingValues"><code class="docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.Outliers"><code class="docutils literal notranslate"><span class="pre">Outliers()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.NeuralGraphHidden"><code class="docutils literal notranslate"><span class="pre">NeuralGraphHidden</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.NeuralGraphOutput"><code class="docutils literal notranslate"><span class="pre">NeuralGraphOutput</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.TransferLearning"><code class="docutils literal notranslate"><span class="pre">TransferLearning</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.optimization.html#chemml.optimization.ActiveLearning"><code class="docutils literal notranslate"><span class="pre">ActiveLearning</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.optimization.html#chemml.optimization.GeneticAlgorithm"><code class="docutils literal notranslate"><span class="pre">GeneticAlgorithm</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.explain.html">Explain module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.SavePlot"><code class="docutils literal notranslate"><span class="pre">SavePlot</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.decorator"><code class="docutils literal notranslate"><span class="pre">decorator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.hist"><code class="docutils literal notranslate"><span class="pre">hist</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.scatter2D"><code class="docutils literal notranslate"><span class="pre">scatter2D</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.html">Chem module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.chem.magpie_python.html">Magpie_Python module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 </div>
 </section>
 <section id="wrapper-api-documentation">
-<h1>Wrapper API documentation<a class="headerlink" href="#wrapper-api-documentation" title="Permalink to this heading"></a></h1>
+<h1>Wrapper API documentation<a class="headerlink" href="#wrapper-api-documentation" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper API</span></p>
 <ul>

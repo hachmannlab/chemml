@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Optimization module &mdash; ChemML  documentation</title>
@@ -12,14 +12,15 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Explain module" href="chemml.explain.html" />
+    <link rel="next" title="Visualization module" href="chemml.visualization.html" />
     <link rel="prev" title="Models module" href="chemml.models.html" /> 
 </head>
 
@@ -28,15 +29,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            ChemML
+            <a href="../index.html" class="icon icon-home"> ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -50,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -72,12 +69,7 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.models.html">Models module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Optimization module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#chemml.optimization.ActiveLearning"><code class="docutils literal notranslate"><span class="pre">ActiveLearning</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#chemml.optimization.GeneticAlgorithm"><code class="docutils literal notranslate"><span class="pre">GeneticAlgorithm</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="chemml.explain.html">Explain module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Optimization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
 </li>
@@ -99,10 +91,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
-          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
-      <li class="breadcrumb-item active">Optimization module</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">ChemML API</a> &raquo;</li>
+          <li><a href="API.html">Library API documentation</a> &raquo;</li>
+      <li>Optimization module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/chemml.optimization.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,8 +104,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="optimization-module">
-<h1>Optimization module<a class="headerlink" href="#optimization-module" title="Permalink to this heading"></a></h1>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="optimization-module">
+<h1>Optimization module<a class="headerlink" href="#optimization-module" title="Permalink to this headline"></a></h1>
 <span class="target" id="module-chemml.optimization"></span><dl class="simple">
 <dt>The chemml.optimization module includes (please click on links adjacent to function names for more information):</dt><dd><ul class="simple">
 <li><p>GeneticAlgorithm: <a class="reference internal" href="#chemml.optimization.GeneticAlgorithm" title="chemml.optimization.GeneticAlgorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">GeneticAlgorithm()</span></code></a></p></li>
@@ -123,15 +139,13 @@
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.optimization.ActiveLearning">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></span><span class="sig-name descname"><span class="pre">ActiveLearning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_creator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'passive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></span><span class="sig-name descname"><span class="pre">ActiveLearning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_creator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'passive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[10]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning" title="Permalink to this definition"></a></dt>
 <dd><p>The implementation of active learning of regression models using BEMCM and QBC methods and approaches for distribution shift alleviations.
 This algorithm assumes that you have a pool of unlabeled data points and a limited budget to label them.
 Thus, we combine the efficiency of the machine learning models with our active learning approach to suggest
 optimal number of calculations to provide labeled data.</p>
 <p>The implementation of this algorithm follows an interactive approach.
 In other words, we often ask you to provide labels for the selected data points.</p>
-<section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <dl>
 <dt>model_creator<span class="classifier">FunctionType</span></dt><dd><p>It’s a function that returns the model. We call this function a couple of times during the search to build
 fresh models with random weights.
@@ -185,9 +199,6 @@ our active learning approaches should query every round. The order of active lea
 rounds to memorize for the distribution shift alleviation (DSA) approach.</p>
 </dd>
 </dl>
-</section>
-<section id="attributes">
-<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h2>
 <dl>
 <dt>queries<span class="classifier">list</span></dt><dd><p>This list provides information regarding the indices of queried candidates.
 for each element of the list:</p>
@@ -213,18 +224,12 @@ for each element of the list:</p>
 <dt>random_results<span class="classifier">pandas.DataFrame</span></dt><dd><p>The final results of the random search.</p>
 </dd>
 </dl>
-</section>
-<section id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h2>
 <p>initialize
 deposit
 search
 random_search
 visualize
 get_target_layer</p>
-</section>
-<section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>You won’t be able to resume the search unless you deposit the requested labeled data.</p></li>
 </ul>
@@ -232,8 +237,6 @@ get_target_layer</p>
 <dt class="sig sig-object py" id="chemml.optimization.ActiveLearning.deposit">
 <span class="sig-name descname"><span class="pre">deposit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.deposit" title="Permalink to this definition"></a></dt>
 <dd><p>This function helps you to deposit the data for candidates that were queried by initialize or search functions.</p>
-<section id="id1">
-<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>indices: array-like</dt><dd><p>A 1-dimensional array of indices that was queried by initialize or search methods.
 You can deposit the data partially and it doesn’t have to be the entire array that is queried.</p>
@@ -243,27 +246,20 @@ The first dimension of the array should be equal to the number of indices.
 Y must be at least 2 dimensional.</p>
 </dd>
 </dl>
-</section>
-<section id="returns">
-<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>check<span class="classifier">bool</span></dt><dd><p>True, if deposited properly. False, otherwise.</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.optimization.ActiveLearning.get_target_layer">
 <span class="sig-name descname"><span class="pre">get_target_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.get_target_layer" title="Permalink to this definition"></a></dt>
 <dd><p>The main function to get the latent features from the linear layer of the keras model.</p>
-<section id="id2">
-<h3>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>target_layer<span class="classifier">array-like</span></dt><dd><p>The concatenated array of the specified hidden layers by parameter <cite>target_layer</cite>.</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -271,13 +267,10 @@ Y must be at least 2 dimensional.</p>
 <span class="sig-name descname"><span class="pre">ignore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.ignore" title="Permalink to this definition"></a></dt>
 <dd><p>If you found out that the experimental setup or computational research on some of the candidates
 is not feasible, just pass a list of their indices here and we remove them from the list of queries.</p>
-<section id="id3">
-<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>indices<span class="classifier">array-like</span></dt><dd><p>A 1D array of all the indices that should be removed from the list of <cite>queries</cite>.</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -285,16 +278,11 @@ is not feasible, just pass a list of their indices here and we remove them from 
 <span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.initialize" title="Permalink to this definition"></a></dt>
 <dd><p>The function to initialize the training and test set for the search.
 You can run this function only once before starting the search.</p>
-<section id="id4">
-<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>random_state<span class="classifier">int or RandomState, optional (default = 90)</span></dt><dd><p>The random state will be directly passed to the sklearn.model_selection.ShuffleSplit
 extra info at: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn-model-selection-shufflesplit">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn-model-selection-shufflesplit</a></p>
 </dd>
 </dl>
-</section>
-<section id="id5">
-<h3>Returns<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>train_indices<span class="classifier">array-like</span></dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
 This is a 1D array.</p>
@@ -302,15 +290,12 @@ This is a 1D array.</p>
 <dt>test_indices<span class="classifier">array-like</span></dt><dd><p>The test set indices (Python 0-index) from the pool of candidates (U).</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.optimization.ActiveLearning.random_search">
 <span class="sig-name descname"><span class="pre">random_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'passive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_evaluation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.ActiveLearning.random_search" title="Permalink to this definition"></a></dt>
 <dd><p>This function randomly select same number of data points as the active learning rounds and store the results.</p>
-<section id="id6">
-<h3>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>Y: array-like</dt><dd><p>The 2-dimensional label for all the candidates in the pool. Basically, you won’t run this method unless you have the labels
 for all your samples. Otherwise, trust us and perform an active learning search.</p>
@@ -333,24 +318,17 @@ Please find additional info at: <a class="reference external" href="https://scik
 <dt>kwargs</dt><dd><p>Any argument (except input data) that should be passed to the model’s fit method.</p>
 </dd>
 </dl>
-</section>
-<section id="id7">
-<h3>Attributes<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>random_results: pandas dataframe</dt><dd><p>The results from the random sampling to provide the baseline for your active learning search.
 You need to</p>
 </dd>
 </dl>
-</section>
-<section id="id8">
-<h3>Notes<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>This method replicate the active learning training size with random sampling approach. Thus, you can run</p></li>
 </ul>
 <p>this function only if the results is not empty, i.e., you have run the active learning search at least once.</p>
 </div></blockquote>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -359,8 +337,6 @@ You need to</p>
 <dd><p>The main function to start or continue an active learning search.
 The bootstrap approach is used to generate an ensemble of models that estimate the prediction
 distribution of the candidates’ labels.</p>
-<section id="id9">
-<h3>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
 <dl>
 <dt>n_evaluation<span class="classifier">int, optional (default = 3)</span></dt><dd><p>number of times to repeat training of the model and evaluation on test set.</p>
 </dd>
@@ -388,15 +364,11 @@ Additional info at: <a class="reference external" href="https://scikit-learn.org
 <dt>kwargs</dt><dd><p>Any argument (except input data) that should be passed to the model’s fit method.</p>
 </dd>
 </dl>
-</section>
-<section id="id10">
-<h3>Returns<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>train_indices<span class="classifier">array-like</span></dt><dd><p>The training set indices (Python 0-index) from the pool of candidates (U).
 This is a 1D array.</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -407,32 +379,23 @@ active learning search.
 Note that this function uses the prediction values in the attribute <cite>Y_pred</cite>. This attribute will be updated after
 each round of search. Thus, we recommend you run <cite>visualize</cite> right after each call of search method to get a trajectory
 of the active learning process.</p>
-<section id="id11">
-<h3>Parameters<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>Y: array-like, optional (default = None)</dt><dd><p>The 2-dimensional label for all the candidates in the pool (in case you have them!!!).
 If you have all the labels, we will be able to produce additional cool visualizations.</p>
 </dd>
 </dl>
-</section>
-<section id="id12">
-<h3>Returns<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>list</dt><dd><p>A list of matplotlib.figure.Figure or tuples. This object contains information about the plot</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.optimization.GeneticAlgorithm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></span><span class="sig-name descname"><span class="pre">GeneticAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evaluate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Max',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blend'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fused_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.optimization.</span></span><span class="sig-name descname"><span class="pre">GeneticAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evaluate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Max',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blend'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fused_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm" title="Permalink to this definition"></a></dt>
 <dd><p>A python implementation of real-valued, genetic algorithm for solving optimization problems.</p>
-<section id="id13">
-<h2>Parameters<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
 <dl>
 <dt>evaluate<span class="classifier">function</span></dt><dd><p>The objective function that has to be optimized. The first parameter of the objective function is a list of the trial values of the hyper-parameters in the order in which they are declared in the space variable. The objective function should always return a tuple with the metric/metrics for single/multi-objective optimization.</p>
 </dd>
@@ -498,9 +461,7 @@ n members are selected as the initial population for the next generation, where 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.optimization.GeneticAlgorithm.search">
 <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_generations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.optimization.GeneticAlgorithm.search" title="Permalink to this definition"></a></dt>
-<dd><section id="id14">
-<h3>Parameters<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
-<dl class="simple">
+<dd><dl class="simple">
 <dt>n_generations<span class="classifier">integer, optional (default = 20)</span></dt><dd><p>An integer for the number of generations to evolve the population for.</p>
 </dd>
 <dt>early_stopping<span class="classifier">int, optional (default=10)</span></dt><dd><p>Integer specifying the maximum number of generations for which the algorithm can select the same best individual, after which 
@@ -511,28 +472,20 @@ the search terminates.</p>
 <dt>crossover_ratio<span class="classifier">float, optional (default = 0.3)</span></dt><dd><p>Fraction of crossover population to select for next generation. Required only for algorithm 3.</p>
 </dd>
 </dl>
-</section>
-<section id="id15">
-<h3>Attributes<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>population<span class="classifier">list,</span></dt><dd><p>list of individuals from the final generation</p>
 </dd>
 <dt>fitness_dict<span class="classifier">dict,</span></dt><dd><p>dictionary of all individuals evaluated by the algorithm</p>
 </dd>
 </dl>
-</section>
-<section id="id16">
-<h3>Returns<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>best_ind_df<span class="classifier">pandas dataframe</span></dt><dd><p>A pandas dataframe of best individuals of each generation</p>
 </dd>
 <dt>best_ind<span class="classifier">dict,</span></dt><dd><p>The best individual after the last generation.</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 </section>
@@ -542,7 +495,7 @@ the search terminates.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="chemml.models.html" class="btn btn-neutral float-left" title="Models module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="chemml.explain.html" class="btn btn-neutral float-right" title="Explain module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chemml.visualization.html" class="btn btn-neutral float-right" title="Visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -197,9 +197,12 @@ class ModelScreener(object):
         for smi in self.smiles:
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
-            mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
-            mol_objs_list.append(mol)
-
+            try:
+                mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
+                mol_objs_list.append(mol)
+            except Exception as e:
+                print("Unable to process smile: ", smi)
+                
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
         self.x_list["CoulombMatrix"] = CM.represent(mol_objs_list)
@@ -437,7 +440,6 @@ class ModelScreener(object):
 
 
             for model_name in space_models.keys():
-            # for model_name in ['RandomForestRegressor', 'Ridge', 'Lasso', 'ElasticNet']:
                 tmp_counter = tmp_counter+1
                 print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
                 try:
@@ -463,27 +465,3 @@ class ModelScreener(object):
         best_models = self.aggregate_scores(scores_list,n_best)
 
         return best_models
-
-
-# Raises
-#         ------
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         TypeError
-#             _description_

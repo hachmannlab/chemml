@@ -108,8 +108,8 @@ Please cite the use of ChemML as:
    ./model_task/index
    ./optimize_task/index
    ./visualize_task/index
-   
-   
+   ./automl_task/index
+      
 
 
 .. toctree::
@@ -148,9 +148,9 @@ About us:
 :Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
     - Mojtaba Haghighatlari
+    - Aatish Pradhan, aatishpr@buffalo.edu
     - Aditya Sonpal, adityaso@buffalo.edu
     - Gaurav Vishwakarma
-    - Aatish Pradhan aatishpr@buffalo.edu
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
@@ -162,7 +162,7 @@ About us:
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
-    - Aatish Pradhan (UB): Jupyter GUI developer
+    - Aatish Pradhan (UB): AutoML and Jupyter GUI developer
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

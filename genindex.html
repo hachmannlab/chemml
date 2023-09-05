@@ -11,8 +11,9 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -25,15 +26,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="index.html" class="icon icon-home">
-            ChemML
+            <a href="index.html" class="icon icon-home"> ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -47,8 +44,8 @@
 <li class="toctree-l1"><a class="reference internal" href="prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_task/index.html">Optimize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automl_task/index.html">AutoML</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -77,8 +74,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Index</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -334,18 +331,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/chemml.chem.magpie_python.html#chemml.chem.magpie_python.APEAttributeGenerator.find_efficiently_packed_clusters">find_efficiently_packed_clusters() (chemml.chem.magpie_python.APEAttributeGenerator class method)</a>
 </li>
-      <li><a href="API/chemml.initialization.html#chemml.initialization.Split.fit">fit() (chemml.initialization.Split method)</a>
+      <li><a href="API/chemml.initialization.html#chemml.initialization.SaveFile.fit">fit() (chemml.initialization.SaveFile method)</a>
 
       <ul>
-        <li><a href="API/chemml.visualization.html#chemml.visualization.decorator.fit">(chemml.visualization.decorator method)</a>
+        <li><a href="API/chemml.initialization.html#chemml.initialization.Split.fit">(chemml.initialization.Split method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API/chemml.models.html#chemml.models.NeuralGraphHidden.from_config">from_config() (chemml.models.NeuralGraphHidden class method)</a>
-
-      <ul>
-        <li><a href="API/chemml.models.html#chemml.models.NeuralGraphOutput.from_config">(chemml.models.NeuralGraphOutput class method)</a>
+        <li><a href="API/chemml.visualization.html#chemml.visualization.decorator.fit">(chemml.visualization.decorator method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -647,6 +638,8 @@
         <li><a href="API/chemml.visualization.html#chemml.visualization.SavePlot.save">(chemml.visualization.SavePlot method)</a>
 </li>
       </ul></li>
+      <li><a href="API/chemml.initialization.html#chemml.initialization.SaveFile">SaveFile (class in chemml.initialization)</a>
+</li>
       <li><a href="API/chemml.visualization.html#chemml.visualization.SavePlot">SavePlot (class in chemml.visualization)</a>
 </li>
       <li><a href="API/chemml.visualization.html#chemml.visualization.scatter2D">scatter2D (class in chemml.visualization)</a>

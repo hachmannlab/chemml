@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Introduction to ChemML Library &mdash; ChemML  documentation</title>
@@ -12,8 +12,9 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -28,15 +29,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="index.html" class="icon icon-home">
-            ChemML
+            <a href="index.html" class="icon icon-home"> ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,8 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="prepare_task/index.html">Prepare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_task/index.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimize_task/index.html">Optimize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automl_task/index.html">AutoML</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -83,8 +80,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Introduction to ChemML Library</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction to ChemML Library</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/chemml_library.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -94,8 +91,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="introduction-to-chemml-library">
-<h1>Introduction to ChemML Library<a class="headerlink" href="#introduction-to-chemml-library" title="Permalink to this heading"></a></h1>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="introduction-to-chemml-library">
+<h1>Introduction to ChemML Library<a class="headerlink" href="#introduction-to-chemml-library" title="Permalink to this headline"></a></h1>
 <p>ChemML is an open machine learning (ML) and informatics program suite that is designed to support and advance the data-driven research paradigm that is currently emerging in the chemical and materials domain. ChemML allows its users to perform various data science tasks and execute ML workflows that are
 adapted specifically for the chemical and materials context. Key features are automation, general-purpose utility, versatility, and user-friendliness in order to make the application of modern data science a viable and widely accessible proposition in the broader chemistry and materials community. ChemML is also designed to facilitate methodological innovation, and it is one of the cornerstones of the software ecosystem for data-driven in silico research.</p>
 <a class="reference external image-reference" href="https://mojtabah.github.io/ChemML"><img alt="_images/chemml_tasks.png" src="_images/chemml_tasks.png" style="width: 540px;" /></a>
@@ -128,31 +149,24 @@ reimplementation of all composition-based and crystal-structure-based features a
 </dl>
 </li>
 <li><dl class="simple">
-<dt>Explain</dt><dd><p>This class provides explainations for deep neural networks using XAI three XAI methods. It supports intuitive vizualization methods which further illuminate the black-box of deep neural networks. The module provides a ranking of features based on their contribution towards the predictions of our deep neural network.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
 <dt>Visualize</dt><dd><p>Data visualization methods that help facilitate a better comprehension of the modeling results are available via a separate module, which builds on the Matplotlib and Seaborn libraries for key visualization elements. These elements are accessible as part of any ML workflow.</p>
 </dd>
 </dl>
 </li>
 </ul>
 <section id="citation">
-<h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this heading"></a></h2>
+<h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline"></a></h2>
 <p>Please cite the use of ChemML as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Main</span> <span class="n">citation</span><span class="p">:</span>
 
- <span class="nd">@article</span><span class="p">{</span><span class="n">haghighatlari2019chemml</span><span class="p">,</span>
-     <span class="n">title</span>        <span class="o">=</span> <span class="p">{{</span><span class="n">ChemML</span><span class="p">}:</span> <span class="n">A</span> <span class="n">machine</span> <span class="n">learning</span> <span class="ow">and</span> <span class="n">informatics</span> <span class="n">program</span> <span class="n">package</span> <span class="k">for</span> <span class="n">the</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">mining</span><span class="p">,</span> <span class="ow">and</span> <span class="n">modeling</span> <span class="n">of</span> <span class="n">chemical</span> <span class="ow">and</span> <span class="n">materials</span> <span class="n">data</span><span class="p">},</span>
-     <span class="n">author</span>       <span class="o">=</span> <span class="p">{</span><span class="n">Haghighatlari</span><span class="p">,</span> <span class="n">Mojtaba</span> <span class="ow">and</span> <span class="n">Vishwakarma</span><span class="p">,</span> <span class="n">Gaurav</span> <span class="ow">and</span> <span class="n">Altarawy</span><span class="p">,</span> <span class="n">Doaa</span> <span class="ow">and</span> <span class="n">Subramanian</span><span class="p">,</span> <span class="n">Ramachandran</span> <span class="ow">and</span> <span class="n">Kota</span><span class="p">,</span> <span class="n">Bhargava</span> <span class="n">U</span> <span class="ow">and</span> <span class="n">Sonpal</span><span class="p">,</span> <span class="n">Aditya</span> <span class="ow">and</span> <span class="n">Setlur</span><span class="p">,</span> <span class="n">Srirangaraj</span> <span class="ow">and</span> <span class="n">Hachmann</span><span class="p">,</span> <span class="n">Johannes</span><span class="p">},</span>
-     <span class="n">year</span>         <span class="o">=</span> <span class="mi">2020</span><span class="p">,</span>
-     <span class="n">journal</span>      <span class="o">=</span> <span class="p">{</span><span class="n">Wiley</span> <span class="n">Interdisciplinary</span> <span class="n">Reviews</span><span class="p">:</span> <span class="n">Computational</span> <span class="n">Molecular</span> <span class="n">Science</span><span class="p">},</span>
-     <span class="n">publisher</span>    <span class="o">=</span> <span class="p">{</span><span class="n">Wiley</span> <span class="n">Online</span> <span class="n">Library</span><span class="p">},</span>
-     <span class="n">volume</span>       <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-     <span class="n">doi</span>          <span class="o">=</span> <span class="p">{</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">doi</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mf">10.1002</span><span class="o">/</span><span class="n">wcms</span><span class="mf">.1458</span><span class="p">},</span>
-     <span class="n">pages</span>        <span class="o">=</span> <span class="p">{</span><span class="n">e1458</span><span class="p">},</span>
- <span class="p">}</span>
+<span class="nd">@article</span><span class="p">{</span><span class="n">chemml2019</span><span class="p">,</span>
+<span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Haghighatlari</span><span class="p">,</span> <span class="n">Mojtaba</span> <span class="ow">and</span> <span class="n">Vishwakarma</span><span class="p">,</span> <span class="n">Gaurav</span> <span class="ow">and</span> <span class="n">Altarawy</span><span class="p">,</span> <span class="n">Doaa</span> <span class="ow">and</span> <span class="n">Subramanian</span><span class="p">,</span> <span class="n">Ramachandran</span> <span class="ow">and</span> <span class="n">Kota</span><span class="p">,</span> <span class="n">Bhargava</span> <span class="n">Urala</span> <span class="ow">and</span> <span class="n">Sonpal</span><span class="p">,</span> <span class="n">Aditya</span> <span class="ow">and</span> <span class="n">Setlur</span><span class="p">,</span> <span class="n">Srirangaraj</span> <span class="ow">and</span> <span class="n">Hachmann</span><span class="p">,</span> <span class="n">Johannes</span><span class="p">},</span>
+<span class="n">journal</span> <span class="o">=</span> <span class="p">{</span><span class="n">ChemRxiv</span><span class="p">},</span>
+<span class="n">pages</span> <span class="o">=</span> <span class="p">{</span><span class="mi">8323271</span><span class="p">},</span>
+<span class="n">title</span> <span class="o">=</span> <span class="p">{</span><span class="n">ChemML</span><span class="p">:</span> <span class="n">A</span> <span class="n">Machine</span> <span class="n">Learning</span> <span class="ow">and</span> <span class="n">Informatics</span> <span class="n">Program</span> <span class="n">Package</span> <span class="k">for</span> <span class="n">the</span> <span class="n">Analysis</span><span class="p">,</span> <span class="n">Mining</span><span class="p">,</span> <span class="ow">and</span> <span class="n">Modeling</span> <span class="n">of</span> <span class="n">Chemical</span> <span class="ow">and</span> <span class="n">Materials</span> <span class="n">Data</span><span class="p">},</span>
+<span class="n">doi</span> <span class="o">=</span> <span class="p">{</span><span class="mf">10.26434</span><span class="o">/</span><span class="n">chemrxiv</span><span class="mf">.8323271</span><span class="o">.</span><span class="n">v1</span><span class="p">},</span>
+<span class="n">year</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2019</span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>

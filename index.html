@@ -159,6 +159,17 @@ pip install chemml
 </dd>
 </dl>
 </section>
+<section id="errors-during-installation">
+<h2>Errors during installation:<a class="headerlink" href="#errors-during-installation" title="Permalink to this headline"></a></h2>
+<p>After installing ChemML in an Anaconda environment, you may run into the following error with respect to the rdkit module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ImportError: /lib64/libstdc++.so.6: version `CXXABI_1.3.9&#39; not found
+</pre></div>
+</div>
+<p>Solution: Activate the environment in which you have installed ChemML and use the following code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/path/to/chemml_env/lib
+</pre></div>
+</div>
+</section>
 <section id="citation">
 <h2>Citation:<a class="headerlink" href="#citation" title="Permalink to this headline"></a></h2>
 <p>Please cite the use of ChemML as:</p>
@@ -397,10 +408,10 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
 <dt class="field-odd">Maintainers</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>Johannes Hachmann, <a class="reference external" href="mailto:hachmann&#37;&#52;&#48;buffalo&#46;edu">hachmann<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
-<li><p>Mojtaba Haghighatlari</p></li>
 <li><p>Aatish Pradhan, <a class="reference external" href="mailto:aatishpr&#37;&#52;&#48;buffalo&#46;edu">aatishpr<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
 <li><p>Aditya Sonpal, <a class="reference external" href="mailto:adityaso&#37;&#52;&#48;buffalo&#46;edu">adityaso<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
 <li><p>Gaurav Vishwakarma</p></li>
+<li><p>Mojtaba Haghighatlari</p></li>
 </ul>
 <p>University at Buffalo - The State University of New York (UB)</p>
 </dd>

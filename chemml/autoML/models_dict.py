@@ -7,6 +7,11 @@ models_dict = {
     "GradientBoostingRegressor": "sklearn.ensemble",
     "RandomForestRegressor":"sklearn.ensemble",
     "DecisionTreeRegressor":"sklearn.tree",
+    "LogisticRegression": "sklearn.linear_model",
+    "RandomForestClassifier": "sklearn.ensemble",
+    "DecisionTreeClassifier": "sklearn.tree",
+    "SVC": "sklearn.svm",
+    "KNeighborsClassifier": "sklearn.neighbors",
     # "LightGBM":,
     # "XGBoost":,
         

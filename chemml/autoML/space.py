@@ -41,8 +41,7 @@ space_models = {
                         ],
 
                 'SVR':  [
-                                {'kernel': {'choice': ['linear','rbf','poly'], 
-                                        'mutation': [0, 0.5]}},
+                                {'kernel': {'choice': ['linear','rbf','poly']}},
                                 {'C': {'uniform': [1,100], 
                                         'mutation': [0, 0.5]}}
                         ],
@@ -61,4 +60,42 @@ space_models = {
                                 {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
                                 'mutation': [0, 1]}},
                                 ],
+                }
+
+space_models_classifiers = {
+                "LogisticRegression": [
+                        {'C': {'choice': np.linspace(start=0.1, stop=100, num=20, endpoint=True).tolist()}},
+                        {'fit_intercept': {'choice': [True, False]}},
+                        {'solver': {'choice': ['lbfgs', 'liblinear', 'newton-cg', 'sag', 'saga']}},
+                        {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],             
+                        'mutation': [0, 1]}}                                              
+                        ], 
+
+                "DecisionTreeClassifier": [
+                        {"criterion": {"choice": ["gini", "entropy"]}},
+                        {"splitter": {"choice": ["best", "random"]}},
+                        {"min_samples_split": {"choice": range(2,10)}},
+                        {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}}
+                        ],
+                
+                "RandomForestClassifier": [
+                        {"n_estimators": {"choice": range(10,200)}},
+                        {"criterion": {"choice": ["gini", "entropy"]}},
+                        {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}}
+                        ],
+                
+                "SVC": [
+                        {'C': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}},
+                        {"kernel": {"choice": ["linear", "poly", "rbf", "sigmoid"]}},
+                        ],
+                
+                "KNeighborsClassifier": [
+                        {"n_neighbors": {"choice": range(2,100)}},
+                        {"weights": {"choice": ["uniform", "distance"]}},
+                        {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}}
+                        ],
                 }

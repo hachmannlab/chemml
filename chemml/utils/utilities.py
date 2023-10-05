@@ -1,6 +1,7 @@
 from builtins import range
 import datetime
 import numpy as np
+import pandas as pd
 import time
 import os
 import json
@@ -366,8 +367,8 @@ def classification_metrics(y_true, y_predicted):
     if isinstance(y_true,np.ndarray):
         all_classes = np.unique(y_true)
     else:
-        y_true_tmp = np.array(y_true)
-        all_classes = np.unique(y_true_tmp)
+        y_true = np.array(y_true)
+        all_classes = np.unique(y_true)
     
     #create confusion matrix
     confusion_matrix = np.zeros((len(all_classes), len(all_classes)))
@@ -387,7 +388,7 @@ def classification_metrics(y_true, y_predicted):
     TN = []
     FN = []
 
-    for index ,_id in enumerate(class_id):
+    for index , _id in enumerate(class_id):
         TP.append(0)
         FP.append(0)
         TN.append(0)

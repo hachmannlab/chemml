@@ -1,6 +1,7 @@
 from builtins import range
 import datetime
 import numpy as np
+import pandas as pd
 import time
 import os
 import json
@@ -343,22 +344,31 @@ def zip_mixed(*mixed_iterables, **kwargs):
 
     return zip(*mixed_iterables)
 
-def classification_metrics(y_true, y_predicted, thresholds=np.linspace(0, 1, 50)):
+def classification_metrics(y_true, y_predicted):
     """
     This function calculates and prints accuracy, precision, recall, and f1_score for a given set of
     true and predicted labels.
     
-    :param y_true: The true labels of the data, i.e. the ground truth
-    :param y_predicted: The predicted labels for a classification problem
-    :return: four arrays: accuracy, precision, recall, and f1_score.
-    """
+    Parameters
+    ----------
+    y_true : list
+        The true labels of the data, i.e. the ground truth
+    y_predicted : list
+        The predicted labels for a classification problem
+    
+    Returns
+    -------
+    tuple of accuracy value and pandas DataFrames for confusion matrix and all_other_metrics
+        accuracy, confusion_matrix, all_other_metrics
+    """    
+
 
     #find different classes 
     if isinstance(y_true,np.ndarray):
         all_classes = np.unique(y_true)
     else:
-        y_true_tmp = np.array(y_true)
-        all_classes = np.unique(y_true_tmp)
+        y_true = np.array(y_true)
+        all_classes = np.unique(y_true)
     
     #create confusion matrix
     confusion_matrix = np.zeros((len(all_classes), len(all_classes)))
@@ -378,7 +388,7 @@ def classification_metrics(y_true, y_predicted, thresholds=np.linspace(0, 1, 50)
     TN = []
     FN = []
 
-    for index ,_id in enumerate(class_id):
+    for index , _id in enumerate(class_id):
         TP.append(0)
         FP.append(0)
         TN.append(0)

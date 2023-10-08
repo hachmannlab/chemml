@@ -45,6 +45,20 @@ Note: Here is a list of external libraries that will be installed with chemml:
    - openpyxl 
    - ipywidgets
 
+Errors during installation:
+++++++++++++++++++++++++++++++
+After installing ChemML in an Anaconda environment, you may run into the following error with respect to the rdkit module: 
+
+.. code:: bash
+
+    ImportError: /lib64/libstdc++.so.6: version `CXXABI_1.3.9' not found
+
+Solution: Activate the environment in which you have installed ChemML and use the following code:
+
+.. code:: bash
+   
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/chemml_env/lib
+
 Citation:
 +++++++++
 Please cite the use of ChemML as:
@@ -108,8 +122,8 @@ Please cite the use of ChemML as:
    ./model_task/index
    ./optimize_task/index
    ./visualize_task/index
-   
-   
+   ./automl_task/index
+      
 
 
 .. toctree::
@@ -134,11 +148,9 @@ Please cite the use of ChemML as:
    
 
 
-
-
 License:
 ++++++++
-ChemML is copyright (C) 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+ChemML is copyright (C) 2014-2023 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 
@@ -147,10 +159,10 @@ About us:
 
 :Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
-    - Mojtaba Haghighatlari
+    - Aatish Pradhan, aatishpr@buffalo.edu
     - Aditya Sonpal, adityaso@buffalo.edu
     - Gaurav Vishwakarma
-    - Aatish Pradhan aatishpr@buffalo.edu
+    - Mojtaba Haghighatlari
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
@@ -162,7 +174,7 @@ About us:
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
-    - Aatish Pradhan (UB): Jupyter GUI developer
+    - Aatish Pradhan (UB): AutoML and Jupyter GUI developer
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

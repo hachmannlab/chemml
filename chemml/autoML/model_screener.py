@@ -1,17 +1,20 @@
-import warnings
-import time
 import os
+import traceback
 import pandas as pd
 import numpy as np
 from sklearn.utils import all_estimators
 from chemml.utils import regression_metrics
+from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from sklearn.model_selection import train_test_split, KFold
 from chemml.optimization import GeneticAlgorithm
 from chemml.chem import RDKitFingerprint
 from chemml.chem import Molecule
 import warnings
 import random
+import time
 from importlib import import_module
+import multiprocessing
+
 warnings.filterwarnings("ignore")
 
 
@@ -99,85 +102,158 @@ class ModelScreener(object):
         else:
             raise TypeError("Parameter 'output_file' must be of type str")
 
-    def get_all_models_sklearn(self, filter):
-        """
-        It returns a list of all the models in sklearn that match the filter
+    def run_model(self, model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key):
 
-        Parameters
-        ----------
-        filter : str
-            This is a function that takes a class and returns True if the class should be included in the list of estimators
-
-        Returns
-        -------
-        list
-            A list of all the models that are in the sklearn library
-        """        
+        def single_obj(model, x, y):
+            n_splits=4
+            kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
+            accuracy_kfold = []
+            for train_index, test_index in kf.split(x):
+                x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
+                y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
+                model.fit(x_training, y_training)
+                y_pred = model.predict(x_testing)
+                if self.screener_type == "regressor":
+                    score = regression_metrics(y_testing, y_pred)['r_squared'][0]
+                else:
+                    score = accuracy_score(y_testing, y_pred)
+                # evaluation metric:  r2_score
+                accuracy_kfold.append(score)                                   # creates list of accuracies for each fold
+            return np.mean(accuracy_kfold)
         
-        estimators = all_estimators(type_filter=filter)
-        all_regs = []
-        for name, RegClass in estimators:
-            # print('Appending', name)
-            try:
-                reg = RegClass()
-                all_regs.append(reg)
-            except Exception as e:
-                pass
-        return all_regs
+        def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
+            ml_model.fit(x, y)
+            ypred = ml_model.predict(xtest)
+            if self.screener_type == "regressor":            
+                scores = regression_metrics(y_true=y_test, y_predicted=ypred)
+                time_taken = time.time() - model_start_time
+                scores["time(seconds)"]= time_taken
+                scores["Model"]=model_name
+                scores['parameters']=[ml_model.get_params()]
+                scores['Feature']=key
+                
+
+            elif self.screener_type == "classifier":
+                accuracy = accuracy_score(y_test, ypred)
+                recall = recall_score(y_test, ypred, average='macro')
+                precision = precision_score(y_test, ypred, average='macro')
+                f1score = f1_score(y_test, ypred, average='macro')
+                time_taken = time.time() - model_start_time
+                scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key}
+                scores = pd.Series(scores)
+                scores = pd.DataFrame(scores)
+                scores = scores.T
+
+            else:
+                print("Work in progress...\n")
+                print("classifier and regressor scores can be separately obtained: ")
+                print("""set screener_type to 'regressor' or 'classifier'  """)
+                scores = None
+
+            return scores
+
+        def set_hyper_params(parameters_list, model_name):
+            # print("parameters_list: ", parameters_list)
+            from .models_dict import models_dict
+            module = import_module(models_dict[model_name])
+
+            if model_name == 'MLPRegressor':
+                layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
+                model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
+
+            elif model_name == 'GradientBoostingRegressor':
+                model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
+
+            elif model_name == 'RandomForestRegressor':
+                model = getattr(module,model_name)(n_estimators=parameters_list[0],criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
+    
+            elif model_name == 'Ridge':
+                model = getattr(module,model_name)(alpha=parameters_list[0])
+
+            elif model_name == 'Lasso':
+                model = getattr(module, model_name)(alpha=np.exp(parameters_list[0]))
+
+            elif model_name == 'SVR':
+                model = getattr(module,model_name)(kernel=parameters_list[0], C=parameters_list[1])
+                                
+            elif model_name == 'ElasticNet':
+                model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
+
+            elif model_name == 'DecisionTreeRegressor':
+                model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
             
-    # def obtain_error_metrics(self, y_test, y_predict, model_name, model_start_time):
-    #     """
-    #     It takes in the true values of the target variable, the predicted values of the target variable,
-    #     the name of the model, and the time at which the model started training. 
-        
-    #     It then returns a dictionary containing the error metrics for the model. 
-        
-    #     The error metrics returned depend on the type of the target variable. 
-        
-    #     If the target variable is a continuous variable, then the function returns the mean absolute
-    #     error and the R2 score. 
-        
-    #     If the target variable is a categorical variable, then the function returns the accuracy,
-    #     recall, precision, and F1 score. 
-        
-    #     If the target variable is neither continuous nor categorical, then the function returns None.
-        
-    #     :param y_test: the actual values of the target variable
-    #     :param y_predict: the predicted values of the target variable
-    #     :param model_name: name of the model
-    #     :param model_start_time: The time at which the model started training
-    #     """
-        
-    #     if self.screener_type == "regressor":
-    #         # r2 = r2_score(y_test, y_predict)
-    #         # mae = mean_absolute_error(y_test, y_predict)
-    #         # time_taken = time.time() - model_start_time
-    #         # scores = {"Model": model_name, "MAE": mae, "R2_score": r2, "time(seconds)": time_taken}
+            elif model_name == "LogisticRegression":
+                model = getattr(module,model_name)(C=parameters_list[0], fit_intercept=parameters_list[1], solver=parameters_list[2])
+
+            elif model_name == "DecisionTreeClassifier":
+                model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2])
             
-    #         scores = regression_metrics(y_true=y_test, y_predicted=y_predict)
-    #         time_taken = time.time() - model_start_time
-    #         scores = scores.to_dict()
-    #         scores["time(seconds)"]= time_taken
-    #         scores["Model"]=model_name
-    #         scores["Feature"]=key
-    #         # print(scores)
+            elif model_name == "RandomForestClassifier":
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], criterion=parameters_list[1])
 
+            elif model_name == "SVC":
+                model = getattr(module,model_name)(C=np.exp(parameters_list[0]), kernel=parameters_list[1])
+            
+            elif model_name == "KNeighborsClassifier":
+                model = getattr(module,model_name)(n_neighbors=parameters_list[0], weights=parameters_list[1])
 
-    #     elif self.screener_type == "classifier":
-    #         accuracy = accuracy_score(y_test, y_predict)
-    #         recall = recall_score(y_test, y_predict, average='macro')
-    #         precision = precision_score(y_test, y_predict, average='macro')
-    #         f1score = f1_score(y_test, y_predict, average='macro')
-    #         time_taken = time.time() - model_start_time
-    #         scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken}
+            else:
+                raise ValueError("This model cannot be used currently. Please refer to documentation. ")
+            
+            return model
         
-    #     else:
-    #         print("Work in progress...\n")
-    #         print("classifier and regressor scores can be separately obtained: ")
-    #         print("""set screener_type to 'regressor' or 'classifier'  """)
-    #         scores = None
-    #     return scores
-        # return None
+        def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
+                    
+            start_time_ga = time.time()
+                    
+            def ga_eval(indi,model_name=model_name):
+                with open (self.output_file,'a') as ga_progress:
+                    ga_progress.write(str(indi))
+                model = set_hyper_params(parameters_list=indi, model_name=model_name)
+                ga_search = single_obj(model=model, x=X_train, y=y_train)
+                return ga_search 
+
+            gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 20, crossover_size=2, mutation_size=1, algorithm=al)
+            best_ind_df, best_individual = gann.search(n_generations=self.n_gen, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
+            print(model_name, ": GeneticAlgorithm - complete")
+            
+            all_items = list(gann.fitness_dict.items())
+            all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
+            all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
+            
+            best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
+            best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
+            ga_time = (time.time() - start_time_ga)/3600
+            
+            best_hyper_params = best_ind_df["Best_individual"][0]
+            best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
+            
+            ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
+            print("Model:", model_name)
+            print("GA time(hours): ", ga_time)
+            print("\n")
+            return ga_accuracy_test
+
+        try:
+            print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
+            model_start_time = time.time()
+            space_final = tuple(space_models[model_name])
+            with open(output_file, 'a') as ga_progress:
+                ga_progress.write("\n" + model_name)
+                ga_progress.write("\n")
+
+            scores_list.append(ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3))
+            print("scores_list: ", scores_list)
+            print("--------------------------------------------------------------------------------")
+            with open(output_file, 'a') as ga_progress:
+                ga_progress.write("\nPerforming GA on next model \n")
+        except Exception as e: 
+            print("model_name: ", model_name)
+            print(traceback.format_exc())
+            # print(e)
+            print("\n")
+        
+        return scores_list
 
     def _represent_smiles(self):
         """
@@ -197,9 +273,12 @@ class ModelScreener(object):
         for smi in self.smiles:
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
-            mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
-            mol_objs_list.append(mol)
-
+            try:
+                mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
+                mol_objs_list.append(mol)
+            except Exception as e:
+                print("Unable to process smile: ", smi)
+                
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
         self.x_list["CoulombMatrix"] = CM.represent(mol_objs_list)
@@ -255,7 +334,11 @@ class ModelScreener(object):
         
         
         allDescrs = getMolDescriptors(smiles_list = self.smiles)
-        self.x_list["rdkit_descriptors"] = allDescrs
+        from sklearn.preprocessing import StandardScaler
+        scaler = StandardScaler()
+        scaled_allDescrs = scaler.fit_transform(allDescrs)
+        scaled_allDescrs = pd.DataFrame(scaled_allDescrs)
+        self.x_list["rdkit_descriptors"] = scaled_allDescrs
         
     def aggregate_scores(self,  scores_list, n_best):
         """ 
@@ -278,9 +361,16 @@ class ModelScreener(object):
         -------
         pandas DataFrame
             the top n_best scores from the combined scores list, sorted by RMSE in ascending order.
-        """       
-        scores_combined = pd.concat(scores_list)
-        self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
+        """    
+
+        
+        scores_combined = pd.concat(scores_list, ignore_index=True)
+        
+        if self.screener_type == "regressor":
+            self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
+        else:
+            self.scores_combined = scores_combined.sort_values(by='Accuracy', ascending=False)
+
         return self.scores_combined[:n_best]
 
     def screen_models(self, n_best=10):
@@ -313,177 +403,52 @@ class ModelScreener(object):
             
         scores_list=[]
 
-        from .space import space_models
         for key in self.x_list.keys():
             start_time = time.time()
             scores_df = pd.DataFrame()
 
             X_train, X_test, y_train, y_test = train_test_split(self.x_list[key], y, test_size=0.1, random_state=42)
-            tmp_counter = 0
+            print("split done!")
+            tmp_counter = 0         
+
+            if self.screener_type == "classifier":
+                from .space import space_models_classifiers
+                space_models = space_models_classifiers 
+            else:
+                from .space import space_models
+                space_models = space_models           
             
-            def single_obj(model, x, y):
-                n_splits=4
-                kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
-                accuracy_kfold = []
-                for train_index, test_index in kf.split(x):
-                    x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
-                    y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
-                    model.fit(x_training, y_training)
-                    y_pred = model.predict(x_testing)
-                    score = regression_metrics(y_testing,y_pred)['r_squared'][0]
-                    # evaluation metric:  r2_score
-                    accuracy_kfold.append(score)                                   # creates list of accuracies for each fold
-                return np.mean(accuracy_kfold)
-        
-            def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
-                ml_model.fit(x, y)
-                ypred = ml_model.predict(xtest)
-                if self.screener_type == "regressor":            
-                    scores = regression_metrics(y_true=y_test, y_predicted=ypred)
-                    time_taken = time.time() - model_start_time
-                    scores["time(seconds)"]= time_taken
-                    scores["Model"]=model_name
-                    scores['parameters']=[ml_model.get_params()]
-                    scores['Feature']=key
-                    
+            # Assuming you have X_train, y_train, X_test, and y_test defined somewhere
+            tmp_counter = 0
+            output_file = self.output_file
 
-                elif self.screener_type == "classifier":
-                    accuracy = accuracy_score(y_test, y_predict)
-                    recall = recall_score(y_test, y_predict, average='macro')
-                    precision = precision_score(y_test, y_predict, average='macro')
-                    f1score = f1_score(y_test, y_predict, average='macro')
-                    time_taken = time.time() - model_start_time
-                    scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken}
-                
-                else:
-                    print("Work in progress...\n")
-                    print("classifier and regressor scores can be separately obtained: ")
-                    print("""set screener_type to 'regressor' or 'classifier'  """)
-                    scores = None
+            # Create a list of model names
+            model_names = list(space_models.keys())
 
-                return scores
+            # Create a pool of worker processes
+            pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
 
-            def set_hyper_params(parameters_list, model_name):
-                # print("parameters_list: ", parameters_list)
-                from .models_dict import models_dict
-                module = import_module(models_dict[model_name])
+            # Use the pool to parallelize the code
+            results = [pool.apply_async(self.run_model, args=(model_name, tmp_counter + i, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key)) for i, model_name in enumerate(model_names)]
+            
+            
+            # # Wait for all processes to finish
+            # for result in results:
+            #     # print(f"Result: {result.get()}")
+            #     result.get()
 
-                if model_name == 'MLPRegressor':
-                    layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
-                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True)  
-
-                elif model_name == 'GradientBoostingRegressor':
-                    model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
-
-                elif model_name == 'RandomForestRegressor':
-                    model = getattr(module,model_name)(n_estimators=parameters_list[0],criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
-        
-                elif model_name == 'Ridge':
-                    model = getattr(module,model_name)(alpha=parameters_list[0])
-
-                elif model_name == 'Lasso':
-                    model = getattr(module, model_name)(alpha=np.exp(parameters_list[0]))
-
-                elif model_name == 'SVR':
-                    model = getattr(module,model_name)(kernel=parameters_list[0], C=parameters_list[1])
-                                    
-                elif model_name == 'ElasticNet':
-                    model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), l1_ratio= parameters_list[1])
-
-                elif model_name == 'DecisionTreeRegressor':
-                    model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
-
-                else:
-                    raise ValueError("This model cannot be used currently. Please refer to documentation. ")
-                
-                # print("model obtained!")
-                return model
-
-            def ga(X_train, y_train, X_test, y_test, model_name, space_final, al):
-                start_time_ga = time.time()
-                            
-                def ga_eval(indi,model_name=model_name):
-                    # print("indi: ", indi)
-                    # print("model_name: ", model_name)
-                    with open (self.output_file,'a') as ga_progress:
-                        ga_progress.write(str(indi))
-                    model = set_hyper_params(parameters_list=indi, model_name=model_name)
-                    ga_search = single_obj(model=model, x=X_train, y=y_train)
-                    return ga_search 
-
-                
-                gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 3, crossover_size=2, mutation_size=1, algorithm=al)
-                best_ind_df, best_individual = gann.search(n_generations=self.n_gen, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
-                print(model_name, ": GeneticAlgorithm - complete")
-                
-                all_items = list(gann.fitness_dict.items())
-                all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
-                all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
-                
-                best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
-                best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
-                ga_time = (time.time() - start_time_ga)/3600
-                
-                best_hyper_params = best_ind_df["Best_individual"][0]
-                best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
-                
-                ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
-                print("Model:", model_name)
-                print("GA time(hours): ", ga_time)
-                # print("Model params: ", best_ga_model.get_params())
-                # print("Test set R2_score for the best ga hyperparameter: ", ga_accuracy_test)
-                print("\n")
-                return ga_accuracy_test
-
-
-            for model_name in space_models.keys():
-            # for model_name in ['RandomForestRegressor', 'Ridge', 'Lasso', 'ElasticNet']:
-                tmp_counter = tmp_counter+1
-                print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
-                try:
-                    model_start_time = time.time()
-                    space_final=tuple(space_models[model_name])
-                    with open (self.output_file,'a') as ga_progress:
-                        ga_progress.write("\n"+model_name)
-                        ga_progress.write("\n")
-                    scores_list.append(ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3))
-                    print("scores_list: ", scores_list)
-                    print("--------------------------------------------------------------------------------")
-                    with open (self.output_file,'a') as ga_progress:
-                        ga_progress.write("\nPerforming GA on next model \n")
-                        
-                except Exception as e: 
-                    print("model_name: ", model_name)
-                    print(e)
-                    print("\n")
+            # Close the pool
+            pool.close()
+            pool.join()
             print("\n")
-            print("--- %s seconds ---" % (time.time() - start_time))
+            scores_list_final =[]
+            for result in results:
+                for result_df in result.get():
+                    scores_list_final.append(result_df)
+
+            print("\n--- %s seconds ---" % (time.time() - start_time))
 
         # aggregate scores list
-        best_models = self.aggregate_scores(scores_list,n_best)
+        best_models = self.aggregate_scores(scores_list=scores_list_final, n_best=n_best)
 
         return best_models
-
-
-# Raises
-#         ------
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         ValueError
-#             _description_
-#         TypeError
-#             _description_
-#         TypeError
-#             _description_

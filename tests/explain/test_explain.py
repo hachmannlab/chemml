@@ -33,7 +33,7 @@ def data():
     # PYTORCH
     r1_pytorch = MLP(engine='pytorch',nfeatures=Xtr.shape[1], nneurons=[100,100,100], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.001, alpha=0.0001, nepochs=100, batch_size=100, loss='mean_squared_error', 
-            regression=True, nclasses=None, layer_config_file=None, opt_config='Adam')
+            is_regression=True, nclasses=None, layer_config_file=None, opt_config='Adam')
 
     r1_pytorch.fit(Xtr, ytr)
     engine_model = r1_pytorch.get_model()
@@ -51,7 +51,7 @@ def test_deepshap(data):
     # X[np.random.choice(X.shape[0], 10, replace=False)]
 
     explanation, shap_obj = exp.DeepSHAP(Xtr[1:10])
-    
+
     assert len(explanation.columns) == len(columns)
     assert len(explanation) == X_instance.shape[0] or len(explanation) == X_instance.ndim
     assert isinstance(shap_obj, shap.DeepExplainer) == True

@@ -48,8 +48,9 @@ class TransferLearning(object):
             self.derived_model = True
             self.nfeatures = self.base_model.nfeatures
             self.base_model = self.base_model.get_model(include_output=False, n_layers=self.n_layers)
+            self.engine = base_model.engine
 
-        if 'tensorflow.python.keras.engine.sequential' in str(type(self.base_model)):
+        elif 'tensorflow.python.keras.engine.sequential' in str(type(self.base_model)):
             self._init_tensorflow()
         
         elif 'torch.nn.modules.container.Sequential' in str(type(self.base_model)):
@@ -106,8 +107,11 @@ class TransferLearning(object):
         if not type(child_model) is chemml.models.mlp.MLP:
             raise ValueError('The child model should be a chemml.models.MLP object')   
 
-        if not self.nfeatures == X.shape[1] and child_model.nfeatures == self.nfeatures:
-            raise ValueError('No. of Features for new model should be the same as that of the base model')
+        if not (self.nfeatures == X.shape[1] and child_model.nfeatures == self.nfeatures):
+            if self.nfeatures==(X.shape[1],) and self.engine=='tensorflow':
+               pass
+            else: 
+                raise ValueError('No. of Features for new model should be the same as that of the base model')
         
         if not type(child_model.model) == type(self.base_model):
             raise TypeError('The underlying engine for the child model should be the same as the base_model')
@@ -126,12 +130,12 @@ class TransferLearning(object):
             model_layers = list(model.layers)
         else:
             # pytorch
-            new_layer = nn.Linear(in_features = self.base_model[-2].in_features, out_features = child_model.model[1].in_features)
-            new_layer.state_dict()['weight'] = self.base_model[-2].state_dict()['weight']
-            new_layer.state_dict()['bias'] = self.base_model[-2].state_dict()['bias']
+            new_layer = nn.Linear(in_features = self.base_model[-1].in_features, out_features = child_model.model[2].in_features)
+            new_layer.state_dict()['weight'] = self.base_model[-1].state_dict()['weight']
+            new_layer.state_dict()['bias'] = self.base_model[-1].state_dict()['bias']
             
-            layers = list(self.base_model.children())[:-2]+ list(nn.Sequential(new_layer,self.base_model[-1]).children()) + list(child_model.model.children())[1:]
-
+            layers = list(self.base_model.children())[:-2]+ list(nn.Sequential(new_layer,self.base_model[-2]).children()) + list(child_model.model.children())[1:]
+            print([c for c in nn.Sequential(new_layer,self.base_model[-1]).children()])
             model = nn.Sequential(*layers)
             
             model_layers = list(model.children())
@@ -139,7 +143,7 @@ class TransferLearning(object):
         new_chemml_model = MLP(engine=self.engine, nfeatures=self.nfeatures, learning_rate=child_model.learning_rate, 
                                 nepochs= child_model.nepochs, batch_size=child_model.batch_size, alpha=child_model.alpha, 
                                 loss=child_model.loss, opt_config=child_model.opt_config, layer_config_file=model_layers)
-
+        print(new_chemml_model.model)
         new_chemml_model.fit(X, y)
 
         return new_chemml_model

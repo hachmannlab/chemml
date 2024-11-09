@@ -71,7 +71,7 @@ class CrystalStructureEntry(CompositionEntry):
 
         # Get the composition.
         n_t = self.structure.n_types()
-        elems = np.zeros(n_t, dtype=int)
+        elems = np.zeros(n_t, dtype=np.uint)
         count = np.zeros(n_t, dtype=float)
         for i in range(n_t):
             name = self.structure.get_type_name(i)

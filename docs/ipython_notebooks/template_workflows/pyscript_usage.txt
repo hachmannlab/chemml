@@ -1,0 +1,40 @@
+## (Input,datasets)
+    << host = chemml
+    << function = load_crystal_structures
+    >> entries 0
+    >> entries 1
+    >> entries 6
+
+## (Represent,inorganic descriptors)
+    << host = chemml
+    << function = CoordinationNumberAttributeGenerator
+    >> 0 entries
+    >> df 2
+
+## (Represent,inorganic descriptors)
+    << host = chemml
+    << function = CoulombMatrixAttributeGenerator
+    >> 1 entries
+    >> df 3
+
+## (Prepare,data manipulation)
+    << host = pandas
+    << function = concat
+    << axis = 1
+    >> 2 df2
+    >> 3 df3
+    >> 4 df1
+    >> df 5
+
+## (Input,python script)
+    << host = chemml
+    << function = PyScript
+    << line01 = print ('shape of features:', iv1.shape)
+    >> 5 iv1
+
+## (Represent,inorganic descriptors)
+    << host = chemml
+    << function = EffectiveCoordinationNumberAttributeGenerator
+    >> df 4
+    >> 6 entries
+

@@ -47,7 +47,7 @@ def MissingValues(df, strategy="ignore_row",
     on that. The mask can later be used in the transform method to change other data frames in the same way.
     """
     if inf_as_null == True:
-        df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, True)
+        df.replace([np.inf, -np.inf, 'inf', '-inf'], np.nan, inplace=True)
     if string_as_null == True:
         for col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce')

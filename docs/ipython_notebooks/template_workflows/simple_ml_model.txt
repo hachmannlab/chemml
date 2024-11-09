@@ -1,0 +1,89 @@
+## (Input,datasets)
+    << host = chemml
+    << function = load_cep_homo
+    >> smiles 0
+    >> homo 4
+
+## (Output,file)
+    << host = chemml
+    << function = SaveFile
+    << format = smi
+    << header = False
+    << filename = smiles
+    >> 0 df
+    >> filepath 1
+
+## (Represent,molecular descriptors)
+    << host = chemml
+    << function = RDKitFingerprint
+    >> 1 molfile
+    >> df 2
+    >> df 3
+
+## (Output,file)
+    << host = chemml
+    << function = SaveFile
+    << filename = fps_rdkfp
+    >> 2 df
+
+## (Prepare,split)
+    << host = sklearn
+    << function = train_test_split
+    >> 3 dfx
+    >> 4 dfy
+    >> dfx_train 5
+    >> dfy_train 6
+    >> dfx_test 8
+    >> dfy_test 11
+
+## (Model,regression)
+    << host = sklearn
+    << function = MLPRegressor
+    << func_method = fit
+    >> 5 dfx
+    >> 6 dfy
+    >> api 7
+
+## (Model,regression)
+    << host = sklearn
+    << function = MLPRegressor
+    << func_method = predict
+    >> 7 api
+    >> 8 dfx
+    >> dfy_predict 9
+    >> dfy_predict 10
+
+## (Output,file)
+    << host = chemml
+    << function = SaveFile
+    << filename = dfy_predict
+    >> 9 df
+
+## (Visualize,plot)
+    << host = chemml
+    << function = scatter2D
+    << x = 0
+    << y = 0
+    >> 10 dfx
+    >> 11 dfy
+    >> fig 13
+
+## (Output,figure)
+    << host = chemml
+    << function = SavePlot
+    << filename = dfy_actual_vs_dfy_predict
+    << output_directory = .
+    >> 12 fig
+
+## (Visualize,artist)
+    << host = chemml
+    << function = decorator
+    << title = true vs. predicted HOMO energy
+    << xlabel = predicted HOMO energy (eV)
+    << ylabel = true HOMO energy (eV)
+    << grid = True
+    << grid_color = g
+    << size = 18
+    >> fig 12
+    >> 13 fig
+

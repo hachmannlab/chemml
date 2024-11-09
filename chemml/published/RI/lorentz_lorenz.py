@@ -35,7 +35,7 @@ class LorentzLorenz():
         self.model_parameters = {
               'alpha':2.16e-4,
               'activation':'relu',
-              'lr': 7.88e-6,
+              'learning_rate': 7.88e-6,
               'batch_size':128, 
               'epochs':10000,
               'verbose':0, 
@@ -43,7 +43,7 @@ class LorentzLorenz():
               }
         
         self.early_stopping = EarlyStopping(monitor='val_loss', min_delta=1e-8, patience=30, verbose=0, mode='auto')
-        self.adam = Adam(lr=self.model_parameters['lr'], beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
+        self.adam = Adam(learning_rate=self.model_parameters['learning_rate'], beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
 
 
         
@@ -268,7 +268,7 @@ class LorentzLorenz():
 
             model.compile(optimizer = self.adam,
                         loss = 'mean_squared_error',
-                        metrics=['mean_absolute_error'],
+                        metrics=['mean_absolute_error', 'mean_absolute_error', 'mean_absolute_error'],
                         loss_weights = [1.,1.,1.]) ## weightage given to the loss calculated on each target property
             return model
 

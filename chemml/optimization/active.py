@@ -269,12 +269,9 @@ class ActiveLearning(object):
         target_layer : array-like
             The concatenated array of the specified hidden layers by parameter `target_layer`.
         """
-        # import keras here
-        from tensorflow.keras import backend as K
-
+        import tensorflow as tf
         # inputs
-        inp = model.input
-        if isinstance(inp, list):
+        if isinstance(model.input, list):
             if not isinstance(X, list):
                 msg = "The input must be a list of arrays."
                 raise ValueError(msg)
@@ -283,8 +280,6 @@ class ActiveLearning(object):
                 msg = "Only one input array is required."
                 raise ValueError(msg)
             else:
-                # list of inp is required for K.function mapping
-                inp = [inp]
                 # if input is not a list should become a list
                 X = [X]
 
@@ -294,17 +289,28 @@ class ActiveLearning(object):
         elif isinstance(self.target_layer, list):
             out = [model.get_layer(name).output for name in self.target_layer]
         else:
-            msg = "The parameter 'linear_layer' must be str, list of str or a function."
+            msg = "The parameter 'target_layer' must be str or list of str."
             raise ValueError(msg)
 
+        # Create a new model that outputs the desired layers
+        intermediate_model = tf.keras.Model(inputs=model.input, outputs=out)
+
         # define mapping function
-        g = K.function(inp, out)
+        @tf.function
+        def g(x):
+            return intermediate_model(x)
 
         # find and concatenate target layers
-        target_layers = g(X)
-        target_layers = np.concatenate(target_layers, axis=-1)
+        target_layers = g(X[0])
+        
+        # If only one layer was requested, wrap it in a list for consistency
+        if not isinstance(target_layers, list):
+            target_layers = [target_layers]
 
-        return target_layers
+        target_layers = tf.concat(target_layers, axis=-1)
+
+        return target_layers.numpy()
+
 
     def initialize(self,random_state=90):
         """
@@ -634,7 +640,7 @@ class ActiveLearning(object):
 
                 # collect lr
                 from tensorflow.keras import backend as K
-                learning_rate.append(K.eval(model.optimizer.lr))
+                learning_rate.append(K.eval(model.optimizer.learning_rate))
 
             # metrics
             it_results['mae'].append(mae)

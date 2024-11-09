@@ -34,13 +34,13 @@ def test_tl_tensorflow(data):
     # initialize a ChemML MLP object
     tzvp_model = MLP(engine='tensorflow',nfeatures=200, nneurons=[32], activations=['ReLU'],
         learning_rate=0.01, alpha=0.001, nepochs=30, batch_size=1000, loss='mean_squared_error', 
-        regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+        is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
 
     ################### PARENT MODEL ###################
     # initialize a ChemML MLP object
     mlp = MLP(engine='tensorflow',nfeatures=200, nneurons=[64,32,64], activations=['ReLU','ReLU','ReLU'],
         learning_rate=0.01, alpha=0.001, nepochs=20, batch_size=1000, loss='mean_squared_error', 
-        regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+        is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
     
     Xtrain, Xtest, ytrain, ytest, scale_y = data
 
@@ -80,14 +80,14 @@ def test_tl_pytorch(data):
     # initialize a ChemML MLP object
     tzvp_model = MLP(engine='pytorch',nfeatures=200, nneurons=[32], activations=['ReLU'],
         learning_rate=0.01, alpha=0.001, nepochs=30, batch_size=1000, loss='mean_squared_error', 
-        regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+        is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
 
     ################### PARENT MODEL ###################
     # initialize a ChemML MLP object
     mlp = MLP(engine='pytorch',nfeatures=200, nneurons=[64,32,64], activations=['ReLU','ReLU','ReLU'],
         learning_rate=0.001, alpha=0.001, nepochs=30, batch_size=1000, loss='mean_squared_error', 
-        regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
-    
+        is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
+
     Xtrain, Xtest, ytrain, ytest, scale_y = data
 
     # load pre-trained parent model

@@ -158,7 +158,7 @@ class LookUpData:
             return self.load_special_property(property)
 
         # Initialize the numpy array.
-        values = np.zeros(len(self.element_ids), dtype=np.float)
+        values = np.zeros(len(self.element_ids), dtype=float)
         values.fill(np.nan)
 
         # Property file name.

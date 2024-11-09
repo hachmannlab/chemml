@@ -2,7 +2,7 @@ name: chemml
 channels:
     - conda-forge
 dependencies:
-    - python=3.8
+    - python=3.12
     - pip
     - sphinx
     - sphinx_rtd_theme
@@ -10,7 +10,6 @@ dependencies:
     - nbsphinx
 
       # chemml depends
-    - rdkit
     - tensorflow
 
 channels:

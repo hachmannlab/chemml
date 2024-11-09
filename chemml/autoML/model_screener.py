@@ -119,6 +119,7 @@ class ModelScreener(object):
                     score = accuracy_score(y_testing, y_pred)
                 # evaluation metric:  r2_score
                 accuracy_kfold.append(score)                                   # creates list of accuracies for each fold
+                print(model_name,accuracy_kfold)
             return np.mean(accuracy_kfold)
         
         def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
@@ -184,6 +185,9 @@ class ModelScreener(object):
             
             elif model_name == "LogisticRegression":
                 model = getattr(module,model_name)(C=parameters_list[0], fit_intercept=parameters_list[1], solver=parameters_list[2])
+            
+            elif model_name == "XGBRegressor":
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]))
 
             elif model_name == "DecisionTreeClassifier":
                 model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2])
@@ -219,6 +223,9 @@ class ModelScreener(object):
             
             all_items = list(gann.fitness_dict.items())
             all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
+            with open(output_file, 'a') as ga_progress:
+                ga_progress.write("\n" + all_items_df)
+                ga_progress.write("\n")
             all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
             
             best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)

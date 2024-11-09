@@ -16,7 +16,7 @@ This code is governed by the MIT licence:
 
 import tensorflow as tf
 import tensorflow.keras.backend as K
-from tensorflow.keras import layers
+import tensorflow.keras.layers as layers
 from tensorflow.keras.layers import deserialize as layer_from_config
 from chemml.utils.utilities import mol_shapes_to_dims
 
@@ -211,7 +211,7 @@ class NeuralGraphHidden(layers.Layer):
 
             # Store inner_3D_layer and it's weights
             self.inner_3D_layers.append(inner_3D_layer)
-            self._trainable_weights += inner_3D_layer.trainable_weights
+            self.trainable_weights += inner_3D_layer.trainable_weights
 
     def call(self, inputs, mask=None):
         atoms, bonds, edges = inputs

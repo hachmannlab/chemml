@@ -231,7 +231,7 @@ def check_object_col(df, name):
                 raise ValueError("column '%s' in '%s' includes both string and float values." %(str(col), name))
     # drop object columns
     if len(object_cols) > 0:
-        df = df.drop(object_cols, 1)
+        df = df.drop(object_cols, axis=1)
     return df
 
 def update_default_kwargs(default_kw, kw, method_name=None, method_doc_path=None):

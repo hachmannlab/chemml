@@ -184,7 +184,7 @@ class Explain(object):
 
         shap_obj = shap.DeepExplainer(self.dnn_obj,X_background)
         shap_values = shap_obj.shap_values(self.X_instance)
-        rel_df = pd.DataFrame(shap_values,columns=self.feature_names)
+        rel_df = pd.DataFrame(shap_values.reshape(len(self.X_instance),len(self.feature_names)),columns=self.feature_names)
         return rel_df, shap_obj
 
 

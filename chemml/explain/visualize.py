@@ -390,7 +390,7 @@ def plot_shap_global(data, shap_values,max_display,feature_names):
     import matplotlib.cm as cm
     m = cm.ScalarMappable(cmap = plt.get_cmap())
     m.set_array([0, 1])
-    cb = f.colorbar(m, ticks=[0, 1])
+    cb = f.colorbar(m, ticks=[0, 1], ax=plt.gca()) #cax=ax.inset_axes([1.0, 0.01, 0.01, 1.0]))
     cb.set_ticklabels(['Low', 'High'],size=18)
     cb.set_label('Feature Value', size=20, labelpad=0)
     cb.ax.tick_params(labelsize=22, length=0)

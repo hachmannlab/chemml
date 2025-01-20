@@ -29,27 +29,32 @@ The format of library is similar to the well known libraries like Scikit-learn.
    - to find out about the latest version and release history, click [here](https://pypi.org/project/chemml/#history)
 
 ## Installation and Dependencies:
-You can download ChemML from PyPI via pip.
+We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML using the Python Package Index (PyPI) via pip are as follows:
 
-    pip install chemml --user -U
+    conda create --name chemml_env python=3.12
+    source activate chemml_env
+    conda install -c conda-forge openbabel nb_conda_kernels python-graphviz
+    pip install chemml
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy
    - pandas
    - tensorflow
+   - rdkit
    - scikit-learn
    - matplotlib
    - seaborn
    - lxml
    - openpyxl
    - ipywidgets
+   - shap
+   - lime
 
-We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install Chemml using the Python Package Index (PyPI) via pip are as follows:
+We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on this page:
 
-    conda create --name chemml_env python=3.8
-    source activate chemml_env
-    conda install -c conda-forge openbabel rdkit nb_conda_kernels python-graphviz
-    pip install chemml
+https://pytorch.org/get-started/locally/
+
+Note: The PyTorch CUDA 12.4 install has been tested with CUDA 12.5 and works fine, but future CUDA versions may not be compatible. If any issues arise from CUDA compatibility, it is recommended to follow the instructions on the PyTorch website to compile from source.
 
 ## Citation:
 Please cite the use of ChemML as:
@@ -112,6 +117,7 @@ ChemML is distributed under 3-Clause BSD License (https://opensource.org/license
     - Mojtaba Haghighatlari
     - Aditya Sonpal, adityaso@buffalo.edu
     - Aatish Pradhan, aatishpr@buffalo.edu
+    - Nitin Murthy, nitinmad@buffalo.edu
     University at Buffalo - The State University of New York (UB)
 
 ### Contributors:

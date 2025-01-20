@@ -137,7 +137,10 @@ class MLP(object):
                 raise ValueError('No. of activations should be equal to the number of hidden layers \
                             (length of the nneurons list).')
 
-        self.nfeatures = nfeatures
+        if engine=='tensorflow':
+            self.nfeatures = (nfeatures,)
+        elif engine=='pytorch':
+            self.nfeatures = nfeatures
         self.nepochs = nepochs
         self.batch_size = batch_size
         self.alpha = alpha

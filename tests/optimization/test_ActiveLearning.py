@@ -23,7 +23,7 @@ def model_creator_one_input(activation='relu', lr=0.001):
     out = Dense(1, name='outp', activation='linear')(b1_l3)
     ###
     model = Model(inputs=b1_in, outputs=out)
-    adam = Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
+    adam = Adam(learning_rate=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
     model.compile(optimizer=adam,
                   loss='mean_squared_error',
                   metrics=['mean_absolute_error'])
@@ -44,7 +44,7 @@ def model_creator_two_inputs(activation='relu', lr = 0.001):
     out = Dense(1, name='outp', activation='linear')(merged)
     ###
     model = Model(inputs = [b1_in, b2_in], outputs = out)
-    adam = Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
+    adam = Adam(learning_rate=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
     model.compile(optimizer = adam,
                   loss = 'mean_squared_error',
                   metrics=['mean_absolute_error'])

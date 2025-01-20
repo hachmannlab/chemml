@@ -60,7 +60,39 @@ space_models = {
                                 {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
                                 'mutation': [0, 1]}},
                                 ],
+                'XGBRegressor':[
+                                {'n_estimators': {'choice': np.random.randint(100,200,size=10).tolist()}},
+                                {'reg_alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}}, 
+                                {'reg_lambda': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                                'mutation': [0, 1]}},
+                ]
                 }
+
+'''
+# XGBoost Hyper Parameter Optimization - Copilot data
+hyperparameters = {
+    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],  # Typical values range from 0.01 to 0.3[^1^][4]
+    'max_depth': [3, 5, 7, 9],  # Maximum depth of a tree
+    'min_child_weight': [1, 3, 5],  # Minimum sum of instance weight needed in a child
+    'gamma': [0, 0.1, 0.2],  # Minimum loss reduction required to make a further partition on a leaf node of the tree
+    'colsample_bytree': [0.3, 0.5, 0.7, 1],  # Subsample ratio of columns when constructing each tree
+    'n_estimators': [100, 200, 300, 400, 500],  # Number of gradient boosted trees. Equivalent to number of boosting rounds
+    'subsample': [0.5, 0.7, 1],  # Subsample ratio of the training instances
+    'reg_alpha': [0, 0.5, 1],  # L1 regularization term on weights
+    'reg_lambda': [1, 1.5, 2]  # L2 regularization term on weights
+}
+LightGBM Regressor hyperparameter space
+hyperparameters = {
+    'num_leaves': [31, 50, 70, 90],  # Maximum tree leaves for base learners
+    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
+    'n_estimators': [100, 200, 300, 400, 500],
+    'max_depth': [-1, 5, 10, 15],  # Maximum tree depth for base learners
+    'min_data_in_leaf': [10, 20, 30, 40, 50],  # Minimum number of data in one leaf
+    'bagging_fraction': [0.5, 0.7, 0.9, 1]  # Subsample ratio of the training instance
+}
+
+'''
 
 space_models_classifiers = {
                 "LogisticRegression": [
@@ -99,3 +131,28 @@ space_models_classifiers = {
                                 'mutation': [0, 1]}}
                         ],
                 }
+
+
+'''
+XGBoost Classifier hyperparameter space
+hyperparameters = {
+    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
+    'max_depth': [3, 5, 7, 9],
+    'min_child_weight': [1, 3, 5],
+    'gamma': [0, 0.1, 0.2],
+    'colsample_bytree': [0.3, 0.5, 0.7, 1],
+    'n_estimators': [100, 200, 300, 400, 500],
+    'subsample': [0.5, 0.7, 1],
+    'reg_alpha': [0, 0.5, 1],
+    'reg_lambda': [1, 1.5, 2]
+}
+LightGBM Classifier hyperparameter space
+hyperparameters = {
+    'num_leaves': [31, 50, 70, 90],  # Maximum tree leaves for base learners
+    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
+    'n_estimators': [100, 200, 300, 400, 500],
+    'max_depth': [-1, 5, 10, 15],  # Maximum tree depth for base learners
+    'min_data_in_leaf': [10, 20, 30, 40, 50],  # Minimum number of data in one leaf
+    'bagging_fraction': [0.5, 0.7, 0.9, 1]  # Subsample ratio of the training instance
+}
+'''

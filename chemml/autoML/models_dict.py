@@ -8,11 +8,13 @@ models_dict = {
     "RandomForestRegressor":"sklearn.ensemble",
     "DecisionTreeRegressor":"sklearn.tree",
     "LogisticRegression": "sklearn.linear_model",
+    "XGBRegressor": "xgboost",
+    "LGBMRegressor": "lightgbm",
     "RandomForestClassifier": "sklearn.ensemble",
     "DecisionTreeClassifier": "sklearn.tree",
     "SVC": "sklearn.svm",
     "KNeighborsClassifier": "sklearn.neighbors",
-    # "LightGBM":,
-    # "XGBoost":,
+    "LGBMClassifier": "lightgbm",
+    "XGBClassifier": "xgboost",
         
 }

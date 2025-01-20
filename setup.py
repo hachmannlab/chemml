@@ -33,14 +33,15 @@ if __name__ == "__main__":
 
         install_requires=[
             'future', 'six',
-            'numpy', 'pandas', 'scipy',
-            'tensorflow',
-            'h5py',
-            'scikit-learn',
+            'numpy==1.26', 'pandas', 'scipy',
+            'tensorflow-cpu', 'rdkit',
+            'h5py', 'pydot',
+            'scikit-learn', 'xgboost',
             'matplotlib>=1.5.1',
             'lxml', 'wget',
             'seaborn',
-            'openpyxl', 'ipywidgets'
+            'openpyxl', 'ipywidgets',
+            'lime', 'shap'
             ],
         extras_require={
             'docs': [

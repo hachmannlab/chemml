@@ -76,7 +76,7 @@ class Molecule(object):
     """
     The central class to construct a molecule from different chemical input formats.
     This module is built on top of RDKit and OpenBabel python API.
-    We join the forces and strength of these two cheminformatic libraris for a consistent user experience.
+    We join the forces and strength of these two cheminformatic libraries for a consistent user experience.
 
     Almost all the molecular descriptors and molecule-based ML models require the chemical informatin as a Molecule object.
     Several methods are available in this module to facilitate the manipulation of chemical data.
@@ -103,7 +103,7 @@ class Molecule(object):
 
     Notes
     -----
-        - The molecule will be creatd as an RDKit molecule object.
+        - The molecule will be created as an RDKit molecule object.
         - The molecule object will be stored and available as `rdkit_molecule` attribute.
         - If you load a molecule from its SMARTS string, there is high probability that you can't convert it to other
             types due to the abstract description of the molecules by SMARTS representation.

@@ -54,7 +54,7 @@ install:
   - conda install -c conda-forge openbabel tensorflow numpy scipy pandas scikit-learn matplotlib seaborn future six
   - pip install pytest rdkit shap lime
   - pip install -e .[tests]
-  - pip install codecov
+  - pip install codecov-cli
 
 
 

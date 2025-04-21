@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
         install_requires=[
             'future', 'six',
-            'numpy==1.26', 'pandas', 'scipy',
+            'numpy<=1.26', 'pandas', 'scipy',
             'tensorflow-cpu', 'rdkit',
             'h5py', 'pydot',
             'scikit-learn', 'xgboost',

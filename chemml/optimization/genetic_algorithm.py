@@ -136,7 +136,10 @@ class GeneticAlgorithm(object):
                     if t == 'int':
                         gcl.append(list(range(i[0], i[1]+1)))
                     else: gcl.append(i)
-                self.global_cm_list = list(itertools.product(*gcl))
+                if len(gcl) <= 20:
+                    self.global_cm_list = list(itertools.product(*gcl))
+                else:
+                    self.global_cm_list = [[random.choice(sublist) for sublist in gcl] for _ in range(len(gcl)**2)]
 
     def pop_generator(self, n):
         pop = []

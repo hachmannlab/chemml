@@ -60,13 +60,13 @@ space_models = {
                                 {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
                                 'mutation': [0, 1]}},
                                 ],
-                'XGBRegressor':[
-                                {'n_estimators': {'choice': np.random.randint(100,200,size=10).tolist()}},
-                                {'reg_alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                                'mutation': [0, 1]}}, 
-                                {'reg_lambda': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                                'mutation': [0, 1]}},
-                ]
+                # 'XGBRegressor':[
+                #                 {'n_estimators': {'choice': np.random.randint(100,200,size=10).tolist()}},
+                #                 {'reg_alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                #                 'mutation': [0, 1]}}, 
+                #                 {'reg_lambda': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                #                 'mutation': [0, 1]}},
+                # ]
                 }
 
 '''

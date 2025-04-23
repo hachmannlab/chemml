@@ -1,102 +1,194 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="323pt" height="547pt" viewBox="0.00 0.00 242.00 410.00">
-<g id="graph0" class="graph" transform="scale(0.75 0.75) rotate(0) translate(4 406)">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="694pt" height="673pt" viewBox="0.00 0.00 713.50 692.00">
+<g id="graph0" class="graph" transform="scale(0.972222 0.972222) rotate(0) translate(4 688)">
 <title>G</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-406 238,-406 238,4 -4,4"/>
-<!-- 139714280881264 -->
+<polygon fill="white" stroke="none" points="-4,4 -4,-688 709.5,-688 709.5,4 -4,4"/>
+<!-- 2155370064032 -->
 <g id="node1" class="node">
-<title>139714280881264</title>
-<polygon fill="none" stroke="black" points="49,-365.5 49,-401.5 185,-401.5 185,-365.5 49,-365.5"/>
-<text text-anchor="middle" x="117" y="-379.8" font-family="Times,serif" font-size="14.00">inp1: InputLayer</text>
+<title>2155370064032</title>
+<polygon fill="none" stroke="black" points="256,-600.5 256,-683.5 446,-683.5 446,-600.5 256,-600.5"/>
+<polygon fill="black" stroke="none" points="256,-600.5 256,-683.5 446,-683.5 446,-600.5 256,-600.5"/>
+<polygon fill="black" stroke="none" points="258,-641.5 258,-681.5 444,-681.5 444,-641.5 258,-641.5"/>
+<polygon fill="none" stroke="black" points="258,-641.5 258,-681.5 444,-681.5 444,-641.5 258,-641.5"/>
+<text text-anchor="start" x="288.75" y="-656.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">inp1</text>
+<text text-anchor="start" x="321.75" y="-656.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (InputLayer)</text>
+<polygon fill="white" stroke="none" points="258,-602.5 258,-639.5 442,-639.5 442,-602.5 258,-602.5"/>
+<polygon fill="none" stroke="black" points="258,-602.5 258,-639.5 442,-639.5 442,-602.5 258,-602.5"/>
+<text text-anchor="start" x="269" y="-616.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="358.25" y="-616.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 200)</text>
 </g>
-<!-- 139711195269152 -->
+<!-- 2155392548944 -->
 <g id="node2" class="node">
-<title>139711195269152</title>
-<polygon fill="none" stroke="black" points="75.5,-292.5 75.5,-328.5 158.5,-328.5 158.5,-292.5 75.5,-292.5"/>
-<text text-anchor="middle" x="117" y="-306.8" font-family="Times,serif" font-size="14.00">l1: Dense</text>
+<title>2155392548944</title>
+<polygon fill="none" stroke="black" points="174,-480.5 174,-563.5 528,-563.5 528,-480.5 174,-480.5"/>
+<polygon fill="black" stroke="none" points="174,-480.5 174,-563.5 528,-563.5 528,-480.5 174,-480.5"/>
+<polygon fill="black" stroke="none" points="176,-521.5 176,-561.5 526,-561.5 526,-521.5 176,-521.5"/>
+<polygon fill="none" stroke="black" points="176,-521.5 176,-561.5 526,-561.5 526,-521.5 176,-521.5"/>
+<text text-anchor="start" x="313.5" y="-536.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">l1</text>
+<text text-anchor="start" x="327" y="-536.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="176,-482.5 176,-519.5 348,-519.5 348,-482.5 176,-482.5"/>
+<polygon fill="none" stroke="black" points="176,-482.5 176,-519.5 348,-519.5 348,-482.5 176,-482.5"/>
+<text text-anchor="start" x="186.62" y="-496.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="264.62" y="-496.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 200)</text>
+<polygon fill="white" stroke="none" points="350,-482.5 350,-519.5 526,-519.5 526,-482.5 350,-482.5"/>
+<polygon fill="none" stroke="black" points="350,-482.5 350,-519.5 526,-519.5 526,-482.5 350,-482.5"/>
+<text text-anchor="start" x="360.75" y="-496.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="450" y="-496.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 12)</text>
 </g>
-<!-- 139714280881264&#45;&gt;139711195269152 -->
+<!-- 2155370064032&#45;&gt;2155392548944 -->
 <g id="edge1" class="edge">
-<title>139714280881264-&gt;139711195269152</title>
-<path fill="none" stroke="black" d="M117,-365.31C117,-357.29 117,-347.55 117,-338.57"/>
-<polygon fill="black" stroke="black" points="120.5,-338.53 117,-328.53 113.5,-338.53 120.5,-338.53"/>
+<title>2155370064032-&gt;2155392548944</title>
+<path fill="none" stroke="black" stroke-width="2" d="M351,-600.03C351,-600.03 351,-576.77 351,-576.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="354.5,-576.77 351,-566.77 347.5,-576.77 354.5,-576.77"/>
 </g>
-<!-- 139711186458752 -->
+<!-- 2155376479408 -->
 <g id="node3" class="node">
-<title>139711186458752</title>
-<polygon fill="none" stroke="black" points="0,-219.5 0,-255.5 108,-255.5 108,-219.5 0,-219.5"/>
-<text text-anchor="middle" x="54" y="-233.8" font-family="Times,serif" font-size="14.00">b1_l1: Dense</text>
+<title>2155376479408</title>
+<polygon fill="none" stroke="black" points="0,-360.5 0,-443.5 340,-443.5 340,-360.5 0,-360.5"/>
+<polygon fill="black" stroke="none" points="0,-360.5 0,-443.5 340,-443.5 340,-360.5 0,-360.5"/>
+<polygon fill="black" stroke="none" points="2,-401.5 2,-441.5 338,-441.5 338,-401.5 2,-401.5"/>
+<polygon fill="none" stroke="black" points="2,-401.5 2,-441.5 338,-441.5 338,-401.5 2,-401.5"/>
+<text text-anchor="start" x="118.62" y="-416.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">b1_l1</text>
+<text text-anchor="start" x="159.88" y="-416.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="2,-362.5 2,-399.5 167,-399.5 167,-362.5 2,-362.5"/>
+<polygon fill="none" stroke="black" points="2,-362.5 2,-399.5 167,-399.5 167,-362.5 2,-362.5"/>
+<text text-anchor="start" x="12.88" y="-376.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="90.88" y="-376.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 12)</text>
+<polygon fill="white" stroke="none" points="169,-362.5 169,-399.5 338,-399.5 338,-362.5 169,-362.5"/>
+<polygon fill="none" stroke="black" points="169,-362.5 169,-399.5 338,-399.5 338,-362.5 169,-362.5"/>
+<text text-anchor="start" x="180" y="-376.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="269.25" y="-376.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 6)</text>
 </g>
-<!-- 139711195269152&#45;&gt;139711186458752 -->
+<!-- 2155392548944&#45;&gt;2155376479408 -->
 <g id="edge2" class="edge">
-<title>139711195269152-&gt;139711186458752</title>
-<path fill="none" stroke="black" d="M101.75,-292.31C94.01,-283.59 84.47,-272.84 75.96,-263.25"/>
-<polygon fill="black" stroke="black" points="78.37,-260.69 69.11,-255.53 73.13,-265.33 78.37,-260.69"/>
+<title>2155392548944-&gt;2155376479408</title>
+<path fill="none" stroke="black" stroke-width="2" d="M257,-480.03C257,-480.03 257,-456.77 257,-456.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="260.5,-456.77 257,-446.77 253.5,-456.77 260.5,-456.77"/>
 </g>
-<!-- 139711186036720 -->
+<!-- 2155374217120 -->
 <g id="node4" class="node">
-<title>139711186036720</title>
-<polygon fill="none" stroke="black" points="126,-219.5 126,-255.5 234,-255.5 234,-219.5 126,-219.5"/>
-<text text-anchor="middle" x="180" y="-233.8" font-family="Times,serif" font-size="14.00">b2_l1: Dense</text>
+<title>2155374217120</title>
+<polygon fill="none" stroke="black" points="358.5,-360.5 358.5,-443.5 705.5,-443.5 705.5,-360.5 358.5,-360.5"/>
+<polygon fill="black" stroke="none" points="358.5,-360.5 358.5,-443.5 705.5,-443.5 705.5,-360.5 358.5,-360.5"/>
+<polygon fill="black" stroke="none" points="360.5,-401.5 360.5,-441.5 703.5,-441.5 703.5,-401.5 360.5,-401.5"/>
+<polygon fill="none" stroke="black" points="360.5,-401.5 360.5,-441.5 703.5,-441.5 703.5,-401.5 360.5,-401.5"/>
+<text text-anchor="start" x="480.62" y="-416.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">b2_l1</text>
+<text text-anchor="start" x="521.88" y="-416.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="360.5,-362.5 360.5,-399.5 525.5,-399.5 525.5,-362.5 360.5,-362.5"/>
+<polygon fill="none" stroke="black" points="360.5,-362.5 360.5,-399.5 525.5,-399.5 525.5,-362.5 360.5,-362.5"/>
+<text text-anchor="start" x="371.38" y="-376.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="449.38" y="-376.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 12)</text>
+<polygon fill="white" stroke="none" points="527.5,-362.5 527.5,-399.5 703.5,-399.5 703.5,-362.5 527.5,-362.5"/>
+<polygon fill="none" stroke="black" points="527.5,-362.5 527.5,-399.5 703.5,-399.5 703.5,-362.5 527.5,-362.5"/>
+<text text-anchor="start" x="538.25" y="-376.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="627.5" y="-376.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 16)</text>
 </g>
-<!-- 139711195269152&#45;&gt;139711186036720 -->
+<!-- 2155392548944&#45;&gt;2155374217120 -->
 <g id="edge3" class="edge">
-<title>139711195269152-&gt;139711186036720</title>
-<path fill="none" stroke="black" d="M132.25,-292.31C139.99,-283.59 149.53,-272.84 158.04,-263.25"/>
-<polygon fill="black" stroke="black" points="160.87,-265.33 164.89,-255.53 155.63,-260.69 160.87,-265.33"/>
+<title>2155392548944-&gt;2155374217120</title>
+<path fill="none" stroke="black" stroke-width="2" d="M443.25,-480.03C443.25,-480.03 443.25,-456.77 443.25,-456.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="446.75,-456.77 443.25,-446.77 439.75,-456.77 446.75,-456.77"/>
 </g>
-<!-- 139711185897600 -->
+<!-- 2155376906688 -->
 <g id="node5" class="node">
-<title>139711185897600</title>
-<polygon fill="none" stroke="black" points="0,-146.5 0,-182.5 108,-182.5 108,-146.5 0,-146.5"/>
-<text text-anchor="middle" x="54" y="-160.8" font-family="Times,serif" font-size="14.00">b1_l2: Dense</text>
+<title>2155376906688</title>
+<polygon fill="none" stroke="black" points="8,-240.5 8,-323.5 340,-323.5 340,-240.5 8,-240.5"/>
+<polygon fill="black" stroke="none" points="8,-240.5 8,-323.5 340,-323.5 340,-240.5 8,-240.5"/>
+<polygon fill="black" stroke="none" points="10,-281.5 10,-321.5 338,-321.5 338,-281.5 10,-281.5"/>
+<polygon fill="none" stroke="black" points="10,-281.5 10,-321.5 338,-321.5 338,-281.5 10,-281.5"/>
+<text text-anchor="start" x="122.62" y="-296.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">b1_l2</text>
+<text text-anchor="start" x="163.88" y="-296.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="10,-242.5 10,-279.5 167,-279.5 167,-242.5 10,-242.5"/>
+<polygon fill="none" stroke="black" points="10,-242.5 10,-279.5 167,-279.5 167,-242.5 10,-242.5"/>
+<text text-anchor="start" x="20.62" y="-256.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="98.62" y="-256.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 6)</text>
+<polygon fill="white" stroke="none" points="169,-242.5 169,-279.5 338,-279.5 338,-242.5 169,-242.5"/>
+<polygon fill="none" stroke="black" points="169,-242.5 169,-279.5 338,-279.5 338,-242.5 169,-242.5"/>
+<text text-anchor="start" x="180" y="-256.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="269.25" y="-256.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 3)</text>
 </g>
-<!-- 139711186458752&#45;&gt;139711185897600 -->
+<!-- 2155376479408&#45;&gt;2155376906688 -->
 <g id="edge4" class="edge">
-<title>139711186458752-&gt;139711185897600</title>
-<path fill="none" stroke="black" d="M54,-219.31C54,-211.29 54,-201.55 54,-192.57"/>
-<polygon fill="black" stroke="black" points="57.5,-192.53 54,-182.53 50.5,-192.53 57.5,-192.53"/>
+<title>2155376479408-&gt;2155376906688</title>
+<path fill="none" stroke="black" stroke-width="2" d="M174,-360.03C174,-360.03 174,-336.77 174,-336.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="177.5,-336.77 174,-326.77 170.5,-336.77 177.5,-336.77"/>
 </g>
-<!-- 139711185898656 -->
+<!-- 2155370067968 -->
 <g id="node6" class="node">
-<title>139711185898656</title>
-<polygon fill="none" stroke="black" points="126,-146.5 126,-182.5 234,-182.5 234,-146.5 126,-146.5"/>
-<text text-anchor="middle" x="180" y="-160.8" font-family="Times,serif" font-size="14.00">b2_l2: Dense</text>
+<title>2155370067968</title>
+<polygon fill="none" stroke="black" points="360,-240.5 360,-323.5 700,-323.5 700,-240.5 360,-240.5"/>
+<polygon fill="black" stroke="none" points="360,-240.5 360,-323.5 700,-323.5 700,-240.5 360,-240.5"/>
+<polygon fill="black" stroke="none" points="362,-281.5 362,-321.5 698,-321.5 698,-281.5 362,-281.5"/>
+<polygon fill="none" stroke="black" points="362,-281.5 362,-321.5 698,-321.5 698,-281.5 362,-281.5"/>
+<text text-anchor="start" x="478.62" y="-296.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">b2_l2</text>
+<text text-anchor="start" x="519.88" y="-296.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="362,-242.5 362,-279.5 527,-279.5 527,-242.5 362,-242.5"/>
+<polygon fill="none" stroke="black" points="362,-242.5 362,-279.5 527,-279.5 527,-242.5 362,-242.5"/>
+<text text-anchor="start" x="372.88" y="-256.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="450.88" y="-256.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 16)</text>
+<polygon fill="white" stroke="none" points="529,-242.5 529,-279.5 698,-279.5 698,-242.5 529,-242.5"/>
+<polygon fill="none" stroke="black" points="529,-242.5 529,-279.5 698,-279.5 698,-242.5 529,-242.5"/>
+<text text-anchor="start" x="540" y="-256.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="629.25" y="-256.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 8)</text>
 </g>
-<!-- 139711186036720&#45;&gt;139711185898656 -->
+<!-- 2155374217120&#45;&gt;2155370067968 -->
 <g id="edge5" class="edge">
-<title>139711186036720-&gt;139711185898656</title>
-<path fill="none" stroke="black" d="M180,-219.31C180,-211.29 180,-201.55 180,-192.57"/>
-<polygon fill="black" stroke="black" points="183.5,-192.53 180,-182.53 176.5,-192.53 183.5,-192.53"/>
+<title>2155374217120-&gt;2155370067968</title>
+<path fill="none" stroke="black" stroke-width="2" d="M530,-360.03C530,-360.03 530,-336.77 530,-336.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="533.5,-336.77 530,-326.77 526.5,-336.77 533.5,-336.77"/>
 </g>
-<!-- 139711186054112 -->
+<!-- 2155392138224 -->
 <g id="node7" class="node">
-<title>139711186054112</title>
-<polygon fill="none" stroke="black" points="32,-73.5 32,-109.5 202,-109.5 202,-73.5 32,-73.5"/>
-<text text-anchor="middle" x="117" y="-87.8" font-family="Times,serif" font-size="14.00">merged: Concatenate</text>
+<title>2155392138224</title>
+<polygon fill="none" stroke="black" points="144.5,-120.5 144.5,-203.5 557.5,-203.5 557.5,-120.5 144.5,-120.5"/>
+<polygon fill="black" stroke="none" points="144.5,-120.5 144.5,-203.5 557.5,-203.5 557.5,-120.5 144.5,-120.5"/>
+<polygon fill="black" stroke="none" points="146.5,-161.5 146.5,-201.5 555.5,-201.5 555.5,-161.5 146.5,-161.5"/>
+<polygon fill="none" stroke="black" points="146.5,-161.5 146.5,-201.5 555.5,-201.5 555.5,-161.5 146.5,-161.5"/>
+<text text-anchor="start" x="268.88" y="-176.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">merged</text>
+<text text-anchor="start" x="326.62" y="-176.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Concatenate)</text>
+<polygon fill="white" stroke="none" points="146.5,-122.5 146.5,-159.5 378.5,-159.5 378.5,-122.5 146.5,-122.5"/>
+<polygon fill="none" stroke="black" points="146.5,-122.5 146.5,-159.5 378.5,-159.5 378.5,-122.5 146.5,-122.5"/>
+<text text-anchor="start" x="157.5" y="-136.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="235.5" y="-136.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">[(None, 3), (None, 8)]</text>
+<polygon fill="white" stroke="none" points="380.5,-122.5 380.5,-159.5 555.5,-159.5 555.5,-122.5 380.5,-122.5"/>
+<polygon fill="none" stroke="black" points="380.5,-122.5 380.5,-159.5 555.5,-159.5 555.5,-122.5 380.5,-122.5"/>
+<text text-anchor="start" x="391.12" y="-136.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="480.38" y="-136.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 11)</text>
 </g>
-<!-- 139711185897600&#45;&gt;139711186054112 -->
+<!-- 2155376906688&#45;&gt;2155392138224 -->
 <g id="edge6" class="edge">
-<title>139711185897600-&gt;139711186054112</title>
-<path fill="none" stroke="black" d="M69.25,-146.31C76.99,-137.59 86.53,-126.84 95.04,-117.25"/>
-<polygon fill="black" stroke="black" points="97.87,-119.33 101.89,-109.53 92.63,-114.69 97.87,-119.33"/>
+<title>2155376906688-&gt;2155392138224</title>
+<path fill="none" stroke="black" stroke-width="2" d="M242.25,-240.03C242.25,-240.03 242.25,-216.77 242.25,-216.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="245.75,-216.77 242.25,-206.77 238.75,-216.77 245.75,-216.77"/>
 </g>
-<!-- 139711185898656&#45;&gt;139711186054112 -->
+<!-- 2155370067968&#45;&gt;2155392138224 -->
 <g id="edge7" class="edge">
-<title>139711185898656-&gt;139711186054112</title>
-<path fill="none" stroke="black" d="M164.75,-146.31C157.01,-137.59 147.47,-126.84 138.96,-117.25"/>
-<polygon fill="black" stroke="black" points="141.37,-114.69 132.11,-109.53 136.13,-119.33 141.37,-114.69"/>
+<title>2155370067968-&gt;2155392138224</title>
+<path fill="none" stroke="black" stroke-width="2" d="M458.75,-240.03C458.75,-240.03 458.75,-216.77 458.75,-216.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="462.25,-216.77 458.75,-206.77 455.25,-216.77 462.25,-216.77"/>
 </g>
-<!-- 139711186095552 -->
+<!-- 2155392550576 -->
 <g id="node8" class="node">
-<title>139711186095552</title>
-<polygon fill="none" stroke="black" points="66,-0.5 66,-36.5 168,-36.5 168,-0.5 66,-0.5"/>
-<text text-anchor="middle" x="117" y="-14.8" font-family="Times,serif" font-size="14.00">outp: Dense</text>
+<title>2155392550576</title>
+<polygon fill="none" stroke="black" points="181.5,-0.5 181.5,-83.5 520.5,-83.5 520.5,-0.5 181.5,-0.5"/>
+<polygon fill="black" stroke="none" points="181.5,-0.5 181.5,-83.5 520.5,-83.5 520.5,-0.5 181.5,-0.5"/>
+<polygon fill="black" stroke="none" points="183.5,-41.5 183.5,-81.5 518.5,-81.5 518.5,-41.5 183.5,-41.5"/>
+<polygon fill="none" stroke="black" points="183.5,-41.5 183.5,-81.5 518.5,-81.5 518.5,-41.5 183.5,-41.5"/>
+<text text-anchor="start" x="303" y="-56.3" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00" fill="white">outp</text>
+<text text-anchor="start" x="337.5" y="-56.3" font-family="Helvetica,sans-Serif" font-size="16.00" fill="white"> (Dense)</text>
+<polygon fill="white" stroke="none" points="183.5,-2.5 183.5,-39.5 347.5,-39.5 347.5,-2.5 183.5,-2.5"/>
+<polygon fill="none" stroke="black" points="183.5,-2.5 183.5,-39.5 347.5,-39.5 347.5,-2.5 183.5,-2.5"/>
+<text text-anchor="start" x="194.25" y="-16.2" font-family="Helvetica,sans-Serif" font-size="14.00">Input shape: </text>
+<text text-anchor="start" x="272.25" y="-16.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 11)</text>
+<polygon fill="white" stroke="none" points="349.5,-2.5 349.5,-39.5 518.5,-39.5 518.5,-2.5 349.5,-2.5"/>
+<polygon fill="none" stroke="black" points="349.5,-2.5 349.5,-39.5 518.5,-39.5 518.5,-2.5 349.5,-2.5"/>
+<text text-anchor="start" x="360.5" y="-16.2" font-family="Helvetica,sans-Serif" font-size="14.00">Output shape: </text>
+<text text-anchor="start" x="449.75" y="-16.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">(None, 1)</text>
 </g>
-<!-- 139711186054112&#45;&gt;139711186095552 -->
+<!-- 2155392138224&#45;&gt;2155392550576 -->
 <g id="edge8" class="edge">
-<title>139711186054112-&gt;139711186095552</title>
-<path fill="none" stroke="black" d="M117,-73.31C117,-65.29 117,-55.55 117,-46.57"/>
-<polygon fill="black" stroke="black" points="120.5,-46.53 117,-36.53 113.5,-46.53 120.5,-46.53"/>
+<title>2155392138224-&gt;2155392550576</title>
+<path fill="none" stroke="black" stroke-width="2" d="M351,-120.03C351,-120.03 351,-96.77 351,-96.77"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="354.5,-96.77 351,-86.77 347.5,-96.77 354.5,-96.77"/>
 </g>
 </g>
 </svg>

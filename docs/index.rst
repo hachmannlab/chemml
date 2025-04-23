@@ -123,7 +123,7 @@ Please cite the use of ChemML as:
    ./optimize_task/index
    ./visualize_task/index
    ./automl_task/index
-      
+   ./explain_task/index
 
 
 .. toctree::

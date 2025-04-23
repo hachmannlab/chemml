@@ -1,22 +1,23 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Models module &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -68,7 +74,13 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.initialization.html">Initialization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.datasets.html">Datasets module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Models module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.models.NeuralGraphHidden"><code class="docutils literal notranslate"><span class="pre">NeuralGraphHidden</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.models.NeuralGraphOutput"><code class="docutils literal notranslate"><span class="pre">NeuralGraphOutput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.models.TransferLearning"><code class="docutils literal notranslate"><span class="pre">TransferLearning</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.visualization.html">Visualization module</a></li>
 </ul>
@@ -91,10 +103,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">ChemML API</a> &raquo;</li>
-          <li><a href="API.html">Library API documentation</a> &raquo;</li>
-      <li>Models module</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
+          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
+      <li class="breadcrumb-item active">Models module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/chemml.models.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -104,37 +116,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="models-module">
-<h1>Models module<a class="headerlink" href="#models-module" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-chemml.models"></span><p>The chemml.models.keras module includes (please click on links adjacent to function names for more information):</p>
+  <section id="models-module">
+<h1>Models module<a class="headerlink" href="#models-module" title="Link to this heading"></a></h1>
+<p id="module-chemml.models">The chemml.models.keras module includes (please click on links adjacent to function names for more information):</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.MLP">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">MLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nneurons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nepochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nclasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sgd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">112</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">MLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nneurons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nepochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nclasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sgd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">112</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Link to this definition"></a></dt>
 <dd><p>Class associated with Multi-Layer Perceptron (Neural Network)</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>engine: str</dt><dd><p>Determines the underlying ML library used to build the deep neural network
 can be either ‘tensorflow’ or ‘pytorch’</p>
@@ -179,8 +169,10 @@ If list, should provide exact configurations and parameters corresponding to the
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.MLP.get_model">
-<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.get_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.get_model" title="Link to this definition"></a></dt>
 <dd><p>Returns the entire tensorflow or pytorch model in its current state (fitted or compiled)</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>include_output: bool</dt><dd><p>if True it will return the entire model, if False it will return 
 the model without the output layer</p>
@@ -189,38 +181,49 @@ the model without the output layer</p>
 Note that this number should not include the output layer.</p>
 </dd>
 </dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
 <p>self.model: tensorflow.python.keras type object or torch.nn.Module type object</p>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.MLP.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.load" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.load" title="Link to this definition"></a></dt>
 <dd><p>Loads the chemml.models.MLP object along with the underlying 
 tensorflow.python.keras object</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>path_to_model: str</dt><dd><p>path to the chemml.models.MLP csv file</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.MLP.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.save" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP.save" title="Link to this definition"></a></dt>
 <dd><p>Saves the chemml.models.MLP object along with the underlying 
 tensorflow.python.keras object</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>path: str</dt><dd><p>the path to the directory where the models should be saved</p>
 </dd>
 <dt>filename: str</dt><dd><p>the name of the model file without the file type</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphHidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphHidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt>Hidden Convolutional layer in a Neural Graph (as in Duvenaud et. al.,</dt><dd><p>2015). This layer takes a graph as an input. The graph is represented as by
 three tensors.
@@ -237,13 +240,13 @@ conv_width.
 # Example</p>
 <blockquote>
 <div><p>Define the input:
-<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python</p>
+<a href="#id4"><span class="problematic" id="id5">``</span></a><a href="#id6"><span class="problematic" id="id7">`</span></a>python</p>
 <blockquote>
 <div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
 bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
 edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
 </div></blockquote>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a>`
+<p><a href="#id8"><span class="problematic" id="id9">``</span></a>`
 The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 1. Using an integer <cite>conv_width</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
 <blockquote>
@@ -285,7 +288,7 @@ The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 <p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
 </dd>
 <dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
-<a href="#id7"><span class="problematic" id="id8">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<a href="#id10"><span class="problematic" id="id11">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
 <blockquote>
 <div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
 </div></blockquote>
@@ -302,122 +305,40 @@ The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden.build">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.build" title="Permalink to this definition"></a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden.call">
-<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.call" title="Permalink to this definition"></a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
-from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
-layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
-method to support masking.</p>
-<dl>
-<dt>Args:</dt><dd><dl>
-<dt>inputs: Input tensor, or dict/list/tuple of input tensors.</dt><dd><p>The first positional <cite>inputs</cite> argument is subject to special rules:
-- <cite>inputs</cite> must be explicitly passed. A layer cannot have zero</p>
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden.from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.from_config" title="Link to this definition"></a></dt>
+<dd><p>Creates an operation from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>, capable of instantiating the
+same operation from the config dictionary.</p>
+<p>Note: If you override this method, you might receive a serialized dtype
+config, which is a <cite>dict</cite>. You can deserialize it as follows:</p>
+<p><a href="#id12"><span class="problematic" id="id13">``</span></a><a href="#id14"><span class="problematic" id="id15">`</span></a>python
+if “dtype” in config and isinstance(config[“dtype”], dict):</p>
 <blockquote>
-<div><p>arguments, and <cite>inputs</cite> cannot be provided via the default value
-of a keyword argument.</p>
+<div><p>policy = dtype_policies.deserialize(config[“dtype”])</p>
 </div></blockquote>
-<ul class="simple">
-<li><p>NumPy array or Python scalar values in <cite>inputs</cite> get cast as tensors.</p></li>
-<li><p>Keras mask metadata is only collected from <cite>inputs</cite>.</p></li>
-<li><p>Layers are built (<cite>build(input_shape)</cite> method)
-using shape info from <cite>inputs</cite> only.</p></li>
-<li><p><cite>input_spec</cite> compatibility is only checked against <cite>inputs</cite>.</p></li>
-<li><p>Mixed precision input casting is only applied to <cite>inputs</cite>.
-If a layer has tensor arguments in <cite>*args</cite> or <cite>**kwargs</cite>, their
-casting behavior in mixed precision should be handled manually.</p></li>
-<li><p>The SavedModel input specification is generated using <cite>inputs</cite> only.</p></li>
-<li><p>Integration with various ecosystem packages like TFMOT, TFLite,
-TF.js, etc is only supported for <cite>inputs</cite> and not for tensors in
-positional and keyword arguments.</p></li>
-</ul>
-</dd>
-<dt><a href="#id9"><span class="problematic" id="id10">*</span></a>args: Additional positional arguments. May contain tensors, although</dt><dd><p>this is not recommended, for the reasons above.</p>
-</dd>
-<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Additional keyword arguments. May contain tensors, although</dt><dd><p>this is not recommended, for the reasons above.
-The following optional keyword arguments are reserved:
-- <cite>training</cite>: Boolean scalar tensor of Python boolean indicating</p>
-<blockquote>
-<div><p>whether the <cite>call</cite> is meant for training or inference.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><cite>mask</cite>: Boolean input mask. If the layer’s <cite>call()</cite> method takes a
-<cite>mask</cite> argument, its default value will be set to the mask generated
-for <cite>inputs</cite> by the previous layer (if <cite>input</cite> did come from a layer
-that generated a corresponding mask, i.e. if it came from a Keras
-layer with masking support).</p></li>
-</ul>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden.compute_output_shape">
-<span class="sig-name descname"><span class="pre">compute_output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.compute_output_shape" title="Permalink to this definition"></a></dt>
-<dd><p>Computes the output shape of the layer.</p>
-<p>If the layer has not been built, this method will call <cite>build</cite> on the
-layer. This assumes that the layer will later be used with inputs that
-match the input shape provided here.</p>
+<p><a href="#id16"><span class="problematic" id="id17">``</span></a><a href="#id18"><span class="problematic" id="id19">`</span></a></p>
 <dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>input_shape: Shape tuple (tuple of integers)</dt><dd><p>or list of shape tuples (one per output tensor of the layer).
-Shape tuples can include None for free dimensions,
-instead of an integer.</p>
+<dt>Args:</dt><dd><p>config: A Python dictionary, typically the output of <cite>get_config</cite>.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>An input shape tuple.</p>
+<dt>Returns:</dt><dd><p>An operation instance.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden.get_config">
-<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.get_config" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the config of the layer.</p>
-<p>A layer config is a Python dictionary (serializable)
-containing the configuration of a layer.
-The same layer can be reinstantiated later
-(without its trained weights) from this configuration.</p>
-<p>The config of a layer does not include connectivity
-information, nor the layer class name. These are handled
-by <cite>Network</cite> (one layer of abstraction above).</p>
-<p>Note that <cite>get_config()</cite> does not guarantee to return a fresh copy of dict
-every time it is called. The callers should make a copy of the returned dict
-if they want to modify it.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>Python dictionary.</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden.get_config" title="Link to this definition"></a></dt>
+<dd><p>Returns the config of the object.</p>
+<p>An object config is a Python dictionary (serializable)
+containing the information needed to re-instantiate it.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput" title="Link to this definition"></a></dt>
 <dd><p>Output Convolutional layer in a Neural Graph (as in Duvenaud et. al.,
 2015). This layer takes a graph as an input. The graph is represented as by
 three tensors.</p>
@@ -435,13 +356,13 @@ three tensors.</p>
 need to be summed in the end to come up with the final fingerprint.</p>
 <dl>
 <dt># Example</dt><dd><p>Define the input:
-<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a>python</p>
+<a href="#id20"><span class="problematic" id="id21">``</span></a><a href="#id22"><span class="problematic" id="id23">`</span></a>python</p>
 <blockquote>
 <div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
 bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
 edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
 </div></blockquote>
-<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a></p>
+<p><a href="#id24"><span class="problematic" id="id25">``</span></a><a href="#id26"><span class="problematic" id="id27">`</span></a></p>
 <p>The <cite>NeuralGraphOutput</cite> can be initialised in three ways:
 1. Using an integer <cite>fp_length</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
 <blockquote>
@@ -485,7 +406,7 @@ edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’in
 <p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
 </dd>
 <dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
-<a href="#id21"><span class="problematic" id="id22">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<a href="#id28"><span class="problematic" id="id29">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
 <blockquote>
 <div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
 </div></blockquote>
@@ -500,125 +421,45 @@ edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’in
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput.build">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.build" title="Permalink to this definition"></a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput.call">
-<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.call" title="Permalink to this definition"></a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
-from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
-layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
-method to support masking.</p>
-<dl>
-<dt>Args:</dt><dd><dl>
-<dt>inputs: Input tensor, or dict/list/tuple of input tensors.</dt><dd><p>The first positional <cite>inputs</cite> argument is subject to special rules:
-- <cite>inputs</cite> must be explicitly passed. A layer cannot have zero</p>
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput.from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.from_config" title="Link to this definition"></a></dt>
+<dd><p>Creates an operation from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>, capable of instantiating the
+same operation from the config dictionary.</p>
+<p>Note: If you override this method, you might receive a serialized dtype
+config, which is a <cite>dict</cite>. You can deserialize it as follows:</p>
+<p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a>python
+if “dtype” in config and isinstance(config[“dtype”], dict):</p>
 <blockquote>
-<div><p>arguments, and <cite>inputs</cite> cannot be provided via the default value
-of a keyword argument.</p>
+<div><p>policy = dtype_policies.deserialize(config[“dtype”])</p>
 </div></blockquote>
-<ul class="simple">
-<li><p>NumPy array or Python scalar values in <cite>inputs</cite> get cast as tensors.</p></li>
-<li><p>Keras mask metadata is only collected from <cite>inputs</cite>.</p></li>
-<li><p>Layers are built (<cite>build(input_shape)</cite> method)
-using shape info from <cite>inputs</cite> only.</p></li>
-<li><p><cite>input_spec</cite> compatibility is only checked against <cite>inputs</cite>.</p></li>
-<li><p>Mixed precision input casting is only applied to <cite>inputs</cite>.
-If a layer has tensor arguments in <cite>*args</cite> or <cite>**kwargs</cite>, their
-casting behavior in mixed precision should be handled manually.</p></li>
-<li><p>The SavedModel input specification is generated using <cite>inputs</cite> only.</p></li>
-<li><p>Integration with various ecosystem packages like TFMOT, TFLite,
-TF.js, etc is only supported for <cite>inputs</cite> and not for tensors in
-positional and keyword arguments.</p></li>
-</ul>
-</dd>
-<dt><a href="#id23"><span class="problematic" id="id24">*</span></a>args: Additional positional arguments. May contain tensors, although</dt><dd><p>this is not recommended, for the reasons above.</p>
-</dd>
-<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>kwargs: Additional keyword arguments. May contain tensors, although</dt><dd><p>this is not recommended, for the reasons above.
-The following optional keyword arguments are reserved:
-- <cite>training</cite>: Boolean scalar tensor of Python boolean indicating</p>
-<blockquote>
-<div><p>whether the <cite>call</cite> is meant for training or inference.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><cite>mask</cite>: Boolean input mask. If the layer’s <cite>call()</cite> method takes a
-<cite>mask</cite> argument, its default value will be set to the mask generated
-for <cite>inputs</cite> by the previous layer (if <cite>input</cite> did come from a layer
-that generated a corresponding mask, i.e. if it came from a Keras
-layer with masking support).</p></li>
-</ul>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput.compute_output_shape">
-<span class="sig-name descname"><span class="pre">compute_output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.compute_output_shape" title="Permalink to this definition"></a></dt>
-<dd><p>Computes the output shape of the layer.</p>
-<p>If the layer has not been built, this method will call <cite>build</cite> on the
-layer. This assumes that the layer will later be used with inputs that
-match the input shape provided here.</p>
+<p><a href="#id34"><span class="problematic" id="id35">``</span></a><a href="#id36"><span class="problematic" id="id37">`</span></a></p>
 <dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>input_shape: Shape tuple (tuple of integers)</dt><dd><p>or list of shape tuples (one per output tensor of the layer).
-Shape tuples can include None for free dimensions,
-instead of an integer.</p>
+<dt>Args:</dt><dd><p>config: A Python dictionary, typically the output of <cite>get_config</cite>.</p>
 </dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><p>An input shape tuple.</p>
+<dt>Returns:</dt><dd><p>An operation instance.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.NeuralGraphOutput.get_config">
-<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.get_config" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the config of the layer.</p>
-<p>A layer config is a Python dictionary (serializable)
-containing the configuration of a layer.
-The same layer can be reinstantiated later
-(without its trained weights) from this configuration.</p>
-<p>The config of a layer does not include connectivity
-information, nor the layer class name. These are handled
-by <cite>Network</cite> (one layer of abstraction above).</p>
-<p>Note that <cite>get_config()</cite> does not guarantee to return a fresh copy of dict
-every time it is called. The callers should make a copy of the returned dict
-if they want to modify it.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>Python dictionary.</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphOutput.get_config" title="Link to this definition"></a></dt>
+<dd><p>Returns the config of the object.</p>
+<p>An object config is a Python dictionary (serializable)
+containing the information needed to re-instantiate it.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.TransferLearning">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">TransferLearning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.TransferLearning" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">TransferLearning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.TransferLearning" title="Link to this definition"></a></dt>
 <dd><p>Class used to facilitate transfer learning from a parent (or head) model to a child model.
 Freezes the layers (weights and biases) of the pre-trained base 
 model and removes the output layers and appends the child model to the base model.</p>
+<section id="id38">
+<h2>Parameters<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>base_model: chemml.models.MLP object, tensorflow.python.keras object, or a torch.nn.Module object</dt><dd><p>pre-trained base model</p>
 </dd>
@@ -632,9 +473,11 @@ Note that this number should not include the output layer.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.models.TransferLearning.transfer">
-<span class="sig-name descname"><span class="pre">transfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.TransferLearning.transfer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.TransferLearning.transfer" title="Link to this definition"></a></dt>
 <dd><p>Adds the base model’s frozen layers (without its input and output layers) 
 to the child model and fits the new model to the training data.</p>
+<section id="id39">
+<h3>Parameters<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>X, y: numpy.ndarray</dt><dd><p>X is an array of features and y is an array of the target values
 X should have the same input features (columns) as the base model.</p>
@@ -643,12 +486,17 @@ X should have the same input features (columns) as the base model.</p>
 the final transfer learned model</p>
 </dd>
 </dl>
+</section>
+<section id="id40">
+<h3>Returns<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>child_model: chemml.models.mlp.MLP object</dt><dd><p>The trained transfer-learned child model.</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 </section>

@@ -43,7 +43,7 @@
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "3d38e8c84f8a493bad7ab8a1bce532a4",
+       "model_id": "4671754fe80c465bb3a8fbafd1ca1c65",
        "version_major": 2,
        "version_minor": 0
       },
@@ -64,7 +64,7 @@
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "",
+       "model_id": "921c136d306b4bc98448c48547479db2",
        "version_major": 2,
        "version_minor": 0
       },
@@ -78,12 +78,12 @@
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "4f9123689f044d1986b749eb3c4db64b",
+       "model_id": "da25fc7d8ff54a2abf674e2617905766",
        "version_major": 2,
        "version_minor": 0
       },
       "text/plain": [
-       "Image(value=b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x06\\xde\\x00\\x00\\x01\\x97\\x08\\x06\\x00\\x00\\x004\\xf2$\\xe…"
+       "Image(value=b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x05\\x9e\\x00\\x00\\x01\\x9d\\x08\\x06\\x00\\x00\\x00\\x921f#\\x…"
       ]
      },
      "metadata": {},
@@ -95,8 +95,8 @@
      "text": [
       "\n",
       "The ChemML Wrapper's config file has been successfully saved ...\n",
-      "    config file path: inorganic_crystal.txt\n",
-      "    current directory: /mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemml/docs\n",
+      "    config file name: pyscript_usage.txt\n",
+      "    current directory: c:\\Users\\nitin\\Documents\\UB\\Hachmann_Group\\chemml_dev_nitin\\chemml\\docs\\ipython_notebooks\n",
       "    what's next? run the ChemML Wrapper using the config file with the following codes:\n",
       "        >>> from chemml.wrapper.engine import run\n",
       "        >>> run(INPUT_FILE = 'path_to_the_config_file', OUTPUT_DIRECTORY = 'CMLWrapper_out')\n",
@@ -134,17 +134,71 @@
      "text": [
       "=================================================\n",
       "=================================================\n",
-      "Fri May  7 09:38:06 2021\n",
+      "Tue Nov  5 15:19:01 2024\n",
       "\n",
-      "parsing the input file: /mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemml/docs/inorganic_crystal.txt ...\n",
+      "parsing the input file: ./template_workflows/pyscript_usage.txt ...\n",
       "\n",
+      "1   Task: (Input,datasets)\n",
+      "        <<<<<<<\n",
+      "        host = chemml\n",
+      "        function = load_crystal_structures\n",
+      "        >>>>>>>\n",
+      "        entries -> send (id=0)\n",
+      "        entries -> send (id=1)\n",
+      "        entries -> send (id=6)\n",
+      "         :nothing to receive:\n",
+      "        \n",
+      "2   Task: (Represent,inorganic descriptors)\n",
+      "        <<<<<<<\n",
+      "        host = chemml\n",
+      "        function = CoordinationNumberAttributeGenerator\n",
+      "        >>>>>>>\n",
+      "        df -> send (id=2)\n",
+      "        entries <- recv (id=0)\n",
+      "        \n",
+      "3   Task: (Represent,inorganic descriptors)\n",
+      "        <<<<<<<\n",
+      "        host = chemml\n",
+      "        function = CoulombMatrixAttributeGenerator\n",
+      "        >>>>>>>\n",
+      "        df -> send (id=3)\n",
+      "        entries <- recv (id=1)\n",
+      "        \n",
+      "4   Task: (Prepare,data manipulation)\n",
+      "        <<<<<<<\n",
+      "        host = pandas\n",
+      "        function = concat\n",
+      "        axis = 1\n",
+      "        >>>>>>>\n",
+      "        df -> send (id=5)\n",
+      "        df2 <- recv (id=2)\n",
+      "        df3 <- recv (id=3)\n",
+      "        df1 <- recv (id=4)\n",
+      "        \n",
+      "5   Task: (Input,python script)\n",
+      "        <<<<<<<\n",
+      "        host = chemml\n",
+      "        function = PyScript\n",
+      "        line01 = print ('shape of features:', iv1.shape)\n",
+      "        >>>>>>>\n",
+      "         :nothing to send:\n",
+      "        iv1 <- recv (id=5)\n",
+      "        \n",
+      "6   Task: (Represent,inorganic descriptors)\n",
+      "        <<<<<<<\n",
+      "        host = chemml\n",
+      "        function = EffectiveCoordinationNumberAttributeGenerator\n",
+      "        >>>>>>>\n",
+      "        df -> send (id=4)\n",
+      "        entries <- recv (id=6)\n",
+      "        \n",
       "=================================================\n",
       "\n",
       "======= block#1: (chemml, load_crystal_structures)\n",
       "| run ...\n",
       "\n",
       "| ... done!\n",
-      "| execution time: 9.24s (0h 0m 9.24s)\n",
+      "| execution time: 5.65s (0h 0m 5.65s)\n",
       "=======\n",
       "\n",
       "\n",
@@ -152,7 +206,7 @@
       "| run ...\n",
       "\n",
       "| ... done!\n",
-      "| execution time: 36.34s (0h 0m 36.34s)\n",
+      "| execution time: 34.57s (0h 0m 34.57s)\n",
       "=======\n",
       "\n",
       "\n",
@@ -160,15 +214,29 @@
       "| run ...\n",
       "\n",
       "| ... done!\n",
-      "| execution time: 0.12s (0h 0m 0.12s)\n",
+      "| execution time: 0.09s (0h 0m 0.09s)\n",
       "=======\n",
       "\n",
       "\n",
       "======= block#6: (chemml, EffectiveCoordinationNumberAttributeGenerator)\n",
       "| run ...\n",
-      "\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "c:\\users\\nitin\\documents\\ub\\hachmann_group\\chemml_dev_nitin\\chemml\\chemml\\chem\\magpie_python\\attributes\\generators\\crystal\\CoulombMatrixAttributeGenerator.py:113: ComplexWarning: Casting complex values to real discards the imaginary part\n",
+      "  tmp_array[:] = eigenvalues[:self.n_eigenvalues]\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
       "| ... done!\n",
-      "| execution time: 14.02s (0h 0m 14.02s)\n",
+      "| execution time: 10.77s (0h 0m 10.77s)\n",
       "=======\n",
       "\n",
       "\n",
@@ -176,7 +244,7 @@
       "| run ...\n",
       "\n",
       "| ... done!\n",
-      "| execution time: 0.01s (0h 0m 0.01s)\n",
+      "| execution time: 0.00s (0h 0m 0.00s)\n",
       "=======\n",
       "\n",
       "\n",
@@ -189,15 +257,15 @@
       "=======\n",
       "\n",
       "\n",
-      "Total execution time: 59.73s (0h 0m 59.73s)\n",
-      "2021-05-07 09:39:06\n",
+      "Total execution time: 51.08s (0h 0m 51.08s)\n",
+      "2024-11-05 15:19:52\n",
       "\n"
      ]
     }
    ],
    "source": [
     "from chemml.wrapper.engine import run\n",
-    "run(INPUT_FILE = '/mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemml/docs/inorganic_crystal.txt', OUTPUT_DIRECTORY = 'inorganic_pyscript')"
+    "run(INPUT_FILE = './template_workflows/pyscript_usage.txt', OUTPUT_DIRECTORY = 'inorganic_pyscript')"
    ]
   },
   {
@@ -210,9 +278,9 @@
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "Python [conda env:final_0.7_env]",
+   "display_name": "chemml_dev_env",
    "language": "python",
-   "name": "conda-env-final_0.7_env-py"
+   "name": "python3"
   },
   "language_info": {
    "codemirror_mode": {
@@ -224,7 +292,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.8.8"
+   "version": "3.12.5"
   },
   "widgets": {
    "application/vnd.jupyter.widget-state+json": {

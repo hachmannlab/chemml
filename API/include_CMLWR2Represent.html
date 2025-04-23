@@ -1,22 +1,23 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APEAttributeGenerator &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -29,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -93,11 +99,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">ChemML API</a> &raquo;</li>
-          <li><a href="API.html">Library API documentation</a> &raquo;</li>
-          <li><a href="CMLWReference.html">Wrapper Reference</a> &raquo;</li>
-      <li>APEAttributeGenerator</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ChemML API</a></li>
+          <li class="breadcrumb-item"><a href="API.html">Library API documentation</a></li>
+          <li class="breadcrumb-item"><a href="CMLWReference.html">Wrapper Reference</a></li>
+      <li class="breadcrumb-item active">APEAttributeGenerator</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/API/include_CMLWR2Represent.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -107,54 +113,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="apeattributegenerator">
-<span id="id1"></span><h1>APEAttributeGenerator<a class="headerlink" href="#apeattributegenerator" title="Permalink to this headline"></a></h1>
+  <section id="apeattributegenerator">
+<span id="id1"></span><h1>APEAttributeGenerator<a class="headerlink" href="#apeattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">APEAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -162,7 +144,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -170,13 +152,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -197,29 +179,29 @@
 </dl>
 </section>
 <section id="aprdfattributegenerator">
-<span id="id2"></span><h1>APRDFAttributeGenerator<a class="headerlink" href="#aprdfattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id2"></span><h1>APRDFAttributeGenerator<a class="headerlink" href="#aprdfattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">APRDFAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -227,7 +209,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -235,13 +217,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -263,29 +245,29 @@
 </dl>
 </section>
 <section id="bagofbonds">
-<span id="id3"></span><h1>BagofBonds<a class="headerlink" href="#bagofbonds" title="Permalink to this headline"></a></h1>
+<span id="id3"></span><h1>BagofBonds<a class="headerlink" href="#bagofbonds" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">molecular descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">BagofBonds</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">molecules</span></code> : the molecule numpy array or data frame</div>
 <div class="line-block">
@@ -293,7 +275,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -301,13 +283,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -326,29 +308,29 @@
 </dl>
 </section>
 <section id="chargedependentattributegenerator">
-<span id="id4"></span><h1>ChargeDependentAttributeGenerator<a class="headerlink" href="#chargedependentattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id4"></span><h1>ChargeDependentAttributeGenerator<a class="headerlink" href="#chargedependentattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChargeDependentAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -356,7 +338,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -364,13 +346,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -388,29 +370,29 @@
 </dl>
 </section>
 <section id="chemicalorderingattributegenerator">
-<span id="id5"></span><h1>ChemicalOrderingAttributeGenerator<a class="headerlink" href="#chemicalorderingattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id5"></span><h1>ChemicalOrderingAttributeGenerator<a class="headerlink" href="#chemicalorderingattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemicalOrderingAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -418,7 +400,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -426,13 +408,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -452,34 +434,34 @@
 </dl>
 </section>
 <section id="compositionentry">
-<span id="id6"></span><h1>CompositionEntry<a class="headerlink" href="#compositionentry" title="Permalink to this headline"></a></h1>
+<span id="id6"></span><h1>CompositionEntry<a class="headerlink" href="#compositionentry" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic input</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">CompositionEntry</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">this block doesn’t receive anything</div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -487,13 +469,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -511,29 +493,29 @@
 </dl>
 </section>
 <section id="coordinationnumberattributegenerator">
-<span id="id7"></span><h1>CoordinationNumberAttributeGenerator<a class="headerlink" href="#coordinationnumberattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id7"></span><h1>CoordinationNumberAttributeGenerator<a class="headerlink" href="#coordinationnumberattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">CoordinationNumberAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -541,7 +523,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -549,13 +531,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -573,29 +555,29 @@
 </dl>
 </section>
 <section id="coulombmatrix">
-<span id="id8"></span><h1>CoulombMatrix<a class="headerlink" href="#coulombmatrix" title="Permalink to this headline"></a></h1>
+<span id="id8"></span><h1>CoulombMatrix<a class="headerlink" href="#coulombmatrix" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">molecular descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">CoulombMatrix</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">molecules</span></code> : the molecule numpy array or data frame</div>
 <div class="line-block">
@@ -603,7 +585,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -611,13 +593,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -639,29 +621,29 @@
 </dl>
 </section>
 <section id="coulombmatrixattributegenerator">
-<span id="id9"></span><h1>CoulombMatrixAttributeGenerator<a class="headerlink" href="#coulombmatrixattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id9"></span><h1>CoulombMatrixAttributeGenerator<a class="headerlink" href="#coulombmatrixattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">CoulombMatrixAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -669,7 +651,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -677,13 +659,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -702,34 +684,34 @@
 </dl>
 </section>
 <section id="crystalstructureentry">
-<span id="id10"></span><h1>CrystalStructureEntry<a class="headerlink" href="#crystalstructureentry" title="Permalink to this headline"></a></h1>
+<span id="id10"></span><h1>CrystalStructureEntry<a class="headerlink" href="#crystalstructureentry" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic input</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">CrystalStructureEntry</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">this block doesn’t receive anything</div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -737,13 +719,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -761,29 +743,29 @@
 </dl>
 </section>
 <section id="distancematrix">
-<span id="id11"></span><h1>DistanceMatrix<a class="headerlink" href="#distancematrix" title="Permalink to this headline"></a></h1>
+<span id="id11"></span><h1>DistanceMatrix<a class="headerlink" href="#distancematrix" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">distance matrix</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">DistanceMatrix</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -791,7 +773,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -799,13 +781,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -825,29 +807,29 @@
 </dl>
 </section>
 <section id="dragon">
-<span id="id12"></span><h1>Dragon<a class="headerlink" href="#dragon" title="Permalink to this headline"></a></h1>
+<span id="id12"></span><h1>Dragon<a class="headerlink" href="#dragon" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">molecular descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">Dragon</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">molfile</span></code> : the molecule file path</div>
 <div class="line-block">
@@ -855,7 +837,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -863,7 +845,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">script</span></code> : , (default:new)</div>
 <div class="line"><br /></div>
@@ -872,7 +854,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
@@ -880,7 +862,7 @@
 <div class="line">lxml, 3.4.0</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -958,29 +940,29 @@
 </dl>
 </section>
 <section id="effectivecoordinationnumberattributegenerator">
-<span id="id13"></span><h1>EffectiveCoordinationNumberAttributeGenerator<a class="headerlink" href="#effectivecoordinationnumberattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id13"></span><h1>EffectiveCoordinationNumberAttributeGenerator<a class="headerlink" href="#effectivecoordinationnumberattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">EffectiveCoordinationNumberAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -988,7 +970,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -996,13 +978,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1020,29 +1002,29 @@
 </dl>
 </section>
 <section id="elementfractionattributegenerator">
-<span id="id14"></span><h1>ElementFractionAttributeGenerator<a class="headerlink" href="#elementfractionattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id14"></span><h1>ElementFractionAttributeGenerator<a class="headerlink" href="#elementfractionattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ElementFractionAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1050,7 +1032,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1058,13 +1040,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1082,29 +1064,29 @@
 </dl>
 </section>
 <section id="elementpairpropertyattributegenerator">
-<span id="id15"></span><h1>ElementPairPropertyAttributeGenerator<a class="headerlink" href="#elementpairpropertyattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id15"></span><h1>ElementPairPropertyAttributeGenerator<a class="headerlink" href="#elementpairpropertyattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ElementPairPropertyAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1112,7 +1094,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1120,13 +1102,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1145,29 +1127,29 @@
 </dl>
 </section>
 <section id="elementalpropertyattributegenerator">
-<span id="id16"></span><h1>ElementalPropertyAttributeGenerator<a class="headerlink" href="#elementalpropertyattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id16"></span><h1>ElementalPropertyAttributeGenerator<a class="headerlink" href="#elementalpropertyattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ElementalPropertyAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1175,7 +1157,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1183,7 +1165,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">elemental_properties</span></code> : , (default:None)</div>
 <div class="line"><br /></div>
@@ -1192,13 +1174,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1218,29 +1200,29 @@
 </dl>
 </section>
 <section id="gclpattributegenerator">
-<span id="id17"></span><h1>GCLPAttributeGenerator<a class="headerlink" href="#gclpattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id17"></span><h1>GCLPAttributeGenerator<a class="headerlink" href="#gclpattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">GCLPAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">energies</span></code> : to be passed to the parameter energies</div>
 <div class="line-block">
@@ -1256,7 +1238,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1264,13 +1246,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1293,29 +1275,29 @@
 </dl>
 </section>
 <section id="ioniccompoundproximityattributegenerator">
-<span id="id18"></span><h1>IonicCompoundProximityAttributeGenerator<a class="headerlink" href="#ioniccompoundproximityattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id18"></span><h1>IonicCompoundProximityAttributeGenerator<a class="headerlink" href="#ioniccompoundproximityattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">IonicCompoundProximityAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1323,7 +1305,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1331,13 +1313,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1356,29 +1338,29 @@
 </dl>
 </section>
 <section id="ionicityattributegenerator">
-<span id="id19"></span><h1>IonicityAttributeGenerator<a class="headerlink" href="#ionicityattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id19"></span><h1>IonicityAttributeGenerator<a class="headerlink" href="#ionicityattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">IonicityAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1386,7 +1368,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1394,13 +1376,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1418,29 +1400,29 @@
 </dl>
 </section>
 <section id="latticesimilarityattributegenerator">
-<span id="id20"></span><h1>LatticeSimilarityAttributeGenerator<a class="headerlink" href="#latticesimilarityattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id20"></span><h1>LatticeSimilarityAttributeGenerator<a class="headerlink" href="#latticesimilarityattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LatticeSimilarityAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1448,7 +1430,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1456,13 +1438,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1480,29 +1462,29 @@
 </dl>
 </section>
 <section id="localpropertydifferenceattributegenerator">
-<span id="id21"></span><h1>LocalPropertyDifferenceAttributeGenerator<a class="headerlink" href="#localpropertydifferenceattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id21"></span><h1>LocalPropertyDifferenceAttributeGenerator<a class="headerlink" href="#localpropertydifferenceattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LocalPropertyDifferenceAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1510,7 +1492,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1518,13 +1500,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1544,29 +1526,29 @@
 </dl>
 </section>
 <section id="localpropertyvarianceattributegenerator">
-<span id="id22"></span><h1>LocalPropertyVarianceAttributeGenerator<a class="headerlink" href="#localpropertyvarianceattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id22"></span><h1>LocalPropertyVarianceAttributeGenerator<a class="headerlink" href="#localpropertyvarianceattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">LocalPropertyVarianceAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1574,7 +1556,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1582,13 +1564,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1608,29 +1590,29 @@
 </dl>
 </section>
 <section id="meredigattributegenerator">
-<span id="id23"></span><h1>MeredigAttributeGenerator<a class="headerlink" href="#meredigattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id23"></span><h1>MeredigAttributeGenerator<a class="headerlink" href="#meredigattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">MeredigAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1638,7 +1620,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1646,13 +1628,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1670,29 +1652,29 @@
 </dl>
 </section>
 <section id="prdfattributegenerator">
-<span id="id24"></span><h1>PRDFAttributeGenerator<a class="headerlink" href="#prdfattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id24"></span><h1>PRDFAttributeGenerator<a class="headerlink" href="#prdfattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">PRDFAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1700,7 +1682,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1708,13 +1690,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1734,29 +1716,29 @@
 </dl>
 </section>
 <section id="packingefficiencyattributegenerator">
-<span id="id25"></span><h1>PackingEfficiencyAttributeGenerator<a class="headerlink" href="#packingefficiencyattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id25"></span><h1>PackingEfficiencyAttributeGenerator<a class="headerlink" href="#packingefficiencyattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">PackingEfficiencyAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1764,7 +1746,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1772,13 +1754,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1796,29 +1778,29 @@
 </dl>
 </section>
 <section id="rdkitfingerprint">
-<span id="id26"></span><h1>RDKitFingerprint<a class="headerlink" href="#rdkitfingerprint" title="Permalink to this headline"></a></h1>
+<span id="id26"></span><h1>RDKitFingerprint<a class="headerlink" href="#rdkitfingerprint" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">molecular descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">RDKitFingerprint</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">molfile</span></code> : the molecule file path</div>
 <div class="line-block">
@@ -1826,7 +1808,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1838,14 +1820,14 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 <div class="line">RDKit, 2016.03.1</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1872,29 +1854,29 @@
 </dl>
 </section>
 <section id="stoichiometricattributegenerator">
-<span id="id27"></span><h1>StoichiometricAttributeGenerator<a class="headerlink" href="#stoichiometricattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id27"></span><h1>StoichiometricAttributeGenerator<a class="headerlink" href="#stoichiometricattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">StoichiometricAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -1902,7 +1884,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1910,7 +1892,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">wrapper parameters</dt>
+<dt class="field-odd">wrapper parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">use_default_norms</span></code> : , (default:None)</div>
 <div class="line"><br /></div>
@@ -1919,13 +1901,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">required packages</dt>
+<dt class="field-even">required packages<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-odd">config file view</dt>
+<dt class="field-odd">config file view<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -1945,29 +1927,29 @@
 </dl>
 </section>
 <section id="structuralheterogeneityattributegenerator">
-<span id="id28"></span><h1>StructuralHeterogeneityAttributeGenerator<a class="headerlink" href="#structuralheterogeneityattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id28"></span><h1>StructuralHeterogeneityAttributeGenerator<a class="headerlink" href="#structuralheterogeneityattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">StructuralHeterogeneityAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CrystalStructureEntry class.</div>
 <div class="line-block">
@@ -1975,7 +1957,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -1983,13 +1965,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -2007,29 +1989,29 @@
 </dl>
 </section>
 <section id="valenceshellattributegenerator">
-<span id="id29"></span><h1>ValenceShellAttributeGenerator<a class="headerlink" href="#valenceshellattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id29"></span><h1>ValenceShellAttributeGenerator<a class="headerlink" href="#valenceshellattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">ValenceShellAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -2037,7 +2019,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -2045,13 +2027,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">
@@ -2069,29 +2051,29 @@
 </dl>
 </section>
 <section id="yangomegaattributegenerator">
-<span id="id30"></span><h1>YangOmegaAttributeGenerator<a class="headerlink" href="#yangomegaattributegenerator" title="Permalink to this headline"></a></h1>
+<span id="id30"></span><h1>YangOmegaAttributeGenerator<a class="headerlink" href="#yangomegaattributegenerator" title="Link to this heading"></a></h1>
 <dl class="field-list">
-<dt class="field-odd">task</dt>
+<dt class="field-odd">task<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">Represent</div>
 </div>
 </dd>
-<dt class="field-even">subtask</dt>
+<dt class="field-even">subtask<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">inorganic descriptors</div>
 </div>
 </dd>
-<dt class="field-odd">host</dt>
+<dt class="field-odd">host<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">chemml</div>
 </div>
 </dd>
-<dt class="field-even">function</dt>
+<dt class="field-even">function<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">YangOmegaAttributeGenerator</div>
 </div>
 </dd>
-<dt class="field-odd">input tokens (receivers)</dt>
+<dt class="field-odd">input tokens (receivers)<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">entries</span></code> : list of entries from CompositionEntry class.</div>
 <div class="line-block">
@@ -2099,7 +2081,7 @@
 </div>
 </div>
 </dd>
-<dt class="field-even">output tokens (senders)</dt>
+<dt class="field-even">output tokens (senders)<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">df</span></code> : pandas dataframe</div>
 <div class="line-block">
@@ -2107,13 +2089,13 @@
 </div>
 </div>
 </dd>
-<dt class="field-odd">required packages</dt>
+<dt class="field-odd">required packages<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">ChemML, 0.4.1</div>
 <div class="line">pandas, 0.20.3</div>
 </div>
 </dd>
-<dt class="field-even">config file view</dt>
+<dt class="field-even">config file view<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">##</span></code></div>
 <div class="line-block">

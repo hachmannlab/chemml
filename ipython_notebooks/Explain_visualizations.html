@@ -1,27 +1,31 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Introduction to ChemML Wrapper" href="../chemml_wrapper.html" />
+    <link rel="prev" title="Explain" href="../explain_task/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -29,18 +33,22 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> ChemML
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
@@ -49,6 +57,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../explain_task/index.html">Explain</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generating Deep Neural Network Model Explanations via ChemML’s Explain Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model.">The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DeepSHAP-Explanations">DeepSHAP Explanations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library.">Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -77,8 +94,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../explain_task/index.html">Explain</a></li>
+      <li class="breadcrumb-item active">Generating Deep Neural Network Model Explanations via ChemML’s Explain Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/ipython_notebooks/Explain_visualizations.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,287 +106,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="Generating-Deep-Neural-Network-Model-Explanations-via-ChemML’s-Explain-Module">
-<h1>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module<a class="headerlink" href="#Generating-Deep-Neural-Network-Model-Explanations-via-ChemML’s-Explain-Module" title="Permalink to this headline"></a></h1>
+  <section id="Generating-Deep-Neural-Network-Model-Explanations-via-ChemML's-Explain-Module">
+<h1>Generating Deep Neural Network Model Explanations via ChemML’s Explain Module<a class="headerlink" href="#Generating-Deep-Neural-Network-Model-Explanations-via-ChemML's-Explain-Module" title="Link to this heading"></a></h1>
 <section id="The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model.">
-<h2>The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.<a class="headerlink" href="#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model." title="Permalink to this headline"></a></h2>
+<h2>The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.<a class="headerlink" href="#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model." title="Link to this heading"></a></h2>
 <p>We use a sample dataset from ChemML library which has the SMILES codes and 200 Dragon molecular descriptors (features) for 500 small organic molecules with their densities in <span class="math notranslate nohighlight">\(kg/m^3\)</span>. We split the dataset into training and testing subsets and scale them. We then build and train a pytorch DNN on the training subset.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">shap</span>
 <span class="kn">from</span> <span class="nn">chemml.models</span> <span class="kn">import</span> <span class="n">MLP</span>
 <span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="kn">import</span> <span class="n">load_organic_density</span>
@@ -397,21 +144,13 @@ div.rendered_html tbody tr:hover {
 <span class="c1"># PYTORCH</span>
 <span class="n">r1_pytorch</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pytorch&#39;</span><span class="p">,</span><span class="n">nfeatures</span><span class="o">=</span><span class="n">Xtr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nneurons</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">activations</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span><span class="s1">&#39;ReLU&#39;</span><span class="p">,</span><span class="s1">&#39;ReLU&#39;</span><span class="p">],</span>
         <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">nepochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span>
-        <span class="n">regression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nclasses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layer_config_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opt_config</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">)</span>
+        <span class="n">is_regression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nclasses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layer_config_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opt_config</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">)</span>
 
 <span class="n">r1_pytorch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
 <span class="n">engine_model</span> <span class="o">=</span> <span class="n">r1_pytorch</span><span class="o">.</span><span class="n">get_model</span><span class="p">()</span>
 <span class="n">engine_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-In a future version of pandas all arguments of DataFrame.drop except for the argument &#39;labels&#39; will be keyword-only.
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -421,25 +160,24 @@ In a future version of pandas all arguments of DataFrame.drop except for the arg
 <div class="highlight"><pre>
 Sequential(
   (0): Linear(in_features=200, out_features=100, bias=True)
-  (1): Linear(in_features=100, out_features=100, bias=True)
-  (2): ReLU()
-  (3): Linear(in_features=100, out_features=100, bias=True)
-  (4): ReLU()
-  (5): Linear(in_features=100, out_features=1, bias=True)
-  (6): ReLU()
+  (1): ReLU()
+  (2): Linear(in_features=100, out_features=100, bias=True)
+  (3): ReLU()
+  (4): Linear(in_features=100, out_features=100, bias=True)
+  (5): ReLU()
+  (6): Linear(in_features=100, out_features=1, bias=True)
 )
 </pre></div></div>
 </div>
 </section>
 <section id="DeepSHAP-Explanations">
-<h2>DeepSHAP Explanations<a class="headerlink" href="#DeepSHAP-Explanations" title="Permalink to this headline"></a></h2>
+<h2>DeepSHAP Explanations<a class="headerlink" href="#DeepSHAP-Explanations" title="Link to this heading"></a></h2>
 <p>We instantiate the <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> object with an instance to be explained, the pytorch DNN object, and the feature names (columns). We then call the DeepSHAP method with a set of background or reference samples as directed by the <a class="reference external" href="https://shap-lrjball.readthedocs.io/en/latest/generated/shap.DeepExplainer.html">SHAP library</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
 
 <span class="n">explanation</span><span class="p">,</span> <span class="n">shap_obj</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">DeepSHAP</span><span class="p">(</span><span class="n">X_background</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
@@ -447,14 +185,6 @@ Sequential(
 <span class="n">explanation</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -505,27 +235,27 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.004226</td>
-      <td>-0.017965</td>
-      <td>-0.002007</td>
-      <td>-0.000315</td>
-      <td>-0.00169</td>
-      <td>-0.000138</td>
-      <td>-0.005208</td>
-      <td>-0.047417</td>
-      <td>0.00027</td>
-      <td>-0.000075</td>
+      <td>0.031939</td>
+      <td>-0.05199</td>
+      <td>-0.006925</td>
+      <td>-0.006857</td>
+      <td>0.027388</td>
+      <td>-0.020872</td>
+      <td>-0.057089</td>
+      <td>-0.115971</td>
+      <td>-0.00581</td>
+      <td>-0.000805</td>
       <td>...</td>
-      <td>-0.01016</td>
-      <td>-0.004733</td>
-      <td>-0.000346</td>
-      <td>0.000708</td>
-      <td>0.001949</td>
-      <td>0.001744</td>
-      <td>0.003523</td>
-      <td>0.003081</td>
-      <td>0.001851</td>
-      <td>-0.000127</td>
+      <td>-0.087464</td>
+      <td>-0.240233</td>
+      <td>0.002718</td>
+      <td>0.003733</td>
+      <td>0.008075</td>
+      <td>0.011319</td>
+      <td>0.007988</td>
+      <td>-0.000032</td>
+      <td>0.01838</td>
+      <td>0.002904</td>
     </tr>
   </tbody>
 </table>
@@ -534,34 +264,12 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 </div>
 </section>
 <section id="Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library.">
-<h2>Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.<a class="headerlink" href="#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library." title="Permalink to this headline"></a></h2>
+<h2>Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.<a class="headerlink" href="#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library." title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/ipython_notebooks_Explain_visualizations_7_0.png" src="../_images/ipython_notebooks_Explain_visualizations_7_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span>
-<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
-
-<span class="n">explanation</span><span class="p">,</span> <span class="n">shap_obj</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">DeepSHAP</span><span class="p">(</span><span class="n">X_background</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
-
-<span class="n">explanation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -570,8 +278,31 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
+c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\explain\visualize.py:126: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  sval = shap_values[order[i]]
+c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\explain\visualize.py:148: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  yticklabels[rng[i]] = _format_value(features[order[i]], &#34;%0.03f&#34;) + &#34; = &#34; + feature_names[order[i]]
 </pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_Explain_visualizations_7_1.png" src="../_images/ipython_notebooks_Explain_visualizations_7_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="n">explanation</span><span class="p">,</span> <span class="n">shap_obj</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">DeepSHAP</span><span class="p">(</span><span class="n">X_background</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">explanation</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -622,123 +353,123 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.004226</td>
-      <td>-0.017965</td>
-      <td>-0.002007</td>
-      <td>-0.000315</td>
-      <td>-0.001690</td>
-      <td>-0.000138</td>
-      <td>-0.005208</td>
-      <td>-0.047417</td>
-      <td>0.000270</td>
-      <td>-0.000075</td>
+      <td>0.031939</td>
+      <td>-0.051990</td>
+      <td>-0.006925</td>
+      <td>-0.006857</td>
+      <td>0.027388</td>
+      <td>-0.020872</td>
+      <td>-0.057089</td>
+      <td>-0.115971</td>
+      <td>-0.005810</td>
+      <td>-0.000805</td>
       <td>...</td>
-      <td>-0.010160</td>
-      <td>-0.004733</td>
-      <td>-0.000346</td>
-      <td>0.000708</td>
-      <td>0.001949</td>
-      <td>0.001744</td>
-      <td>0.003523</td>
-      <td>0.003081</td>
-      <td>0.001851</td>
-      <td>-0.000127</td>
+      <td>-0.087464</td>
+      <td>-0.240233</td>
+      <td>0.002718</td>
+      <td>0.003733</td>
+      <td>0.008075</td>
+      <td>0.011319</td>
+      <td>0.007988</td>
+      <td>-0.000032</td>
+      <td>0.018380</td>
+      <td>0.002904</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>-0.028730</td>
-      <td>0.016923</td>
-      <td>0.008729</td>
-      <td>0.001357</td>
-      <td>0.006194</td>
-      <td>0.000647</td>
-      <td>0.007421</td>
-      <td>0.095255</td>
-      <td>-0.015222</td>
-      <td>0.001943</td>
+      <td>-0.030329</td>
+      <td>0.045286</td>
+      <td>0.003471</td>
+      <td>0.009392</td>
+      <td>-0.033369</td>
+      <td>0.005686</td>
+      <td>0.015329</td>
+      <td>0.132120</td>
+      <td>-0.011706</td>
+      <td>0.006712</td>
       <td>...</td>
-      <td>0.010119</td>
-      <td>0.004144</td>
-      <td>-0.005155</td>
-      <td>-0.008186</td>
-      <td>-0.016180</td>
-      <td>-0.012706</td>
-      <td>-0.022199</td>
-      <td>-0.010823</td>
-      <td>-0.022696</td>
-      <td>0.000656</td>
+      <td>0.013431</td>
+      <td>0.027834</td>
+      <td>0.004760</td>
+      <td>-0.020271</td>
+      <td>-0.006235</td>
+      <td>-0.019104</td>
+      <td>-0.005018</td>
+      <td>-0.010347</td>
+      <td>-0.040244</td>
+      <td>-0.002089</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0.033408</td>
-      <td>-0.022131</td>
-      <td>-0.010370</td>
-      <td>-0.001949</td>
-      <td>-0.005127</td>
-      <td>-0.000974</td>
-      <td>-0.007972</td>
-      <td>-0.009267</td>
-      <td>-0.020344</td>
-      <td>0.002649</td>
+      <td>0.073318</td>
+      <td>-0.011014</td>
+      <td>-0.010239</td>
+      <td>-0.012253</td>
+      <td>0.034129</td>
+      <td>-0.015133</td>
+      <td>-0.017885</td>
+      <td>0.005359</td>
+      <td>-0.016987</td>
+      <td>0.026442</td>
       <td>...</td>
-      <td>0.002977</td>
-      <td>0.002012</td>
-      <td>0.008781</td>
-      <td>0.011291</td>
-      <td>0.016925</td>
-      <td>0.012719</td>
-      <td>0.015563</td>
-      <td>0.004058</td>
-      <td>0.029044</td>
-      <td>-0.002798</td>
+      <td>0.006582</td>
+      <td>0.013818</td>
+      <td>-0.008897</td>
+      <td>0.031285</td>
+      <td>0.015545</td>
+      <td>0.022423</td>
+      <td>0.014267</td>
+      <td>-0.002429</td>
+      <td>0.078428</td>
+      <td>-0.039955</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>-0.049662</td>
-      <td>0.035422</td>
-      <td>0.021034</td>
-      <td>0.002494</td>
-      <td>0.009761</td>
-      <td>0.001202</td>
-      <td>-0.011599</td>
-      <td>0.068437</td>
-      <td>-0.010441</td>
-      <td>-0.000044</td>
+      <td>-0.051775</td>
+      <td>0.060634</td>
+      <td>0.028966</td>
+      <td>0.011126</td>
+      <td>-0.046096</td>
+      <td>0.022779</td>
+      <td>-0.021990</td>
+      <td>0.079879</td>
+      <td>-0.005687</td>
+      <td>-0.001833</td>
       <td>...</td>
-      <td>-0.027242</td>
-      <td>-0.014504</td>
-      <td>-0.018708</td>
-      <td>-0.023040</td>
-      <td>-0.027916</td>
-      <td>-0.017599</td>
-      <td>-0.025875</td>
-      <td>-0.015381</td>
-      <td>-0.049061</td>
-      <td>0.005836</td>
+      <td>-0.055763</td>
+      <td>-0.149791</td>
+      <td>0.011571</td>
+      <td>-0.056075</td>
+      <td>-0.012510</td>
+      <td>-0.014471</td>
+      <td>-0.010389</td>
+      <td>-0.003207</td>
+      <td>-0.077971</td>
+      <td>0.076956</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.043910</td>
-      <td>0.027921</td>
-      <td>-0.007267</td>
-      <td>-0.001379</td>
-      <td>-0.004171</td>
-      <td>-0.000695</td>
-      <td>-0.002118</td>
-      <td>0.024150</td>
-      <td>0.002204</td>
-      <td>0.003459</td>
+      <td>0.078189</td>
+      <td>0.049846</td>
+      <td>-0.006229</td>
+      <td>-0.007896</td>
+      <td>0.024672</td>
+      <td>-0.011916</td>
+      <td>-0.001073</td>
+      <td>0.035578</td>
+      <td>-0.000805</td>
+      <td>0.019776</td>
       <td>...</td>
-      <td>0.001431</td>
-      <td>0.001361</td>
-      <td>0.007888</td>
-      <td>0.013086</td>
-      <td>0.018476</td>
-      <td>0.015196</td>
-      <td>0.030085</td>
-      <td>0.008146</td>
-      <td>0.041555</td>
-      <td>-0.001472</td>
+      <td>0.003993</td>
+      <td>0.007286</td>
+      <td>-0.010335</td>
+      <td>0.039825</td>
+      <td>0.012199</td>
+      <td>0.021159</td>
+      <td>0.010633</td>
+      <td>0.004272</td>
+      <td>0.090355</td>
+      <td>-0.020396</td>
     </tr>
     <tr>
       <th>...</th>
@@ -766,123 +497,123 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
     </tr>
     <tr>
       <th>445</th>
-      <td>0.005420</td>
-      <td>0.363526</td>
-      <td>0.021909</td>
-      <td>0.005207</td>
-      <td>0.012532</td>
-      <td>0.002856</td>
-      <td>0.063025</td>
-      <td>0.353158</td>
-      <td>0.146915</td>
-      <td>0.001592</td>
+      <td>0.008847</td>
+      <td>0.394204</td>
+      <td>0.027389</td>
+      <td>0.021292</td>
+      <td>-0.046195</td>
+      <td>0.024054</td>
+      <td>0.122414</td>
+      <td>0.310809</td>
+      <td>0.111767</td>
+      <td>0.002920</td>
       <td>...</td>
-      <td>-0.000388</td>
-      <td>0.000952</td>
-      <td>-0.007028</td>
-      <td>-0.001970</td>
-      <td>-0.001590</td>
-      <td>0.001733</td>
-      <td>0.010887</td>
-      <td>-0.009257</td>
-      <td>0.012901</td>
-      <td>0.002078</td>
+      <td>0.001368</td>
+      <td>0.002888</td>
+      <td>0.011813</td>
+      <td>-0.006262</td>
+      <td>-0.004366</td>
+      <td>0.002759</td>
+      <td>0.004123</td>
+      <td>-0.014602</td>
+      <td>0.027206</td>
+      <td>0.010870</td>
     </tr>
     <tr>
       <th>446</th>
-      <td>0.022738</td>
-      <td>-0.000947</td>
-      <td>-0.008990</td>
-      <td>-0.000644</td>
-      <td>-0.005321</td>
-      <td>-0.000275</td>
-      <td>0.008555</td>
-      <td>-0.076582</td>
-      <td>0.034864</td>
-      <td>-0.003276</td>
+      <td>0.064879</td>
+      <td>0.029331</td>
+      <td>-0.023800</td>
+      <td>-0.014171</td>
+      <td>0.023401</td>
+      <td>-0.014327</td>
+      <td>0.026467</td>
+      <td>-0.096276</td>
+      <td>0.037964</td>
+      <td>-0.028652</td>
       <td>...</td>
-      <td>0.001233</td>
-      <td>0.001632</td>
-      <td>0.007859</td>
-      <td>0.008330</td>
-      <td>0.015024</td>
-      <td>0.011447</td>
-      <td>0.016477</td>
-      <td>0.011646</td>
-      <td>0.016196</td>
-      <td>-0.001541</td>
+      <td>0.000230</td>
+      <td>0.005973</td>
+      <td>0.003281</td>
+      <td>0.038597</td>
+      <td>0.030991</td>
+      <td>0.038983</td>
+      <td>0.024876</td>
+      <td>0.010109</td>
+      <td>0.078109</td>
+      <td>-0.032479</td>
     </tr>
     <tr>
       <th>447</th>
-      <td>0.040769</td>
-      <td>-0.017716</td>
-      <td>-0.012482</td>
-      <td>-0.002395</td>
-      <td>-0.006325</td>
-      <td>-0.001261</td>
-      <td>-0.006515</td>
-      <td>-0.010023</td>
-      <td>-0.017198</td>
-      <td>0.004421</td>
+      <td>0.086556</td>
+      <td>-0.004422</td>
+      <td>-0.007464</td>
+      <td>-0.019316</td>
+      <td>0.037914</td>
+      <td>-0.011631</td>
+      <td>-0.008085</td>
+      <td>0.005726</td>
+      <td>-0.011518</td>
+      <td>0.041259</td>
       <td>...</td>
-      <td>0.004269</td>
-      <td>0.002139</td>
-      <td>0.011364</td>
-      <td>0.014354</td>
-      <td>0.018635</td>
-      <td>0.012219</td>
-      <td>0.019320</td>
-      <td>0.013332</td>
-      <td>0.037022</td>
-      <td>-0.002666</td>
+      <td>0.008781</td>
+      <td>0.014713</td>
+      <td>-0.020406</td>
+      <td>0.043650</td>
+      <td>0.018309</td>
+      <td>0.026390</td>
+      <td>0.009535</td>
+      <td>0.016264</td>
+      <td>0.104574</td>
+      <td>-0.033671</td>
     </tr>
     <tr>
       <th>448</th>
-      <td>0.031687</td>
-      <td>0.000953</td>
-      <td>-0.011975</td>
-      <td>-0.001535</td>
-      <td>-0.007395</td>
-      <td>-0.000637</td>
-      <td>0.007118</td>
-      <td>-0.048946</td>
-      <td>0.023622</td>
-      <td>-0.005410</td>
+      <td>0.090357</td>
+      <td>0.031684</td>
+      <td>-0.036333</td>
+      <td>-0.023286</td>
+      <td>0.013101</td>
+      <td>-0.025404</td>
+      <td>0.024115</td>
+      <td>-0.069291</td>
+      <td>0.041967</td>
+      <td>-0.028402</td>
       <td>...</td>
-      <td>0.002070</td>
-      <td>0.000787</td>
-      <td>0.008766</td>
-      <td>0.011670</td>
-      <td>0.019803</td>
-      <td>0.014711</td>
-      <td>0.023315</td>
-      <td>0.013825</td>
-      <td>0.028351</td>
-      <td>-0.001976</td>
+      <td>0.004694</td>
+      <td>0.006852</td>
+      <td>0.001424</td>
+      <td>0.085513</td>
+      <td>0.071626</td>
+      <td>0.091616</td>
+      <td>0.028419</td>
+      <td>0.041313</td>
+      <td>0.184755</td>
+      <td>-0.036952</td>
     </tr>
     <tr>
       <th>449</th>
-      <td>0.086079</td>
-      <td>0.019403</td>
-      <td>-0.024792</td>
-      <td>-0.004013</td>
-      <td>-0.015506</td>
-      <td>-0.001990</td>
-      <td>0.006451</td>
-      <td>-0.047543</td>
-      <td>0.034029</td>
-      <td>-0.004332</td>
+      <td>0.110965</td>
+      <td>0.032688</td>
+      <td>-0.040615</td>
+      <td>-0.028315</td>
+      <td>0.032846</td>
+      <td>-0.037154</td>
+      <td>0.013515</td>
+      <td>-0.028467</td>
+      <td>0.022227</td>
+      <td>-0.025841</td>
       <td>...</td>
-      <td>-0.008165</td>
-      <td>-0.001471</td>
-      <td>0.019860</td>
-      <td>0.026304</td>
-      <td>0.049016</td>
-      <td>0.040434</td>
-      <td>0.062661</td>
-      <td>0.038612</td>
-      <td>0.073309</td>
-      <td>-0.005649</td>
+      <td>-0.010460</td>
+      <td>-0.014772</td>
+      <td>-0.005115</td>
+      <td>0.075755</td>
+      <td>0.068138</td>
+      <td>0.088936</td>
+      <td>0.046433</td>
+      <td>0.050386</td>
+      <td>0.161519</td>
+      <td>-0.073746</td>
     </tr>
   </tbody>
 </table>
@@ -893,24 +624,31 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel_df</span><span class="o">=</span><span class="n">explanation</span><span class="p">,</span><span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shap_obj</span><span class="o">=</span><span class="n">shap_obj</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\explain\visualize.py:381: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;vmin&#39;, &#39;vmax&#39; will be ignored
+  ax.scatter(shaps[nan_mask], pos + ys[nan_mask], color=&#34;#5c5ccd&#34;, vmin=vmin, vmax=vmax, s=16, alpha=1, linewidth=0, zorder=3) #, rasterized=len(shaps)&gt;500)
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/ipython_notebooks_Explain_visualizations_9_0.png" src="../_images/ipython_notebooks_Explain_visualizations_9_0.png" />
+<img alt="../_images/ipython_notebooks_Explain_visualizations_9_1.png" src="../_images/ipython_notebooks_Explain_visualizations_9_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xtr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
 
 <span class="n">explanation</span><span class="p">,</span> <span class="n">gb</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">LRP</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span> <span class="n">global_relevance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -968,27 +706,27 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
   <tbody>
     <tr>
       <th>0</th>
-      <td>3.852358e-08</td>
-      <td>5.460922e-08</td>
-      <td>-9.916600e-09</td>
-      <td>-4.480899e-11</td>
-      <td>-1.985339e-09</td>
-      <td>1.119740e-10</td>
-      <td>2.441856e-08</td>
-      <td>9.313563e-08</td>
-      <td>2.732422e-08</td>
-      <td>-4.074020e-12</td>
+      <td>0.0357</td>
+      <td>0.060859</td>
+      <td>-0.030067</td>
+      <td>-0.000306</td>
+      <td>0.011614</td>
+      <td>-0.00287</td>
+      <td>0.038521</td>
+      <td>0.075271</td>
+      <td>0.012589</td>
+      <td>-0.001871</td>
       <td>...</td>
-      <td>4.698213e-08</td>
-      <td>2.548810e-08</td>
-      <td>1.979194e-08</td>
-      <td>1.979182e-08</td>
-      <td>2.497676e-08</td>
-      <td>1.692370e-08</td>
-      <td>2.368907e-08</td>
-      <td>1.703364e-08</td>
-      <td>3.827584e-08</td>
-      <td>-1.943156e-09</td>
+      <td>0.087779</td>
+      <td>0.240536</td>
+      <td>-0.009204</td>
+      <td>0.0284</td>
+      <td>0.03282</td>
+      <td>0.028609</td>
+      <td>0.015671</td>
+      <td>-0.003383</td>
+      <td>0.059679</td>
+      <td>-0.03687</td>
     </tr>
   </tbody>
 </table>
@@ -999,8 +737,7 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1015,8 +752,7 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># strategies + global relevance</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># strategies + global relevance</span>
 <span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xte</span>
 
 <span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
@@ -1075,123 +811,123 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
   <tbody>
     <tr>
       <th>0</th>
-      <td>-5.442207e-08</td>
-      <td>-2.982853e-08</td>
-      <td>2.167618e-08</td>
-      <td>1.767643e-09</td>
-      <td>1.544903e-08</td>
-      <td>2.695936e-10</td>
-      <td>-2.647259e-08</td>
-      <td>6.734375e-08</td>
-      <td>-6.808682e-08</td>
-      <td>4.042306e-08</td>
+      <td>-0.002375</td>
+      <td>-0.002310</td>
+      <td>0.003538</td>
+      <td>0.000393</td>
+      <td>0.002531</td>
+      <td>0.000539</td>
+      <td>-0.003484</td>
+      <td>0.005217</td>
+      <td>-0.006279</td>
+      <td>0.010001</td>
       <td>...</td>
-      <td>-2.645516e-09</td>
-      <td>2.371978e-09</td>
-      <td>-1.195341e-08</td>
-      <td>-1.840679e-08</td>
-      <td>-4.198224e-08</td>
-      <td>-3.480988e-08</td>
-      <td>-5.390743e-08</td>
-      <td>-2.671428e-08</td>
-      <td>-5.087783e-08</td>
-      <td>4.358562e-09</td>
+      <td>-0.000975</td>
+      <td>0.000208</td>
+      <td>-0.000257</td>
+      <td>-0.006816</td>
+      <td>-0.006439</td>
+      <td>-0.011138</td>
+      <td>0.000251</td>
+      <td>-0.004060</td>
+      <td>-0.012186</td>
+      <td>0.000308</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>8.878673e-08</td>
-      <td>1.464898e-08</td>
-      <td>-1.634698e-08</td>
-      <td>1.121170e-09</td>
-      <td>-5.942520e-09</td>
-      <td>1.903390e-09</td>
-      <td>-4.117974e-09</td>
-      <td>-7.421733e-08</td>
-      <td>3.227762e-08</td>
-      <td>2.386731e-09</td>
+      <td>0.031408</td>
+      <td>0.003845</td>
+      <td>-0.003586</td>
+      <td>-0.000377</td>
+      <td>0.027020</td>
+      <td>-0.001780</td>
+      <td>-0.002846</td>
+      <td>-0.015842</td>
+      <td>-0.002071</td>
+      <td>-0.001520</td>
       <td>...</td>
-      <td>-1.618912e-08</td>
-      <td>-7.629301e-09</td>
-      <td>2.081515e-08</td>
-      <td>2.930467e-08</td>
-      <td>5.053745e-08</td>
-      <td>4.399344e-08</td>
-      <td>7.572330e-08</td>
-      <td>4.249878e-08</td>
-      <td>6.686418e-08</td>
-      <td>-4.847356e-10</td>
+      <td>-0.003107</td>
+      <td>-0.015789</td>
+      <td>-0.003154</td>
+      <td>0.009662</td>
+      <td>0.004628</td>
+      <td>0.018693</td>
+      <td>0.008019</td>
+      <td>0.004508</td>
+      <td>0.030692</td>
+      <td>-0.002962</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-3.456890e-08</td>
-      <td>2.978082e-08</td>
-      <td>2.267381e-08</td>
-      <td>3.525580e-09</td>
-      <td>1.493623e-08</td>
-      <td>8.980043e-10</td>
-      <td>-1.094076e-08</td>
-      <td>7.575872e-08</td>
-      <td>-2.154179e-08</td>
-      <td>2.333245e-08</td>
+      <td>-0.003544</td>
+      <td>0.010888</td>
+      <td>0.010702</td>
+      <td>0.010161</td>
+      <td>0.009560</td>
+      <td>0.011691</td>
+      <td>-0.010409</td>
+      <td>0.024565</td>
+      <td>-0.007086</td>
+      <td>0.010840</td>
       <td>...</td>
-      <td>-4.833615e-09</td>
-      <td>3.671629e-09</td>
-      <td>-1.171651e-08</td>
-      <td>-1.357215e-08</td>
-      <td>-3.296293e-08</td>
-      <td>-2.410476e-08</td>
-      <td>-2.585398e-08</td>
-      <td>-1.818333e-08</td>
-      <td>-2.818089e-08</td>
-      <td>4.308143e-09</td>
+      <td>-0.008347</td>
+      <td>-0.008716</td>
+      <td>-0.009222</td>
+      <td>-0.013408</td>
+      <td>-0.038706</td>
+      <td>-0.029874</td>
+      <td>-0.009861</td>
+      <td>-0.006868</td>
+      <td>-0.024265</td>
+      <td>0.010711</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>6.546318e-08</td>
-      <td>5.663755e-08</td>
-      <td>-1.276156e-08</td>
-      <td>4.163062e-11</td>
-      <td>-4.969179e-09</td>
-      <td>5.639444e-10</td>
-      <td>1.548547e-08</td>
-      <td>1.039503e-08</td>
-      <td>4.969042e-08</td>
-      <td>6.748551e-10</td>
+      <td>0.336607</td>
+      <td>0.222507</td>
+      <td>-0.021707</td>
+      <td>0.050956</td>
+      <td>0.121637</td>
+      <td>-0.015981</td>
+      <td>0.095192</td>
+      <td>0.031510</td>
+      <td>0.073009</td>
+      <td>-0.109299</td>
       <td>...</td>
-      <td>-1.720700e-09</td>
-      <td>-6.601595e-10</td>
-      <td>1.903842e-08</td>
-      <td>2.377851e-08</td>
-      <td>3.843494e-08</td>
-      <td>2.994525e-08</td>
-      <td>4.649269e-08</td>
-      <td>2.829363e-08</td>
-      <td>5.432086e-08</td>
-      <td>-1.720702e-09</td>
+      <td>-0.013377</td>
+      <td>-0.021679</td>
+      <td>-0.057243</td>
+      <td>0.103574</td>
+      <td>-0.009558</td>
+      <td>0.117196</td>
+      <td>0.026707</td>
+      <td>0.029786</td>
+      <td>0.304746</td>
+      <td>-0.031534</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>-1.094605e-02</td>
-      <td>-1.553468e-02</td>
-      <td>3.649520e-03</td>
-      <td>1.930702e-04</td>
-      <td>2.881745e-03</td>
-      <td>1.039482e-04</td>
-      <td>-6.698072e-03</td>
-      <td>2.903534e-02</td>
-      <td>-2.484877e-02</td>
-      <td>2.538170e-03</td>
+      <td>-0.008907</td>
+      <td>-0.007431</td>
+      <td>0.001667</td>
+      <td>0.000218</td>
+      <td>-0.007712</td>
+      <td>0.000166</td>
+      <td>-0.007769</td>
+      <td>0.010181</td>
+      <td>-0.007833</td>
+      <td>0.010821</td>
       <td>...</td>
-      <td>3.578953e-03</td>
-      <td>9.798985e-04</td>
-      <td>-3.169378e-03</td>
-      <td>-3.421158e-03</td>
-      <td>-7.285994e-03</td>
-      <td>-5.613479e-03</td>
-      <td>-1.128355e-02</td>
-      <td>-1.236324e-02</td>
-      <td>-8.190678e-03</td>
-      <td>-4.538567e-04</td>
+      <td>0.004072</td>
+      <td>0.007154</td>
+      <td>0.001378</td>
+      <td>-0.005021</td>
+      <td>-0.004586</td>
+      <td>-0.005019</td>
+      <td>-0.004799</td>
+      <td>-0.008497</td>
+      <td>-0.007774</td>
+      <td>-0.002996</td>
     </tr>
   </tbody>
 </table>
@@ -1202,8 +938,7 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gb</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gb</span>
 </pre></div>
 </div>
 </div>
@@ -1236,29 +971,29 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
   </thead>
   <tbody>
     <tr>
-      <th>ON1V</th>
-      <td>5.134295e-02</td>
-      <td>4.494847e-02</td>
-    </tr>
-    <tr>
-      <th>TIE</th>
-      <td>4.496903e-02</td>
-      <td>3.684134e-02</td>
-    </tr>
-    <tr>
-      <th>C%</th>
-      <td>4.285664e-02</td>
-      <td>2.698204e-02</td>
-    </tr>
-    <tr>
       <th>nHet</th>
-      <td>3.856633e-02</td>
-      <td>3.766285e-02</td>
+      <td>0.083375</td>
+      <td>0.080595</td>
+    </tr>
+    <tr>
+      <th>ON1V</th>
+      <td>0.082356</td>
+      <td>0.054230</td>
+    </tr>
+    <tr>
+      <th>nS</th>
+      <td>0.082029</td>
+      <td>0.073870</td>
+    </tr>
+    <tr>
+      <th>nHM</th>
+      <td>0.081260</td>
+      <td>0.072965</td>
     </tr>
     <tr>
       <th>nCsp3</th>
-      <td>3.469539e-02</td>
-      <td>1.218661e-02</td>
+      <td>0.081243</td>
+      <td>0.026852</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1266,29 +1001,29 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
       <td>...</td>
     </tr>
     <tr>
-      <th>MPC06</th>
-      <td>1.640874e-04</td>
-      <td>-1.400087e-04</td>
+      <th>SRW10</th>
+      <td>0.004217</td>
+      <td>0.000566</td>
     </tr>
     <tr>
-      <th>ZM1Kup</th>
-      <td>7.580742e-05</td>
-      <td>6.333340e-05</td>
-    </tr>
-    <tr>
-      <th>Psi_e_0d</th>
-      <td>4.498837e-05</td>
-      <td>4.498822e-05</td>
-    </tr>
-    <tr>
-      <th>Psi_i_1d</th>
-      <td>2.599327e-06</td>
-      <td>2.534556e-06</td>
+      <th>MWC01</th>
+      <td>0.004144</td>
+      <td>0.001311</td>
     </tr>
     <tr>
       <th>Psi_i_0d</th>
-      <td>2.923630e-07</td>
-      <td>2.585455e-07</td>
+      <td>0.003676</td>
+      <td>-0.003646</td>
+    </tr>
+    <tr>
+      <th>LPRS</th>
+      <td>0.002950</td>
+      <td>0.000132</td>
+    </tr>
+    <tr>
+      <th>Psi_i_1d</th>
+      <td>0.001783</td>
+      <td>0.001676</td>
     </tr>
   </tbody>
 </table>
@@ -1299,8 +1034,7 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">gb</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">rel_df</span> <span class="o">=</span> <span class="n">gb</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1315,8 +1049,7 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xte</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">Xte</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
 <span class="n">exp</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">X_instance</span> <span class="o">=</span> <span class="n">X_instance</span><span class="p">,</span> <span class="n">dnn_obj</span> <span class="o">=</span> <span class="n">engine_model</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="n">columns</span><span class="p">)</span>
 <span class="n">explanation</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">LIME</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">Xtr</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
@@ -1328,53 +1061,53 @@ Using a non-full backward hook when the forward contains multiple autograd Nodes
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Intercept 0.4380609945792554
-Prediction_local [-0.08527803]
-Right: 0.0
-Intercept 0.40218305862638054
-Prediction_local [0.39777754]
-Right: 0.0
-Intercept 0.5757294857850958
-Prediction_local [-0.27969124]
-Right: 0.0
-[                    labels  local_relevance
-0                C% &gt; 0.87    -1.129633e-01
-1            nHet &lt;= -0.60    -9.151605e-02
-2                nC &gt; 0.73    -8.467723e-02
-3                Mp &gt; 0.66     7.224304e-02
-4               PW2 &gt; 0.60     6.047326e-02
-..                     ...              ...
-195   -0.12 &lt; GMTI &lt;= 0.84     2.784028e-04
-196            GNar &gt; 0.73    -1.954540e-04
-197  -0.06 &lt; SMTIV &lt;= 0.86     1.333702e-05
-198   -0.12 &lt; SMTI &lt;= 0.83     3.270500e-06
-199     -0.03 &lt; X0 &lt;= 1.05    -3.281857e-07
-
-[200 rows x 2 columns],                    labels  local_relevance
-0           ON1V &lt;= -0.62         0.161804
-1            TIE &lt;= -0.66         0.160159
-2           ON0V &lt;= -0.64         0.114473
-3             nS &lt;= -0.60        -0.111190
-4           X0Av &lt;= -0.72        -0.089178
+Intercept 0.11532020646501222
+Prediction_local [-0.25389418]
+Right: -0.18441454
+Intercept 0.22570137102586968
+Prediction_local [0.09135068]
+Right: -0.35446894
+Intercept 0.30997393583284116
+Prediction_local [-0.77875192]
+Right: -0.5938779
+[                   labels  local_relevance
+0               C% &gt; 0.87        -0.178290
+1       Psi_i_1d &lt;= -0.01         0.154477
+2           nHet &lt;= -0.60        -0.136784
+3               nC &gt; 0.73        -0.133803
+4             N% &lt;= -0.73        -0.088682
 ..                    ...              ...
-195            X0A &gt; 0.35        -0.000132
-196        MPC05 &lt;= -0.58         0.000131
-197  -0.74 &lt; VAR &lt;= -0.05        -0.000056
-198      D/Dtr10 &lt;= -0.81        -0.000023
-199          BAC &lt;= -0.58         0.000002
+195     0.05 &lt; Xu &lt;= 0.86         0.000874
+196  0.06 &lt; X1sol &lt;= 0.88        -0.000847
+197          X0A &lt;= -0.68        -0.000638
+198     0.03 &lt; Sp &lt;= 0.79        -0.000621
+199         piPC10 &gt; 0.86        -0.000148
 
-[200 rows x 2 columns],                  labels  local_relevance
-0            TIE &gt; 0.78        -0.134021
-1           nS &lt;= -0.60        -0.112305
-2          nHM &lt;= -0.60        -0.104204
-3           ON0V &gt; 0.79        -0.101720
-4             C% &gt; 0.87        -0.101234
-..                  ...              ...
-195      Psi_e_0 &gt; 1.02        -0.000238
-196  0.04 &lt; PW5 &lt;= 0.80         0.000217
-197        MWC03 &gt; 0.99         0.000120
-198           Dz &gt; 0.87         0.000106
-199      D/Dtr06 &gt; 0.68        -0.000071
+[200 rows x 2 columns],                      labels  local_relevance
+0               nS &lt;= -0.60        -0.188840
+1             ON1V &lt;= -0.62         0.184538
+2              TIE &lt;= -0.66         0.171063
+3              nHM &lt;= -0.60        -0.158884
+4             ON0V &lt;= -0.64         0.145337
+..                      ...              ...
+195            X5v &lt;= -0.65        -0.001563
+196   -0.30 &lt; MAXDP &lt;= 0.26         0.001506
+197  -0.62 &lt; piPC10 &lt;= 0.15        -0.001110
+198     0.08 &lt; AECC &lt;= 0.70        -0.000295
+199    -0.52 &lt; HNar &lt;= 0.42         0.000197
+
+[200 rows x 2 columns],                   labels  local_relevance
+0            nS &lt;= -0.60        -0.181937
+1              C% &gt; 0.87        -0.169501
+2           nHM &lt;= -0.60        -0.164351
+3             TIE &gt; 0.78        -0.157693
+4          nHet &lt;= -0.60        -0.157111
+..                   ...              ...
+195        piPC10 &gt; 0.86         0.000914
+196         MWC10 &gt; 0.88         0.000862
+197       Psi_i_s &gt; 0.86        -0.000552
+198         MWC02 &gt; 1.03        -0.000424
+199  -0.19 &lt; X4v &lt;= 0.43         0.000020
 
 [200 rows x 2 columns]]
 </pre></div></div>
@@ -1383,8 +1116,7 @@ Right: 0.0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">f</span><span class="o">=</span><span class="p">[]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">=</span><span class="p">[]</span>
 <span class="k">for</span> <span class="n">local_explanation</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel_df</span> <span class="o">=</span> <span class="n">local_explanation</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
@@ -1415,8 +1147,7 @@ Right: 0.0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -1426,7 +1157,10 @@ Right: 0.0
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../explain_task/index.html" class="btn btn-neutral float-left" title="Explain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../chemml_wrapper.html" class="btn btn-neutral float-right" title="Introduction to ChemML Wrapper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -270,6 +270,9 @@ class ModelScreener(object):
         # generate all representation techniques here
 
         mol_objs_list=[]
+        # List to gather locations of invalid SMILES if present and remove them from the targets
+        self.discarded_indices = [] 
+        i=0
         for smi in self.smiles:
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
@@ -278,6 +281,8 @@ class ModelScreener(object):
                 mol_objs_list.append(mol)
             except Exception as e:
                 print("Unable to process smile: ", smi)
+                self.discarded_indices.append(i)
+            i+=1
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
@@ -400,6 +405,7 @@ class ModelScreener(object):
 
         if self.featurization == True:
             self._represent_smiles()
+            y = y.drop(index=self.discarded_indices)
             
         scores_list=[]
 

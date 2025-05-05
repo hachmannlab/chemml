@@ -7,7 +7,7 @@ from chemml.utils import regression_metrics
 from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from sklearn.model_selection import train_test_split, KFold
 from chemml.optimization import GeneticAlgorithm
-from chemml.chem import RDKitFingerprint
+from chemml.chem import RDKitFingerprint, Mordred
 from chemml.chem import Molecule
 import warnings
 import random
@@ -74,6 +74,8 @@ class ModelScreener(object):
             raise TypeError("Featurization must be True or False !")
         self.featurization = featurization
         if self.featurization == True:
+            # List to gather locations of invalid SMILES if present and remove them from the targets
+            self.discarded_indices = [] 
             if smiles == None:
                 raise ValueError("If feature screeening is required, smiles column must be provided!")
             else:
@@ -270,6 +272,8 @@ class ModelScreener(object):
         # generate all representation techniques here
 
         mol_objs_list=[]
+        
+        i=0
         for smi in self.smiles:
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
@@ -278,6 +282,8 @@ class ModelScreener(object):
                 mol_objs_list.append(mol)
             except Exception as e:
                 print("Unable to process smile: ", smi)
+                self.discarded_indices.append(i)
+            i+=1
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
@@ -339,7 +345,14 @@ class ModelScreener(object):
         scaled_allDescrs = scaler.fit_transform(allDescrs)
         scaled_allDescrs = pd.DataFrame(scaled_allDescrs)
         self.x_list["rdkit_descriptors"] = scaled_allDescrs
-        
+
+        mord = Mordred()
+        mord_descriptors = mord.represent(mol_objs_list, remove_corr=True).drop(columns='SMILES')
+        mord_scaler = StandardScaler()
+        mord_descriptors = pd.DataFrame(mord_scaler.fit_transform(mord_descriptors))
+        self.x_list['mord_descriptors'] = mord_descriptors
+
+
     def aggregate_scores(self,  scores_list, n_best):
         """ 
         This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by
@@ -400,6 +413,7 @@ class ModelScreener(object):
 
         if self.featurization == True:
             self._represent_smiles()
+            y = y.drop(index=self.discarded_indices)
             
         scores_list=[]
 

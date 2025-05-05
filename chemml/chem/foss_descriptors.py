@@ -215,12 +215,6 @@ class Mordred(object):
         Exception
             If the input SMILES strings are not in a valid format or if there's an issue with ChemML Molecule objects.
 
-        Notes:
-        ------
-        - The method handles various input formats flexibly, converting them to RDKit molecule objects internally.
-        - Infinite values in descriptors are replaced with NaN.
-        - If remove_corr is True, highly correlated descriptors (correlation > 0.95) are removed to reduce redundancy.
-
         Examples:
         --------
         >>> mord = Mordred()

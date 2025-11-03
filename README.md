@@ -27,12 +27,15 @@ The format of library is similar to the well known libraries like Scikit-learn.
    - to find out about the latest version and release history, click [here](https://pypi.org/project/chemml/#history)
 
 ## Installation and Dependencies:
-We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML using the Python Package Index (PyPI) via pip are as follows:
+We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:
 
     conda create --name chemml_env python=3.12
     source activate chemml_env
     conda install -c conda-forge openbabel nb_conda_kernels python-graphviz
-    pip install chemml
+    
+    git clone https://github.com/hachmannlab/chemml.git
+    cd chemml
+    pip install -e . --use-pep517
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy

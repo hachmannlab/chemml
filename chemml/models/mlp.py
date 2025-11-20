@@ -357,6 +357,44 @@ class MLP(object):
             return self.model
 
 
+    def get_params(self, deep=True):
+        """
+        Get parameters for this model.
+        
+        Follows scikit-learn's convention for model parameter retrieval.
+        Compatible with scikit-learn's model selection tools.
+        
+        Parameters
+        ----------
+        deep : bool, default=True
+            If True, will return parameters for this estimator and
+            contained subobjects (for other estimators). Not used in this
+            implementation but kept for API consistency.
+        
+        Returns
+        -------
+        params : dict
+            Parameter names mapped to their values.
+        """
+        params = {
+            'engine': self.engine,
+            'nfeatures': self.nfeatures,
+            'nneurons': self.nneurons,
+            'activations': self.activations,
+            'learning_rate': self.learning_rate,
+            'nepochs': self.nepochs,
+            'batch_size': self.batch_size,
+            'alpha': self.alpha,
+            'loss': self.loss,
+            'is_regression': self.is_regression,
+            'nclasses': self.nclasses,
+            'layer_config_file': self.layer_config_file,
+            'opt_config': self.opt_config,
+            'random_seed': self.random_seed,
+        }
+        return params
+
+
     def save(self, path, filename):
         """
         Saves the chemml.models.MLP object along with the underlying 

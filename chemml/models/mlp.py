@@ -49,8 +49,7 @@ class pytorch_Net(nn.Module):
                         seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
                         n = n+1
                 except:
-                    raise ValueError('Incorrect Activation Format. Pytorch activation functions are case sensistive e.g., \
-                                        ReLU not relu')
+                    raise ValueError('Incorrect activation format. PyTorch activation functions are case sensitive e.g., ReLU not relu')
             # print(seq_l)
             self.base_model = nn.Sequential(OrderedDict(seq_l))
         else:
@@ -430,8 +429,8 @@ class MLP(object):
             self.nclasses = None
         else:
             self.nclasses = int(self.nclasses)
-            
-        self.nfeatures = int(chemml_model.loc['nfeatures'][0])
+        
+            self.nfeatures = int(chemml_model.loc['nfeatures'][0])
         
         # layer config
         self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]
@@ -461,15 +460,19 @@ class MLP(object):
             pass
         elif type(X) == np.ndarray:
             X = torch.tensor((X),dtype=torch.float)
+        elif isinstance(X, pd.DataFrame):
+            X = torch.tensor((X.values),dtype=torch.float)
         else:
-            raise TypeError('X has to be a numpy array or pytorch tensor')
+            raise TypeError('X has to be a numpy array, pytorch tensor or Pandas DataFrame')
         
         if type(y) == torch.Tensor:
             pass
         elif type(y) == np.ndarray:
             y = torch.tensor((y),dtype=torch.float)
+        elif isinstance(y,pd.DataFrame) or isinstance(y,pd.Series):
+            y = torch.tensor((y.values),dtype=torch.float)
         else:
-            raise TypeError('y has to be a numpy array or pytorch tensor')
+            raise TypeError('y has to be a numpy array or pytorch tensor or Pandas DataFrame/Series')
         
         self.losses = []
 
@@ -536,6 +539,8 @@ class MLP(object):
             pass
         elif type(X) == np.ndarray:
             X = torch.tensor((X),dtype=torch.float)
+        elif isinstance(X, pd.DataFrame):
+            X = torch.tensor((X.values),dtype=torch.float)
         else:
             raise TypeError('X has to be a numpy array or pytorch tensor')
 
@@ -700,14 +705,24 @@ class MLP(object):
                 opt = getattr(pytorch_opt_module, opt_name.upper())(**opt_params)
                 return opt
             except:
-                raise ValueError('incorrect optimizer name or parameter for opt_config')
+                raise AttributeError('incorrect optimizer name or parameter for opt_config')
         elif self.engine == 'tensorflow':  
             keras_opt_module = import_module('tensorflow.keras.optimizers')
             try:
                 opt = getattr(keras_opt_module, opt_name)(**opt_params)
                 return opt
-            except:
-                raise ValueError('incorrect optimizer name or parameter for opt_config')
+            except ValueError:
+                # Some keras optimizers moved to the legacy module in newer TF versions.
+                keras_opt_module = import_module('tensorflow.keras.optimizers.legacy')
+                try:
+                    opt = getattr(keras_opt_module, opt_name)(**opt_params)
+                    return opt
+                except Exception:
+                    # fallback to a clear attribute error if lookup or construction fails
+                    raise AttributeError('incorrect optimizer name or parameter for opt_config')
+            except Exception:
+                # Any other error (e.g., AttributeError from getattr) should be surfaced
+                raise AttributeError('incorrect optimizer name or parameter for opt_config')
 
 
  

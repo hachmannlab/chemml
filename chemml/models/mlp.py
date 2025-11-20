@@ -430,7 +430,10 @@ class MLP(object):
         else:
             self.nclasses = int(self.nclasses)
         
+        try:
             self.nfeatures = int(chemml_model.loc['nfeatures'][0])
+        except KeyError:
+            self.nfeatures = int(chemml_model.loc['feature_size'][0])
         
         # layer config
         self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]

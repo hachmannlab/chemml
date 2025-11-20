@@ -25,6 +25,10 @@ class LorentzLorenz():
     LL model.
     """
     def __init__(self, n_features=4):
+        # Disable mixed precision to avoid ml_dtypes.float4_e2m1fn compatibility issues
+        from tensorflow.keras import mixed_precision
+        policy = mixed_precision.Policy('float32')
+        mixed_precision.set_global_policy(policy)
         
         self.n_features, self.n_targets = n_features, 3
 
@@ -43,7 +47,7 @@ class LorentzLorenz():
               }
         
         self.early_stopping = EarlyStopping(monitor='val_loss', min_delta=1e-8, patience=30, verbose=0, mode='auto')
-        self.adam = Adam(learning_rate=self.model_parameters['learning_rate'], beta_1=0.9, beta_2=0.999, epsilon=1e-8, decay=0.0)
+        self.adam = Adam(learning_rate=self.model_parameters['learning_rate'], beta_1=0.9, beta_2=0.999, epsilon=1e-8)
 
 
         
@@ -267,8 +271,8 @@ class LorentzLorenz():
             model = Model(inputs=input_layers, outputs = [RI_out1, pol_den_out2, pol_den_out3])
 
             model.compile(optimizer = self.adam,
-                        loss = 'mean_squared_error',
-                        metrics=['mean_absolute_error', 'mean_absolute_error', 'mean_absolute_error'],
+                        loss = ['mean_squared_error', 'mean_squared_error', 'mean_squared_error'],
+                        metrics=['mean_absolute_error','mean_absolute_error','mean_absolute_error'],
                         loss_weights = [1.,1.,1.]) ## weightage given to the loss calculated on each target property
             return model
 

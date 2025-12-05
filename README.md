@@ -1,5 +1,5 @@
-[![codecov](https://codecov.io/gh/hachmannlab/chemml/branch/master/graph/badge.svg)](https://codecov.io/gh/hachmannlab/chemml)
-[![version status](http://img.shields.io/pypi/v/chemml.svg?style=flat)](https://pypi.python.org/pypi/chemml)
+[![Tests](https://github.com/hachmannlab/chemml/actions/workflows/test.yml/badge.svg)](https://github.com/hachmannlab/chemml/actions/workflows/test.yml)
+[![version status](http://img.shields.io/github/v/release/hachmannlab/chemml.svg?style=flat)](https://github.com/hachmannlab/chemml/releases)
 [![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
 
 
@@ -24,7 +24,7 @@ The format of library is similar to the well known libraries like Scikit-learn.
 
 
 ## Latest Version:
-   - to find out about the latest version and release history, click [here](https://pypi.org/project/chemml/#history)
+   - to find out about the latest version and release history, click [here](https://github.com/hachmannlab/chemml/releases)
 
 ## Installation and Dependencies:
 We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:

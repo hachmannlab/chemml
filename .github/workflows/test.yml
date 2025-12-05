@@ -1,0 +1,64 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master, nitinmad, main ]
+  pull_request:
+    branches: [ master, nitinmad, main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.12']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        activate-environment: chemml_env
+
+    - name: Install conda-forge dependencies
+      shell: bash -l {0}
+      run: |
+        conda install -c conda-forge openbabel nb_conda_kernels python-graphviz -y
+        pip install openbabel-wheel
+
+    - name: Install PyTorch (Ubuntu/macOS)
+      if: runner.os != 'Windows'
+      shell: bash -l {0}
+      run: |
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+    - name: Install PyTorch (Windows)
+      if: runner.os == 'Windows'
+      shell: bash -l {0}
+      run: |
+        pip install torch torchvision torchaudio
+
+    - name: Install ChemML and dependencies
+      shell: bash -l {0}
+      run: |
+        pip install --upgrade pip setuptools wheel
+        pip install -e . --use-pep517
+        pip install pytest pytest-cov
+
+    - name: Run tests
+      shell: bash -l {0}
+      run: |
+        pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term
+
+    - name: Upload coverage reports to GitHub
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-report-${{ matrix.os }}-${{ matrix.python-version }}
+        path: coverage.xml
+        retention-days: 30

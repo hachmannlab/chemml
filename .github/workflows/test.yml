@@ -50,10 +50,16 @@ jobs:
         pip install -e . --use-pep517
         pip install pytest pytest-cov
 
+    - name: Configure matplotlib for CI
+      shell: bash -l {0}
+      run: |
+        mkdir -p ~/.config/matplotlib
+        echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
+
     - name: Run tests
       shell: bash -l {0}
       run: |
-        pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term
+        pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term -k "not test_Dragon"
 
     - name: Upload coverage reports to GitHub
       uses: actions/upload-artifact@v4

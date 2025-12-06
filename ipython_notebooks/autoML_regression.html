@@ -138,7 +138,7 @@
 <p>Returns dataframe of error metrics, machine learning model, algorithm, tuned hyperparameter values and featurization technique.</p>
 <section id="Load-your-data">
 <h1>Load your data<a class="headerlink" href="#Load-your-data" title="Link to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -149,13 +149,22 @@
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\nitin\Documents\UB\Hachmann_Group\chemml_dev_nitin\nitinmad\chemml\chemml\datasets\base.py:2: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+  import pkg_resources
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dragon_subset</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
 <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
 </div>
@@ -189,34 +198,44 @@
   </thead>
   <tbody>
     <tr>
-      <th>188</th>
-      <td>n1ccc(cc1)c1scnc1c1ncccc1c1cccc2c1cccc2</td>
-      <td>1203.16</td>
+      <th>361</th>
+      <td>c1scc(n1)c1ncc(s1)c1c(ccc2c1cccc2)c1cncs1</td>
+      <td>1328.35</td>
     </tr>
     <tr>
-      <th>111</th>
-      <td>Cc1cc2ccccc2c(c1)c1sccc1c1cscc1</td>
-      <td>1199.41</td>
+      <th>73</th>
+      <td>S1CC(SC(C1)C1CCCC1)c1cocc1c1ccccc1</td>
+      <td>1143.80</td>
     </tr>
     <tr>
-      <th>0</th>
-      <td>C1CSC(CS1)c1ncc(s1)CC1CCCC1</td>
-      <td>1184.64</td>
+      <th>374</th>
+      <td>N1CNC(NC1)c1sccc1C1(CSCCS1)c1cccs1</td>
+      <td>1351.33</td>
     </tr>
     <tr>
-      <th>30</th>
-      <td>Cc1c(cc2c(c1c1cnccn1)cccc2)c1cscn1</td>
-      <td>1213.76</td>
+      <th>155</th>
+      <td>c1nc(c(s1)c1nsnc1)c1csc(n1)c1cccs1</td>
+      <td>1466.57</td>
     </tr>
     <tr>
-      <th>328</th>
-      <td>c1ccc(nc1)c1nnc(s1)Sc1cccs1</td>
-      <td>1374.07</td>
+      <th>104</th>
+      <td>Oc1ccc2c(c1c1cocc1)c(ccc2)c1ccccn1</td>
+      <td>1207.67</td>
     </tr>
     <tr>
-      <th>270</th>
-      <td>Oc1ccc(c2c1cccc2c1ncsc1)c1ccco1</td>
-      <td>1290.56</td>
+      <th>394</th>
+      <td>Oc1ccc(s1)N1CNC(NC1)c1cnccn1</td>
+      <td>1355.15</td>
+    </tr>
+    <tr>
+      <th>377</th>
+      <td>n1csc(n1)C1(CCCC1)c1csc(c1)c1scnc1</td>
+      <td>1311.30</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>Oc1ccoc1c1ccnc(c1)c1ccc2c(c1)cccc2</td>
+      <td>1226.34</td>
     </tr>
     <tr>
       <th>68</th>
@@ -224,94 +243,84 @@
       <td>1238.45</td>
     </tr>
     <tr>
-      <th>293</th>
-      <td>OC1NCN(CN1)c1ccc(cc1)c1scnn1</td>
-      <td>1366.07</td>
+      <th>450</th>
+      <td>o1ccc(c1)c1sc(cc1c1ccsc1)c1cccc2c1cccc2</td>
+      <td>1246.33</td>
     </tr>
     <tr>
-      <th>379</th>
-      <td>C1CSC(CS1)c1ccccc1c1ccc(cc1)c1ccco1</td>
-      <td>1193.12</td>
+      <th>9</th>
+      <td>c1ccc(nc1)c1csc(n1)Oc1ccc2c(c1)cccc2</td>
+      <td>1250.51</td>
     </tr>
     <tr>
-      <th>253</th>
-      <td>c1cnc(cn1)c1ccc2c(c1)cccc2c1csc(n1)c1ccco1</td>
-      <td>1258.63</td>
+      <th>194</th>
+      <td>c1cnc(cn1)c1nccnc1c1ccc(o1)c1nccs1</td>
+      <td>1321.35</td>
     </tr>
     <tr>
-      <th>107</th>
-      <td>n1ccc(cc1)c1cscc1c1cccc2c1cc(cc2)c1cccnc1</td>
-      <td>1186.29</td>
+      <th>406</th>
+      <td>C1NC(NC(N1)c1cc(cc2c1cccc2)c1ccccn1)C1CCCC1</td>
+      <td>1106.21</td>
     </tr>
     <tr>
-      <th>115</th>
-      <td>c1cnc(cn1)c1csc(n1)C1(CCCC1)c1ccncc1</td>
-      <td>1209.59</td>
+      <th>84</th>
+      <td>Sc1oc(c(c1)c1cnccn1)N1CNCNC1</td>
+      <td>1340.03</td>
     </tr>
     <tr>
-      <th>15</th>
-      <td>CC1CCC(C1)C1CCCC1c1cccs1</td>
-      <td>1005.60</td>
+      <th>371</th>
+      <td>n1ccc(cc1)c1nccc(c1c1cccs1)c1ccccn1</td>
+      <td>1190.34</td>
     </tr>
     <tr>
-      <th>218</th>
-      <td>CC1(CCCC1)c1ccc(s1)c1scnn1</td>
-      <td>1199.65</td>
+      <th>388</th>
+      <td>Sc1ccc2c(c1)c(ccc2)c1cc2ccccc2cc1c1scnc1</td>
+      <td>1215.30</td>
     </tr>
     <tr>
-      <th>86</th>
-      <td>c1cnc(cn1)c1coc(c1)c1nccc(c1)c1cccc2c1cccc2</td>
-      <td>1209.81</td>
+      <th>495</th>
+      <td>C1NCN(CN1)c1c(cncc1c1ccco1)c1cocc1</td>
+      <td>1267.09</td>
     </tr>
     <tr>
-      <th>391</th>
-      <td>c1cnc(cn1)c1nc(c(s1)c1nncs1)c1cnccn1</td>
-      <td>1403.86</td>
+      <th>30</th>
+      <td>Cc1c(cc2c(c1c1cnccn1)cccc2)c1cscn1</td>
+      <td>1213.76</td>
     </tr>
     <tr>
-      <th>28</th>
-      <td>s1cnc(c1)c1cc(cc2c1cccc2)c1csc(c1)c1scnc1</td>
-      <td>1322.37</td>
+      <th>316</th>
+      <td>c1cnc(cn1)C1(CSCC(S1)c1cscn1)c1ccc2c(c1)cccc2</td>
+      <td>1282.68</td>
     </tr>
     <tr>
-      <th>366</th>
-      <td>n1ccc(cc1)C1NCNCN1c1cncc(c1)c1cccnc1</td>
-      <td>1235.90</td>
+      <th>408</th>
+      <td>Sc1cc(c(o1)c1cscc1)S</td>
+      <td>1393.37</td>
     </tr>
     <tr>
-      <th>309</th>
-      <td>C1NC(NC(N1)c1nncs1)c1ccc2c(c1)cc(cc2)c1cccnc1</td>
-      <td>1282.84</td>
+      <th>490</th>
+      <td>c1nc(c(s1)c1ccco1)Cc1cccc2c1cccc2</td>
+      <td>1218.16</td>
     </tr>
     <tr>
-      <th>401</th>
-      <td>C1CCC(C1)(c1cncs1)c1cc2ccccc2c(c1)c1cscn1</td>
-      <td>1211.16</td>
+      <th>491</th>
+      <td>Cc1csc(n1)c1ccc(cn1)c1cccs1</td>
+      <td>1271.32</td>
     </tr>
     <tr>
-      <th>25</th>
-      <td>Cc1c2ccccc2ccc1C1(CSCCS1)C1NCNCN1</td>
-      <td>1232.82</td>
+      <th>280</th>
+      <td>Sc1ccc(nc1)c1ccsc1c1cccc2c1cccc2</td>
+      <td>1227.39</td>
     </tr>
     <tr>
-      <th>216</th>
-      <td>Cc1ccc2c(c1C1NCNCN1C1NCNCN1)cccc2</td>
-      <td>1196.18</td>
+      <th>356</th>
+      <td>C1CCC(C1)c1ncc(s1)c1csc(n1)c1nsnc1</td>
+      <td>1335.61</td>
     </tr>
     <tr>
-      <th>469</th>
-      <td>C1SCC(SC1)c1nsnc1C1(CCCC1)c1ccco1</td>
-      <td>1270.09</td>
-    </tr>
-    <tr>
-      <th>47</th>
-      <td>o1ccc(c1)CC1CCCC1c1cccs1</td>
-      <td>1088.77</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>SC1CCC(C1)C1CSCC(S1)c1cccnc1</td>
-      <td>1198.04</td>
+      <th>76</th>
+      <td>OC1(CCCC1C1CCCC1)c1cnccn1</td>
+      <td>1072.32</td>
     </tr>
   </tbody>
 </table>
@@ -327,7 +336,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.autoML</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelScreener</span>
 <span class="n">MS</span> <span class="o">=</span> <span class="n">ModelScreener</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;density_Kg/m3&quot;</span><span class="p">,</span> <span class="n">featurization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">smiles</span><span class="o">=</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span>
                    <span class="n">screener_type</span><span class="o">=</span><span class="s2">&quot;regressor&quot;</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;testing.txt&quot;</span><span class="p">)</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">MS</span><span class="o">.</span><span class="n">screen_models</span><span class="p">(</span><span class="n">n_best</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">MS</span><span class="o">.</span><span class="n">screen_models</span><span class="p">(</span><span class="n">n_best</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">multi_core</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -337,7 +346,7 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 featurizing molecules in batches of 2 ...
-<span class="ansi-bold">25/25</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">15s</span> 614ms/step
+<span class="ansi-bold">25/25</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">19s</span> 758ms/step
 Merging batch features ...    [DONE]
 </pre></div></div>
 </div>
@@ -346,163 +355,56 @@ Merging batch features ...    [DONE]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:45] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:46] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:47] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-[09:29:48] DEPRECATION WARNING: please use MorganGenerator
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-split done!
-
-
-
---- 1460.8564009666443 seconds ---
-split done!
-
-
-
---- 1754.8138766288757 seconds ---
-split done!
-
-
-
---- 556.0454123020172 seconds ---
-split done!
-
-
-
---- 2021.2931699752808 seconds ---
-split done!
-
-
-
---- 450.1350498199463 seconds ---
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use MorganGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -510,64 +412,36 @@ split done!
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 4</span>
-<span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">chemml</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">autoML</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelScreener
-<span class="ansi-green-fg">      2</span> MS <span style="color: rgb(98,98,98)">=</span> ModelScreener(df, target<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">density_Kg/m3</span><span style="color: rgb(175,0,0)">&#34;</span>, featurization<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, smiles<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">smiles</span><span style="color: rgb(175,0,0)">&#34;</span>,
-<span class="ansi-green-fg">      3</span>                    screener_type<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">regressor</span><span style="color: rgb(175,0,0)">&#34;</span>, output_file<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">testing.txt</span><span style="color: rgb(175,0,0)">&#34;</span>)
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 4</span> scores <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">MS</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">screen_models</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">n_best</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">4</span><span class="ansi-yellow-bg">)</span>
+split done!
+Single-core complete
 
-File <span class="ansi-green-intense-fg ansi-bold">c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\autoML\model_screener.py:459</span>, in <span class="ansi-cyan-fg">ModelScreener.screen_models</span><span class="ansi-blue-intense-fg ansi-bold">(self, n_best)</span>
-<span class="ansi-green-fg">    456</span>     <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span style="color: rgb(175,0,0)">--- </span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)"> seconds ---</span><span style="color: rgb(175,0,0)">&#34;</span> <span style="color: rgb(98,98,98)">%</span> (time<span style="color: rgb(98,98,98)">.</span>time() <span style="color: rgb(98,98,98)">-</span> start_time))
-<span class="ansi-green-fg">    458</span> <span style="color: rgb(95,135,135)"># aggregate scores list</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 459</span> best_models <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">aggregate_scores</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">scores_list</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">scores_list_final</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">n_best</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">n_best</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    461</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> best_models
 
-File <span class="ansi-green-intense-fg ansi-bold">c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\autoML\model_screener.py:374</span>, in <span class="ansi-cyan-fg">ModelScreener.aggregate_scores</span><span class="ansi-blue-intense-fg ansi-bold">(self, scores_list, n_best)</span>
-<span class="ansi-green-fg">    350</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">aggregate_scores</span>(<span style="color: rgb(0,135,0)">self</span>,  scores_list, n_best):
-<span class="ansi-green-fg">    351</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">&#34;&#34;&#34; </span>
-<span class="ansi-green-fg">    352</span> <span style="color: rgb(175,0,0)">    This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by</span>
-<span class="ansi-green-fg">    353</span> <span style="color: rgb(175,0,0)">    RMSE in ascending order, and returns the top n_best scores.</span>
-<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
-<span class="ansi-green-fg">    370</span> <span style="color: rgb(175,0,0)">        the top n_best scores from the combined scores list, sorted by RMSE in ascending order.</span>
-<span class="ansi-green-fg">    371</span> <span style="color: rgb(175,0,0)">    &#34;&#34;&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 374</span>     scores_combined <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">pd</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">concat</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">scores_list</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">ignore_index</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    376</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>screener_type <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">regressor</span><span style="color: rgb(175,0,0)">&#34;</span>:
-<span class="ansi-green-fg">    377</span>         <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>scores_combined <span style="color: rgb(98,98,98)">=</span> scores_combined<span style="color: rgb(98,98,98)">.</span>sort_values(by<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">RMSE</span><span style="color: rgb(175,0,0)">&#39;</span>, ascending<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>)
+--- Screening complete for feature set CoulombMatrix, time taken: 24.063 seconds ---
+split done!
+Single-core complete
 
-File <span class="ansi-green-intense-fg ansi-bold">c:\Users\nitin\anaconda3\envs\chemml_dev_env\Lib\site-packages\pandas\core\reshape\concat.py:382</span>, in <span class="ansi-cyan-fg">concat</span><span class="ansi-blue-intense-fg ansi-bold">(objs, axis, join, ignore_index, keys, levels, names, verify_integrity, sort, copy)</span>
-<span class="ansi-green-fg">    379</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> copy <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> using_copy_on_write():
-<span class="ansi-green-fg">    380</span>     copy <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">False</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 382</span> op <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">_Concatenator</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">    383</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">objs</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    384</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    385</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">ignore_index</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">ignore_index</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    386</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">join</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">join</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    387</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">keys</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">keys</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    388</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">levels</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">levels</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    389</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">names</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">names</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    390</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">verify_integrity</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">verify_integrity</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    391</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">copy</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">copy</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    392</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sort</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sort</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">    393</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    395</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> op<span style="color: rgb(98,98,98)">.</span>get_result()
 
-File <span class="ansi-green-intense-fg ansi-bold">c:\Users\nitin\anaconda3\envs\chemml_dev_env\Lib\site-packages\pandas\core\reshape\concat.py:445</span>, in <span class="ansi-cyan-fg">_Concatenator.__init__</span><span class="ansi-blue-intense-fg ansi-bold">(self, objs, axis, join, keys, levels, names, ignore_index, verify_integrity, copy, sort)</span>
-<span class="ansi-green-fg">    442</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>verify_integrity <span style="color: rgb(98,98,98)">=</span> verify_integrity
-<span class="ansi-green-fg">    443</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>copy <span style="color: rgb(98,98,98)">=</span> copy
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 445</span> objs, keys <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_clean_keys_and_objs</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">objs</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">keys</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    447</span> <span style="color: rgb(95,135,135)"># figure out what our result ndim is going to be</span>
-<span class="ansi-green-fg">    448</span> ndims <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_get_ndims(objs)
+--- Screening complete for feature set morganfingerprints_radius3, time taken: 26.558 seconds ---
+split done!
+Single-core complete
 
-File <span class="ansi-green-intense-fg ansi-bold">c:\Users\nitin\anaconda3\envs\chemml_dev_env\Lib\site-packages\pandas\core\reshape\concat.py:507</span>, in <span class="ansi-cyan-fg">_Concatenator._clean_keys_and_objs</span><span class="ansi-blue-intense-fg ansi-bold">(self, objs, keys)</span>
-<span class="ansi-green-fg">    504</span>     objs_list <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">list</span>(objs)
-<span class="ansi-green-fg">    506</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">len</span>(objs_list) <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(98,98,98)">0</span>:
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 507</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">No objects to concatenate</span><span style="color: rgb(175,0,0)">&#34;</span>)
-<span class="ansi-green-fg">    509</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> keys <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">    510</span>     objs_list <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">list</span>(com<span style="color: rgb(98,98,98)">.</span>not_none(<span style="color: rgb(98,98,98)">*</span>objs_list))
 
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>: No objects to concatenate
+--- Screening complete for feature set MACCS_radius3, time taken: 20.941 seconds ---
+split done!
+Single-core complete
+
+
+--- Screening complete for feature set hashedtopologicaltorsion_radius3, time taken: 23.584 seconds ---
+split done!
+Single-core complete
+
+
+--- Screening complete for feature set rdkit_descriptors, time taken: 19.822 seconds ---
+split done!
+Single-core complete
+
+
+--- Screening complete for feature set mord_descriptors, time taken: 25.504 seconds ---
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -579,17 +453,262 @@ File <span class="ansi-green-intense-fg ansi-bold">c:\Users\nitin\anaconda3\envs
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-yellow-bg">scores</span>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;scores&#39; is not defined
-</pre></div></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ME</th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MSLE</th>
+      <th>RMSLE</th>
+      <th>MAPE</th>
+      <th>MaxAPE</th>
+      <th>RMSPE</th>
+      <th>MPE</th>
+      <th>MaxAE</th>
+      <th>deltaMaxE</th>
+      <th>r_squared</th>
+      <th>std</th>
+      <th>time(seconds)</th>
+      <th>Model</th>
+      <th>parameters</th>
+      <th>Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>20</th>
+      <td>0.158392</td>
+      <td>3.541820</td>
+      <td>16.228670</td>
+      <td>4.028482</td>
+      <td>0.000010</td>
+      <td>0.003213</td>
+      <td>0.281598</td>
+      <td>0.409798</td>
+      <td>0.321640</td>
+      <td>0.008400</td>
+      <td>5.075142</td>
+      <td>9.790137</td>
+      <td>0.988459</td>
+      <td>37.498218</td>
+      <td>4.714186</td>
+      <td>ElasticNet</td>
+      <td>{'alpha': 0.04832930238571757, 'copy_X': True,...</td>
+      <td>rdkit_descriptors</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2.210615</td>
+      <td>3.721152</td>
+      <td>16.695492</td>
+      <td>4.086012</td>
+      <td>0.000010</td>
+      <td>0.003225</td>
+      <td>0.292638</td>
+      <td>0.480407</td>
+      <td>0.322172</td>
+      <td>0.178923</td>
+      <td>6.087195</td>
+      <td>8.353000</td>
+      <td>0.988127</td>
+      <td>37.498218</td>
+      <td>2.938873</td>
+      <td>SVR</td>
+      <td>{'C': 6.2105263157894735, 'cache_size': 200, '...</td>
+      <td>rdkit_descriptors</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>4.800724</td>
+      <td>4.800724</td>
+      <td>45.260966</td>
+      <td>6.727627</td>
+      <td>0.000028</td>
+      <td>0.005321</td>
+      <td>0.376698</td>
+      <td>0.901028</td>
+      <td>0.530160</td>
+      <td>0.376698</td>
+      <td>11.416831</td>
+      <td>10.625138</td>
+      <td>0.967811</td>
+      <td>37.498218</td>
+      <td>2.872375</td>
+      <td>Ridge</td>
+      <td>{'alpha': 5.0, 'copy_X': True, 'fit_intercept'...</td>
+      <td>rdkit_descriptors</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.096653</td>
+      <td>10.271165</td>
+      <td>119.063575</td>
+      <td>10.911626</td>
+      <td>0.000074</td>
+      <td>0.008620</td>
+      <td>0.808893</td>
+      <td>1.232328</td>
+      <td>0.865350</td>
+      <td>-0.012659</td>
+      <td>15.261767</td>
+      <td>24.330125</td>
+      <td>0.915325</td>
+      <td>37.498218</td>
+      <td>4.118833</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.06951927961775611, 'copy_X': True,...</td>
+      <td>rdkit_descriptors</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2.001862</td>
+      <td>11.444190</td>
+      <td>195.578785</td>
+      <td>13.984949</td>
+      <td>0.000123</td>
+      <td>0.011071</td>
+      <td>0.897954</td>
+      <td>1.586112</td>
+      <td>1.103684</td>
+      <td>0.187122</td>
+      <td>19.643200</td>
+      <td>33.806692</td>
+      <td>0.860909</td>
+      <td>37.498218</td>
+      <td>8.573116</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.005455594781168523, 'copy_X': True...</td>
+      <td>mord_descriptors</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0.098434</td>
+      <td>15.575122</td>
+      <td>306.234840</td>
+      <td>17.499567</td>
+      <td>0.000191</td>
+      <td>0.013812</td>
+      <td>1.220997</td>
+      <td>1.898368</td>
+      <td>1.377200</td>
+      <td>0.044581</td>
+      <td>23.510333</td>
+      <td>42.064068</td>
+      <td>0.782212</td>
+      <td>37.498218</td>
+      <td>10.132495</td>
+      <td>ElasticNet</td>
+      <td>{'alpha': 0.0026366508987303605, 'copy_X': Tru...</td>
+      <td>mord_descriptors</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>8.346180</td>
+      <td>18.830843</td>
+      <td>618.279153</td>
+      <td>24.865220</td>
+      <td>0.000397</td>
+      <td>0.019930</td>
+      <td>1.492118</td>
+      <td>3.217256</td>
+      <td>1.966877</td>
+      <td>0.652719</td>
+      <td>40.765533</td>
+      <td>54.517137</td>
+      <td>0.560293</td>
+      <td>37.498218</td>
+      <td>7.560452</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.02335721469090124, 'copy_X': True,...</td>
+      <td>hashedtopologicaltorsion_radius3</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>24.377798</td>
+      <td>24.377798</td>
+      <td>738.728924</td>
+      <td>27.179568</td>
+      <td>0.000467</td>
+      <td>0.021607</td>
+      <td>1.909181</td>
+      <td>2.866370</td>
+      <td>2.134430</td>
+      <td>1.909181</td>
+      <td>35.498564</td>
+      <td>27.813276</td>
+      <td>0.474632</td>
+      <td>37.498218</td>
+      <td>6.243020</td>
+      <td>Ridge</td>
+      <td>{'alpha': 24.6, 'copy_X': True, 'fit_intercept...</td>
+      <td>hashedtopologicaltorsion_radius3</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>17.411413</td>
+      <td>17.522432</td>
+      <td>784.644116</td>
+      <td>28.011500</td>
+      <td>0.000531</td>
+      <td>0.023046</td>
+      <td>1.412099</td>
+      <td>3.903867</td>
+      <td>2.261465</td>
+      <td>1.403741</td>
+      <td>48.347442</td>
+      <td>48.513971</td>
+      <td>0.441978</td>
+      <td>37.498218</td>
+      <td>5.094646</td>
+      <td>SVR</td>
+      <td>{'C': 16.63157894736842, 'cache_size': 200, 'c...</td>
+      <td>mord_descriptors</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>17.421228</td>
+      <td>17.602028</td>
+      <td>788.271260</td>
+      <td>28.076169</td>
+      <td>0.000534</td>
+      <td>0.023100</td>
+      <td>1.418320</td>
+      <td>3.912741</td>
+      <td>2.266680</td>
+      <td>1.404709</td>
+      <td>48.457341</td>
+      <td>48.728541</td>
+      <td>0.439398</td>
+      <td>37.498218</td>
+      <td>5.041715</td>
+      <td>Ridge</td>
+      <td>{'alpha': 0.1, 'copy_X': True, 'fit_intercept'...</td>
+      <td>mord_descriptors</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 </section>
 <section id="Save-scores-to-csv">

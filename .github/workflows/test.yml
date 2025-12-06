@@ -28,7 +28,7 @@ jobs:
     - name: Install conda-forge dependencies
       shell: bash -l {0}
       run: |
-        conda install -c conda-forge openbabel nb_conda_kernels python-graphviz -y
+        conda install -c conda-forge openbabel nb_conda_kernels python-graphviz tk -y
         pip install openbabel-wheel
 
     - name: Install PyTorch (Ubuntu/macOS)
@@ -58,6 +58,8 @@ jobs:
 
     - name: Run tests
       shell: bash -l {0}
+      env:
+        MPLBACKEND: Agg
       run: |
         pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term -k "not test_Dragon"
 

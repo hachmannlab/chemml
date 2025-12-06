@@ -49,8 +49,7 @@ class pytorch_Net(nn.Module):
                         seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
                         n = n+1
                 except:
-                    raise ValueError('Incorrect Activation Format. Pytorch activation functions are case sensistive e.g., \
-                                        ReLU not relu')
+                    raise ValueError('Incorrect activation format. PyTorch activation functions are case sensitive e.g., ReLU not relu')
             # print(seq_l)
             self.base_model = nn.Sequential(OrderedDict(seq_l))
         else:
@@ -358,6 +357,44 @@ class MLP(object):
             return self.model
 
 
+    def get_params(self, deep=True):
+        """
+        Get parameters for this model.
+        
+        Follows scikit-learn's convention for model parameter retrieval.
+        Compatible with scikit-learn's model selection tools.
+        
+        Parameters
+        ----------
+        deep : bool, default=True
+            If True, will return parameters for this estimator and
+            contained subobjects (for other estimators). Not used in this
+            implementation but kept for API consistency.
+        
+        Returns
+        -------
+        params : dict
+            Parameter names mapped to their values.
+        """
+        params = {
+            'engine': self.engine,
+            'nfeatures': self.nfeatures,
+            'nneurons': self.nneurons,
+            'activations': self.activations,
+            'learning_rate': self.learning_rate,
+            'nepochs': self.nepochs,
+            'batch_size': self.batch_size,
+            'alpha': self.alpha,
+            'loss': self.loss,
+            'is_regression': self.is_regression,
+            'nclasses': self.nclasses,
+            'layer_config_file': self.layer_config_file,
+            'opt_config': self.opt_config,
+            'random_seed': self.random_seed,
+        }
+        return params
+
+
     def save(self, path, filename):
         """
         Saves the chemml.models.MLP object along with the underlying 
@@ -430,8 +467,11 @@ class MLP(object):
             self.nclasses = None
         else:
             self.nclasses = int(self.nclasses)
-            
-        self.nfeatures = int(chemml_model.loc['nfeatures'][0])
+        
+        try:
+            self.nfeatures = int(chemml_model.loc['nfeatures'][0])
+        except KeyError:
+            self.nfeatures = int(chemml_model.loc['feature_size'][0])
         
         # layer config
         self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]
@@ -461,15 +501,19 @@ class MLP(object):
             pass
         elif type(X) == np.ndarray:
             X = torch.tensor((X),dtype=torch.float)
+        elif isinstance(X, pd.DataFrame):
+            X = torch.tensor((X.values),dtype=torch.float)
         else:
-            raise TypeError('X has to be a numpy array or pytorch tensor')
+            raise TypeError('X has to be a numpy array, pytorch tensor or Pandas DataFrame')
         
         if type(y) == torch.Tensor:
             pass
         elif type(y) == np.ndarray:
             y = torch.tensor((y),dtype=torch.float)
+        elif isinstance(y,pd.DataFrame) or isinstance(y,pd.Series):
+            y = torch.tensor((y.values),dtype=torch.float)
         else:
-            raise TypeError('y has to be a numpy array or pytorch tensor')
+            raise TypeError('y has to be a numpy array or pytorch tensor or Pandas DataFrame/Series')
         
         self.losses = []
 
@@ -536,6 +580,8 @@ class MLP(object):
             pass
         elif type(X) == np.ndarray:
             X = torch.tensor((X),dtype=torch.float)
+        elif isinstance(X, pd.DataFrame):
+            X = torch.tensor((X.values),dtype=torch.float)
         else:
             raise TypeError('X has to be a numpy array or pytorch tensor')
 
@@ -700,14 +746,24 @@ class MLP(object):
                 opt = getattr(pytorch_opt_module, opt_name.upper())(**opt_params)
                 return opt
             except:
-                raise ValueError('incorrect optimizer name or parameter for opt_config')
+                raise AttributeError('incorrect optimizer name or parameter for opt_config')
         elif self.engine == 'tensorflow':  
             keras_opt_module = import_module('tensorflow.keras.optimizers')
             try:
                 opt = getattr(keras_opt_module, opt_name)(**opt_params)
                 return opt
-            except:
-                raise ValueError('incorrect optimizer name or parameter for opt_config')
+            except ValueError:
+                # Some keras optimizers moved to the legacy module in newer TF versions.
+                keras_opt_module = import_module('tensorflow.keras.optimizers.legacy')
+                try:
+                    opt = getattr(keras_opt_module, opt_name)(**opt_params)
+                    return opt
+                except Exception:
+                    # fallback to a clear attribute error if lookup or construction fails
+                    raise AttributeError('incorrect optimizer name or parameter for opt_config')
+            except Exception:
+                # Any other error (e.g., AttributeError from getattr) should be surfaced
+                raise AttributeError('incorrect optimizer name or parameter for opt_config')
 
 
  

@@ -57,6 +57,27 @@ All notable changes to this project will be documented in this file.
    - Updated README installation instructions
    - Modified setup.py for Python 3.12 compatibility
 
+5. **d167ce8** - code CI/CD updated to GitHub Actions
+   - Migrated from Travis CI to GitHub Actions workflow
+   - Added `.github/workflows/test.yml` for cross-platform testing
+   - Configured conda-forge dependencies with Mambaforge
+   - Added OS-specific PyTorch installation for CI environments
+
+6. **400b260** - CI/CD patches
+   - Added pytest and coverage configuration
+   - Skipped test_Dragon in CI due to software availability
+   - Configured matplotlib backend for CI environments
+   - Added coverage XML artifact uploads
+
+7. **29e3715** - macOS CI/CD patch for tkinter
+   - Added tk to conda-forge dependencies for macOS compatibility
+   - Enhanced matplotlib configuration for non-GUI backend
+   - Added MPLBACKEND environment variable for CI
+
+8. **5571532** - removing extra import to avoid CI/CD issues
+   - Removed unused `from turtle import back` import from explain.py
+   - Fixed ModuleNotFoundError for _tkinter on macOS CI
+
 ### Dependencies Updated
 - **TensorFlow/Keras**: Now compatible with Keras 3 and TensorFlow 2.19+
 - **PyTorch**: Added proper CPU-only installation for CI environments

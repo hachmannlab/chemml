@@ -41,7 +41,7 @@ if __name__ == "__main__":
             'lxml', 'wget',
             'seaborn',
             'openpyxl', 'ipywidgets',
-            'lime', 'shap'
+            'lime', 'shap', 'tqdm'
             ],
         extras_require={
             'docs': [

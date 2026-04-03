@@ -2,7 +2,11 @@ import unittest
 from itertools import permutations
 import numpy.testing as np
 import os
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.chem.magpie_python.data.materials.CompositionEntry import CompositionEntry
 
@@ -237,7 +241,7 @@ class testCompositionEntry(unittest.TestCase):
     def test_compare(self):
         # this_file_path = os.path.dirname(__file__)
         # abs_path = os.path.join(this_file_path, "../../test-files/")
-        abs_path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test'))
+        abs_path = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test'))
         entries = CompositionEntry.import_composition_list(
             os.path.join(abs_path, "small_set_comp.txt"))
         for e1 in range(len(entries)):

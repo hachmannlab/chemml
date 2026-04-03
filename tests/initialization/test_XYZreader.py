@@ -1,14 +1,17 @@
 import pytest
 import os
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.initialization import XYZreader
 
 
 @pytest.fixture()
 def data_path():
-    return pkg_resources.resource_filename(
-        'chemml', os.path.join('datasets', 'data', 'organic_xyz'))
+    return str(files('chemml').joinpath('datasets', 'data', 'organic_xyz'))
 
 
 def test_string_manual(data_path):

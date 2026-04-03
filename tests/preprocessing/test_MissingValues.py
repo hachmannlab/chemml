@@ -2,11 +2,15 @@ import unittest
 import os
 import pandas as pd
 import numpy as np
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.preprocessing import MissingValues
 
-DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data','test_files'))
+DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'test_files'))
 
 df = pd.read_csv(os.path.join(DATA_PATH, 'test_missing_values.csv'), header=None)
 target = pd.DataFrame([1, 2, 3, np.nan, 4])

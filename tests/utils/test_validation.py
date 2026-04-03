@@ -2,7 +2,11 @@ import numpy as np
 import pandas as pd
 import pytest
 import os
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.utils import check_object_col
 from chemml.utils import isfloat
@@ -15,7 +19,7 @@ from chemml.utils import update_default_kwargs
 
 @pytest.fixture()
 def data_path():
-    return pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'test_files'))
+    return str(files('chemml').joinpath('datasets', 'data', 'test_files'))
 
 
 def test_isfloat_exception():

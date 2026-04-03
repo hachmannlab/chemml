@@ -46,8 +46,8 @@ jobs:
     - name: Install ChemML and dependencies
       shell: bash -l {0}
       run: |
-        pip install --upgrade pip 'setuptools<=81.0.0' wheel
-        pip install -e . --use-pep517
+        pip install --upgrade pip setuptools wheel
+        pip install -e .
         pip install pytest pytest-cov
 
     - name: Configure matplotlib for CI

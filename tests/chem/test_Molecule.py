@@ -3,14 +3,17 @@ import os
 from rdkit import Chem
 from openbabel import pybel
 import warnings
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.chem import Molecule
 
 @pytest.fixture()
 def xyz_path():
-    return pkg_resources.resource_filename(
-        'chemml', os.path.join('datasets', 'data', 'organic_xyz'))
+    return str(files('chemml').joinpath('datasets', 'data', 'organic_xyz'))
 
 @pytest.fixture()
 def caffeine_smiles():

@@ -457,11 +457,11 @@ class MLP(object):
         opt_list.append(opt)
         self.opt = self._parse_opt_config(opt_list)
         
-        self.nepochs=int(chemml_model.loc['nepochs'][0])
-        self.batch_size=int(chemml_model.loc['batch_size'][0])
-        self.loss=chemml_model.loc['loss'][0]
-        self.is_regression=eval(chemml_model.loc['is_regression'][0])
-        self.nclasses=chemml_model.loc['nclasses'][0]
+        self.nepochs=int(chemml_model.loc['nepochs'].iloc[0])
+        self.batch_size=int(chemml_model.loc['batch_size'].iloc[0])
+        self.loss=chemml_model.loc['loss'].iloc[0]
+        self.is_regression=eval(chemml_model.loc['is_regression'].iloc[0])
+        self.nclasses=chemml_model.loc['nclasses'].iloc[0]
         
         if str(self.nclasses).lower() == 'nan':
             self.nclasses = None
@@ -469,9 +469,9 @@ class MLP(object):
             self.nclasses = int(self.nclasses)
         
         try:
-            self.nfeatures = int(chemml_model.loc['nfeatures'][0])
+            self.nfeatures = int(chemml_model.loc['nfeatures'].iloc[0])
         except KeyError:
-            self.nfeatures = int(chemml_model.loc['feature_size'][0])
+            self.nfeatures = int(chemml_model.loc['feature_size'].iloc[0])
         
         # layer config
         self.layers = [(n['class_name'],n['config']) for n in self.model.get_config()['layers']]

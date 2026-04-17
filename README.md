@@ -35,7 +35,7 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
     
     git clone https://github.com/hachmannlab/chemml.git
     cd chemml
-    pip install -e . --use-pep517
+    pip install -e .
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy

@@ -283,8 +283,7 @@ class ModelScreener(object):
         list 
             list of pandas DataFrames consisting of various molecular representations
         """        
-        from chemml.chem import RDKitFingerprint
-        from chemml.chem import CoulombMatrix
+        from chemml.chem import RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
         # generate all representation techniques here
 
         mol_objs_list=[]
@@ -313,47 +312,9 @@ class ModelScreener(object):
 
         hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
         self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
-
-        # RDKit Descriptors
-        def getMolDescriptors(smiles_list, missingVal=np.nan):
-            """ 
-            Calculate the full list of descriptors for a molecule
-            
-            Parameters
-            ----------
-            smiles_list : list
-                list of smiles codes of molecules
-            missingVal : _type_, optional
-                used if the descriptor cannot be calculated, by default np.nan
-
-            Returns
-            -------
-            pandas Dataframe
-                DataFrame consisting of all descriptors available in rdkit
-            """            
-            from rdkit import Chem
-            from rdkit.Chem import Descriptors
-
-            res = {}
-            descriptors_df = pd.DataFrame()
-            for molecules_objs in tqdm(mol_objs_list, desc="Calculating RDKit descriptors"):
-                for nm,fn in Descriptors._descList:
-                    # some of the descriptor functions can throw errors if they fail, catch those here:
-                    try:
-                        val = fn(Chem.MolFromSmiles(molecules_objs.smiles))
-                    except:
-                        # print the error message:
-                        import traceback
-                        traceback.print_exc()
-                        # and set the descriptor value to whatever missingVal is
-                        val = missingVal
-                    res[nm] = val
-                all_descriptors = pd.DataFrame(res,index=[0])
-                descriptors_df = pd.concat([descriptors_df, all_descriptors], ignore_index=True)
-            return descriptors_df
+       
         
-        
-        allDescrs = getMolDescriptors(smiles_list = self.smiles)
+        allDescrs = RDKDesc().represent(mol_objs_list).drop(columns='SMILES')
         from sklearn.preprocessing import StandardScaler
         scaler = StandardScaler()
         scaled_allDescrs = scaler.fit_transform(allDescrs)

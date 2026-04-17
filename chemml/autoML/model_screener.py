@@ -12,11 +12,19 @@ from chemml.chem import Molecule
 import warnings
 import random
 import time
+from tqdm import tqdm
 from importlib import import_module
 from multiprocessing import Pool, Manager
 
 warnings.filterwarnings("ignore")
 
+
+def _log(message, output_file=None, to_console=True):
+    if to_console:
+        print(message)
+    if output_file is not None:
+        with open(output_file, 'a') as f:
+            f.write(message)
 
 
 class ModelScreener(object):
@@ -147,9 +155,7 @@ class ModelScreener(object):
                 scores = scores.T
 
             else:
-                print("Work in progress...\n")
-                print("classifier and regressor scores can be separately obtained: ")
-                print("""set screener_type to 'regressor' or 'classifier'  """)
+                _log("Work in progress...\nclassifier and regressor scores can be separately obtained: \nset screener_type to 'regressor' or 'classifier'  ", output_file=self.output_file)
                 scores = None
 
             return scores
@@ -168,7 +174,9 @@ class ModelScreener(object):
                 if parameters_list[0] == 'pytorch':
                     activation_map = {'ReLU':'ReLU', 'tanh':'Tanh', 'sigmoid':'Sigmoid','linear':'None'}
                     activations = [activation_map[act] for act in activations]
-                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures = self.nfeatures, random_seed=42) 
+                is_regression = self.screener_type != 'classifier'
+                nclasses = getattr(self, 'nclasses', None)
+                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42) 
 
             elif model_name == 'GradientBoostingRegressor':
                 model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
@@ -191,7 +199,7 @@ class ModelScreener(object):
             elif model_name == 'DecisionTreeRegressor':
                 model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
-            elif model_name == "XGBRegressor":
+            elif model_name in ("XGBRegressor", "XGBClassifier"):
                 model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]), max_depth=parameters_list[3],learning_rate=np.exp(parameters_list[4]),colsample_bytree=np.exp(parameters_list[5]),subsample=np.exp(parameters_list[6]),gamma=np.exp(parameters_list[7]),min_child_weight=parameters_list[8], device='cuda' if 'cuda' in os.environ.get('CUDA_VISIBLE_DEVICES', '') else 'cpu', random_state=42)
 
             elif model_name == "LogisticRegression":
@@ -207,7 +215,11 @@ class ModelScreener(object):
                 model = getattr(module,model_name)(C=np.exp(parameters_list[0]), kernel=parameters_list[1])
             
             elif model_name == "KNeighborsClassifier":
-                model = getattr(module,model_name)(n_neighbors=parameters_list[0], weights=parameters_list[1])
+                if parameters_list[0] > len(self.x_list[key]):
+                    n_neighbors = max(1, len(self.x_list[key])//2)
+                else:
+                    n_neighbors = parameters_list[0]
+                model = getattr(module,model_name)(n_neighbors=n_neighbors, weights=parameters_list[1])
 
             else:
                 raise ValueError(f"This model ({model_name}) cannot be used currently. Please refer to documentation. ")
@@ -219,8 +231,7 @@ class ModelScreener(object):
             start_time_ga = time.time()
                     
             def ga_eval(indi,model_name=model_name):
-                with open (self.output_file,'a') as ga_progress:
-                    ga_progress.write(model_name+':'+str(indi)+'\t')
+                _log(model_name+':'+str(indi)+'\t', output_file=self.output_file, to_console=False)
                 model = set_hyper_params(parameters_list=indi, model_name=model_name)
                 ga_search = single_obj(model=model, x=X_train, y=y_train)
                 return ga_search 
@@ -229,11 +240,9 @@ class ModelScreener(object):
             try:
                 best_ind_df, best_individual = gann.search(n_generations=self.n_gen, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
             except ZeroDivisionError:
-                with open (self.output_file,'a') as ga_progress:
-                    ga_progress.write("\n"+"ZeroDivisionError occurred for model: "+model_name+"\n")
-                    print("ZeroDivisionError occurred for model: ", model_name)
+                _log(f"\nZeroDivisionError occurred for model: {model_name}\n", output_file=self.output_file)
                 return pd.DataFrame()
-            print(model_name, ": GeneticAlgorithm - complete")
+            _log(f"{model_name}: GeneticAlgorithm - complete", output_file=self.output_file)
             
             all_items = list(gann.fitness_dict.items())
             all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
@@ -247,31 +256,20 @@ class ModelScreener(object):
             best_ga_model = set_hyper_params(parameters_list=best_hyper_params, model_name=model_name)
             
             ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
-            print("Model:", model_name)
-            print("GA time(hours): ", ga_time)
-            print("\n")
+            _log(f"Model: {model_name}\nGA time(hours): {ga_time}\n", output_file=self.output_file)
             return ga_accuracy_test
 
         try:
-            print("\nRunning model no: ", tmp_counter, "; Name: ", model_name)
+            _log(f"\nRunning model no: {tmp_counter}; Name: {model_name}", output_file=output_file)
             model_start_time = time.time()
             space_final = tuple(space_models[model_name])
-            with open(output_file, 'a') as ga_progress:
-                ga_progress.write("\n" + model_name)
-                ga_progress.write("\n")
+            _log(f"\n{model_name}\n", output_file=output_file, to_console=False)
 
             scores_list.append(ga(X_train, y_train, X_test, y_test, model_name=model_name, space_final=space_final, al=3))
-            print("--------------------------------------------------------------------------------")
-            with open(output_file, 'a') as ga_progress:
-                ga_progress.write(f"\n------------------------- {model_name} search complete, time taken: {round(time.time()-model_start_time,3)} seconds ------------------------ \n")
-        except: 
-            with open (self.output_file,'a') as ga_progress:
-                ga_progress.write("\n"+"Exception occurred for model: "+model_name+"\n")
-                ga_progress.write(traceback.format_exc())
-                ga_progress.write("\n")
-            print("model_name: ", model_name)
-            print(traceback.format_exc())
-            print("\n")
+            _log("--------------------------------------------------------------------------------", output_file=output_file)
+            _log(f"\n------------------------- {model_name} search complete, time taken: {round(time.time()-model_start_time,3)} seconds ------------------------ \n", output_file=output_file, to_console=False)
+        except:
+            _log(f"\nException occurred for model: {model_name}\n{traceback.format_exc()}\n", output_file=output_file)
         
         return scores_list
 
@@ -292,16 +290,15 @@ class ModelScreener(object):
         mol_objs_list=[]
         
         i=0
-        for smi in self.smiles:
+        for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects")):
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
             try:
                 mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
                 mol_objs_list.append(mol)
             except Exception as e:
-                print("Unable to process SMILES: ", smi)
+                _log(f"\nUnable to process SMILES: {smi}; Error: {e}", output_file=self.output_file)
                 self.discarded_indices.append(i)
-            i+=1
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
@@ -339,7 +336,7 @@ class ModelScreener(object):
 
             res = {}
             descriptors_df = pd.DataFrame()
-            for molecules_objs in mol_objs_list:
+            for molecules_objs in tqdm(mol_objs_list, desc="Calculating RDKit descriptors"):
                 for nm,fn in Descriptors._descList:
                     # some of the descriptor functions can throw errors if they fail, catch those here:
                     try:
@@ -394,12 +391,12 @@ class ModelScreener(object):
         """    
 
         
-        scores_combined = pd.concat(scores_list, ignore_index=True).drop_duplicates(subset='r_squared', keep='last')
-        
+        scores_combined = pd.concat(scores_list, ignore_index=True)
+
         if self.screener_type == "regressor":
-            self.scores_combined = scores_combined.sort_values(by='RMSE', ascending=True)
+            self.scores_combined = scores_combined.drop_duplicates(subset='r_squared', keep='last').sort_values(by='RMSE', ascending=True)
         else:
-            self.scores_combined = scores_combined.sort_values(by='Accuracy', ascending=False)
+            self.scores_combined = scores_combined.drop_duplicates(subset='Accuracy', keep='last').sort_values(by='Accuracy', ascending=False)
 
         return self.scores_combined[:n_best]
 
@@ -430,14 +427,16 @@ class ModelScreener(object):
         ValueError
             _description_
         """        
-        with open(self.output_file,'a') as ga_progress:
-            ga_progress.write(f"\n\n-------------------------Model screening started at {time.ctime()}-------------------------\n\n")
+        _log(f"\n\n-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file, to_console=False)
 
-        y = self.df[self.target]
+        y = self.df[self.target].reset_index(drop=True)
 
         if self.featurization == True:
             self._represent_smiles()
             y = y.drop(index=self.discarded_indices)
+
+        if self.screener_type == 'classifier':
+            self.nclasses = y.nunique()
             
         scores_list_overall=[]
         
@@ -445,6 +444,7 @@ class ModelScreener(object):
             from .space import space_models_classifiers as space_models
         else:
             from .space import space_models
+
 
         # Splitting model names into single- and multi-core models
         single_core_models = space_models['single_core']
@@ -465,21 +465,22 @@ class ModelScreener(object):
             multi_core_model_names = list(multi_core_models.keys())
 
         # write run parameters to output file
-        with open(self.output_file, 'a') as ga_progress:
-            ga_progress.write("\n-------------------------Run parameters-------------------------\n")
-            ga_progress.write(f"  Featurization: {self.featurization}\n")
-            ga_progress.write(f"  Multi_core: {multi_core}\n")
-            ga_progress.write(f"  Screener_type: {self.screener_type}\n")
-            ga_progress.write(f"  Number of datapoints: {int(len(y))}\n")
-            if len(y) > 1000:
-                ga_progress.write("  Note: Dataset > 1000 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n")
+        params_msg = (
+            "\n-------------------------Run parameters-------------------------\n"
+            f"  Featurization: {self.featurization}\n"
+            f"  Multi_core: {multi_core}\n"
+            f"  Screener_type: {self.screener_type}\n"
+            f"  Number of datapoints: {int(len(y))}\n"
+        )
+        if len(y) > 1000:
+            params_msg += "  Note: Dataset > 1000 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
+        _log(params_msg, output_file=self.output_file, to_console=False)
 
         for key in self.x_list.keys():
-            with open(self.output_file,'a') as ga_progress:
-                ga_progress.write(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n")
+            _log(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n", output_file=self.output_file, to_console=False)
             start_time = time.time()
             X_train, X_test, y_train, y_test = train_test_split(self.x_list[key], y, test_size=0.1, random_state=42)
-            print("split done!")
+            _log("split done!", output_file=self.output_file)
             tmp_counter = 0         
             output_file = self.output_file
             self.nfeatures = X_train.shape[1]
@@ -491,9 +492,7 @@ class ModelScreener(object):
                     pool.starmap(self.run_model, [(model_name, tmp_counter + i, output_file, X_train, y_train, X_test, y_test, single_core_models, scores_list, key) for i, model_name in enumerate(single_core_model_names)])
                 scores_list_overall.extend(list(scores_list))
 
-                with open(self.output_file,'a') as ga_progress:
-                    ga_progress.write("Single-core complete \n")
-                print("Single-core complete \n")
+                _log("Single-core complete \n", output_file=self.output_file)
 
             # For multi-core models, run them sequentially to avoid core contention
             if multi_core:
@@ -501,9 +500,7 @@ class ModelScreener(object):
                     tmp_counter += 1
                     scores_list_overall = self.run_model(multi_core_model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, multi_core_models, scores_list_overall, key)
 
-            with open(self.output_file,'a') as ga_progress:
-                ga_progress.write(f"\n------------------------- Screening complete for feature set {key}, time taken: {round(time.time() - start_time,3)} seconds -------------------------\n")   
-            print(f"\n--- Screening complete for feature set {key}, time taken: {round(time.time() - start_time,3)} seconds ---")
+            _log(f"\n------------------------- Screening complete for feature set {key}, time taken: {round(time.time() - start_time,3)} seconds -------------------------\n", output_file=self.output_file)
 
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list=scores_list_overall, n_best=n_best)

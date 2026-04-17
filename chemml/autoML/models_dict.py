@@ -15,7 +15,7 @@ models_dict = {
     "DecisionTreeClassifier": "sklearn.tree",
     "SVC": "sklearn.svm",
     "KNeighborsClassifier": "sklearn.neighbors",
-    "LGBMClassifier": "lightgbm",
-    # "XGBClassifier": "xgboost",
+    # "LGBMClassifier": "lightgbm",
+    "XGBClassifier": "xgboost",
         
 }

@@ -107,6 +107,9 @@ class RDKDesc(object):
                     mol_list = [m.rdkit_molecule for m in mol_list]
                 except Exception as e:
                     print(str(e)+' Make sure input is a list of ChemML Molecule objects')
+            # if isinstance(mol_list[0], rdkit.Chem.rdchem.Mol):
+            #     mol_list = mol_list
+            #     smi_list = [Chem.MolToSmiles(m) for m in tqdm(mol_list, desc='Converting RDKit Mol objects to SMILES')]
         else:
             if isinstance(mol_list, Molecule):
 
@@ -122,7 +125,7 @@ class RDKDesc(object):
 
         desc_data = []
         if n_jobs == 1:
-            for mol in mol_list:
+            for mol in tqdm(mol_list, desc='Calculating RDKit descriptors'):
                 mol_desc = {}
                 for desc_name in self.descriptor_list:
                     mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)

@@ -57,6 +57,8 @@ https://pytorch.org/get-started/locally/
 
 Note: The PyTorch CUDA 12.4 install has been tested with CUDA 12.5 and works fine, but future CUDA versions may not be compatible. If any issues arise from CUDA compatibility, it is recommended to follow the instructions on the PyTorch website to compile from source.
 
+AutoML supports XGBoost and LightGBM models, but note that we require the user to install these libraries manually.
+
 ## Citation:
 Please cite the use of ChemML as:
 

@@ -82,6 +82,22 @@ space_models = {
                                 'mutation': [0, 1]}},
                                 {'min_child_weight': {'choice': range(1,10)}},
                                 ],
+                'LGBMRegressor':[
+                                {'n_estimators': {'choice': np.arange(20,500,10).tolist()}},
+                                {'num_leaves': {'choice': [31, 50, 70, 90]}},
+                                {'learning_rate': {'uniform': [np.log(0.01), np.log(0.3)],                
+                                'mutation': [0, 1]}},
+                                {'max_depth': {'choice': [-1, 5, 10, 15]}},
+                                {'min_child_samples': {'choice': [10, 20, 30, 40, 50]}},
+                                {'subsample': {'uniform': [np.log(0.5), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'colsample_bytree': {'uniform': [np.log(0.3), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'reg_alpha': {'uniform': [np.log(0.0001), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'reg_lambda': {'uniform': [np.log(0.0001), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                ],
                 'MLP':[
                         {'engine': {'choice': ['tensorflow', 'pytorch']}},
                         {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)], 'mutation': [0, 1]}}, 
@@ -99,18 +115,6 @@ space_models = {
                 }
                 }
 
-'''
-LightGBM Regressor hyperparameter space
-hyperparameters = {
-    'num_leaves': [31, 50, 70, 90],  # Maximum tree leaves for base learners
-    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
-    'n_estimators': [100, 200, 300, 400, 500],
-    'max_depth': [-1, 5, 10, 15],  # Maximum tree depth for base learners
-    'min_data_in_leaf': [10, 20, 30, 40, 50],  # Minimum number of data in one leaf
-    'bagging_fraction': [0.5, 0.7, 0.9, 1]  # Subsample ratio of the training instance
-}
-
-'''
 
 space_models_classifiers = {
                 'single_core': {
@@ -172,6 +176,23 @@ space_models_classifiers = {
                                 {'min_child_weight': {'choice': range(1,10)}},
                                 ],
 
+                'LGBMClassifier':[
+                                {'n_estimators': {'choice': np.arange(20,500,10).tolist()}},
+                                {'num_leaves': {'choice': [31, 50, 70, 90]}},
+                                {'learning_rate': {'uniform': [np.log(0.01), np.log(0.3)],                
+                                'mutation': [0, 1]}},
+                                {'max_depth': {'choice': [-1, 5, 10, 15]}},
+                                {'min_child_samples': {'choice': [10, 20, 30, 40, 50]}},
+                                {'subsample': {'uniform': [np.log(0.5), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'colsample_bytree': {'uniform': [np.log(0.3), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'reg_alpha': {'uniform': [np.log(0.0001), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                {'reg_lambda': {'uniform': [np.log(0.0001), np.log(1)],                
+                                'mutation': [0, 1]}},
+                                ],
+
                 'MLP':[
                         {'engine': {'choice': ['tensorflow', 'pytorch']}},
                         {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)], 'mutation': [0, 1]}}, 
@@ -189,27 +210,3 @@ space_models_classifiers = {
                 }
                 }
 
-
-'''
-XGBoost Classifier hyperparameter space
-hyperparameters = {
-    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
-    'max_depth': [3, 5, 7, 9],
-    'min_child_weight': [1, 3, 5],
-    'gamma': [0, 0.1, 0.2],
-    'colsample_bytree': [0.3, 0.5, 0.7, 1],
-    'n_estimators': [100, 200, 300, 400, 500],
-    'subsample': [0.5, 0.7, 1],
-    'reg_alpha': [0, 0.5, 1],
-    'reg_lambda': [1, 1.5, 2]
-}
-LightGBM Classifier hyperparameter space
-hyperparameters = {
-    'num_leaves': [31, 50, 70, 90],  # Maximum tree leaves for base learners
-    'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
-    'n_estimators': [100, 200, 300, 400, 500],
-    'max_depth': [-1, 5, 10, 15],  # Maximum tree depth for base learners
-    'min_data_in_leaf': [10, 20, 30, 40, 50],  # Minimum number of data in one leaf
-    'bagging_fraction': [0.5, 0.7, 0.9, 1]  # Subsample ratio of the training instance
-}
-'''

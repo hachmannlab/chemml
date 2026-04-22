@@ -3,6 +3,53 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+[1.3.3] - 2026-04-22
+--------------------
+
+Added
+~~~~~
+- **LightGBM Integration**: Added LightGBM algorithm support to the model screener functionality
+- **Classifier AutoML**: Completed classifier AutoML capabilities for expanded model screening
+- **Pradhan et al. 2026**: Added reproducible workflow and datasets for the Inverse Design paper by Pradhan et al. 2026
+
+Changed
+~~~~~~~
+- **RDKit Fingerprints**: Upgraded the RDKFP implementation to utilize RDKit's modern ``rdFingerprintGenerator`` set of fingerprint generators
+- **Descriptor Calculation Logic**: AutoML's RDKit descriptor calculation now relies on ``RDKDesc()`` wrapper class in FOSS descriptor module
+- **FOSS Descriptors/Tests**: Modified FOSS descriptors functionality logic and expanded related tests
+- **Documentation Setup**: Transitioned the repository's Markdown changelog into ``docs/changelog.rst`` to support unified ReadTheDocs rendering, and updated the main index accordingly
+- **Tutorial Notebooks**: Updated feature representation documentation and notebooks corresponding to new RDKFP code outputs
+- **Progress Tracking via tqdm**: Implemented a progress bar for RDKit descriptor calculations and genetic algorithm using tqdm 
+
+Fixed/Miscellaneous
+~~~~~
+- **Modernized Packaging**: Added ``pyproject.toml`` for standard PEP 517/518 builds, eliminating setup.py and --use-pep517 flag during install
+- **Pandas 3.0 Compatibility**: Fixed some incompatibilities with pandas 3.0 found in CI/CD testing; in theory this should make ChemML compatible with pandas 3.0, but further testing is needed
+- **TensorFlow 2.x Compatibility**: Patched backwards compatibility errors in Neural Fingerprint graph convolutional layers
+- **Python 3.8 Support**: Ensured dependencies, test module configurations, and setups maintain Python 3.8 backwards compatibility
+- **Documentation**: Updated documentation index page to keep up-to-date with README.md
+
+
+Commits Included:
+^^^^^^^^^^^^^^^^^
+
+1. **5eb23ef** - updating feature rep docs with new RDKFP code
+2. **6e3fe21** - patching TF2.x error in neural fingerprints
+3. **c5dc859** - updating RTD page, moving changelog to docs
+4. **e725bed** - Updating RDKFP to use modern rdFingerprintGenerator
+5. **8e6d60c** - Adding LightGBM to modelscreener
+6. **2ae5a02** - Using foss_descriptors's RDKit descriptor function
+7. **28ee6bd** - adding progress bar for rdkit descriptor calculation
+8. **85bc354** - completing classifier AutoML
+9. **0c4782f** - Confirming pip install fix (closed pyproject.toml dev)
+10. **a526f01** - fixing pandas 3.0 issues on CI/CD
+11. **6bf11de** - Modifying foss descriptors and tests
+12. **8ca2e1f** - adding pyproject.toml and 3.8 backwards compatibility
+13. **35fe0cf** - patched CI/CD to fix nitinmad issue
+14. **6205026** - Updated the GeneticAlgorithm to be abel view as progress bar using tqdm
+15. **368d2ec** - Added tqdm
+16. **fcca36b** - Add reproducible workflow and datasets for Pradhan et al. 2026 Inverse Design paper
+
 [1.3.2] - 2025-12-05
 --------------------
 

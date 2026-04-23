@@ -40,3 +40,13 @@ Inverse_Design_GA/
 │
 └── outputs/                   <- All output files go here
     └── .gitkeep
+```
+---
+
+## Citation
+
+Please cite any use of this work as:
+```text
+Aatish Pradhan, Gaurav Vishwakarma, Johannes Hachmann. Reward Hacking in Materials Discovery: An Interpretable Inverse Design Framework and its Physical Limits. ChemRxiv. 24 March 2026.
+DOI: https://doi.org/10.26434/chemrxiv.15001186/v1
+```

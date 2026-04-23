@@ -7,19 +7,19 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accelerated Discovery of High-Refractive-Index Molecules &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -57,6 +57,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -124,19 +125,19 @@
 <section id="single-target-dnns">
 <h2>Single Target DNNs<a class="headerlink" href="#single-target-dnns" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load SMILES representation and target properties of 100,000 molecules</span>
-<span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_small_organic_data</span><span class="p">()</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.published.RI</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_small_organic_data</span><span class="p">()</span>
 
 <span class="n">molecules</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">load_small_organic_data</span><span class="p">()</span>
 
 
 <span class="c1"># convert the SMILES representation of molecules to chemml.chem.Molecule object</span>
-<span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="kn">import</span> <span class="n">Molecule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
 
 <span class="n">mol_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">Molecule</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;smiles&#39;</span><span class="p">],</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">]</span>
 
 
 <span class="c1"># generate Morgan, HAP and HTT fingerprints</span>
-<span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="kn">import</span> <span class="n">RDKitFingerprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">RDKitFingerprint</span>
 
 <span class="n">morgan</span> <span class="o">=</span> <span class="n">RDKitFingerprint</span><span class="p">(</span><span class="n">fingerprint_type</span><span class="o">=</span><span class="s1">&#39;morgan&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_list</span><span class="p">)</span>
 <span class="n">hap</span> <span class="o">=</span> <span class="n">RDKitFingerprint</span><span class="p">(</span><span class="n">fingerprint_type</span><span class="o">=</span><span class="s1">&#39;hap&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_list</span><span class="p">)</span>
@@ -144,7 +145,7 @@
 
 
 <span class="c1"># generate Dragon descriptors</span>
-<span class="kn">from</span> <span class="nn">chemml.chem</span> <span class="kn">import</span> <span class="n">Dragon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dragon</span>
 
 <span class="n">dragon</span> <span class="o">=</span> <span class="n">Dragon</span><span class="p">()</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_list</span><span class="p">)</span>
 
@@ -154,15 +155,15 @@
 
 
 <span class="c1"># generate indices for splitting the features and targets into training and test sets</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">train_indices</span><span class="p">,</span> <span class="n">test_indices</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 
 <span class="c1"># Model Training</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">chemml.utils</span> <span class="kn">import</span> <span class="n">regression_metrics</span>
-<span class="kn">from</span> <span class="nn">chemml.models</span> <span class="kn">import</span> <span class="n">MLP</span>
-<span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_hyperparameters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">regression_metrics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.published.RI</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_hyperparameters</span>
 
 
 <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">f_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">feature_sets</span><span class="p">,[</span><span class="s1">&#39;dragon&#39;</span><span class="p">,</span> <span class="s1">&#39;morgan&#39;</span><span class="p">,</span> <span class="s1">&#39;hap&#39;</span><span class="p">,</span> <span class="s1">&#39;htt&#39;</span><span class="p">]):</span>
@@ -190,7 +191,7 @@
 </section>
 <section id="physics-infused-dnn">
 <h2>Physics Infused DNN<a class="headerlink" href="#physics-infused-dnn" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">LorentzLorenz</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.published.RI</span><span class="w"> </span><span class="kn">import</span> <span class="n">LorentzLorenz</span>
 
 <span class="c1"># instantiate LorentzLorenz() class object</span>
 <span class="n">physics_infused_model</span> <span class="o">=</span> <span class="n">LorentzLorenz</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -210,7 +211,7 @@
 <section id="transfer-learning-tzvp-polarizabilities">
 <h2>Transfer learning TZVP Polarizabilities<a class="headerlink" href="#transfer-learning-tzvp-polarizabilities" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load TZVP data</span>
-<span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_small_organic_data_10k</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.published.RI</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_small_organic_data_10k</span>
 
 <span class="n">molecules</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">load_small_organic_data_10k</span><span class="p">()</span>
 
@@ -234,12 +235,12 @@
 <span class="n">mlp</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
 
 <span class="c1"># load pre-trained ML model in the object</span>
-<span class="kn">from</span> <span class="nn">chemml.published.RI</span> <span class="kn">import</span> <span class="n">load_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.published.RI</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model</span>
 
 <span class="n">svp_model</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;dragon&#39;</span><span class="p">,</span> <span class="s1">&#39;polarizability&#39;</span><span class="p">))</span>
 
 <span class="c1"># initialize a TransferLearning object</span>
-<span class="kn">from</span> <span class="nn">chemml.models</span> <span class="kn">import</span> <span class="n">TransferLearning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransferLearning</span>
 
 <span class="n">tl</span> <span class="o">=</span> <span class="n">TransferLearning</span><span class="p">(</span><span class="n">base_model</span><span class="o">=</span><span class="n">svp_model</span><span class="p">)</span>
 

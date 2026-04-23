@@ -8,18 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to the ChemML’s documentation! &mdash; ChemML  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -56,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -114,17 +112,21 @@ The development follows a strictly modular and object-oriented design to make th
 <h2>Latest Version:<a class="headerlink" href="#latest-version" title="Link to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>to find out about the latest version and release history, click here: <a class="reference external" href="https://pypi.org/project/chemml/#history">https://pypi.org/project/chemml/#history</a></p></li>
+<li><p>to find out about the latest version and release history, click here: <a class="reference external" href="https://github.com/hachmannlab/chemml/releases">https://github.com/hachmannlab/chemml/releases</a></p></li>
+<li><p>for a detailed list of changes, see the <a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a></p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="installation-and-dependencies">
 <h2>Installation and Dependencies:<a class="headerlink" href="#installation-and-dependencies" title="Link to this heading"></a></h2>
-<p>We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install Chemml using the Python Package Index (PyPI) via pip are as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>chemml_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8
+<p>We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>chemml_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
 <span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>chemml_env
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openbabel<span class="w"> </span>rdkit<span class="w"> </span>nb_conda_kernels<span class="w"> </span>python-graphviz
-pip<span class="w"> </span>install<span class="w"> </span>chemml
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openbabel<span class="w"> </span>nb_conda_kernels<span class="w"> </span>python-graphviz
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hachmannlab/chemml.git
+<span class="nb">cd</span><span class="w"> </span>chemml
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 <dl class="simple">
@@ -132,16 +134,21 @@ pip<span class="w"> </span>install<span class="w"> </span>chemml
 <li><p>numpy</p></li>
 <li><p>pandas</p></li>
 <li><p>tensorflow</p></li>
+<li><p>rdkit</p></li>
 <li><p>scikit-learn</p></li>
 <li><p>matplotlib</p></li>
 <li><p>seaborn</p></li>
 <li><p>lxml</p></li>
-<li><p>graphviz</p></li>
 <li><p>openpyxl</p></li>
 <li><p>ipywidgets</p></li>
+<li><p>shap</p></li>
+<li><p>lime</p></li>
 </ul>
 </dd>
 </dl>
+<p>We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on <a class="reference external" href="https://pytorch.org/get-started/locally/">this page</a>.</p>
+<p>AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
+AutoML will still work without installing these models.</p>
 </section>
 <section id="errors-during-installation">
 <h2>Errors during installation:<a class="headerlink" href="#errors-during-installation" title="Link to this heading"></a></h2>
@@ -308,6 +315,23 @@ pip<span class="w"> </span>install<span class="w"> </span>chemml
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Explain_visualizations.html#The-chemml.explain-module-has-three-eXplainable-AI-(XAI)-methods---DeepSHAP,-LRP,-and-LIME.-It-allows-both-local-(for-a-single-instance)-and-global-(aggregated-for-multiple-instances)-explanations.-The-explainations-are-in-the-form-of-a-relevance-score-attributed-to-each-feature-used-to-build-the-DNN-model.">The <code class="docutils literal notranslate"><span class="pre">chemml.explain</span></code> module has three eXplainable AI (XAI) methods - DeepSHAP, LRP, and LIME. It allows both local (for a single instance) and global (aggregated for multiple instances) explanations. The explainations are in the form of a relevance score attributed to each feature used to build the DNN model.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Explain_visualizations.html#DeepSHAP-Explanations">DeepSHAP Explanations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Explain_visualizations.html#Visualizing-local-DeepSHAP-explanations-using-a-waterfall-plot-adapted-from-the-shap-library.">Visualizing local DeepSHAP explanations using a waterfall plot adapted from the shap library.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[1.3.3] - 2026-04-22</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed-miscellaneous">Fixed/Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#removed">Removed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#technical-details">Technical Details</a></li>
 </ul>
 </li>
 </ul>

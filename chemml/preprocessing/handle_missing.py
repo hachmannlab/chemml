@@ -60,8 +60,7 @@ def MissingValues(df, strategy="ignore_row",
     df = df.dropna(axis=1, how='all', inplace=False)
 
     if strategy == 'zero':
-        for col in df.columns:
-            df[col].fillna(value=0, inplace=True)
+        df = df.fillna(0)
         return df
     elif strategy == 'ignore_row':
         dfi = df.index

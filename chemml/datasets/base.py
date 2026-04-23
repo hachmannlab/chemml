@@ -1,5 +1,9 @@
 from __future__ import print_function
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 import os
 import pandas as pd
 
@@ -38,7 +42,7 @@ def load_cep_homo():
     >>> print(homo.shape)
     (500, 1)
     """
-    DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets','data','cep_homo.csv'))
+    DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'cep_homo.csv'))
     df = pd.read_csv(DATA_PATH)
 
     smi = pd.DataFrame(df['smiles'], columns=['smiles'])
@@ -79,7 +83,7 @@ def load_organic_density():
     >>> print(features.shape)
     (500, 200)
     """
-    DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets','data','moldescriptor_density_smiles.csv'))
+    DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'moldescriptor_density_smiles.csv'))
     df = pd.read_csv(DATA_PATH)
 
     smi = pd.DataFrame(df['smiles'], columns=['smiles'])
@@ -120,7 +124,7 @@ def load_xyz_polarizability():
     >>> print(polarizabilities.shape)
     (50, 1)
     """
-    DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets','data','organic_xyz'))
+    DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'organic_xyz'))
     # from chemml.initialization import XYZreader
     # reader = XYZreader(path_pattern=['[1-9]_opt.xyz', '[1-9][0-9]_opt.xyz'],
     #                    path_root=DATA_PATH,
@@ -165,8 +169,8 @@ def load_comp_energy():
     >>> print(df.shape)
     (630, 1)
     """
-    DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test', 'small_set_comp.txt'))
-    TARGET_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test', 'small_set_delta_e.txt'))
+    DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test', 'small_set_comp.txt'))
+    TARGET_PATH = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test', 'small_set_delta_e.txt'))
     from chemml.chem.magpie_python import CompositionEntry
     entries = CompositionEntry.import_composition_list(DATA_PATH)
     df = pd.read_csv(TARGET_PATH,header=None)
@@ -198,7 +202,7 @@ def load_crystal_structures():
     >>> print(len(entries))
     18
     """
-    DATA_PATH = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test'))
+    DATA_PATH = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test'))
     from chemml.chem.magpie_python import CrystalStructureEntry
     entries = CrystalStructureEntry.import_structures_list(DATA_PATH)
     return entries

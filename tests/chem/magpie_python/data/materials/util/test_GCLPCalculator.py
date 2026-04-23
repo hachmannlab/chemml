@@ -1,6 +1,10 @@
 import unittest
 import os
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.chem.magpie_python.data.materials.CompositionEntry import CompositionEntry
 from chemml.chem.magpie_python.data.materials.util.GCLPCalculator import GCLPCalculator
@@ -9,7 +13,7 @@ from chemml.chem.magpie_python.data.materials.util.LookUpData import LookUpData
 class testGCLPCalculator(unittest.TestCase):
     # this_file_path = os.path.dirname(__file__)
     # abs_path = os.path.join(this_file_path, "../../../test-files/")
-    abs_path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test'))
+    abs_path = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test'))
     def setUp(self):
         self.calc = GCLPCalculator()
 

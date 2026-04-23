@@ -1,7 +1,6 @@
 import pytest
 import os
 import warnings
-import pkg_resources
 import pandas as pd
 import numpy as np
 

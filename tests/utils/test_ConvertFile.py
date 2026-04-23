@@ -1,14 +1,17 @@
 import pytest
 from chemml.utils import ConvertFile
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 import os
 
 
 
 @pytest.fixture()
 def xyz_path():
-    return pkg_resources.resource_filename(
-        'chemml', os.path.join('datasets', 'data', 'organic_xyz'))
+    return str(files('chemml').joinpath('datasets', 'data', 'organic_xyz'))
 
 
 

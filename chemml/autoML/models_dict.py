@@ -10,12 +10,12 @@ models_dict = {
     "LogisticRegression": "sklearn.linear_model",
     "XGBRegressor": "xgboost",
     "MLP": 'chemml.models',
-    # "LGBMRegressor": "lightgbm",
+    "LGBMRegressor": "lightgbm",
     "RandomForestClassifier": "sklearn.ensemble",
     "DecisionTreeClassifier": "sklearn.tree",
     "SVC": "sklearn.svm",
     "KNeighborsClassifier": "sklearn.neighbors",
     "LGBMClassifier": "lightgbm",
-    # "XGBClassifier": "xgboost",
+    "XGBClassifier": "xgboost",
         
 }

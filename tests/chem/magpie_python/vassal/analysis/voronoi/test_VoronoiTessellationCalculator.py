@@ -6,7 +6,11 @@ import unittest
 import os
 import numpy as np
 import time
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiTessellationCalculator import \
     VoronoiTessellationCalculator
@@ -18,7 +22,7 @@ from chemml.chem.magpie_python.vassal.io.VASP5IO import VASP5IO
 class testVoronoiTessellationCalculator(unittest.TestCase):
     # this_file_path = os.path.dirname(__file__)
     # abs_path = os.path.join(this_file_path, "../../../test-files/")
-    abs_path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test'))
+    abs_path = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test'))
 
     def test_simple_cubic(self):
         # Create the simulation cell.

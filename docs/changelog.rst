@@ -1,0 +1,169 @@
+Changelog
+=========
+
+All notable changes to this project will be documented in this file.
+
+[1.3.3] - 2026-04-22
+--------------------
+
+Added
+~~~~~
+- **LightGBM Integration**: Added LightGBM algorithm support to the model screener functionality
+- **Classifier AutoML**: Completed classifier AutoML capabilities for expanded model screening
+- **Pradhan et al. 2026**: Added reproducible workflow and datasets for the Inverse Design paper by Pradhan et al. 2026
+
+Changed
+~~~~~~~
+- **RDKit Fingerprints**: Upgraded the RDKFP implementation to utilize RDKit's modern ``rdFingerprintGenerator`` set of fingerprint generators
+- **Descriptor Calculation Logic**: AutoML's RDKit descriptor calculation now relies on ``RDKDesc()`` wrapper class in FOSS descriptor module
+- **FOSS Descriptors/Tests**: Modified FOSS descriptors functionality logic and expanded related tests
+- **Documentation Setup**: Transitioned the repository's Markdown changelog into ``docs/changelog.rst`` to support unified ReadTheDocs rendering, and updated the main index accordingly
+- **Tutorial Notebooks**: Updated feature representation documentation and notebooks corresponding to new RDKFP code outputs
+- **Progress Tracking via tqdm**: Implemented a progress bar for RDKit descriptor calculations and genetic algorithm using tqdm 
+
+Fixed/Miscellaneous
+~~~~~
+- **Modernized Packaging**: Added ``pyproject.toml`` for standard PEP 517/518 builds, eliminating setup.py and --use-pep517 flag during install
+- **Pandas 3.0 Compatibility**: Fixed some incompatibilities with pandas 3.0 found in CI/CD testing; in theory this should make ChemML compatible with pandas 3.0, but further testing is needed
+- **TensorFlow 2.x Compatibility**: Patched backwards compatibility errors in Neural Fingerprint graph convolutional layers
+- **Python 3.8 Support**: Ensured dependencies, test module configurations, and setups maintain Python 3.8 backwards compatibility
+- **Documentation**: Updated documentation index page to keep up-to-date with README.md
+
+
+Commits Included:
+^^^^^^^^^^^^^^^^^
+
+1. **5eb23ef** - updating feature rep docs with new RDKFP code
+2. **6e3fe21** - patching TF2.x error in neural fingerprints
+3. **c5dc859** - updating RTD page, moving changelog to docs
+4. **e725bed** - Updating RDKFP to use modern rdFingerprintGenerator
+5. **8e6d60c** - Adding LightGBM to modelscreener
+6. **2ae5a02** - Using foss_descriptors's RDKit descriptor function
+7. **28ee6bd** - adding progress bar for rdkit descriptor calculation
+8. **85bc354** - completing classifier AutoML
+9. **0c4782f** - Confirming pip install fix (closed pyproject.toml dev)
+10. **a526f01** - fixing pandas 3.0 issues on CI/CD
+11. **6bf11de** - Modifying foss descriptors and tests
+12. **8ca2e1f** - adding pyproject.toml and 3.8 backwards compatibility
+13. **35fe0cf** - patched CI/CD to fix nitinmad issue
+14. **6205026** - Updated the GeneticAlgorithm to be abel view as progress bar using tqdm
+15. **368d2ec** - Added tqdm
+16. **fcca36b** - Add reproducible workflow and datasets for Pradhan et al. 2026 Inverse Design paper
+
+[1.3.2] - 2025-12-05
+--------------------
+
+Added
+~~~~~
+- **MLP Model Enhancement**: Added ``get_params()`` method to the MLP class for scikit-learn compatibility with model screening tools
+- **GitHub Actions Workflow**: Created comprehensive CI/CD pipeline (``test.yml``) for cross-platform testing on Ubuntu, macOS, and Windows with native coverage reporting
+- **Mixed Precision Workaround**: Added mixed precision policy initialization in LorentzLorenz to prevent ``ml_dtypes.float4_e2m1fn`` compatibility errors with TensorFlow 2.19+
+- **Keras 3 Compatibility**: Updated Adam optimizer imports and instantiations to use Keras 3 standard (removed deprecated ``.legacy`` module and ``decay`` parameter)
+- **Dictionary-based Metrics**: Implemented Keras 3-compliant multi-output model metrics using output name mapping to prevent duplicate metric naming errors
+- **GitHub Native Coverage Reporting**: Added artifact uploads for coverage XML reports from each test run on different platforms
+- **GitHub Actions Badge**: Added workflow status badge to README for visibility into test status
+
+Changed
+~~~~~~~
+- **Loss Specification**: Updated LorentzLorenz model compilation to use list of losses for each output instead of single loss string, matching Keras 3 requirements
+- **Metrics Configuration**: Changed from list-based metrics to dictionary-based metrics for multi-output models to ensure unique metric names in Keras 3
+- **AutoML Multi-core Support**: Enhanced ``model_screener.py`` with improved multi-core processing capabilities
+- **Model Screener**: Updated ``test_hyp()`` compatibility for better parameter tracking and reporting
+- **CI/CD Infrastructure**: Migrated from Travis CI to GitHub Actions with improved coverage reporting
+- **Version Tracking**: Updated README to reference GitHub releases instead of PyPI for latest version
+- **Version Number**: Bumped to 1.3.2 to reflect Keras 3 compatibility and infrastructure improvements
+
+Removed
+~~~~~~~
+- **Travis CI Configuration**: Removed outdated ``.travis.yml`` file (superseded by GitHub Actions)
+- **Codecov Integration**: Removed external Codecov service dependency in favor of GitHub-native coverage artifact uploads
+- **PyPI Badge**: Replaced with GitHub releases badge as repo is ahead of PyPI
+
+Fixed
+~~~~~
+- **Keras 3/TensorFlow 2.19 Compatibility**: Fixed "Found two metrics with the same name" error by implementing proper output naming and dictionary-based metrics
+- **Adam Optimizer**: Removed incompatible ``decay`` parameter for Keras 3 Adam optimizer initialization
+- **Mixed Precision Issues**: Resolved ``ml_dtypes.float4_e2m1fn`` AttributeError by setting global mixed precision policy to float32
+- **PyTorch Installation**: Added OS-specific PyTorch installation in GitHub Actions workflow
+- **OpenBabel Import**: Fixed openbabel import failures in GitHub Actions by adding openbabel-wheel pip installation alongside conda installation
+
+Technical Details
+~~~~~~~~~~~~~~~~~
+
+Commits Included:
+^^^^^^^^^^^^^^^^^
+
+1. **b83abd9** - patch to published models
+   - Added ``get_params()`` method to MLP class
+   - Fixed LorentzLorenz model metrics for Keras 3 compatibility
+   - Updated notebook documentation
+
+2. **dba73a6** - backwards compatibility fixes
+   - Updated Adam optimizer imports (removed ``.legacy``)
+   - Fixed mixed precision initialization in LorentzLorenz
+   - Updated test imports for consistency
+
+3. **5739610** - AutoML multi-core update
+   - Enhanced ``model_screener.py`` with improved parallelization
+   - Updated ``space.py`` for better genetic algorithm integration
+   - Modified MLP to support model screening via ``get_params()``
+   - Updated test cases for AutoML screening
+
+4. **8bbe071** - Updated readme and setup for local install
+   - Updated README installation instructions
+   - Modified setup.py for Python 3.12 compatibility
+
+5. **d167ce8** - code CI/CD updated to GitHub Actions
+   - Migrated from Travis CI to GitHub Actions workflow
+   - Added ``.github/workflows/test.yml`` for cross-platform testing
+   - Configured conda-forge dependencies with Mambaforge
+   - Added OS-specific PyTorch installation for CI environments
+
+6. **400b260** - CI/CD patches
+   - Added pytest and coverage configuration
+   - Skipped test_Dragon in CI due to software availability
+   - Configured matplotlib backend for CI environments
+   - Added coverage XML artifact uploads
+
+7. **29e3715** - macOS CI/CD patch for tkinter
+   - Added tk to conda-forge dependencies for macOS compatibility
+   - Enhanced matplotlib configuration for non-GUI backend
+   - Added MPLBACKEND environment variable for CI
+
+8. **5571532** - removing extra import to avoid CI/CD issues
+   - Removed unused ``from turtle import back`` import from explain.py
+   - Fixed ModuleNotFoundError for _tkinter on macOS CI
+
+Dependencies Updated
+^^^^^^^^^^^^^^^^^^^^
+- **TensorFlow/Keras**: Now compatible with Keras 3 and TensorFlow 2.19+
+- **PyTorch**: Added proper CPU-only installation for CI environments
+- **System Libraries**: Added openbabel-wheel for proper pip installation alongside conda openbabel
+
+Testing
+^^^^^^^
+- All tests pass on Ubuntu, macOS, and Windows with Python 3.12
+- Cross-platform CI validation implemented via GitHub Actions
+- Coverage reporting integrated with Codecov
+
+Migration Guide for Users
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you're upgrading from the previous version, note these breaking changes:
+
+1. **Adam Optimizer Parameters**: The ``decay`` parameter is no longer supported in Adam. Use ``learning_rate`` scheduling instead.
+2. **Keras 3 Models**: Multi-output models now require dictionary-based metrics configuration:
+
+   .. code-block:: python
+
+      metrics_dict = {
+          'output_name': ['metric1', 'metric2'],
+          ...
+      }
+      model.compile(metrics=metrics_dict)
+
+3. **Mixed Precision**: Mixed precision is now disabled by default to ensure compatibility. Enable it explicitly if needed.
+
+---
+
+For more information on each change, see the individual commit messages or the pull request discussions.

@@ -25,11 +25,16 @@ To add a new descriptor package:
     Update __init__.py with the new class name 
 '''
 
+# TODO: Add handling of RDKit Mol objects as input for RDKit and Mordred descriptor classes. Currently, only SMILES strings are accepted. This will allow for more flexibility in how users can provide their molecular data.
+# TODO: update exception handling to avoid running descriptor generators if input is not in valid format. Currently, the code will attempt to run the descriptor generation even if the input SMILES strings are not valid, which can lead to errors during descriptor calculation. Implementing better exception handling to catch invalid inputs before attempting descriptor generation will improve the robustness of the code.
+
+import warnings
 import pandas as pd
 import numpy as np
+from joblib import Parallel, delayed
 from mordred import Calculator, descriptors
 from rdkit.Chem import Descriptors, MolFromSmiles
-
+from tqdm import tqdm
 from chemml.chem import Molecule
 
 class RDKDesc(object):
@@ -43,7 +48,7 @@ class RDKDesc(object):
         descriptor_list (list): A list of available descriptor names.
 
     Methods:
-        represent(mol_list, output_directory='./', dropna=True, remove_corr=False):
+        represent(mol_list, dropna=True, remove_corr=False):
             Generates molecular descriptors for a list of molecules.
 
     Examples:
@@ -56,7 +61,7 @@ class RDKDesc(object):
     def __init__(self):
         self.descriptor_list = [x[0] for x in Descriptors._descList]
 
-    def represent(self, mol_list, output_directory='./', dropna=True, remove_corr=False):
+    def represent(self, mol_list, dropna=True, remove_corr=False, n_jobs=1):
         """
         Generate RDKit molecular descriptors for a list of molecules.
 
@@ -68,13 +73,16 @@ class RDKDesc(object):
             Input molecules. Can be one of the following:
             - List of SMILES strings
             - Single SMILES string
-        output_directory : str, optional
-            Directory to save generated descriptors. Default is './'.
+            - List of ChemML Molecule objects
+            - Single ChemML Molecule object
+
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
         remove_corr : bool, optional
             If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
-
+            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
+        n_jobs : int, optional
+            Number of parallel jobs to run for descriptor calculation. Default is 1 (no parallelization).
         Returns:
         --------
         pandas.DataFrame
@@ -90,7 +98,7 @@ class RDKDesc(object):
             if isinstance(mol_list[0], str):
                 try:
                     smi_list = mol_list
-                    mol_list = [MolFromSmiles(m) for m in mol_list]
+                    mol_list = [MolFromSmiles(m) for m in tqdm(smi_list, desc='Converting SMILES to RDKit Mol objects')]
                 except Exception as e:
                     print(e,' SMILES not in valid format')
             if isinstance(mol_list[0], Molecule):
@@ -99,6 +107,9 @@ class RDKDesc(object):
                     mol_list = [m.rdkit_molecule for m in mol_list]
                 except Exception as e:
                     print(str(e)+' Make sure input is a list of ChemML Molecule objects')
+            # if isinstance(mol_list[0], rdkit.Chem.rdchem.Mol):
+            #     mol_list = mol_list
+            #     smi_list = [Chem.MolToSmiles(m) for m in tqdm(mol_list, desc='Converting RDKit Mol objects to SMILES')]
         else:
             if isinstance(mol_list, Molecule):
 
@@ -113,11 +124,23 @@ class RDKDesc(object):
                     print(e,' SMILES not in valid format')
 
         desc_data = []
-        for mol in mol_list:
-            mol_desc = {}
-            for desc_name in self.descriptor_list:
-                mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
-            desc_data.append(mol_desc)
+        if n_jobs == 1:
+            for mol in tqdm(mol_list, desc='Calculating RDKit descriptors'):
+                mol_desc = {}
+                for desc_name in self.descriptor_list:
+                    mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
+                desc_data.append(mol_desc)
+        else:
+            
+            def calculate_descriptors(mol, descriptor_list):
+                mol_desc = {}
+                for desc_name in descriptor_list:
+                    mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
+                return mol_desc
+            
+            desc_data = Parallel(n_jobs=n_jobs)(
+            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in mol_list
+            )
 
         df = pd.DataFrame(desc_data)
         df['SMILES'] = smi_list
@@ -125,12 +148,15 @@ class RDKDesc(object):
         if dropna:
             df.dropna(axis=1, inplace=True)
 
-        if remove_corr:
-            corr_matrix = df.corr().abs()
+        if remove_corr and len(mol_list) > 100:
+            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
             upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
             to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
             df = df.drop(columns=to_drop)
-
+        elif len(mol_list) <= 100 and remove_corr:
+            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >100 molecules.')
+        
+        
         return df
 
 class Mordred(object):
@@ -180,7 +206,7 @@ class Mordred(object):
         except ModuleNotFoundError as m:
             print(m,': Are you sure Mordred is installed in the environment?')
 
-    def represent(self, mol_list, output_directory='./', dropna=True, quiet=True, remove_corr=False):
+    def represent(self, mol_list, quiet=True, dropna=True, remove_corr=False):
         '''
         Generate Mordred molecular descriptors for a list of molecules.
 
@@ -195,14 +221,13 @@ class Mordred(object):
             - List of ChemML Molecule objects
             - Single SMILES string
             - Single ChemML Molecule object
-        output_directory : str, optional
-            Directory to save generated descriptors. Default is './'.
-        dropna : bool, optional
-            If True, drop rows with NaN values. Default is True.
         quiet : bool, optional
             If True, suppress Mordred's output messages. Default is True.
+        dropna : bool, optional
+            If True, drop columns with NaN values. Default is True.
         remove_corr : bool, optional
             If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
+            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
 
         Returns:
         -------
@@ -219,14 +244,14 @@ class Mordred(object):
         --------
         >>> mord = Mordred()
         >>> smiles_list = ['CC', 'CCO', 'CCCO']
-        >>> df = mord.represent(smiles_list, dropna=True, remove_corr=True)
+        >>> df = mord.represent(smiles_list, remove_corr=True)
         >>> print(df.shape)
         '''
         if isinstance(mol_list, list):
             if isinstance(mol_list[0], str):
                 try:
                     smi_list = mol_list
-                    mol_list = [MolFromSmiles(m) for m in mol_list]
+                    mol_list = [MolFromSmiles(m) for m in tqdm(smi_list, desc='Converting SMILES to RDKit Mol objects')]
                 except Exception as e:
                     print(e,' SMILES not in valid format')
             if isinstance(mol_list[0], Molecule):
@@ -244,27 +269,28 @@ class Mordred(object):
             if isinstance(mol_list, str):
                 smi_list = [mol_list]
                 try:
-                    mol_list = [MolFromSmiles(mol_list)]
+                    mol_list = [MolFromSmiles(m) for m in smi_list]
                 except Exception as e:
                     print(e,' SMILES not in valid format')
         
         pand = self.calc.pandas(mol_list, quiet=quiet)
         pand = pand.select_dtypes([np.number]).replace([np.inf, -np.inf], np.nan)
+        pand['SMILES'] = smi_list
 
-        if dropna:
-            pand.dropna(inplace=True)
-        
-        if remove_corr:
+        if remove_corr and len(mol_list) > 100:
             # Generate matrix of correlation values
-            corr_matrix = pand.corr().abs()
+            corr_matrix = pand.drop(columns=['SMILES']).corr().abs()
             # Keep only upper triangle of values, since the correlation matrix is mirrored around the diagonal
             upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
             # Find columns that are highly correlated
             to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
             pand = pand.drop(columns=to_drop)
+        elif len(mol_list) <= 100 and remove_corr:
+            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >100 molecules.')
 
-
-        pand['SMILES'] = smi_list
+        if dropna:
+            pand.dropna(axis=1, inplace=True)
+        
         return pand
 
 
@@ -289,11 +315,12 @@ class PadelDesc:
     def __init__(self):
         pass
 
-    def represent(self, mol_list, output_directory='./', dropna=True, remove_corr=False):
+    def represent(self, mol_list, dropna=True, remove_corr=False):
         """
         Generate PaDEL molecular descriptors for a list of molecules.
 
         This method calculates PaDEL descriptors for the provided molecules and returns them as a pandas DataFrame.
+        Note: Requires installation of PaDEL-Descriptor and its Python wrapper, PaDELPy.
 
         Parameters:
         -----------
@@ -301,8 +328,8 @@ class PadelDesc:
             Input molecules. Can be one of the following:
             - List of SMILES strings
             - Single SMILES string
-        output_directory : str, optional
-            Directory to save generated descriptors. Default is './'.
+            - List of ChemML Molecule objects
+            - Single ChemML Molecule object
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
         remove_corr : bool, optional
@@ -358,7 +385,7 @@ class PadelDesc:
             df.dropna(axis=1, inplace=True)
 
         if remove_corr:
-            corr_matrix = df.corr().abs()
+            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
             upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
             to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
             df = df.drop(columns=to_drop)

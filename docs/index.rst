@@ -20,30 +20,41 @@ The format of library is similar to the well known libraries like Scikit-learn.
 
 Latest Version:
 +++++++++++++++
-   - to find out about the latest version and release history, click here: https://pypi.org/project/chemml/#history
+   - to find out about the latest version and release history, click here: https://github.com/hachmannlab/chemml/releases
+   - for a detailed list of changes, see the :doc:`Changelog <changelog>`
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
-We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML's dependencies, and subsequently install Chemml using the Python Package Index (PyPI) via pip are as follows: 
+We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML's dependencies, and subsequently install ChemML are as follows: 
 
 .. code:: bash
 
-    conda create --name chemml_env python=3.8
+    conda create --name chemml_env python=3.12
     source activate chemml_env    
-    conda install -c conda-forge openbabel rdkit nb_conda_kernels python-graphviz
-    pip install chemml
+    conda install -c conda-forge openbabel nb_conda_kernels python-graphviz
+    
+    git clone https://github.com/hachmannlab/chemml.git
+    cd chemml
+    pip install -e .
 
 Note: Here is a list of external libraries that will be installed with chemml:
    - numpy
    - pandas
    - tensorflow
+   - rdkit
    - scikit-learn
    - matplotlib
    - seaborn
    - lxml
-   - graphviz
    - openpyxl 
    - ipywidgets
+   - shap
+   - lime
+
+We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on `this page <https://pytorch.org/get-started/locally/>`_.
+
+AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
+AutoML will still work without installing these models.
 
 Errors during installation:
 ++++++++++++++++++++++++++++++
@@ -124,6 +135,7 @@ Please cite the use of ChemML as:
    ./visualize_task/index
    ./automl_task/index
    ./explain_task/index
+   changelog
 
 
 .. toctree::

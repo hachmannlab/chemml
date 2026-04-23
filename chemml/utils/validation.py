@@ -23,7 +23,7 @@ def isfloat(val):
     try:
         float(val)
         return True
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 
@@ -224,7 +224,9 @@ def check_object_col(df, name):
     pandas dataframe
         modified dataframe
     """
-    object_cols = [df.dtypes.index[i] for i, typ in enumerate(df.dtypes) if typ == "object"]
+    import pandas as _pd
+    object_cols = [df.dtypes.index[i] for i, typ in enumerate(df.dtypes)
+                   if typ == "object" or isinstance(typ, _pd.StringDtype)]
     for col in object_cols:
         for i, value in enumerate(df[col]):
             if isfloat(value):

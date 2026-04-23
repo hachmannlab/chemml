@@ -25,6 +25,7 @@ The format of library is similar to the well known libraries like Scikit-learn.
 
 ## Latest Version:
    - to find out about the latest version and release history, click [here](https://github.com/hachmannlab/chemml/releases)
+   - for a detailed list of changes, see the [Changelog](https://hachmannlab.github.io/chemml/changelog.html)
 
 ## Installation and Dependencies:
 We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:
@@ -35,7 +36,7 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
     
     git clone https://github.com/hachmannlab/chemml.git
     cd chemml
-    pip install -e . --use-pep517
+    pip install -e .
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy
@@ -51,11 +52,10 @@ Here is a list of external libraries that will be installed with chemml:
    - shap
    - lime
 
-We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on this page:
+We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on [this page](https://pytorch.org/get-started/locally/).
 
-https://pytorch.org/get-started/locally/
-
-Note: The PyTorch CUDA 12.4 install has been tested with CUDA 12.5 and works fine, but future CUDA versions may not be compatible. If any issues arise from CUDA compatibility, it is recommended to follow the instructions on the PyTorch website to compile from source.
+AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
+AutoML will still work without installing these models.
 
 ## Citation:
 Please cite the use of ChemML as:

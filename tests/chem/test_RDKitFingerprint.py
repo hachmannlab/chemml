@@ -148,10 +148,14 @@ def test_tt_int(mol_list, mol_single):
     assert rdfp.n_molecules_ == 1
 
 
-def test_tt_bit_exception(mol_single):
-    with pytest.raises(ValueError):
-        cls = RDKitFingerprint(fingerprint_type='tt', vector='bit')
-        cls.represent(mol_single)
+def test_tt_bit(mol_list, mol_single):
+    rdfp = RDKitFingerprint(fingerprint_type='tt', vector='bit')
+    df = rdfp.represent(mol_list)
+    assert df.shape == (2, 1024)
+    assert rdfp.n_molecules_ == 2
+    df = rdfp.represent(mol_single)
+    assert df.shape == (1, 1024)
+    assert rdfp.n_molecules_ == 1
 
 def test_store_sparse(mol_list, setup_teardown):
     rdfp = RDKitFingerprint(fingerprint_type='morgan', vector='bit')

@@ -1,7 +1,11 @@
 import chemml
 from chemml.models import MLP 
 import pandas as pd
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 import os
 
 
@@ -47,7 +51,7 @@ def load_hyperparameters(mlp_obj, features, targets, model_type):
 
 
 def load_small_organic_data():
-    df = pd.read_csv(pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'input_files', 'properties.csv')))
+    df = pd.read_csv(files('chemml').joinpath('published', 'RI', 'input_files', 'properties.csv'))
     molecules = df['Mol_Smiles']
     
     sub_cols = ['RI_LL', 'Pol_geom', 'Den_MD']
@@ -58,7 +62,7 @@ def load_small_organic_data():
 
 
 def load_small_organic_data_10k():
-    df = pd.read_csv(pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'input_files', 'properties_10k.csv')))
+    df = pd.read_csv(files('chemml').joinpath('published', 'RI', 'input_files', 'properties_10k.csv'))
     molecules = df['Mol_Smiles']
     
     sub_cols = ['RI_LL', 'Pol_tz', 'Den_MD']
@@ -71,13 +75,13 @@ def load_small_organic_data_10k():
 
 def load_model(features, targets, model='single'):
     if model == 'single':
-        model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'single', features + '_' + targets + '_chemml_model.csv'))
+        model_path = str(files('chemml').joinpath('published', 'RI', 'trained_models', 'single', features + '_' + targets + '_chemml_model.csv'))
         
     if model == 'lorentz_lorenz':
-        model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'lorentz_lorenz.h5'))
+        model_path = str(files('chemml').joinpath('published', 'RI', 'trained_models', 'lorentz_lorenz.h5'))
         
     if model == 'transfer_learning':
-        model_path = pkg_resources.resource_filename('chemml', os.path.join('published', 'RI', 'trained_models', 'single', 'morgan' + '_' + 'polarizability' + '_chemml_model.csv'))
+        model_path = str(files('chemml').joinpath('published', 'RI', 'trained_models', 'single', 'morgan' + '_' + 'polarizability' + '_chemml_model.csv'))
         
     return model_path
 

@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chemml"
+dynamic = ["version"]
+authors = [
+    {name = "Mojtaba Haghighatlari", email = "mojtabah@buffalo.edu"},
+    {name = "Johannes Hachmann", email = "hachmann@buffalo.edu"},
+]
+description = "A Machine Learning and Informatics Program Suite for the Chemical and Materials Sciences"
+readme = "README.md"
+license = {text = "BSD-3C"}
+keywords = ["Machine Learning", "Data Mining", "Quantum Chemistry", "Materials Science", "Drug Discovery"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Natural Language :: English",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "future",
+    "six",
+    "numpy<=1.26.4,<2",
+    "pandas",
+    "scipy",
+    "tensorflow",
+    "rdkit",
+    "mordred",
+    "h5py",
+    "pydot",
+    "scikit-learn",
+    "matplotlib>=1.5.1",
+    "lxml",
+    "wget",
+    "seaborn",
+    "openpyxl",
+    "ipywidgets",
+    "lime",
+    "shap",
+    "importlib_resources; python_version < '3.9'",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinxcontrib-napoleon",
+    "sphinx_rtd_theme",
+    "numpydoc",
+    "nbsphinx",
+]
+tests = ["pytest", "pytest-cov", "pytest-pep8", "tox"]
+
+[project.urls]
+Source = "https://github.com/hachmannlab/chemml"
+url = "https://hachmannlab.github.io/chemml/"
+
+[tool.setuptools.dynamic]
+version = {attr = "chemml.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"chemml" = [
+    "datasets/data/*",
+    "datasets/data/**/*",
+    "chem/magpie_python/lookup-data/*",
+    "chem/magpie_python/lookup-data/**/*",
+    "published/RI/*",
+    "published/RI/**/*",
+]
+
+[tool.yapf]
+COLUMN_LIMIT = 79
+INDENT_WIDTH = 4
+USE_TABS = false

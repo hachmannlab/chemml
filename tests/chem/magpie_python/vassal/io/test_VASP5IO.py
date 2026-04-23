@@ -1,7 +1,11 @@
 import unittest
 import os
 import numpy.testing as np_tst
-import pkg_resources
+import sys
+if sys.version_info >= (3, 9):
+    from importlib.resources import files
+else:
+    from importlib_resources import files
 
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
@@ -39,7 +43,7 @@ class testVASP5IO(unittest.TestCase):
         vio = VASP5IO()
         # this_file_path = os.path.dirname(__file__)
         # abs_path = os.path.join(this_file_path, "../../test-files/")
-        abs_path = pkg_resources.resource_filename('chemml', os.path.join('datasets', 'data', 'magpie_python_test'))
+        abs_path = str(files('chemml').joinpath('datasets', 'data', 'magpie_python_test'))
         cell = vio.parse_file(file_name=os.path.join(abs_path, "393-Ta1.vasp"))
         self.assertAlmostEqual(556.549, cell.volume(), delta=1e-2)
         self.assertAlmostEqual(10.218, cell.get_lattice_vectors()[0][0],

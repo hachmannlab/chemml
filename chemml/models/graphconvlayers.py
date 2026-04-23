@@ -192,7 +192,8 @@ class NeuralGraphHidden(layers.Layer):
 
         # Add the dense layers (that contain trainable params)
         #   (for each degree we convolve with a different weight matrix)
-        self.trainable_weights.append(self.trainable_weights)
+        # Commenting out deprecated keras1 code for trainable weights, because we will use the trainable weights of the inner_3D_layers
+        # self.trainable_weights.append(self.trainable_weights)
         self.inner_3D_layers = []
         for degree in range(max_degree):
 
@@ -209,9 +210,10 @@ class NeuralGraphHidden(layers.Layer):
             # Build the TimeDistributed layer (which will build the Dense layer)
             inner_3D_layer.build((None, max_atoms, num_atom_features+num_bond_features))
 
-            # Store inner_3D_layer and it's weights
+            # Store inner_3D_layer and it's weights 
             self.inner_3D_layers.append(inner_3D_layer)
-            self.trainable_weights += inner_3D_layer.trainable_weights
+            # (deprecated by TF 2.x)
+            # self.trainable_weights += inner_3D_layer.trainable_weights
 
     def call(self, inputs, mask=None):
         atoms, bonds, edges = inputs

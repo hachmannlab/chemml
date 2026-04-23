@@ -81,7 +81,8 @@ class GeneticAlgorithm(object):
                 fused_cutoff = 5,
                 mutation_prob=0.6,
                 algorithm=3,
-                initial_population=None):
+                initial_population=None,
+                n_jobs=1):
 
         self.chromosome_length = len(space)
         if self.chromosome_length < 1:
@@ -113,7 +114,7 @@ class GeneticAlgorithm(object):
                     self.mutation_params.append(var['mutation'])
                 else: self.mutation_params.append(None)
         
-        
+        self.n_jobs = n_jobs
         self.evaluate = evaluate
         self.pop_size = pop_size
         self.mutation_prob = mutation_prob
@@ -343,7 +344,9 @@ class GeneticAlgorithm(object):
         def fit_eval(invalid_ind, fitness_dict):
             if invalid_ind: 
                 invalid_ind = [i for i in invalid_ind if i not in fitness_dict.keys()]
+
                 fitnesses = list(map(self.evaluate, invalid_ind))
+
                 for ind, fit in zip(invalid_ind, fitnesses):
                     fitness_dict[tuple(ind)] = fit
             return fitness_dict
@@ -361,7 +364,11 @@ class GeneticAlgorithm(object):
         fitness_dict = fit_eval(pop, fitness_dict)
 
         best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
-        for c_gen in range(n_generations):
+        
+        from tqdm.auto import tqdm
+        pbar = tqdm(range(n_generations), desc="Generation", unit="gen", position=0, leave=True)
+        
+        for c_gen in pbar:
             if convergence >= early_stopping:
                 print("The search converged with convergence criteria = ", early_stopping)
                 break
@@ -431,7 +438,8 @@ class GeneticAlgorithm(object):
                 b3 = pd.Series(timer, name='Time (hours)')
                 best_ind_df = pd.concat([b1, b2, b3], axis=1)
                 if flag: break
-    
+        
+        pbar.close()
 
         self.population = pop    # stores best individuals of last generation
         self.fitness_dict = fitness_dict

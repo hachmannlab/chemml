@@ -8,19 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Neural Fingerprints &mdash; ChemML  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -67,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -154,7 +155,7 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Tensorising molecules in batches of 100 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">7s</span> 14ms/step
+<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">8s</span> 16ms/step
 Merging batch tensors ...    [DONE]
 </pre></div></div>
 </div>
@@ -267,29 +268,7 @@ Target:  (100,)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[6], line 21</span>
-<span class="ansi-green-fg">     18</span> edges <span style="color: rgb(98,98,98)">=</span> Input(name<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">edge_inputs</span><span style="color: rgb(175,0,0)">&#39;</span>, shape<span style="color: rgb(98,98,98)">=</span>(max_atoms, max_degree), dtype<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">int32</span><span style="color: rgb(175,0,0)">&#39;</span>,batch_size<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>)
-<span class="ansi-green-fg">     20</span> <span style="color: rgb(95,135,135)"># Defining the convolved atom feature layers                                    </span>
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 21</span> atoms1 <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">NeuralGraphHidden</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">conv_width</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">activation</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">relu</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">use_bias</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">atoms0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bonds</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">edges</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     22</span> atoms2 <span style="color: rgb(98,98,98)">=</span> NeuralGraphHidden(conv_width, activation<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">relu</span><span style="color: rgb(175,0,0)">&#39;</span>, use_bias<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>)([atoms1, bonds, edges])
-<span class="ansi-green-fg">     24</span> <span style="color: rgb(95,135,135)"># Defining the outputs of each (convolved) atom feature layer to fingerprint</span>
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\Users\nitin\anaconda3\envs\chemml_dev_env\Lib\site-packages\keras\src\utils\traceback_utils.py:122</span>, in <span class="ansi-cyan-fg">filter_traceback.&lt;locals&gt;.error_handler</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
-<span class="ansi-green-fg">    119</span>     filtered_tb <span style="color: rgb(98,98,98)">=</span> _process_traceback_frames(e<span style="color: rgb(98,98,98)">.</span>__traceback__)
-<span class="ansi-green-fg">    120</span>     <span style="color: rgb(95,135,135)"># To get the full stack trace, call:</span>
-<span class="ansi-green-fg">    121</span>     <span style="color: rgb(95,135,135)"># `keras.config.disable_traceback_filtering()`</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 122</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> e<span style="color: rgb(98,98,98)">.</span>with_traceback(filtered_tb) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
-<span class="ansi-green-fg">    123</span> <span class="ansi-bold" style="color: rgb(0,135,0)">finally</span>:
-<span class="ansi-green-fg">    124</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> filtered_tb
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\users\nitin\documents\ub\hachmann_group\chemml_dev_nitin\chemml\chemml\models\graphconvlayers.py:214</span>, in <span class="ansi-cyan-fg">NeuralGraphHidden.build</span><span class="ansi-blue-intense-fg ansi-bold">(self, inputs_shape)</span>
-<span class="ansi-green-fg">    212</span> <span style="color: rgb(95,135,135)"># Store inner_3D_layer and it&#39;s weights</span>
-<span class="ansi-green-fg">    213</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>inner_3D_layers<span style="color: rgb(98,98,98)">.</span>append(inner_3D_layer)
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 214</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">trainable_weights</span> <span style="color: rgb(98,98,98)">+</span><span style="color: rgb(98,98,98)">=</span> inner_3D_layer<span style="color: rgb(98,98,98)">.</span>trainable_weights
-
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: property &#39;trainable_weights&#39; of &#39;NeuralGraphHidden&#39; object has no setter
+Neural Fingerprint Shape:  (None, 200)
 </pre></div></div>
 </div>
 </section>
@@ -297,7 +276,7 @@ File <span class="ansi-green-intense-fg ansi-bold">c:\users\nitin\documents\ub\h
 <h2>Building and training the neural network<a class="headerlink" href="#Building-and-training-the-neural-network" title="Link to this heading"></a></h2>
 <p>Here, we build and train a simple feed forward neural network using <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code> and provide our neural fingerprints as features.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
@@ -328,71 +307,100 @@ File <span class="ansi-green-intense-fg ansi-bold">c:\users\nitin\documents\ub\h
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Model: &#34;model&#34;
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to
-==================================================================================================
-atom_inputs (InputLayer)        [(None, 57, 62)]     0
-__________________________________________________________________________________________________
-bond_inputs (InputLayer)        [(None, 57, 5, 6)]   0
-__________________________________________________________________________________________________
-edge_inputs (InputLayer)        [(None, 57, 5)]      0
-__________________________________________________________________________________________________
-neural_graph_hidden (NeuralGrap (None, 57, 8)        2720        atom_inputs[0][0]
-                                                                 bond_inputs[0][0]
-                                                                 edge_inputs[0][0]
-__________________________________________________________________________________________________
-neural_graph_hidden_1 (NeuralGr (None, 57, 8)        560         neural_graph_hidden[0][0]
-                                                                 bond_inputs[0][0]
-                                                                 edge_inputs[0][0]
-__________________________________________________________________________________________________
-neural_graph_output (NeuralGrap (None, 200)          13800       atom_inputs[0][0]
-                                                                 bond_inputs[0][0]
-                                                                 edge_inputs[0][0]
-__________________________________________________________________________________________________
-neural_graph_output_1 (NeuralGr (None, 200)          3000        neural_graph_hidden[0][0]
-                                                                 bond_inputs[0][0]
-                                                                 edge_inputs[0][0]
-__________________________________________________________________________________________________
-neural_graph_output_2 (NeuralGr (None, 200)          3000        neural_graph_hidden_1[0][0]
-                                                                 bond_inputs[0][0]
-                                                                 edge_inputs[0][0]
-__________________________________________________________________________________________________
-add (Add)                       (None, 200)          0           neural_graph_output[0][0]
-                                                                 neural_graph_output_1[0][0]
-                                                                 neural_graph_output_2[0][0]
-__________________________________________________________________________________________________
-dense_layer0 (Dense)            (None, 128)          25728       add[0][0]
-__________________________________________________________________________________________________
-dense_layer1 (Dense)            (None, 64)           8256        dense_layer0[0][0]
-__________________________________________________________________________________________________
-main_prediction (Dense)         (None, 1)            65          dense_layer1[0][0]
-==================================================================================================
-Total params: 57,129
-Trainable params: 57,129
-Non-trainable params: 0
-__________________________________________________________________________________________________
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow &gt;= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2021-11-09 18:23:04.812435: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "functional"</span>
+</pre></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)        </span>┃<span style="font-weight: bold"> Output Shape      </span>┃<span style="font-weight: bold">    Param # </span>┃<span style="font-weight: bold"> Connected to      </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ atom_inputs         │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">57</span>, <span style="color: #00af00; text-decoration-color: #00af00">62</span>)    │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ bond_inputs         │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">57</span>, <span style="color: #00af00; text-decoration-color: #00af00">5</span>, <span style="color: #00af00; text-decoration-color: #00af00">6</span>)  │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ edge_inputs         │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">57</span>, <span style="color: #00af00; text-decoration-color: #00af00">5</span>)     │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ neural_graph_hidden │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">57</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)     │      <span style="color: #00af00; text-decoration-color: #00af00">2,720</span> │ atom_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">NeuralGraphHidden</span>) │                   │            │ bond_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│                     │                   │            │ edge_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>] │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ neural_graph_hidde… │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">57</span>, <span style="color: #00af00; text-decoration-color: #00af00">8</span>)     │        <span style="color: #00af00; text-decoration-color: #00af00">560</span> │ neural_graph_hid… │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">NeuralGraphHidden</span>) │                   │            │ bond_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│                     │                   │            │ edge_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>] │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ neural_graph_output │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">200</span>)       │     <span style="color: #00af00; text-decoration-color: #00af00">13,800</span> │ atom_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│                     │                   │            │ edge_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>] │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ neural_graph_outpu… │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">200</span>)       │      <span style="color: #00af00; text-decoration-color: #00af00">3,000</span> │ neural_graph_hid… │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│                     │                   │            │ edge_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>] │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ neural_graph_outpu… │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">200</span>)       │      <span style="color: #00af00; text-decoration-color: #00af00">3,000</span> │ neural_graph_hid… │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>… │
+│                     │                   │            │ edge_inputs[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>] │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ add (<span style="color: #0087ff; text-decoration-color: #0087ff">Add</span>)           │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">200</span>)       │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ neural_graph_out… │
+│                     │                   │            │ neural_graph_out… │
+│                     │                   │            │ neural_graph_out… │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ dense_layer0        │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)       │     <span style="color: #00af00; text-decoration-color: #00af00">25,728</span> │ add[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]         │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)             │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ dense_layer1        │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">64</span>)        │      <span style="color: #00af00; text-decoration-color: #00af00">8,256</span> │ dense_layer0[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">…</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)             │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ main_prediction     │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">1</span>)         │         <span style="color: #00af00; text-decoration-color: #00af00">65</span> │ dense_layer1[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">…</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)             │                   │            │                   │
+└─────────────────────┴───────────────────┴────────────┴───────────────────┘
+</pre></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">57,129</span> (223.16 KB)
+</pre></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">57,129</span> (223.16 KB)
+</pre></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;keras.callbacks.History at 0x7feda4198be0&gt;
+&lt;keras.src.callbacks.history.History at 0x1e6eaea49e0&gt;
 </pre></div></div>
 </div>
 <p>Predicting the density of the molecules in our test data and evaluating our model based on it.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">regression_metrics</span>
@@ -413,9 +421,79 @@ ________________________________________________________________________________
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Mean Absolute Error = 16.518 kg/m^3
-R squared = 0.935
+<span class="ansi-bold">4/4</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">6s</span> 1s/step
+Mean Absolute Error = 15.303 kg/m^3
+R squared = 0.945
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ME</th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MSLE</th>
+      <th>RMSLE</th>
+      <th>MAPE</th>
+      <th>MaxAPE</th>
+      <th>RMSPE</th>
+      <th>MPE</th>
+      <th>MaxAE</th>
+      <th>deltaMaxE</th>
+      <th>r_squared</th>
+      <th>std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-6.17789</td>
+      <td>15.302616</td>
+      <td>419.635458</td>
+      <td>20.485006</td>
+      <td>0.000286</td>
+      <td>0.016918</td>
+      <td>1.238328</td>
+      <td>7.243467</td>
+      <td>1.715904</td>
+      <td>-0.526769</td>
+      <td>72.840308</td>
+      <td>111.701436</td>
+      <td>0.945338</td>
+      <td>87.617825</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}

@@ -7,20 +7,20 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hyperparameter Optimization using chemml.optimization.GeneticAlgorithm &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -117,13 +118,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.datasets</span> <span class="kn">import</span> <span class="n">load_organic_density</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="n">_</span><span class="p">,</span><span class="n">density</span><span class="p">,</span><span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">density</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">density</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">features</span><span class="o">.</span><span class="n">values</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="n">scalerx</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">scalerx</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
 <span class="n">density</span> <span class="o">=</span> <span class="n">scalerx</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">density</span><span class="p">)</span>
@@ -148,7 +149,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.kernel_ridge</span> <span class="kn">import</span> <span class="n">KernelRidge</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.kernel_ridge</span><span class="w"> </span><span class="kn">import</span> <span class="n">KernelRidge</span>
 <span class="n">space</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">{</span><span class="s1">&#39;alpha&#39;</span>   <span class="p">:</span>   <span class="p">{</span><span class="s1">&#39;uniform&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;mutation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)}},</span>
         <span class="p">{</span><span class="s1">&#39;kernels&#39;</span> <span class="p">:</span>   <span class="p">{</span><span class="s1">&#39;choice&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">]}},</span>
@@ -164,9 +165,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
-<span class="kn">from</span> <span class="nn">chemml.utils</span> <span class="kn">import</span> <span class="n">regression_metrics</span>
-<span class="k">def</span> <span class="nf">obj</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">regression_metrics</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">obj</span><span class="p">(</span><span class="n">individual</span><span class="p">):</span>
     <span class="n">krr</span> <span class="o">=</span> <span class="n">KernelRidge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kernel</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">degree</span><span class="o">=</span><span class="n">individual</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">krr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">400</span><span class="p">],</span> <span class="n">density</span><span class="p">[:</span><span class="mi">400</span><span class="p">])</span>
     <span class="n">pred</span> <span class="o">=</span> <span class="n">krr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">400</span><span class="p">:])</span>
@@ -182,8 +183,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chemml.optimization</span> <span class="kn">import</span> <span class="n">GeneticAlgorithm</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeneticAlgorithm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
 <span class="n">ga</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="p">),</span>

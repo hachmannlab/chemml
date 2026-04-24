@@ -10,7 +10,7 @@ Added
 ~~~~~
 - **LightGBM Integration**: Added LightGBM algorithm support to the model screener functionality
 - **Classifier AutoML**: Completed classifier AutoML capabilities for expanded model screening
-- **Pradhan et al. 2026**: Added reproducible workflow and datasets for the Inverse Design paper by Pradhan et al. 2026
+- **Pradhan et al. 2026**: Added reproducible workflow and datasets for the `Inverse Design paper by Pradhan et al. 2026 <https://doi.org/10.26434/chemrxiv.15001186/v1>`_
 
 Changed
 ~~~~~~~

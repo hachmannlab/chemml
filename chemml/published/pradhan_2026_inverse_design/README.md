@@ -1,9 +1,9 @@
-# Feature-Correlation-Guided Inverse Design for Interpretable Materials Discovery
+# Reward Hacking in Materials Discovery: An Interpretable Inverse Design Framework and its Physical Limits
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains the data, extraction scripts, and generative algorithms for the paper **"Feature-Correlation-Guided Inverse Design for Interpretable Materials Discovery"**. 
+This repository contains the data, extraction scripts, and generative algorithms for the paper **"Reward Hacking in Materials Discovery: An Interpretable Inverse Design Framework and its Physical Limits"**. 
 
 Our framework introduces an interpretable, feature-correlation-driven inverse engineering protocol that bridges robust statistical descriptor analysis with constrained Genetic Algorithms (GAs). Crucially, this repository provides the code to reproduce our diagnosis of the "extrapolation crisis" in materials informatics, demonstrating how 2D machine learning models can mathematically hallucinate topological correlations (reward hacking) that physically collapse under 3D steric constraints.
 

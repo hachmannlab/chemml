@@ -18,6 +18,10 @@ def smiles_list():
 def molecule_list(smiles_list):
     return [Molecule(smi, "smiles") for smi in smiles_list]
 
+@pytest.fixture()
+def mixed_inp_list():
+    return ["CC", Molecule("CCO", "smiles"), "CCN"]
+
 
 def test_rdkdesc_represent(monkeypatch, smiles_list, molecule_list):
     desc = RDKDesc()
@@ -71,12 +75,13 @@ def test_rdkdesc_represent(monkeypatch, smiles_list, molecule_list):
 
 
 def test_mordred_represent(smiles_list, molecule_list):
+
     class FakeCalcWithMissing:
         def pandas(self, mols, quiet=True):
             return pd.DataFrame(
                 {
                     "a": [1.0, np.nan, 3.0],
-                    "b": [2.0, np.nan, 6.0],
+                    "b": [np.inf, np.nan, np.nan],
                     "c": [7.0, np.inf, 9.0],
                 }
             )
@@ -93,17 +98,27 @@ def test_mordred_represent(smiles_list, molecule_list):
 
     mord = Mordred()
 
+    # Mixed input types should raise an error, as the user should be expected to provide consistent input.
+    with pytest.raises(ValueError):
+        mord.represent(mixed_inp_list)
+
     mord.calc = FakeCalcWithMissing()
-    df_missing = mord.represent(smiles_list, dropna=True, remove_corr=False)
-    # All numeric columns contain NaN/inf (converted to NaN); dropna removes them all.
-    assert list(df_missing.columns) == ["SMILES"]
+    df_missing = mord.represent(smiles_list)
+    # Modified dropna behaviour drops only columns with all NaN values, not rows; row imputation is left to the user.
+    assert list(df_missing.columns) == ["a","c","SMILES"]
 
     # Exercise Molecule-object input + correlated-feature removal with <=100 molecules.
     # With a small dataset, remove_corr warns and skips correlation removal.
     mord.calc = FakeCalcCorrelated()
     with pytest.warns(UserWarning):
-        df_corr = mord.represent(molecule_list, dropna=False, remove_corr=True)
+        df_corr = mord.represent(molecule_list, remove_corr=True)
     assert {"x", "y", "z", "SMILES"} <= set(df_corr.columns)
+
+    mord = Mordred(ignore_3D=False)
+
+    with pytest.raises(ValueError):
+        mord.represent(smiles_list, optimizer='BADOPT')
+
 
 
 def test_padeldesc_represent(smiles_list, molecule_list):

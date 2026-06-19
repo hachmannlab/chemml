@@ -4,6 +4,7 @@ This file contains implementations of classes for generating molecular descripto
 
     Mordred Descriptors: A wrapper class for the Mordred descriptor library, which is an open-source alternative to commercial descriptor generators like Dragon.
     RDKit Descriptors: A class for generating molecular descriptors using the RDKit library, which provides a comprehensive set of cheminformatics functionalities.
+    PaDEL Descriptors: A class for generating molecular descriptors using the PaDEL-Descriptor software via its Python wrapper, PaDELPy.
 
 The file is designed to be extensible, allowing for easy addition of other FOSS molecular descriptor packages. Each descriptor generator is implemented as a separate class, following a similar structure:
 
@@ -25,17 +26,94 @@ To add a new descriptor package:
     Update __init__.py with the new class name 
 '''
 
-# TODO: Add handling of RDKit Mol objects as input for RDKit and Mordred descriptor classes. Currently, only SMILES strings are accepted. This will allow for more flexibility in how users can provide their molecular data.
-# TODO: update exception handling to avoid running descriptor generators if input is not in valid format. Currently, the code will attempt to run the descriptor generation even if the input SMILES strings are not valid, which can lead to errors during descriptor calculation. Implementing better exception handling to catch invalid inputs before attempting descriptor generation will improve the robustness of the code.
-
 import warnings
 import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
-from mordred import Calculator, descriptors
+
 from rdkit.Chem import Descriptors, MolFromSmiles
 from tqdm import tqdm
 from chemml.chem import Molecule
+
+def normalize_input(mol_list, quiet=True, force_molecule=False):
+        """
+        Normalize input to a consistent format for further processing.
+        
+        Parameters:
+        -----------
+        mol_list : list, str, or Molecule
+            Input molecules. Can be one of the following:
+            - List of SMILES strings
+            - Single SMILES string
+            - List of ChemML Molecule objects
+            - Single ChemML Molecule object
+        quiet : bool, optional; default True
+            If True, suppress progress bars and warnings.
+        force_molecule : bool, optional, default False
+            If True, create ChemML Molecule objects from mol_list.
+        
+        Returns:
+        --------
+        tuple of lists
+            (smiles_list, rdkit_mol_list, molecule_obj_list) if force_molecule is True, otherwise (smiles_list, rdkit_mol_list)
+        
+        Raises:
+        -------
+        ValueError
+            If the input is not in a valid format or if there are issues with SMILES parsing or Molecule object creation.
+        """
+        if isinstance(mol_list, list):
+            items = mol_list
+        else:
+            items = [mol_list]
+
+        if len(items) == 0:
+            raise ValueError('The input molecule list is empty.')
+
+        smiles_out = []
+        rdkit_out = []
+        molecule_out = []
+
+        if isinstance(items[0], Molecule):
+            iterator = tqdm(items, desc='Normalizing Molecule input', disable=quiet)
+            for mol_obj in iterator:
+                if not isinstance(mol_obj, Molecule):
+                    raise ValueError('Mixed input types are not supported in the same list.')
+                if mol_obj.smiles is None:
+                    mol_obj.to_smiles()
+
+                smiles_out.append(mol_obj.smiles)
+                rdkit_out.append(mol_obj.rdkit_molecule)
+                molecule_out.append(mol_obj)
+        elif isinstance(items[0], str):
+            iterator = tqdm(items, desc='Converting SMILES input', disable=quiet)
+            for smi in iterator:
+                if not isinstance(smi, str):
+                    raise ValueError('Mixed input types are not supported in the same list.')
+
+                if force_molecule:
+                    try:
+                        mol_obj = Molecule(smi, 'smiles')
+                        smiles_out.append(mol_obj.smiles)
+                        rdkit_out.append(mol_obj.rdkit_molecule)
+                        molecule_out.append(mol_obj)
+                    except Exception as exc:
+                        warnings.warn(f'Skipping invalid SMILES {smi} due to: {str(exc)}')
+                else:
+                    mol = MolFromSmiles(smi)
+                    if mol is None:
+                        warnings.warn(f'Skipping invalid SMILES {smi} due to RDKit parsing failure.')
+                        continue
+                    smiles_out.append(smi)
+                    rdkit_out.append(mol)
+        else:
+            raise ValueError('Input must be a SMILES string, list of SMILES, Molecule, or list of Molecule objects.')
+
+        if force_molecule:
+            return smiles_out, rdkit_out, molecule_out
+        return smiles_out, rdkit_out
+
+
 
 class RDKDesc(object):
     """
@@ -52,8 +130,8 @@ class RDKDesc(object):
             Generates molecular descriptors for a list of molecules.
 
     Examples:
-        >>> from rdkit import Chem
-        >>> rdkit_desc = RDKitDescriptors()
+        >>> from chemml.chem import RDKDesc
+        >>> rdkit_desc = RDKDesc()
         >>> smiles_list = ['CC', 'CCO', 'CCCO']
         >>> df = rdkit_desc.represent(smiles_list)
     """
@@ -94,34 +172,7 @@ class RDKDesc(object):
         ValueError
             If the input SMILES strings are not in a valid format.
         """
-        if isinstance(mol_list, list):
-            if isinstance(mol_list[0], str):
-                try:
-                    smi_list = mol_list
-                    mol_list = [MolFromSmiles(m) for m in tqdm(smi_list, desc='Converting SMILES to RDKit Mol objects')]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
-            if isinstance(mol_list[0], Molecule):
-                try:
-                    smi_list = [m.smiles for m in mol_list]
-                    mol_list = [m.rdkit_molecule for m in mol_list]
-                except Exception as e:
-                    print(str(e)+' Make sure input is a list of ChemML Molecule objects')
-            # if isinstance(mol_list[0], rdkit.Chem.rdchem.Mol):
-            #     mol_list = mol_list
-            #     smi_list = [Chem.MolToSmiles(m) for m in tqdm(mol_list, desc='Converting RDKit Mol objects to SMILES')]
-        else:
-            if isinstance(mol_list, Molecule):
-
-                smi_list = [mol_list.smiles]
-                mol_list = [mol_list.rdkit_molecule]
-
-            if isinstance(mol_list, str):
-                smi_list = [mol_list]
-                try:
-                    mol_list = [MolFromSmiles(mol_list)]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
+        smi_list, mol_list = normalize_input(mol_list)
 
         desc_data = []
         if n_jobs == 1:
@@ -139,7 +190,7 @@ class RDKDesc(object):
                 return mol_desc
             
             desc_data = Parallel(n_jobs=n_jobs)(
-            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in mol_list
+            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in tqdm(mol_list, desc='Calculating RDKit descriptors')
             )
 
         df = pd.DataFrame(desc_data)
@@ -159,6 +210,8 @@ class RDKDesc(object):
         
         return df
 
+
+
 class Mordred(object):
     '''
     A wrapper class for generating Mordred molecular descriptors.
@@ -174,7 +227,7 @@ class Mordred(object):
     Parameters:
     ----------
         ignore_3D (bool): If True, ignore 3D descriptor generation. Default is True.
-        selected_descriptors (bool): If True, generate only selected descriptors. Default is False.
+        selected_descriptors (bool): If True, generate only selected descriptors. Default is False. Currently, this option is not implemented and all descriptors are generated by default.
 
     Methods:
     -------
@@ -196,6 +249,8 @@ class Mordred(object):
 
     '''
     def __init__(self, ignore_3D=True, selected_descriptors=False):
+        from mordred import Calculator, descriptors
+        self.ignore_3D = ignore_3D
         try:
             if selected_descriptors:
                 # TODO: Construct section for selected descriptor generation
@@ -206,7 +261,33 @@ class Mordred(object):
         except ModuleNotFoundError as m:
             print(m,': Are you sure Mordred is installed in the environment?')
 
-    def represent(self, mol_list, quiet=True, dropna=True, remove_corr=False):
+    
+
+    def _optimize_3d_serial(self, molecule_list, optimizer='MMFF', quiet=True, **kwargs):
+        if optimizer not in ['MMFF', 'UFF']:
+            raise ValueError("The optimizer must be either 'MMFF' or 'UFF' for RDKit 3D optimization.")
+        force_optimize = kwargs.pop('force_optimize', False)
+        optimized_smis = []
+        optimized_mols = []
+
+        iterator = tqdm(molecule_list, desc='Optimizing 3D geometries', disable=quiet)
+        for mol_obj in iterator:
+            if mol_obj.xyz is not None and not force_optimize:
+                iterator.desc = '3D geometry already exists, loading geometry'
+                optimized_smis.append(mol_obj.smiles)
+                optimized_mols.append(mol_obj.rdkit_molecule)
+                continue
+            try:
+                # Uses ChemML's internal RDKit optimizer
+                mol_obj.to_xyz(optimizer=optimizer, **kwargs)
+                optimized_smis.append(mol_obj.smiles)
+                optimized_mols.append(mol_obj.rdkit_molecule)
+            except Exception as exc:
+                warnings.warn('Skipping molecule %s due to 3D optimization failure: %s' % (mol_obj.smiles, str(exc)))
+
+        return optimized_smis, optimized_mols
+
+    def represent(self, mol_list, quiet=True, remove_corr=False, optimizer='MMFF', **kwargs):
         '''
         Generate Mordred molecular descriptors for a list of molecules.
 
@@ -219,12 +300,12 @@ class Mordred(object):
             Input molecules. Can be one of the following:
             - List of SMILES strings
             - List of ChemML Molecule objects
+            - List of RDKit Mol objects
             - Single SMILES string
             - Single ChemML Molecule object
+            - Single RDKit Mol object
         quiet : bool, optional
             If True, suppress Mordred's output messages. Default is True.
-        dropna : bool, optional
-            If True, drop columns with NaN values. Default is True.
         remove_corr : bool, optional
             If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
             Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
@@ -234,6 +315,7 @@ class Mordred(object):
         pandas.DataFrame
             A DataFrame containing the calculated Mordred descriptors. Each row represents a molecule,
             and each column represents a descriptor. The 'SMILES' column is added to identify the molecules.
+            We automatically drop columns with all NaN values, but row imputation is left to the user.
 
         Raises:
         ------
@@ -247,37 +329,22 @@ class Mordred(object):
         >>> df = mord.represent(smiles_list, remove_corr=True)
         >>> print(df.shape)
         '''
-        if isinstance(mol_list, list):
-            if isinstance(mol_list[0], str):
-                try:
-                    smi_list = mol_list
-                    mol_list = [MolFromSmiles(m) for m in tqdm(smi_list, desc='Converting SMILES to RDKit Mol objects')]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
-            if isinstance(mol_list[0], Molecule):
-                try:
-                    smi_list = [m.smiles for m in mol_list]
-                    mol_list = [m.rdkit_molecule for m in mol_list]
-                except Exception as e:
-                    print(str(e)+' Make sure input is a list of ChemML Molecule objects')
+
+        if self.ignore_3D:
+            smi_list, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=False)
+
         else:
-            if isinstance(mol_list, Molecule):
-
-                smi_list = [mol_list.smiles]
-                mol_list = [mol_list.rdkit_molecule]
-
-            if isinstance(mol_list, str):
-                smi_list = [mol_list]
-                try:
-                    mol_list = [MolFromSmiles(m) for m in smi_list]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
+            smi_list, _, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=True)
+            force_optimize = kwargs.pop('force_optimize', False)
+            smi_list, mol_list  = self._optimize_3d_serial(mol_list, optimizer=optimizer, quiet=quiet, force_optimize=force_optimize)
         
         pand = self.calc.pandas(mol_list, quiet=quiet)
         pand = pand.select_dtypes([np.number]).replace([np.inf, -np.inf], np.nan)
+        pand = pand.dropna(axis=1, how='all')
+
         pand['SMILES'] = smi_list
 
-        if remove_corr and len(mol_list) > 100:
+        if remove_corr and len(mol_list) > 1000:
             # Generate matrix of correlation values
             corr_matrix = pand.drop(columns=['SMILES']).corr().abs()
             # Keep only upper triangle of values, since the correlation matrix is mirrored around the diagonal
@@ -285,12 +352,9 @@ class Mordred(object):
             # Find columns that are highly correlated
             to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
             pand = pand.drop(columns=to_drop)
-        elif len(mol_list) <= 100 and remove_corr:
-            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >100 molecules.')
-
-        if dropna:
-            pand.dropna(axis=1, inplace=True)
-        
+        elif len(mol_list) <= 1000 and remove_corr:
+            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >1000 molecules.')
+            
         return pand
 
 
@@ -330,6 +394,8 @@ class PadelDesc:
             - Single SMILES string
             - List of ChemML Molecule objects
             - Single ChemML Molecule object
+            - List of RDKit Mol objects
+            - Single RDKit Mol object
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
         remove_corr : bool, optional
@@ -348,31 +414,7 @@ class PadelDesc:
         """
         from padelpy import from_smiles
 
-        if isinstance(mol_list, list):
-            if isinstance(mol_list[0], str):
-                try:
-                    smi_list = mol_list
-                    mol_list = [MolFromSmiles(m) for m in mol_list]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
-            if isinstance(mol_list[0], Molecule):
-                try:
-                    smi_list = [m.smiles for m in mol_list]
-                    mol_list = [m.rdkit_molecule for m in mol_list]
-                except Exception as e:
-                    print(str(e)+' Make sure input is a list of ChemML Molecule objects')
-        else:
-            if isinstance(mol_list, Molecule):
-
-                smi_list = [mol_list.smiles]
-                mol_list = [mol_list.rdkit_molecule]
-
-            if isinstance(mol_list, str):
-                smi_list = [mol_list]
-                try:
-                    mol_list = [MolFromSmiles(mol_list)]
-                except Exception as e:
-                    print(e,' SMILES not in valid format')
+        smi_list, _ = normalize_input(mol_list, quiet=True, force_molecule=False)
 
         # Calculate descriptors
         descriptors = from_smiles(smi_list)

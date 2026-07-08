@@ -8,3 +8,4 @@ Prepare
 
     ../ipython_notebooks/missing_values.ipynb
     ../ipython_notebooks/purge.ipynb
+    ../ipython_notebooks/feature_cleaning.ipynb

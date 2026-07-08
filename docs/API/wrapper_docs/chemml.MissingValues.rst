@@ -19,13 +19,13 @@ MissingValues
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   types: ("<class 'chemml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'chemml.preprocessing.feature_cleaning.missing_values'>",)
 
 :output tokens (senders):
     | ``df`` : pandas dataframe
     |   types: ("<class 'pandas.core.frame.DataFrame'>",)
     | ``api`` : instance of ChemML's MissingValues class
-    |   types: ("<class 'chemml.preprocessing.handle_missing.missing_values'>",)
+    |   types: ("<class 'chemml.preprocessing.feature_cleaning.missing_values'>",)
 
 :wrapper parameters:
     | ``func_method`` : String, (default:None)

@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+import json
 # import numpy as np
 from chemml.autoML import ModelScreener
 # from chemml.chem import Molecule
@@ -60,3 +61,44 @@ def test_screener_types(data_featurization, data_without_featurization):
     with pytest.raises(ValueError):
         MS = ModelScreener(df=df, target="deny", featurization=False, smiles=None, screener_type="classifier", output_file="testing_without.txt")
         scores = MS.screen_models(n_best=4)
+
+
+def test_export_best_model_bundle(data_without_featurization, tmp_path):
+    df = data_without_featurization
+    export_dir = tmp_path / "best_model_bundle"
+
+    MS = ModelScreener(
+        df=df,
+        target="density_Kg/m3",
+        featurization=False,
+        smiles=None,
+        screener_type="regressor",
+        n_gen=1,
+        output_file=str(tmp_path / "screening_output.txt"),
+    )
+
+    scores = MS.screen_models(n_best=2, best_model_output_file=str(export_dir))
+    assert len(scores) == 2
+
+    metadata_path = export_dir / "metadata.json"
+    model_artifact_path = export_dir / "model_artifact"
+    feature_order_path = export_dir / "feature_order.json"
+    scaler_path = export_dir / "scaler.pkl"
+
+    assert metadata_path.exists()
+    assert model_artifact_path.exists()
+    assert feature_order_path.exists()
+    assert scaler_path.exists()
+
+    with open(metadata_path, "r") as f:
+        metadata = json.load(f)
+
+    assert metadata["model_name"] == scores.iloc[0]["Model"]
+    assert metadata["feature_key"] == scores.iloc[0]["Feature"]
+    assert metadata["run_key"] == scores.iloc[0]["run_key"]
+
+    with open(feature_order_path, "r") as f:
+        feature_order = json.load(f)
+
+    assert isinstance(feature_order, list)
+    assert len(feature_order) == MS.x_list[metadata["feature_key"]].shape[1]

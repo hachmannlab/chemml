@@ -1,17 +1,20 @@
 import os
+import json
+import pickle
+import shutil
 import traceback
 import pandas as pd
 import numpy as np
-from sklearn.utils import all_estimators
+from sklearn.preprocessing import StandardScaler
 from chemml.utils import regression_metrics
 from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from sklearn.model_selection import train_test_split, KFold
 from chemml.optimization import GeneticAlgorithm
-from chemml.chem import RDKitFingerprint, Mordred
 from chemml.chem import Molecule
 import warnings
 import random
 import time
+import uuid
 from tqdm import tqdm
 from importlib import import_module
 from multiprocessing import Pool, Manager
@@ -28,17 +31,9 @@ def _log(message, output_file=None, to_console=True):
 
 
 class ModelScreener(object):
-
-#   from chemml.autoML import ModelScreener
-
-#   MS = ModelScreener(df, target="density_Kg/m3", featurization=True, smiles="smiles", 
-#                    screener_type="regressor", output_file="testing.txt")
-
-#   scores = MS.screen_models(n_best=4)
-
-    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_file="scores.txt"):
+    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log"):
         """
-        This is a constructor function that initializes various parameters for a machine learning model.
+        This is a constructor function that initializes parameters for AutoML.
         
 
         Parameters
@@ -57,12 +52,27 @@ class ModelScreener(object):
             or a regressor. It must be set to either "classifier" or "regressor",, by default "regressor"
         n_gen : int, optional
             number of generations that genetic algorithm should run, by default 10
+        output_dir : str, optional
+            The name of the directory where the scores will be written to, by default "automl_results"
         output_file : str, optional
-            The name of the file where the scores will be written to, by default "scores.txt"
+            The name of the file where the scores will be written to, by default "output.log"
 
         """        
         
         self.n_gen=n_gen
+        self.best_model=None
+        self.best_model_info = None
+        self.run_artifacts = {}
+        self.feature_order_map = {}
+        self.scaler_map = {}
+
+        if isinstance(output_dir, str):
+            self.output_dir = output_dir
+        else:
+            raise TypeError("Parameter 'output_dir' must be of type str")
+
+        self._artifact_temp_dir = os.path.join(self.output_dir, ".model_screener_artifacts")
+        os.makedirs(self._artifact_temp_dir, exist_ok=True)
         
         if isinstance(df, pd.DataFrame):
             self.df = df
@@ -97,7 +107,10 @@ class ModelScreener(object):
             self.x_list = {}
         else:
             # make this a list of dataframes
-            self.x_list = {"user_given": self.df.loc[:, self.df.columns != self.target]}
+            self.xscale = StandardScaler()
+            raw_x = self.df.loc[:, self.df.columns != self.target]
+            self.x_list = {"user_given": pd.DataFrame(self.xscale.fit_transform(raw_x), columns=list(raw_x.columns), index=raw_x.index)}
+            self.scaler_map["user_given"] = self.xscale
                          
         if isinstance(screener_type, str):
             if screener_type not in ["classifier", "regressor"]:
@@ -108,9 +121,74 @@ class ModelScreener(object):
             raise TypeError("Parameter screener_type must be of type str")
         
         if isinstance(output_file, str):
-            self.output_file = output_file
+            self.output_file = os.path.join(self.output_dir, output_file)
         else:
             raise TypeError("Parameter 'output_file' must be of type str")
+        self.best_model_output_dir = os.path.join(self.output_dir, "best_model")
+
+    def _ensure_dataframe(self, data, prefix):
+        """Return a dataframe with deterministic column labels."""
+        if isinstance(data, pd.DataFrame):
+            df_data = data.copy()
+        else:
+            df_data = pd.DataFrame(data)
+        df_data.columns = [f"{prefix}_{i}" for i in range(df_data.shape[1])]
+        return df_data
+
+    def _save_model_artifact(self, ml_model, model_name, feature_key, run_key):
+        """Persist fitted model artifact to disk and return artifact metadata."""
+        run_dir = os.path.join(self._artifact_temp_dir, run_key)
+        os.makedirs(run_dir, exist_ok=True)
+
+        artifact_info = {
+            "run_key": run_key,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "artifact_dir": run_dir,
+        }
+
+        if model_name == "MLP":
+            ml_model.save(run_dir, "model")
+            artifact_info["serializer"] = "chemml_mlp"
+            artifact_info["model_file"] = os.path.join(run_dir, "model_chemml_model.json")
+        else:
+            model_file = os.path.join(run_dir, "model.pkl")
+            with open(model_file, "wb") as f:
+                pickle.dump(ml_model, f)
+            artifact_info["serializer"] = "pickle"
+            artifact_info["model_file"] = model_file
+
+        return artifact_info
+
+    def _resolve_artifact_info(self, run_key, model_name, feature_key):
+        """Resolve artifact information from memory or on-disk worker output."""
+        if run_key in self.run_artifacts:
+            return self.run_artifacts[run_key]
+
+        run_dir = os.path.join(self._artifact_temp_dir, run_key)
+        if not os.path.isdir(run_dir):
+            return None
+
+        mlp_json = os.path.join(run_dir, "model_chemml_model.json")
+        pickle_file = os.path.join(run_dir, "model.pkl")
+
+        artifact_info = {
+            "run_key": run_key,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "artifact_dir": run_dir,
+        }
+        if os.path.isfile(mlp_json):
+            artifact_info["serializer"] = "chemml_mlp"
+            artifact_info["model_file"] = mlp_json
+        elif os.path.isfile(pickle_file):
+            artifact_info["serializer"] = "pickle"
+            artifact_info["model_file"] = pickle_file
+        else:
+            return None
+
+        self.run_artifacts[run_key] = artifact_info
+        return artifact_info
 
     def run_model(self, model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key):
 
@@ -134,6 +212,9 @@ class ModelScreener(object):
         def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
             ml_model.fit(x, y)
             ypred = ml_model.predict(xtest)
+            run_key = f"{model_name}_{key}_{uuid.uuid4().hex}"
+            artifact_info = self._save_model_artifact(ml_model=ml_model, model_name=model_name, feature_key=key, run_key=run_key)
+            self.run_artifacts[run_key] = artifact_info
             if self.screener_type == "regressor":            
                 scores = regression_metrics(y_true=y_test, y_predicted=ypred)
                 time_taken = time.time() - model_start_time
@@ -141,6 +222,7 @@ class ModelScreener(object):
                 scores["Model"]=model_name
                 scores['parameters']=[ml_model.get_params()]
                 scores['Feature']=key
+                scores['run_key'] = run_key
                 
 
             elif self.screener_type == "classifier":
@@ -149,7 +231,7 @@ class ModelScreener(object):
                 precision = precision_score(y_test, ypred, average='macro')
                 f1score = f1_score(y_test, ypred, average='macro')
                 time_taken = time.time() - model_start_time
-                scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key}
+                scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key, "run_key": run_key}
                 scores = pd.Series(scores)
                 scores = pd.DataFrame(scores)
                 scores = scores.T
@@ -258,12 +340,15 @@ class ModelScreener(object):
                 return pd.DataFrame()
             _log(f"{model_name}: GeneticAlgorithm - complete", output_file=self.output_file)
             
+            run_dir = os.path.join(self._artifact_temp_dir, model_name)
+            os.makedirs(run_dir, exist_ok=True)
+
             all_items = list(gann.fitness_dict.items())
             all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
-            all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
+            all_items_df.to_csv(os.path.join(run_dir, model_name+'_fitness_dict.csv'), index=False)
             
             best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
-            best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
+            best_ind_df.to_csv(os.path.join(run_dir, model_name+'_ga_best.csv'), index=False)
             ga_time = (time.time() - start_time_ga)/3600
             
             best_hyper_params = best_ind_df["Best_individual"][0]
@@ -272,7 +357,7 @@ class ModelScreener(object):
             if best_ga_model is None:
                 _log(f"Model: {model_name} - module not available, returning empty results\nGA time(hours): {ga_time}\n", output_file=self.output_file)
                 return pd.DataFrame()
-            
+
             ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
             _log(f"Model: {model_name}\nGA time(hours): {ga_time}\n", output_file=self.output_file)
             return ga_accuracy_test
@@ -318,32 +403,40 @@ class ModelScreener(object):
                 self.discarded_indices.append(i)
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
-        CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
-        self.x_list["CoulombMatrix"] = CM.represent(mol_objs_list)
+        # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms
+        CM = CoulombMatrix(cm_type='E',n_jobs=-1)
+        self.cmscaler = StandardScaler()
+        cm_data = self._ensure_dataframe(self.cmscaler.fit_transform(CM.represent(mol_objs_list)), prefix="CoulombMatrix")
+        self.x_list["CoulombMatrix"] = cm_data
+        self.scaler_map["CoulombMatrix"] = self.cmscaler
 
         # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
         morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
-        self.x_list["morganfingerprints_radius3"] = morgan_fp.represent(mol_objs_list)
+        self.x_list["morganfingerprints_radius3"] = self._ensure_dataframe(morgan_fp.represent(mol_objs_list), prefix="morganfingerprints_radius3")
+        self.scaler_map["morganfingerprints_radius3"] = None
 
         MACCS = RDKitFingerprint(fingerprint_type='MACCS', vector='bit', n_bits=1024, radius=3)
-        self.x_list["MACCS_radius3"] = MACCS.represent(mol_objs_list)
+        self.x_list["MACCS_radius3"] = self._ensure_dataframe(MACCS.represent(mol_objs_list), prefix="MACCS_radius3")
+        self.scaler_map["MACCS_radius3"] = None
 
         hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
-        self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
+        self.x_list["hashedtopologicaltorsion_radius3"] = self._ensure_dataframe(hashed_topological_torsion.represent(mol_objs_list), prefix="hashedtopologicaltorsion_radius3")
+        self.scaler_map["hashedtopologicaltorsion_radius3"] = None
        
         
         allDescrs = RDKDesc().represent(mol_objs_list).drop(columns='SMILES')
-        from sklearn.preprocessing import StandardScaler
-        scaler = StandardScaler()
-        scaled_allDescrs = scaler.fit_transform(allDescrs)
-        scaled_allDescrs = pd.DataFrame(scaled_allDescrs)
+        self.rdkit_scaler = StandardScaler()
+        scaled_allDescrs = self.rdkit_scaler.fit_transform(allDescrs)
+        scaled_allDescrs = pd.DataFrame(scaled_allDescrs, columns=list(allDescrs.columns))
         self.x_list["rdkit_descriptors"] = scaled_allDescrs
+        self.scaler_map["rdkit_descriptors"] = self.rdkit_scaler
 
         mord = Mordred()
         mord_descriptors = mord.represent(mol_objs_list, remove_corr=True).drop(columns='SMILES')
-        mord_scaler = StandardScaler()
-        mord_descriptors = pd.DataFrame(mord_scaler.fit_transform(mord_descriptors))
+        self.mord_scaler = StandardScaler()
+        mord_descriptors = pd.DataFrame(self.mord_scaler.fit_transform(mord_descriptors), columns=list(mord_descriptors.columns))
         self.x_list['mord_descriptors'] = mord_descriptors
+        self.scaler_map['mord_descriptors'] = self.mord_scaler
 
 
     def aggregate_scores(self,  scores_list, n_best):
@@ -378,8 +471,93 @@ class ModelScreener(object):
             self.scores_combined = scores_combined.drop_duplicates(subset='Accuracy', keep='last').sort_values(by='Accuracy', ascending=False)
 
         return self.scores_combined[:n_best]
+    
+    def export_best_model(self, best_model_output_dir, best_models=None):
+        """
+        Export the top-ranked model and metadata bundle from screening output.
+        
 
-    def screen_models(self, n_best=10, multi_core=False):
+        Parameters
+        ----------
+        best_model_output_dir : str
+            The folder where best-model artifacts should be exported
+
+        best_models : pandas DataFrame, optional
+            DataFrame returned by screen_models; if None, scores_combined is used
+
+        Returns
+        -------
+        None
+        """    
+        if best_models is None:
+            if not hasattr(self, "scores_combined") or self.scores_combined.empty:
+                raise ValueError("No screening results available to export.")
+            best_models = self.scores_combined
+
+        if best_models.empty:
+            raise ValueError("best_models is empty; cannot export.")
+
+        best_row = best_models.iloc[0]
+        run_key = best_row.get("run_key", None)
+        feature_key = best_row.get("Feature", None)
+        model_name = best_row.get("Model", None)
+
+        if run_key is None:
+            raise ValueError("Best model artifact could not be located. Re-run screen_models before exporting.")
+
+        artifact_info = self._resolve_artifact_info(run_key=run_key, model_name=model_name, feature_key=feature_key)
+        if artifact_info is None:
+            raise ValueError("Best model artifact could not be located. Re-run screen_models before exporting.")
+        export_dir = os.path.abspath(best_model_output_dir)
+        os.makedirs(export_dir, exist_ok=True)
+
+        # Copy model artifact directory exactly, because MLP can emit multiple files.
+        if os.path.isdir(export_dir):
+            shutil.rmtree(export_dir)
+        shutil.copytree(artifact_info["artifact_dir"], export_dir)
+
+        scaler = self.scaler_map.get(feature_key)
+        scaler_file = None
+        if scaler is not None:
+            scaler_file = os.path.join(export_dir, "scaler.pkl")
+            with open(scaler_file, "wb") as f:
+                pickle.dump(scaler, f)
+
+        feature_order = self.feature_order_map.get(feature_key, [])
+        feature_order_file = os.path.join(export_dir, "feature_order.json")
+        with open(feature_order_file, "w") as f:
+            json.dump(feature_order, f, indent=2)
+
+        metrics = {}
+        for col in best_models.columns:
+            if col in ["Model", "Feature", "parameters", "run_key"]:
+                continue
+            value = best_row[col]
+            if isinstance(value, (np.generic,)):
+                value = value.item()
+            metrics[col] = value
+
+        metadata = {
+            "artifact_schema_version": 1,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "run_key": run_key,
+            "screener_type": self.screener_type,
+            "parameters": best_row.get("parameters", [{}])[0] if isinstance(best_row.get("parameters", None), list) else best_row.get("parameters", {}),
+            "metrics": metrics,
+            "model_serializer": artifact_info.get("serializer"),
+            "model_artifact_dir": "model_artifact",
+            "scaler_file": os.path.basename(scaler_file) if scaler_file is not None else None,
+            "feature_order_file": os.path.basename(feature_order_file),
+            "timestamp": time.ctime(),
+        }
+        with open(os.path.join(export_dir, "metadata.json"), "w") as f:
+            json.dump(metadata, f, indent=2, default=str)
+
+        self.best_model = artifact_info
+        self.best_model_info = metadata
+
+    def screen_models(self, n_best=10, multi_core=False, best_model_output_dir=None):
         """
         This function performs genetic algorithm hyperparameter tuning on a list of regression models
         and returns the best performing models.
@@ -394,17 +572,15 @@ class ModelScreener(object):
             A boolean indicating whether to screen multi-core models, by default False
             Note that these models are more computationally expensive and take much longer to run
             Highly recommended to run on a HPC node if True
+        
+        best_model_output_dir : str, optional
+            The directory where the best model will be exported, by default None
 
         Returns
         -------
         pandas DataFrame
             the best models based on their scores, as determined by the genetic algorithm. The
         number of best models returned is determined by the `n_best` parameter
-
-        Raises
-        ------
-        ValueError
-            _description_
         """        
         _log(f"\n\n-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file, to_console=False)
 
@@ -455,6 +631,11 @@ class ModelScreener(object):
             params_msg += "  Note: Dataset > 1000 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
         _log(params_msg, output_file=self.output_file, to_console=False)
 
+        self.feature_order_map = {
+            k: list(self.x_list[k].columns)
+            for k in self.x_list
+        }
+
         for key in self.x_list.keys():
             _log(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n", output_file=self.output_file, to_console=False)
             start_time = time.time()
@@ -483,5 +664,9 @@ class ModelScreener(object):
 
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list=scores_list_overall, n_best=n_best)
+        best_models.to_csv(os.path.join(self.output_dir,'scores.csv'), index=False)
+
+        self.export_best_model(best_model_output_dir=self.best_model_output_dir, best_models=best_models)
+
 
         return best_models

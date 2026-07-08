@@ -1,0 +1,39 @@
+{
+  "artifact_schema_version": 1,
+  "model_name": "Ridge",
+  "feature_key": "mord_descriptors",
+  "run_key": "Ridge_mord_descriptors_0f05ed92c6cf49d8be4c226736fbf3e4",
+  "screener_type": "regressor",
+  "parameters": {
+    "alpha": 54.00000000000001,
+    "copy_X": true,
+    "fit_intercept": true,
+    "max_iter": null,
+    "positive": false,
+    "random_state": null,
+    "solver": "auto",
+    "tol": 0.0001
+  },
+  "metrics": {
+    "ME": 0.1736961486029486,
+    "MAE": 5.7682759529164285,
+    "MSE": 54.34136049451282,
+    "RMSE": 7.371659276886908,
+    "MSLE": 3.1862970719287e-05,
+    "RMSLE": 0.005644729463781856,
+    "MAPE": 0.44390306804247737,
+    "MaxAPE": 0.9952921430223385,
+    "RMSPE": 0.5647098855070074,
+    "MPE": 0.013295926147885145,
+    "MaxAE": 12.58676148382574,
+    "deltaMaxE": 25.146153978196025,
+    "r_squared": 0.9918742617712559,
+    "std": 81.77750192442905,
+    "time(seconds)": 3.159442663192749
+  },
+  "model_serializer": "pickle",
+  "model_artifact_dir": "model_artifact",
+  "scaler_file": "scaler.pkl",
+  "feature_order_file": "feature_order.json",
+  "timestamp": "Wed Jul  8 17:18:51 2026"
+}

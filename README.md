@@ -38,6 +38,8 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
     cd chemml
     pip install -e .
 
+We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on [this page](https://pytorch.org/get-started/locally/).
+
 Here is a list of external libraries that will be installed with chemml:
    - numpy
    - pandas
@@ -52,7 +54,7 @@ Here is a list of external libraries that will be installed with chemml:
    - shap
    - lime
 
-We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on [this page](https://pytorch.org/get-started/locally/).
+
 
 AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
 AutoML will still work without installing these models.

@@ -846,11 +846,7 @@ class Molecule(object):
                     raise ValueError(msg)
             elif optimizer == 'UFF':
                 try:
-                    if AllChem.UFFHasAllMoleculeParams(self.rdkit_molecule):
-                        optimize_status = rdForceFieldHelpers.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
-                    else:
-                        msg = "The UFF parameters are not available for all of the molecule's atoms."
-                        raise ValueError(msg)
+                    optimize_status = rdForceFieldHelpers.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
                 except AttributeError:
                     # TODO(v1.4): remove Python 3.8 RDKit forcefield fallback.
                     if AllChem.UFFHasAllMoleculeParams(self.rdkit_molecule):

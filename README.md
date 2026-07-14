@@ -32,7 +32,7 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 
     conda create --name chemml_env python=3.12
     source activate chemml_env
-    conda install -c conda-forge openbabel nb_conda_kernels python-graphviz
+    conda install -c conda-forge openbabel nb_conda_kernels
     
     git clone https://github.com/hachmannlab/chemml.git
     cd chemml
@@ -54,10 +54,11 @@ Here is a list of external libraries that will be installed with chemml:
    - shap
    - lime
 
+### Optional dependencies (user-installed):
 
+- python-graphviz (for ChemML Jupyter wrapper)
+- xgboost, lightgbm (for AutoML screening)
 
-AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
-AutoML will still work without installing these models.
 
 ## Citation:
 Please cite the use of ChemML as:

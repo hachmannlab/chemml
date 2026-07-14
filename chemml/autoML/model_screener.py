@@ -603,8 +603,8 @@ class ModelScreener(object):
 
         # Splitting model names into single- and multi-core models
         single_core_models = space_models['single_core']
-        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 1k samples
-        if len(y) > 1e3:
+        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 500 samples
+        if len(y) > 5e2:
             if self.screener_type == "regressor":
                 single_core_models.pop('SVR', None)
             else:
@@ -613,7 +613,7 @@ class ModelScreener(object):
         # Multi-core model initialization
         if multi_core:
             multi_core_models = space_models['multi_core']
-            if len(y) > 1e3:
+            if len(y) > 5e2:
                 if self.screener_type == "regressor":
                     # Note: XGBRegressor performs better than GradientBoostingRegressor on large datasets, so we retain gradient boosting regression
                     multi_core_models.pop('GradientBoostingRegressor', None)
@@ -627,8 +627,8 @@ class ModelScreener(object):
             f"  Screener_type: {self.screener_type}\n"
             f"  Number of datapoints: {int(len(y))}\n"
         )
-        if len(y) > 1000:
-            params_msg += "  Note: Dataset > 1000 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
+        if len(y) > 5e2:
+            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
         _log(params_msg, output_file=self.output_file, to_console=False)
 
         self.feature_order_map = {

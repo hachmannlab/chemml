@@ -12,7 +12,7 @@ Added
 - **Mordred 3D Descriptors**: Added 3D descriptor support to ``Mordred`` when configured with ``ignore_3D=False``, using ChemML ``Molecule``-based serial 3D optimization followed by parallel Mordred descriptor calculation.
 - **Feature Cleaning Refresh**: Revised feature cleaning functions to be under feature_cleaning.py under preprocessing, with additional correlated and invariant feature removal tools.
 - **Genetic Algorithm Multiprocessing**: Added multiprocessing support to GeneticAlgorithm() for faster evaluation of large populations, with optional ``n_jobs`` parameter to specify number of parallel processes (default is 1, no parallelization).
-- **AutoML Model Saving**: Both overall best model and best model per feature are now saved to disk within the output directory, along with other metadata necessary for model replication.
+- **AutoML Model Saving**: Both overall best model and best model per feature are now saved to disk within the output directory, along with other metadata necessary for model replication. Replication example given in docs as well.
 
 Changed
 ~~~~~~~

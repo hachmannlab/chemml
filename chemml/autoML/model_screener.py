@@ -625,8 +625,6 @@ class ModelScreener(object):
                     multi_core_models.pop('MLPRegressor', None)
             else:
                 single_core_models.pop('SVC', None)            
-        
-        multi_core_model_names = list(multi_core_models.keys())
 
         # Write run parameters to output file
         params_msg = (
@@ -638,6 +636,7 @@ class ModelScreener(object):
         )
         if multi_core:
             params_msg += "MLP thread limit: 1 (hard-coded)\n"
+            multi_core_model_names = list(multi_core_models.keys())
         if len(y) > 5e2:
             params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
         _log(params_msg, output_file=self.output_file, to_console=False)

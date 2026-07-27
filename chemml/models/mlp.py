@@ -172,8 +172,7 @@ class MLP(object):
             self.noutputs = self.nclasses
             self.output_activation = 'softmax' 
 
-        if verbose:
-            self.verbose = verbose
+        self.verbose = verbose
         ############ TENSORFLOW ############
         if self.engine == 'tensorflow':
             ############ load_model ############
@@ -567,7 +566,10 @@ class MLP(object):
 
         """ 
         self.batch_size = X.shape[0] if X.shape[0] < self.batch_size else self.batch_size
-        self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size, verbose=self.verbose)
+        if self.verbose is not None:
+            self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size, verbose=self.verbose)
+        else:
+            self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size)
 
 
     def _predict_pytorch(self, X):

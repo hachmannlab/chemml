@@ -127,7 +127,7 @@ class MLP(object):
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
-                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
                 **params):
 
         if engine not in ['tensorflow','pytorch']:

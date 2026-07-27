@@ -2,10 +2,10 @@
   "artifact_schema_version": 1,
   "model_name": "Ridge",
   "feature_key": "mord_descriptors",
-  "run_key": "Ridge_mord_descriptors_0f05ed92c6cf49d8be4c226736fbf3e4",
+  "run_key": "Ridge_mord_descriptors_c1fb1891b1d34cbdaf986cca0c5375d6",
   "screener_type": "regressor",
   "parameters": {
-    "alpha": 54.00000000000001,
+    "alpha": 24.6,
     "copy_X": true,
     "fit_intercept": true,
     "max_iter": null,
@@ -15,25 +15,25 @@
     "tol": 0.0001
   },
   "metrics": {
-    "ME": 0.1736961486029486,
-    "MAE": 5.7682759529164285,
-    "MSE": 54.34136049451282,
-    "RMSE": 7.371659276886908,
-    "MSLE": 3.1862970719287e-05,
-    "RMSLE": 0.005644729463781856,
-    "MAPE": 0.44390306804247737,
-    "MaxAPE": 0.9952921430223385,
-    "RMSPE": 0.5647098855070074,
-    "MPE": 0.013295926147885145,
-    "MaxAE": 12.58676148382574,
-    "deltaMaxE": 25.146153978196025,
-    "r_squared": 0.9918742617712559,
+    "ME": -1.1658386080855963,
+    "MAE": 6.5486628603416195,
+    "MSE": 64.35727445359389,
+    "RMSE": 8.022298576691963,
+    "MSLE": 4.1095421280610533e-05,
+    "RMSLE": 0.006410571057293612,
+    "MAPE": 0.5194005241242112,
+    "MaxAPE": 1.227364087808024,
+    "RMSPE": 0.642960942887699,
+    "MPE": -0.10914957390993163,
+    "MaxAE": 13.696278592258523,
+    "deltaMaxE": 25.72177133371156,
+    "r_squared": 0.9903765684081806,
     "std": 81.77750192442905,
-    "time(seconds)": 3.159442663192749
+    "time(seconds)": 0.7793076038360596
   },
   "model_serializer": "pickle",
   "model_artifact_dir": "model_artifact",
   "scaler_file": "scaler.pkl",
   "feature_order_file": "feature_order.json",
-  "timestamp": "Wed Jul  8 17:18:51 2026"
+  "timestamp": "Mon Jul 27 13:59:05 2026"
 }

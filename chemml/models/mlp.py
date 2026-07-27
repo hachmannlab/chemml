@@ -117,11 +117,18 @@ class MLP(object):
         If list, should provide exact configurations and parameters corresponding to the respective engines, for e.g., 
         ["Adam",{"learning_rate":0.01}] or 
         ["SGD",{"lr":0.01, "momentum":0.9, "lr_decay":0.0, nesterov=False)]
+    
+    random_seed: int, optional, default: 112
+
+    verbose: bool, optional, default: None
+        Determines whether TensorFlow models print train loss every epoch
+        Mainly used to make AutoML outputs easier to read.
 
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
-                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, **params):
+                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None
+                **params):
 
         if engine not in ['tensorflow','pytorch']:
             raise ValueError('engine has to be \'tensorflow\' or \'pytorch\'')
@@ -164,7 +171,9 @@ class MLP(object):
         else:
             self.noutputs = self.nclasses
             self.output_activation = 'softmax' 
-               
+
+        if verbose:
+            self.verbose = verbose
         ############ TENSORFLOW ############
         if self.engine == 'tensorflow':
             ############ load_model ############
@@ -558,7 +567,7 @@ class MLP(object):
 
         """ 
         self.batch_size = X.shape[0] if X.shape[0] < self.batch_size else self.batch_size
-        self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size)
+        self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size, verbose=self.verbose)
 
 
     def _predict_pytorch(self, X):

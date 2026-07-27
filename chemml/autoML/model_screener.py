@@ -19,6 +19,11 @@ from tqdm import tqdm
 from importlib import import_module
 from multiprocessing import Pool, Manager
 
+try:
+    from threadpoolctl import threadpool_limits
+except ImportError:
+    threadpool_limits = None
+
 warnings.filterwarnings("ignore")
 
 
@@ -118,7 +123,7 @@ class ModelScreener(object):
             else:
                 self.screener_type = screener_type
         else:
-            raise TypeError("Parameter screener_type must be of type str")
+            raise TypeError("Parameter screener_type must be of type str and be either 'classifier' or 'regressor' ")
         
         if isinstance(output_file, str):
             self.output_file = os.path.join(self.output_dir, output_file)
@@ -192,14 +197,22 @@ class ModelScreener(object):
 
     def run_model(self, model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key):
 
+        def fit_model(model, x_data, y_data):
+            if model_name == 'MLPRegressor' and threadpool_limits is not None:
+                # Keep MLP fits at one native thread to avoid oversubscription under multiprocessing.
+                with threadpool_limits(limits=1):
+                    model.fit(x_data, y_data)
+            else:
+                model.fit(x_data, y_data)
+
         def single_obj(model, x, y):
             n_splits=4
             kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
             accuracy_kfold = []
             for train_index, test_index in kf.split(x):
-                x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
+                x_training, x_testing= x[train_index], x[test_index]
                 y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
-                model.fit(x_training, y_training)
+                fit_model(model, x_training, y_training)
                 y_pred = model.predict(x_testing)
                 if self.screener_type == "regressor":
                     score = regression_metrics(y_testing, y_pred)['r_squared'][0]
@@ -210,7 +223,7 @@ class ModelScreener(object):
             return np.mean(accuracy_kfold)
         
         def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
-            ml_model.fit(x, y)
+            fit_model(ml_model, x, y)
             ypred = ml_model.predict(xtest)
             run_key = f"{model_name}_{key}_{uuid.uuid4().hex}"
             artifact_info = self._save_model_artifact(ml_model=ml_model, model_name=model_name, feature_key=key, run_key=run_key)
@@ -258,7 +271,7 @@ class ModelScreener(object):
                     activations = [activation_map[act] for act in activations]
                 is_regression = self.screener_type != 'classifier'
                 nclasses = getattr(self, 'nclasses', None)
-                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42) 
+                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42, verbose=0) 
 
             elif model_name == 'GradientBoostingRegressor':
                 model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
@@ -387,6 +400,7 @@ class ModelScreener(object):
             list of pandas DataFrames consisting of various molecular representations
         """        
         from chemml.chem import RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
+        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures
         # generate all representation techniques here
 
         mol_objs_list=[]
@@ -405,49 +419,43 @@ class ModelScreener(object):
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms
         CM = CoulombMatrix(cm_type='E',n_jobs=-1)
-        self.cmscaler = StandardScaler()
-        cm_data = self._ensure_dataframe(self.cmscaler.fit_transform(CM.represent(mol_objs_list)), prefix="CoulombMatrix")
+        cm_data = CM.represent(mol_objs_list)
         self.x_list["CoulombMatrix"] = cm_data
-        self.scaler_map["CoulombMatrix"] = self.cmscaler
 
         # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
         morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
-        self.x_list["morganfingerprints_radius3"] = self._ensure_dataframe(morgan_fp.represent(mol_objs_list), prefix="morganfingerprints_radius3")
-        self.scaler_map["morganfingerprints_radius3"] = None
+        self.x_list["morganfingerprints_radius3"] = morgan_fp.represent(mol_objs_list)
 
         MACCS = RDKitFingerprint(fingerprint_type='MACCS', vector='bit', n_bits=1024, radius=3)
-        self.x_list["MACCS_radius3"] = self._ensure_dataframe(MACCS.represent(mol_objs_list), prefix="MACCS_radius3")
-        self.scaler_map["MACCS_radius3"] = None
+        self.x_list["MACCS_radius3"] = MACCS.represent(mol_objs_list)
 
         hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
-        self.x_list["hashedtopologicaltorsion_radius3"] = self._ensure_dataframe(hashed_topological_torsion.represent(mol_objs_list), prefix="hashedtopologicaltorsion_radius3")
-        self.scaler_map["hashedtopologicaltorsion_radius3"] = None
+        self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
        
-        
         allDescrs = RDKDesc().represent(mol_objs_list).drop(columns='SMILES')
-        self.rdkit_scaler = StandardScaler()
-        scaled_allDescrs = self.rdkit_scaler.fit_transform(allDescrs)
-        scaled_allDescrs = pd.DataFrame(scaled_allDescrs, columns=list(allDescrs.columns))
-        self.x_list["rdkit_descriptors"] = scaled_allDescrs
-        self.scaler_map["rdkit_descriptors"] = self.rdkit_scaler
+        self.x_list["rdkit_descriptors"] = allDescrs
 
         mord = Mordred()
-        mord_descriptors = mord.represent(mol_objs_list, remove_corr=True).drop(columns='SMILES')
-        self.mord_scaler = StandardScaler()
-        mord_descriptors = pd.DataFrame(self.mord_scaler.fit_transform(mord_descriptors), columns=list(mord_descriptors.columns))
+        mord_descriptors = mord.represent(mol_objs_list, quiet=False).drop(columns='SMILES')
         self.x_list['mord_descriptors'] = mord_descriptors
-        self.scaler_map['mord_descriptors'] = self.mord_scaler
+
+        # Applying standard feature cleaning steps to improve feature quality
+        # New in v1.3.4, since feature order is logged as part of the best model 
+        _log("\nCleaning feature sets to remove constant, highly correlated, and low-variance features...\n", output_file=self.output_file)
+        for x_key, x_df in self.x_list.items():
+            x_df = ConstantColumns(x_df)
+            x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
+            x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
+            self.x_list[x_key] = x_df
+            _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.", output_file=self.output_file)
 
 
     def aggregate_scores(self,  scores_list, n_best):
         """ 
         This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by
         RMSE in ascending order, and returns the top n_best scores.
-        
-        :param scores_list: 
-        :param n_best: 
-        
 
+        
         Parameters
         ----------
         scores_list : list
@@ -575,6 +583,7 @@ class ModelScreener(object):
         
         best_model_output_dir : str, optional
             The directory where the best model will be exported, by default None
+            If kept None, the best model will be exported to a subdirectory of the output_dir called 'best_model'
 
         Returns
         -------
@@ -590,36 +599,36 @@ class ModelScreener(object):
             self._represent_smiles()
             y = y.drop(index=self.discarded_indices)
 
-        if self.screener_type == 'classifier':
-            self.nclasses = y.nunique()
-            
-        scores_list_overall=[]
         
         if self.screener_type == "classifier":
             from .space import space_models_classifiers as space_models
+            self.nclasses = y.nunique()
         else:
             from .space import space_models
-
 
         # Splitting model names into single- and multi-core models
         single_core_models = space_models['single_core']
         # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 500 samples
-        if len(y) > 5e2:
-            if self.screener_type == "regressor":
-                single_core_models.pop('SVR', None)
-            else:
-                single_core_models.pop('SVC', None)
+
         single_core_model_names = list(single_core_models.keys())
         # Multi-core model initialization
         if multi_core:
             multi_core_models = space_models['multi_core']
-            if len(y) > 5e2:
-                if self.screener_type == "regressor":
+
+        # Removing inefficient models for large datasets
+        if len(y) > 5e2:
+            if self.screener_type == "regressor":
+                single_core_models.pop('SVR', None)
+                if multi_core:
                     # Note: XGBRegressor performs better than GradientBoostingRegressor on large datasets, so we retain gradient boosting regression
                     multi_core_models.pop('GradientBoostingRegressor', None)
-            multi_core_model_names = list(multi_core_models.keys())
+                    multi_core_models.pop('MLPRegressor', None)
+            else:
+                single_core_models.pop('SVC', None)            
+        
+        multi_core_model_names = list(multi_core_models.keys())
 
-        # write run parameters to output file
+        # Write run parameters to output file
         params_msg = (
             "\n-------------------------Run parameters-------------------------\n"
             f"  Featurization: {self.featurization}\n"
@@ -627,14 +636,18 @@ class ModelScreener(object):
             f"  Screener_type: {self.screener_type}\n"
             f"  Number of datapoints: {int(len(y))}\n"
         )
+        if multi_core:
+            params_msg += "MLP thread limit: 1 (hard-coded)\n"
         if len(y) > 5e2:
-            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
+            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
         _log(params_msg, output_file=self.output_file, to_console=False)
 
         self.feature_order_map = {
             k: list(self.x_list[k].columns)
             for k in self.x_list
         }
+        
+        scores_list_overall=[]
 
         for key in self.x_list.keys():
             _log(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n", output_file=self.output_file, to_console=False)
@@ -644,6 +657,13 @@ class ModelScreener(object):
             tmp_counter = 0         
             output_file = self.output_file
             self.nfeatures = X_train.shape[1]
+
+            xscale = StandardScaler()
+
+            X_train = xscale.fit_transform(X_train)
+            X_test = xscale.transform(X_test)
+            
+            self.scaler_map[key] = xscale
 
             # Running single-core models in parallel using multiprocessing manager
             with Manager() as manager:
@@ -662,11 +682,15 @@ class ModelScreener(object):
 
             _log(f"\n------------------------- Screening complete for feature set {key}, time taken: {round(time.time() - start_time,3)} seconds -------------------------\n", output_file=self.output_file)
 
+        # _log(f'DEBUG: Total number of scores collected: {len(scores_list_overall)}', output_file=self.output_file)
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list=scores_list_overall, n_best=n_best)
         best_models.to_csv(os.path.join(self.output_dir,'scores.csv'), index=False)
 
-        self.export_best_model(best_model_output_dir=self.best_model_output_dir, best_models=best_models)
+        if best_model_output_dir is None:
+            best_model_output_dir = os.path.join(self.output_dir, 'best_model')
+
+        self.export_best_model(best_model_output_dir=best_model_output_dir, best_models=best_models)
 
 
         return best_models

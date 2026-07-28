@@ -17,6 +17,7 @@
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -233,6 +234,7 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l1"><a class="reference internal" href="represent_task/index.html">Represent</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Creating-chemml.chem.Molecule-object-from-molecule-SMILES">Creating <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> object from molecule SMILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#3D-Descriptors-from-Mordred">3D Descriptors from Mordred</a></li>
 </ul>
 </li>
 </ul>
@@ -250,6 +252,12 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/purge.html#Removing-Constant-Columns">Removing Constant Columns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/purge.html#Removing-oultiers-based-on-mean">Removing oultiers based on mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/purge.html#Removing-outliers-based-on-median">Removing outliers based on median</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/feature_cleaning.html">Prepare: Feature Cleaning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_cleaning.html#Removing-Highly-Correlated-Features">Removing Highly Correlated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_cleaning.html#Removing-Invariant-and-Low-Variance-Features">Removing Invariant and Low-Variance Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_cleaning.html#Keeping-Removed-Columns-in-a-Separate-DataFrame">Keeping Removed Columns in a Separate DataFrame</a></li>
 </ul>
 </li>
 </ul>
@@ -286,6 +294,7 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html#Defining-hyperparameter-space">Defining hyperparameter space</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html#Defining-objective-function">Defining objective function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html#Optimize-the-feature-space">Optimize the feature space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html#New-in-v1.3.4:-Tunable-target-feature-lengths">New in v1.3.4: Tunable target feature lengths</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/active_model_based.html">Active Learning</a><ul>
@@ -305,9 +314,12 @@ AutoML will still work without installing these models.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="automl_task/index.html">AutoML</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/autoML_regression.html">Load your data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Run-autoML-for-a-regression-task">Run autoML for a regression task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Save-scores-to-csv">Save scores to csv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/autoML_regression.html">AutoML for Regression Model Screening</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Load-your-data">Load your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Run-autoML-for-a-regression-task">Run autoML for a regression task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Validating-AutoML-generated-model">Validating AutoML-generated model</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a><ul>
@@ -320,15 +332,22 @@ AutoML will still work without installing these models.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[1.3.3] - 2026-04-22</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[1.3.4] - 2026-07-28</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed-miscellaneous">Fixed/Miscellaneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[1.3.3] - 2026-04-22</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Fixed/Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#removed">Removed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#technical-details">Technical Details</a></li>

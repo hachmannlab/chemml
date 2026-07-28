@@ -8,16 +8,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chem module &mdash; ChemML  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -144,7 +145,7 @@
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.BagofBonds">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">BagofBonds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">BagofBonds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.BagofBonds" title="Link to this definition"></a></dt>
 <dd><p>The implementation of bag of bonds version of coulomb matrix by katja Hansen et. al. 2015, JPCL.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
@@ -152,7 +153,7 @@
 <dt>const<span class="classifier">float, optional (default = 1.0)</span></dt><dd><p>The constant value for coordinates unit conversion to atomic unit
 if const=1.0, returns atomic unit
 if const=0.529, returns Angstrom</p>
-<p>const/<a href="#id64"><span class="problematic" id="id65">|Ri-Rj|</span></a>, which denominator is the euclidean distance
+<p>const/<a href="#id63"><span class="problematic" id="id64">|Ri-Rj|</span></a>, which denominator is the euclidean distance
 between two atoms</p>
 </dd>
 <dt>n_jobs<span class="classifier">int, optional(default=-1)</span></dt><dd><p>The number of parallel processes. If -1, uses all the available processes.</p>
@@ -164,7 +165,7 @@ between two atoms</p>
 <section id="attributes">
 <h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt><a href="#id68"><span class="problematic" id="id69">header_</span></a><span class="classifier">list of header for the bag of bonds data frame</span></dt><dd><p>contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)</p>
+<dt><a href="#id67"><span class="problematic" id="id68">header_</span></a><span class="classifier">list of header for the bag of bonds data frame</span></dt><dd><p>contains one nuclear charge (represents single atom) or a tuple of two nuclear charges (represents a bond)</p>
 </dd>
 </dl>
 </section>
@@ -226,7 +227,7 @@ stored or optimized in advance.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.CoulombMatrix">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">CoulombMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_n_atoms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nPerm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">CoulombMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_n_atoms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nPerm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix" title="Link to this definition"></a></dt>
 <dd><p>The implementation of coulomb matrix descriptors by Matthias Rupp et. al. 2012, PRL (All 3 different variations).</p>
 <section id="id4">
 <h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
@@ -250,7 +251,7 @@ type of representation.</p>
 </dd>
 <dt>const<span class="classifier">float, optional (default = 1)</span></dt><dd><p>The constant value for coordinates unit conversion to atomic unit
 example: atomic unit -&gt; const=1, Angstrom -&gt; const=0.529
-const/<a href="#id66"><span class="problematic" id="id67">|Ri-Rj|</span></a>, which denominator is the euclidean distance
+const/<a href="#id65"><span class="problematic" id="id66">|Ri-Rj|</span></a>, which denominator is the euclidean distance
 between atoms i and j</p>
 </dd>
 <dt>n_jobs<span class="classifier">int, optional(default=-1)</span></dt><dd><p>The number of parallel processes. If -1, uses all the available processes.</p>
@@ -262,9 +263,9 @@ between atoms i and j</p>
 <section id="id5">
 <h2>Attributes<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt><a href="#id70"><span class="problematic" id="id71">n_molecules_</span></a><span class="classifier">int</span></dt><dd><p>Total number of molecules.</p>
+<dt><a href="#id69"><span class="problematic" id="id70">n_molecules_</span></a><span class="classifier">int</span></dt><dd><p>Total number of molecules.</p>
 </dd>
-<dt><a href="#id72"><span class="problematic" id="id73">max_n_atoms_</span></a><span class="classifier">int</span></dt><dd><p>Maximum number of atoms in all molecules.</p>
+<dt><a href="#id71"><span class="problematic" id="id72">max_n_atoms_</span></a><span class="classifier">int</span></dt><dd><p>Maximum number of atoms in all molecules.</p>
 </dd>
 </dl>
 </section>
@@ -289,7 +290,7 @@ between atoms i and j</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.CoulombMatrix.concat_dataframes">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concat_dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_tensors_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix.concat_dataframes" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">concat_dataframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_tensors_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.CoulombMatrix.concat_dataframes" title="Link to this definition"></a></dt>
 <dd><p>Concatenates a list of molecule tensors</p>
 <section id="id7">
 <h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
@@ -346,7 +347,7 @@ The exact shape of the dataframe depends on the type of CM as follows:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.Dragon">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Dragon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CheckUpdates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveLayout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PreserveTemporaryProjects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ShowWorksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Decimal_Separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Missing_String</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NaN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DefaultMolFormat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HelpBrowser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/usr/bin/xdg-open'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RejectUnusualValence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Add2DHydrogens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSRforAllCircuit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'19'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'35'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSRDetour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'30'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxAtomWalkPath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogPathWalk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogEdge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Mass',</span> <span class="pre">'VdWVolume',</span> <span class="pre">'Electronegativity',</span> <span class="pre">'Polarizability',</span> <span class="pre">'Ionization',</span> <span class="pre">'I-State')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveOnlyData</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveLabelsOnSeparateFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFormatBlock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%b-%n.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFormatSubBlock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%b-%s-%n-%m.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeMisVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeAllMisVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeConst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeNearConst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeStdDev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveStdDevThreshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.0001'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeCorrelated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveCorrThreshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.95'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExclusionOptionsToVariables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeMisMolecules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeRejectedMolecules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12,</span> <span class="pre">13,</span> <span class="pre">14,</span> <span class="pre">15,</span> <span class="pre">16,</span> <span class="pre">17,</span> <span class="pre">18,</span> <span class="pre">19,</span> <span class="pre">20,</span> <span class="pre">21,</span> <span class="pre">22,</span> <span class="pre">23,</span> <span class="pre">24,</span> <span class="pre">25,</span> <span class="pre">26,</span> <span class="pre">27,</span> <span class="pre">28,</span> <span class="pre">29,</span> <span class="pre">30]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveStdOut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveProject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveProjectFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_project.drp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'singlefile'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFilePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_descriptors.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logMode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'file'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_log.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fileName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consecutiveDelimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MissingValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NaN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RejectDisconnectedStrucuture</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RetainBiggestFragment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DisconnectedCalculationOption</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundCoordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundWeights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundDescriptorValues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knimemode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Dragon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CheckUpdates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveLayout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PreserveTemporaryProjects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ShowWorksheet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Decimal_Separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Missing_String</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NaN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DefaultMolFormat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HelpBrowser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/usr/bin/xdg-open'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RejectUnusualValence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Add2DHydrogens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSRforAllCircuit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'19'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'35'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxSRDetour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'30'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MaxAtomWalkPath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogPathWalk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogEdge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Mass',</span> <span class="pre">'VdWVolume',</span> <span class="pre">'Electronegativity',</span> <span class="pre">'Polarizability',</span> <span class="pre">'Ionization',</span> <span class="pre">'I-State')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveOnlyData</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveLabelsOnSeparateFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFormatBlock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%b-%n.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFormatSubBlock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%b-%s-%n-%m.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeMisVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeAllMisVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeConst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeNearConst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeStdDev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveStdDevThreshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.0001'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeCorrelated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveCorrThreshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.95'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExclusionOptionsToVariables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeMisMolecules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveExcludeRejectedMolecules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8,</span> <span class="pre">9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12,</span> <span class="pre">13,</span> <span class="pre">14,</span> <span class="pre">15,</span> <span class="pre">16,</span> <span class="pre">17,</span> <span class="pre">18,</span> <span class="pre">19,</span> <span class="pre">20,</span> <span class="pre">21,</span> <span class="pre">22,</span> <span class="pre">23,</span> <span class="pre">24,</span> <span class="pre">25,</span> <span class="pre">26,</span> <span class="pre">27,</span> <span class="pre">28,</span> <span class="pre">29,</span> <span class="pre">30]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveStdOut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveProject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveProjectFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_project.drp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'singlefile'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SaveFilePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_descriptors.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logMode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'file'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logFile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Dragon_log.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fileName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consecutiveDelimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MissingValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NaN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RejectDisconnectedStrucuture</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RetainBiggestFragment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DisconnectedCalculationOption</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundCoordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundWeights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RoundDescriptorValues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knimemode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Dragon" title="Link to this definition"></a></dt>
 <dd><p>An interface to Dragon 6 and 7 chemoinformatics software. Dragon is a commercial software and
 you should provide</p>
 <section id="id11">
@@ -409,7 +410,7 @@ For doing so, please use Script Wizard in Drgon GUI.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.Molecule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rdkit'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rdkit'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Molecule" title="Link to this definition"></a></dt>
 <dd><p>The central class to construct a molecule from different chemical input formats.
 This module is built on top of RDKit and OpenBabel python API.
 We join the forces and strength of these two cheminformatic libraries for a consistent user experience.</p>
@@ -841,7 +842,7 @@ Additional information at:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.Mordred">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Mordred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_3D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_descriptors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Mordred" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">Mordred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_3D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_descriptors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Mordred" title="Link to this definition"></a></dt>
 <dd><p>A wrapper class for generating Mordred molecular descriptors.</p>
 <p>This class provides an interface to create Mordred molecular descriptors, which are an open-source
 alternative to Dragon descriptors. It allows for the calculation of various molecular properties
@@ -856,7 +857,7 @@ and features based on chemical structures.</p>
 <h2>Parameters:<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>ignore_3D (bool): If True, ignore 3D descriptor generation. Default is True.
-selected_descriptors (bool): If True, generate only selected descriptors. Default is False.</p>
+selected_descriptors (bool): If True, generate only selected descriptors. Default is False. Currently, this option is not implemented and all descriptors are generated by default.</p>
 </div></blockquote>
 </section>
 <section id="methods">
@@ -888,7 +889,7 @@ selected_descriptors (bool): If True, generate only selected descriptors. Defaul
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.Mordred.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Mordred.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MMFF'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.Mordred.represent" title="Link to this definition"></a></dt>
 <dd><p>Generate Mordred molecular descriptors for a list of molecules.</p>
 <p>This method calculates Mordred descriptors for the provided molecules and returns them as a pandas DataFrame.
 It can handle input in the form of SMILES strings or ChemML Molecule objects.</p>
@@ -898,16 +899,15 @@ It can handle input in the form of SMILES strings or ChemML Molecule objects.</p
 <dt>mol_list<span class="classifier">list, str, or Molecule</span></dt><dd><p>Input molecules. Can be one of the following:
 - List of SMILES strings
 - List of ChemML Molecule objects
+- List of RDKit Mol objects
 - Single SMILES string
-- Single ChemML Molecule object</p>
-</dd>
-<dt>output_directory<span class="classifier">str, optional</span></dt><dd><p>Directory to save generated descriptors. Default is ‘./’.</p>
-</dd>
-<dt>dropna<span class="classifier">bool, optional</span></dt><dd><p>If True, drop rows with NaN values. Default is True.</p>
+- Single ChemML Molecule object
+- Single RDKit Mol object</p>
 </dd>
 <dt>quiet<span class="classifier">bool, optional</span></dt><dd><p>If True, suppress Mordred’s output messages. Default is True.</p>
 </dd>
-<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.</p>
+<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.
+Warning: Only use this option if you have &gt;100 molecules, as correlation calculations can be unreliable with small datasets.</p>
 </dd>
 </dl>
 </section>
@@ -915,7 +915,8 @@ It can handle input in the form of SMILES strings or ChemML Molecule objects.</p
 <h3>Returns:<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>pandas.DataFrame</dt><dd><p>A DataFrame containing the calculated Mordred descriptors. Each row represents a molecule,
-and each column represents a descriptor. The ‘SMILES’ column is added to identify the molecules.</p>
+and each column represents a descriptor. The ‘SMILES’ column is added to identify the molecules.
+We automatically drop columns with all NaN values, but row imputation is left to the user.</p>
 </dd>
 </dl>
 </section>
@@ -927,18 +928,10 @@ and each column represents a descriptor. The ‘SMILES’ column is added to ide
 </dl>
 </section>
 <section id="id39">
-<h3>Notes:<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p>The method handles various input formats flexibly, converting them to RDKit molecule objects internally.</p></li>
-<li><p>Infinite values in descriptors are replaced with NaN.</p></li>
-<li><p>If remove_corr is True, highly correlated descriptors (correlation &gt; 0.95) are removed to reduce redundancy.</p></li>
-</ul>
-</section>
-<section id="id40">
-<h3>Examples:<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<h3>Examples:<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mord</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CCO&#39;</span><span class="p">,</span> <span class="s1">&#39;CCCO&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">mord</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">mord</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">,</span> <span class="n">remove_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -950,7 +943,7 @@ and each column represents a descriptor. The ‘SMILES’ column is added to ide
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.PadelDesc">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">PadelDesc</span></span><a class="headerlink" href="#chemml.chem.PadelDesc" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">PadelDesc</span></span><a class="headerlink" href="#chemml.chem.PadelDesc" title="Link to this definition"></a></dt>
 <dd><p>A class for generating molecular descriptors using PaDEL-Descriptor via PaDELPy.</p>
 <p>This class provides functionality to calculate a wide range of molecular descriptors
 for chemical compounds using the PaDEL-Descriptor software through its Python wrapper.</p>
@@ -969,17 +962,20 @@ for chemical compounds using the PaDEL-Descriptor software through its Python wr
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.PadelDesc.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.PadelDesc.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.PadelDesc.represent" title="Link to this definition"></a></dt>
 <dd><p>Generate PaDEL molecular descriptors for a list of molecules.</p>
-<p>This method calculates PaDEL descriptors for the provided molecules and returns them as a pandas DataFrame.</p>
-<section id="id41">
-<h2>Parameters:<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<p>This method calculates PaDEL descriptors for the provided molecules and returns them as a pandas DataFrame.
+Note: Requires installation of PaDEL-Descriptor and its Python wrapper, PaDELPy.</p>
+<section id="id40">
+<h2>Parameters:<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>mol_list<span class="classifier">list or str</span></dt><dd><p>Input molecules. Can be one of the following:
 - List of SMILES strings
-- Single SMILES string</p>
-</dd>
-<dt>output_directory<span class="classifier">str, optional</span></dt><dd><p>Directory to save generated descriptors. Default is ‘./’.</p>
+- Single SMILES string
+- List of ChemML Molecule objects
+- Single ChemML Molecule object
+- List of RDKit Mol objects
+- Single RDKit Mol object</p>
 </dd>
 <dt>dropna<span class="classifier">bool, optional</span></dt><dd><p>If True, drop columns with NaN values. Default is True.</p>
 </dd>
@@ -987,16 +983,16 @@ for chemical compounds using the PaDEL-Descriptor software through its Python wr
 </dd>
 </dl>
 </section>
-<section id="id42">
-<h2>Returns:<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
+<section id="id41">
+<h2>Returns:<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>pandas.DataFrame</dt><dd><p>A DataFrame containing the calculated PaDEL descriptors. Each row represents a molecule,
 and each column represents a descriptor. The ‘SMILES’ column is added to identify the molecules.</p>
 </dd>
 </dl>
 </section>
-<section id="id43">
-<h2>Raises:<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<section id="id42">
+<h2>Raises:<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the input SMILES strings are not in a valid format.</p>
 </dd>
@@ -1008,7 +1004,7 @@ and each column represents a descriptor. The ‘SMILES’ column is added to ide
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.RDKDesc">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">RDKDesc</span></span><a class="headerlink" href="#chemml.chem.RDKDesc" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">RDKDesc</span></span><a class="headerlink" href="#chemml.chem.RDKDesc" title="Link to this definition"></a></dt>
 <dd><p>A class for generating molecular descriptors using RDKit.</p>
 <p>This class provides functionality to calculate a wide range of molecular descriptors
 for chemical compounds using the RDKit library.</p>
@@ -1016,12 +1012,12 @@ for chemical compounds using the RDKit library.</p>
 <dt>Attributes:</dt><dd><p>descriptor_list (list): A list of available descriptor names.</p>
 </dd>
 <dt>Methods:</dt><dd><dl class="simple">
-<dt>represent(mol_list, output_directory=’./’, dropna=True, remove_corr=False):</dt><dd><p>Generates molecular descriptors for a list of molecules.</p>
+<dt>represent(mol_list, dropna=True, remove_corr=False):</dt><dd><p>Generates molecular descriptors for a list of molecules.</p>
 </dd>
 </dl>
 </dd>
-<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">rdkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chem</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rdkit_desc</span> <span class="o">=</span> <span class="n">RDKitDescriptors</span><span class="p">()</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">RDKDesc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdkit_desc</span> <span class="o">=</span> <span class="n">RDKDesc</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CCO&#39;</span><span class="p">,</span> <span class="s1">&#39;CCCO&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">rdkit_desc</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">)</span>
 </pre></div>
@@ -1030,34 +1026,37 @@ for chemical compounds using the RDKit library.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.RDKDesc.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKDesc.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKDesc.represent" title="Link to this definition"></a></dt>
 <dd><p>Generate RDKit molecular descriptors for a list of molecules.</p>
 <p>This method calculates RDKit descriptors for the provided molecules and returns them as a pandas DataFrame.</p>
-<section id="id44">
-<h2>Parameters:<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
+<section id="id43">
+<h2>Parameters:<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>mol_list<span class="classifier">list or str</span></dt><dd><p>Input molecules. Can be one of the following:
 - List of SMILES strings
-- Single SMILES string</p>
-</dd>
-<dt>output_directory<span class="classifier">str, optional</span></dt><dd><p>Directory to save generated descriptors. Default is ‘./’.</p>
+- Single SMILES string
+- List of ChemML Molecule objects
+- Single ChemML Molecule object</p>
 </dd>
 <dt>dropna<span class="classifier">bool, optional</span></dt><dd><p>If True, drop columns with NaN values. Default is True.</p>
 </dd>
-<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.</p>
+<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.
+Warning: Only use this option if you have &gt;100 molecules, as correlation calculations can be unreliable with small datasets.</p>
+</dd>
+<dt>n_jobs<span class="classifier">int, optional</span></dt><dd><p>Number of parallel jobs to run for descriptor calculation. Default is 1 (no parallelization).</p>
 </dd>
 </dl>
 </section>
-<section id="id45">
-<h2>Returns:<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
+<section id="id44">
+<h2>Returns:<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>pandas.DataFrame</dt><dd><p>A DataFrame containing the calculated RDKit descriptors. Each row represents a molecule,
 and each column represents a descriptor. The ‘SMILES’ column is added to identify the molecules.</p>
 </dd>
 </dl>
 </section>
-<section id="id46">
-<h2>Raises:<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
+<section id="id45">
+<h2>Raises:<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the input SMILES strings are not in a valid format.</p>
 </dd>
@@ -1069,10 +1068,10 @@ and each column represents a descriptor. The ‘SMILES’ column is added to ide
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.RDKitFingerprint">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">RDKitFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Morgan'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">RDKitFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fingerprint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Morgan'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint" title="Link to this definition"></a></dt>
 <dd><p>This is an interface to the available molecular fingerprints in the RDKit package.</p>
-<section id="id47">
-<h2>Parameters<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
+<section id="id46">
+<h2>Parameters<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
 <dl>
 <dt>fingerprint_type<span class="classifier">str, optional (default=’Morgan’)</span></dt><dd><dl class="simple">
 <dt>The type of fingerprint. Available fingerprint types:</dt><dd><ul class="simple">
@@ -1092,51 +1091,54 @@ and each column represents a descriptor. The ‘SMILES’ column is added to ide
 </dd>
 </dl>
 </li>
-<li><dl class="simple">
-<dt>‘bit’<span class="classifier">only zeros and ones</span></dt><dd><p>It is not available for ‘Topological_torsion’.</p>
-</dd>
-</dl>
-</li>
+<li><p>‘bit’ : only zeros and ones</p></li>
 </ul>
 </dd>
 </dl>
 </dd>
 <dt>n_bits<span class="classifier">int, optional (default = 1024)</span></dt><dd><p>It sets number of elements/bits in the ‘bit’ type of fingerprint vectors.
-Not availble for:</p>
+Not available for:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>‘MACCS’ - (MACCS keys have a fixed length of 167 bits)</p></li>
-<li><p>‘Topological_torsion’ - doesn’t return a bit vector at all.</p></li>
 </ul>
 </div></blockquote>
 </dd>
 <dt>radius<span class="classifier">int, optional (default = 2)</span></dt><dd><p>only applicable if calculating ‘Morgan’ fingerprint.</p>
 </dd>
-<dt>kwargs :</dt><dd><p>Any additional argument that should be passed to the rdkit fingerprint function.</p>
+<dt>kwargs :</dt><dd><p>Any additional argument that should be passed to the rdkit fingerprint generator.
+For backward compatibility, the following old parameter names are mapped:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Morgan: ‘useChirality’ -&gt; ‘includeChirality’, ‘useFeatures’ -&gt; uses
+GetMorganFeatureAtomInvGen(), ‘useBondTypes’ passed through</p></li>
+<li><p>AtomPair: ‘minLength’ -&gt; ‘minDistance’, ‘maxLength’ -&gt; ‘maxDistance’</p></li>
+</ul>
+</div></blockquote>
 </dd>
 </dl>
 </section>
-<section id="id48">
-<h2>Attributes<a class="headerlink" href="#id48" title="Link to this heading"></a></h2>
+<section id="id47">
+<h2>Attributes<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt><a href="#id74"><span class="problematic" id="id75">n_molecules_</span></a><span class="classifier">int</span></dt><dd><p>The number of molecules that are received.</p>
+<dt><a href="#id73"><span class="problematic" id="id74">n_molecules_</span></a><span class="classifier">int</span></dt><dd><p>The number of molecules that are received.</p>
 </dd>
-<dt><a href="#id76"><span class="problematic" id="id77">fps_</span></a><span class="classifier">list</span></dt><dd><p>The list of rdkit fingerprint objects.</p>
+<dt><a href="#id75"><span class="problematic" id="id76">fps_</span></a><span class="classifier">list</span></dt><dd><p>The list of rdkit fingerprint objects.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.RDKitFingerprint.load_sparse">
 <span class="sig-name descname"><span class="pre">load_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.load_sparse" title="Link to this definition"></a></dt>
 <dd><p>This function enables you to load sparse matrix with the <cite>.npz</cite> format and convert it to a pandas dataframe.</p>
-<section id="id49">
-<h3>Parameters<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<section id="id48">
+<h3>Parameters<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>file<span class="classifier">str</span></dt><dd><p>Must be a path to the file with .npz format.</p>
 </dd>
 </dl>
 </section>
-<section id="id50">
-<h3>Returns<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<section id="id49">
+<h3>Returns<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>features<span class="classifier">pandas.DataFrame</span></dt><dd><p>The dense dataframe of the passed sparse file.</p>
 </dd>
@@ -1148,8 +1150,8 @@ Not availble for:</p>
 <dt class="sig sig-object py" id="chemml.chem.RDKitFingerprint.represent">
 <span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Link to this definition"></a></dt>
 <dd><p>The main function to provide fingerprint representation of input molecule(s).</p>
-<section id="id51">
-<h3>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<section id="id50">
+<h3>Parameters<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>molecules<span class="classifier">chemml.chem.Molecule object or list</span></dt><dd><p>It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
 If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
@@ -1158,8 +1160,8 @@ kekulized, or canonical smiles.</p>
 </dd>
 </dl>
 </section>
-<section id="id52">
-<h3>Returns<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
+<section id="id51">
+<h3>Returns<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>features<span class="classifier">pandas.DataFrame</span></dt><dd><p>A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.</p>
 </dd>
@@ -1173,8 +1175,8 @@ kekulized, or canonical smiles.</p>
 <dd><p>This function helps you to store higly sparse fingerprint feature sets using <cite>.npz</cite> format for memory efficiency and
 less store/load time.
 Another method of this class, <cite>load_sparse</cite>, enables you to load your <cite>.npz</cite> files and convert it back to pandas dataframe.</p>
-<section id="id53">
-<h3>Parameters<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<section id="id52">
+<h3>Parameters<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>file<span class="classifier">str</span></dt><dd><p>Must be a path to the file with .npz format.</p>
 </dd>
@@ -1189,10 +1191,10 @@ Another method of this class, <cite>load_sparse</cite>, enables you to load your
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.XYZ">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">XYZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_symbols</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.XYZ" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">XYZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atomic_symbols</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.XYZ" title="Link to this definition"></a></dt>
 <dd><p>This class stores the information that is typically carried by standard XYZ files.</p>
-<section id="id54">
-<h2>Parameters<a class="headerlink" href="#id54" title="Link to this heading"></a></h2>
+<section id="id53">
+<h2>Parameters<a class="headerlink" href="#id53" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>geometry<span class="classifier">ndarray</span></dt><dd><p>The numpy array of shape (number_of_atoms, 3).
 It stores the xyz coordinates for each atom of the molecule.</p>
@@ -1211,15 +1213,15 @@ It stores the atomic symbols of each atom in the molecule (in the same order as 
 <dt class="sig sig-object py" id="chemml.chem.atom_features">
 <span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">atom_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.atom_features" title="Link to this definition"></a></dt>
 <dd><p>This function encodes the RDKit atom to a binary vector.</p>
-<section id="id55">
-<h2>Parameters<a class="headerlink" href="#id55" title="Link to this heading"></a></h2>
+<section id="id54">
+<h2>Parameters<a class="headerlink" href="#id54" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>bond<span class="classifier">rdkit.Chem.rdchem.Bond</span></dt><dd><p>The bond must be an RDKit Bond object.</p>
 </dd>
 </dl>
 </section>
-<section id="id56">
-<h2>Returns<a class="headerlink" href="#id56" title="Link to this heading"></a></h2>
+<section id="id55">
+<h2>Returns<a class="headerlink" href="#id55" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>features<span class="classifier">array</span></dt><dd><p>A binary array with length 6 that specifies the type of bond, if it is
 a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.</p>
@@ -1232,15 +1234,15 @@ a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecula
 <dt class="sig sig-object py" id="chemml.chem.bond_features">
 <span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">bond_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.bond_features" title="Link to this definition"></a></dt>
 <dd><p>This function encodes the RDKit bond to a binary vector.</p>
-<section id="id57">
-<h2>Parameters<a class="headerlink" href="#id57" title="Link to this heading"></a></h2>
+<section id="id56">
+<h2>Parameters<a class="headerlink" href="#id56" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>bond<span class="classifier">rdkit.Chem.rdchem.Bond</span></dt><dd><p>The bond must be an RDKit Bond object.</p>
 </dd>
 </dl>
 </section>
-<section id="id58">
-<h2>Returns<a class="headerlink" href="#id58" title="Link to this heading"></a></h2>
+<section id="id57">
+<h2>Returns<a class="headerlink" href="#id57" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>features<span class="classifier">array</span></dt><dd><p>A binary array with length 6 that specifies the type of bond, if it is
 a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecular ring.</p>
@@ -1253,8 +1255,8 @@ a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecula
 <dt class="sig sig-object py" id="chemml.chem.num_atom_features">
 <span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">num_atom_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.num_atom_features" title="Link to this definition"></a></dt>
 <dd><p>This function returns the number of atomic features that are available by this module.</p>
-<section id="id59">
-<h2>Returns<a class="headerlink" href="#id59" title="Link to this heading"></a></h2>
+<section id="id58">
+<h2>Returns<a class="headerlink" href="#id58" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>n_features<span class="classifier">int</span></dt><dd><p>length of atomic feature vector.</p>
 </dd>
@@ -1266,8 +1268,8 @@ a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecula
 <dt class="sig sig-object py" id="chemml.chem.num_bond_features">
 <span class="sig-prename descclassname"><span class="pre">chemml.chem.</span></span><span class="sig-name descname"><span class="pre">num_bond_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.num_bond_features" title="Link to this definition"></a></dt>
 <dd><p>This function returns the number of bond features that are available by this module.</p>
-<section id="id60">
-<h2>Returns<a class="headerlink" href="#id60" title="Link to this heading"></a></h2>
+<section id="id59">
+<h2>Returns<a class="headerlink" href="#id59" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>n_features<span class="classifier">int</span></dt><dd><p>length of bond feature vector.</p>
 </dd>
@@ -1281,8 +1283,8 @@ a single/double/triple/aromatic bond, a conjugated bond or belongs to a molecula
 <dd><p>Takes a list of molecules and provides tensor representation of atom and bond features.
 This representation is based on the “convolutional networks on graphs for learning molecular fingerprints” by
 David Duvenaud et al., NIPS 2015.</p>
-<section id="id61">
-<h2>Parameters<a class="headerlink" href="#id61" title="Link to this heading"></a></h2>
+<section id="id60">
+<h2>Parameters<a class="headerlink" href="#id60" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>molecules<span class="classifier">chemml.chem.Molecule object or array</span></dt><dd><p>If list, it must be a list of chemml.chem.Molecule objects, otherwise we raise a ValueError.
 In addition, all the molecule objects must provide the SMILES representation.
@@ -1302,8 +1304,8 @@ molecules will be padded), use ‘None’ for auto</p>
 </dd>
 </dl>
 </section>
-<section id="id62">
-<h2>Notes<a class="headerlink" href="#id62" title="Link to this heading"></a></h2>
+<section id="id61">
+<h2>Notes<a class="headerlink" href="#id61" title="Link to this heading"></a></h2>
 <blockquote>
 <div><p>It is not recommended to set max_degree to <cite>None</cite>/auto when
 using <cite>NeuralGraph</cite> layers. Max_degree determines the number of
@@ -1314,8 +1316,8 @@ will be different.</p>
 <p>For organic molecules <cite>max_degree=5</cite> is a good value (Duvenaud et. al, 2015)</p>
 </div></blockquote>
 </section>
-<section id="id63">
-<h2>Returns<a class="headerlink" href="#id63" title="Link to this heading"></a></h2>
+<section id="id62">
+<h2>Returns<a class="headerlink" href="#id62" title="Link to this heading"></a></h2>
 <blockquote>
 <div><dl class="simple">
 <dt>atoms<span class="classifier">array</span></dt><dd><p>An atom feature array of shape (molecules, max_atoms, atom_features)</p>

@@ -7,17 +7,17 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preprocessing module &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -77,6 +78,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.ConstantColumns"><code class="docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.MissingValues"><code class="docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.Outliers"><code class="docutils literal notranslate"><span class="pre">Outliers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.RemoveCorrFeatures"><code class="docutils literal notranslate"><span class="pre">RemoveCorrFeatures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.preprocessing.RemoveInvFeatures"><code class="docutils literal notranslate"><span class="pre">RemoveInvFeatures()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.models.html">Models module</a></li>
@@ -122,13 +125,16 @@
 <li><p>MissingValues: <a class="reference internal" href="#chemml.preprocessing.MissingValues" title="chemml.preprocessing.MissingValues"><code class="xref py py-func docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></p></li>
 <li><p>ConstantColumns: <a class="reference internal" href="#chemml.preprocessing.ConstantColumns" title="chemml.preprocessing.ConstantColumns"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></p></li>
 <li><p>Outliers: <a class="reference internal" href="#chemml.preprocessing.Outliers" title="chemml.preprocessing.Outliers"><code class="xref py py-func docutils literal notranslate"><span class="pre">Outliers()</span></code></a></p></li>
+<li><p>RemoveCorrFeatures: <a class="reference internal" href="#chemml.preprocessing.RemoveCorrFeatures" title="chemml.preprocessing.RemoveCorrFeatures"><code class="xref py py-func docutils literal notranslate"><span class="pre">RemoveCorrFeatures()</span></code></a></p></li>
+<li><p>RemoveInvFeatures: <a class="reference internal" href="#chemml.preprocessing.RemoveInvFeatures" title="chemml.preprocessing.RemoveInvFeatures"><code class="xref py py-func docutils literal notranslate"><span class="pre">RemoveInvFeatures()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="chemml.preprocessing.ConstantColumns">
 <span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">ConstantColumns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.ConstantColumns" title="Link to this definition"></a></dt>
-<dd><p>remove constant columns</p>
+<dd><p>Removes single-value columns.
+NOTE: Deprecated in v1.3.4, now backend uses RemoveInvFeatures. Will be removed in v1.4.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
 <dl class="simple">
@@ -203,6 +209,67 @@ Values of each column will be compared to the ‘mean’ or ‘median’ of that
 <section id="id5">
 <h2>Notes<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p>We highly recommend you to remove constant columns first and then remove outliers.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="chemml.preprocessing.RemoveCorrFeatures">
+<span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">RemoveCorrFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.RemoveCorrFeatures" title="Link to this definition"></a></dt>
+<dd><p>remove highly correlated feature columns.</p>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
+</dd>
+<dt>correlation_threshold: float, optional (default=0.9)</dt><dd><p>absolute correlation threshold. If any pair of columns has absolute
+correlation larger than this threshold, the later column (based on
+column order) is removed.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>dataframe with highly correlated columns removed</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="chemml.preprocessing.RemoveInvFeatures">
+<span class="sig-prename descclassname"><span class="pre">chemml.preprocessing.</span></span><span class="sig-name descname"><span class="pre">RemoveInvFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sanitize_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_single_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sanitize_binary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sanitize_nonbinary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_variance_filtering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_filtered_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.preprocessing.RemoveInvFeatures" title="Link to this definition"></a></dt>
+<dd><p>remove invariant or near-invariant feature columns.</p>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>input dataframe</p>
+</dd>
+<dt>sanitize_threshold: float, optional (default=0.9)</dt><dd><p>dominant-frequency threshold used for invariant filtering. Columns
+with dominant value frequency greater than or equal to this fraction
+of rows are removed.</p>
+</dd>
+<dt>sanitize_nonbinary: boolean, optional (default=True)</dt><dd><p>if True, remove nonbinary columns (nunique &gt; 2) where one value is
+dominant in more than 90 percent of rows.</p>
+</dd>
+<dt>use_variance_filtering: boolean, optional (default=True)</dt><dd><p>if True, remove numeric columns with variance less than
+<code class="docutils literal notranslate"><span class="pre">variance_threshold</span></code>.</p>
+</dd>
+<dt>variance_threshold: float, optional (default=0.01)</dt><dd><p>minimum variance required to keep a numeric column.</p>
+</dd>
+<dt>keep_filtered_columns: boolean, optional (default=False)</dt><dd><p>if True, returns a tuple <code class="docutils literal notranslate"><span class="pre">(clean_df,</span> <span class="pre">removed_df)</span></code> where <code class="docutils literal notranslate"><span class="pre">removed_df</span></code>
+contains all removed columns from the original input dataframe.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>df: pandas dataframe</dt><dd><p>cleaned dataframe when <code class="docutils literal notranslate"><span class="pre">keep_filtered_columns=False</span></code></p>
+</dd>
+<dt>tuple</dt><dd><p><code class="docutils literal notranslate"><span class="pre">(clean_df,</span> <span class="pre">removed_df)</span></code> when <code class="docutils literal notranslate"><span class="pre">keep_filtered_columns=True</span></code></p>
+</dd>
+</dl>
 </section>
 </dd></dl>
 

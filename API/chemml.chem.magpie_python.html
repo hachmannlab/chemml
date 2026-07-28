@@ -7,19 +7,19 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Magpie_Python module &mdash; ChemML  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -57,6 +57,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
 <ul>
@@ -181,7 +182,7 @@ The chemml.chem.magpie_python module includes (please click on links adjacent to
 </div></blockquote>
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">APEAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">APEAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute features using Atomic Packing Efficiency (APE) of
 nearby clusters.</p>
 <section id="attributes">
@@ -264,7 +265,7 @@ between structure, glass forming ability and stability,” International
 Materials Reviews, vol. 55, no. 4, pp. 218–256, Jul. 2010.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator.compute_APE">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_APE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neigh_eff_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.compute_APE" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">compute_APE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neigh_eff_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.compute_APE" title="Link to this definition"></a></dt>
 <dd><p>Function to compute the APE of a cluster, given the identities of
 the central and 1st neighbor atoms or just the number of neighbors and
 the radii.</p>
@@ -301,7 +302,7 @@ length as radii.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator.compute_cluster_compositions">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_cluster_compositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.compute_cluster_compositions" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">compute_cluster_compositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.compute_cluster_compositions" title="Link to this definition"></a></dt>
 <dd><p>Function to compute the compositions of a list of atomic clusters.</p>
 <p>The composition includes both atoms in the first nearest neighbor
 shell and the atom in the center of the cluster.</p>
@@ -329,7 +330,7 @@ in the center. A list containing a list of int values.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator.determine_optimal_APE">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">determine_optimal_APE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">central_atom_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell_composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.determine_optimal_APE" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">determine_optimal_APE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">central_atom_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell_composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.determine_optimal_APE" title="Link to this definition"></a></dt>
 <dd><p>Function to compute the optimal APE for a cluster with a certain
 atom type in the center and composition in the cell.</p>
 <section id="id4">
@@ -361,7 +362,7 @@ partially-occupied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator.find_efficiently_packed_clusters">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_efficiently_packed_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packing_threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.find_efficiently_packed_clusters" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">find_efficiently_packed_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packing_threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.find_efficiently_packed_clusters" title="Link to this definition"></a></dt>
 <dd><p>Function to find all clusters with better APE than a certain
 threshold, given a list of atomic radii.</p>
 <p>The packing efficiency is defined as abs(1 - APE).</p>
@@ -449,7 +450,7 @@ of float values.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APEAttributeGenerator.get_cluster_range">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_cluster_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packing_threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.get_cluster_range" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_cluster_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packing_threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.APEAttributeGenerator.get_cluster_range" title="Link to this definition"></a></dt>
 <dd><p>Function compute the maximum and minimum possible cluster sizes,
 given a list of radii.</p>
 <p>The smallest possible cluster has the smallest
@@ -532,7 +533,7 @@ assessment by Miracle et al. [2].</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.APRDFAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">APRDFAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.APRDFAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">APRDFAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.APRDFAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate attributes based on the Atomic Property Weighted
 Radial Distribution Function (AP-RDF) approach of Fernandez et al. [1].</p>
 <p>User can specify the cutoff distance for the AP-RDF, the number of points
@@ -676,7 +677,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ChargeDependentAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ChargeDependentAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ChargeDependentAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ChargeDependentAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ChargeDependentAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate attributes derived from the oxidation states of
 elements in a material.
 Based on work by Deml et al.[1].</p>
@@ -741,7 +742,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ChemicalOrderingAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ChemicalOrderingAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ChemicalOrderingAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ChemicalOrderingAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ChemicalOrderingAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on chemical ordering of structure.
 Determines average Warren-Cowley ordering parameter for the bond network
 defined by the Voronoi tessellation of a structure.</p>
@@ -839,7 +840,7 @@ ordering parameters.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CompositionEntry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CompositionEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fractions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CompositionEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fractions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry" title="Link to this definition"></a></dt>
 <dd><p>Class that defines a CompositionEntry object.
 Mainly used to store ids, names and fractions of elements belonging to a
 single compound.</p>
@@ -945,7 +946,7 @@ of the element.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CompositionEntry.import_composition_list">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">import_composition_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.import_composition_list" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">import_composition_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.import_composition_list" title="Link to this definition"></a></dt>
 <dd><p>Function to read a list of compositions from a file.</p>
 <section id="id51">
 <h3>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
@@ -965,7 +966,7 @@ of the element.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CompositionEntry.import_values_list">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">import_values_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.import_values_list" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">import_values_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.import_values_list" title="Link to this definition"></a></dt>
 <dd><p>Function to read a list of target property values from a file.</p>
 <p>Target property values are used to develop machine learning models.</p>
 <section id="id53">
@@ -1049,7 +1050,7 @@ If element amount is not a number.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CompositionEntry.print_number">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">print_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fraction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_in_formula_unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.print_number" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">print_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fraction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_in_formula_unit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CompositionEntry.print_number" title="Link to this definition"></a></dt>
 <dd><p>Function to print out the number of atoms in a formula unit for each
 element given its fraction.</p>
 <section id="id61">
@@ -1118,7 +1119,7 @@ instance.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CoordinationNumberAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CoordinationNumberAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.CoordinationNumberAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CoordinationNumberAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.CoordinationNumberAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on the coordination number. Uses the
 Voronoi tessellation to define the coordination network.</p>
 <dl class="py method">
@@ -1155,7 +1156,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CoulombMatrixAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CoulombMatrixAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.CoulombMatrixAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CoulombMatrixAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.CoulombMatrixAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes using the Coulomb Sine Matrix
 representation. Based on work by Faber et al. [1].</p>
 <section id="id69">
@@ -1243,7 +1244,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CrystalStructureEntry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CrystalStructureEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CrystalStructureEntry" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">CrystalStructureEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radii</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CrystalStructureEntry" title="Link to this definition"></a></dt>
 <dd><p>Class to represent a crystal structure.</p>
 <section id="id77">
 <h2>Attributes<a class="headerlink" href="#id77" title="Link to this heading"></a></h2>
@@ -1318,7 +1319,7 @@ attributes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.CrystalStructureEntry.import_structures_list">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">import_structures_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CrystalStructureEntry.import_structures_list" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">import_structures_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.CrystalStructureEntry.import_structures_list" title="Link to this definition"></a></dt>
 <dd><p>Function to read a list of crystal structures from a directory.</p>
 <section id="id82">
 <h3>Parameters<a class="headerlink" href="#id82" title="Link to this heading"></a></h3>
@@ -1364,7 +1365,7 @@ replacement map.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">EffectiveCoordinationNumberAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">EffectiveCoordinationNumberAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.EffectiveCoordinationNumberAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Compute attributes based on the effective coordination number.</p>
 <blockquote>
 <div><p>The effective coordination number can be thought of as a face-size-weighted
@@ -1451,7 +1452,7 @@ collection of numbers.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ElementFractionAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementFractionAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ElementFractionAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementFractionAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ElementFractionAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to set the element fractions as the features of materials.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ElementFractionAttributeGenerator.generate_features">
@@ -1487,7 +1488,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementPairPropertyAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementPairPropertyAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ElementPairPropertyAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate attributes based on the properties of constituent
 binary systems.
 Computes the minimum, maximum and range of all pairs in
@@ -1606,7 +1607,7 @@ elemental properties.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ElementalPropertyAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementalPropertyAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_default_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ElementalPropertyAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_default_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.ElementalPropertyAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to set up and generate descriptors based on elemental property
 statistics.
 Computes the mean, maximum, minimum, range, mode and mean
@@ -1722,7 +1723,7 @@ names.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.GCLPAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">GCLPAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.GCLPAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">GCLPAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.GCLPAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute features based on the T=0K ground state.</p>
 <section id="id110">
 <h2>Attributes<a class="headerlink" href="#id110" title="Link to this heading"></a></h2>
@@ -1811,7 +1812,7 @@ tied to the number of components in the compound.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">IonicCompoundProximityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">IonicCompoundProximityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.IonicCompoundProximityAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate attributes based on the distance of a composition from
 a compositions that can form charge-neutral ionic compounds.</p>
 <section id="id117">
@@ -1882,7 +1883,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.IonicityAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">IonicityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.IonicityAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">IonicityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.IonicityAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate the attributes based on the ionicity of a compound.
 Creates attributes based on whether it is possible to form a
 charge-neutral ionic compound, and two features based on a simple measure
@@ -1940,7 +1941,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.LatticeSimilarityAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LatticeSimilarityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.LatticeSimilarityAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LatticeSimilarityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.LatticeSimilarityAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Compute similarity of structure to several simple lattices.</p>
 <section id="id129">
 <h2>Notes<a class="headerlink" href="#id129" title="Link to this heading"></a></h2>
@@ -1991,7 +1992,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LocalPropertyDifferenceAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LocalPropertyDifferenceAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.LocalPropertyDifferenceAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt>Class to compute attributes based on the difference in elemental</dt><dd><p>properties between neighboring atoms.</p>
 <dl class="simple">
@@ -2189,7 +2190,7 @@ names.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.LocalPropertyVarianceAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LocalPropertyVarianceAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.LocalPropertyVarianceAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">LocalPropertyVarianceAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.LocalPropertyVarianceAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on the local variance in elemental
 properties around each atom.</p>
 <section id="id145">
@@ -2226,7 +2227,7 @@ type.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.MeredigAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">MeredigAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.MeredigAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">MeredigAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.MeredigAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to generate attributes as described by Meredig et al. [1].</p>
 <section id="id148">
 <h2>Notes<a class="headerlink" href="#id148" title="Link to this heading"></a></h2>
@@ -2282,7 +2283,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.PRDFAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">PRDFAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.PRDFAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">PRDFAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.PRDFAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on the Pair Radial Distribution
 Function (PRDF).
 Based on work by Schutt et al. [1].</p>
@@ -2417,7 +2418,7 @@ PRDF.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">PackingEfficiencyAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">PackingEfficiencyAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.PackingEfficiencyAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on packing efficiency.
 Packing efficiency is determined by finding the largest sphere that would
 fit inside each Voronoi cell and comparing the volume of that sphere to the
@@ -2463,7 +2464,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.StoichiometricAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">StoichiometricAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_default_norms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.StoichiometricAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">StoichiometricAttributeGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_default_norms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.magpie_python.StoichiometricAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to set up and generate descriptors based on the stoichiometry of a
 given material.
 Includes features that are only based on fractions of elements, but not
@@ -2549,7 +2550,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.StructuralHeterogeneityAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">StructuralHeterogeneityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.StructuralHeterogeneityAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">StructuralHeterogeneityAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.StructuralHeterogeneityAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class to compute attributes based on heterogeneity in structure.
 Measures variance in bond lengths (both for a single atom and between
 different atoms) and atomic volumes. Also considers the number of unique
@@ -2608,7 +2609,7 @@ If items in the list are not CrystalStructureEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.ValenceShellAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ValenceShellAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ValenceShellAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">ValenceShellAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.ValenceShellAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><p>Class that generates attributes based on fraction of electrons in
 valence shell of constituent elements.
 Creates 4 features: [Composition-weighted mean # of electrons in the {s,p,
@@ -2661,7 +2662,7 @@ If items in the list are not CompositionEntry instances.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.chem.magpie_python.YangOmegaAttributeGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">YangOmegaAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.YangOmegaAttributeGenerator" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.chem.magpie_python.</span></span><span class="sig-name descname"><span class="pre">YangOmegaAttributeGenerator</span></span><a class="headerlink" href="#chemml.chem.magpie_python.YangOmegaAttributeGenerator" title="Link to this definition"></a></dt>
 <dd><dl>
 <dt>Class to compute the attributes <span class="math notranslate nohighlight">\(\Omega\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span></dt><dd><p>developed by Yang and Zhang [1].
 These parameters are based on the liquid formation enthalpy and atomic

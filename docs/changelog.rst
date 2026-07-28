@@ -3,6 +3,39 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+[1.3.4] - 2026-07-28
+--------------------
+
+Added
+~~~~~
+- **RDKit XYZ Saving**: Added XYZ file output support to RDKit ``Molecule.to_xyz(...)`` optimizer workflows.
+- **Mordred 3D Descriptors**: Added 3D descriptor support to ``Mordred`` when configured with ``ignore_3D=False``, using ChemML ``Molecule``-based serial 3D optimization followed by parallel Mordred descriptor calculation.
+- **Feature Cleaning Refresh**: Revised feature cleaning functions to be under feature_cleaning.py under preprocessing, with additional correlated and invariant feature removal tools.
+- **Genetic Algorithm Multiprocessing**: Added multiprocessing support to GeneticAlgorithm() for faster evaluation of large populations, with optional ``n_jobs`` parameter to specify number of parallel processes (default is 1, no parallelization).
+- **AutoML Model Saving**: Both overall best model and best model per feature are now saved to disk within the output directory, along with other metadata necessary for model replication. Replication example given in docs as well.
+
+Changed
+~~~~~~~
+- Standardized molecule loading for foss_descriptors to avoid redundant code in each descriptor generator.
+- foss_descriptors and feature_cleaning use lazy loading of modules throughout (SPEC 1 compliant).
+- ConstantColumns() now uses the RemoveInvFeatures() function as the true backend, and will be removed in v1.4.
+- Added ``target_features_count`` and ``active_fraction`` parameters to GeneticAlgorithm() to allow for direct specification of the number of features to select/ratio of features to preserve, rather than previous random choice that always preserved about half of features.
+- AutoML now uses eigen spectrum-based Coulomb matrix instead of sorted; this is a more robust representation that avoids degeneracy issues with sorted Coulomb matrices.
+- AutoML now accepts an output_dir parameter due to increased output files and directories being generated, including best model artifacts.
+
+Fixed/Miscellaneous
+~~~~~
+- Some minor code comment updates.
+- Updated documentation and tests for new/changed features.
+
+Notes
+~~~~~
+- **Support Status**: ChemML v1.3.5 will be the last release to support Python 3.8-3.12 as they are EoL. Future releases (v1.4+) will require an update to Python 3.14 in accordance with [SPEC 0](https://scientific-python.org/specs/spec-0000/). Note that 1.3.5 and 1.4.0 will be equally capable, and this is being done to streamline future development and maintenance.
+
+Commits Included:
+^^^^^^^^^^^^^^^^^
+
+
 [1.3.3] - 2026-04-22
 --------------------
 

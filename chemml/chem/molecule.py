@@ -1,9 +1,7 @@
-from __future__ import print_function
 import os
-from tensorflow import keras # required to go around the protobuf error after importing pybel prior to tensorflow
 from rdkit import Chem
 from openbabel import pybel
-from rdkit.Chem import AllChem
+
 import warnings
 import numpy as np
 
@@ -797,11 +795,16 @@ class Molecule(object):
                 raise ValueError("Please specify a valid optimizer for openbabel 3D geometry.")
         
         elif engine == 'rdkit':
-            self._to_xyz_rdkit(optimizer, **kwargs)
+            self._to_xyz_rdkit(optimizer, filename=filename, **kwargs)
 
 
 
-    def _to_xyz_rdkit(self, optimizer, **kwargs):
+    def _to_xyz_rdkit(self, optimizer, filename=None, **kwargs):
+        try:
+            from rdkit.Chem import rdDistGeom, rdForceFieldHelpers
+        except ImportError:
+            # TODO(v1.4): remove Python 3.8 RDKit embedding and forcefield fallback.
+            from rdkit.Chem import AllChem 
         """
         The internal function creates and stores the xyz coordinates for a pre-built molecule object.
         """
@@ -810,18 +813,50 @@ class Molecule(object):
 
         # embeding and optimization
         if optimizer:
-            AllChem.EmbedMolecule(self.rdkit_molecule)
+            try:
+                params = rdDistGeom.ETKDGv3()
+                params.randomSeed = 0xF00D
+                embed_status = rdDistGeom.EmbedMolecule(self.rdkit_molecule, params)
+            except AttributeError:
+                # TODO(v1.4): remove Python 3.8 RDKit embedding fallback.
+                embed_status = AllChem.EmbedMolecule(self.rdkit_molecule)
+
+            if embed_status != 0:
+                msg = "ETKDG embedding failed with code %s" % str(embed_status)
+                raise ValueError(msg)
+
             if optimizer ==  'MMFF':
-                if AllChem.MMFFHasAllMoleculeParams(self.rdkit_molecule):
-                    AllChem.MMFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
-                else:
-                    msg = "The MMFF parameters are not available for all of the molecule's atoms."
+                try:
+                    mmff_props = rdForceFieldHelpers.MMFFGetMoleculeProperties(self.rdkit_molecule)
+                    if mmff_props is not None:
+                        optimize_status = rdForceFieldHelpers.MMFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
+                    else:
+                        msg = "The MMFF parameters are not available for all of the molecule's atoms."
+                        raise ValueError(msg)
+                except AttributeError:
+                    # TODO(v1.4): remove Python 3.8 RDKit forcefield fallback.
+                    if AllChem.MMFFHasAllMoleculeParams(self.rdkit_molecule):
+                        optimize_status = AllChem.MMFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
+                    else:
+                        msg = "The MMFF parameters are not available for all of the molecule's atoms."
+                        raise ValueError(msg)
+
+                if optimize_status not in (0, 1):
+                    msg = "Geometry optimization failed with code %s" % str(optimize_status)
                     raise ValueError(msg)
             elif optimizer == 'UFF':
-                if AllChem.UFFHasAllMoleculeParams(self.rdkit_molecule):
-                    AllChem.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
-                else:
-                    msg = "The UFF parameters are not available for all of the molecule's atoms."
+                try:
+                    optimize_status = rdForceFieldHelpers.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
+                except AttributeError:
+                    # TODO(v1.4): remove Python 3.8 RDKit forcefield fallback.
+                    if AllChem.UFFHasAllMoleculeParams(self.rdkit_molecule):
+                        optimize_status = AllChem.UFFOptimizeMolecule(self.rdkit_molecule, **kwargs)
+                    else:
+                        msg = "The UFF parameters are not available for all of the molecule's atoms."
+                        raise ValueError(msg)
+
+                if optimize_status not in (0, 1):
+                    msg = "Geometry optimization failed with code %s" % str(optimize_status)
                     raise ValueError(msg)
             else:
                 msg = "The '%s' is not a legit value for the optimizer parameter."%str(optimizer)
@@ -840,12 +875,29 @@ class Molecule(object):
         atomic_symbols = np.array([i.GetSymbol() for i in atoms_list])
         self._xyz = XYZ(geometry, atomic_nums.reshape(-1,1), atomic_symbols.reshape(-1,1))
 
+        if filename is not None:
+            self._write_xyz_rdkit(filename)
+
         if optimizer=='UFF':
             self._UFF_args = update_default_kwargs(self._default_UFF_args, kwargs,
                                                  self._to_xyz_core_names[1], self._to_xyz_core_docs[1])
         elif optimizer=='MMFF':
             self._MMFF_args = update_default_kwargs(self._default_MMFF_args, kwargs,
                                                  self._to_xyz_core_names[0], self._to_xyz_core_docs[0])
+
+
+    def _write_xyz_rdkit(self, filename):
+        try:
+            xyz_block = Chem.MolToXYZBlock(self.rdkit_molecule)
+        except AttributeError:
+            # TODO(v1.4): remove Python 3.8 manual XYZ writer fallback.
+            lines = [str(self.rdkit_molecule.GetNumAtoms()), 'Generated by ChemML RDKit optimizer']
+            for symbol, coords in zip(self._xyz.atomic_symbols.reshape(-1), self._xyz.geometry):
+                lines.append('%s %.10f %.10f %.10f' % (symbol, coords[0], coords[1], coords[2]))
+            xyz_block = '\n'.join(lines) + '\n'
+
+        with open(filename, 'w') as fout:
+            fout.write(xyz_block)
 
 
 

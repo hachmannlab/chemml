@@ -290,11 +290,11 @@ class MissingValues(object):
     documentation = ""
 
     class Inputs:
-        api = Input("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.handle_missing.missing_values'>",))
+        api = Input("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.feature_cleaning.missing_values'>",))
         df = Input("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
     class Outputs:
         df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.handle_missing.missing_values'>",))
+        api = Output("api","instance of ChemML's MissingValues class", ("<class 'chemml.preprocessing.feature_cleaning.missing_values'>",))
     class WParameters:
         func_method = Parameter('func_method','None','String',
                         description = "",

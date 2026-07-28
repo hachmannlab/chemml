@@ -220,3 +220,29 @@ def test_mol2xyz_UFF(caffeine_smiles):
     assert m.UFF_args['maxIters'] == 110
     # check default args
     m.to_xyz('UFF', **m._default_UFF_args)
+
+
+def test_mol2xyz_MMFF_save_file(tmp_path, caffeine_smiles):
+    m = Molecule(caffeine_smiles, 'smiles')
+    m.hydrogens('add')
+    out_file = tmp_path / 'caffeine_mmff.xyz'
+    m.to_xyz('MMFF', maxIters=110, filename=str(out_file))
+
+    assert out_file.exists()
+    with open(str(out_file), 'r') as fin:
+        lines = [line.strip() for line in fin.readlines() if line.strip()]
+    assert int(lines[0]) == m.rdkit_molecule.GetNumAtoms()
+    assert len(lines) >= 3
+
+
+def test_mol2xyz_UFF_save_file(tmp_path, caffeine_smiles):
+    m = Molecule(caffeine_smiles, 'smiles')
+    m.hydrogens('add')
+    out_file = tmp_path / 'caffeine_uff.xyz'
+    m.to_xyz('UFF', maxIters=110, filename=str(out_file))
+
+    assert out_file.exists()
+    with open(str(out_file), 'r') as fin:
+        lines = [line.strip() for line in fin.readlines() if line.strip()]
+    assert int(lines[0]) == m.rdkit_molecule.GetNumAtoms()
+    assert len(lines) >= 3

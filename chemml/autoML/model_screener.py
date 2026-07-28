@@ -1,20 +1,28 @@
 import os
+import json
+import pickle
+import shutil
 import traceback
 import pandas as pd
 import numpy as np
-from sklearn.utils import all_estimators
+from sklearn.preprocessing import StandardScaler
 from chemml.utils import regression_metrics
 from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from sklearn.model_selection import train_test_split, KFold
 from chemml.optimization import GeneticAlgorithm
-from chemml.chem import RDKitFingerprint, Mordred
 from chemml.chem import Molecule
 import warnings
 import random
 import time
+import uuid
 from tqdm import tqdm
 from importlib import import_module
 from multiprocessing import Pool, Manager
+
+try:
+    from threadpoolctl import threadpool_limits
+except ImportError:
+    threadpool_limits = None
 
 warnings.filterwarnings("ignore")
 
@@ -28,17 +36,9 @@ def _log(message, output_file=None, to_console=True):
 
 
 class ModelScreener(object):
-
-#   from chemml.autoML import ModelScreener
-
-#   MS = ModelScreener(df, target="density_Kg/m3", featurization=True, smiles="smiles", 
-#                    screener_type="regressor", output_file="testing.txt")
-
-#   scores = MS.screen_models(n_best=4)
-
-    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_file="scores.txt"):
+    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log"):
         """
-        This is a constructor function that initializes various parameters for a machine learning model.
+        This is a constructor function that initializes parameters for AutoML.
         
 
         Parameters
@@ -57,12 +57,27 @@ class ModelScreener(object):
             or a regressor. It must be set to either "classifier" or "regressor",, by default "regressor"
         n_gen : int, optional
             number of generations that genetic algorithm should run, by default 10
+        output_dir : str, optional
+            The name of the directory where the scores will be written to, by default "automl_results"
         output_file : str, optional
-            The name of the file where the scores will be written to, by default "scores.txt"
+            The name of the file where the scores will be written to, by default "output.log"
 
         """        
         
         self.n_gen=n_gen
+        self.best_model=None
+        self.best_model_info = None
+        self.run_artifacts = {}
+        self.feature_order_map = {}
+        self.scaler_map = {}
+
+        if isinstance(output_dir, str):
+            self.output_dir = output_dir
+        else:
+            raise TypeError("Parameter 'output_dir' must be of type str")
+
+        self._artifact_temp_dir = os.path.join(self.output_dir, ".model_screener_artifacts")
+        os.makedirs(self._artifact_temp_dir, exist_ok=True)
         
         if isinstance(df, pd.DataFrame):
             self.df = df
@@ -97,7 +112,10 @@ class ModelScreener(object):
             self.x_list = {}
         else:
             # make this a list of dataframes
-            self.x_list = {"user_given": self.df.loc[:, self.df.columns != self.target]}
+            self.xscale = StandardScaler()
+            raw_x = self.df.loc[:, self.df.columns != self.target]
+            self.x_list = {"user_given": pd.DataFrame(self.xscale.fit_transform(raw_x), columns=list(raw_x.columns), index=raw_x.index)}
+            self.scaler_map["user_given"] = self.xscale
                          
         if isinstance(screener_type, str):
             if screener_type not in ["classifier", "regressor"]:
@@ -105,23 +123,96 @@ class ModelScreener(object):
             else:
                 self.screener_type = screener_type
         else:
-            raise TypeError("Parameter screener_type must be of type str")
+            raise TypeError("Parameter screener_type must be of type str and be either 'classifier' or 'regressor' ")
         
         if isinstance(output_file, str):
-            self.output_file = output_file
+            self.output_file = os.path.join(self.output_dir, output_file)
         else:
             raise TypeError("Parameter 'output_file' must be of type str")
+        self.best_model_output_dir = os.path.join(self.output_dir, "best_model")
+
+    def _ensure_dataframe(self, data, prefix):
+        """Return a dataframe with deterministic column labels."""
+        if isinstance(data, pd.DataFrame):
+            df_data = data.copy()
+        else:
+            df_data = pd.DataFrame(data)
+        df_data.columns = [f"{prefix}_{i}" for i in range(df_data.shape[1])]
+        return df_data
+
+    def _save_model_artifact(self, ml_model, model_name, feature_key, run_key):
+        """Persist fitted model artifact to disk and return artifact metadata."""
+        run_dir = os.path.join(self._artifact_temp_dir, run_key)
+        os.makedirs(run_dir, exist_ok=True)
+
+        artifact_info = {
+            "run_key": run_key,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "artifact_dir": run_dir,
+        }
+
+        if model_name == "MLP":
+            ml_model.save(run_dir, "model")
+            artifact_info["serializer"] = "chemml_mlp"
+            artifact_info["model_file"] = os.path.join(run_dir, "model_chemml_model.json")
+        else:
+            model_file = os.path.join(run_dir, "model.pkl")
+            with open(model_file, "wb") as f:
+                pickle.dump(ml_model, f)
+            artifact_info["serializer"] = "pickle"
+            artifact_info["model_file"] = model_file
+
+        return artifact_info
+
+    def _resolve_artifact_info(self, run_key, model_name, feature_key):
+        """Resolve artifact information from memory or on-disk worker output."""
+        if run_key in self.run_artifacts:
+            return self.run_artifacts[run_key]
+
+        run_dir = os.path.join(self._artifact_temp_dir, run_key)
+        if not os.path.isdir(run_dir):
+            return None
+
+        mlp_json = os.path.join(run_dir, "model_chemml_model.json")
+        pickle_file = os.path.join(run_dir, "model.pkl")
+
+        artifact_info = {
+            "run_key": run_key,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "artifact_dir": run_dir,
+        }
+        if os.path.isfile(mlp_json):
+            artifact_info["serializer"] = "chemml_mlp"
+            artifact_info["model_file"] = mlp_json
+        elif os.path.isfile(pickle_file):
+            artifact_info["serializer"] = "pickle"
+            artifact_info["model_file"] = pickle_file
+        else:
+            return None
+
+        self.run_artifacts[run_key] = artifact_info
+        return artifact_info
 
     def run_model(self, model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key):
+
+        def fit_model(model, x_data, y_data):
+            if model_name == 'MLPRegressor' and threadpool_limits is not None:
+                # Keep MLP fits at one native thread to avoid oversubscription under multiprocessing.
+                with threadpool_limits(limits=1):
+                    model.fit(x_data, y_data)
+            else:
+                model.fit(x_data, y_data)
 
         def single_obj(model, x, y):
             n_splits=4
             kf = KFold(n_splits)                                                      # cross validation based on Kfold (creates 5 validation train-test sets)
             accuracy_kfold = []
             for train_index, test_index in kf.split(x):
-                x_training, x_testing= x.iloc[train_index], x.iloc[test_index]
+                x_training, x_testing= x[train_index], x[test_index]
                 y_training, y_testing = y.iloc[train_index], y.iloc[test_index]
-                model.fit(x_training, y_training)
+                fit_model(model, x_training, y_training)
                 y_pred = model.predict(x_testing)
                 if self.screener_type == "regressor":
                     score = regression_metrics(y_testing, y_pred)['r_squared'][0]
@@ -132,8 +223,11 @@ class ModelScreener(object):
             return np.mean(accuracy_kfold)
         
         def test_hyp(ml_model, x, y, xtest, ytest, key):                                          
-            ml_model.fit(x, y)
+            fit_model(ml_model, x, y)
             ypred = ml_model.predict(xtest)
+            run_key = f"{model_name}_{key}_{uuid.uuid4().hex}"
+            artifact_info = self._save_model_artifact(ml_model=ml_model, model_name=model_name, feature_key=key, run_key=run_key)
+            self.run_artifacts[run_key] = artifact_info
             if self.screener_type == "regressor":            
                 scores = regression_metrics(y_true=y_test, y_predicted=ypred)
                 time_taken = time.time() - model_start_time
@@ -141,6 +235,7 @@ class ModelScreener(object):
                 scores["Model"]=model_name
                 scores['parameters']=[ml_model.get_params()]
                 scores['Feature']=key
+                scores['run_key'] = run_key
                 
 
             elif self.screener_type == "classifier":
@@ -149,7 +244,7 @@ class ModelScreener(object):
                 precision = precision_score(y_test, ypred, average='macro')
                 f1score = f1_score(y_test, ypred, average='macro')
                 time_taken = time.time() - model_start_time
-                scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key}
+                scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key, "run_key": run_key}
                 scores = pd.Series(scores)
                 scores = pd.DataFrame(scores)
                 scores = scores.T
@@ -176,7 +271,7 @@ class ModelScreener(object):
                     activations = [activation_map[act] for act in activations]
                 is_regression = self.screener_type != 'classifier'
                 nclasses = getattr(self, 'nclasses', None)
-                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42) 
+                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42, verbose=0) 
 
             elif model_name == 'GradientBoostingRegressor':
                 model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
@@ -258,12 +353,15 @@ class ModelScreener(object):
                 return pd.DataFrame()
             _log(f"{model_name}: GeneticAlgorithm - complete", output_file=self.output_file)
             
+            run_dir = os.path.join(self._artifact_temp_dir, model_name)
+            os.makedirs(run_dir, exist_ok=True)
+
             all_items = list(gann.fitness_dict.items())
             all_items_df = pd.DataFrame(all_items, columns=['hyperparameters', 'Accuracy_score'])
-            all_items_df.to_csv(model_name+'_fitness_dict.csv', index=False)
+            all_items_df.to_csv(os.path.join(run_dir, model_name+'_fitness_dict.csv'), index=False)
             
             best_ind_df = best_ind_df.sort_values(by='Fitness_values', ascending=False)
-            best_ind_df.to_csv(model_name+'_ga_best.csv',index=False)
+            best_ind_df.to_csv(os.path.join(run_dir, model_name+'_ga_best.csv'), index=False)
             ga_time = (time.time() - start_time_ga)/3600
             
             best_hyper_params = best_ind_df["Best_individual"][0]
@@ -272,7 +370,7 @@ class ModelScreener(object):
             if best_ga_model is None:
                 _log(f"Model: {model_name} - module not available, returning empty results\nGA time(hours): {ga_time}\n", output_file=self.output_file)
                 return pd.DataFrame()
-            
+
             ga_accuracy_test = test_hyp(ml_model=best_ga_model, x=X_train, y=y_train, xtest=X_test, ytest=y_test, key=key)
             _log(f"Model: {model_name}\nGA time(hours): {ga_time}\n", output_file=self.output_file)
             return ga_accuracy_test
@@ -302,6 +400,7 @@ class ModelScreener(object):
             list of pandas DataFrames consisting of various molecular representations
         """        
         from chemml.chem import RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
+        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures
         # generate all representation techniques here
 
         mol_objs_list=[]
@@ -318,8 +417,10 @@ class ModelScreener(object):
                 self.discarded_indices.append(i)
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
-        CM = CoulombMatrix(cm_type='SC',n_jobs=-1)
-        self.x_list["CoulombMatrix"] = CM.represent(mol_objs_list)
+        # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms
+        CM = CoulombMatrix(cm_type='E',n_jobs=-1)
+        cm_data = CM.represent(mol_objs_list)
+        self.x_list["CoulombMatrix"] = cm_data
 
         # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
         morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
@@ -331,30 +432,30 @@ class ModelScreener(object):
         hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
         self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
        
-        
         allDescrs = RDKDesc().represent(mol_objs_list).drop(columns='SMILES')
-        from sklearn.preprocessing import StandardScaler
-        scaler = StandardScaler()
-        scaled_allDescrs = scaler.fit_transform(allDescrs)
-        scaled_allDescrs = pd.DataFrame(scaled_allDescrs)
-        self.x_list["rdkit_descriptors"] = scaled_allDescrs
+        self.x_list["rdkit_descriptors"] = allDescrs
 
         mord = Mordred()
-        mord_descriptors = mord.represent(mol_objs_list, remove_corr=True).drop(columns='SMILES')
-        mord_scaler = StandardScaler()
-        mord_descriptors = pd.DataFrame(mord_scaler.fit_transform(mord_descriptors))
+        mord_descriptors = mord.represent(mol_objs_list, quiet=False).drop(columns='SMILES')
         self.x_list['mord_descriptors'] = mord_descriptors
+
+        # Applying standard feature cleaning steps to improve feature quality
+        # New in v1.3.4, since feature order is logged as part of the best model 
+        _log("\nCleaning feature sets to remove constant, highly correlated, and low-variance features...\n", output_file=self.output_file)
+        for x_key, x_df in self.x_list.items():
+            x_df = ConstantColumns(x_df)
+            x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
+            x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
+            self.x_list[x_key] = x_df
+            _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.", output_file=self.output_file)
 
 
     def aggregate_scores(self,  scores_list, n_best):
         """ 
         This function aggregates a list of scores, combines them into a pandas dataframe, sorts them by
         RMSE in ascending order, and returns the top n_best scores.
-        
-        :param scores_list: 
-        :param n_best: 
-        
 
+        
         Parameters
         ----------
         scores_list : list
@@ -378,8 +479,93 @@ class ModelScreener(object):
             self.scores_combined = scores_combined.drop_duplicates(subset='Accuracy', keep='last').sort_values(by='Accuracy', ascending=False)
 
         return self.scores_combined[:n_best]
+    
+    def export_best_model(self, best_model_output_dir, best_models=None):
+        """
+        Export the top-ranked model and metadata bundle from screening output.
+        
 
-    def screen_models(self, n_best=10, multi_core=False):
+        Parameters
+        ----------
+        best_model_output_dir : str
+            The folder where best-model artifacts should be exported
+
+        best_models : pandas DataFrame, optional
+            DataFrame returned by screen_models; if None, scores_combined is used
+
+        Returns
+        -------
+        None
+        """    
+        if best_models is None:
+            if not hasattr(self, "scores_combined") or self.scores_combined.empty:
+                raise ValueError("No screening results available to export.")
+            best_models = self.scores_combined
+
+        if best_models.empty:
+            raise ValueError("best_models is empty; cannot export.")
+
+        best_row = best_models.iloc[0]
+        run_key = best_row.get("run_key", None)
+        feature_key = best_row.get("Feature", None)
+        model_name = best_row.get("Model", None)
+
+        if run_key is None:
+            raise ValueError("Best model artifact could not be located. Re-run screen_models before exporting.")
+
+        artifact_info = self._resolve_artifact_info(run_key=run_key, model_name=model_name, feature_key=feature_key)
+        if artifact_info is None:
+            raise ValueError("Best model artifact could not be located. Re-run screen_models before exporting.")
+        export_dir = os.path.abspath(best_model_output_dir)
+        os.makedirs(export_dir, exist_ok=True)
+
+        # Copy model artifact directory exactly, because MLP can emit multiple files.
+        if os.path.isdir(export_dir):
+            shutil.rmtree(export_dir)
+        shutil.copytree(artifact_info["artifact_dir"], export_dir)
+
+        scaler = self.scaler_map.get(feature_key)
+        scaler_file = None
+        if scaler is not None:
+            scaler_file = os.path.join(export_dir, "scaler.pkl")
+            with open(scaler_file, "wb") as f:
+                pickle.dump(scaler, f)
+
+        feature_order = self.feature_order_map.get(feature_key, [])
+        feature_order_file = os.path.join(export_dir, "feature_order.json")
+        with open(feature_order_file, "w") as f:
+            json.dump(feature_order, f, indent=2)
+
+        metrics = {}
+        for col in best_models.columns:
+            if col in ["Model", "Feature", "parameters", "run_key"]:
+                continue
+            value = best_row[col]
+            if isinstance(value, (np.generic,)):
+                value = value.item()
+            metrics[col] = value
+
+        metadata = {
+            "artifact_schema_version": 1,
+            "model_name": model_name,
+            "feature_key": feature_key,
+            "run_key": run_key,
+            "screener_type": self.screener_type,
+            "parameters": best_row.get("parameters", [{}])[0] if isinstance(best_row.get("parameters", None), list) else best_row.get("parameters", {}),
+            "metrics": metrics,
+            "model_serializer": artifact_info.get("serializer"),
+            "model_artifact_dir": "model_artifact",
+            "scaler_file": os.path.basename(scaler_file) if scaler_file is not None else None,
+            "feature_order_file": os.path.basename(feature_order_file),
+            "timestamp": time.ctime(),
+        }
+        with open(os.path.join(export_dir, "metadata.json"), "w") as f:
+            json.dump(metadata, f, indent=2, default=str)
+
+        self.best_model = artifact_info
+        self.best_model_info = metadata
+
+    def screen_models(self, n_best=10, multi_core=False, best_model_output_dir=None):
         """
         This function performs genetic algorithm hyperparameter tuning on a list of regression models
         and returns the best performing models.
@@ -394,17 +580,16 @@ class ModelScreener(object):
             A boolean indicating whether to screen multi-core models, by default False
             Note that these models are more computationally expensive and take much longer to run
             Highly recommended to run on a HPC node if True
+        
+        best_model_output_dir : str, optional
+            The directory where the best model will be exported, by default None
+            If kept None, the best model will be exported to a subdirectory of the output_dir called 'best_model'
 
         Returns
         -------
         pandas DataFrame
             the best models based on their scores, as determined by the genetic algorithm. The
         number of best models returned is determined by the `n_best` parameter
-
-        Raises
-        ------
-        ValueError
-            _description_
         """        
         _log(f"\n\n-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file, to_console=False)
 
@@ -414,36 +599,34 @@ class ModelScreener(object):
             self._represent_smiles()
             y = y.drop(index=self.discarded_indices)
 
-        if self.screener_type == 'classifier':
-            self.nclasses = y.nunique()
-            
-        scores_list_overall=[]
         
         if self.screener_type == "classifier":
             from .space import space_models_classifiers as space_models
+            self.nclasses = y.nunique()
         else:
             from .space import space_models
 
-
         # Splitting model names into single- and multi-core models
         single_core_models = space_models['single_core']
-        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 1k samples
-        if len(y) > 1e3:
-            if self.screener_type == "regressor":
-                single_core_models.pop('SVR', None)
-            else:
-                single_core_models.pop('SVC', None)
+        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 500 samples
+
         single_core_model_names = list(single_core_models.keys())
         # Multi-core model initialization
         if multi_core:
             multi_core_models = space_models['multi_core']
-            if len(y) > 1e3:
-                if self.screener_type == "regressor":
+
+        # Removing inefficient models for large datasets
+        if len(y) > 5e2:
+            if self.screener_type == "regressor":
+                single_core_models.pop('SVR', None)
+                if multi_core:
                     # Note: XGBRegressor performs better than GradientBoostingRegressor on large datasets, so we retain gradient boosting regression
                     multi_core_models.pop('GradientBoostingRegressor', None)
-            multi_core_model_names = list(multi_core_models.keys())
+                    multi_core_models.pop('MLPRegressor', None)
+            else:
+                single_core_models.pop('SVC', None)            
 
-        # write run parameters to output file
+        # Write run parameters to output file
         params_msg = (
             "\n-------------------------Run parameters-------------------------\n"
             f"  Featurization: {self.featurization}\n"
@@ -451,9 +634,19 @@ class ModelScreener(object):
             f"  Screener_type: {self.screener_type}\n"
             f"  Number of datapoints: {int(len(y))}\n"
         )
-        if len(y) > 1000:
-            params_msg += "  Note: Dataset > 1000 samples; GradientBoostingRegressor and SVR are excluded from screening due to inefficiency.\n"
+        if multi_core:
+            params_msg += "MLP thread limit: 1 (hard-coded)\n"
+            multi_core_model_names = list(multi_core_models.keys())
+        if len(y) > 5e2:
+            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
         _log(params_msg, output_file=self.output_file, to_console=False)
+
+        self.feature_order_map = {
+            k: list(self.x_list[k].columns)
+            for k in self.x_list
+        }
+        
+        scores_list_overall=[]
 
         for key in self.x_list.keys():
             _log(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n", output_file=self.output_file, to_console=False)
@@ -463,6 +656,13 @@ class ModelScreener(object):
             tmp_counter = 0         
             output_file = self.output_file
             self.nfeatures = X_train.shape[1]
+
+            xscale = StandardScaler()
+
+            X_train = xscale.fit_transform(X_train)
+            X_test = xscale.transform(X_test)
+            
+            self.scaler_map[key] = xscale
 
             # Running single-core models in parallel using multiprocessing manager
             with Manager() as manager:
@@ -481,7 +681,15 @@ class ModelScreener(object):
 
             _log(f"\n------------------------- Screening complete for feature set {key}, time taken: {round(time.time() - start_time,3)} seconds -------------------------\n", output_file=self.output_file)
 
+        # _log(f'DEBUG: Total number of scores collected: {len(scores_list_overall)}', output_file=self.output_file)
         # aggregate scores list
         best_models = self.aggregate_scores(scores_list=scores_list_overall, n_best=n_best)
+        best_models.to_csv(os.path.join(self.output_dir,'scores.csv'), index=False)
+
+        if best_model_output_dir is None:
+            best_model_output_dir = os.path.join(self.output_dir, 'best_model')
+
+        self.export_best_model(best_model_output_dir=best_model_output_dir, best_models=best_models)
+
 
         return best_models

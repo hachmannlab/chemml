@@ -5,8 +5,16 @@ import pandas as pd
 import time
 import math
 import numpy as np
+import multiprocessing as mp
+import pickle
+import os
 from copy import deepcopy
 import itertools
+
+
+def _evaluate_individual_mp(args):
+    evaluate, individual = args
+    return evaluate(individual)
 
 class GeneticAlgorithm(object):
     """
@@ -68,6 +76,14 @@ class GeneticAlgorithm(object):
     initial_population : list, optional (default=None)
         The initial population for the algorithm to start with. If not provided, initial population is randomly generated.
 
+    active_fraction : float, optional (default=None) (ONLY FOR FEATURE SELECTION)
+        Target probability of selecting 1 for binary choice genes during large-space fallback sampling
+        (only when there are no uniform variables and chromosome length is greater than 20).
+
+    target_features_count : int, optional (default=None) (ONLY FOR FEATURE SELECTION)
+        Target number of active (value 1) binary choice genes during large-space fallback sampling.
+        This is converted internally to ``active_fraction = target_features_count / n_binary_genes``.
+
     """
 
     def __init__(self, 
@@ -82,7 +98,9 @@ class GeneticAlgorithm(object):
                 mutation_prob=0.6,
                 algorithm=3,
                 initial_population=None,
-                n_jobs=1):
+                n_jobs=1,
+                active_fraction=None,
+                target_features_count=None):
 
         self.chromosome_length = len(space)
         if self.chromosome_length < 1:
@@ -124,10 +142,17 @@ class GeneticAlgorithm(object):
         self.mutation_size = mutation_size
         self.algo = algorithm
         self.initial_pop = initial_population
+        self.active_fraction = active_fraction
+        self.target_features_count = target_features_count
         self.fit_val, self.population, self.fitness_dict, self.global_cm_list = [], None, {}, None
         for i in fitness:
             if i.lower() == 'max': self.fit_val.append(1)
             else: self.fit_val.append(-1)
+
+        # For feature selection; validate the active_fraction and target_features_count inputs if provided, and ensure they are compatible with the space parameter.
+        if self.active_fraction is not None or self.target_features_count is not None:
+            self._validate_feature_bias_inputs(uni)
+
         # if there is no uniform type in the space parameter, use a pre-defined crossover and mutation list as follows: 
         if uni == 0:
             if len(space) == 1: self.global_cm_list = self.bit_limits[0]
@@ -140,7 +165,64 @@ class GeneticAlgorithm(object):
                 if len(gcl) <= 20:
                     self.global_cm_list = list(itertools.product(*gcl))
                 else:
-                    self.global_cm_list = [tuple([random.choice(sublist) for sublist in gcl]) for _ in range(len(gcl)**2)]
+                    active_prob = self._get_active_probability_for_large_space()
+                    self.global_cm_list = [
+                        tuple([self._sample_global_cm_value(sublist, active_prob) for sublist in gcl])
+                        for _ in range(len(gcl)**2)
+                    ]
+
+    def _is_binary_choice(self, values):
+        return len(values) == 2 and set(values) == set([0, 1])
+
+    def _validate_feature_bias_inputs(self, uni):
+        if self.active_fraction is not None and self.target_features_count is not None:
+            raise ValueError("Both active_fraction and target_features_count were provided. Please provide only one.")
+
+        if uni != 0:
+            raise ValueError("Feature-bias parameters are only supported when there are no uniform variables in space.")
+
+        if self.chromosome_length <= 20:
+            raise ValueError("Feature-bias parameters are only supported for large-space fallback sampling (chromosome length > 20).")
+
+        invalid_binary = [
+            limits for ctype, limits in zip(self.chromosome_type, self.bit_limits)
+            if ctype != 'choice' or not self._is_binary_choice(limits)
+        ]
+        if invalid_binary:
+            raise ValueError("Feature-bias parameters are only supported for pure 'choice' spaces with values [0, 1].")
+
+        if self.active_fraction is not None:
+            if isinstance(self.active_fraction, bool) or not isinstance(self.active_fraction, (int, float)):
+                raise TypeError("active_fraction must be a float in [0, 1].")
+            if not 0.0 <= float(self.active_fraction) <= 1.0:
+                raise ValueError("active_fraction must be in [0, 1].")
+
+        if self.target_features_count is not None:
+            if isinstance(self.target_features_count, bool) or not isinstance(self.target_features_count, int):
+                raise TypeError("target_features_count must be an integer.")
+            if self.target_features_count < 0:
+                raise ValueError("target_features_count must be >= 0.")
+            n_binary = sum(1 for limits in self.bit_limits if self._is_binary_choice(limits))
+            if self.target_features_count > n_binary:
+                raise ValueError("target_features_count cannot be greater than the number of binary genes.")
+
+    def _get_active_probability_for_large_space(self):
+        if self.active_fraction is None and self.target_features_count is None:
+            return None
+        if self.active_fraction is not None:
+            return float(self.active_fraction)
+        target_features_count = self.target_features_count
+        if target_features_count is None:
+            raise ValueError("target_features_count is required when active_fraction is not provided.")
+        n_binary = sum(1 for limits in self.bit_limits if self._is_binary_choice(limits))
+        if n_binary == 0:
+            raise ValueError("No binary genes found for target_features_count.")
+        return float(target_features_count) / float(n_binary)
+
+    def _sample_global_cm_value(self, sublist, active_prob):
+        if active_prob is not None and self._is_binary_choice(sublist):
+            return 1 if random.random() < active_prob else 0
+        return random.choice(sublist)
 
     def pop_generator(self, n):
         pop = []
@@ -305,6 +387,61 @@ class GeneticAlgorithm(object):
         if tuple(indi) in fitness_dict.keys(): indi = self.custom_mutate(tuple(indi), fitness_dict)
         return tuple(indi)
 
+    def _resolve_n_jobs(self, n_tasks):
+        if n_tasks <= 1:
+            return 1
+        if self.n_jobs == 0:
+            raise ValueError("n_jobs=0 is not valid. Use 1 for sequential execution or -1 for all CPUs.")
+
+        if self.n_jobs is None:
+            jobs = 1
+        elif self.n_jobs < 0:
+            jobs = mp.cpu_count() + 1 + self.n_jobs
+        else:
+            jobs = self.n_jobs
+
+        jobs = max(1, jobs)
+        return min(jobs, n_tasks)
+
+    def _fit_eval(self, invalid_ind, fitness_dict):
+        if not invalid_ind:
+            return fitness_dict
+
+        invalid_ind = [i for i in invalid_ind if i not in fitness_dict.keys()]
+        if not invalid_ind:
+            return fitness_dict
+
+        n_workers = self._resolve_n_jobs(len(invalid_ind))
+
+        if n_workers > 1:
+            # On Windows/Jupyter, notebook-defined callables under spawn can hang before any generation starts.
+            start_method = mp.get_start_method(allow_none=True)
+            if start_method is None:
+                try:
+                    start_method = mp.get_context().get_start_method()
+                except Exception:
+                    start_method = None
+            eval_module = getattr(self.evaluate, "__module__", "")
+            if os.name == "nt" and start_method == "spawn" and eval_module == "__main__":
+                print("Multiprocessing disabled for evaluate defined in __main__ under spawn (notebook/interactive context). Falling back to sequential evaluation.")
+                fitnesses = list(map(self.evaluate, invalid_ind))
+            else:
+                try:
+                    pickle.dumps(self.evaluate)
+                    pickle.dumps(invalid_ind)
+                    payload = [(self.evaluate, ind) for ind in invalid_ind]
+                    with mp.Pool(processes=n_workers) as pool:
+                        fitnesses = pool.map(_evaluate_individual_mp, payload)
+                except (pickle.PicklingError, AttributeError, RuntimeError, OSError) as exc:
+                    print("Multiprocessing fitness evaluation unavailable (%s). Falling back to sequential evaluation." % exc)
+                    fitnesses = list(map(self.evaluate, invalid_ind))
+        else:
+            fitnesses = list(map(self.evaluate, invalid_ind))
+
+        for ind, fit in zip(invalid_ind, fitnesses):
+            fitness_dict[tuple(ind)] = fit
+        return fitness_dict
+
     def search(self, n_generations=20, early_stopping=10, init_ratio = 0.35, crossover_ratio = 0.35):
         """
         Parameters
@@ -341,17 +478,6 @@ class GeneticAlgorithm(object):
             The best individual after the last generation.
 
         """
-        def fit_eval(invalid_ind, fitness_dict):
-            if invalid_ind: 
-                invalid_ind = [i for i in invalid_ind if i not in fitness_dict.keys()]
-
-                fitnesses = list(map(self.evaluate, invalid_ind))
-
-                for ind, fit in zip(invalid_ind, fitnesses):
-                    fitness_dict[tuple(ind)] = fit
-            return fitness_dict
-
-
         if init_ratio >=1 or crossover_ratio >=1 or (init_ratio+crossover_ratio)>=1: raise Exception("Sum of parameters init_ratio and crossover_ratio should be in the range (0,1)")
         if self.population is not None:
             pop = self.population
@@ -361,7 +487,7 @@ class GeneticAlgorithm(object):
             fitness_dict = {}
         
         # Evaluate the initial population
-        fitness_dict = fit_eval(pop, fitness_dict)
+        fitness_dict = self._fit_eval(pop, fitness_dict)
 
         best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
         
@@ -394,7 +520,7 @@ class GeneticAlgorithm(object):
                     elif self.crossover_type == "Uniform":
                         c1, c2 = self.UniformCrossover(child1, child2)
                     if c1 in fitness_dict.keys() or c2 in fitness_dict.keys() or c1==c2: continue
-                    fitness_dict = fit_eval([c1, c2], fitness_dict)
+                    fitness_dict = self._fit_eval([c1, c2], fitness_dict)
                     cross_pop.extend([c1, c2])
                     
                 # Generate mutation population
@@ -407,7 +533,7 @@ class GeneticAlgorithm(object):
                     a = self.custom_mutate(mutant, fitness_dict)
                     if a is not None:
                         mutant_pop.append(a)
-                        fitness_dict = fit_eval([a], fitness_dict)
+                        fitness_dict = self._fit_eval([a], fitness_dict)
                     else: 
                         print("All combinations exhausted. Stopping genetic algorithm iterations.")
                         flag = True

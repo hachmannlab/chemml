@@ -3,13 +3,17 @@ The chemml.preprocessing module includes (please click on links adjacent to func
     - MissingValues: :func:`~chemml.preprocessing.MissingValues`
     - ConstantColumns: :func:`~chemml.preprocessing.ConstantColumns`
     - Outliers: :func:`~chemml.preprocessing.Outliers`
+    - RemoveCorrFeatures: :func:`~chemml.preprocessing.RemoveCorrFeatures`
+    - RemoveInvFeatures: :func:`~chemml.preprocessing.RemoveInvFeatures`
 """
 
-from .handle_missing import MissingValues, ConstantColumns, Outliers
+from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures
 
 
 __all__ = [
     'MissingValues',
     'ConstantColumns',
-    'Outliers'
+    'Outliers',
+    'RemoveCorrFeatures',
+    'RemoveInvFeatures'
 ]

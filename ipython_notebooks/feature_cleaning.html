@@ -1,0 +1,1084 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepare: Feature Cleaning &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model" href="../model_task/index.html" />
+    <link rel="prev" title="Prepare: Remove Constant Columns and Outliers" href="purge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../prepare_task/index.html">Prepare</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="missing_values.html">Prepare: Handling Missing Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="purge.html">Prepare: Remove Constant Columns and Outliers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prepare: Feature Cleaning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Removing-Highly-Correlated-Features">Removing Highly Correlated Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Removing-Invariant-and-Low-Variance-Features">Removing Invariant and Low-Variance Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Keeping-Removed-Columns-in-a-Separate-DataFrame">Keeping Removed Columns in a Separate DataFrame</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../automl_task/index.html">AutoML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">ChemML API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../prepare_task/index.html">Prepare</a></li>
+      <li class="breadcrumb-item active">Prepare: Feature Cleaning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ipython_notebooks/feature_cleaning.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Prepare:-Feature-Cleaning">
+<h1>Prepare: Feature Cleaning<a class="headerlink" href="#Prepare:-Feature-Cleaning" title="Link to this heading"></a></h1>
+<p>ChemML provides utilities to remove highly correlated and invariant features.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">RemoveCorrFeatures</span><span class="p">,</span> <span class="n">RemoveInvFeatures</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_corr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;feat_a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;feat_b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;feat_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">df_corr</span><span class="p">[</span><span class="s1">&#39;feat_d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">df_corr</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_a</th>
+      <th>feat_b</th>
+      <th>feat_c</th>
+      <th>feat_d</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>4</td>
+      <td>0</td>
+      <td>-4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>-5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>6</td>
+      <td>0</td>
+      <td>-6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>7</td>
+      <td>1</td>
+      <td>-7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>8</td>
+      <td>0</td>
+      <td>-8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>9</td>
+      <td>1</td>
+      <td>-9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<section id="Removing-Highly-Correlated-Features">
+<h2>Removing Highly Correlated Features<a class="headerlink" href="#Removing-Highly-Correlated-Features" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_corr_clean</span> <span class="o">=</span> <span class="n">RemoveCorrFeatures</span><span class="p">(</span><span class="n">df_corr</span><span class="p">,</span> <span class="n">correlation_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">df_corr_clean</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_a</th>
+      <th>feat_c</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_inv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_keep_1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_const&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_binary_dominant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">19</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_nonbinary_dominant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="mi">18</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_low_variance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0004</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">df_inv</span><span class="p">[</span><span class="s1">&#39;feat_keep_2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">df_inv</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_keep_1</th>
+      <th>feat_const</th>
+      <th>feat_binary_dominant</th>
+      <th>feat_nonbinary_dominant</th>
+      <th>feat_low_variance</th>
+      <th>feat_keep_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000021</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000042</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000063</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000084</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000105</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000126</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000147</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000168</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000189</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000211</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000232</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000253</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000274</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000295</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000316</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000337</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000358</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.000379</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000400</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Removing-Invariant-and-Low-Variance-Features">
+<h2>Removing Invariant and Low-Variance Features<a class="headerlink" href="#Removing-Invariant-and-Low-Variance-Features" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_inv_clean</span> <span class="o">=</span> <span class="n">RemoveInvFeatures</span><span class="p">(</span>
+    <span class="n">df_inv</span><span class="p">,</span>
+    <span class="n">sanitize_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">sanitize_nonbinary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_variance_filtering</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">variance_threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">keep_filtered_columns</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">df_inv_clean</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_keep_1</th>
+      <th>feat_keep_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Keeping-Removed-Columns-in-a-Separate-DataFrame">
+<h2>Keeping Removed Columns in a Separate DataFrame<a class="headerlink" href="#Keeping-Removed-Columns-in-a-Separate-DataFrame" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_inv_clean</span><span class="p">,</span> <span class="n">df_removed</span> <span class="o">=</span> <span class="n">RemoveInvFeatures</span><span class="p">(</span>
+    <span class="n">df_inv</span><span class="p">,</span>
+    <span class="n">sanitize_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">sanitize_nonbinary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_variance_filtering</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">variance_threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">keep_filtered_columns</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_inv_clean</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_keep_1</th>
+      <th>feat_keep_2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_removed</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>feat_const</th>
+      <th>feat_binary_dominant</th>
+      <th>feat_nonbinary_dominant</th>
+      <th>feat_low_variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000021</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000042</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000063</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000084</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000105</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000126</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000147</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000168</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000189</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000211</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000232</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000253</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000274</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000295</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000316</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000337</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0.000358</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.000379</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1.0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.000400</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="purge.html" class="btn btn-neutral float-left" title="Prepare: Remove Constant Columns and Outliers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../model_task/index.html" class="btn btn-neutral float-right" title="Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

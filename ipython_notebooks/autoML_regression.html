@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Load your data &mdash; ChemML  documentation</title>
+  <title>AutoML for Regression Model Screening &mdash; ChemML  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -57,9 +57,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../automl_task/index.html">AutoML</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Load your data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Run-autoML-for-a-regression-task">Run autoML for a regression task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Save-scores-to-csv">Save scores to csv</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AutoML for Regression Model Screening</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-your-data">Load your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Run-autoML-for-a-regression-task">Run autoML for a regression task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Validating-AutoML-generated-model">Validating AutoML-generated model</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
@@ -94,7 +97,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../automl_task/index.html">AutoML</a></li>
-      <li class="breadcrumb-item active">Load your data</li>
+      <li class="breadcrumb-item active">AutoML for Regression Model Screening</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/ipython_notebooks/autoML_regression.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -104,7 +107,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p>The following are the steps for using AutoML for a regression task:</p>
+  <section id="AutoML-for-Regression-Model-Screening">
+<h1>AutoML for Regression Model Screening<a class="headerlink" href="#AutoML-for-Regression-Model-Screening" title="Link to this heading"></a></h1>
+<p>The following are the steps for using AutoML for a regression task:</p>
 <p><em>Note: Setting the flag for featurization= ‘True’ generates represents molecules using 5 representation techniques.</em></p>
 <ol class="arabic simple">
 <li><p>Requires an input pandas dataframe consisting of two columns:</p>
@@ -113,33 +118,46 @@
 <li><p>target property values</p></li>
 </ul>
 </li>
-<li><p>Molecules are represented as:</p>
+<li><p>If featurization = True, Molecules are represented as:</p>
 <ul class="simple">
-<li><p>coloumb matrix</p></li>
-<li><p>rdkit morgan fingerprints</p></li>
-<li><p>MACCs</p></li>
-<li><p>rdkit hashed topological torsion</p></li>
-<li><p>rdkit molecular descriptors (all)</p></li>
+<li><p>Coulomb matrix</p></li>
+<li><p>RDKit Morgan (ECFP6 1024-bit) fingerprints</p></li>
+<li><p>MACCs keys</p></li>
+<li><p>RDKit hashed topological torsion</p></li>
+<li><p>RDKit molecular descriptors (all)</p></li>
+<li><p>Mordred molecular descriptors (currently using base Mordred)</p></li>
 </ul>
 </li>
-<li><p>Screens through various sklearn regressor models:</p>
+<li><p>Screens through various regressor models:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html">MLPRegressor</a></p></li>
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html">GradientBoostingRegressor</a></p></li>
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">RandomForestRegressor</a></p></li>
+<li><p>Single-core (runs regardless of multi_core value):</p>
+<ul>
 <li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">Ridge</a></p></li>
 <li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html">Lasso</a></p></li>
-<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html">SVR</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html">SVR</a> (if n_datapoints&lt;500)</p></li>
 <li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html">ElasticNet</a></p></li>
 <li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html">DecisionTreeRegressor</a></p></li>
 </ul>
 </li>
+<li><p>Multi-core(set multi_core=True):</p>
+<ul>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html">MLPRegressor</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html">GradientBoostingRegressor</a> (if n_datapoints&lt;500)</p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">RandomForestRegressor</a></p></li>
+<li><p><a class="reference external" href="https://hachmannlab.github.io/chemml/ipython_notebooks/ml_model.html">ChemML_MLP</a></p></li>
+<li><p>(optional) <a class="reference external" href="https://xgboost.readthedocs.io/en/latest/python/python_api.html">XGBRegressor</a></p></li>
+<li><p>(optional) <a class="reference external" href="https://lightgbm.readthedocs.io/en/stable/">LightGBM</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
 <p>Yields ‘n-best’ models, with optimized hyperparamters.</p>
-<p>Returns dataframe of error metrics, machine learning model, algorithm, tuned hyperparameter values and featurization technique.</p>
-<section id="Load-your-data">
-<h1>Load your data<a class="headerlink" href="#Load-your-data" title="Link to this heading"></a></h1>
-<div class="nbinput docutils container">
+<p>The output_dir argument specifies a folder that will be created wherever the code is run from, containing the following directory tree:</p>
+<pre> &lt;output_dir&gt;/<br> |-- output.log<br> |-- scores.csv<br> |-- best_model/<br> |   |-- model.pkl # most non-MLP models<br> |   |-- model_chemml_model.json # MLP case (plus possible extra model files)<br> |   |-- scaler.pkl # present when scaler exists for chosen feature_key<br> |   |-- feature_order.json<br> |   |-- metadata.json<br> |-- .model_screener_artifacts/<br> |   |-- &lt;run_key_1&gt;/<br> |        |-- model.pkl # or MLP artifact files<br> |   |-- &lt;run_key_2&gt;/<br>... </pre><section id="Load-your-data">
+<h2>Load your data<a class="headerlink" href="#Load-your-data" title="Link to this heading"></a></h2>
+<p>We are using ChemML’s in-built dataset to demonstrate the minimum requirements to run AutoML.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -150,22 +168,13 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-C:\Users\nitin\Documents\UB\Hachmann_Group\chemml_dev_nitin\nitinmad\chemml\chemml\datasets\base.py:2: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
-  import pkg_resources
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dragon_subset</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
 <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
 </div>
@@ -224,119 +233,51 @@ C:\Users\nitin\Documents\UB\Hachmann_Group\chemml_dev_nitin\nitinmad\chemml\chem
       <td>1207.67</td>
     </tr>
     <tr>
-      <th>394</th>
-      <td>Oc1ccc(s1)N1CNC(NC1)c1cnccn1</td>
-      <td>1355.15</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>377</th>
-      <td>n1csc(n1)C1(CCCC1)c1csc(c1)c1scnc1</td>
-      <td>1311.30</td>
+      <th>347</th>
+      <td>c1ccc(cn1)c1ncsc1c1scnc1c1ccc2c(c1)cccc2</td>
+      <td>1269.53</td>
     </tr>
     <tr>
-      <th>124</th>
-      <td>Oc1ccoc1c1ccnc(c1)c1ccc2c(c1)cccc2</td>
-      <td>1226.34</td>
+      <th>86</th>
+      <td>c1cnc(cn1)c1coc(c1)c1nccc(c1)c1cccc2c1cccc2</td>
+      <td>1209.81</td>
     </tr>
     <tr>
-      <th>68</th>
-      <td>SC1CCC(C1c1cnccn1)C1CSCCS1</td>
-      <td>1238.45</td>
+      <th>75</th>
+      <td>OC1NCN(CN1)c1cccc2c1ccc(c2)C1CSCCS1</td>
+      <td>1282.86</td>
     </tr>
     <tr>
-      <th>450</th>
-      <td>o1ccc(c1)c1sc(cc1c1ccsc1)c1cccc2c1cccc2</td>
-      <td>1246.33</td>
+      <th>438</th>
+      <td>Sc1cc2c(cc1c1ccc3c(c1)cccc3)cccc2C1CCCC1</td>
+      <td>1122.68</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>c1ccc(nc1)c1csc(n1)Oc1ccc2c(c1)cccc2</td>
-      <td>1250.51</td>
-    </tr>
-    <tr>
-      <th>194</th>
-      <td>c1cnc(cn1)c1nccnc1c1ccc(o1)c1nccs1</td>
-      <td>1321.35</td>
-    </tr>
-    <tr>
-      <th>406</th>
-      <td>C1NC(NC(N1)c1cc(cc2c1cccc2)c1ccccn1)C1CCCC1</td>
-      <td>1106.21</td>
-    </tr>
-    <tr>
-      <th>84</th>
-      <td>Sc1oc(c(c1)c1cnccn1)N1CNCNC1</td>
-      <td>1340.03</td>
-    </tr>
-    <tr>
-      <th>371</th>
-      <td>n1ccc(cc1)c1nccc(c1c1cccs1)c1ccccn1</td>
-      <td>1190.34</td>
-    </tr>
-    <tr>
-      <th>388</th>
-      <td>Sc1ccc2c(c1)c(ccc2)c1cc2ccccc2cc1c1scnc1</td>
-      <td>1215.30</td>
-    </tr>
-    <tr>
-      <th>495</th>
-      <td>C1NCN(CN1)c1c(cncc1c1ccco1)c1cocc1</td>
-      <td>1267.09</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>Cc1c(cc2c(c1c1cnccn1)cccc2)c1cscn1</td>
-      <td>1213.76</td>
-    </tr>
-    <tr>
-      <th>316</th>
-      <td>c1cnc(cn1)C1(CSCC(S1)c1cscn1)c1ccc2c(c1)cccc2</td>
-      <td>1282.68</td>
-    </tr>
-    <tr>
-      <th>408</th>
-      <td>Sc1cc(c(o1)c1cscc1)S</td>
-      <td>1393.37</td>
-    </tr>
-    <tr>
-      <th>490</th>
-      <td>c1nc(c(s1)c1ccco1)Cc1cccc2c1cccc2</td>
-      <td>1218.16</td>
-    </tr>
-    <tr>
-      <th>491</th>
-      <td>Cc1csc(n1)c1ccc(cn1)c1cccs1</td>
-      <td>1271.32</td>
-    </tr>
-    <tr>
-      <th>280</th>
-      <td>Sc1ccc(nc1)c1ccsc1c1cccc2c1cccc2</td>
-      <td>1227.39</td>
-    </tr>
-    <tr>
-      <th>356</th>
-      <td>C1CCC(C1)c1ncc(s1)c1csc(n1)c1nsnc1</td>
-      <td>1335.61</td>
-    </tr>
-    <tr>
-      <th>76</th>
-      <td>OC1(CCCC1C1CCCC1)c1cnccn1</td>
-      <td>1072.32</td>
+      <th>15</th>
+      <td>CC1CCC(C1)C1CCCC1c1cccs1</td>
+      <td>1005.60</td>
     </tr>
   </tbody>
 </table>
+<p>100 rows × 2 columns</p>
 </div></div>
 </div>
 </section>
 <section id="Run-autoML-for-a-regression-task">
-<h1>Run autoML for a regression task<a class="headerlink" href="#Run-autoML-for-a-regression-task" title="Link to this heading"></a></h1>
+<h2>Run autoML for a regression task<a class="headerlink" href="#Run-autoML-for-a-regression-task" title="Link to this heading"></a></h2>
+<p>Since we have not provided any feature set, we can use AutoML’s in-built featurization to screen through feature representations and find the most suitable feature set for our data.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.autoML</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelScreener</span>
 <span class="n">MS</span> <span class="o">=</span> <span class="n">ModelScreener</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;density_Kg/m3&quot;</span><span class="p">,</span> <span class="n">featurization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">smiles</span><span class="o">=</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span>
-                   <span class="n">screener_type</span><span class="o">=</span><span class="s2">&quot;regressor&quot;</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;testing.txt&quot;</span><span class="p">)</span>
+                   <span class="n">screener_type</span><span class="o">=</span><span class="s2">&quot;regressor&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;automl_results&quot;</span><span class="p">)</span>
 <span class="n">scores</span> <span class="o">=</span> <span class="n">MS</span><span class="o">.</span><span class="n">screen_models</span><span class="p">(</span><span class="n">n_best</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">multi_core</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -344,10 +285,18 @@ C:\Users\nitin\Documents\UB\Hachmann_Group\chemml_dev_nitin\nitinmad\chemml\chem
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Converting SMILES to ChemML Molecule objects: 100%|██████████| 100/100 [00:03&lt;00:00, 28.20it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-featurizing molecules in batches of 2 ...
-<span class="ansi-bold">25/25</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">19s</span> 758ms/step
+featurizing molecules in batches of 6 ...
+<span class="ansi-bold">100/100</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">13s</span> 126ms/step
 Merging batch features ...    [DONE]
 </pre></div></div>
 </div>
@@ -356,56 +305,9 @@ Merging batch features ...    [DONE]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use MorganGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
-[11:07:28] DEPRECATION WARNING: please use TopologicalTorsionGenerator
+Calculating RDKit descriptors: 100%|██████████| 100/100 [00:01&lt;00:00, 85.99it/s]
+Normalizing Molecule input: 100%|██████████| 100/100 [00:00&lt;?, ?it/s]
+100%|██████████| 100/100 [00:02&lt;00:00, 48.08it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -413,36 +315,51 @@ Merging batch features ...    [DONE]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+
+Cleaning feature sets to remove constant, highly correlated, and low-variance features...
+
+Feature set &#39;CoulombMatrix&#39; cleaned: 26 features retained.
+Feature set &#39;morganfingerprints_radius3&#39; cleaned: 247 features retained.
+Feature set &#39;MACCS_radius3&#39; cleaned: 48 features retained.
+Feature set &#39;hashedtopologicaltorsion_radius3&#39; cleaned: 82 features retained.
+Feature set &#39;rdkit_descriptors&#39; cleaned: 92 features retained.
+Feature set &#39;mord_descriptors&#39; cleaned: 409 features retained.
 split done!
 Single-core complete
 
 
---- Screening complete for feature set CoulombMatrix, time taken: 24.063 seconds ---
+------------------------- Screening complete for feature set CoulombMatrix, time taken: 8.581 seconds -------------------------
+
 split done!
 Single-core complete
 
 
---- Screening complete for feature set morganfingerprints_radius3, time taken: 26.558 seconds ---
+------------------------- Screening complete for feature set morganfingerprints_radius3, time taken: 9.818 seconds -------------------------
+
 split done!
 Single-core complete
 
 
---- Screening complete for feature set MACCS_radius3, time taken: 20.941 seconds ---
+------------------------- Screening complete for feature set MACCS_radius3, time taken: 9.35 seconds -------------------------
+
 split done!
 Single-core complete
 
 
---- Screening complete for feature set hashedtopologicaltorsion_radius3, time taken: 23.584 seconds ---
+------------------------- Screening complete for feature set hashedtopologicaltorsion_radius3, time taken: 9.209 seconds -------------------------
+
 split done!
 Single-core complete
 
 
---- Screening complete for feature set rdkit_descriptors, time taken: 19.822 seconds ---
+------------------------- Screening complete for feature set rdkit_descriptors, time taken: 11.241 seconds -------------------------
+
 split done!
 Single-core complete
 
 
---- Screening complete for feature set mord_descriptors, time taken: 25.504 seconds ---
+------------------------- Screening complete for feature set mord_descriptors, time taken: 11.417 seconds -------------------------
+
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -494,237 +411,1316 @@ Single-core complete
       <th>Model</th>
       <th>parameters</th>
       <th>Feature</th>
+      <th>run_key</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>20</th>
-      <td>0.158392</td>
-      <td>3.541820</td>
-      <td>16.228670</td>
-      <td>4.028482</td>
-      <td>0.000010</td>
-      <td>0.003213</td>
-      <td>0.281598</td>
-      <td>0.409798</td>
-      <td>0.321640</td>
-      <td>0.008400</td>
-      <td>5.075142</td>
-      <td>9.790137</td>
-      <td>0.988459</td>
-      <td>37.498218</td>
-      <td>4.714186</td>
-      <td>ElasticNet</td>
-      <td>{'alpha': 0.04832930238571757, 'copy_X': True,...</td>
-      <td>rdkit_descriptors</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>2.210615</td>
-      <td>3.721152</td>
-      <td>16.695492</td>
-      <td>4.086012</td>
-      <td>0.000010</td>
-      <td>0.003225</td>
-      <td>0.292638</td>
-      <td>0.480407</td>
-      <td>0.322172</td>
-      <td>0.178923</td>
-      <td>6.087195</td>
-      <td>8.353000</td>
-      <td>0.988127</td>
-      <td>37.498218</td>
-      <td>2.938873</td>
-      <td>SVR</td>
-      <td>{'C': 6.2105263157894735, 'cache_size': 200, '...</td>
-      <td>rdkit_descriptors</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>4.800724</td>
-      <td>4.800724</td>
-      <td>45.260966</td>
-      <td>6.727627</td>
-      <td>0.000028</td>
-      <td>0.005321</td>
-      <td>0.376698</td>
-      <td>0.901028</td>
-      <td>0.530160</td>
-      <td>0.376698</td>
-      <td>11.416831</td>
-      <td>10.625138</td>
-      <td>0.967811</td>
-      <td>37.498218</td>
-      <td>2.872375</td>
-      <td>Ridge</td>
-      <td>{'alpha': 5.0, 'copy_X': True, 'fit_intercept'...</td>
-      <td>rdkit_descriptors</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>0.096653</td>
-      <td>10.271165</td>
-      <td>119.063575</td>
-      <td>10.911626</td>
-      <td>0.000074</td>
-      <td>0.008620</td>
-      <td>0.808893</td>
-      <td>1.232328</td>
-      <td>0.865350</td>
-      <td>-0.012659</td>
-      <td>15.261767</td>
-      <td>24.330125</td>
-      <td>0.915325</td>
-      <td>37.498218</td>
-      <td>4.118833</td>
-      <td>Lasso</td>
-      <td>{'alpha': 0.06951927961775611, 'copy_X': True,...</td>
-      <td>rdkit_descriptors</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>2.001862</td>
-      <td>11.444190</td>
-      <td>195.578785</td>
-      <td>13.984949</td>
-      <td>0.000123</td>
-      <td>0.011071</td>
-      <td>0.897954</td>
-      <td>1.586112</td>
-      <td>1.103684</td>
-      <td>0.187122</td>
-      <td>19.643200</td>
-      <td>33.806692</td>
-      <td>0.860909</td>
-      <td>37.498218</td>
-      <td>8.573116</td>
-      <td>Lasso</td>
-      <td>{'alpha': 0.005455594781168523, 'copy_X': True...</td>
-      <td>mord_descriptors</td>
-    </tr>
-    <tr>
       <th>24</th>
-      <td>0.098434</td>
-      <td>15.575122</td>
-      <td>306.234840</td>
-      <td>17.499567</td>
-      <td>0.000191</td>
-      <td>0.013812</td>
-      <td>1.220997</td>
-      <td>1.898368</td>
-      <td>1.377200</td>
-      <td>0.044581</td>
-      <td>23.510333</td>
-      <td>42.064068</td>
-      <td>0.782212</td>
-      <td>37.498218</td>
-      <td>10.132495</td>
-      <td>ElasticNet</td>
-      <td>{'alpha': 0.0026366508987303605, 'copy_X': Tru...</td>
-      <td>mord_descriptors</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>8.346180</td>
-      <td>18.830843</td>
-      <td>618.279153</td>
-      <td>24.865220</td>
-      <td>0.000397</td>
-      <td>0.019930</td>
-      <td>1.492118</td>
-      <td>3.217256</td>
-      <td>1.966877</td>
-      <td>0.652719</td>
-      <td>40.765533</td>
-      <td>54.517137</td>
-      <td>0.560293</td>
-      <td>37.498218</td>
-      <td>7.560452</td>
-      <td>Lasso</td>
-      <td>{'alpha': 0.02335721469090124, 'copy_X': True,...</td>
-      <td>hashedtopologicaltorsion_radius3</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>24.377798</td>
-      <td>24.377798</td>
-      <td>738.728924</td>
-      <td>27.179568</td>
-      <td>0.000467</td>
-      <td>0.021607</td>
-      <td>1.909181</td>
-      <td>2.866370</td>
-      <td>2.134430</td>
-      <td>1.909181</td>
-      <td>35.498564</td>
-      <td>27.813276</td>
-      <td>0.474632</td>
-      <td>37.498218</td>
-      <td>6.243020</td>
+      <td>-1.165839</td>
+      <td>6.548663</td>
+      <td>64.357274</td>
+      <td>8.022299</td>
+      <td>0.000041</td>
+      <td>0.006411</td>
+      <td>0.519401</td>
+      <td>1.227364</td>
+      <td>0.642961</td>
+      <td>-0.109150</td>
+      <td>13.696279</td>
+      <td>25.721771</td>
+      <td>0.990377</td>
+      <td>81.777502</td>
+      <td>0.779308</td>
       <td>Ridge</td>
       <td>{'alpha': 24.6, 'copy_X': True, 'fit_intercept...</td>
-      <td>hashedtopologicaltorsion_radius3</td>
+      <td>mord_descriptors</td>
+      <td>Ridge_mord_descriptors_c1fb1891b1d34cbdaf986cc...</td>
     </tr>
     <tr>
-      <th>22</th>
-      <td>17.411413</td>
-      <td>17.522432</td>
-      <td>784.644116</td>
-      <td>28.011500</td>
-      <td>0.000531</td>
-      <td>0.023046</td>
-      <td>1.412099</td>
-      <td>3.903867</td>
-      <td>2.261465</td>
-      <td>1.403741</td>
-      <td>48.347442</td>
-      <td>48.513971</td>
-      <td>0.441978</td>
-      <td>37.498218</td>
-      <td>5.094646</td>
-      <td>SVR</td>
-      <td>{'C': 16.63157894736842, 'cache_size': 200, 'c...</td>
+      <th>28</th>
+      <td>-1.780404</td>
+      <td>7.570432</td>
+      <td>65.826309</td>
+      <td>8.113341</td>
+      <td>0.000040</td>
+      <td>0.006317</td>
+      <td>0.594852</td>
+      <td>1.035899</td>
+      <td>0.632973</td>
+      <td>-0.146564</td>
+      <td>13.760363</td>
+      <td>23.502871</td>
+      <td>0.990157</td>
+      <td>81.777502</td>
+      <td>3.895243</td>
+      <td>ElasticNet</td>
+      <td>{'alpha': 0.10000000000000002, 'copy_X': True,...</td>
       <td>mord_descriptors</td>
+      <td>ElasticNet_mord_descriptors_8d735767e52c42c79a...</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>-0.832714</td>
+      <td>8.689409</td>
+      <td>104.796914</td>
+      <td>10.237036</td>
+      <td>0.000060</td>
+      <td>0.007748</td>
+      <td>0.669774</td>
+      <td>1.270207</td>
+      <td>0.776550</td>
+      <td>-0.059801</td>
+      <td>17.726883</td>
+      <td>31.832373</td>
+      <td>0.984330</td>
+      <td>81.777502</td>
+      <td>2.997654</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.10000000000000002, 'copy_X': True,...</td>
+      <td>mord_descriptors</td>
+      <td>Lasso_mord_descriptors_7c5ff0e6fb9e44a5857ee55...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>-3.892511</td>
+      <td>9.395611</td>
+      <td>137.754552</td>
+      <td>11.736889</td>
+      <td>0.000085</td>
+      <td>0.009234</td>
+      <td>0.742650</td>
+      <td>1.788322</td>
+      <td>0.924081</td>
+      <td>-0.295887</td>
+      <td>21.893891</td>
+      <td>42.189124</td>
+      <td>0.979401</td>
+      <td>81.777502</td>
+      <td>1.260182</td>
+      <td>SVR</td>
+      <td>{'C': 6.2105263157894735, 'cache_size': 200, '...</td>
+      <td>mord_descriptors</td>
+      <td>SVR_mord_descriptors_82340791fa3b4210aa16ae5c4...</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>17.421228</td>
-      <td>17.602028</td>
-      <td>788.271260</td>
-      <td>28.076169</td>
-      <td>0.000534</td>
-      <td>0.023100</td>
-      <td>1.418320</td>
-      <td>3.912741</td>
-      <td>2.266680</td>
-      <td>1.404709</td>
-      <td>48.457341</td>
-      <td>48.728541</td>
-      <td>0.439398</td>
-      <td>37.498218</td>
-      <td>5.041715</td>
+      <td>-4.271152</td>
+      <td>13.444280</td>
+      <td>214.341436</td>
+      <td>14.640404</td>
+      <td>0.000137</td>
+      <td>0.011693</td>
+      <td>1.074177</td>
+      <td>1.532998</td>
+      <td>1.172778</td>
+      <td>-0.373718</td>
+      <td>19.344591</td>
+      <td>37.910187</td>
+      <td>0.967949</td>
+      <td>81.777502</td>
+      <td>1.469364</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.10000000000000002, 'copy_X': True,...</td>
+      <td>rdkit_descriptors</td>
+      <td>Lasso_rdkit_descriptors_5b8c455e3bca409685435f...</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>-6.941877</td>
+      <td>14.424102</td>
+      <td>272.929168</td>
+      <td>16.520568</td>
+      <td>0.000174</td>
+      <td>0.013208</td>
+      <td>1.154577</td>
+      <td>2.078724</td>
+      <td>1.329172</td>
+      <td>-0.588298</td>
+      <td>25.994649</td>
+      <td>44.270452</td>
+      <td>0.959189</td>
+      <td>81.777502</td>
+      <td>1.616326</td>
+      <td>ElasticNet</td>
+      <td>{'alpha': 0.10000000000000002, 'copy_X': True,...</td>
+      <td>rdkit_descriptors</td>
+      <td>ElasticNet_rdkit_descriptors_93cd6f24bbf0420b8...</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>-8.077278</td>
+      <td>16.409874</td>
+      <td>306.237973</td>
+      <td>17.499656</td>
+      <td>0.000195</td>
+      <td>0.013954</td>
+      <td>1.306025</td>
+      <td>2.220779</td>
+      <td>1.404272</td>
+      <td>-0.671101</td>
+      <td>27.389085</td>
+      <td>45.952560</td>
+      <td>0.954208</td>
+      <td>81.777502</td>
+      <td>3.900002</td>
+      <td>SVR</td>
+      <td>{'C': 11.421052631578947, 'cache_size': 200, '...</td>
+      <td>rdkit_descriptors</td>
+      <td>SVR_rdkit_descriptors_31fa85c2a77d4ba59b870eae...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>-8.890544</td>
+      <td>15.248120</td>
+      <td>310.362742</td>
+      <td>17.617115</td>
+      <td>0.000201</td>
+      <td>0.014181</td>
+      <td>1.227860</td>
+      <td>2.276451</td>
+      <td>1.429814</td>
+      <td>-0.749505</td>
+      <td>28.075700</td>
+      <td>44.082699</td>
+      <td>0.953591</td>
+      <td>81.777502</td>
+      <td>0.583344</td>
       <td>Ridge</td>
-      <td>{'alpha': 0.1, 'copy_X': True, 'fit_intercept'...</td>
+      <td>{'alpha': 9.9, 'copy_X': True, 'fit_intercept'...</td>
+      <td>rdkit_descriptors</td>
+      <td>Ridge_rdkit_descriptors_98d7a8cc1d394506be9458...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>-8.837472</td>
+      <td>28.483415</td>
+      <td>954.271945</td>
+      <td>30.891292</td>
+      <td>0.000601</td>
+      <td>0.024515</td>
+      <td>2.273317</td>
+      <td>4.412876</td>
+      <td>2.476895</td>
+      <td>-0.675980</td>
+      <td>54.890000</td>
+      <td>85.104286</td>
+      <td>0.857306</td>
+      <td>81.777502</td>
+      <td>0.850017</td>
+      <td>DecisionTreeRegressor</td>
+      <td>{'ccp_alpha': 0.0, 'criterion': 'squared_error...</td>
       <td>mord_descriptors</td>
+      <td>DecisionTreeRegressor_mord_descriptors_1e6ffed...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>13.175179</td>
+      <td>25.564536</td>
+      <td>1008.856455</td>
+      <td>31.762501</td>
+      <td>0.000573</td>
+      <td>0.023947</td>
+      <td>1.947052</td>
+      <td>4.211498</td>
+      <td>2.377639</td>
+      <td>0.950111</td>
+      <td>58.775247</td>
+      <td>105.898937</td>
+      <td>0.849144</td>
+      <td>81.777502</td>
+      <td>1.257556</td>
+      <td>Lasso</td>
+      <td>{'alpha': 0.10000000000000002, 'copy_X': True,...</td>
+      <td>MACCS_radius3</td>
+      <td>Lasso_MACCS_radius3_1a18e958419847799443b8c6eb...</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 </section>
-<section id="Save-scores-to-csv">
-<h1>Save scores to csv<a class="headerlink" href="#Save-scores-to-csv" title="Link to this heading"></a></h1>
+<section id="Validating-AutoML-generated-model">
+<h2>Validating AutoML-generated model<a class="headerlink" href="#Validating-AutoML-generated-model" title="Link to this heading"></a></h2>
+<p>Since ChemML v1.3.4, AutoML outputs the best model and required scaler and feature order as easy-to-import files. A quick demonstration of the model loading workflow is given below:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;autoML_test.csv&quot;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;automl_results/best_model/metadata.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;automl_results/best_model/feature_order.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">feature_order</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;automl_results/best_model/model.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;automl_results/best_model/scaler.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">loaded_scaler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<p>Metadata isn’t necessary for model validation, but gives us a lot of context from the AutoML screening workflow.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;artifact_schema_version&#39;: 1,
+ &#39;model_name&#39;: &#39;Ridge&#39;,
+ &#39;feature_key&#39;: &#39;mord_descriptors&#39;,
+ &#39;run_key&#39;: &#39;Ridge_mord_descriptors_c1fb1891b1d34cbdaf986cca0c5375d6&#39;,
+ &#39;screener_type&#39;: &#39;regressor&#39;,
+ &#39;parameters&#39;: {&#39;alpha&#39;: 24.6,
+  &#39;copy_X&#39;: True,
+  &#39;fit_intercept&#39;: True,
+  &#39;max_iter&#39;: None,
+  &#39;positive&#39;: False,
+  &#39;random_state&#39;: None,
+  &#39;solver&#39;: &#39;auto&#39;,
+  &#39;tol&#39;: 0.0001},
+ &#39;metrics&#39;: {&#39;ME&#39;: -1.1658386080855963,
+  &#39;MAE&#39;: 6.5486628603416195,
+  &#39;MSE&#39;: 64.35727445359389,
+  &#39;RMSE&#39;: 8.022298576691963,
+  &#39;MSLE&#39;: 4.1095421280610533e-05,
+  &#39;RMSLE&#39;: 0.006410571057293612,
+  &#39;MAPE&#39;: 0.5194005241242112,
+  &#39;MaxAPE&#39;: 1.227364087808024,
+  &#39;RMSPE&#39;: 0.642960942887699,
+  &#39;MPE&#39;: -0.10914957390993163,
+  &#39;MaxAE&#39;: 13.696278592258523,
+  &#39;deltaMaxE&#39;: 25.72177133371156,
+  &#39;r_squared&#39;: 0.9903765684081806,
+  &#39;std&#39;: 81.77750192442905,
+  &#39;time(seconds)&#39;: 0.7793076038360596},
+ &#39;model_serializer&#39;: &#39;pickle&#39;,
+ &#39;model_artifact_dir&#39;: &#39;model_artifact&#39;,
+ &#39;scaler_file&#39;: &#39;scaler.pkl&#39;,
+ &#39;feature_order_file&#39;: &#39;feature_order.json&#39;,
+ &#39;timestamp&#39;: &#39;Mon Jul 27 13:59:05 2026&#39;}
+</pre></div></div>
+</div>
+<p>feature_order ensures that the trained model sees features in the exact same order as trained.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_order</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;nBase&#39;, &#39;SpAbs_A&#39;, &#39;SpDiam_A&#39;, &#39;VE1_A&#39;, &#39;VR1_A&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mordred</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVR</span>
+
+<span class="n">mol_objs_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">smi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;smiles&quot;</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Converting SMILES to ChemML Molecule objects&quot;</span><span class="p">)):</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">)</span>
+        <span class="n">mol_objs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unable to process SMILES: </span><span class="si">{</span><span class="n">smi</span><span class="si">}</span><span class="s2">; Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># self.discarded_indices.append(i)</span>
+<span class="n">loaded_mols</span> <span class="o">=</span> <span class="n">mol_objs_list</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">()</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">loaded_mols</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SMILES&#39;</span><span class="p">])[</span><span class="n">feature_order</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;density_Kg/m3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">loaded_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Converting SMILES to ChemML Molecule objects: 100%|██████████| 100/100 [00:03&lt;00:00, 28.33it/s]
+</pre></div></div>
+</div>
+<p>The loaded_model object can be treated just like any model object</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+}
+
+#sk-container-id-1.light {
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: black;
+  --sklearn-color-background: white;
+  --sklearn-color-border-box: black;
+  --sklearn-color-icon: #696969;
+}
+
+#sk-container-id-1.dark {
+  --sklearn-color-text-on-default-background: white;
+  --sklearn-color-background: #111;
+  --sklearn-color-border-box: white;
+  --sklearn-color-icon: #878787;
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3) 1pt solid;
+  color: var(--sklearn-color-fitted-level-3);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-0);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-fitted-level-0);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table {
+    font-family: monospace;
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.estimator-table summary::marker {
+    font-size: 0.7rem;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+/*
+    `table td`is set in notebook with right text-align.
+    We need to overwrite it.
+*/
+.estimator-table table td.param {
+    text-align: left;
+    position: relative;
+    padding: 0;
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left !important;
+}
+
+.user-set td.value {
+    color:rgb(255, 94, 0);
+    background-color: transparent;
+}
+
+.default td {
+    color: black;
+    text-align: left !important;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+/*
+    Styles for parameter documentation links
+    We need styling for visited so jupyter doesn't overwrite it
+*/
+a.param-doc-link,
+a.param-doc-link:link,
+a.param-doc-link:visited {
+    text-decoration: underline dashed;
+    text-underline-offset: .3em;
+    color: inherit;
+    display: block;
+    padding: .5em;
+}
+
+/* "hack" to make the entire area of the cell containing the link clickable */
+a.param-doc-link::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+}
+
+.param-doc-description {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    padding: .5ex;
+    margin-left: 1.5em;
+    color: var(--sklearn-color-text);
+    box-shadow: .3em .3em .4em #999;
+    width: max-content;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+
+    /* unfitted */
+    background: var(--sklearn-color-unfitted-level-0);
+    border: thin solid var(--sklearn-color-unfitted-level-3);
+}
+
+/* Fitted state for parameter tooltips */
+.fitted .param-doc-description {
+    /* fitted */
+    background: var(--sklearn-color-fitted-level-0);
+    border: thin solid var(--sklearn-color-fitted-level-3);
+}
+
+.param-doc-link:hover .param-doc-description {
+    display: block;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><body><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Ridge(alpha=24.6)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>Ridge</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                <table class="parameters-table">
+                  <tbody>
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('alpha',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=alpha,-%7Bfloat%2C%20ndarray%20of%20shape%20%28n_targets%2C%29%7D%2C%20default%3D1.0">
+            alpha
+            <span class="param-doc-description">alpha: {float, ndarray of shape (n_targets,)}, default=1.0<br><br>Constant that multiplies the L2 term, controlling regularization<br>strength. `alpha` must be a non-negative float i.e. in `[0, inf)`.<br><br>When `alpha = 0`, the objective is equivalent to ordinary least<br>squares, solved by the :class:`LinearRegression` object. For numerical<br>reasons, using `alpha = 0` with the `Ridge` object is not advised.<br>Instead, you should use the :class:`LinearRegression` object.<br><br>If an array is passed, penalties are assumed to be specific to the<br>targets. Hence they must correspond in number.</span>
+        </a>
+    </td>
+            <td class="value">24.6</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('fit_intercept',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=fit_intercept,-bool%2C%20default%3DTrue">
+            fit_intercept
+            <span class="param-doc-description">fit_intercept: bool, default=True<br><br>Whether to fit the intercept for this model. If set<br>to false, no intercept will be used in calculations<br>(i.e. ``X`` and ``y`` are expected to be centered).</span>
+        </a>
+    </td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('copy_X',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=copy_X,-bool%2C%20default%3DTrue">
+            copy_X
+            <span class="param-doc-description">copy_X: bool, default=True<br><br>If True, X will be copied; else, it may be overwritten.</span>
+        </a>
+    </td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('max_iter',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=max_iter,-int%2C%20default%3DNone">
+            max_iter
+            <span class="param-doc-description">max_iter: int, default=None<br><br>Maximum number of iterations for conjugate gradient solver.<br>For 'sparse_cg' and 'lsqr' solvers, the default value is determined<br>by scipy.sparse.linalg. For 'sag' solver, the default value is 1000.<br>For 'lbfgs' solver, the default value is 15000.</span>
+        </a>
+    </td>
+            <td class="value">None</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('tol',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=tol,-float%2C%20default%3D1e-4">
+            tol
+            <span class="param-doc-description">tol: float, default=1e-4<br><br>The precision of the solution (`coef_`) is determined by `tol` which<br>specifies a different convergence criterion for each solver:<br><br>- 'svd': `tol` has no impact.<br><br>- 'cholesky': `tol` has no impact.<br><br>- 'sparse_cg': norm of residuals smaller than `tol`.<br><br>- 'lsqr': `tol` is set as atol and btol of scipy.sparse.linalg.lsqr,<br>  which control the norm of the residual vector in terms of the norms of<br>  matrix and coefficients.<br><br>- 'sag' and 'saga': relative change of coef smaller than `tol`.<br><br>- 'lbfgs': maximum of the absolute (projected) gradient=max|residuals|<br>  smaller than `tol`.<br><br>.. versionchanged:: 1.2<br>   Default value changed from 1e-3 to 1e-4 for consistency with other linear<br>   models.</span>
+        </a>
+    </td>
+            <td class="value">0.0001</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('solver',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=solver,-%7B%27auto%27%2C%20%27svd%27%2C%20%27cholesky%27%2C%20%27lsqr%27%2C%20%27sparse_cg%27%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%27sag%27%2C%20%27saga%27%2C%20%27lbfgs%27%7D%2C%20default%3D%27auto%27">
+            solver
+            <span class="param-doc-description">solver: {'auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg',             'sag', 'saga', 'lbfgs'}, default='auto'<br><br>Solver to use in the computational routines:<br><br>- 'auto' chooses the solver automatically based on the type of data.<br><br>- 'svd' uses a Singular Value Decomposition of X to compute the Ridge<br>  coefficients. It is the most stable solver, in particular more stable<br>  for singular matrices than 'cholesky' at the cost of being slower.<br><br>- 'cholesky' uses the standard :func:`scipy.linalg.solve` function to<br>  obtain a closed-form solution.<br><br>- 'sparse_cg' uses the conjugate gradient solver as found in<br>  :func:`scipy.sparse.linalg.cg`. As an iterative algorithm, this solver is<br>  more appropriate than 'cholesky' for large-scale data<br>  (possibility to set `tol` and `max_iter`).<br><br>- 'lsqr' uses the dedicated regularized least-squares routine<br>  :func:`scipy.sparse.linalg.lsqr`. It is the fastest and uses an iterative<br>  procedure.<br><br>- 'sag' uses a Stochastic Average Gradient descent, and 'saga' uses<br>  its improved, unbiased version named SAGA. Both methods also use an<br>  iterative procedure, and are often faster than other solvers when<br>  both n_samples and n_features are large. Note that 'sag' and<br>  'saga' fast convergence is only guaranteed on features with<br>  approximately the same scale. You can preprocess the data with a<br>  scaler from :mod:`sklearn.preprocessing`.<br><br>- 'lbfgs' uses L-BFGS-B algorithm implemented in<br>  :func:`scipy.optimize.minimize`. It can be used only when `positive`<br>  is True.<br><br>All solvers except 'svd' support both dense and sparse data. However, only<br>'lsqr', 'sag', 'sparse_cg', and 'lbfgs' support sparse input when<br>`fit_intercept` is True.<br><br>.. versionadded:: 0.17<br>   Stochastic Average Gradient descent solver.<br>.. versionadded:: 0.19<br>   SAGA solver.</span>
+        </a>
+    </td>
+            <td class="value">&#x27;auto&#x27;</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('positive',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=positive,-bool%2C%20default%3DFalse">
+            positive
+            <span class="param-doc-description">positive: bool, default=False<br><br>When set to ``True``, forces the coefficients to be positive.<br>Only 'lbfgs' solver is supported in this case.</span>
+        </a>
+    </td>
+            <td class="value">False</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('random_state',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.Ridge.html#:~:text=random_state,-int%2C%20RandomState%20instance%2C%20default%3DNone">
+            random_state
+            <span class="param-doc-description">random_state: int, RandomState instance, default=None<br><br>Used when ``solver`` == 'sag' or 'saga' to shuffle the data.<br>See :term:`Glossary <random_state>` for details.<br><br>.. versionadded:: 0.17<br>   `random_state` to support Stochastic Average Gradient.</span>
+        </a>
+    </td>
+            <td class="value">None</td>
+        </tr>
+
+                  </tbody>
+                </table>
+            </details>
+        </div>
+    </div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling
+        .textContent.trim().split(' ')[0];
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+
+
+/**
+ * Adapted from Skrub
+ * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
+ * @returns "light" or "dark"
+ */
+function detectTheme(element) {
+    const body = document.querySelector('body');
+
+    // Check VSCode theme
+    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
+    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
+
+    if (themeKindAttr && themeNameAttr) {
+        const themeKind = themeKindAttr.toLowerCase();
+        const themeName = themeNameAttr.toLowerCase();
+
+        if (themeKind.includes("dark") || themeName.includes("dark")) {
+            return "dark";
+        }
+        if (themeKind.includes("light") || themeName.includes("light")) {
+            return "light";
+        }
+    }
+
+    // Check Jupyter theme
+    if (body.getAttribute('data-jp-theme-light') === 'false') {
+        return 'dark';
+    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
+        return 'light';
+    }
+
+    // Guess based on a parent element's color
+    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
+    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
+    if (match) {
+        const [r, g, b] = [
+            parseFloat(match[1]),
+            parseFloat(match[2]),
+            parseFloat(match[3])
+        ];
+
+        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (luma > 180) {
+            // If the text is very bright we have a dark theme
+            return 'dark';
+        }
+        if (luma < 75) {
+            // If the text is very dark we have a light theme
+            return 'light';
+        }
+        // Otherwise fall back to the next heuristic.
+    }
+
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+
+function forceTheme(elementId) {
+    const estimatorElement = document.querySelector(`#${elementId}`);
+    if (estimatorElement === null) {
+        console.error(`Element with id ${elementId} not found.`);
+    } else {
+        const theme = detectTheme(estimatorElement);
+        estimatorElement.classList.add(theme);
+    }
+}
+
+forceTheme('sk-container-id-1');</script></body></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">targets</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([1328.35, 1143.8 , 1351.33, 1466.57, 1207.67]),
+ array([1339.22902423, 1145.02145831, 1342.43338352, 1469.29736858,
+        1204.22178333]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">regression_metrics</span>
+<span class="n">regression_metrics</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ME</th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MSLE</th>
+      <th>RMSLE</th>
+      <th>MAPE</th>
+      <th>MaxAPE</th>
+      <th>RMSPE</th>
+      <th>MPE</th>
+      <th>MaxAE</th>
+      <th>deltaMaxE</th>
+      <th>r_squared</th>
+      <th>std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.116584</td>
+      <td>4.755083</td>
+      <td>34.813914</td>
+      <td>5.900332</td>
+      <td>0.000023</td>
+      <td>0.004802</td>
+      <td>0.381633</td>
+      <td>1.369011</td>
+      <td>0.480841</td>
+      <td>-0.018473</td>
+      <td>14.131558</td>
+      <td>27.898336</td>
+      <td>0.995465</td>
+      <td>87.617825</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">scatter2D</span><span class="p">,</span> <span class="n">SavePlot</span><span class="p">,</span> <span class="n">decorator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">df_viz</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df_viz</span><span class="p">[</span><span class="s2">&quot;Actual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+<span class="n">df_viz</span><span class="p">[</span><span class="s2">&quot;Predicted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">scatter2D</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dfx</span><span class="o">=</span><span class="n">df_viz</span><span class="p">,</span> <span class="n">dfy</span><span class="o">=</span><span class="n">df_viz</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Actual&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+
+<span class="n">dec</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Actual vs. Predicted&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Actual Density&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Predicted Density&#39;</span><span class="p">,</span>
+                <span class="n">xlim</span><span class="o">=</span> <span class="p">(</span><span class="mi">950</span><span class="p">,</span><span class="mi">1550</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">950</span><span class="p">,</span><span class="mi">1550</span><span class="p">),</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">grid_color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">grid_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">dec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># print(type(fig))</span>
+<span class="n">sa</span><span class="o">=</span><span class="n">SavePlot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Parity&#39;</span><span class="p">,</span><span class="n">output_directory</span><span class="o">=</span><span class="s1">&#39;./automl_results/val/images&#39;</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;dpi&#39;</span><span class="p">:</span><span class="mi">330</span><span class="p">,</span><span class="s1">&#39;pad_inches&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">})</span>
+<span class="n">sa</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The Plot has been saved at:  .\./automl_results/val/images/Parity.png
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_autoML_regression_18_1.png" src="../_images/ipython_notebooks_autoML_regression_18_1.png" />
 </div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script></section>
+</section>
 
 
            </div>

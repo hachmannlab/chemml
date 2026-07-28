@@ -59,6 +59,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#Molecule-tensors-from-chemml.chem.Molecule-objects">Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-RDKit">Descriptors from RDKit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-Mordred">Descriptors from Mordred</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3D-Descriptors-from-Mordred">3D Descriptors from Mordred</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-PaDELPy">Descriptors from PaDELPy</a></li>
 </ul>
 </li>
@@ -169,21 +172,21 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 featurizing molecules in batches of 31 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">12s</span> 24ms/step
+<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">30s</span> 60ms/step
 Merging batch features ...    [DONE]
          0          1           2          3          4           5     \
-0  388.023441  67.563795  388.023441  46.773304  71.039377  388.023441
-1   73.516695  12.680660   73.516695  13.507005  15.308384   53.358707
-2  388.023441  10.343694   73.516695  40.719814   5.612250   53.358707
-3  388.023441  72.013552  388.023441  49.045255  31.222555   73.516695
-4  388.023441  34.076060  388.023441  20.740383  20.314923   73.516695
+0  388.023441  72.409289  388.023441  49.814801  70.880915  388.023441
+1   73.516695  14.960583   73.516695  12.181378  15.302628   53.358707
+2  388.023441  11.749276   73.516695  40.563264   5.582635   53.358707
+3  388.023441  72.492805  388.023441  48.345061  39.989036   73.516695
+4  388.023441  30.680525  388.023441  21.739042  21.151124   73.516695
 
         6          7          8          9     ...  1643  1644  1645  1646  \
-0  43.471164  31.884828  23.619673  53.358707  ...   0.0   0.0   0.0   0.0
-1  15.511761  10.387486   7.267909  53.358707  ...   0.0   0.0   0.0   0.0
-2  22.032304   7.173553  20.331941  53.358707  ...   0.0   0.0   0.0   0.0
-3  26.287638  24.264785  15.451307  73.516695  ...   0.0   0.0   0.0   0.0
-4  21.673878  43.473700  12.535104  53.358707  ...   0.0   0.0   0.0   0.0
+0  43.493377  29.659975  22.280869  53.358707  ...   0.0   0.0   0.0   0.0
+1  20.835288   8.040554   7.380430  53.358707  ...   0.0   0.0   0.0   0.0
+2  24.754692   7.173281  20.174207  53.358707  ...   0.0   0.0   0.0   0.0
+3  28.398128  20.462807  13.932923  73.516695  ...   0.0   0.0   0.0   0.0
+4  28.888787  16.325814  12.977799  53.358707  ...   0.0   0.0   0.0   0.0
 
    1647  1648  1649  1650  1651  1652
 0   0.0   0.0   0.0   0.0   0.0   0.0
@@ -253,7 +256,7 @@ Merging batch features ...    [DONE]
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Tensorising molecules in batches of 100 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">7s</span> 13ms/step
+<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">15s</span> 29ms/step
 Merging batch tensors ...    [DONE]
 </pre></div></div>
 </div>
@@ -291,7 +294,7 @@ Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_feature
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">RDKDesc</span>
 
 <span class="n">rdd</span> <span class="o">=</span> <span class="n">RDKDesc</span><span class="p">()</span>
-<span class="n">features</span> <span class="o">=</span> <span class="n">rdd</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">rdd</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -301,10 +304,10 @@ Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_feature
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calculating RDKit descriptors: 100%|██████████| 500/500 [00:04&lt;00:00, 105.85it/s]
+Calculating RDKit descriptors:   0%|          | 0/500 [00:00&lt;?, ?it/s]Calculating RDKit descriptors: 100%|██████████| 500/500 [00:04&lt;00:00, 124.14it/s]
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -347,14 +350,6 @@ Calculating RDKit descriptors: 100%|██████████| 500/500 [00:
 [5 rows x 218 columns]
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-
-</pre></div></div>
-</div>
 </section>
 <section id="Descriptors-from-Mordred">
 <h3><a class="reference external" href="https://github.com/mordred-descriptor/mordred">Descriptors from Mordred</a><a class="headerlink" href="#Descriptors-from-Mordred" title="Link to this heading"></a></h3>
@@ -377,7 +372,8 @@ Calculating RDKit descriptors: 100%|██████████| 500/500 [00:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 500/500 [00:08&lt;00:00, 58.16it/s]
+Normalizing Molecule input: 100%|██████████| 500/500 [00:00&lt;?, ?it/s]
+100%|██████████| 500/500 [00:18&lt;00:00, 26.51it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -410,12 +406,66 @@ Calculating RDKit descriptors: 100%|██████████| 500/500 [00:
 </pre></div></div>
 </div>
 </section>
+</section>
+<section id="3D-Descriptors-from-Mordred">
+<h2>3D Descriptors from Mordred<a class="headerlink" href="#3D-Descriptors-from-Mordred" title="Link to this heading"></a></h2>
+<p>Mordred requires explicit initialization to calculate 3D descriptors. Since XYZ geometry already exists, the generator will skip optimization unless specified.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mord_3d</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">(</span><span class="n">ignore_3D</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">features_3d</span> <span class="o">=</span> <span class="n">mord_3d</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">features_3d</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Normalizing Molecule input: 100%|██████████| 500/500 [00:00&lt;00:00, 502673.06it/s]
+Optimizing 3D geometries:   0%|          | 0/500 [00:00&lt;?, ?it/s]Optimizing 3D geometries: 100%|██████████| 500/500 [00:21&lt;00:00, 23.11it/s]
+100%|██████████| 500/500 [00:28&lt;00:00, 17.58it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+   nAcid  nBase    SpAbs_A   SpMax_A  SpDiam_A     SpAD_A   SpMAD_A   LogEE_A  \
+0      0      0  22.998278  2.356990  4.586123  22.998278  1.352840  3.780704
+1      0      0  24.114905  2.401132  4.700060  24.114905  1.339717  3.834684
+2      0      1  30.133660  2.388743  4.753098  30.133660  1.369712  4.046753
+3      0      0  16.550756  2.429396  4.799667  16.550756  1.273135  3.507942
+4      0      2  28.597221  2.464180  4.847996  28.597221  1.361772  4.008031
+
+          SM1_A     VE1_A  ...     TSRW10          MW       AMW  WPath  WPol  \
+0 -5.218048e-15  3.771227  ...  64.739856  285.067963  7.918555    564    19
+1  8.215650e-15  3.859715  ...  64.604946  240.064725  9.233259    624    25
+2 -1.232348e-14  4.414919  ...  71.264318  313.099731  8.462155   1142    30
+3  6.328271e-15  3.324299  ...  58.294869  218.007136  9.478571    226    18
+4 -1.554312e-15  4.162396  ...  71.560531  319.056152  9.384004    870    29
+
+   Zagreb1  Zagreb2  mZagreb1  mZagreb2                                 SMILES
+0     88.0    101.0  3.694444  3.777778              c1nc(C2CSCCS2)sc1CC1CCCC1
+1     94.0    110.0  4.555556  4.000000           Oc1nccnc1-c1coc(-c2cnccn2)c1
+2    118.0    139.0  4.666667  4.833333  c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1
+3     68.0     80.0  4.284722  2.861111                    Oc1occc1C1(O)CSCCS1
+4    114.0    137.0  4.416667  4.638889       c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1
+
+[5 rows x 1425 columns]
+</pre></div></div>
+</div>
 <section id="Descriptors-from-PaDELPy">
 <h3><a class="reference external" href="https://pypi.org/project/padelpy/">Descriptors from PaDELPy</a><a class="headerlink" href="#Descriptors-from-PaDELPy" title="Link to this heading"></a></h3>
 <p>Note: This function requires PaDELPy and JRE 6+ to be installed from the link.</p>
 <p>PaDEL-Descriptor: Open-source software for calculating molecular descriptors and fingerprints. Computes 797 descriptors (663 1D/2D, 134 3D) and 10 fingerprint types. Uses Chemistry Development Kit and custom implementations. Offers GUI and CLI, supports multiple file formats, and enables multithreading for efficient calculations.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">PadelDesc</span>

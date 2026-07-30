@@ -1,6 +1,7 @@
 # py2 & py3 compatible
 from past.builtins import map
 
+import math
 import numpy as np
 from numpy.linalg import norm
 from .AtomImage import AtomImage
@@ -169,7 +170,7 @@ class Cell:
             a = np.array(angles, dtype=float)
             if (a < 0).any() or (a > 180).any():
                 raise ValueError("Angles must be between 0 and 180. Angle #")
-            angles_radians = np.array(map(np.math.radians, a), dtype=float)
+            angles_radians = np.array(map(math.radians, a), dtype=float)
             l = np.array(lengths, dtype=float)
             c_basis = self.compute_basis(l, angles_radians)
 
@@ -230,19 +231,19 @@ class Cell:
         # Convert lengths to basis.
         basis = np.zeros((3, 3), dtype=float)
         basis[0][0] = lengths[0]
-        basis[0][1] = lengths[1] * np.math.cos(angles_radians[2])
-        basis[0][2] = lengths[2] * np.math.cos(angles_radians[1])
-        basis[1][1] = lengths[1] * np.math.sin(angles_radians[2])
-        basis[1][2] = lengths[2] * (np.math.cos(angles_radians[0]) -
-                    np.math.cos(angles_radians[1]) * np.math.cos(
-                    angles_radians[2]))/ np.math.sin(angles_radians[2])
+        basis[0][1] = lengths[1] * math.cos(angles_radians[2])
+        basis[0][2] = lengths[2] * math.cos(angles_radians[1])
+        basis[1][1] = lengths[1] * math.sin(angles_radians[2])
+        basis[1][2] = lengths[2] * (math.cos(angles_radians[0]) -
+                    math.cos(angles_radians[1]) * math.cos(
+                    angles_radians[2]))/ math.sin(angles_radians[2])
 
-        v = np.math.sqrt(1 - np.math.cos(angles_radians[0]) * np.math.cos(
-            angles_radians[0]) - np.math.cos(angles_radians[1]) * np.math.cos(
-            angles_radians[1]) - np.math.cos(angles_radians[2]) * np.math.cos(
-            angles_radians[2]) + 2 * np.math.cos(angles_radians[0]) *
-            np.math.cos(angles_radians[1]) * np.math.cos(angles_radians[2]))
-        basis[2][2] = lengths[2] * v / np.math.sin(angles_radians[2])
+        v = math.sqrt(1 - math.cos(angles_radians[0]) * math.cos(
+            angles_radians[0]) - math.cos(angles_radians[1]) * math.cos(
+            angles_radians[1]) - math.cos(angles_radians[2]) * math.cos(
+            angles_radians[2]) + 2 * math.cos(angles_radians[0]) *
+            math.cos(angles_radians[1]) * math.cos(angles_radians[2]))
+        basis[2][2] = lengths[2] * v / math.sin(angles_radians[2])
         return basis
 
     def add_atom(self, a):
@@ -311,10 +312,10 @@ class Cell:
         Returns
         -------
         output : array-like
-            A numpy matrix representing the basis.
+            A numpy array representing the basis.
 
         """
-        return np.matrix(self.simulation_cell)
+        return np.asarray(self.simulation_cell)
 
     def get_inverse_basis(self):
         """Function to get the inverse basis.
@@ -372,12 +373,12 @@ class Cell:
         nc1 = norm(col1)
         nc2 = norm(col2)
         # Compute cosines.
-        output_radians.append(np.math.acos(col1.dot(col2) / (nc1 * nc2)))
-        output_radians.append(np.math.acos(col2.dot(col0) / (nc2 * nc0)))
-        output_radians.append(np.math.acos(col0.dot(col1) / (nc0 * nc1)))
+        output_radians.append(math.acos(col1.dot(col2) / (nc1 * nc2)))
+        output_radians.append(math.acos(col2.dot(col0) / (nc2 * nc0)))
+        output_radians.append(math.acos(col0.dot(col1) / (nc0 * nc1)))
         if radians:
             return np.array(output_radians)
-        output_degrees = np.array(map(np.math.degrees, output_radians),
+        output_degrees = np.array(map(math.degrees, output_radians),
                                   dtype=float)
         return output_degrees
 
@@ -745,7 +746,7 @@ class Cell:
                     2] * lat_vec[d, 2]
             proj_D /= lat_vec[d, 0]**2 + lat_vec[d, 1]**2 + lat_vec[d, 2]**2
             n_steps = int(round(proj_D))
-            # Java's Math.round and python's np.math.round are slightly different.
+            # Java's Math.round and python's math.round are slightly different.
             # For instance, the result of rounding -23.5 is -23 in java and
             # -24 in python. From python docs of the round function:
             # https://docs.python.org/2/library/functions.html#round
@@ -764,5 +765,5 @@ class Cell:
                 disp = new_disp
                 cur_dist = new_dist
 
-        return np.math.sqrt(cur_dist) if not flag else AtomImage(neighbor_atom,
+        return math.sqrt(cur_dist) if not flag else AtomImage(neighbor_atom,
                                                               image)

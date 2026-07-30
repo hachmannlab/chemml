@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from numpy.linalg import norm
 from scipy.linalg import lu_factor, lu_solve
@@ -94,7 +95,7 @@ class VectorCombinationComputer:
         fac = lu_factor(basis)
 
         # Compute range of each variable.
-        cutoff_distance = np.math.sqrt(self.cutoff_distance_sq)
+        cutoff_distance = math.sqrt(self.cutoff_distance_sq)
         step_range = []
 
         for i in range(3):
@@ -102,7 +103,7 @@ class VectorCombinationComputer:
             for j in range(3):
                 max_disp += np.dot(self.input_vectors[i], self.input_vectors[
                     j]) / norm(self.input_vectors[i])
-            step_range.append(int(np.math.ceil(max_disp / cutoff_distance)) + 1)
+            step_range.append(int(math.ceil(max_disp / cutoff_distance)) + 1)
 
         # Ensure that we have sufficient range to get the cutoff distance
         # away from the origin by checking that we have large enough range to
@@ -113,7 +114,7 @@ class VectorCombinationComputer:
                                     + 1) % 3])
             point = point * cutoff_distance / norm(point)
             sln = lu_solve(fac, point)
-            step_range = [max(step_range[i], int(np.math.ceil(abs(sln[i]))))
+            step_range = [max(step_range[i], int(math.ceil(abs(sln[i]))))
                           for i in range(3)]
 
         # Create the initial vector.

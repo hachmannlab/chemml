@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import math
 import numpy as np
 from numpy.linalg import norm
 from ..voronoi.VoronoiVertex import VoronoiVertex
@@ -472,13 +473,13 @@ class VoronoiEdge:
         if dp < -threshold or dp > threshold:
             # The vectors are almost aligned, compute using the sine.
             v3 = np.cross(v1, v2)
-            x = np.math.asin(norm(v3) / norm_product)
+            x = math.asin(norm(v3) / norm_product)
             if dp >= 0:
                 return x
-            return np.math.pi - x
+            return math.pi - x
         else:
             # The vectors are sufficiently separated to use the cosine.
-            return np.math.acos(dp / norm_product)
+            return math.acos(dp / norm_product)
 
     def print_properties(self):
         """Function to print different properties of the Voronoi Edge instance.

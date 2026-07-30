@@ -1,4 +1,5 @@
 from __future__ import print_function
+import math
 import numpy as np
 from numpy.linalg import norm
 import sys
@@ -48,7 +49,7 @@ class Line:
 
             delta = p2_arr - p1_arr
             norm2 = delta[0] ** 2 + delta[1] ** 2 + delta[2] ** 2
-            norm1 = np.math.sqrt(norm2)
+            norm1 = math.sqrt(norm2)
             if norm2 == 0:
                 raise Exception("Norm is zero!")
 

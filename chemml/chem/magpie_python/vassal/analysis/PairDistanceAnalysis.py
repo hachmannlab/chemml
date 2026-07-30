@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from numpy.linalg import norm
 from ..data.AtomImage import AtomImage
@@ -165,7 +166,7 @@ class PairDistanceAnalysis:
 
             if dist < cutoff_distance_sq and dist > 1e-8:
                 ss = self.supercells[img].copy() + closest_supercell
-                d = np.math.sqrt(dist)
+                d = math.sqrt(dist)
                 pos = closest_image.get_atom().get_position()
                 output.append((AtomImage(closest_image.get_atom(), ss), d))
 
@@ -231,7 +232,7 @@ class PairDistanceAnalysis:
 
                 # For each image, assign it to bin.
                 for img in images:
-                    bin_ = int(np.math.floor(img[1] * n_bin /
+                    bin_ = int(math.floor(img[1] * n_bin /
                                              self.cutoff_distance))
                     if bin_ >= n_bin:
                         # Happens if dist equals cutoff.
@@ -243,7 +244,7 @@ class PairDistanceAnalysis:
         bin_spacing = self.cutoff_distance / n_bin
         for b in range(n_bin):
             vol = 4.0 / 3.0 * ((b + 1) ** 3 - b ** 3) * bin_spacing ** 3 * \
-                  np.math.pi
+                  math.pi
             for i in range(n_t):
                 for j in range(n_t):
                     output[i][j][b] /= vol * n_type[i]

@@ -31,6 +31,11 @@ import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
 
+# NumPy 2.0 compatibility: provide np.product as an alias for np.prod
+# for third-party packages that haven't been updated yet
+if not hasattr(np, 'product'):
+    np.product = np.prod
+
 from rdkit.Chem import Descriptors, MolFromSmiles
 from tqdm import tqdm
 from chemml.chem import Molecule

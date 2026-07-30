@@ -1,6 +1,7 @@
 # py2 and py3 compatible
 from future.utils import iteritems
 
+import math
 from numpy.linalg import norm
 import numpy as np
 from .voronoi.VoronoiTessellationCalculator import \
@@ -256,7 +257,7 @@ class VoronoiCellBasedAnalysis:
         atom_vol = sum([min_dist ** 3 for min_dist in [min([
             face.get_face_distance() for face in cell.get_faces()]) for cell
             in self.cells]])
-        atom_vol *= 4.0 * np.math.pi / 3.0
+        atom_vol *= 4.0 * math.pi / 3.0
         return atom_vol / self.structure.volume()
 
     def get_neighbor_ordering_parameters(self, shell, weighted):

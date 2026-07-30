@@ -428,7 +428,7 @@ class ActiveLearning(object):
             match_flag = False
             self.last_deposited_indices_ = np.array([])
             for query in self._queries:
-                ind_in_q = np.where(np.in1d(indices, query[1], assume_unique=True))[0] # the position of matched numbers in the indices
+                ind_in_q = np.where(np.isin(indices, query[1], assume_unique=True))[0] # the position of matched numbers in the indices
                 if len(ind_in_q)>0:
                     match_flag = True
                     if query[0] == 'test set':      # the only case that we query test data
@@ -798,7 +798,7 @@ class ActiveLearning(object):
         f = pd.DataFrame(self._Y_test, columns=['yt'])
         f['ind'] = f.index
         out, bins = pd.cut(f.yt, 100, retbins=True)
-        groups = f.groupby(['ind', out])
+        groups = f.groupby(['ind', out], observed=False)
         _ytest_dist = pd.DataFrame(groups.size().unstack().sum())
         _ytest_dist.sort_values(0, ascending=False, inplace=True)
         _ytest_dist['prob'] = _ytest_dist[0]/sum(_ytest_dist[0])
@@ -806,7 +806,7 @@ class ActiveLearning(object):
         # train distribution
         f = pd.DataFrame(self._Y_train, columns=['yt'])
         f['ind'] = f.index
-        groups = f.groupby(['ind', pd.cut(f.yt, bins)])
+        groups = f.groupby(['ind', pd.cut(f.yt, bins)], observed=False)
         _ytrain_dist = pd.DataFrame(groups.size().unstack().sum())
         _ytrain_dist.sort_values(0, ascending=False, inplace=True)
         _ytrain_dist['prob'] = _ytrain_dist[0]/sum(_ytrain_dist[0])

@@ -5,8 +5,6 @@ import numpy as np
 from functools import partial
 from multiprocessing import cpu_count, Pool
 
-from tensorflow.keras.utils import Progbar
-
 from chemml.chem import Molecule
 from chemml.utils import padaxis
 
@@ -184,6 +182,7 @@ class CoulombMatrix(object):
         # MAP: CM in parallel
         map_function = partial(self._represent)
         if self.verbose:
+            from tensorflow.keras.utils import Progbar
             print('featurizing molecules in batches of %i ...' % batch_size)
             pbar = Progbar(len(molecules), width=50)
             tensor_list = []
@@ -379,6 +378,7 @@ class BagofBonds(object):
         # MAP: CM in parallel
         map_function = partial(self._represent)
         if self.verbose:
+            from tensorflow.keras.utils import Progbar
             print('featurizing molecules in batches of %i ...' % batch_size)
             pbar = Progbar(len(molecules), width=50)
             bbs_info = []

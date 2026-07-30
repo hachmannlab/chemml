@@ -475,7 +475,7 @@ class BagofBonds(object):
         df = pd.DataFrame(bbs_matrix)
         del bbs_matrix
         order_headers = list(df.columns)
-        output = pd.DataFrame(list(df.sum(1)))
+        output = pd.DataFrame(list(df.sum(axis=1)))
         del df
 
         self.header_ = []

@@ -32,13 +32,10 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 
     conda create --name chemml_env python=3.12
     source activate chemml_env
-    conda install -c conda-forge openbabel nb_conda_kernels
-    
+
     git clone https://github.com/hachmannlab/chemml.git
     cd chemml
     pip install -e .
-
-We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on [this page](https://pytorch.org/get-started/locally/).
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy
@@ -53,12 +50,15 @@ Here is a list of external libraries that will be installed with chemml:
    - ipywidgets
    - shap
    - lime
+   - openbabel
+   - torch
+   - torchvision
 
 ### Optional dependencies (user-installed):
 
-- python-graphviz (for ChemML Jupyter wrapper)
+- python-graphviz, nb_conda_kernels (for ChemML Jupyter wrapper)
 - xgboost, lightgbm (for AutoML screening)
-
+- Additional PyTorch libraries depending on operating system and GPU configuration, [see here](https://pytorch.org/get-started/locally/).
 
 ## Citation:
 Please cite the use of ChemML as:

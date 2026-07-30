@@ -21,29 +21,39 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
+    # Core utilities
     "future",
     "six",
+    "importlib_resources; python_version < '3.9'",
+    # Scientific computing
     "numpy>=1.24,<2; python_version < '3.9'",
     "numpy>=2; python_version >= '3.9'",
-    "pandas",
     "scipy",
+    "pandas",
+    "h5py",
+    # Machine learning & deep learning
     "tensorflow",
+    "torch",
+    "torchvision",
+    "scikit-learn",
+    # Chemistry & materials
     "rdkit",
     "mordred",
-    "h5py",
-    "pydot",
-    "scikit-learn",
-    "matplotlib>=1.5.1",
-    "lxml",
-    "wget",
-    "seaborn",
-    "openpyxl",
-    "ipywidgets",
-    "lime",
-    "shap",
-    "importlib_resources; python_version < '3.9'",
     "openbabel==3.2.0; python_version < '3.9'",
     "openbabel>3.2; python_version >= '3.9'",
+    # Visualization & plotting
+    "matplotlib>=1.5.1",
+    "seaborn",
+    "pydot",
+    # Interpretability
+    "lime",
+    "shap",
+    # Data & file handling
+    "lxml",
+    "openpyxl",
+    "wget",
+    # UI
+    "ipywidgets",
 ]
 
 [project.optional-dependencies]

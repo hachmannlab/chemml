@@ -33,8 +33,8 @@ dependencies = [
     "h5py",
     # Machine learning & deep learning
     "tensorflow",
-    "torch",
-    "torchvision",
+    "torch>=2.0; platform_system != 'Darwin'",
+    "torchvision>=0.15; platform_system != 'Darwin'",
     "scikit-learn",
     # Chemistry & materials
     "rdkit",
@@ -57,6 +57,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+cpu = [
+    "torch>=2.0; python_version >= '3.9'",
+    "torchvision>=0.15; python_version >= '3.9'",
+]
+gpu = [
+    "torch[cuda]; python_version >= '3.9'",
+    "torchvision; python_version >= '3.9'",
+]
 docs = [
     "sphinx",
     "sphinxcontrib-napoleon",

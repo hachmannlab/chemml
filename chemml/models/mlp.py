@@ -44,7 +44,7 @@ class pytorch_Net(nn.Module):
                 seq_l.append((str(n),pt_layer(layers[i][1]['units'],layers[i+1][1]['units'])))
                 n = n+1
                 try:
-                    if layers[i][1]['activation'] != 'None' and layers[i+1][1]['units'] !=1:
+                    if layers[i][1]['activation'] not in ('None', None) and i < len(layers) - 2:
                         # print(layers[i][1]['activation'],layers[i+1][1]['units'])
                         seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
                         n = n+1
@@ -106,6 +106,11 @@ class MLP(object):
     nclasses: int, optional, default: None
         Number of classes labels needs to be specified if regression is False
 
+    noutputs: int, optional, default: 1
+        Number of output nodes. Only used when is_regression is True.
+        For multi-output regression, set this to the desired number of outputs.
+        For classification, output count is determined by nclasses.
+
     layer_config_file: str, optional, default: None
         Path to the file that specifies layer configuration
         Refer MLP test to see a sample file
@@ -127,7 +132,7 @@ class MLP(object):
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
-                is_regression=True, nclasses=None, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
+                is_regression=True, nclasses=None, noutputs=1, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
                 **params):
 
         if engine not in ['tensorflow','pytorch']:
@@ -166,7 +171,7 @@ class MLP(object):
         tf.random.set_seed(self.random_seed)
 
         if self.is_regression:
-            self.noutputs = 1
+            self.noutputs = noutputs
             self.output_activation = 'linear'
         else:
             self.noutputs = self.nclasses
@@ -296,7 +301,7 @@ class MLP(object):
                     'activation': self.activations[i]
                 }))
             # self.layer_config_file = self.layers
-            self.layers.append(('Linear',{'units':1,'activation':None}))
+            self.layers.append(('Linear',{'units':self.noutputs,'activation':None}))
         self.model = pytorch_Net(self.layers,self.layer_config_file).base_model
 
         if self.loss == 'mean_squared_error':
@@ -396,6 +401,7 @@ class MLP(object):
             'loss': self.loss,
             'is_regression': self.is_regression,
             'nclasses': self.nclasses,
+            'noutputs': self.noutputs,
             'layer_config_file': self.layer_config_file,
             'opt_config': self.opt_config,
             'random_seed': self.random_seed,
@@ -417,7 +423,7 @@ class MLP(object):
             
         """
         required = ['engine','nfeatures','nepochs','batch_size','alpha',
-                    'is_regression','nclasses','layer_config_file','opt_config',
+                    'is_regression','nclasses','noutputs','layer_config_file','opt_config',
                     'learning_rate','nneurons','activations','loss','random_seed']
         
         obj_dict = vars(self)

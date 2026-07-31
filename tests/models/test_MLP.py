@@ -151,6 +151,43 @@ def test_get_model():
     assert len(engine_model) == 4
 
 
+def test_multioutput(data):
+    """Test multi-output regression for both PyTorch and TensorFlow engines."""
+    Xtr, ytr, Xte, yte, scale_y = data
+    
+    # Create 2-output targets by duplicating and scaling the original output
+    ytr_multi = np.hstack([ytr, ytr * 0.5])  # shape: (450, 2)
+    yte_multi = np.hstack([yte, yte * 0.5])  # shape: (50, 2)
+    
+    # Test PyTorch engine
+    mlp_pytorch = MLP(engine='pytorch', nfeatures=Xtr.shape[1], nneurons=[100, 200], 
+                      activations=['ReLU', 'ReLU'], learning_rate=0.01, alpha=0.002, 
+                      nepochs=20, batch_size=100, loss='mean_squared_error', 
+                      is_regression=True, noutputs=2, opt_config='SGD')
+    
+    assert mlp_pytorch.noutputs == 2
+    params = mlp_pytorch.get_params()
+    assert params['noutputs'] == 2
+    
+    mlp_pytorch.fit(Xtr, ytr_multi)
+    y_pred_pytorch = mlp_pytorch.predict(Xte)
+    assert y_pred_pytorch.shape == (yte_multi.shape[0], 2), f"Expected shape (50, 2), got {y_pred_pytorch.shape}"
+    
+    # Test TensorFlow engine
+    mlp_tensorflow = MLP(engine='tensorflow', nfeatures=Xtr.shape[1], nneurons=[100, 200], 
+                        activations=['ReLU', 'ReLU'], learning_rate=0.01, alpha=0.002, 
+                        nepochs=20, batch_size=100, loss='mean_squared_error', 
+                        is_regression=True, noutputs=2, opt_config='SGD')
+    
+    assert mlp_tensorflow.noutputs == 2
+    params = mlp_tensorflow.get_params()
+    assert params['noutputs'] == 2
+    
+    mlp_tensorflow.fit(Xtr, ytr_multi)
+    y_pred_tensorflow = mlp_tensorflow.predict(Xte)
+    assert y_pred_tensorflow.shape == (yte_multi.shape[0], 2), f"Expected shape (50, 2), got {y_pred_tensorflow.shape}"
+
+
 # def test_init_via_config(setup_teardown):
 #     # make layer config file
 #     layer_config = [('Linear', {

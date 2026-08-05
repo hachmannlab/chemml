@@ -37,13 +37,6 @@ def test_screener_types(data_featurization, data_without_featurization):
     MS = ModelScreener(df=df, target="density_Kg/m3", featurization=True, smiles="smiles", n_gen=2, screener_type="regressor", output_dir="testing")
     scores = MS.screen_models(n_best=4)
     
-
-    #if scores is not empty, everything is okay
-    assert len(scores) == 4
-
-    # Testing multi-core screener
-    scores = MS.screen_models(n_best=4, multi_core=True)
-    
     #if scores is not empty, everything is okay
     assert len(scores) == 4
 
@@ -53,16 +46,26 @@ def test_screener_types(data_featurization, data_without_featurization):
 
     assert len(scores) == 4
 
-    # Testing multi-core screener
+    with pytest.raises(ValueError):
+        MS = ModelScreener(df=df, target="deny", featurization=False, smiles=None, screener_type="classifier", output_dir="testing_without")
+        scores = MS.screen_models(n_best=4)
+
+
+def test_screener_types_multicore(data_featurization, data_without_featurization):
+    
+    df = data_featurization
+    MS = ModelScreener(df=df, target="density_Kg/m3", featurization=True, smiles="smiles", n_gen=2, screener_type="regressor", output_dir="testing")
     scores = MS.screen_models(n_best=4, multi_core=True)
     
     #if scores is not empty, everything is okay
     assert len(scores) == 4
 
-
-    with pytest.raises(ValueError):
-        MS = ModelScreener(df=df, target="deny", featurization=False, smiles=None, screener_type="classifier", output_dir="testing_without")
-        scores = MS.screen_models(n_best=4)
+    df = data_without_featurization
+    MS = ModelScreener(df=df, target="density_Kg/m3", featurization=False, smiles=None, screener_type="regressor", n_gen=2, output_dir="testing_without")
+    scores = MS.screen_models(n_best=4, multi_core=True)
+    
+    #if scores is not empty, everything is okay
+    assert len(scores) == 4
 
 
 def test_export_best_model_bundle(data_without_featurization, tmp_path):

@@ -17,7 +17,7 @@ import time
 import uuid
 from tqdm import tqdm
 from importlib import import_module
-from multiprocessing import Pool, Manager
+# from multiprocessing import Pool, Manager
 
 try:
     from threadpoolctl import threadpool_limits
@@ -403,9 +403,11 @@ class ModelScreener(object):
         from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures
         # generate all representation techniques here
 
+        _log("Featurization is set to True. Generating molecular representations for SMILES strings...\n", output_file=self.output_file)
         mol_objs_list=[]
         
         i=0
+        _log(f"\nConverting SMILES to ChemML Molecule objects...\n", output_file=self.output_file)
         for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects")):
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
@@ -418,11 +420,13 @@ class ModelScreener(object):
                 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms
+        _log(f"\nGenerating Coulomb matrix representation...\n", output_file=self.output_file)
         CM = CoulombMatrix(cm_type='E',n_jobs=-1)
         cm_data = CM.represent(mol_objs_list)
         self.x_list["CoulombMatrix"] = cm_data
 
         # RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'
+        _log(f"\nGenerating RDKit fingerprint representations...\n", output_file=self.output_file)
         morgan_fp = RDKitFingerprint(fingerprint_type='morgan', vector='bit', n_bits=1024, radius=3)
         self.x_list["morganfingerprints_radius3"] = morgan_fp.represent(mol_objs_list)
 
@@ -431,10 +435,15 @@ class ModelScreener(object):
 
         hashed_topological_torsion = RDKitFingerprint(fingerprint_type='hashed_topological_torsion', vector='bit', n_bits=1024, radius=3)
         self.x_list["hashedtopologicaltorsion_radius3"] = hashed_topological_torsion.represent(mol_objs_list)
-       
+
+        hashed_atom_pair = RDKitFingerprint(fingerprint_type='hashed_atom_pair', vector='bit', n_bits=1024, radius=3)
+        self.x_list["hashedatompair_radius3"] = hashed_atom_pair.represent(mol_objs_list)
+
+        _log(f"\nGenerating RDKit descriptor representations...\n", output_file=self.output_file)
         allDescrs = RDKDesc().represent(mol_objs_list).drop(columns='SMILES')
         self.x_list["rdkit_descriptors"] = allDescrs
 
+        _log(f"\nGenerating Mordred descriptor representations...\n", output_file=self.output_file)
         mord = Mordred()
         mord_descriptors = mord.represent(mol_objs_list, quiet=False).drop(columns='SMILES')
         self.x_list['mord_descriptors'] = mord_descriptors
@@ -623,9 +632,12 @@ class ModelScreener(object):
                     # Note: XGBRegressor performs better than GradientBoostingRegressor on large datasets, so we retain gradient boosting regression
                     multi_core_models.pop('GradientBoostingRegressor', None)
                     multi_core_models.pop('MLPRegressor', None)
+                    
             else:
                 single_core_models.pop('SVC', None)            
-
+        else:
+            if multi_core:
+                multi_core_models.pop('MLP', None)  # For smaller datasets, MLP is unneccessarily slow; MLPRegressor is more than enough
         # Write run parameters to output file
         params_msg = (
             "\n-------------------------Run parameters-------------------------\n"
@@ -645,6 +657,7 @@ class ModelScreener(object):
             k: list(self.x_list[k].columns)
             for k in self.x_list
         }
+        from multiprocessing import Pool, Manager
         
         scores_list_overall=[]
 

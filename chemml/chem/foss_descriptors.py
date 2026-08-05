@@ -349,17 +349,6 @@ class Mordred(object):
 
         pand['SMILES'] = smi_list
 
-        if remove_corr and len(mol_list) > 1000:
-            # Generate matrix of correlation values
-            corr_matrix = pand.drop(columns=['SMILES']).corr().abs()
-            # Keep only upper triangle of values, since the correlation matrix is mirrored around the diagonal
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            # Find columns that are highly correlated
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            pand = pand.drop(columns=to_drop)
-        elif len(mol_list) <= 1000 and remove_corr:
-            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >1000 molecules.')
-            
         return pand
 
 

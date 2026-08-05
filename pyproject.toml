@@ -38,7 +38,8 @@ dependencies = [
     "scikit-learn",
     # Chemistry & materials
     "rdkit",
-    "mordred",
+    "mordred; python_version < '3.9'",
+    "mordredcommunity; python_version >= '3.9'",
     "openbabel==3.2.0; python_version < '3.9'",
     "openbabel>3.2; python_version >= '3.9'",
     # Visualization & plotting

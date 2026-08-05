@@ -456,7 +456,7 @@ class ModelScreener(object):
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
             self.x_list[x_key] = x_df
-            _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.", output_file=self.output_file)
+            _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.\n", output_file=self.output_file)
 
 
     def aggregate_scores(self,  scores_list, n_best):

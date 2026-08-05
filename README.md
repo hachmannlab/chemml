@@ -17,10 +17,8 @@ Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more
 
 
 ## Code Design:
-ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
+ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. 
 The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
-
-The format of library is similar to the well known libraries like Scikit-learn. 
 
 
 ## Latest Version:

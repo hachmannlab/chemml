@@ -28,7 +28,7 @@ space_models = {
                         ],
 
                 'DecisionTreeRegressor':[
-                                {'criterion': {'choice': ['squared_error', 'absolute_error', 'friedman_mse']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
+                                {'criterion': {'choice': ['squared_error', 'absolute_error']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
                                 {'splitter': {'choice': ['best', 'random']}},
                                 {'min_samples_split': {'choice': range(2,50,10)}},
                                 {'min_samples_leaf': {'choice': range(1,100,10)}},
@@ -59,7 +59,7 @@ space_models = {
 
                 'RandomForestRegressor':[
                                 {'n_estimators': {'choice': np.random.randint(1,400,size=10).tolist()}},
-                                {'criterion': {'choice': ['squared_error', 'absolute_error', 'friedman_mse']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
+                                {'criterion': {'choice': ['squared_error', 'absolute_error']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
                                 {'min_samples_split': {'choice': range(2,50,10)}},
                                 {'min_samples_leaf': {'choice': range(1,100,10)}},
                                 {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                

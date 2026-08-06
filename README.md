@@ -28,7 +28,7 @@ The development follows a strictly modular and object-oriented design to make th
 ## Installation and Dependencies:
 We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:
 
-    conda create --name chemml_env python=3.12
+    conda create --name chemml_env python=3.13
     source activate chemml_env
 
     git clone https://github.com/hachmannlab/chemml.git

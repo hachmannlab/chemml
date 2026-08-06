@@ -144,7 +144,7 @@ class RDKDesc(object):
     def __init__(self):
         self.descriptor_list = [x[0] for x in Descriptors._descList]
 
-    def represent(self, mol_list, dropna=True, remove_corr=False, n_jobs=1):
+    def represent(self, mol_list, dropna=True, n_jobs=1):
         """
         Generate RDKit molecular descriptors for a list of molecules.
 
@@ -161,9 +161,6 @@ class RDKDesc(object):
 
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
-            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
         n_jobs : int, optional
             Number of parallel jobs to run for descriptor calculation. Default is 1 (no parallelization).
         Returns:
@@ -204,15 +201,6 @@ class RDKDesc(object):
         if dropna:
             df.dropna(axis=1, inplace=True)
 
-        if remove_corr and len(mol_list) > 100:
-            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            df = df.drop(columns=to_drop)
-        elif len(mol_list) <= 100 and remove_corr:
-            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >100 molecules.')
-        
-        
         return df
 
 
@@ -311,9 +299,6 @@ class Mordred(object):
             - Single RDKit Mol object
         quiet : bool, optional
             If True, suppress Mordred's output messages. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
-            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
 
         Returns:
         -------
@@ -373,7 +358,7 @@ class PadelDesc:
     def __init__(self):
         pass
 
-    def represent(self, mol_list, dropna=True, remove_corr=False):
+    def represent(self, mol_list, dropna=True):
         """
         Generate PaDEL molecular descriptors for a list of molecules.
 
@@ -392,8 +377,6 @@ class PadelDesc:
             - Single RDKit Mol object
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
 
         Returns:
         --------
@@ -419,11 +402,5 @@ class PadelDesc:
 
         if dropna:
             df.dropna(axis=1, inplace=True)
-
-        if remove_corr:
-            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            df = df.drop(columns=to_drop)
 
         return df

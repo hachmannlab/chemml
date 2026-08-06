@@ -40,8 +40,7 @@ dependencies = [
     "rdkit",
     "mordred; python_version < '3.9'",
     "mordredcommunity; python_version >= '3.9'",
-    "openbabel==3.2.0; python_version < '3.9'",
-    "openbabel>3.2; python_version >= '3.9'",
+    "openbabel>=3.2; python_version >= '3.9'",
     # Visualization & plotting
     "matplotlib>=1.5.1",
     "seaborn",

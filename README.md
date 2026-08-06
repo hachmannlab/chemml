@@ -48,7 +48,9 @@ Here is a list of external libraries that will be installed with chemml:
    - ipywidgets
    - shap
    - lime
-   - openbabel
+   - openbabel 
+        - (NOTE: Python 3.8 requires a separate conda install of openbabel) 
+        `conda install -c conda-forge openbabel`
    - torch
    - torchvision
 
@@ -109,7 +111,7 @@ Please cite the use of ChemML as:
     }
 
 ## License:
-ChemML is copyright (C) 2014-2022 Johannes Hachmann and Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+ChemML is copyright (C) 2014-2026 Johannes Hachmann and Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 ## About us:

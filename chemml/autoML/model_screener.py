@@ -257,7 +257,11 @@ class ModelScreener(object):
 
         def set_hyper_params(parameters_list, model_name):
             from .models_dict import models_dict
-            module = import_module(models_dict[model_name])
+            try:
+                module = import_module(models_dict[model_name])
+            except ModuleNotFoundError as e:
+                _log(f"Error importing module for model {model_name}: Library not installed.", output_file=self.output_file)
+                raise ModuleNotFoundError(e)
 
             if model_name == 'MLPRegressor':
                 layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
@@ -295,19 +299,11 @@ class ModelScreener(object):
                 model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
             elif model_name in ("XGBRegressor", "XGBClassifier"):
-                try:
-                    model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]), max_depth=parameters_list[3],learning_rate=np.exp(parameters_list[4]),colsample_bytree=np.exp(parameters_list[5]),subsample=np.exp(parameters_list[6]),gamma=np.exp(parameters_list[7]),min_child_weight=parameters_list[8], device='cuda' if 'cuda' in os.environ.get('CUDA_VISIBLE_DEVICES', '') else 'cpu', random_state=42)
-                except ModuleNotFoundError:
-                    _log("XGBoost is not installed. Skipping XGBRegressor and XGBClassifier models.\n", output_file=self.output_file)
-                    return None
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]), max_depth=parameters_list[3],learning_rate=np.exp(parameters_list[4]),colsample_bytree=np.exp(parameters_list[5]),subsample=np.exp(parameters_list[6]),gamma=np.exp(parameters_list[7]),min_child_weight=parameters_list[8], device='cuda' if 'cuda' in os.environ.get('CUDA_VISIBLE_DEVICES', '') else 'cpu', random_state=42)
 
             elif model_name in ("LGBMRegressor", "LGBMClassifier"):
-                try:
-                    model = getattr(module,model_name)(n_estimators=parameters_list[0], num_leaves=parameters_list[1], learning_rate=np.exp(parameters_list[2]), max_depth=parameters_list[3], min_child_samples=parameters_list[4], subsample=np.exp(parameters_list[5]), colsample_bytree=np.exp(parameters_list[6]), reg_alpha=np.exp(parameters_list[7]), reg_lambda=np.exp(parameters_list[8]), random_state=42, verbosity=-1)
-                except ModuleNotFoundError:
-                    _log("LightGBM is not installed. Skipping LGBMRegressor and LGBMClassifier models.\n", output_file=self.output_file)
-                    return None
-
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], num_leaves=parameters_list[1], learning_rate=np.exp(parameters_list[2]), max_depth=parameters_list[3], min_child_samples=parameters_list[4], subsample=np.exp(parameters_list[5]), colsample_bytree=np.exp(parameters_list[6]), reg_alpha=np.exp(parameters_list[7]), reg_lambda=np.exp(parameters_list[8]), random_state=42, verbosity=-1)
+                
             elif model_name == "LogisticRegression":
                 model = getattr(module,model_name)(C=parameters_list[0], fit_intercept=parameters_list[1], solver=parameters_list[2])
 

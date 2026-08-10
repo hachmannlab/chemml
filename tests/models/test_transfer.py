@@ -30,9 +30,6 @@ def data():
 
 
 def test_tl_tensorflow(data):
-    tf.random.set_seed(42)
-    np.random.seed(42)
-    tf.config.experimental.enable_op_determinism()
 
     ################### CHILD MODEL ###################
     # initialize a ChemML MLP object

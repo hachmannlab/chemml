@@ -167,7 +167,7 @@ class Cell:
             a = np.array(angles, dtype=float)
             if (a < 0).any() or (a > 180).any():
                 raise ValueError("Angles must be between 0 and 180. Angle #")
-            angles_radians = np.array(map(math.radians, a), dtype=float)
+            angles_radians = np.array([math.radians(x) for x in a], dtype=float)
             l = np.array(lengths, dtype=float)
             c_basis = self.compute_basis(l, angles_radians)
 
@@ -344,7 +344,7 @@ class Cell:
             A numpy array containing the lattice parameters.
         """
 
-        output = np.array(map(norm, [x for x in self.simulation_cell.T]),
+        output = np.array([norm(x) for x in self.simulation_cell.T],
                           dtype=float)
         return output
 
@@ -375,7 +375,7 @@ class Cell:
         output_radians.append(math.acos(col0.dot(col1) / (nc0 * nc1)))
         if radians:
             return np.array(output_radians)
-        output_degrees = np.array(map(math.degrees, output_radians),
+        output_degrees = np.array([math.degrees(x) for x in output_radians],
                                   dtype=float)
         return output_degrees
 

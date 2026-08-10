@@ -111,9 +111,13 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
                         continue
                     smiles_out.append(smi)
                     rdkit_out.append(mol)
+                # Raise a ValueError if no valid molecules were processed
         else:
             raise ValueError('Input must be a SMILES string, list of SMILES, Molecule, or list of Molecule objects.')
-
+    
+        if all(mol is None for mol in rdkit_out):
+            raise ValueError('No valid molecules were processed.')
+        
         if force_molecule:
             return smiles_out, rdkit_out, molecule_out
         return smiles_out, rdkit_out

@@ -236,6 +236,7 @@ class ModelScreener(object):
                 scores['parameters']=[ml_model.get_params()]
                 scores['Feature']=key
                 scores['run_key'] = run_key
+                scores = scores.drop(columns=['std'])
                 
 
             elif self.screener_type == "classifier":
@@ -595,8 +596,9 @@ class ModelScreener(object):
         pandas DataFrame
             the best models based on their scores, as determined by the genetic algorithm. The
         number of best models returned is determined by the `n_best` parameter
-        """        
-        _log(f"\n\n-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file, to_console=False)
+        """
+        _log(f"\n\n-------------------------ChemML AutoML Model Screening-------------------------\n", output_file=self.output_file)        
+        _log(f"-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file)
 
         y = self.df[self.target].reset_index(drop=True)
 
@@ -647,7 +649,9 @@ class ModelScreener(object):
             multi_core_model_names = list(multi_core_models.keys())
         if len(y) > 5e2:
             params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
-        _log(params_msg, output_file=self.output_file, to_console=False)
+        else: 
+            params_msg += "  Note: Dataset <= 500 samples; MLP is excluded from screening due to inefficiency.\n"
+        _log(params_msg, output_file=self.output_file)
 
         self.feature_order_map = {
             k: list(self.x_list[k].columns)

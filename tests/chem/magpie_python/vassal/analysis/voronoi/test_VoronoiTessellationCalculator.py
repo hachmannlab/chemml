@@ -1,7 +1,3 @@
-# py2 and py3 compatible
-from __future__ import print_function
-from future.utils import iteritems
-
 import unittest
 import os
 import numpy as np
@@ -79,7 +75,7 @@ class testVoronoiTessellationCalculator(unittest.TestCase):
         paths = result[0].get_neighbors_by_walks(result, 2)
         self.assertEqual(18, len(paths))
         total_weight = sum(list(paths.values()))
-        for (k,v) in iteritems(paths):
+        for (k,v) in paths.items():
             if 2 in k.get_supercell() or -2 in k.get_supercell():
                 self.assertAlmostEqual(1 / 30.0, v, delta=1e-6)
             else:

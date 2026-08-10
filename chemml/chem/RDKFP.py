@@ -3,10 +3,12 @@ from builtins import range
 import pandas as pd
 import numpy as np
 import scipy.sparse
+from tqdm import tqdm
 
 from rdkit.Chem import rdFingerprintGenerator
 
 from chemml.chem import Molecule
+from chemml.chem.foss_descriptors import normalize_input
 
 class RDKitFingerprint(object):
     """
@@ -87,19 +89,9 @@ class RDKitFingerprint(object):
             A 2-dimensional pandas dataframe of fingerprint features with same number of rows as number of molecules.
 
         """
-        if isinstance(molecules, list):
-            molecules = np.array(molecules)
-        elif isinstance(molecules, Molecule):
-            molecules = np.array([molecules])
-        else:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
-            raise ValueError(msg)
+        _, _, molecules = normalize_input(molecules, force_molecule=True)
 
-        if molecules.ndim >1:
-            msg = "The molecule must be a chemml.chem.Molecule object or a list of objects."
-            raise ValueError(msg)
-
-        self.n_molecules_ = molecules.shape[0]
+        self.n_molecules_ = len(molecules)
 
         if self.fingerprint_type.lower() == 'hashed_atom_pair' or self.fingerprint_type.lower() == 'hap':
             return self._hap(molecules)
@@ -148,13 +140,13 @@ class RDKitFingerprint(object):
         mapped_kwargs = self._map_atompair_kwargs()
         gen = rdFingerprintGenerator.GetAtomPairGenerator(fpSize=self.n_bits, **mapped_kwargs)
         if self.vector == 'int':
-            self.fps_ = [gen.GetCountFingerprint(self._sanitary(m)) for m in molecules]
+            self.fps_ = [gen.GetCountFingerprint(self._sanitary(m)) for m in tqdm(molecules, desc="Generating Atom Pair Fingerprints", unit="molecule")]
             dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
             data = pd.DataFrame(dict_nonzero)
             data.fillna(0, inplace=True)
             return data
         elif self.vector == 'bit':
-            self.fps_ = [gen.GetFingerprint(self._sanitary(m)) for m in molecules]
+            self.fps_ = [gen.GetFingerprint(self._sanitary(m)) for m in tqdm(molecules, desc="Generating Atom Pair Fingerprints", unit="molecule")]
             data = np.array(self.fps_)
             data = pd.DataFrame(data)
             return data
@@ -165,7 +157,7 @@ class RDKitFingerprint(object):
             raise ValueError(msg)
         elif self.vector == 'bit':
             from rdkit.Chem.MACCSkeys import GenMACCSKeys
-            self.fps_ = [GenMACCSKeys(self._sanitary(mol), **self.kwargs) for mol in molecules]
+            self.fps_ = [GenMACCSKeys(self._sanitary(mol), **self.kwargs) for mol in tqdm(molecules, desc="Generating MACCS Fingerprints", unit="molecule")]
             data = np.array(self.fps_)
             data = pd.DataFrame(data)
             return data
@@ -174,7 +166,7 @@ class RDKitFingerprint(object):
         mapped_kwargs = self._map_morgan_kwargs()
         if self.vector == 'int':
             gen = rdFingerprintGenerator.GetMorganGenerator(radius=self.radius, **mapped_kwargs)
-            self.fps_ = [gen.GetSparseCountFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetSparseCountFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Morgan Fingerprints", unit="molecule")]
             dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
             data = pd.DataFrame(dict_nonzero)
             data.fillna(0, inplace=True)
@@ -182,7 +174,7 @@ class RDKitFingerprint(object):
         elif self.vector == 'bit':
             gen = rdFingerprintGenerator.GetMorganGenerator(
                 radius=self.radius, fpSize=self.n_bits, **mapped_kwargs)
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Morgan Fingerprints", unit="molecule")]
             data = np.array(self.fps_)
             data = pd.DataFrame(data)
             return data
@@ -191,13 +183,13 @@ class RDKitFingerprint(object):
         mapped_kwargs = self._map_tt_kwargs()
         gen = rdFingerprintGenerator.GetTopologicalTorsionGenerator(fpSize=self.n_bits, **mapped_kwargs)
         if self.vector == 'int':
-            self.fps_ = [gen.GetCountFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetCountFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Hashed Topological Torsion Fingerprints", unit="molecule")]
             dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
             data = pd.DataFrame(dict_nonzero)
             data.fillna(0, inplace=True)
             return data
         elif self.vector == 'bit':
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Hashed Topological Torsion Fingerprints", unit="molecule")]
             data = np.array(self.fps_)
             data = pd.DataFrame(data)
             return data
@@ -206,14 +198,14 @@ class RDKitFingerprint(object):
         mapped_kwargs = self._map_tt_kwargs()
         if self.vector == 'int':
             gen = rdFingerprintGenerator.GetTopologicalTorsionGenerator(**mapped_kwargs)
-            self.fps_ = [gen.GetSparseCountFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetSparseCountFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Topological Torsion Fingerprints", unit="molecule")]
             dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
             data = pd.DataFrame(dict_nonzero)
             data.fillna(0, inplace=True)
             return data
         elif self.vector == 'bit':
             gen = rdFingerprintGenerator.GetTopologicalTorsionGenerator(fpSize=self.n_bits, **mapped_kwargs)
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in molecules]
+            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Topological Torsion Fingerprints", unit="molecule")]
             data = np.array(self.fps_)
             data = pd.DataFrame(data)
             return data

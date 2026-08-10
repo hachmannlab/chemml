@@ -13,8 +13,6 @@ This code is governed by the MIT licence:
     - https://github.com/keiserlab/keras-neural-graph-fingerprint/blob/master/license.txt
 
 """
-from __future__ import division, print_function
-
 import numpy as np
 from functools import partial
 from multiprocessing import cpu_count, Pool

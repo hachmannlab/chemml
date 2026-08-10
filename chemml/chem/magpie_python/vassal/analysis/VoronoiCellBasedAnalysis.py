@@ -1,6 +1,3 @@
-# py2 and py3 compatible
-from future.utils import iteritems
-
 import math
 from numpy.linalg import norm
 import numpy as np
@@ -307,7 +304,7 @@ class VoronoiCellBasedAnalysis:
 
                 # Compute the actual weight of each type.
                 n_a = np.zeros(n_types, dtype=float)
-                for (k,v) in iteritems(neighbor_shell):
+                for (k,v) in neighbor_shell.items():
                     n_a[k.get_atom().get_type()] += v
 
                 # Compute the WC parameters.
@@ -389,7 +386,7 @@ class VoronoiCellBasedAnalysis:
         n_faces = 0
 
         # For all shapes that in reference pattern.
-        for (type, count) in iteritems(reference_shape):
+        for (type, count) in reference_shape.items():
             n_faces += count
             if type in this_shape:
                 n_diff += abs(count - this_shape[type])

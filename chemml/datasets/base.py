@@ -1,4 +1,3 @@
-from __future__ import print_function
 import sys
 if sys.version_info >= (3, 9):
     from importlib.resources import files

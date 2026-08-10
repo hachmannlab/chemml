@@ -1,4 +1,3 @@
-from __future__ import print_function
 import types
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry

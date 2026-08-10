@@ -1,6 +1,3 @@
-#py2 and py3
-from six import iteritems
-
 from itertools import combinations as comb
 import numpy as np
 from ....utility.EqualSumCombinations import EqualSumCombinations
@@ -260,7 +257,7 @@ class PhaseDiagramCompositionEntryGenerator:
         compositions = self.generate_alloy_compositions() if \
             self.even_spacing else self.generate_crystal_compositions()
 
-        for (order,list_of_fractions) in iteritems(compositions):
+        for (order,list_of_fractions) in compositions.items():
 
             # Generate all possible combinations of elements of a given order.
             compounds = [list(i) for i in comb(self.e_ids, order)]

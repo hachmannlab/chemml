@@ -22,8 +22,6 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     # Core utilities
-    "future",
-    "six",
     "importlib_resources; python_version < '3.9'",
     # Scientific computing
     "numpy>=1.24,<2; python_version < '3.9'",

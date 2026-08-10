@@ -2,9 +2,6 @@
 This module provides interactive implementation of active learning algorithms to query optimal number of data points.
 """
 
-from __future__ import print_function
-from builtins import range
-
 import warnings
 import types
 import copy

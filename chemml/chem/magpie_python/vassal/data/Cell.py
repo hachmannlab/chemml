@@ -1,6 +1,3 @@
-# py2 & py3 compatible
-from past.builtins import map
-
 import math
 import numpy as np
 from numpy.linalg import norm

@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# py2 and py3
-from builtins import zip as izip
-# from itertools import izip
 import numpy as np
 import pandas as pd
 from scipy.linalg import lu
@@ -89,7 +86,7 @@ class GCLPCalculator:
                 msg = "a dataframe with one column is required"
                 raise Exception(msg)
 
-        for entry,energy in izip(entries, energies):
+        for entry,energy in zip(entries, energies):
             # if has measurement
             self.add_phase(entry, energy)
 

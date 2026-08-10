@@ -398,8 +398,7 @@ class VoronoiCellBasedAnalysis:
         # For all types in this shape, but not reference pattern.
         types_to_eval = set(this_shape.keys())
         types_to_eval -= set(reference_shape.keys())
-        for type in types_to_eval:
-            n_diff += this_shape[type]
+        n_diff += np.sum([this_shape[type] for type in types_to_eval])
 
         return float(n_diff) / n_faces
 

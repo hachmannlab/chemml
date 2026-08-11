@@ -43,9 +43,9 @@ space_models = {
                         {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
                         'mutation': [0, 1]}}, 
                         {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
-                        {'neurons1':  {'choice': range(0,220,20)}},
-                        {'neurons2':  {'choice': range(0,220,20)}},
-                        {'neurons3':  {'choice': range(0,220,20)}}
+                        {'neurons1':  {'choice': range(0,32,8)}},
+                        {'neurons2':  {'choice': range(0,32,8)}},
+                        {'neurons3':  {'choice': range(0,32,8)}}
                         ],
                 
                 'GradientBoostingRegressor':[

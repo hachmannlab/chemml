@@ -143,9 +143,11 @@ class GeneticAlgorithm(object):
         self.active_fraction = active_fraction
         self.target_features_count = target_features_count
         self.fit_val, self.population, self.fitness_dict, self.global_cm_list = [], None, {}, None
+        self._fitness_validated = False
         for i in fitness:
             if i.lower() == 'max': self.fit_val.append(1)
-            else: self.fit_val.append(-1)
+            elif i.lower() == 'min': self.fit_val.append(-1)
+            else: raise Exception("Fitness value should be either 'max' or 'min'.")
 
         # For feature selection; validate the active_fraction and target_features_count inputs if provided, and ensure they are compatible with the space parameter.
         if self.active_fraction is not None or self.target_features_count is not None:
@@ -168,6 +170,51 @@ class GeneticAlgorithm(object):
                         tuple([self._sample_global_cm_value(sublist, active_prob) for sublist in gcl])
                         for _ in range(len(gcl)**2)
                     ]
+
+    def _validate_fitness_dimensions(self):
+        # Validate that fitness tuple length matches the number of objectives from evaluate
+        if self._fitness_validated or not self.fitness_dict:
+            return
+        self._fitness_validated = True
+        
+        first_fitness = next(iter(self.fitness_dict.values()))
+        if not isinstance(first_fitness, (tuple, list)):
+            first_fitness = (first_fitness,)
+        
+        n_objectives = len(first_fitness)
+        n_directions = len(self.fit_val)
+        
+        if n_objectives == n_directions:
+            return
+        
+        if n_objectives == 1 and n_directions > 1:
+            direction_name = "Max" if self.fit_val[0] == 1 else "Min"
+            import warnings
+            warnings.warn(
+                f"Only one output returned from evaluate(), but {n_directions} directions "
+                f"specified in fitness tuple. Only the first direction ('{direction_name}') will be used.",
+                UserWarning,
+                stacklevel=4
+            )
+            self.fit_val = self.fit_val[:1]
+        
+        elif n_objectives > 1 and n_directions == 1:
+            direction_name = "Max" if self.fit_val[0] == 1 else "Min"
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.info(
+                f"Only one direction ('{direction_name}') specified in fitness tuple, but "
+                f"{n_objectives} objectives returned from evaluate(). All objectives will be "
+                f"optimized in that direction."
+            )
+        
+        else:
+            raise AttributeError(
+                f"Mismatch between fitness dimensions: {n_directions} directions specified "
+                f"in fitness tuple, but evaluate() returns {n_objectives} objectives. "
+                f"Please ensure the fitness tuple has the same length as the number of values "
+                f"returned by the evaluate function."
+            )
 
     def _is_binary_choice(self, values):
         return len(values) == 2 and set(values) == set([0, 1])
@@ -486,6 +533,8 @@ class GeneticAlgorithm(object):
         
         # Evaluate the initial population
         fitness_dict = self._fit_eval(pop, fitness_dict)
+        self.fitness_dict = fitness_dict
+        self._validate_fitness_dimensions()
 
         best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
         

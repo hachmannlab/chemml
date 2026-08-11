@@ -23,40 +23,58 @@ def chemml_molecule_list():
 
 
 def test_weights_exception(setup_teardown, chemml_molecule_list):
-    with pytest.raises(ValueError):
+    try:
         drg = Dragon(Weights=['a'])
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
+    with pytest.raises(ValueError):
         df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
 
 
 def test_blocks_exception(setup_teardown, chemml_molecule_list):
-    with pytest.raises(ValueError):
+    try:
         drg = Dragon(blocks=list(range(2, 32)))
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
+    with pytest.raises(ValueError):
         df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
 
 
 def test_empty_mol_list(setup_teardown):
-    with pytest.raises(ValueError):
+    try:
         drg = Dragon()
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
+    with pytest.raises(ValueError):
         # print(drg, drg.getattr())
         df = drg.represent(mol_list=[], output_directory=setup_teardown, dropna=False)
 
 
 
 def test_input_str(setup_teardown):
-    with pytest.raises(ValueError):
+    try:
         drg = Dragon()
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
+    with pytest.raises(ValueError):
         df = drg.represent(mol_list='CC', output_directory=setup_teardown)
         
 
 def test_input_list(setup_teardown):
-    with pytest.raises(ValueError):
+    try:
         drg = Dragon()
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
+    with pytest.raises(ValueError):
         df = drg.represent(mol_list=['CC'], output_directory=setup_teardown)
 
 
 
 def test_dragon_df(setup_teardown, chemml_molecule_list):
-    drg = Dragon()
+    try:
+        drg = Dragon()
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
     df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
     assert df.shape[0] == 4
 

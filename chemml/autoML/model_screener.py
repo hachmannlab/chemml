@@ -613,15 +613,6 @@ class ModelScreener(object):
         else:
             from .space import space_models
 
-        # Splitting model names into single- and multi-core models
-        single_core_models = space_models['single_core']
-        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 500 samples
-
-        single_core_model_names = list(single_core_models.keys())
-        # Multi-core model initialization
-        if multi_core:
-            multi_core_models = space_models['multi_core']
-
         # Removing inefficient models for large datasets
         if len(y) > 5e2:
             if self.screener_type == "regressor":
@@ -636,6 +627,16 @@ class ModelScreener(object):
         else:
             if multi_core:
                 multi_core_models.pop('MLP', None)  # For smaller datasets, MLP is unneccessarily slow; MLPRegressor is more than enough
+
+        # Splitting model names into single- and multi-core models
+        single_core_models = space_models['single_core']
+        # Due to SVR and conventional GB scaling poorly with large datasets, we remove it from screening if dataset > 500 samples
+
+        single_core_model_names = list(single_core_models.keys())
+        # Multi-core model initialization
+        if multi_core:
+            multi_core_models = space_models['multi_core']
+
         # Write run parameters to output file
         params_msg = (
             "\n-------------------------Run parameters-------------------------\n"

@@ -14,7 +14,7 @@ from sklearn.metrics import mean_absolute_error
 from chemml.optimization import GeneticAlgorithm
 
 
-def GAFSel(df=None, target=None, target_features_count=50, evaluator=None, 
+def GAFSel(df=None, target=None, target_features_count=None, evaluator=None, 
            n_generations=50, pop_size=100, test_size=0.7, crossover_ratio = 0.6, random_state=42):
     """
     Genetic Algorithm-based Feature Selection wrapper for standardized feature selection workflows.
@@ -34,6 +34,7 @@ def GAFSel(df=None, target=None, target_features_count=50, evaluator=None,
     target_features_count : int, optional (default=50)
         Target number of features to select. The genetic algorithm will bias selection 
         toward solutions with approximately this many active features.
+        Default behaviour is to select around half the number of input features.
         
     evaluator : sklearn-style estimator, optional (default=None)
         A scikit-learn compatible regression estimator with fit() and predict() methods.

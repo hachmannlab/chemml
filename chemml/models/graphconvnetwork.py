@@ -12,6 +12,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Add, Dense, Concatenate
 from tensorflow.keras.optimizers import Adam, SGD
+from tqdm import tqdm
 
 from chemml.models.graphconvlayers import NeuralGraphHidden as NGH_TF
 from chemml.models.graphconvlayers import NeuralGraphOutput as NGO_TF
@@ -107,24 +108,127 @@ class NeuralGraphFingerprint:
         self.model = None
         self.n_outputs = 1
 
-    def fit(self, atoms, bonds, edges, y, **kwargs):
-        """Train the model.
+    def _tensorize_input(self, molecules_input, max_degree=5, max_atoms=None, n_jobs=1, batch_size=10, verbose=False):
+        """Convert SMILES or Molecule objects to tensor format.
+
+        Uses normalize_input from foss_descriptors to ensure all inputs are in Molecule format,
+        then tensorizes them for model input.
 
         Parameters
         ----------
-        atoms : array_like
-            Atom features, shape (n_samples, max_atoms, num_atom_features)
-        bonds : array_like
-            Bond features, shape (n_samples, max_atoms, max_degree, num_bond_features)
-        edges : array_like
-            Edge connectivity, shape (n_samples, max_atoms, max_degree), dtype int32
+        molecules_input : str, list, or Molecule
+            Input molecules as:
+            - SMILES string (single molecule)
+            - List of SMILES strings
+            - Molecule object (single molecule)
+            - List of Molecule objects
+        max_degree : int, optional
+            Maximum degree for tensorization. Default 5.
+        max_atoms : int, optional
+            Maximum number of atoms. Default None (auto-detect from data).
+        n_jobs : int, optional
+            Number of parallel jobs for tensorization. Default 1.
+        batch_size : int, optional
+            Batch size for tensorization. Default 10.
+        verbose : bool, optional
+            Print progress during tensorization. Default False.
+
+        Returns
+        -------
+        tuple
+            (atoms, bonds, edges) as float32/int32 tensors
+        """
+        from chemml.chem.foss_descriptors import normalize_input
+        from chemml.chem import tensorise_molecules
+
+        # Normalize to Molecule format (handles SMILES, Molecule objects, etc.)
+        # normalize_input with force_molecule=True returns (smiles_list, rdkit_mol_list, molecule_obj_list)
+        _, _, mol_obj_list = normalize_input(
+            molecules_input, quiet=not verbose, force_molecule=True
+        )
+        
+
+        # Tensorize molecules
+        atoms, bonds, edges = tensorise_molecules(
+            molecules=mol_obj_list,
+            max_degree=max_degree,
+            max_atoms=max_atoms,
+            n_jobs=n_jobs,
+            batch_size=batch_size,
+            verbose=verbose,
+        )
+
+        return atoms, bonds, edges
+
+    def fit(self, atoms, bonds=None, edges=None, y=None, tensorize_kwargs=None, **kwargs):
+        """Train the model.
+
+        Supports both raw molecular inputs and pre-tensorized inputs.
+
+        Parameters
+        ----------
+        atoms : array_like or str/list/Molecule
+            Either:
+            - Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+            - Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules
+        bonds : array_like, optional
+            Bond features if atoms is pre-tensorized.
+            Not needed if atoms is raw molecular input.
+        edges : array_like, optional
+            Edge connectivity if atoms is pre-tensorized.
+            Not needed if atoms is raw molecular input.
         y : array_like
             Target values, shape (n_samples,) for single output or (n_samples, n_outputs) for multi-output
+        tensorize_kwargs : dict, optional
+            Arguments for _tensorize_input when using raw molecular input.
+            Supported keys: max_degree, max_atoms, n_jobs, batch_size, verbose.
+            Default: {max_degree=5, max_atoms=None, n_jobs=1, batch_size=10, verbose=False}
 
         Returns
         -------
         self
+
+        Examples
+        --------
+        # Pre-tensorized input (existing workflow)
+        ngf.fit(atoms, bonds, edges, y)
+
+        # Raw SMILES input (new workflow)
+        ngf.fit(['CC', 'CCO', 'CCCO'], y=y)
+
+        # Raw Molecule objects (new workflow)
+        ngf.fit(mol_objs_list, y=y)
+
+        # With tensorization options
+        ngf.fit(smiles_list, y=y, tensorize_kwargs={'max_degree': 5, 'n_jobs': -1})
         """
+        # Detect input type and tensorize if needed
+        
+        if isinstance(atoms, list):
+            # Raw molecular input - tensorize it
+            if tensorize_kwargs is None:
+                tensorize_kwargs = {}
+                # Set defaults for tensorize_kwargs
+                tensorize_kwargs.setdefault('max_degree', 5)
+                tensorize_kwargs.setdefault('max_atoms', None)
+                tensorize_kwargs.setdefault('n_jobs', 1)
+                tensorize_kwargs.setdefault('batch_size', 10)
+                tensorize_kwargs.setdefault('verbose', self.verbose)
+                # print(f"[Info] Using default tensorize_kwargs: {tensorize_kwargs}")
+
+            atoms, bonds, edges = self._tensorize_input(atoms, **tensorize_kwargs)
+            # print(atoms.shape, bonds.shape, edges.shape)
+        elif isinstance(atoms, np.ndarray):
+            if bonds is None or edges is None:
+                raise ValueError(
+                    "If atoms is a pre-tensorized array, bonds and edges must also be provided. "
+                    "Alternatively, pass raw molecular input (SMILES/Molecule objects) as atoms."
+                )
+        else:
+            raise ValueError(
+                "atoms must be either a list of SMILES/Molecule objects or a pre-tensorized numpy array alongside edges and bonds."
+            )
+
         # Extract tensor shapes
         max_atoms = atoms.shape[1]
         max_degree = edges.shape[2]
@@ -269,12 +373,14 @@ class NeuralGraphFingerprint:
                 lr=self.learning_rate,
                 weight_decay=self.alpha,
             )
-        else:
+        elif self.optimizer == "sgd":
             self.opt = torch.optim.SGD(
                 self.model.parameters(),
                 lr=self.learning_rate,
                 weight_decay=self.alpha,
             )
+        else:
+            raise ValueError("Unsupported optimizer. Use 'adam' or 'sgd'.")
 
         self.losses_ = []
 
@@ -331,7 +437,7 @@ class NeuralGraphFingerprint:
 
         # Training loop
         self.model.train()
-        for epoch in range(self.epochs):
+        for epoch in tqdm(range(self.epochs), desc="Training", disable=not self.verbose):
             # Shuffle
             permutation = torch.randperm(n_samples)
             epoch_losses = []
@@ -367,25 +473,65 @@ class NeuralGraphFingerprint:
             if self.verbose and (epoch + 1) % max(1, self.epochs // 10) == 0:
                 print(f"Epoch {epoch + 1}/{self.epochs}, Loss: {avg_loss:.6f}")
 
-    def predict(self, atoms, bonds, edges):
+    def predict(self, atoms, bonds=None, edges=None, tensorize_kwargs=None):
         """Generate predictions.
+
+        Supports both raw molecular inputs and pre-tensorized inputs.
 
         Parameters
         ----------
-        atoms : array_like
-            Atom features, shape (n_samples, max_atoms, num_atom_features)
-        bonds : array_like
-            Bond features, shape (n_samples, max_atoms, max_degree, num_bond_features)
-        edges : array_like
-            Edge connectivity, shape (n_samples, max_atoms, max_degree), dtype int32
+        atoms : array_like or str/list/Molecule
+            Either:
+            - Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+            - Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules
+        bonds : array_like, optional
+            Bond features if atoms is pre-tensorized.
+            Not needed if atoms is raw molecular input.
+        edges : array_like, optional
+            Edge connectivity if atoms is pre-tensorized.
+            Not needed if atoms is raw molecular input.
+        tensorize_kwargs : dict, optional
+            Arguments for _tensorize_input when using raw molecular input.
+            Supported keys: max_degree, max_atoms, n_jobs, batch_size, verbose.
 
         Returns
         -------
         predictions : ndarray
             Predictions, shape (n_samples,) for single output or (n_samples, n_outputs) for multi-output
+
+        Examples
+        --------
+        # Pre-tensorized input
+        predictions = ngf.predict(atoms_test, bonds_test, edges_test)
+
+        # Raw SMILES input
+        predictions = ngf.predict(['CC', 'CCO', 'CCCO'])
+
+        # Raw Molecule objects
+        predictions = ngf.predict(mol_objs_test)
         """
         if self.model is None:
             raise ValueError("Model not built. Call fit() first.")
+
+        # Detect input type and tensorize if needed
+        if isinstance(atoms, (str, list)) or (hasattr(atoms, '__class__') and 
+                                               atoms.__class__.__name__ == 'Molecule'):
+            # Raw molecular input - tensorize it
+            if tensorize_kwargs is None:
+                tensorize_kwargs = {}
+            # Set defaults for tensorize_kwargs
+            tensorize_kwargs.setdefault('max_degree', 5)
+            tensorize_kwargs.setdefault('max_atoms', None)
+            tensorize_kwargs.setdefault('n_jobs', 1)
+            tensorize_kwargs.setdefault('batch_size', 10)
+            tensorize_kwargs.setdefault('verbose', False)
+
+            atoms, bonds, edges = self._tensorize_input(atoms, **tensorize_kwargs)
+        elif bonds is None or edges is None:
+            raise ValueError(
+                "If atoms is a pre-tensorized array, bonds and edges must also be provided. "
+                "Alternatively, pass raw molecular input (SMILES/Molecule objects) as atoms."
+            )
 
         if self.engine == "tensorflow":
             predictions = self.model.predict([atoms, bonds, edges], verbose=0)

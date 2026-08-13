@@ -165,16 +165,16 @@ class RDKitFingerprint(object):
         if self.vector == 'int':
             gen = rdFingerprintGenerator.GetMorganGenerator(radius=self.radius, **mapped_kwargs)
             self.fps_ = [gen.GetSparseCountFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Morgan Fingerprints", unit="molecule")]
-            dict_nonzero = [fp.GetNonzeroElements() for fp in self.fps_]
+            dict_nonzero = [fp.GetNonzeroElements() for fp in tqdm(self.fps_, desc="Extracting non-zero elements", unit="molecule")]
             data = pd.DataFrame(dict_nonzero)
             data.fillna(0, inplace=True)
             return data
         elif self.vector == 'bit':
             gen = rdFingerprintGenerator.GetMorganGenerator(
                 radius=self.radius, fpSize=self.n_bits, **mapped_kwargs)
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Morgan Fingerprints", unit="molecule")]
-            data = np.array(self.fps_)
-            data = pd.DataFrame(data)
+            self.fps_ = [gen.GetFingerprintAsNumPy(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Morgan Fingerprints", unit="molecule")]
+            # data = np.array(self.fps_)
+            data = pd.DataFrame(self.fps_)
             return data
 
     def _htt(self, molecules):
@@ -187,9 +187,8 @@ class RDKitFingerprint(object):
             data.fillna(0, inplace=True)
             return data
         elif self.vector == 'bit':
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Hashed Topological Torsion Fingerprints", unit="molecule")]
-            data = np.array(self.fps_)
-            data = pd.DataFrame(data)
+            self.fps_ = [gen.GetFingerprintAsNumPy(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Hashed Topological Torsion Fingerprints", unit="molecule")]
+            data = pd.DataFrame(self.fps_)
             return data
 
     def _tt(self, molecules):
@@ -203,9 +202,8 @@ class RDKitFingerprint(object):
             return data
         elif self.vector == 'bit':
             gen = rdFingerprintGenerator.GetTopologicalTorsionGenerator(fpSize=self.n_bits, **mapped_kwargs)
-            self.fps_ = [gen.GetFingerprint(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Topological Torsion Fingerprints", unit="molecule")]
-            data = np.array(self.fps_)
-            data = pd.DataFrame(data)
+            self.fps_ = [gen.GetFingerprintAsNumPy(self._sanitary(mol)) for mol in tqdm(molecules, desc="Generating Topological Torsion Fingerprints", unit="molecule")]
+            data = pd.DataFrame(self.fps_)
             return data
 
     def _sanitary(self, mol):

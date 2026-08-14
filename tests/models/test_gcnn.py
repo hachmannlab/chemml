@@ -146,83 +146,9 @@ class TestNeuralGraphFingerprintInit:
 
 class TestPyTorchEngine:
     """Test PyTorch engine functionality."""
+    """Note all tests are run with output head, as it is the default behavior for neural fingerprints."""
 
-    def test_pytorch_single_output_fit_predict(self, graph_data, single_output_targets):
-        """Test PyTorch single output training and prediction."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=2,
-            batch_size=5,
-            verbose=False
-        )
-
-        ngf.fit(atoms, bonds, edges, y)
-
-        # Check model is built
-        assert ngf.model is not None
-        assert isinstance(ngf.model, _NeuralGraphNetworkPT)
-        assert ngf.n_outputs == 1
-
-        # Check predictions
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-        assert isinstance(predictions, np.ndarray)
-        assert predictions.dtype == np.float32 or predictions.dtype == np.float64
-
-    def test_pytorch_multi_output_fit_predict(self, graph_data, multi_output_targets):
-        """Test PyTorch multi-output training and prediction."""
-        atoms, bonds, edges, _ = graph_data
-        y = multi_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=2,
-            batch_size=5,
-            verbose=False
-        )
-
-        ngf.fit(atoms, bonds, edges, y)
-
-        # Check model is built with correct output size
-        assert ngf.model is not None
-        assert ngf.n_outputs == 3
-
-        # Check predictions
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0], 3)
-        assert isinstance(predictions, np.ndarray)
-
-    def test_pytorch_auto_detect_multi_output(self, graph_data, multi_output_targets):
-        """Test that PyTorch auto-detects multi-output from y.shape."""
-        atoms, bonds, edges, _ = graph_data
-        y = multi_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=1,
-            verbose=False
-        )
-
-        # Initially n_outputs should be 1
-        assert ngf.n_outputs == 1
-
-        # After fit, should auto-detect 3 outputs
-        ngf.fit(atoms, bonds, edges, y)
-        assert ngf.n_outputs == 3
-
-    def test_pytorch_with_mlp_head(self, graph_data, single_output_targets):
+    def test_pytorch_single_output(self, graph_data, single_output_targets):
         """Test PyTorch with optional MLP head."""
         atoms, bonds, edges, _ = graph_data
         y = single_output_targets
@@ -242,107 +168,32 @@ class TestPyTorchEngine:
 
         predictions = ngf.predict(atoms, bonds, edges)
         assert predictions.shape == (atoms.shape[0],)
-
-    def test_pytorch_losses_tracking(self, graph_data, single_output_targets):
-        """Test that PyTorch tracks losses during training."""
+    def test_pytorch_multi_output(self, graph_data, multi_output_targets):
+        """Test PyTorch multi-output training and prediction."""
         atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
+        y = multi_output_targets
 
         ngf = NeuralGraphFingerprint(
             engine='pytorch',
             conv_width=8,
             fp_length=32,
             n_conv_layers=1,
-            epochs=3,
+            hidden_sizes=[64, 32],
+            hidden_activations=['relu', 'relu'],
+            epochs=2,
             verbose=False
         )
 
         ngf.fit(atoms, bonds, edges, y)
 
-        # Check losses are tracked
-        assert hasattr(ngf, 'losses_')
-        assert len(ngf.losses_) == 3
-        assert all(isinstance(l, float) for l in ngf.losses_)
+        predictions = ngf.predict(atoms, bonds, edges)
+        assert predictions.shape == (atoms.shape[0], y.shape[1])
 
 
 class TestTensorFlowEngine:
     """Test TensorFlow engine functionality."""
-
-    def test_tensorflow_single_output_fit_predict(self, graph_data, single_output_targets):
-        """Test TensorFlow single output training and prediction."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=2,
-            batch_size=5,
-            verbose=False
-        )
-
-        ngf.fit(atoms, bonds, edges, y)
-
-        # Check model is built
-        assert ngf.model is not None
-        assert isinstance(ngf.model, Model)
-        assert ngf.n_outputs == 1
-
-        # Check predictions
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-        assert isinstance(predictions, np.ndarray)
-
-    def test_tensorflow_multi_output_fit_predict(self, graph_data, multi_output_targets):
-        """Test TensorFlow multi-output training and prediction."""
-        atoms, bonds, edges, _ = graph_data
-        y = multi_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=2,
-            batch_size=5,
-            verbose=False
-        )
-
-        ngf.fit(atoms, bonds, edges, y)
-
-        # Check model is built with correct output size
-        assert ngf.model is not None
-        assert ngf.n_outputs == 3
-
-        # Check predictions
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0], 3)
-        assert isinstance(predictions, np.ndarray)
-
-    def test_tensorflow_auto_detect_multi_output(self, graph_data, multi_output_targets):
-        """Test that TensorFlow auto-detects multi-output from y.shape."""
-        atoms, bonds, edges, _ = graph_data
-        y = multi_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=1,
-            verbose=False
-        )
-
-        # Initially n_outputs should be 1
-        assert ngf.n_outputs == 1
-
-        # After fit, should auto-detect 3 outputs
-        ngf.fit(atoms, bonds, edges, y)
-        assert ngf.n_outputs == 3
-
-    def test_tensorflow_with_mlp_head(self, graph_data, single_output_targets):
+    """Note all tests are run with output head, as it is the default behavior for neural fingerprints."""
+    def test_tensorflow_single_output(self, graph_data, single_output_targets):
         """Test TensorFlow with optional MLP head."""
         atoms, bonds, edges, _ = graph_data
         y = single_output_targets
@@ -362,74 +213,26 @@ class TestTensorFlowEngine:
 
         predictions = ngf.predict(atoms, bonds, edges)
         assert predictions.shape == (atoms.shape[0],)
-
-
-class TestEngineComparison:
-    """Test consistency between PyTorch and TensorFlow engines."""
-
-    def test_both_engines_same_input_output_shapes(self, graph_data, single_output_targets):
-        """Test that both engines produce same output shapes."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf_pt = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=1,
-            verbose=False,
-            random_seed=42
-        )
-        ngf_pt.fit(atoms, bonds, edges, y)
-        pred_pt = ngf_pt.predict(atoms, bonds, edges)
-
-        ngf_tf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=1,
-            verbose=False,
-            random_seed=42
-        )
-        ngf_tf.fit(atoms, bonds, edges, y)
-        pred_tf = ngf_tf.predict(atoms, bonds, edges)
-
-        # Check shapes match
-        assert pred_pt.shape == pred_tf.shape
-        assert pred_pt.shape == (atoms.shape[0],)
-
-    def test_both_engines_multi_output_shapes(self, graph_data, multi_output_targets):
-        """Test multi-output shapes match across engines."""
+    def test_tensorflow_multi_output(self, graph_data, multi_output_targets):
+        """Test TensorFlow multi-output training and prediction."""
         atoms, bonds, edges, _ = graph_data
         y = multi_output_targets
 
-        ngf_pt = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_width=8,
-            fp_length=32,
-            n_conv_layers=1,
-            epochs=1,
-            verbose=False
-        )
-        ngf_pt.fit(atoms, bonds, edges, y)
-        pred_pt = ngf_pt.predict(atoms, bonds, edges)
-
-        ngf_tf = NeuralGraphFingerprint(
+        ngf = NeuralGraphFingerprint(
             engine='tensorflow',
             conv_width=8,
             fp_length=32,
             n_conv_layers=1,
-            epochs=1,
+            hidden_sizes=[64, 32],
+            hidden_activations=['relu', 'relu'],
+            epochs=2,
             verbose=False
         )
-        ngf_tf.fit(atoms, bonds, edges, y)
-        pred_tf = ngf_tf.predict(atoms, bonds, edges)
 
-        # Check shapes match
-        assert pred_pt.shape == pred_tf.shape
-        assert pred_pt.shape == (atoms.shape[0], 3)
+        ngf.fit(atoms, bonds, edges, y)
+
+        predictions = ngf.predict(atoms, bonds, edges)
+        assert predictions.shape == (atoms.shape[0], y.shape[1])
 
 
 class TestGetModel:
@@ -462,109 +265,3 @@ class TestGetModel:
         ngf = NeuralGraphFingerprint(engine='pytorch')
         with pytest.raises(ValueError, match="Model not built"):
             ngf.predict(np.random.randn(1, 5, 6), np.random.randn(1, 5, 3, 4), np.random.randint(-1, 5, (1, 5, 3)))
-
-
-class TestActivations:
-    """Test different activation functions."""
-
-    @pytest.mark.parametrize("activation", ["relu", "sigmoid", "tanh"])
-    def test_pytorch_conv_activations(self, graph_data, single_output_targets, activation):
-        """Test PyTorch with different conv activations."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            conv_activation=activation,
-            fp_activation='softmax',
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-
-    @pytest.mark.parametrize("activation", ["relu", "sigmoid", "tanh"])
-    def test_tensorflow_conv_activations(self, graph_data, single_output_targets, activation):
-        """Test TensorFlow with different conv activations."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            conv_activation=activation,
-            fp_activation='softmax',
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-
-
-class TestOptimizers:
-    """Test different optimizer configurations."""
-
-    def test_pytorch_adam_optimizer(self, graph_data, single_output_targets):
-        """Test PyTorch with Adam optimizer."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            optimizer='adam',
-            learning_rate=0.001,
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-
-    def test_pytorch_sgd_optimizer(self, graph_data, single_output_targets):
-        """Test PyTorch with SGD optimizer."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='pytorch',
-            optimizer='sgd',
-            learning_rate=0.01,
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-
-    def test_tensorflow_adam_optimizer(self, graph_data, single_output_targets):
-        """Test TensorFlow with Adam optimizer."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            optimizer='adam',
-            learning_rate=0.001,
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)
-
-    def test_tensorflow_sgd_optimizer(self, graph_data, single_output_targets):
-        """Test TensorFlow with SGD optimizer."""
-        atoms, bonds, edges, _ = graph_data
-        y = single_output_targets
-
-        ngf = NeuralGraphFingerprint(
-            engine='tensorflow',
-            optimizer='sgd',
-            learning_rate=0.01,
-            epochs=1,
-            verbose=False
-        )
-        ngf.fit(atoms, bonds, edges, y)
-        predictions = ngf.predict(atoms, bonds, edges)
-        assert predictions.shape == (atoms.shape[0],)

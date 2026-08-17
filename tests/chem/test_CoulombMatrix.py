@@ -82,6 +82,14 @@ def test_E(mols):
     assert a[0][-1] == pytest.approx( h2o.values[0][-1])
 
 
+def test_E_real_values(mols):
+    cm = CoulombMatrix('E', n_jobs=1)
+    h2o = cm.represent(mols)
+
+    assert np.isrealobj(h2o.to_numpy())
+    assert not np.iscomplexobj(h2o.to_numpy())
+
+
 def test_SC(mols):
     cm = CoulombMatrix('SC', n_jobs=1)
     h2o = cm.represent(mols)

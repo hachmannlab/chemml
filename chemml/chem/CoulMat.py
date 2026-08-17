@@ -112,7 +112,9 @@ class CoulombMatrix(object):
         # pad with zero values
         if self.max_n_atoms_ > len(mol):
             cm = padaxis(np.array(cm), self.max_n_atoms_, 0, 0)
-        return np.array(cm)[:self.max_n_atoms_, :self.max_n_atoms_] #shape nAtoms*nAtoms
+        cm = np.asarray(cm, dtype=float)[:self.max_n_atoms_, :self.max_n_atoms_]
+        cm = 0.5 * (cm + cm.T)
+        return cm  # shape nAtoms*nAtoms
 
     def represent(self, molecules):
         """
@@ -226,9 +228,11 @@ class CoulombMatrix(object):
             eigenspectrums = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
-                eig = np.linalg.eigvals(cm)
-                eig[::-1].sort()
-                eigenspectrums = np.append(eigenspectrums,eig)
+                eig = np.linalg.eigvalsh(cm)
+                eig = np.real_if_close(eig, tol=1000)
+                eig = np.asarray(eig, dtype=float)
+                eig = np.sort(eig)[::-1]
+                eigenspectrums = np.append(eigenspectrums, eig)
             eigenspectrums = eigenspectrums.reshape(n_molecules_, self.max_n_atoms_)
             eigenspectrums = pd.DataFrame(eigenspectrums)
             return eigenspectrums

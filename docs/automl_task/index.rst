@@ -13,3 +13,9 @@ The AutoML task is designed to provide a one-step easy to use tool for all of Ch
    
     ../ipython_notebooks/autoML_regression.ipynb
 
+.. toctree::
+    :maxdepth: 2
+    :caption: How to use AutoML for classification
+   
+    ../ipython_notebooks/autoML_classification.ipynb
+

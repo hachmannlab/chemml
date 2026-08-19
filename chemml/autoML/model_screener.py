@@ -1,3 +1,4 @@
+import importlib
 import os
 import json
 import pickle
@@ -17,7 +18,7 @@ import time
 import uuid
 from tqdm import tqdm
 from importlib import import_module
-# from multiprocessing import Pool, Manager
+from multiprocessing import Pool, Manager
 
 try:
     from threadpoolctl import threadpool_limits
@@ -36,7 +37,7 @@ def _log(message, output_file=None, to_console=True):
 
 
 class ModelScreener(object):
-    def __init__(self, df, target, featurization=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log"):
+    def __init__(self, df, target, featurization=False, cache_features=False, store_models=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log"):
         """
         This is a constructor function that initializes parameters for AutoML.
         
@@ -47,20 +48,26 @@ class ModelScreener(object):
             a pandas DataFrame containing the data to be used for modeling
         target : str
             The name of the target column in the input DataFrame that the model will predict
-        featurization : bool, optional
-            A boolean indicating whether feature screening is required or not, by default False
-        smiles : str , optional
+        featurization : bool, optional (default False)
+            A boolean indicating whether feature screening is required or not
+        cache_features : bool, optional (default False)
+            A boolean indicating whether to cache the generated features
+            Note: Only applies when featurization is set to True
+        store_models : bool, optional (default False)
+            A boolean indicating whether to store all best models
+            Note: The best fitting overall model will always be stored regardless of this parameter
+        smiles : str , optional (default None)
             A string representing the name of the column in the input DataFrame that contains
-            the SMILES strings for the molecules. This is only required if featurization is set to True, by default None
-        screener_type : str, optional
+            the SMILES strings for the molecules. This is only required if featurization is set to True
+        screener_type : str, optional (default "regressor")
             This parameter specifies whether the screener model should be a classifier
-            or a regressor. It must be set to either "classifier" or "regressor",, by default "regressor"
-        n_gen : int, optional
-            number of generations that genetic algorithm should run, by default 10
-        output_dir : str, optional
-            The name of the directory where the scores will be written to, by default "automl_results"
-        output_file : str, optional
-            The name of the file where the scores will be written to, by default "output.log"
+            or a regressor. It must be set to either "classifier" or "regressor"
+        n_gen : int, optional (default 10)
+            number of generations that genetic algorithm should run
+        output_dir : str, optional (default "automl_results")
+            The name of the directory where the scores will be written to
+        output_file : str, optional (default "output.log")
+            The name of the file where all stdout output will be written to
 
         """        
         
@@ -75,6 +82,11 @@ class ModelScreener(object):
             self.output_dir = output_dir
         else:
             raise TypeError("Parameter 'output_dir' must be of type str")
+
+        if isinstance(output_file, str):
+            self.output_file = os.path.join(self.output_dir, output_file)
+        else:
+            raise TypeError("Parameter 'output_file' must be of type str")
 
         self._artifact_temp_dir = os.path.join(self.output_dir, ".model_screener_artifacts")
         os.makedirs(self._artifact_temp_dir, exist_ok=True)
@@ -95,9 +107,17 @@ class ModelScreener(object):
         
         if not isinstance(featurization, bool):
             raise TypeError("Featurization must be True or False !")
+
+        if not isinstance(cache_features, bool):
+            raise TypeError("Cache_features must be True or False !")
+
+        if not isinstance(store_models, bool):
+            raise TypeError("store_models must be True or False !")
+        self.store_models = store_models
         self.featurization = featurization
         if self.featurization == True:
             # List to gather locations of invalid SMILES if present and remove them from the targets
+            self.cache_features=cache_features
             self.discarded_indices = [] 
             if smiles == None:
                 raise ValueError("If feature screeening is required, smiles column must be provided!")
@@ -105,6 +125,8 @@ class ModelScreener(object):
                 if isinstance(smiles, str):
                     if smiles in self.df.columns:
                         self.smiles = self.df[smiles]
+                        # Sanitize the dataframe to only include the smiles and target columns
+                        self.df = self.df[[smiles, target]]
                     else:
                         raise ValueError("Column name does not exist!")
                 else:
@@ -195,6 +217,23 @@ class ModelScreener(object):
         self.run_artifacts[run_key] = artifact_info
         return artifact_info
 
+    def _cleanup_non_best_artifacts(self, best_run_key):
+        """Delete all artifact directories except for the best model."""
+        if not os.path.isdir(self._artifact_temp_dir):
+            return
+
+        for item in os.listdir(self._artifact_temp_dir):
+            item_path = os.path.join(self._artifact_temp_dir, item)
+            if os.path.isdir(item_path):
+                # Check if this directory corresponds to the best run key
+                # Artifact directories are named with the run_key
+                if item != best_run_key:
+                    try:
+                        shutil.rmtree(item_path)
+                        _log(f"Cleaned up artifact directory: {item_path}\n", output_file=self.output_file, to_console=False)
+                    except Exception as e:
+                        _log(f"Error cleaning up artifact directory {item_path}: {e}\n", output_file=self.output_file)
+
     def run_model(self, model_name, tmp_counter, output_file, X_train, y_train, X_test, y_test, space_models, scores_list, key):
 
         def fit_model(model, x_data, y_data):
@@ -226,10 +265,11 @@ class ModelScreener(object):
             fit_model(ml_model, x, y)
             ypred = ml_model.predict(xtest)
             run_key = f"{model_name}_{key}_{uuid.uuid4().hex}"
+            # Always save artifacts; cleanup will occur later if store_models=False
             artifact_info = self._save_model_artifact(ml_model=ml_model, model_name=model_name, feature_key=key, run_key=run_key)
             self.run_artifacts[run_key] = artifact_info
             if self.screener_type == "regressor":            
-                scores = regression_metrics(y_true=y_test, y_predicted=ypred)
+                scores = regression_metrics(y_true=ytest, y_predicted=ypred)
                 time_taken = time.time() - model_start_time
                 scores["time(seconds)"]= time_taken
                 scores["Model"]=model_name
@@ -240,10 +280,10 @@ class ModelScreener(object):
                 
 
             elif self.screener_type == "classifier":
-                accuracy = accuracy_score(y_test, ypred)
-                recall = recall_score(y_test, ypred, average='macro')
-                precision = precision_score(y_test, ypred, average='macro')
-                f1score = f1_score(y_test, ypred, average='macro')
+                accuracy = accuracy_score(ytest, ypred)
+                recall = recall_score(ytest, ypred, average='macro')
+                precision = precision_score(ytest, ypred, average='macro')
+                f1score = f1_score(ytest, ypred, average='macro')
                 time_taken = time.time() - model_start_time
                 scores = {"Model": model_name, "Accuracy": accuracy, "Recall": recall, "Precision": precision, "F1-score": f1score, "time(seconds)": time_taken, "parameters": [ml_model.get_params()], "Feature": key, "run_key": run_key}
                 scores = pd.Series(scores)
@@ -264,7 +304,7 @@ class ModelScreener(object):
                 _log(f"Error importing module for model {model_name}: Library not installed.", output_file=self.output_file)
                 raise ModuleNotFoundError(e)
 
-            if model_name == 'MLPRegressor':
+            if model_name == 'MLPRegressor' or model_name == 'MLPClassifier':
                 layers = [parameters_list[i] for i in range(2,5) if parameters_list[i] != 0]
                 model = getattr(module,model_name)(alpha=np.exp(parameters_list[0]), activation=parameters_list[1], hidden_layer_sizes=tuple(layers), learning_rate='invscaling', max_iter=2000, early_stopping=True, random_state=42)  
             
@@ -312,10 +352,10 @@ class ModelScreener(object):
                 model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2])
             
             elif model_name == "RandomForestClassifier":
-                model = getattr(module,model_name)(n_estimators=parameters_list[0], criterion=parameters_list[1])
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], criterion=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42, n_jobs=-1)
 
             elif model_name == "SVC":
-                model = getattr(module,model_name)(C=np.exp(parameters_list[0]), kernel=parameters_list[1])
+                model = getattr(module,model_name)(C=np.exp(parameters_list[0]), kernel=parameters_list[1], probability=True)
             
             elif model_name == "KNeighborsClassifier":
                 if parameters_list[0] > len(self.x_list[key]):
@@ -400,7 +440,25 @@ class ModelScreener(object):
         from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures
         # generate all representation techniques here
 
-        _log("Featurization is set to True. Generating molecular representations for SMILES strings...\n", output_file=self.output_file)
+        feature_keys = ["CoulombMatrix", "morganfingerprints_radius3", "MACCS_radius3", "hashedtopologicaltorsion_radius3", "hashedatompair_radius3", "rdkit_descriptors", "mord_descriptors"]
+        features_path = os.path.join(self.output_dir, "features")
+
+        if self.cache_features:
+            _log(f"Featurization is set to True. Looking for cached features in {features_path}...\n", output_file=self.output_file)
+            try:
+                for key in feature_keys:
+                    x_df = pd.read_parquet(os.path.join(features_path, f'{self.output_dir}_{key}.parquet'))
+                    _log(f"Loaded cached features for '{key}' from {features_path} with shape: {x_df.shape}\n", output_file=self.output_file)
+                    self.x_list[key] = x_df
+                    return 0
+                    
+            except FileNotFoundError as e:
+                _log(f"\n{e}: Feature files not found in {features_path}. Generating features from SMILES strings...\n", output_file=self.output_file)
+
+        elif self.cache_features and not os.path.exists(features_path):
+            os.makedirs(features_path)
+            pass
+
         mol_objs_list=[]
         
         i=0
@@ -441,19 +499,23 @@ class ModelScreener(object):
         self.x_list["rdkit_descriptors"] = allDescrs
 
         _log(f"\nGenerating Mordred descriptor representations...\n", output_file=self.output_file)
-        mord = Mordred()
+        mord = Mordred(ignore_3D=False)
         mord_descriptors = mord.represent(mol_objs_list, quiet=False).drop(columns='SMILES')
         self.x_list['mord_descriptors'] = mord_descriptors
 
         # Applying standard feature cleaning steps to improve feature quality
         # New in v1.3.4, since feature order is logged as part of the best model 
+        from datetime import datetime
+        os.makedirs(features_path, exist_ok=True)
         _log("\nCleaning feature sets to remove constant, highly correlated, and low-variance features...\n", output_file=self.output_file)
         for x_key, x_df in self.x_list.items():
-            x_df = ConstantColumns(x_df)
+            # x_df = ConstantColumns(x_df) NOTE: ConstantColumns is deprecated and will be removed in ChemML v1.4
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
             self.x_list[x_key] = x_df
             _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.\n", output_file=self.output_file)
+            if self.cache_features:
+                x_df.to_parquet(os.path.join(features_path, f'{self.output_dir}_{x_key}.parquet'))
 
 
     def aggregate_scores(self,  scores_list, n_best):
@@ -627,15 +689,30 @@ class ModelScreener(object):
             if self.screener_type == "regressor":
                 single_core_models.pop('SVR', None)
                 if multi_core:
-                    # Note: XGBRegressor performs better than GradientBoostingRegressor on large datasets, so we retain gradient boosting regression
-                    multi_core_models.pop('GradientBoostingRegressor', None)
+                    try:
+                        import xgboost
+                        # XGBRegressor performs better than GradientBoostingRegressor and DecisionTreeRegressor on large datasets
+                        multi_core_models.pop('GradientBoostingRegressor', None)
+                        single_core_models.pop('DecisionTreeRegressor', None)
+                    except ImportError:
+                        _log("XGBoost is not installed. Reverting to GradientBoostingRegressor\n", output_file=self.output_file)
+                        multi_core_models.pop('XGBRegressor', None)
+
                     multi_core_models.pop('MLPRegressor', None)
                     
             else:
-                single_core_models.pop('SVC', None)            
+                single_core_models.pop('SVC', None)
+                single_core_models.pop('DecisionTreeClassifier', None)            
+        # Remove complex models for small datasets to avoid overfitting and long runtimes
         else:
-            if multi_core:
-                multi_core_models.pop('MLP', None)  # For smaller datasets, MLP is unneccessarily slow; MLPRegressor is more than enough
+            if self.screener_type == "regressor":
+                if multi_core:
+                    multi_core_models.pop('MLP', None)  
+                    multi_core_models.pop('XGBRegressor', None)  
+            else:
+                if multi_core:
+                    multi_core_models.pop('MLP', None)  
+                    multi_core_models.pop('XGBClassifier', None)
 
         # Write run parameters to output file
         params_msg = (
@@ -648,6 +725,7 @@ class ModelScreener(object):
         if multi_core:
             params_msg += "MLP thread limit: 1 (hard-coded)\n"
             multi_core_model_names = list(multi_core_models.keys())
+            params_msg += f"  Multi-core models: {', '.join(multi_core_model_names)}\n"
         if len(y) > 5e2:
             params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
         else: 
@@ -705,5 +783,10 @@ class ModelScreener(object):
 
         self.export_best_model(best_model_output_dir=best_model_output_dir, best_models=best_models)
 
+        # Clean up artifacts if store_models=False, keeping only the best model
+        if not self.store_models:
+            best_run_key = best_models.iloc[0].get("run_key", None)
+            if best_run_key is not None:
+                self._cleanup_non_best_artifacts(best_run_key)
 
         return best_models

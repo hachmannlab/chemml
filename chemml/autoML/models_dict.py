@@ -12,6 +12,7 @@ models_dict = {
     "MLP": 'chemml.models',
     "LGBMRegressor": "lightgbm",
     "RandomForestClassifier": "sklearn.ensemble",
+    "MLPClassifier": "sklearn.neural_network",
     "DecisionTreeClassifier": "sklearn.tree",
     "SVC": "sklearn.svm",
     "KNeighborsClassifier": "sklearn.neighbors",

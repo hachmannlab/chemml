@@ -30,10 +30,9 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 
     conda create --name chemml_env python=3.13
     source activate chemml_env
-
+    <!-- Make sure to run this command in a clean location -->
     git clone https://github.com/hachmannlab/chemml.git
-    cd chemml
-    pip install -e .
+    pip install ./chemml
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy

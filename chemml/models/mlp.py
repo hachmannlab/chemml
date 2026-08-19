@@ -1,23 +1,8 @@
-from multiprocessing.managers import ValueProxy
-from multiprocessing.sharedctypes import Value
 import pandas as pd
-
-import torch
-from torch import nn
-import torch.nn.functional as F
-
-import tensorflow as tf
-tf.get_logger().setLevel(3) #to suppress warnings
-
-from tensorflow import keras
-from tensorflow.keras.models import Sequential, Model, load_model
-from tensorflow.keras.optimizers import SGD, Adam
-
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler 
 from collections import OrderedDict
 from importlib import import_module
+import torch.nn as nn
 
 class pytorch_Net(nn.Module):
     '''Base class for custom pytorch DNN with forward function.
@@ -167,8 +152,13 @@ class MLP(object):
         self.loss = loss
         self.random_seed = random_seed
 
-        torch.manual_seed(self.random_seed)
-        tf.random.set_seed(self.random_seed)
+        # Lazy-load frameworks only when needed to avoid simultaneous CUDA/triton init in containers
+        if self.engine == 'pytorch':
+            import torch
+            torch.manual_seed(self.random_seed)
+        else:
+            import tensorflow as tf
+            tf.random.set_seed(self.random_seed)
 
         if self.is_regression:
             self.noutputs = noutputs
@@ -182,6 +172,7 @@ class MLP(object):
         if self.engine == 'tensorflow':
             ############ load_model ############
             if params:
+                from tensorflow.keras.models import load_model
                 self.path_to_file = params['path_to_file']
                 self.model = load_model(self.path_to_file)
                 self.layers = self.model.layers
@@ -191,7 +182,8 @@ class MLP(object):
 
         ############ PYTORCH ############
         elif self.engine == 'pytorch':
-            if params: 
+            if params:
+                import torch
                 self.path_to_file = params['path_to_file']
                 self.layers = params['layers']
                 self.losses = params['losses']
@@ -207,6 +199,12 @@ class MLP(object):
 
 
     def _initialize_tensorflow(self):
+        import tensorflow as tf
+        tf.get_logger().setLevel(3)
+        from tensorflow import keras
+        from tensorflow.keras.models import Sequential
+        from tensorflow.keras.optimizers import SGD, Adam
+        
         self.model = Sequential()
 
         if self.layer_config_file:
@@ -271,8 +269,10 @@ class MLP(object):
         if isinstance(self.opt_config, list) or isinstance(self.opt_config, tuple):
             self.opt = self._parse_opt_config(self.opt_config)
         elif self.opt_config.lower() == 'sgd':
+            from tensorflow.keras.optimizers import SGD
             self.opt = SGD(learning_rate=self.learning_rate, momentum=0.9)
         elif self.opt_config.lower() == 'adam':
+            from tensorflow.keras.optimizers import Adam
             self.opt = Adam(learning_rate=self.learning_rate)
         else:
             raise TypeError('opt_config should be a list/tuple or a str. If str, should either be "sgd" or "adam". If list, should provide exact configurations and parameters corresponding to the respective engines')
@@ -281,6 +281,8 @@ class MLP(object):
 
 
     def _initialize_pytorch(self):
+        import torch
+        from torch import nn
         
         if self.layer_config_file:
             self.layers = self._parse_layer_config(self.layer_config_file)
@@ -422,6 +424,8 @@ class MLP(object):
             the name of the model file without the file type
             
         """
+        import json
+        
         required = ['engine','nfeatures','nepochs','batch_size','alpha',
                     'is_regression','nclasses','noutputs','layer_config_file','opt_config',
                     'learning_rate','nneurons','activations','loss','random_seed']
@@ -435,6 +439,7 @@ class MLP(object):
             self.model.save(path+'/'+filename+'.h5')
             chemml_options['path_to_file'] = path+'/'+filename+'.h5'
         elif self.engine == 'pytorch':
+            import torch
             checkpoint = {'model_state_dict':self.model.state_dict(),
                           'optimizer_state_dict':self.opt.state_dict()}
             torch.save(checkpoint, path+'/'+filename+'_checkpoint.pth')
@@ -444,7 +449,7 @@ class MLP(object):
             # chemml_options['opt'] = self.opt
             chemml_options['losses'] = self.losses
             chemml_options['layers'] = self.layers
-        import json
+        
         with open(path+'/'+filename+'_chemml_model.json','w') as f:
             json.dump(chemml_options, f)
         print("File saved as "+path+"/"+filename+"_chemml_model.json")
@@ -461,6 +466,8 @@ class MLP(object):
             path to the chemml.models.MLP csv file
         
         """
+        from tensorflow.keras.models import load_model
+        
         chemml_model = pd.read_csv(path_to_model,index_col=0)
         # self.model = load_model(chemml_model.loc['path_to_file'][0])
         self.model = load_model(path_to_model.split('_chemml_model.csv')[0] + '.h5')
@@ -510,7 +517,8 @@ class MLP(object):
 
 
     def _fit_pytorch(self, X, y):
-
+        import torch
+        
         if type(X) == torch.Tensor:
             pass
         elif type(X) == np.ndarray:
@@ -571,6 +579,8 @@ class MLP(object):
             Training targets
 
         """ 
+        import tensorflow as tf
+        
         self.batch_size = X.shape[0] if X.shape[0] < self.batch_size else self.batch_size
         if self.verbose is not None:
             self.model.fit(x=X, y=y, epochs=self.nepochs, batch_size=self.batch_size, verbose=self.verbose)
@@ -593,6 +603,8 @@ class MLP(object):
             Model predictions for each data point in X
 
         """
+        import torch
+        
         if type(X) == torch.Tensor:
             pass
         elif type(X) == np.ndarray:
@@ -622,6 +634,8 @@ class MLP(object):
             Predicted value from model
 
         """
+        import tensorflow as tf
+        
         return self.model.predict(
             X).squeeze() if self.is_regression else np.argmax(
                 self.model.predict(X).squeeze())
@@ -753,9 +767,9 @@ class MLP(object):
             optimizer created out of contents of optmizer configuration file
 
         """
-        
         opt_name, opt_params = opt_config[0], opt_config[1]
         if self.engine == 'pytorch':
+            import torch
             opt_params['params'] = self.model.parameters()
             opt_params['weight_decay'] = self.alpha
             pytorch_opt_module = import_module('torch.optim')
@@ -764,7 +778,8 @@ class MLP(object):
                 return opt
             except:
                 raise AttributeError('incorrect optimizer name or parameter for opt_config')
-        elif self.engine == 'tensorflow':  
+        elif self.engine == 'tensorflow':
+            import tensorflow as tf
             keras_opt_module = import_module('tensorflow.keras.optimizers')
             try:
                 opt = getattr(keras_opt_module, opt_name)(**opt_params)

@@ -178,11 +178,12 @@ class RDKDesc(object):
         ValueError
             If the input SMILES strings are not in a valid format.
         """
+        print("Step 1: Normalizing molecule input")
         smi_list, mol_list = normalize_input(mol_list)
 
         desc_data = []
         if n_jobs == 1:
-            for mol in tqdm(mol_list, desc='Calculating RDKit descriptors'):
+            for mol in tqdm(mol_list, desc='Step 2: Calculating RDKit descriptors'):
                 mol_desc = {}
                 for desc_name in self.descriptor_list:
                     mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
@@ -323,15 +324,19 @@ class Mordred(object):
         >>> df = mord.represent(smiles_list, remove_corr=True)
         >>> print(df.shape)
         '''
-
+        print("Step 1: Normalizing molecule input")
         if self.ignore_3D:
             smi_list, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=False)
+            step = 2
 
         else:
             smi_list, _, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=True)
             force_optimize = kwargs.pop('force_optimize', False)
+            print("Step 2/3: Optimizing geometry for 3D descriptor calculation")
             smi_list, mol_list  = self._optimize_3d_serial(mol_list, optimizer=optimizer, quiet=quiet, force_optimize=force_optimize)
-        
+            step = 3
+
+        print(f'Step {step}/{step}: Calculating Mordred descriptors')
         pand = self.calc.pandas(mol_list, quiet=quiet)
         pand = pand.select_dtypes([np.number]).replace([np.inf, -np.inf], np.nan)
         pand = pand.dropna(axis=1, how='all')
@@ -395,9 +400,11 @@ class PadelDesc:
         """
         from padelpy import from_smiles
 
+        print("Step 1/2: Normalizing molecule input")
         smi_list, _ = normalize_input(mol_list, quiet=True, force_molecule=False)
 
         # Calculate descriptors
+        print("Step 2/2: Calculating PaDEL descriptors")
         descriptors = from_smiles(smi_list)
         
         # Convert to DataFrame

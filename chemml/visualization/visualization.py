@@ -2,6 +2,8 @@ import os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, roc_curve, auc
+import numpy as np
 
 
 
@@ -339,343 +341,157 @@ class SavePlot(object):
             obj.savefig(self.file_path,**self.kwargs)
         print('The Plot has been saved at: ', self.file_path)
 
+class ClassificationPlots(object):
+    """
+    Generate classification evaluation plots including confusion matrix and ROC curves with AUC.
 
+    Parameters
+    ----------
+    plot_type: string, optional (default='both')
+        type of plot to generate: 'confusion_matrix', 'roc', or 'both'
 
-# class Scatter_2D(object):
-#     """
-#     (Scatter_2D)
-#     Uses matplotlib.pyplot to create a basic 2 dimensional plot with x data and y data.
-#     (https://matplotlib.org/2.2.0/index.html)
-#
-#     Parameters:
-#     ----------
-#     xheader,yheader: string or list of strings, optional (default = ['x'],['y'])
-#         string or list of strings containing the names of column headers of the dataframe that needs to be plot.
-#
-#     nod: integer, optional (default = 1)
-#         number of data sets that need to be plot
-#
-#     dflist : pandas dataframe or list of pandas dataframes
-#         specify the data that needs to be plot
-#         provide this while calling the plot function
-#
-#     NOTE: x data and y data in the same dataframe ( specify xheaders and yheaders )
-#         x data and y data in different
-#         if dflist has 1 dataframe nod can be n; for example (dflist=[df1] ; nod = 1)
-#         if dflist has n dataframes nod has to be n/2  (dflist=[df1,df2,df3,df4] ; nod=2)
-#
-#
-#     legend: Boolean, optional (default=False)
-#         True if a legend is required
-#
-#     xmin, xmax, ymin, ymax = integer, optional (default = 0)
-#         set upper and lower limits of x and y axis in the plot
-#
-#     title: string, optional (default= 'Plot')
-#         set the figure title
-#
-#     xlabel, ylabel : string, optional (default = 'x','y')
-#         label x and y axes
-#
-#     sc : list of strings, optional (default = '')
-#         mention the shape and color of the points on the plot, for example 'ro', 'b+', etc.
-#
-#     legend_title : list of strings, optional (default = [])
-#         label each plot on the legend
-#
-#     l_pos : string, optional (default = 'Best')
-#         specify the position of the legend.
-#
-#     kwargs : dictionary, optional (default = {})
-#         add any matplotlib options in the form of a dictionary.
-#         provide keys in the form of a string.
-#         for example kwargs = {'key':value}
-#
-#
-#
-#     Example:
-#     --------
-#     >>> from chemml.datasets import load_organic_density
-#     >>> smiles,density,features=load_organic_density()
-#     >>> pl3=Scatter_2D(['MW'],['AMW'],nod=1,xlabel='MW',ylabel='AMW',sc=['bo'],title='MW vs AMW', kwargs={'markersize':0.5,'alpha':0.25},xmin=800,xmax=2000,ymin=800,ymax=2000)
-#     >>> fig=pl3.plot(features)
-#     >>> # fig.show()
-#
-#     """
-#     def __init__(self, xheader=['x'], yheader=['y'],legend=False,xmin=0,xmax=0,ymin=0,ymax=0,xlabel= 'x', ylabel='y',title='Plot',sc=[''],legend_titles=[],l_pos='best',kwargs={}):
-#
-#         self.l_pos = l_pos
-#         self.legend=legend
-#         self.legend_titles=legend_titles
-#         self.sc=sc
-#         self.xmin=xmin
-#         self.xmax=xmax
-#         self.ymin=ymin
-#         self.ymax=ymax
-#         self.xlabel = xlabel
-#         self.ylabel = ylabel
-#         self.title = title
-#         self.kwargs=kwargs
-#         self.xheader=xheader
-#         self.yheader=yheader
-#
-#     def __fit(self,i,j):
-#
-#         if j==1:
-#             if len(self.dfx)==1:
-#                 dfx=self.dfx
-#                 for i in range(len(self.dfy)-1):
-#                     dfx.append(self.dfx[0])
-#                 self.dfx=dfx
-#             elif len(self.dfy)==1:
-#                 dfy=self.dfy
-#                 for i in range(len(self.dfx)-1):
-#                     dfy.append(self.dfy[0])
-#                 self.dfy=dfy
-#             else:
-#                 msg="length of dataframe lists (dfx and dfy) should be same, or one of them should be equal to 1"
-#                 raise IOError(msg)
-#
-#         elif j==2:
-#             if len(self.dfx)==1:
-#                 dfx=self.dfx
-#                 for i in range(len(self.xheader)-1):
-#                     dfx.append(self.dfx[0])
-#                 self.dfx=dfx
-#             elif len(self.xheader)==1:
-#                 xheader=self.xheader
-#                 for i in range(len(self.dfx)-1):
-#                     xheader.append(self.xheader[0])
-#                 self.xheader = xheader
-#             else:
-#                 msg = "length of header list (xheader) should be same as dataframe list (dfx) or one of them should be equal to 1"
-#                 raise IOError(msg)
-#
-#         elif j==3:
-#             if len(self.dfy)==1:
-#                 dfy=self.dfy
-#                 print 'here'
-#                 for i in range(len(self.yheader)-1):
-#                     dfy.append(self.dfy[0])
-#                 self.dfy=dfy
-#             elif len(self.yheader)==1:
-#                 yheader=self.yheader
-#                 for i in range(len(self.dfy)-1):
-#                     yheader.append(self.yheader[0])
-#                 self.yheader = yheader
-#             else:
-#                 msg = "length of header list (yheader) should be same as dataframe list (dfy) or one of them should be equal to 1"
-#                 raise IOError(msg)
-#         elif j==4:
-#             if len(self.xheader)==1:
-#                 xheader=self.xheader
-#                 for i in range(len(self.yheader)-1):
-#                     xheader.append(self.xheader[0])
-#                 self.xheader=xheader
-#             elif len(self.yheader)==1:
-#                 yheader=self.yheader
-#                 for i in range(len(self.xheader)-1):
-#                     yheader.append(self.yheader[0])
-#                 self.yheader=yheader
-#             else:
-#                 msg="length of header lists (xheader and yheader) should be the same or one of them should be equal to 1"
-#                 raise IOError(msg)
-#
-#         else:
-#             dfx=self.dfx[i]
-#             dfy=self.dfy[i]
-#             if isinstance(self.xheader[i], str):
-#                 self.x = dfx[self.xheader[i]]
-#             else:
-#                 self.x = dfx.iloc[:, self.xheader[i]]
-#
-#             if isinstance(self.yheader[i],str):
-#                 self.y = dfy[self.yheader[i]]
-#             else:
-#                 self.y = dfy.iloc[:, self.yheader[i]]
-#
-#     def plot(self,dfx,dfy):
-#         """
-#         (plot)
-#         This is the main function to create a 2D plot from dflist
-#
-#         Parameters:
-#         ----------
-#         dflist : pandas dataframe or list of pandas dataframes
-#             specify the data that needs to be plot.
-#             provide this while calling the plot function
-#
-#         Returns:
-#         ------
-#         f : matplotlib object
-#             returns the matplotlib object containing the plot information
-#
-#         """
-#
-#         self.dfx=dfx
-#         self.dfy=dfy
-#
-#         if len(self.xheader)!=len(self.dfx):
-#             self.__fit(-1,2)
-#
-#         if len(self.yheader)!=len(self.dfy):
-#             self.__fit(-1,3)
-#
-#         if len(self.dfx)!=len(self.dfy):
-#             self.__fit(-1, 1)
-#
-#         if len(self.xheader)!=len(self.yheader):
-#             self.__fit(-1,4)
-#
-#         if len(self.dfx)==1:
-#             f=plt.figure()
-#             self.__fit(0,0)
-#             if self.sc==['']:
-#                 plt.plot(self.x,self.y,**self.kwargs)
-#             else:
-#                 plt.plot(self.x,self.y,self.sc[0],**self.kwargs)
-#
-#         else:
-#             f, ax = plt.subplots()
-#             for i in range(len(self.dfx)):
-#                 self.__fit(i,0)
-#                 x1=self.x
-#                 y1=self.y
-#                 if self.sc[i]!='':
-#                     plt.plot(x1,y1,self.sc[i],**self.kwargs)
-#                 else:
-#                     plt.plot(x1,y1,**self.kwargs)
-#
-#         plt.xlabel(self.xlabel)
-#         plt.ylabel(self.ylabel)
-#         plt.title(self.title)
-#
-#         if self.xmin+self.xmax!=0 and self.ymin+self.ymax!=0:
-#             plt.axis([self.xmin,self.xmax,self.ymin,self.ymax])
-#         if self.legend==True:
-#             plt.legend(self.legend_titles,loc=self.l_pos)
-#         return f
+    figsize: tuple, optional (default=(12, 4))
+        figure size as (width, height)
 
-# class hist(object):
-#     """
-#     (hist)
-#     Uses matplotlib.pyplot to create a simple histogram.
-#     (https://matplotlib.org/2.2.0/index.html)
-#
-#     Parameters:
-#     ----------
-#     nbins: integer
-#         number of bins
-#
-#     rwidth: integer, optional (default=1)
-#         width of the bars in the histogram
-#
-#     xmin,xmax: integer, optional(default = 0,0)
-#         set upper and lower limits of the x axis
-#
-#     bestfit: Boolean, optional (default = False)
-#
-#     linshapecolor: string, optional (default = '')
-#         shape and color of the lines in the histogram
-#
-#     xlabel, ylabel: strings, optional (default = 'x','y')
-#         label for the x and y axes
-#
-#     title : string, optional (default = 'histogram')
-#         title for the figure
-#
-#     isformatter: Boolean, optional (default= False)
-#
-#     formatter_type: string, optional (default = '')
-#
-#     kwargs: dictionary, optional (default ={})
-#         add any matplotlib options in the form of a dictionary.
-#         provide keys in the form of a string.
-#         for example kwargs = {'key':value}
-#
-#     Example:
-#     --------
-#     >>> from chemml.datasets import load_organic_density
-#     >>> smiles,density,features=load_organic_density()
-#     >>> from chemml.visualization import hist
-#     >>> pl4=hist(nbins= 20, kwargs={'normed':True,'facecolor':'blue', 'ec':'black'}, lineshapecolor='g-', formatter_type='percent', rwidth=0.8, xmin=800, xmax=2000)
-#     >>> fig1=pl4.plot(density)
-#
-#     """
-#     def __init__(self,nbins,rwidth=1,xmin=0,xmax=0,bestfit=False,lineshapecolor='',xlabel='x',ylabel='y',title='histogram',isformatter=False,formatter_type='',kwargs={}):
-#         self.nbins=nbins
-#         self.rwidth=rwidth
-#         self.xmin=xmin
-#         self.lineshapecolor=lineshapecolor
-#         self.bestfit=bestfit
-#         self.xmax=xmax
-#         self.title=title
-#         self.isformatter=isformatter
-#         self.formatter_type=formatter_type
-#         self.xlabel=xlabel
-#         self.ylabel=ylabel
-#         self.kwargs=kwargs
-#         self.mean=[]
-#         self.std=[]
-#
-#     def __fit(self,df):
-#         mean=[]
-#         std=[]
-#         self.x=np.asarray(df)
-#         df.mean()
-#         dfnew=df.describe()
-#         mean.append(dfnew.loc['mean'])
-#         std.append(dfnew.loc['std'])
-#         self.mean=mean
-#         self.std=std
-#
-#         print self.mean
-#         print self.std
-#
-#
-#     def plot(self,dflist):
-#         """
-#         (plot)
-#         This is the main function to create a simple histogram from dflist
-#
-#         Parameters:
-#         ----------
-#         dflist : pandas dataframe or list of pandas dataframes
-#             specify the data that needs to be plot.
-#             provide this while calling the plot function
-#
-#         Returns:
-#         ------
-#         f : matplotlib object
-#             returns the matplotlib object containing the plot information
-#
-#         """
-#         if not isinstance(dflist, list)==True:
-#             self.__fit(dflist)
-#             self.dflist=[dflist]
-#         else:
-#             for i in dflist:
-#                 self.__fit(i)
-#             self.dflist=dflist
-#
-#         f,ax=plt.subplots()
-#
-#         if self.isformatter==True:
-#             if self.formatter_type=='percent':
-#                 formatter=matplotlib.ticker.EngFormatter()
-#                 ax.yaxis.set_major_formatter(formatter)
-#
-#         if (self.xmin+self.xmax)!=0:
-#             n,bins, patches=plt.hist(self.x,bins=self.nbins,rwidth=self.rwidth,range=(self.xmin,self.xmax),**self.kwargs)
-#         else:
-#             n,bins, patches=plt.hist(self.x,bins=self.nbins,rwidth=self.rwidth,**self.kwargs)
-#
-#
-#         if self.bestfit==True and self.lineshapecolor!='':
-#             y = mlab.normpdf(bins)#, self.mean, self.std)
-#             plt.plot(bins,y,self.lineshapecolor,**self.kwargs)
-#
-#         plt.xlabel(self.xlabel)
-#         plt.ylabel(self.ylabel)
-#         plt.title(self.title)
-#         return f
+    cmap: string, optional (default='Blues')
+        colormap for confusion matrix
+
+    kwargs : dictionary, optional (default = {})
+        additional matplotlib options in the form of a dictionary
+
+    Examples
+    --------
+    >>> from chemml.visualization import ClassificationPlots
+    >>> import numpy as np
+    >>> y_true = np.array([0, 1, 1, 0, 1])
+    >>> y_pred = np.array([0, 1, 0, 0, 1])
+    >>> cp = ClassificationPlots(plot_type='both')
+    >>> fig = cp.plot(y_true, y_pred)
+    >>> fig.show()
+    """
+
+    def __init__(self, plot_type='both', figsize=(12, 4), cmap='Blues', kwargs={}):
+        self.plot_type = plot_type
+        self.figsize = figsize
+        self.cmap = cmap
+        self.kwargs = kwargs
+
+    def plot(self, y_true, y_pred, y_pred_proba=None):
+        """
+        Generate classification plots.
+
+        Parameters
+        ----------
+        y_true: array-like
+            ground truth labels
+
+        y_pred: array-like
+            predicted class labels
+
+        y_pred_proba: array-like, optional (default=None)
+            predicted probabilities for ROC curve. If None, ROC plot is skipped.
+
+        Returns
+        -------
+        matplotlib.figure.Figure object
+
+        """
+        y_true = np.array(y_true)
+        y_pred = np.array(y_pred)
+
+        if self.plot_type == 'confusion_matrix':
+            fig = plt.figure(figsize=(5, 4))
+            ax = fig.add_subplot(111)
+            self._plot_confusion_matrix(ax, y_true, y_pred)
+        elif self.plot_type == 'roc':
+            if y_pred_proba is None:
+                raise ValueError('y_pred_proba is required for ROC curve')
+            fig = plt.figure(figsize=(5, 4))
+            ax = fig.add_subplot(111)
+            self._plot_roc(ax, y_true, y_pred_proba)
+        elif self.plot_type == 'both':
+            fig = plt.figure(figsize=self.figsize)
+            ax1 = fig.add_subplot(121)
+            self._plot_confusion_matrix(ax1, y_true, y_pred)
+            ax2 = fig.add_subplot(122)
+            if y_pred_proba is not None:
+                self._plot_roc(ax2, y_true, y_pred_proba)
+            else:
+                ax2.text(0.5, 0.5, 'y_pred_proba required for ROC curve', 
+                        ha='center', va='center', transform=ax2.transAxes)
+                ax2.set_xticks([])
+                ax2.set_yticks([])
+        else:
+            raise ValueError("plot_type must be 'confusion_matrix', 'roc', or 'both'")
+
+        return fig
+
+    def _plot_confusion_matrix(self, ax, y_true, y_pred):
+        """
+        Plot confusion matrix.
+
+        Parameters
+        ----------
+        ax: matplotlib.axes.Axes
+            axes to plot on
+
+        y_true: array-like
+            ground truth labels
+
+        y_pred: array-like
+            predicted labels
+
+        """
+        cm = confusion_matrix(y_true, y_pred)
+        im = ax.imshow(cm, cmap=self.cmap, interpolation='nearest')
+        ax.set_xlabel('Predicted')
+        ax.set_ylabel('True')
+        ax.set_title('Confusion Matrix')
+        
+        tick_marks = np.arange(len(np.unique(y_true)))
+        ax.set_xticks(tick_marks)
+        ax.set_yticks(tick_marks)
+        
+        # Add text annotations
+        for i in range(cm.shape[0]):
+            for j in range(cm.shape[1]):
+                ax.text(j, i, str(cm[i, j]), ha='center', va='center', color='white' if cm[i, j] > cm.max() / 2 else 'black')
+
+    def _plot_roc(self, ax, y_true, y_pred_proba):
+        """
+        Plot ROC curve with AUC in legend.
+
+        Parameters
+        ----------
+        ax: matplotlib.axes.Axes
+            axes to plot on
+
+        y_true: array-like
+            ground truth labels
+
+        y_pred_proba: array-like
+            predicted probabilities
+
+        """
+        y_pred_proba = np.array(y_pred_proba)
+        
+        # Handle binary classification
+        if y_pred_proba.ndim == 1:
+            fpr, tpr, _ = roc_curve(y_true, y_pred_proba)
+            roc_auc = auc(fpr, tpr)
+            ax.plot(fpr, tpr, lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+        else:
+            # Handle multiclass (one-vs-rest)
+            for i in range(y_pred_proba.shape[1]):
+                fpr, tpr, _ = roc_curve((y_true == i).astype(int), y_pred_proba[:, i])
+                roc_auc = auc(fpr, tpr)
+                ax.plot(fpr, tpr, lw=2, label=f'Class {i} (AUC = {roc_auc:.2f})')
+        
+        ax.plot([0, 1], [0, 1], 'k--', lw=2, label='Random Classifier')
+        ax.set_xlim([0.0, 1.0])
+        ax.set_ylim([0.0, 1.05])
+        ax.set_xlabel('False Positive Rate')
+        ax.set_ylabel('True Positive Rate')
+        ax.set_title('ROC Curves')
+        ax.legend(loc='lower right')
+

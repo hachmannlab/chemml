@@ -9,33 +9,26 @@ Welcome to the ChemML's documentation!
 ======================================
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
 
-    - source repository on github: https://github.com/hachmannlab/chemml
 
-Code Design:
-++++++++++++
-ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries.
-The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
-
-The format of library is similar to the well known libraries like Scikit-learn. 
+ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
 
 Latest Version:
 +++++++++++++++
-   - to find out about the latest version and release history, click here: https://github.com/hachmannlab/chemml/releases
-   - for a detailed list of changes, see the :doc:`Changelog <changelog>`
+    - to find out about the latest version and release history, `click here <https://github.com/hachmannlab/chemml/releases>`_
+    - `source repository on github <https://github.com/hachmannlab/chemml>`_
+    - for a detailed list of changes, see the :doc:`Changelog <changelog>`
 
 Installation and Dependencies:
 ++++++++++++++++++++++++++++++
-We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML's dependencies, and subsequently install ChemML are as follows: 
+We strongly recommend you install ChemML in an Anaconda environment. The instructions to create the environment and install ChemML are as follows: 
 
 .. code:: bash
 
-    conda create --name chemml_env python=3.12
-    source activate chemml_env    
-    conda install -c conda-forge openbabel nb_conda_kernels python-graphviz
-    
+    conda create --name chemml_env python=3.13
+    source activate chemml_env 
+    # Make sure to run this command in a clean location
     git clone https://github.com/hachmannlab/chemml.git
-    cd chemml
-    pip install -e .
+    pip install ./chemml
 
 Note: Here is a list of external libraries that will be installed with chemml:
    - numpy
@@ -46,15 +39,24 @@ Note: Here is a list of external libraries that will be installed with chemml:
    - matplotlib
    - seaborn
    - lxml
-   - openpyxl 
+   - openpyxl
    - ipywidgets
    - shap
    - lime
+   - openbabel 
+        - (NOTE: Python 3.8 requires a separate conda install of openbabel) 
+        .. code:: bash
 
-We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on `this page <https://pytorch.org/get-started/locally/>`_.
+            conda install -c conda-forge openbabel
+   - torch
+   - torchvision
 
-AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
-AutoML will still work without installing these models.
+Optional dependencies (user-installed):
++++++++++++++++++++++++++++++++++++++++
+- python-graphviz, nb_conda_kernels (for ChemML Jupyter wrapper)
+- xgboost, lightgbm (if you want to include these models for AutoML screening)
+- Additional PyTorch libraries depending on operating system and GPU configuration, `see here <https://pytorch.org/get-started/locally/>`_.
+
 
 Errors during installation:
 ++++++++++++++++++++++++++++++
@@ -162,7 +164,7 @@ Please cite the use of ChemML as:
 
 License:
 ++++++++
-ChemML is copyright (C) 2014-2023 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+ChemML is copyright (C) 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy, all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 
@@ -171,10 +173,7 @@ About us:
 
 :Maintainers:
     - Johannes Hachmann, hachmann@buffalo.edu
-    - Aatish Pradhan, aatishpr@buffalo.edu
-    - Aditya Sonpal, adityaso@buffalo.edu
-    - Gaurav Vishwakarma
-    - Mojtaba Haghighatlari
+    - Nitin Murthy, nitinmad@buffalo.edu
     University at Buffalo - The State University of New York (UB)
 
 :Contributors:
@@ -182,11 +181,12 @@ About us:
     - Gaurav Vishwakarma (UB): automated model optimization
     - Ramachandran Subramanian (UB): Magpie descriptor library port
     - Bhargava Urala Kota (UB): library database
-    - Aditya Sonpal (UB): graph convolution NNs
+    - Aditya Sonpal (UB): graph convolution NNs and explainable AI (XAI)
     - Srirangaraj Setlur (UB): scientific advice
     - Venugopal Govindaraju (UB): scientific advice
     - Krishna Rajan (UB): scientific advice
     - Aatish Pradhan (UB): AutoML and Jupyter GUI developer
+    - Nitin Murthy (UB): Feature selection, AutoML developer
 
     - We encourage any contributions and feedback. Feel free to fork and make pull-request to the "development" branch.
 

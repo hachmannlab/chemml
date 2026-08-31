@@ -76,10 +76,8 @@ class RDKitFingerprint(object):
         Parameters
         ----------
         molecules : chemml.chem.Molecule object or list
-            It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
-            If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
-            smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
-            kekulized, or canonical smiles.
+            This can be a single ChemML Molecule object, a single SMILES string, or a homogeneous list of either.
+            ChemML internally converts the input to a standardized format.
 
         Returns
         -------

@@ -235,9 +235,9 @@ class Mordred(object):
 
     Notes:
     -----
-        - Requires installation of Mordred descriptors as described in:
-          https://github.com/mordred-descriptor/mordred
-        - By default, all available descriptors are generated.
+        Mordred uses the mordred-community package from Python 3.10+ and legacy mordred 1.2.1 for older Python versions.
+        Descriptor calculation is identical, but there are some performance gains in the newer version.
+        
 
     Examples:
     --------

@@ -8,7 +8,7 @@ The chemml.preprocessing module includes (please click on links adjacent to func
     - GAFSel: :func:`~chemml.preprocessing.GAFSel`
 """
 
-from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures
+from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
 from .feature_selection import GAFSel
 
 
@@ -18,5 +18,6 @@ __all__ = [
     'Outliers',
     'RemoveCorrFeatures',
     'RemoveInvFeatures',
-    'GAFSel'
+    'GAFSel',
+    'remove_complex_columns'
 ]

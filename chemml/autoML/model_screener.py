@@ -437,7 +437,7 @@ class ModelScreener(object):
             list of pandas DataFrames consisting of various molecular representations
         """        
         from chemml.chem import RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
-        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures
+        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
         # generate all representation techniques here
 
         feature_keys = ["CoulombMatrix", "morganfingerprints_radius3", "MACCS_radius3", "hashedtopologicaltorsion_radius3", "hashedatompair_radius3", "rdkit_descriptors", "mord_descriptors"]
@@ -507,11 +507,12 @@ class ModelScreener(object):
         # New in v1.3.4, since feature order is logged as part of the best model 
         from datetime import datetime
         os.makedirs(features_path, exist_ok=True)
-        _log("\nCleaning feature sets to remove constant, highly correlated, and low-variance features...\n", output_file=self.output_file)
+        _log("\nCleaning feature sets to remove constant, highly correlated, low-variance, and complex features...\n", output_file=self.output_file)
         for x_key, x_df in self.x_list.items():
             # x_df = ConstantColumns(x_df) NOTE: ConstantColumns is deprecated and will be removed in ChemML v1.4
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
+            x_df = remove_complex_columns(x_df)
             self.x_list[x_key] = x_df
             _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.\n", output_file=self.output_file)
             if self.cache_features:
@@ -620,6 +621,8 @@ class ModelScreener(object):
             "run_key": run_key,
             "screener_type": self.screener_type,
             "parameters": best_row.get("parameters", [{}])[0] if isinstance(best_row.get("parameters", None), list) else best_row.get("parameters", {}),
+            "n_folds": 5,
+            "n_datapoints": len(self.df),
             "metrics": metrics,
             "model_serializer": artifact_info.get("serializer"),
             "model_artifact_dir": "model_artifact",

@@ -4,7 +4,7 @@ import types
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class StructuralHeterogeneityAttributeGenerator:
-    """Class to compute attributes based on heterogeneity in structure.
+    r"""Class to compute attributes based on heterogeneity in structure.
     Measures variance in bond lengths (both for a single atom and between
     different atoms) and atomic volumes. Also considers the number of unique
     coordination polyhedron shapes.

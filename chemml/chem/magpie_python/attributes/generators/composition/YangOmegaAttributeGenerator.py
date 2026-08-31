@@ -7,7 +7,7 @@ from ....data.materials.CompositionEntry import CompositionEntry
 from ....data.materials.util.LookUpData import LookUpData
 
 class YangOmegaAttributeGenerator:
-    """Class to compute the attributes :math:`\Omega` and :math:`\delta`
+    r"""Class to compute the attributes :math:`\Omega` and :math:`\delta`
     developed by Yang and Zhang [1].
     These parameters are based on the liquid formation enthalpy and atomic
     sizes of elements respectively and were originally developed to predict

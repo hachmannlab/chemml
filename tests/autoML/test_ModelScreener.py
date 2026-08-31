@@ -3,16 +3,8 @@ import os
 import pytest
 import pandas as pd
 import json
-# import numpy as np
 from chemml.autoML import ModelScreener
-# from chemml.chem import Molecule
 from chemml.datasets import load_organic_density
-
-# x1=[]
-# y1=[]
-# for i in range(0, 10):
-#     x1.append(i)
-#     y1.append(i*2)
 
 @pytest.fixture()
 def data_featurization():

@@ -633,6 +633,117 @@ class ModelScreener(object):
         with open(os.path.join(export_dir, "metadata.json"), "w") as f:
             json.dump(metadata, f, indent=2, default=str)
 
+        # Adding an explanation.json - feature order but with importances added where possible
+        # Supports tree-based, linear, SVR, and neural network models via SHAP/LIME
+        def get_feature_importances(model, feature_order):
+            importances = {}
+            importances['model_type'] = type(model).__name__
+            
+            # Neural network models - sklearn MLPRegressor/MLPClassifier
+            if model_name in ("MLPRegressor", "MLPClassifier"):
+                try:
+                    import shap
+                    import lime.lime_tabular
+                    X_data = self.x_list[feature_key].values
+                    bg_size = min(50, len(X_data))
+                    background = X_data[:bg_size]
+                    explainer = shap.KernelExplainer(model.predict, shap.sample(background, min(10, len(background))))
+                    sample_size = min(100, len(X_data))
+                    shap_values = explainer.shap_values(X_data[:sample_size], nsamples=100)
+                    importances['explanation_type'] = "shap.kernel"
+                    if isinstance(shap_values, list):  # Classification returns list of arrays
+                        shap_values = np.array(shap_values).mean(axis=0)
+                    importances['importance_values'] = dict(zip(feature_order, np.mean(np.abs(shap_values), axis=0).tolist()))
+                    # LIME aggregation across sample instances
+                    mode = 'regression' if self.screener_type == 'regressor' else 'classification'
+                    lime_explainer = lime.lime_tabular.LimeTabularExplainer(background, feature_names=feature_order, mode=mode, random_state=42)
+                    lime_agg = {f: 0.0 for f in feature_order}
+                    n_lime = min(20, sample_size)
+                    for i in range(n_lime):
+                        exp = lime_explainer.explain_instance(X_data[i], model.predict, num_features=len(feature_order))
+                        for feat_label, val in exp.as_list():
+                            for fname in feature_order:
+                                if fname in feat_label:
+                                    lime_agg[fname] += abs(val)
+                    importances['lime_importance_values'] = {k: v / n_lime for k, v in lime_agg.items()}
+                except Exception as e:
+                    importances['explanation_type'] = "shap.kernel"
+                    importances['importance_values'] = {}
+                    importances['lime_importance_values'] = {}
+                    importances['error'] = f"SHAP/LIME explanation failed: {e}"
+            
+            # ChemML MLP neural network (PyTorch or TensorFlow)
+            elif model_name == "MLP" and model is not None:
+                try:
+                    from chemml.explain import Explain
+                    engine = getattr(model, 'engine', 'pytorch')
+                    X_data = self.x_list[feature_key].values.astype(np.float32)
+                    bg_size = min(50, len(X_data))
+                    background = X_data[:bg_size].astype(np.float32)
+                    
+                    if engine == 'pytorch':
+                        explain_obj = Explain(X_instance=X_data, dnn_obj=model.model, feature_names=feature_order)
+                        rel_df, _ = explain_obj.DeepSHAP(X_background=background)
+                        importances['explanation_type'] = "deepshap"
+                        importances['importance_values'] = dict(zip(feature_order, rel_df.abs().mean().tolist()))
+                        # LIME via chemml.explain interface
+                        lime_scores = explain_obj.LIME(training_data=background)
+                        lime_agg = {f: 0.0 for f in feature_order}
+                        for score_df in lime_scores[:20]:
+                            for _, row in score_df.iterrows():
+                                for fname in feature_order:
+                                    if fname in row['labels']:
+                                        lime_agg[fname] += abs(row['local_relevance'])
+                        n_lime = len(lime_scores[:20]) if lime_scores else 1
+                        importances['lime_importance_values'] = {k: v / n_lime for k, v in lime_agg.items()}
+                    else:
+                        # TensorFlow engine: use KernelExplainer fallback
+                        import shap
+                        explainer = shap.KernelExplainer(model.predict, shap.sample(background, min(10, len(background))))
+                        sample_size = min(100, len(X_data))
+                        shap_values = explainer.shap_values(X_data[:sample_size], nsamples=100)
+                        importances['explanation_type'] = "shap.kernel"
+                        if isinstance(shap_values, list):
+                            shap_values = np.array(shap_values).mean(axis=0)
+                        importances['importance_values'] = dict(zip(feature_order, np.mean(np.abs(shap_values), axis=0).tolist()))
+                except Exception as e:
+                    importances['explanation_type'] = "deepshap"
+                    importances['importance_values'] = {}
+                    importances['lime_importance_values'] = {}
+                    importances['error'] = f"DeepSHAP/LIME explanation failed: {e}"
+            
+            # Tree-based models
+            elif hasattr(model, "feature_importances_"):
+                importances['explanation_type'] = "tree.feature_importances_"
+                importances['importance_values'] = dict(zip(feature_order, model.feature_importances_.tolist()))
+            
+            # Linear models (Ridge, Lasso, ElasticNet, LogisticRegression, etc.)
+            elif hasattr(model, "coef_") and not isinstance(model.coef_, list):
+                importances['explanation_type'] = "linear.coef_"
+                importances['importance_values'] = dict(zip(feature_order, model.coef_.flatten().tolist()))
+            
+            # SVR
+            elif hasattr(model, "dual_coef_") and hasattr(model, "support_vectors_"):
+                # This is a rough approximation; SVR does not provide direct feature importances
+                importances['explanation_type'] = "svr.dual_coef_"
+                importances['importance_values'] = dict(zip(feature_order, np.mean(np.abs(model.dual_coef_), axis=0).tolist()))
+                importances['support_vectors'] = model.support_vectors_.tolist()
+            
+            return importances
+        # Load model artifact based on serializer type
+        if artifact_info["serializer"] == "chemml_mlp":
+            from chemml.models import MLP as ChemMLMLP
+            with open(artifact_info["model_file"]) as f:
+                mlp_params = json.load(f)
+            best_model = ChemMLMLP(**mlp_params.get("chemml_options", {}))
+        else:
+            with open(artifact_info["model_file"], "rb") as f:
+                best_model = pickle.load(f)
+        
+        explanation = {feat:imp for feat, imp in get_feature_importances(best_model, feature_order).items()}
+        with open(os.path.join(export_dir, "explanation.json"), "w") as f:
+            json.dump(explanation, f, indent=2)
+
         self.best_model = artifact_info
         self.best_model_info = metadata
 

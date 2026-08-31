@@ -59,6 +59,12 @@ class NeuralGraphFingerprint:
         Print training progress. Default True.
     random_seed : int, optional
         Random seed. Default None.
+    regression : bool, optional
+        If True, model performs regression. If False, multiclass classification.
+        Default True.
+    n_classes : int, optional
+        Number of classes for classification (required if regression=False).
+        Default None.
     """
 
     def __init__(
@@ -79,11 +85,19 @@ class NeuralGraphFingerprint:
         use_bias=True,
         verbose=True,
         random_seed=None,
+        regression=True,
+        n_classes=None,
     ):
         if engine not in ["tensorflow", "pytorch"]:
             raise ValueError("engine must be 'tensorflow' or 'pytorch'")
+        if not regression and n_classes is None:
+            raise ValueError("n_classes must be specified when regression=False")
+        if not regression and n_classes < 2:
+            raise ValueError("n_classes must be >= 2")
 
         self.engine = engine
+        self.regression = regression
+        self.n_classes = n_classes
         self.conv_width = conv_width
         self.fp_length = fp_length
         self.n_conv_layers = n_conv_layers
@@ -237,7 +251,9 @@ class NeuralGraphFingerprint:
 
         # Detect number of outputs from y
         y_array = np.asarray(y)
-        if y_array.ndim == 1:
+        if not self.regression:
+            detected_n_outputs = self.n_classes
+        elif y_array.ndim == 1:
             detected_n_outputs = 1
         else:
             detected_n_outputs = y_array.shape[1]
@@ -347,7 +363,11 @@ class NeuralGraphFingerprint:
         else:
             opt = SGD(learning_rate=self.learning_rate)
 
-        self.model.compile(optimizer=opt, loss="mse")
+        if not self.regression:
+            loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+        else:
+            loss = "mse"
+        self.model.compile(optimizer=opt, loss=loss)
 
     def _build_pytorch(self, max_degree, num_atom_features, num_bond_features, n_outputs):
         """Build PyTorch model."""
@@ -426,10 +446,13 @@ class NeuralGraphFingerprint:
         atoms_t = torch.tensor(atoms, dtype=torch.float32)
         bonds_t = torch.tensor(bonds, dtype=torch.float32)
         edges_t = torch.tensor(edges, dtype=torch.int32)
-        y_t = torch.tensor(y, dtype=torch.float32)
+        if not self.regression:
+            y_t = torch.tensor(y, dtype=torch.long)
+        else:
+            y_t = torch.tensor(y, dtype=torch.float32)
 
-        # Ensure y has correct shape
-        if y_t.ndim == 1:
+        # Ensure y has correct shape for regression only
+        if self.regression and y_t.ndim == 1:
             y_t = y_t.unsqueeze(1)
 
         n_samples = atoms_t.shape[0]
@@ -454,12 +477,13 @@ class NeuralGraphFingerprint:
                 self.opt.zero_grad()
                 y_pred = self.model(batch_atoms, batch_bonds, batch_edges)
 
-                # Ensure shapes match
-                if y_pred.ndim == 1:
-                    y_pred = y_pred.unsqueeze(1)
-
-                # Loss
-                loss = torch.nn.functional.mse_loss(y_pred, batch_y)
+                # Ensure shapes match and compute loss
+                if self.regression:
+                    if y_pred.ndim == 1:
+                        y_pred = y_pred.unsqueeze(1)
+                    loss = torch.nn.functional.mse_loss(y_pred, batch_y)
+                else:
+                    loss = torch.nn.functional.cross_entropy(y_pred, batch_y.long())
 
                 # Backward
                 loss.backward()
@@ -547,10 +571,83 @@ class NeuralGraphFingerprint:
                 predictions = predictions.numpy()
 
         # Ensure correct output shape
-        if self.n_outputs == 1 and predictions.ndim > 1:
+        if not self.regression:
+            return np.argmax(predictions, axis=1)
+        elif self.n_outputs == 1 and predictions.ndim > 1:
             predictions = predictions.squeeze(axis=1)
 
         return predictions
+
+    def predict_proba(self, atoms, bonds=None, edges=None, tensorize_kwargs=None):
+        """Get class probabilities.
+
+        Supports both raw molecular inputs and pre-tensorized inputs.
+
+        Parameters
+        ----------
+        atoms : array_like or str/list/Molecule
+            Either:
+            - Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+            - Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules
+        bonds : array_like, optional
+            Bond features if atoms is pre-tensorized.
+        edges : array_like, optional
+            Edge connectivity if atoms is pre-tensorized.
+        tensorize_kwargs : dict, optional
+            Arguments for _tensorize_input when using raw molecular input.
+
+        Returns
+        -------
+        probabilities : ndarray
+            Class probabilities, shape (n_samples, n_classes)
+
+        Raises
+        ------
+        ValueError
+            If model is regression or not built
+        """
+        if self.regression:
+            raise ValueError("predict_proba() is only available for classification models")
+        if self.model is None:
+            raise ValueError("Model not built. Call fit() first.")
+
+        # Detect input type and tensorize if needed
+        if isinstance(atoms, (str, list)) or (hasattr(atoms, '__class__') and 
+                                               atoms.__class__.__name__ == 'Molecule'):
+            if tensorize_kwargs is None:
+                tensorize_kwargs = {}
+            tensorize_kwargs.setdefault('max_degree', 5)
+            tensorize_kwargs.setdefault('max_atoms', None)
+            tensorize_kwargs.setdefault('n_jobs', 1)
+            tensorize_kwargs.setdefault('batch_size', 10)
+            tensorize_kwargs.setdefault('verbose', False)
+            atoms, bonds, edges = self._tensorize_input(atoms, **tensorize_kwargs)
+        elif bonds is None or edges is None:
+            raise ValueError(
+                "If atoms is a pre-tensorized array, bonds and edges must also be provided. "
+                "Alternatively, pass raw molecular input (SMILES/Molecule objects) as atoms."
+            )
+
+        if self.engine == "tensorflow":
+            logits = self.model.predict([atoms, bonds, edges], verbose=0)
+        else:
+            # PyTorch
+            atoms_t = torch.tensor(atoms, dtype=torch.float32)
+            bonds_t = torch.tensor(bonds, dtype=torch.float32)
+            edges_t = torch.tensor(edges, dtype=torch.int32)
+
+            self.model.eval()
+            with torch.no_grad():
+                logits = self.model(atoms_t, bonds_t, edges_t)
+                logits = logits.numpy()
+
+        # Apply softmax to logits
+        logits = np.asarray(logits)
+        logits_shifted = logits - np.max(logits, axis=1, keepdims=True)
+        exp_logits = np.exp(logits_shifted)
+        probabilities = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
+
+        return probabilities
 
     def get_model(self):
         """Return the underlying model object.

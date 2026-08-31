@@ -265,3 +265,189 @@ class TestGetModel:
         ngf = NeuralGraphFingerprint(engine='pytorch')
         with pytest.raises(ValueError, match="Model not built"):
             ngf.predict(np.random.randn(1, 5, 6), np.random.randn(1, 5, 3, 4), np.random.randint(-1, 5, (1, 5, 3)))
+
+
+class TestMulticlassClassification:
+    """Test multiclass classification with NeuralGraphFingerprint."""
+
+    def test_pytorch_multiclass_init(self):
+        """Test PyTorch engine classification initialization."""
+        ngf = NeuralGraphFingerprint(
+            engine='pytorch',
+            conv_width=8,
+            fp_length=32,
+            regression=False,
+            n_classes=3
+        )
+        assert ngf.engine == 'pytorch'
+        assert ngf.regression is False
+        assert ngf.n_classes == 3
+
+    def test_tensorflow_multiclass_init(self):
+        """Test TensorFlow engine classification initialization."""
+        ngf = NeuralGraphFingerprint(
+            engine='tensorflow',
+            conv_width=8,
+            fp_length=32,
+            regression=False,
+            n_classes=3
+        )
+        assert ngf.engine == 'tensorflow'
+        assert ngf.regression is False
+        assert ngf.n_classes == 3
+
+    def test_classification_missing_n_classes(self):
+        """Test that classification without n_classes raises ValueError."""
+        with pytest.raises(ValueError, match="n_classes must be specified"):
+            NeuralGraphFingerprint(
+                engine='pytorch',
+                regression=False,
+                n_classes=None
+            )
+
+    def test_classification_invalid_n_classes(self):
+        """Test that classification with n_classes < 2 raises ValueError."""
+        with pytest.raises(ValueError, match="n_classes must be >= 2"):
+            NeuralGraphFingerprint(
+                engine='pytorch',
+                regression=False,
+                n_classes=1
+            )
+
+    def test_pytorch_multiclass_fit_predict(self, graph_data):
+        """Test PyTorch multiclass classification fit and predict."""
+        atoms, bonds, edges, _ = graph_data
+        n_samples = atoms.shape[0]
+        n_classes = 3
+        y = np.random.randint(0, n_classes, size=n_samples)
+
+        ngf = NeuralGraphFingerprint(
+            engine='pytorch',
+            conv_width=8,
+            fp_length=32,
+            epochs=2,
+            verbose=False,
+            regression=False,
+            n_classes=n_classes
+        )
+
+        ngf.fit(atoms, bonds, edges, y)
+        predictions = ngf.predict(atoms, bonds, edges)
+
+        # Check output shape and type
+        assert predictions.shape == (n_samples,)
+        assert predictions.dtype in [np.int64, np.int32, np.intp]
+        # Check all predictions are valid class indices
+        assert np.all(predictions >= 0) and np.all(predictions < n_classes)
+
+    def test_tensorflow_multiclass_fit_predict(self, graph_data):
+        """Test TensorFlow multiclass classification fit and predict."""
+        atoms, bonds, edges, _ = graph_data
+        n_samples = atoms.shape[0]
+        n_classes = 3
+        y = np.random.randint(0, n_classes, size=n_samples)
+
+        ngf = NeuralGraphFingerprint(
+            engine='tensorflow',
+            conv_width=8,
+            fp_length=32,
+            epochs=2,
+            verbose=False,
+            regression=False,
+            n_classes=n_classes
+        )
+
+        ngf.fit(atoms, bonds, edges, y)
+        predictions = ngf.predict(atoms, bonds, edges)
+
+        # Check output shape and type
+        assert predictions.shape == (n_samples,)
+        assert predictions.dtype in [np.int64, np.int32, np.intp]
+        # Check all predictions are valid class indices
+        assert np.all(predictions >= 0) and np.all(predictions < n_classes)
+
+    def test_pytorch_predict_proba(self, graph_data):
+        """Test PyTorch predict_proba method."""
+        atoms, bonds, edges, _ = graph_data
+        n_samples = atoms.shape[0]
+        n_classes = 3
+        y = np.random.randint(0, n_classes, size=n_samples)
+
+        ngf = NeuralGraphFingerprint(
+            engine='pytorch',
+            conv_width=8,
+            fp_length=32,
+            epochs=2,
+            verbose=False,
+            regression=False,
+            n_classes=n_classes
+        )
+
+        ngf.fit(atoms, bonds, edges, y)
+        probabilities = ngf.predict_proba(atoms, bonds, edges)
+
+        # Check shape
+        assert probabilities.shape == (n_samples, n_classes)
+        # Check values are in [0, 1]
+        assert np.all(probabilities >= 0) and np.all(probabilities <= 1)
+        # Check rows sum to 1
+        assert np.allclose(probabilities.sum(axis=1), 1.0, rtol=1e-5)
+
+    def test_tensorflow_predict_proba(self, graph_data):
+        """Test TensorFlow predict_proba method."""
+        atoms, bonds, edges, _ = graph_data
+        n_samples = atoms.shape[0]
+        n_classes = 3
+        y = np.random.randint(0, n_classes, size=n_samples)
+
+        ngf = NeuralGraphFingerprint(
+            engine='tensorflow',
+            conv_width=8,
+            fp_length=32,
+            epochs=2,
+            verbose=False,
+            regression=False,
+            n_classes=n_classes
+        )
+
+        ngf.fit(atoms, bonds, edges, y)
+        probabilities = ngf.predict_proba(atoms, bonds, edges)
+
+        # Check shape
+        assert probabilities.shape == (n_samples, n_classes)
+        # Check values are in [0, 1]
+        assert np.all(probabilities >= 0) and np.all(probabilities <= 1)
+        # Check rows sum to 1
+        assert np.allclose(probabilities.sum(axis=1), 1.0, rtol=1e-5)
+
+    def test_predict_proba_on_regression_raises(self, graph_data, single_output_targets):
+        """Test that predict_proba raises ValueError on regression model."""
+        atoms, bonds, edges, _ = graph_data
+        y = single_output_targets
+
+        ngf = NeuralGraphFingerprint(
+            engine='pytorch',
+            epochs=1,
+            verbose=False,
+            regression=True  # Regression model
+        )
+
+        ngf.fit(atoms, bonds, edges, y)
+
+        with pytest.raises(ValueError, match="only available for classification"):
+            ngf.predict_proba(atoms, bonds, edges)
+
+    def test_predict_proba_before_fit_raises(self):
+        """Test that predict_proba raises ValueError before fit."""
+        ngf = NeuralGraphFingerprint(
+            engine='pytorch',
+            regression=False,
+            n_classes=3
+        )
+
+        with pytest.raises(ValueError, match="Model not built"):
+            ngf.predict_proba(
+                np.random.randn(1, 5, 6),
+                np.random.randn(1, 5, 3, 4),
+                np.random.randint(-1, 5, (1, 5, 3))
+            )

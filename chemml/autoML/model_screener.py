@@ -728,6 +728,10 @@ class ModelScreener(object):
                 importances['explanation_type'] = "svr.dual_coef_"
                 importances['importance_values'] = dict(zip(feature_order, np.mean(np.abs(model.dual_coef_), axis=0).tolist()))
                 importances['support_vectors'] = model.support_vectors_.tolist()
+
+            # Reorder importance dict in descending order of absolute importance values
+            if 'importance_values' in importances and importances['importance_values']:
+                importances['importance_values'] = dict(sorted(importances['importance_values'].items(), key=lambda item: abs(item[1]), reverse=True))
             
             return importances
         # Load model artifact based on serializer type
@@ -741,6 +745,7 @@ class ModelScreener(object):
                 best_model = pickle.load(f)
         
         explanation = {feat:imp for feat, imp in get_feature_importances(best_model, feature_order).items()}
+        
         with open(os.path.join(export_dir, "explanation.json"), "w") as f:
             json.dump(explanation, f, indent=2)
 

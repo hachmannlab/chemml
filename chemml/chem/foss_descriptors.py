@@ -31,10 +31,11 @@ import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
 
-# NumPy 2.0 compatibility: provide np.product as an alias for np.prod
-# for third-party packages that haven't been updated yet
-if not hasattr(np, 'product'):
-    np.product = np.prod
+# # DEPRECATED: Numpy 2 compatibility is now handled less like sticking uppy bits on a racecar to go faster
+# # NumPy 2.0 compatibility: provide np.product as an alias for np.prod
+# # for third-party packages that haven't been updated yet
+# if not hasattr(np, 'product'):
+#     np.product = np.prod
 
 from rdkit.Chem import Descriptors, MolFromSmiles
 from tqdm import tqdm
@@ -338,7 +339,7 @@ class Mordred(object):
 
         print(f'Step {step}/{step}: Calculating Mordred descriptors')
         pand = self.calc.pandas(mol_list, quiet=quiet)
-        pand = pand.select_dtypes([np.number]).replace([np.inf, -np.inf], np.nan)
+        pand = pand.select_dtypes(include=[np.floating, np.integer]).replace([np.inf, -np.inf], np.nan)  # Exclude complex dtypes for NumPy 2.x
         pand = pand.dropna(axis=1, how='all')
 
         pand['SMILES'] = smi_list

@@ -48,68 +48,29 @@ def test_exception(mols):
         cm.represent(np.array([[mols],[mols]]))
 
 
-def test_UM(mols):
-    cm = CoulombMatrix('UM')
-    h2o = cm.represent(mols)
-    assert h2o.shape == (1, cm.max_n_atoms_ ** 2)
-    a = np.array([[
-        73.51669472, 8.3593106, 8.35237809, 8.3593106, 0.5, 0.66066557, 8.35237809, 0.66066557, 0.5
-    ]])
-    assert a[0][0] == pytest.approx(h2o.values[0][0], 0.001)
-    assert a[0][1] == pytest.approx(h2o.values[0][1], 0.001)
-    assert a[0][-1] == pytest.approx(h2o.values[0][-1], 0.001)
+def test_coulomb_matrix_variants(mols):
+    # UM/UT/SC/E cover the dense representation variants; RC is kept as a shape check case.
+    variants = [
+        ('UM', {}, lambda cm: cm.max_n_atoms_ ** 2, (73.51669472, 8.3593106, 0.5), False),
+        ('UT', {}, lambda cm: cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2, (73.51669472, 8.3593106, 0.5), False),
+        ('SC', {'n_jobs': 1}, lambda cm: cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2, (73.51669472, 8.3593106, 0.5), False),
+        ('E', {'n_jobs': 2}, lambda cm: cm.max_n_atoms_, (75.39770052, -0.16066482, -0.72034098), True),
+        ('RC', {'n_jobs': 10}, lambda cm: cm.nPerm * cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2, None, False),
+    ]
+    for cm_type, kwargs, shape_fn, expected_values, check_real in variants:
+        cm = CoulombMatrix(cm_type, **kwargs)
+        h2o = cm.represent(mols)
+        assert h2o.shape == (1, shape_fn(cm))
 
+        if expected_values is not None:
+            first, second, last = expected_values
+            assert first == pytest.approx(h2o.values[0][0], 0.001)
+            assert second == pytest.approx(h2o.values[0][1], 0.001)
+            assert last == pytest.approx(h2o.values[0][-1], 0.001)
 
-def test_UT(mols):
-    cm = CoulombMatrix('UT')
-    h2o = cm.represent(mols )
-
-    assert h2o.shape == (1, cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2)
-    a = np.array([[73.51669472, 8.3593106, 0.5, 8.35237809, 0.66066557, 0.5]])
-    assert a[0][0] == pytest.approx(h2o.values[0][0])
-    assert a[0][1] == pytest.approx(h2o.values[0][1])
-    assert a[0][-1] == pytest.approx(h2o.values[0][-1])
-
-
-def test_E(mols):
-    cm = CoulombMatrix('E', n_jobs=2)
-    h2o = cm.represent(mols )
-
-    assert h2o.shape == (1, cm.max_n_atoms_)
-    a = np.array([[75.39770052, -0.16066482, -0.72034098]])
-    assert a[0][0] == pytest.approx( h2o.values[0][0])
-    assert a[0][1] == pytest.approx( h2o.values[0][1])
-    assert a[0][-1] == pytest.approx( h2o.values[0][-1])
-
-
-def test_E_real_values(mols):
-    cm = CoulombMatrix('E', n_jobs=1)
-    h2o = cm.represent(mols)
-
-    assert np.isrealobj(h2o.to_numpy())
-    assert not np.iscomplexobj(h2o.to_numpy())
-
-
-def test_SC(mols):
-    cm = CoulombMatrix('SC', n_jobs=1)
-    h2o = cm.represent(mols)
-
-    assert h2o.shape == (1, cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2)
-    a = np.array([[73.51669472, 8.3593106, 0.5, 8.35237809, 0.66066557, 0.5]])
-    assert a[0][0] == pytest.approx( h2o.values[0][0])
-    assert a[0][1] == pytest.approx( h2o.values[0][1])
-    assert a[0][-1] == pytest.approx( h2o.values[0][-1])
-
-
-def test_RC(mols):
-    cm = CoulombMatrix('RC', n_jobs=10)
-    h2o = cm.represent(mols )
-
-    assert h2o.shape == (1, cm.nPerm * cm.max_n_atoms_ * (cm.max_n_atoms_ + 1) / 2)
-    a = np.array([[
-        0.5, 8.35237809, 73.51669472, 0.66066557, 8.3593106, 0.5, 73.51669472, 8.35237809, 0.5,
-        8.3593106, 0.66066557, 0.5, 0.5, 8.3593106, 73.51669472, 0.66066557, 8.35237809, 0.5
-    ]])
+        if check_real:
+            assert np.isrealobj(h2o.to_numpy())
+            assert not np.iscomplexobj(h2o.to_numpy())
 
 
 def test_SC_mollist(mols2):

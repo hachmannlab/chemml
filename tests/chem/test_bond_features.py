@@ -17,12 +17,10 @@ def test_exception(mols):
         bond_features(mols)
 
 
-def test_num_atom_features():
+def test_bond_feature_helpers(mols):
     n = num_bond_features()
     assert n == 6
 
-
-def test_atom_features(mols):
     bond = mols.rdkit_molecule.GetBonds()[0]
     x = bond_features(bond)
 

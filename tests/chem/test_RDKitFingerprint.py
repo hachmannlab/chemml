@@ -54,108 +54,34 @@ def test_type_exception(mol_single):
         rdfp.represent(mol_single)
 
 
-def test_hap_int(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='hap',vector='int')
+@pytest.mark.parametrize(
+    "fingerprint_type, vector, kwargs, expected_shapes",
+    [
+        ("hap", "int", {}, ((2, 107), (1, 90))),
+        ("hap", "bit", {}, ((2, 1024), (1, 1024))),
+        ("maccs", "bit", {}, ((2, 167), (1, 167))),
+        ("Morgan", "int", {}, ((2, 84), (1, 44))),
+        ("Morgan", "bit", {"radius": 3, "useChirality": True, "useBondTypes": True, "useFeatures": True}, ((2, 1024), (1, 1024))),
+        ("htt", "int", {}, ((2, 41), (1, 22))),
+        ("htt", "bit", {}, ((2, 1024), (1, 1024))),
+        ("tt", "int", {}, ((2, 42), (1, 22))),
+        ("tt", "bit", {}, ((2, 1024), (1, 1024))),
+    ],
+)
+def test_fingerprint_representations(mol_list, mol_single, fingerprint_type, vector, kwargs, expected_shapes):
+    rdfp = RDKitFingerprint(fingerprint_type=fingerprint_type, vector=vector, **kwargs)
     df = rdfp.represent(mol_list)
-    assert df.shape == (2, 107)
+    assert df.shape == expected_shapes[0]
     assert rdfp.n_molecules_ == 2
     df = rdfp.represent(mol_single)
-    assert df.shape == (1, 90)
+    assert df.shape == expected_shapes[1]
     assert rdfp.n_molecules_ == 1
 
 
-def test_hap_bit(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='hap',vector='bit')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 1024)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 1024)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_MACCS_exception(mol_list, mol_single):
+def test_MACCS_exception(mol_list):
     with pytest.raises(ValueError):
         rdfp = RDKitFingerprint(fingerprint_type='maccs', vector='int')
-        df = rdfp.represent(mol_list)
-
-
-def test_MACCS(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='maccs', vector='bit')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 167)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 167)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_Morgan_int(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='int')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 84)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 44)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_Morgan_bit(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='bit')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 1024)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 1024)
-    assert rdfp.n_molecules_ == 1
-    # kwargs
-    rdfp = RDKitFingerprint(fingerprint_type='Morgan', vector='bit', radius = 3,
-                            useChirality=True, useBondTypes=True, useFeatures=True)
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 1024)
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 1024)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_htt_int(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='htt', vector='int')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 41)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 22)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_htt_bit(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='htt', vector='bit')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 1024)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 1024)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_tt_int(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='tt', vector='int')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 42)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 22)
-    assert rdfp.n_molecules_ == 1
-
-
-def test_tt_bit(mol_list, mol_single):
-    rdfp = RDKitFingerprint(fingerprint_type='tt', vector='bit')
-    df = rdfp.represent(mol_list)
-    assert df.shape == (2, 1024)
-    assert rdfp.n_molecules_ == 2
-    df = rdfp.represent(mol_single)
-    assert df.shape == (1, 1024)
-    assert rdfp.n_molecules_ == 1
+        rdfp.represent(mol_list)
 
 def test_store_sparse(mol_list, setup_teardown):
     rdfp = RDKitFingerprint(fingerprint_type='morgan', vector='bit')

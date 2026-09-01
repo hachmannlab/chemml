@@ -122,66 +122,20 @@ def test_gasel_custom_evaluator(synthetic_data):
     assert 'target_property' in result.columns
 
 
-def test_gasel_none_df_raises_error(synthetic_data):
-    """Test that None dataframe raises ValueError."""
-    with pytest.raises(ValueError, match="'df' parameter cannot be None"):
-        GAFSel(df=None, target='target', target_features_count=50)
+def test_gasel_invalid_inputs_raise(synthetic_data):
+    """Test that invalid GAFSel arguments raise ValueError."""
+    cases = [
+        ({'df': None, 'target': 'target', 'target_features_count': 50}, "'df' parameter cannot be None"),
+        ({'df': synthetic_data, 'target': None, 'target_features_count': 50}, "'target' parameter cannot be None"),
+        ({'df': synthetic_data, 'target': 'nonexistent', 'target_features_count': 50, 'n_generations': 2, 'pop_size': 15}, "Target column 'nonexistent' not found"),
+        ({'df': synthetic_data, 'target': 'target_property', 'target_features_count': 0, 'n_generations': 2, 'pop_size': 15}, "'target_features_count' must be a positive integer"),
+        ({'df': synthetic_data, 'target': 'target_property', 'target_features_count': 50, 'test_size': 1.5, 'n_generations': 2, 'pop_size': 15}, "'test_size' must be in the interval"),
+        ({'df': synthetic_data, 'target': 'target_property', 'target_features_count': 50, 'test_size': -0.1, 'n_generations': 2, 'pop_size': 15}, "'test_size' must be in the interval"),
+    ]
 
-
-def test_gasel_none_target_raises_error(synthetic_data):
-    """Test that None target raises ValueError."""
-    with pytest.raises(ValueError, match="'target' parameter cannot be None"):
-        GAFSel(df=synthetic_data, target=None, target_features_count=50)
-
-
-def test_gasel_invalid_target_column(synthetic_data):
-    """Test that invalid target column name raises ValueError."""
-    with pytest.raises(ValueError, match="Target column 'nonexistent' not found"):
-        GAFSel(
-            df=synthetic_data,
-            target='nonexistent',
-            target_features_count=50,
-            n_generations=2,
-            pop_size=15
-        )
-
-
-def test_gasel_invalid_target_features_count(synthetic_data):
-    """Test that invalid target_features_count raises ValueError."""
-    with pytest.raises(ValueError, match="'target_features_count' must be a positive integer"):
-        GAFSel(
-            df=synthetic_data,
-            target='target_property',
-            target_features_count=0,
-            n_generations=2,
-            pop_size=15
-        )
-
-
-def test_gasel_invalid_test_size(synthetic_data):
-    """Test that invalid test_size raises ValueError."""
-    with pytest.raises(ValueError, match="'test_size' must be in the interval"):
-        GAFSel(
-            df=synthetic_data,
-            target='target_property',
-            target_features_count=50,
-            test_size=1.5,
-            n_generations=2,
-            pop_size=15
-        )
-
-
-def test_gasel_negative_test_size(synthetic_data):
-    """Test that negative test_size raises ValueError."""
-    with pytest.raises(ValueError, match="'test_size' must be in the interval"):
-        GAFSel(
-            df=synthetic_data,
-            target='target_property',
-            target_features_count=50,
-            test_size=-0.1,
-            n_generations=2,
-            pop_size=15
-        )
+    for kwargs, match in cases:
+        with pytest.raises(ValueError, match=match):
+            GAFSel(**kwargs)
 
 
 def test_gasel_default_parameters(synthetic_data):

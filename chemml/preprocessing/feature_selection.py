@@ -213,3 +213,34 @@ def GAFSel(df=None, target=None, target_features_count=None, evaluator=None,
     result_df[target] = y
     
     return result_df
+
+def ZScoreFSel(features, target, threshold=2.0):
+    """
+    Select binary features based on Z-score of the target variable.
+
+    Parameters
+    ----------
+    features : pandas.DataFrame
+        Feature matrix.
+    target : pandas.Series
+        Target variable.
+    threshold : float, optional
+        Z-score threshold for feature selection. Default is 2.0.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame containing selected features and the target column.
+    """
+    selected_features = []
+    for col in features.columns:
+        if set(features[col].unique()) <= {0, 1}:  # Check if binary feature
+            mean_target_0 = target[features[col] == 0].mean()
+            mean_target_1 = target[features[col] == 1].mean()
+            z_score = abs(mean_target_1 - mean_target_0) / target.std()
+            if z_score >= threshold:
+                selected_features.append(col)
+
+    result_df = features[selected_features].copy()
+    result_df[target.name] = target
+    return result_df

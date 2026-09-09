@@ -10,8 +10,6 @@ from sklearn.preprocessing import StandardScaler
 from chemml.utils import regression_metrics
 from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from sklearn.model_selection import train_test_split, KFold
-from chemml.optimization import GeneticAlgorithm
-from chemml.chem import Molecule
 import warnings
 import random
 import time
@@ -382,6 +380,7 @@ class ModelScreener(object):
                 ga_search = single_obj(model=model, x=X_train, y=y_train)
                 return ga_search 
 
+            from chemml.optimization import GeneticAlgorithm
             gann = GeneticAlgorithm(evaluate=ga_eval, space=space_final, fitness=('max',), pop_size = 20, crossover_size=2, mutation_size=1, algorithm=al)
             try:
                 best_ind_df, best_individual = gann.search(n_generations=self.n_gen, early_stopping=10)                     # set pop_size<30, n_generations*pop_size = no. of times GA runs                      
@@ -436,7 +435,7 @@ class ModelScreener(object):
         list 
             list of pandas DataFrames consisting of various molecular representations
         """        
-        from chemml.chem import RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
+        from chemml.chem import Molecule, RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
         from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
         # generate all representation techniques here
 

@@ -29,7 +29,6 @@ To add a new descriptor package:
 import warnings
 import pandas as pd
 import numpy as np
-from joblib import Parallel, delayed
 
 # # DEPRECATED: Numpy 2 compatibility is now handled less like sticking uppy bits on a racecar to go faster
 # # NumPy 2.0 compatibility: provide np.product as an alias for np.prod
@@ -190,7 +189,8 @@ class RDKDesc(object):
                     mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
                 desc_data.append(mol_desc)
         else:
-            
+            from joblib import Parallel, delayed
+
             def calculate_descriptors(mol, descriptor_list):
                 mol_desc = {}
                 for desc_name in descriptor_list:

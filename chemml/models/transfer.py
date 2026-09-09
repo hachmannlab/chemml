@@ -1,11 +1,5 @@
-from tensorflow import keras
-from tensorflow.keras.layers import Input
 from chemml.models.mlp import MLP
-from tensorflow.keras.models import Model
 import chemml
-import torch
-from torch import nn
-import torch.nn.functional as F
 from importlib import import_module
 
 
@@ -118,6 +112,7 @@ class TransferLearning(object):
             
         # tensorflow
         if self.engine == 'tensorflow':
+            from tensorflow import keras
             new_child_model = keras.Sequential()
             keras_layer_module = import_module('tensorflow.keras.layers')
             layer = getattr(keras_layer_module, child_model.layers[1][0])
@@ -130,6 +125,7 @@ class TransferLearning(object):
             model_layers = list(model.layers)
         else:
             # pytorch
+            from torch import nn
             new_layer = nn.Linear(in_features = self.base_model[-1].in_features, out_features = child_model.model[2].in_features)
             new_layer.state_dict()['weight'] = self.base_model[-1].state_dict()['weight']
             new_layer.state_dict()['bias'] = self.base_model[-1].state_dict()['bias']

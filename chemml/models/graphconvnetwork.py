@@ -6,17 +6,7 @@ Supports both TensorFlow and PyTorch backends with automatic engine selection.
 
 import numpy as np
 import pandas as pd
-import torch
-import torch.nn as nn
-import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Add, Dense, Concatenate
-from tensorflow.keras.optimizers import Adam, SGD
 from tqdm import tqdm
-
-from chemml.models.graphconvlayers import NeuralGraphHidden as NGH_TF
-from chemml.models.graphconvlayers import NeuralGraphOutput as NGO_TF
-from chemml.models.graphconvlayers_torch import _NeuralGraphNetworkPT
 
 
 class NeuralGraphFingerprint:
@@ -116,8 +106,12 @@ class NeuralGraphFingerprint:
 
         if random_seed is not None:
             np.random.seed(random_seed)
-            torch.manual_seed(random_seed)
-            tf.random.set_seed(random_seed)
+            if engine == "pytorch":
+                import torch
+                torch.manual_seed(random_seed)
+            else:
+                import tensorflow as tf
+                tf.random.set_seed(random_seed)
 
         self.model = None
         self.n_outputs = 1
@@ -299,6 +293,13 @@ class NeuralGraphFingerprint:
 
     def _build_tensorflow(self, max_atoms, max_degree, num_atom_features, num_bond_features, n_outputs):
         """Build TensorFlow model."""
+        import tensorflow as tf
+        from tensorflow.keras.models import Model
+        from tensorflow.keras.layers import Input, Add, Dense
+        from tensorflow.keras.optimizers import Adam, SGD
+        from chemml.models.graphconvlayers import NeuralGraphHidden as NGH_TF
+        from chemml.models.graphconvlayers import NeuralGraphOutput as NGO_TF
+
         # Input layers
         atoms_input = Input(
             shape=(max_atoms, num_atom_features), name="atom_inputs", batch_size=None
@@ -371,6 +372,9 @@ class NeuralGraphFingerprint:
 
     def _build_pytorch(self, max_degree, num_atom_features, num_bond_features, n_outputs):
         """Build PyTorch model."""
+        import torch
+        from chemml.models.graphconvlayers_torch import _NeuralGraphNetworkPT
+
         self.model = _NeuralGraphNetworkPT(
             conv_width=self.conv_width,
             fp_length=self.fp_length,
@@ -442,6 +446,7 @@ class NeuralGraphFingerprint:
 
     def _fit_pytorch(self, atoms, bonds, edges, y):
         """Train PyTorch model."""
+        import torch
         # Convert to tensors
         atoms_t = torch.tensor(atoms, dtype=torch.float32)
         bonds_t = torch.tensor(bonds, dtype=torch.float32)
@@ -561,6 +566,7 @@ class NeuralGraphFingerprint:
             predictions = self.model.predict([atoms, bonds, edges], verbose=0)
         else:
             # PyTorch
+            import torch
             atoms_t = torch.tensor(atoms, dtype=torch.float32)
             bonds_t = torch.tensor(bonds, dtype=torch.float32)
             edges_t = torch.tensor(edges, dtype=torch.int32)
@@ -632,6 +638,7 @@ class NeuralGraphFingerprint:
             logits = self.model.predict([atoms, bonds, edges], verbose=0)
         else:
             # PyTorch
+            import torch
             atoms_t = torch.tensor(atoms, dtype=torch.float32)
             bonds_t = torch.tensor(bonds, dtype=torch.float32)
             edges_t = torch.tensor(edges, dtype=torch.int32)

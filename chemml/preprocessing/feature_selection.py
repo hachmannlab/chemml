@@ -11,7 +11,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
-from chemml.optimization import GeneticAlgorithm
 
 
 def GAFSel(df=None, target=None, target_features_count=None, evaluator=None, 
@@ -108,7 +107,9 @@ def GAFSel(df=None, target=None, target_features_count=None, evaluator=None,
         raise ValueError("'target_features_count' must be a positive integer.")
     if not isinstance(test_size, (int, float)) or test_size <= 0 or test_size >= 1:
         raise ValueError("'test_size' must be in the interval (0, 1).")
-    
+
+    from chemml.optimization import GeneticAlgorithm
+
     # Separate features and target
     y = df[target].values.flatten()
     

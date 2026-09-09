@@ -2,7 +2,6 @@ import os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, roc_curve, auc
 import numpy as np
 
 
@@ -442,6 +441,7 @@ class ClassificationPlots(object):
             predicted labels
 
         """
+        from sklearn.metrics import confusion_matrix
         cm = confusion_matrix(y_true, y_pred)
         im = ax.imshow(cm, cmap=self.cmap, interpolation='nearest')
         ax.set_xlabel('Predicted')
@@ -473,6 +473,7 @@ class ClassificationPlots(object):
             predicted probabilities
 
         """
+        from sklearn.metrics import roc_curve, auc
         y_pred_proba = np.array(y_pred_proba)
         
         # Handle binary classification

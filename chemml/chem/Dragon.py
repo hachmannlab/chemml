@@ -2,7 +2,6 @@ import warnings
 import os
 import time
 import pandas as pd
-from lxml import objectify, etree
 import numpy as np
 from chemml.utils import std_datetime_str
 from chemml.utils import bool_formatter
@@ -178,7 +177,8 @@ class Dragon(object):
             the path to the working directory to store output files.
 
         """
-        
+        from lxml import objectify, etree
+
         self.dragon = objectify.Element(
             "DRAGON",
             version="%i.0.0" % self.version,

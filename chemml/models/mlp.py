@@ -2,48 +2,54 @@ import pandas as pd
 import numpy as np
 from collections import OrderedDict
 from importlib import import_module
-import torch.nn as nn
 
-class pytorch_Net(nn.Module):
-    '''Base class for custom pytorch DNN with forward function.
 
-    Parameters
-    ----------
-    layers: list
-        list of pytorch layers
+def _build_pytorch_net(layers, layer_config_file):
+    """Build the pytorch_Net module, deferring the torch.nn import until a PyTorch model is actually built."""
+    import torch.nn as nn
 
-    layer_config_file: list or None
-        Layer config file to instantiate pytorch object with.
-    
-    '''
-    def __init__(self, layers, layer_config_file):
+    class pytorch_Net(nn.Module):
+        '''Base class for custom pytorch DNN with forward function.
+
+        Parameters
+        ----------
+        layers: list
+            list of pytorch layers
+
+        layer_config_file: list or None
+            Layer config file to instantiate pytorch object with.
         
-        super(pytorch_Net,self).__init__()
-        n = 0
-        seq_l = []
-        # print(layers)
-        nn_module = import_module('torch.nn')
-        if layer_config_file is None:
-            for i in range(len(layers)-1): # 0 - 4 
-                pt_layer = getattr(nn_module, layers[i][0])
-                seq_l.append((str(n),pt_layer(layers[i][1]['units'],layers[i+1][1]['units'])))
-                n = n+1
-                try:
-                    if layers[i][1]['activation'] not in ('None', None) and i < len(layers) - 2:
-                        # print(layers[i][1]['activation'],layers[i+1][1]['units'])
-                        seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
-                        n = n+1
-                except:
-                    raise ValueError('Incorrect activation format. PyTorch activation functions are case sensitive e.g., ReLU not relu')
-            # print(seq_l)
-            self.base_model = nn.Sequential(OrderedDict(seq_l))
-        else:
-            self.base_model = nn.Sequential(*layers)
+        '''
+        def __init__(self, layers, layer_config_file):
+            
+            super(pytorch_Net,self).__init__()
+            n = 0
+            seq_l = []
+            # print(layers)
+            nn_module = import_module('torch.nn')
+            if layer_config_file is None:
+                for i in range(len(layers)-1): # 0 - 4 
+                    pt_layer = getattr(nn_module, layers[i][0])
+                    seq_l.append((str(n),pt_layer(layers[i][1]['units'],layers[i+1][1]['units'])))
+                    n = n+1
+                    try:
+                        if layers[i][1]['activation'] not in ('None', None) and i < len(layers) - 2:
+                            # print(layers[i][1]['activation'],layers[i+1][1]['units'])
+                            seq_l.append((str(n),getattr(nn_module, layers[i][1]['activation'])()))
+                            n = n+1
+                    except:
+                        raise ValueError('Incorrect activation format. PyTorch activation functions are case sensitive e.g., ReLU not relu')
+                # print(seq_l)
+                self.base_model = nn.Sequential(OrderedDict(seq_l))
+            else:
+                self.base_model = nn.Sequential(*layers)
 
-    def forward(self, X):
-        """Forward propogation step.
-        """
-        return self.base_model(X)
+        def forward(self, X):
+            """Forward propogation step.
+            """
+            return self.base_model(X)
+
+    return pytorch_Net(layers, layer_config_file)
 
 class MLP(object):
     """
@@ -187,7 +193,7 @@ class MLP(object):
                 self.path_to_file = params['path_to_file']
                 self.layers = params['layers']
                 self.losses = params['losses']
-                self.model = pytorch_Net(self.layers,self.layer_config_file).base_model
+                self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model
                 checkpoint = torch.load(self.path_to_file)
                 self.model.load_state_dict(checkpoint['model_state_dict'])
                 self.opt = self._parse_opt_config(self.opt_config)
@@ -304,7 +310,7 @@ class MLP(object):
                 }))
             # self.layer_config_file = self.layers
             self.layers.append(('Linear',{'units':self.noutputs,'activation':None}))
-        self.model = pytorch_Net(self.layers,self.layer_config_file).base_model
+        self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model
 
         if self.loss == 'mean_squared_error':
             self.loss = nn.MSELoss()

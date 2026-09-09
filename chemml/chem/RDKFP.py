@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import scipy.sparse
 from tqdm import tqdm
 
 from rdkit.Chem import rdFingerprintGenerator
@@ -235,6 +234,7 @@ class RDKitFingerprint(object):
             msg = "The parameter 'features' must be a pandas dataframe."
             raise ValueError(msg)
 
+        import scipy.sparse
         temp = scipy.sparse.csc_matrix(features.values)
         scipy.sparse.save_npz(file, temp)
 
@@ -257,5 +257,6 @@ class RDKitFingerprint(object):
             msg = "The parameter 'file' must be a path to the file with .npz format."
             raise ValueError(msg)
 
+        import scipy.sparse
         temp = scipy.sparse.load_npz(file)
         return pd.DataFrame(temp.todense())

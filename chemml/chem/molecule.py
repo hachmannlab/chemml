@@ -1,6 +1,5 @@
 import os
 from rdkit import Chem
-from openbabel import pybel
 
 import warnings
 import numpy as np
@@ -517,6 +516,7 @@ class Molecule(object):
         The internal function to load a molecule using openbabel engine.
 
         """
+        from openbabel import pybel
         # if the molecule is already being created warn the user
         if self.pybel_molecule and self.creator:
             msg = "The molecule was already built using %s" % (

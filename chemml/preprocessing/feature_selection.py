@@ -245,7 +245,9 @@ def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
                 continue
         else: # keep non-binary features
             selected_features.append(col)
-
+    if len(selected_features) == 0:
+        selected_features = list(features.columns)  # Keep all features if none are selected
+        raise UserWarning("No features selected based on the Z-score threshold. Returning the feature set as-is.")
+    
     result_df = features[selected_features].copy()
-    result_df[target.name] = target
     return result_df

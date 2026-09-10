@@ -16,7 +16,7 @@ import time
 import uuid
 from tqdm import tqdm
 from importlib import import_module
-from multiprocessing import Pool, Manager
+import multiprocessing as mp
 
 try:
     from threadpoolctl import threadpool_limits
@@ -476,6 +476,24 @@ class ModelScreener(object):
             delayed(_build_mol)(i, smi)
             for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects", bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'))
         ) or []
+
+        # By default joblib's loky backend keeps idle worker processes (and their semaphores)
+        # alive for reuse. screen_models() later spawns its own multiprocessing.Pool/Manager
+        # workers per feature set and per GA generation, so leaving the loky executor resident
+        # can exhaust the container's semaphore/shared-memory limits (surfaces as
+        # "resource_tracker: There appear to be N leaked semaphore objects" once that limit is
+        # hit, often during the more resource-heavy MLP run). Explicitly shut it down here so
+        # those resources are freed before screening starts.
+        try:
+            from joblib.externals.loky import get_reusable_executor
+            # kill_workers=False lets workers finish and unregister their resources (e.g. the
+            # automatic memmapping folder) cleanly; force-killing them here was leaving that
+            # folder registered with the resource_tracker, which then warned about a "leaked
+            # folder" at shutdown.
+            get_reusable_executor().shutdown(wait=True, kill_workers=False)
+        except Exception as e:
+            _log(f"\nWarning: could not shut down loky executor cleanly: {e}\n", output_file=self.output_file)
+
         for i, mol, err in results:
             if err is not None:
                 _log(f"\nUnable to process SMILES: {self.smiles.iloc[i]}; Error: {err}", output_file=self.output_file)
@@ -869,8 +887,13 @@ class ModelScreener(object):
             k: list(self.x_list[k].columns)
             for k in self.x_list
         }
-        from multiprocessing import Pool, Manager
-        
+        # Use 'spawn' instead of the platform default (fork on Linux) for the model-screening
+        # workers. By this point RDKit, joblib/loky and possibly torch have already been loaded
+        # in the main process; forking a process with that native library state is unsafe and
+        # was observed to crash later (glibc "free(): invalid pointer") once torch is imported
+        # for MLP. 'spawn' starts each worker as a fresh interpreter, avoiding that shared state.
+        mp_ctx = mp.get_context("spawn")
+
         scores_list_overall=[]
 
         for key in self.x_list.keys():
@@ -890,9 +913,9 @@ class ModelScreener(object):
             self.scaler_map[key] = xscale
 
             # Running single-core models in parallel using multiprocessing manager
-            with Manager() as manager:
+            with mp_ctx.Manager() as manager:
                 scores_list = manager.list()
-                with Pool() as pool:
+                with mp_ctx.Pool() as pool:
                     pool.starmap(self.run_model, [(model_name, tmp_counter + i, output_file, X_train, y_train, X_test, y_test, single_core_models, scores_list, key) for i, model_name in enumerate(single_core_model_names)])
                 scores_list_overall.extend(list(scores_list))
 

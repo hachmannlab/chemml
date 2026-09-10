@@ -465,7 +465,7 @@ class NeuralGraphFingerprint:
 
         # Training loop
         self.model.train()
-        for epoch in tqdm(range(self.epochs), desc="Training", disable=not self.verbose):
+        for epoch in tqdm(range(self.epochs), desc="Training", disable=not self.verbose, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'):
             # Shuffle
             permutation = torch.randperm(n_samples)
             epoch_losses = []

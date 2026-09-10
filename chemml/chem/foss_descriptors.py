@@ -80,7 +80,7 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
         molecule_out = []
 
         if isinstance(items[0], Molecule):
-            iterator = tqdm(items, desc='Normalizing Molecule input', disable=quiet)
+            iterator = tqdm(items, desc='Normalizing Molecule input', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             for mol_obj in iterator:
                 if not isinstance(mol_obj, Molecule):
                     raise ValueError('Mixed input types are not supported in the same list.')
@@ -91,7 +91,7 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
                 rdkit_out.append(mol_obj.rdkit_molecule)
                 molecule_out.append(mol_obj)
         elif isinstance(items[0], str):
-            iterator = tqdm(items, desc='Converting SMILES input', disable=quiet)
+            iterator = tqdm(items, desc='Converting SMILES input', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             for smi in iterator:
                 if not isinstance(smi, str):
                     raise ValueError('Mixed input types are not supported in the same list.')
@@ -183,7 +183,7 @@ class RDKDesc(object):
 
         desc_data = []
         if n_jobs == 1:
-            for mol in tqdm(mol_list, desc='Step 2: Calculating RDKit descriptors'):
+            for mol in tqdm(mol_list, desc='Step 2: Calculating RDKit descriptors', bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'):
                 mol_desc = {}
                 for desc_name in self.descriptor_list:
                     mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
@@ -198,7 +198,7 @@ class RDKDesc(object):
                 return mol_desc
             
             desc_data = Parallel(n_jobs=n_jobs)(
-            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in tqdm(mol_list, desc='Calculating RDKit descriptors')
+            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in tqdm(mol_list, desc='Calculating RDKit descriptors', bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             )
 
         df = pd.DataFrame(desc_data)
@@ -269,7 +269,7 @@ class Mordred(object):
         optimized_smis = []
         optimized_mols = []
 
-        iterator = tqdm(molecule_list, desc='Optimizing 3D geometries', disable=quiet)
+        iterator = tqdm(molecule_list, desc='Optimizing 3D geometries', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
         for mol_obj in iterator:
             if mol_obj.xyz is not None and not force_optimize:
                 iterator.desc = '3D geometry already exists, loading geometry'

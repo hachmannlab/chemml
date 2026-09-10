@@ -474,7 +474,7 @@ class ModelScreener(object):
         # Process-based parallelism (loky) is required since RDKit embedding/forcefield calls don't release the GIL
         results = Parallel(n_jobs=-1, backend="loky")(
             delayed(_build_mol)(i, smi)
-            for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects"))
+            for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects", bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'))
         ) or []
         for i, mol, err in results:
             if err is not None:
@@ -484,7 +484,7 @@ class ModelScreener(object):
                 mol_objs_list.append(mol)
 
         # Removing discarded molecules from the targets
-        self.y = self.y.drop(index=self.discarded_indices)
+        self.y = self.y.drop(index=self.discarded_indices).reset_index(drop=True)
 
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms

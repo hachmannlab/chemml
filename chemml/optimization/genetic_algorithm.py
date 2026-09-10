@@ -539,7 +539,7 @@ class GeneticAlgorithm(object):
         best_indi_per_gen, best_indi_fitness_values, timer, total_pop, convergence, flag = [], [], [], [], 0, False
         
         from tqdm.auto import tqdm
-        pbar = tqdm(range(n_generations), desc="Generation", unit="gen", position=0, leave=True)
+        pbar = tqdm(range(n_generations), desc="Generation", unit="gen", position=0, leave=True, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
         
         for c_gen in pbar:
             if convergence >= early_stopping:

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from sklearn.linear_model import LinearRegression, Ridge
-from chemml.preprocessing import GAFSel
+from chemml.preprocessing import GAFSel, ZScoreFSel
 
 
 @pytest.fixture
@@ -191,3 +191,67 @@ def test_gasel_with_different_pop_sizes(synthetic_data):
     assert isinstance(result_large, pd.DataFrame)
     assert 'target_property' in result_small.columns
     assert 'target_property' in result_large.columns
+
+
+@pytest.fixture
+def zscore_data():
+    """Create synthetic features with a target-correlated binary feature,
+    an uncorrelated binary feature and a non-binary feature."""
+    np.random.seed(42)
+    n_samples = 100
+    good_feature = np.array([0] * (n_samples // 2) + [1] * (n_samples // 2))
+    noise_feature = np.random.randint(0, 2, n_samples)
+    continuous_feature = np.random.uniform(0, 10, n_samples)
+    target_values = np.where(good_feature == 1, 10, 0) + np.random.normal(0, 0.1, n_samples)
+
+    features = pd.DataFrame({
+        'good_feature': good_feature,
+        'noise_feature': noise_feature,
+        'continuous_feature': continuous_feature,
+    })
+    target = pd.Series(target_values, name='target')
+    return features, target
+
+
+def test_zscorefsel_selects_correlated_binary_feature(zscore_data):
+    """Test that a binary feature correlated with the target is selected."""
+    features, target = zscore_data
+    result = ZScoreFSel(features, target, threshold=1.0)
+
+    assert 'good_feature' in result.columns
+    assert 'target' in result.columns
+
+
+def test_zscorefsel_excludes_non_binary_feature(zscore_data):
+    """Test that non-binary features are never selected, regardless of threshold."""
+    features, target = zscore_data
+    result = ZScoreFSel(features, target, threshold=0.0)
+
+    assert 'continuous_feature' not in result.columns
+
+
+def test_zscorefsel_high_threshold_excludes_all_features(zscore_data):
+    """Test that an unreachably high threshold leaves only the target column."""
+    features, target = zscore_data
+    result = ZScoreFSel(features, target, threshold=100.0)
+
+    assert list(result.columns) == ['target']
+
+
+def test_zscorefsel_target_values_preserved(zscore_data):
+    """Test that the target column values are unchanged in the output."""
+    features, target = zscore_data
+    result = ZScoreFSel(features, target, threshold=1.0)
+
+    np.testing.assert_array_equal(result['target'].values, target.values)
+
+
+def test_zscorefsel_lower_threshold_selects_more_features(zscore_data):
+    """Test that lowering the threshold selects at least as many features."""
+    features, target = zscore_data
+    result_low = ZScoreFSel(features, target, threshold=0.0)
+    result_high = ZScoreFSel(features, target, threshold=2.0)
+
+    n_features_low = result_low.shape[1] - 1
+    n_features_high = result_high.shape[1] - 1
+    assert n_features_low >= n_features_high

@@ -236,11 +236,15 @@ def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
     selected_features = []
     for col in features.columns:
         if set(features[col].unique()) <= {0, 1}:  # Check if binary feature
-            mean_target_0 = target[features[col] == 0].mean()
-            mean_target_1 = target[features[col] == 1].mean()
+            mean_target_0 = target.iloc[features[features[col] == 0].index].mean()
+            mean_target_1 = target.iloc[features[features[col] == 1].index].mean()
             z_score = abs(mean_target_1 - mean_target_0) / target.std()
             if z_score >= threshold:
                 selected_features.append(col)
+            else:
+                continue
+        else: # keep non-binary features
+            selected_features.append(col)
 
     result_df = features[selected_features].copy()
     result_df[target.name] = target

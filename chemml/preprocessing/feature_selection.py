@@ -215,7 +215,7 @@ def GAFSel(df=None, target=None, target_features_count=None, evaluator=None,
     
     return result_df
 
-def ZScoreFSel(features, target, threshold=2.0):
+def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
     """
     Select binary features based on Z-score of the target variable.
 

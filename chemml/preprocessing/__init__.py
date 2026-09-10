@@ -9,7 +9,7 @@ The chemml.preprocessing module includes (please click on links adjacent to func
 """
 
 from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
-from .feature_selection import GAFSel
+from .feature_selection import GAFSel, ZScoreFSel
 
 
 __all__ = [
@@ -19,5 +19,6 @@ __all__ = [
     'RemoveCorrFeatures',
     'RemoveInvFeatures',
     'GAFSel',
+    'ZScoreFSel',
     'remove_complex_columns'
 ]

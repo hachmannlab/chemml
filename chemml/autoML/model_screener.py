@@ -436,7 +436,7 @@ class ModelScreener(object):
             list of pandas DataFrames consisting of various molecular representations
         """        
         from chemml.chem import Molecule, RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
-        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
+        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns, ZScoreFSel
         # generate all representation techniques here
 
         feature_keys = ["CoulombMatrix", "morganfingerprints_radius3", "MACCS_radius3", "hashedtopologicaltorsion_radius3", "hashedatompair_radius3", "rdkit_descriptors", "mord_descriptors"]
@@ -459,19 +459,33 @@ class ModelScreener(object):
             pass
 
         mol_objs_list=[]
-        
-        i=0
-        _log(f"\nConverting SMILES to ChemML Molecule objects...\n", output_file=self.output_file)
-        for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects")):
+
+        def _build_mol(i, smi):
             mol = Molecule(smi, 'smiles')
             mol.hydrogens('add')
             try:
                 mol.to_xyz('MMFF', maxIters=10000, mmffVariant='MMFF94s')
-                mol_objs_list.append(mol)
+                return i, mol, None
             except Exception as e:
-                _log(f"\nUnable to process SMILES: {smi}; Error: {e}", output_file=self.output_file)
+                return i, None, str(e)
+
+        _log(f"\nConverting SMILES to ChemML Molecule objects...\n", output_file=self.output_file)
+        from joblib import Parallel, delayed
+        # Process-based parallelism (loky) is required since RDKit embedding/forcefield calls don't release the GIL
+        results = Parallel(n_jobs=-1, backend="loky")(
+            delayed(_build_mol)(i, smi)
+            for i, smi in enumerate(tqdm(self.smiles, desc="Converting SMILES to ChemML Molecule objects"))
+        ) or []
+        for i, mol, err in results:
+            if err is not None:
+                _log(f"\nUnable to process SMILES: {self.smiles.iloc[i]}; Error: {err}", output_file=self.output_file)
                 self.discarded_indices.append(i)
-                
+            else:
+                mol_objs_list.append(mol)
+
+        # Removing discarded molecules from the targets
+        self.y = self.y.drop(index=self.discarded_indices)
+
         #The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)
         # Using eigen spectrum representation as it is invariant to translation, rotation, and permutation of atoms
         _log(f"\nGenerating Coulomb matrix representation...\n", output_file=self.output_file)
@@ -506,12 +520,13 @@ class ModelScreener(object):
         # New in v1.3.4, since feature order is logged as part of the best model 
         from datetime import datetime
         os.makedirs(features_path, exist_ok=True)
-        _log("\nCleaning feature sets to remove constant, highly correlated, low-variance, and complex features...\n", output_file=self.output_file)
+        _log("\nCleaning feature sets to remove constant, highly correlated, low-variance, complex, and low z-score features...\n", output_file=self.output_file)
         for x_key, x_df in self.x_list.items():
             # x_df = ConstantColumns(x_df) NOTE: ConstantColumns is deprecated and will be removed in ChemML v1.4
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
             x_df = remove_complex_columns(x_df)
+            x_df = ZScoreFSel(x_df, self.y)
             self.x_list[x_key] = x_df
             _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.\n", output_file=self.output_file)
             if self.cache_features:
@@ -780,16 +795,16 @@ class ModelScreener(object):
         _log(f"\n\n-------------------------ChemML AutoML Model Screening-------------------------\n", output_file=self.output_file)        
         _log(f"-------------------------Model screening started at {time.ctime()}-------------------------\n\n", output_file=self.output_file)
 
-        y = self.df[self.target].reset_index(drop=True)
+        self.y = self.df[self.target].reset_index(drop=True)
 
         if self.featurization == True:
             self._represent_smiles()
-            y = y.drop(index=self.discarded_indices)
+            
 
         
         if self.screener_type == "classifier":
             from .space import space_models_classifiers as space_models
-            self.nclasses = y.nunique()
+            self.nclasses = self.y.nunique()
         else:
             from .space import space_models
 
@@ -803,7 +818,7 @@ class ModelScreener(object):
             multi_core_models = space_models['multi_core']
         
         # Removing inefficient models for large datasets
-        if len(y) > 5e2:
+        if len(self.y) > 5e2:
             if self.screener_type == "regressor":
                 single_core_models.pop('SVR', None)
                 if multi_core:
@@ -838,13 +853,13 @@ class ModelScreener(object):
             f"  Featurization: {self.featurization}\n"
             f"  Multi_core: {multi_core}\n"
             f"  Screener_type: {self.screener_type}\n"
-            f"  Number of datapoints: {int(len(y))}\n"
+            f"  Number of datapoints: {int(len(self.y))}\n"
         )
         if multi_core:
             params_msg += "MLP thread limit: 1 (hard-coded)\n"
             multi_core_model_names = list(multi_core_models.keys())
             params_msg += f"  Multi-core models: {', '.join(multi_core_model_names)}\n"
-        if len(y) > 5e2:
+        if len(self.y) > 5e2:
             params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
         else: 
             params_msg += "  Note: Dataset <= 500 samples; MLP is excluded from screening due to inefficiency.\n"
@@ -861,7 +876,7 @@ class ModelScreener(object):
         for key in self.x_list.keys():
             _log(f"\n------------------------- Screening started for feature set {key} at {time.ctime()} -------------------------\n", output_file=self.output_file, to_console=False)
             start_time = time.time()
-            X_train, X_test, y_train, y_test = train_test_split(self.x_list[key], y, test_size=0.1, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(self.x_list[key], self.y, test_size=0.1, random_state=42)
             _log("split done!", output_file=self.output_file)
             tmp_counter = 0         
             output_file = self.output_file

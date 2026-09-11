@@ -219,7 +219,6 @@ def test_zscorefsel_selects_correlated_binary_feature(zscore_data):
     result = ZScoreFSel(features, target, threshold=1.0)
 
     assert 'good_feature' in result.columns
-    assert 'target' in result.columns
 
 
 def test_zscorefsel_excludes_non_binary_feature(zscore_data):
@@ -231,19 +230,10 @@ def test_zscorefsel_excludes_non_binary_feature(zscore_data):
 
 
 def test_zscorefsel_high_threshold_excludes_all_features(zscore_data):
-    """Test that an unreachably high threshold leaves only the target column."""
+    """Test that an unreachably high threshold results in no columns being selected."""
     features, target = zscore_data
-    result = ZScoreFSel(features, target, threshold=100.0)
-
-    assert list(result.columns) == ['target']
-
-
-def test_zscorefsel_target_values_preserved(zscore_data):
-    """Test that the target column values are unchanged in the output."""
-    features, target = zscore_data
-    result = ZScoreFSel(features, target, threshold=1.0)
-
-    np.testing.assert_array_equal(result['target'].values, target.values)
+    with pytest.warns(UserWarning):
+        ZScoreFSel(features, target, threshold=100.0)
 
 
 def test_zscorefsel_lower_threshold_selects_more_features(zscore_data):

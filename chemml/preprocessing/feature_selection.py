@@ -236,8 +236,15 @@ def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
     selected_features = []
     for col in features.columns:
         if set(features[col].unique()) <= {0, 1}:  # Check if binary feature
-            mean_target_0 = target.iloc[features[features[col] == 0].index].mean()
-            mean_target_1 = target.iloc[features[features[col] == 1].index].mean()
+            lower_value = 0
+            upper_value = 1
+            if features[col].dtype != 'int64' and features[col].dtype != 'bool':
+                lower_value = features[col].min()
+                upper_value = features[col].max()
+            elif features[col].dtype == 'bool':
+                features[col] = features[col].astype(int)
+            mean_target_0 = target.iloc[features[features[col] == lower_value].index].mean()
+            mean_target_1 = target.iloc[features[features[col] == upper_value].index].mean()
             z_score = abs(mean_target_1 - mean_target_0) / target.std()
             if z_score >= threshold:
                 selected_features.append(col)

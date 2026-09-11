@@ -544,10 +544,11 @@ class ModelScreener(object):
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
             x_df = remove_complex_columns(x_df)
-            try:
-                x_df = ZScoreFSel(x_df, self.y)
-            except UserWarning:
-                _log(f"Warning: No features selected based on the Z-score threshold for feature set '{x_key}'. Returning the feature set as-is.\n", output_file=self.output_file)
+            if self.screener_type == 'regressor':
+                try:
+                    x_df = ZScoreFSel(x_df, self.y)
+                except UserWarning:
+                    _log(f"Warning: No features selected based on the Z-score threshold for feature set '{x_key}'. Returning the feature set as-is.\n", output_file=self.output_file)
             x_df.columns = [str(col) for col in x_df.columns]
             self.x_list[x_key] = x_df
             _log(f"Feature set '{x_key}' cleaned: {x_df.shape[1]} features retained.\n", output_file=self.output_file)

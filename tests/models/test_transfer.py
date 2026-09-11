@@ -1,11 +1,15 @@
 import pytest
 from chemml.datasets import load_organic_density
 from chemml.models import MLP, TransferLearning
-from chemml.utils import regression_metrics
-import tensorflow as tf
+from chemml.utils import regression_metrics, is_tensorflow_available
 import torch
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+
+HAS_TENSORFLOW = is_tensorflow_available()
+requires_tensorflow = pytest.mark.skipif(
+    not HAS_TENSORFLOW, reason="TensorFlow is not installed/importable"
+)
 
 @pytest.fixture()
 def data():
@@ -29,6 +33,7 @@ def data():
 
 
 
+@requires_tensorflow
 def test_tl_tensorflow(data):
 
     ################### CHILD MODEL ###################

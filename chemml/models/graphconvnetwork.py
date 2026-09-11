@@ -8,6 +8,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+from chemml.utils.backend import resolve_engine
+
 
 class NeuralGraphFingerprint:
     """Neural graph fingerprint model with engine selection.
@@ -78,14 +80,13 @@ class NeuralGraphFingerprint:
         regression=True,
         n_classes=None,
     ):
-        if engine not in ["tensorflow", "pytorch"]:
-            raise ValueError("engine must be 'tensorflow' or 'pytorch'")
         if not regression and n_classes is None:
             raise ValueError("n_classes must be specified when regression=False")
         if not regression and n_classes < 2:
             raise ValueError("n_classes must be >= 2")
 
-        self.engine = engine
+        # Falls back to 'pytorch' if 'tensorflow' was requested but isn't available
+        self.engine = resolve_engine(engine)
         self.regression = regression
         self.n_classes = n_classes
         self.conv_width = conv_width
@@ -106,7 +107,7 @@ class NeuralGraphFingerprint:
 
         if random_seed is not None:
             np.random.seed(random_seed)
-            if engine == "pytorch":
+            if self.engine == "pytorch":
                 import torch
                 torch.manual_seed(random_seed)
             else:

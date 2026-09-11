@@ -3,6 +3,8 @@ import numpy as np
 from collections import OrderedDict
 from importlib import import_module
 
+from chemml.utils.backend import resolve_engine
+
 
 def _build_pytorch_net(layers, layer_config_file):
     """Build the pytorch_Net module, deferring the torch.nn import until a PyTorch model is actually built."""
@@ -126,10 +128,8 @@ class MLP(object):
                 is_regression=True, nclasses=None, noutputs=1, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
                 **params):
 
-        if engine not in ['tensorflow','pytorch']:
-            raise ValueError('engine has to be \'tensorflow\' or \'pytorch\'')
-
-        self.engine = engine
+        # Falls back to 'pytorch' if 'tensorflow' was requested but isn't available
+        self.engine = resolve_engine(engine)
 
         if layer_config_file == None:
             if nneurons == None or activations == None:
@@ -139,9 +139,9 @@ class MLP(object):
                 raise ValueError('No. of activations should be equal to the number of hidden layers \
                             (length of the nneurons list).')
 
-        if engine=='tensorflow':
+        if self.engine=='tensorflow':
             self.nfeatures = (nfeatures,)
-        elif engine=='pytorch':
+        elif self.engine=='pytorch':
             self.nfeatures = nfeatures
         self.nepochs = nepochs
         self.batch_size = batch_size

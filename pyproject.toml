@@ -30,7 +30,10 @@ dependencies = [
     "pandas",
     "h5py",
     # Machine learning & deep learning
-    "tensorflow",
+    # tensorflow has no published wheels yet for very new Python releases
+    # (e.g. 3.14+); skip it there and chemml.models will automatically fall
+    # back to the pytorch engine at runtime.
+    "tensorflow; python_version < '3.14'",
     "torch>=2.0; platform_system != 'Darwin'",
     "torchvision>=0.15; platform_system != 'Darwin'",
     "scikit-learn",

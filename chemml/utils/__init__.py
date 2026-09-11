@@ -28,11 +28,16 @@ from .validation import update_default_kwargs
 from .utilities import ConvertFile
 from .utilities import load_chemml_model
 
+from .backend import is_tensorflow_available
+from .backend import resolve_engine
+
 __all__ = [
     'list_del_indices',
     'std_datetime_str',
     'isfloat',
     'mol_shapes_to_dims',
     'ConvertFile'
-    'load_chemml_model'
+    'load_chemml_model',
+    'is_tensorflow_available',
+    'resolve_engine',
 ]

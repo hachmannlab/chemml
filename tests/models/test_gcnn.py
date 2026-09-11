@@ -6,16 +6,20 @@ import pytest
 import numpy as np
 import os
 import warnings
-import tensorflow as tf
-
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-tf.get_logger().setLevel(3)
 
 from chemml.models import NeuralGraphFingerprint
 from chemml.models.graphconvlayers_torch import _NeuralGraphNetworkPT
 from chemml.datasets import load_organic_density
 from chemml.chem import Molecule, tensorise_molecules
-from tensorflow.keras.models import Model
+from chemml.utils import is_tensorflow_available
+
+HAS_TENSORFLOW = is_tensorflow_available()
+if HAS_TENSORFLOW:
+    from tensorflow.keras.models import Model
+
+requires_tensorflow = pytest.mark.skipif(
+    not HAS_TENSORFLOW, reason="TensorFlow is not installed/importable"
+)
 
 
 @pytest.fixture(scope='session')
@@ -114,6 +118,7 @@ class TestNeuralGraphFingerprintInit:
         assert ngf.model is None  # Not built yet
         assert ngf.n_outputs == 1
 
+    @requires_tensorflow
     def test_tensorflow_init(self):
         """Test TensorFlow engine initialization."""
         ngf = NeuralGraphFingerprint(
@@ -128,7 +133,7 @@ class TestNeuralGraphFingerprintInit:
 
     def test_invalid_engine(self):
         """Test that invalid engine raises ValueError."""
-        with pytest.raises(ValueError, match="engine must be"):
+        with pytest.raises(ValueError, match="engine has to be"):
             NeuralGraphFingerprint(engine='invalid')
 
     def test_with_mlp_head(self):
@@ -193,6 +198,8 @@ class TestPyTorchEngine:
 class TestTensorFlowEngine:
     """Test TensorFlow engine functionality."""
     """Note all tests are run with output head, as it is the default behavior for neural fingerprints."""
+    pytestmark = requires_tensorflow
+
     def test_tensorflow_single_output(self, graph_data, single_output_targets):
         """Test TensorFlow with optional MLP head."""
         atoms, bonds, edges, _ = graph_data
@@ -249,6 +256,7 @@ class TestGetModel:
         model = ngf.get_model()
         assert isinstance(model, _NeuralGraphNetworkPT)
 
+    @requires_tensorflow
     def test_get_model_tensorflow(self, graph_data, single_output_targets):
         """Test get_model returns TensorFlow model."""
         atoms, bonds, edges, _ = graph_data
@@ -283,6 +291,7 @@ class TestMulticlassClassification:
         assert ngf.regression is False
         assert ngf.n_classes == 3
 
+    @requires_tensorflow
     def test_tensorflow_multiclass_init(self):
         """Test TensorFlow engine classification initialization."""
         ngf = NeuralGraphFingerprint(
@@ -340,6 +349,7 @@ class TestMulticlassClassification:
         # Check all predictions are valid class indices
         assert np.all(predictions >= 0) and np.all(predictions < n_classes)
 
+    @requires_tensorflow
     def test_tensorflow_multiclass_fit_predict(self, graph_data):
         """Test TensorFlow multiclass classification fit and predict."""
         atoms, bonds, edges, _ = graph_data
@@ -393,6 +403,7 @@ class TestMulticlassClassification:
         # Check rows sum to 1
         assert np.allclose(probabilities.sum(axis=1), 1.0, rtol=1e-5)
 
+    @requires_tensorflow
     def test_tensorflow_predict_proba(self, graph_data):
         """Test TensorFlow predict_proba method."""
         atoms, bonds, edges, _ = graph_data

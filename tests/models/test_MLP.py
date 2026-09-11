@@ -7,22 +7,25 @@ import shutil
 import warnings
 import numpy as np
 
-import tensorflow as tf
-# tf.get_logger().setLevel(3) #to suppress warnings
-import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 from chemml.models import MLP
 from chemml.datasets import load_organic_density
-from chemml.utils import regression_metrics
+from chemml.utils import regression_metrics, is_tensorflow_available
 from torch import nn
 from torch.nn import Sequential as pytSeq
 from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.models import Sequential as tfSeq
+
+HAS_TENSORFLOW = is_tensorflow_available()
+if HAS_TENSORFLOW:
+    from tensorflow.keras.models import Sequential as tfSeq
+
+requires_tensorflow = pytest.mark.skipif(
+    not HAS_TENSORFLOW, reason="TensorFlow is not installed/importable"
+)
 
 
-def test_init():
-    # PYTORCH
+def test_init_pytorch():
     r1 = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
                 is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
@@ -36,7 +39,9 @@ def test_init():
     assert isinstance(c1, MLP)
     assert isinstance(c1.model, pytSeq)
 
-    # TENSORFLOW
+
+@requires_tensorflow
+def test_init_tensorflow():
     r1 = MLP(engine='tensorflow',nfeatures=120, nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
                 is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
@@ -71,7 +76,7 @@ def data():
     return Xtr, ytr, Xte, yte, scale_y
 
 
-def test_fit_via_params(data):
+def test_fit_via_params_pytorch(data):
     Xtr, ytr, Xte, yte, scale_y = data
 
     mlp_pytorch = MLP(engine='pytorch', nfeatures=Xtr.shape[1], nneurons=[100,200], activations=['ReLU','ReLU'],
@@ -84,7 +89,11 @@ def test_fit_via_params(data):
 
     metrics_df = regression_metrics(yte, y_pred)
     assert isinstance(metrics_df['MAE'].loc[0],np.float32)
-    
+
+
+@requires_tensorflow
+def test_fit_via_params_tensorflow(data):
+    Xtr, ytr, Xte, yte, scale_y = data
 
     mlp_tensorflow = MLP(engine='tensorflow', nfeatures=Xtr.shape[1], nneurons=[100,200], activations=['ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=20, batch_size=100, loss='mean_squared_error', 
@@ -108,8 +117,8 @@ def setup_teardown():
     shutil.rmtree(test_dir)
 
 
-def test_get_model():
-    # TENSORFLOW
+@requires_tensorflow
+def test_get_model_tensorflow():
     r1_tensorflow = MLP(engine='tensorflow',nfeatures=120, nneurons=[100,200,300], activations=['ReLU','ReLU','ReLU'],
                 learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
                 is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
@@ -128,7 +137,8 @@ def test_get_model():
     engine_model_2 = r1_tensorflow.get_model(include_output=False,n_layers=1)
     assert len(engine_model_2.layers) == 2
 
-    # PYTORCH
+
+def test_get_model_pytorch():
     r1_pytorch = MLP(engine='pytorch',nfeatures=120, nneurons=[100,200,300], activations=['ReLU','ReLU','ReLU'],
             learning_rate=0.01, alpha=0.002, nepochs=100, batch_size=100, loss='mean_squared_error', 
             is_regression=True, nclasses=None, layer_config_file=None, opt_config='SGD')
@@ -151,15 +161,14 @@ def test_get_model():
     assert len(engine_model) == 4
 
 
-def test_multioutput(data):
-    """Test multi-output regression for both PyTorch and TensorFlow engines."""
+def test_multioutput_pytorch(data):
+    """Test multi-output regression for the PyTorch engine."""
     Xtr, ytr, Xte, yte, scale_y = data
     
     # Create 2-output targets by duplicating and scaling the original output
     ytr_multi = np.hstack([ytr, ytr * 0.5])  # shape: (450, 2)
     yte_multi = np.hstack([yte, yte * 0.5])  # shape: (50, 2)
     
-    # Test PyTorch engine
     mlp_pytorch = MLP(engine='pytorch', nfeatures=Xtr.shape[1], nneurons=[100, 200], 
                       activations=['ReLU', 'ReLU'], learning_rate=0.01, alpha=0.002, 
                       nepochs=20, batch_size=100, loss='mean_squared_error', 
@@ -172,8 +181,17 @@ def test_multioutput(data):
     mlp_pytorch.fit(Xtr, ytr_multi)
     y_pred_pytorch = mlp_pytorch.predict(Xte)
     assert y_pred_pytorch.shape == (yte_multi.shape[0], 2), f"Expected shape (50, 2), got {y_pred_pytorch.shape}"
+
+
+@requires_tensorflow
+def test_multioutput_tensorflow(data):
+    """Test multi-output regression for the TensorFlow engine."""
+    Xtr, ytr, Xte, yte, scale_y = data
     
-    # Test TensorFlow engine
+    # Create 2-output targets by duplicating and scaling the original output
+    ytr_multi = np.hstack([ytr, ytr * 0.5])  # shape: (450, 2)
+    yte_multi = np.hstack([yte, yte * 0.5])  # shape: (50, 2)
+    
     mlp_tensorflow = MLP(engine='tensorflow', nfeatures=Xtr.shape[1], nneurons=[100, 200], 
                         activations=['ReLU', 'ReLU'], learning_rate=0.01, alpha=0.002, 
                         nepochs=20, batch_size=100, loss='mean_squared_error', 

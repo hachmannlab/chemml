@@ -56,7 +56,10 @@ def resolve_engine(engine, default='tensorflow'):
     if engine not in ('tensorflow', 'pytorch'):
         raise ValueError("engine has to be 'tensorflow' or 'pytorch'")
 
-    if engine == 'tensorflow' and not is_tensorflow_available():
+    if engine == 'pytorch':
+        return engine
+    
+    elif engine == 'tensorflow' and not is_tensorflow_available():
         warnings.warn(
             "TensorFlow is not installed or could not be imported in this "
             "environment (it may not yet support your Python version). "

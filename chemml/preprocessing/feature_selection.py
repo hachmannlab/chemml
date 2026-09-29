@@ -233,6 +233,14 @@ def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
     pandas.DataFrame
         DataFrame containing selected features and the target column.
     """
+    # sanity-check threshold to avoid unnecessary computation
+    if threshold <= 0:
+        raise ValueError("Threshold must be positive.")
+    elif threshold < 2:
+        raise UserWarning("Threshold is below the recommended value of 2.0. Z-scores below 2 are not a strong indicator of feature relevance.")
+    elif threshold > 5:
+        raise ValueError("Z-score thresholds above 5 are not supported by ChemML.")
+    
     selected_features = []
     for col in features.columns:
         if set(features[col].unique()) <= {0, 1}:  # Check if binary feature

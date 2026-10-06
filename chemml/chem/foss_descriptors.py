@@ -338,7 +338,11 @@ class Mordred(object):
             step = 3
 
         print(f'Step {step}/{step}: Calculating Mordred descriptors')
-        pand = self.calc.pandas(mol_list, quiet=quiet)
+        if 'n_jobs' in kwargs:
+            self.n_jobs = kwargs.get('n_jobs')
+            pand = self.calc.pandas(mol_list, quiet=quiet, nproc=self.n_jobs)
+        else:
+            pand = self.calc.pandas(mol_list, quiet=quiet)
         pand = pand.select_dtypes(include=[np.floating, np.integer]).replace([np.inf, -np.inf], np.nan)  # Exclude complex dtypes for NumPy 2.x
         pand = pand.dropna(axis=1, how='all')
 

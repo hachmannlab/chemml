@@ -2,6 +2,7 @@ import pytest
 import os
 import shutil
 import tempfile
+import numpy as np
 
 
 from chemml.chem import RDKitFingerprint
@@ -76,6 +77,27 @@ def test_fingerprint_representations(mol_list, mol_single, fingerprint_type, vec
     df = rdfp.represent(mol_single)
     assert df.shape == expected_shapes[1]
     assert rdfp.n_molecules_ == 1
+
+
+@pytest.mark.parametrize(
+    "fingerprint_type, vector",
+    [
+        ("hap", "int"),
+        ("hap", "bit"),
+        ("maccs", "bit"),
+        ("Morgan", "int"),
+        ("Morgan", "bit"),
+        ("htt", "int"),
+        ("htt", "bit"),
+        ("tt", "int"),
+        ("tt", "bit"),
+    ],
+)
+def test_as_numpy(mol_list, fingerprint_type, vector):
+    rdfp = RDKitFingerprint(fingerprint_type=fingerprint_type, vector=vector)
+    features = rdfp.represent(mol_list, as_numpy=True)
+    assert isinstance(features, np.ndarray)
+    assert features.shape[0] == len(mol_list)
 
 
 def test_MACCS_exception(mol_list):

@@ -3,7 +3,7 @@ import numpy as np
 from collections import OrderedDict
 from importlib import import_module
 
-from chemml.utils.backend import resolve_engine
+from chemml.utils.backend import resolve_engine, resolve_device
 
 
 def _build_pytorch_net(layers, layer_config_file):
@@ -122,14 +122,20 @@ class MLP(object):
         Determines whether TensorFlow models print train loss every epoch
         Mainly used to make AutoML outputs easier to read.
 
+    device: str, optional, default: None
+        PyTorch engine only. None or 'cpu' runs on the CPU, 'auto' uses a GPU if available,
+        'cuda' or 'cuda:N' requests a specific GPU (works for both CUDA and ROCm builds of PyTorch).
+        TensorFlow uses any visible GPU automatically.
+
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
                 is_regression=True, nclasses=None, noutputs=1, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
-                **params):
+                device=None, **params):
 
         # Falls back to 'pytorch' if 'tensorflow' was requested but isn't available
         self.engine = resolve_engine(engine)
+        self.device = resolve_device(device) if self.engine == 'pytorch' else 'cpu'
 
         if layer_config_file == None:
             if nneurons == None or activations == None:
@@ -193,8 +199,8 @@ class MLP(object):
                 self.path_to_file = params['path_to_file']
                 self.layers = params['layers']
                 self.losses = params['losses']
-                self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model
-                checkpoint = torch.load(self.path_to_file)
+                self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model.to(self.device)
+                checkpoint = torch.load(self.path_to_file, map_location=self.device)
                 self.model.load_state_dict(checkpoint['model_state_dict'])
                 self.opt = self._parse_opt_config(self.opt_config)
                 self.opt.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -310,7 +316,7 @@ class MLP(object):
                 }))
             # self.layer_config_file = self.layers
             self.layers.append(('Linear',{'units':self.noutputs,'activation':None}))
-        self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model
+        self.model = _build_pytorch_net(self.layers,self.layer_config_file).base_model.to(self.device)
 
         if self.loss == 'mean_squared_error':
             self.loss = nn.MSELoss()
@@ -413,6 +419,7 @@ class MLP(object):
             'layer_config_file': self.layer_config_file,
             'opt_config': self.opt_config,
             'random_seed': self.random_seed,
+            'device': self.device,
         }
         return params
 
@@ -544,11 +551,12 @@ class MLP(object):
             raise TypeError('y has to be a numpy array or pytorch tensor or Pandas DataFrame/Series')
         
         self.losses = []
+        X, y = X.to(self.device), y.to(self.device)
 
         #forward feed    
         for _ in range(self.nepochs):
             #shuffle rows
-            permutation = torch.randperm(X.size()[0])
+            permutation = torch.randperm(X.size()[0], device=self.device)
             # batch loss
             avg_loss=[]
             for i in range(0, X.size()[0], self.batch_size):
@@ -620,8 +628,8 @@ class MLP(object):
         else:
             raise TypeError('X has to be a numpy array or pytorch tensor')
 
-        y_hat = self.model(X)
-        y_hat = y_hat.detach().numpy()
+        y_hat = self.model(X.to(self.device))
+        y_hat = y_hat.detach().cpu().numpy()
         return y_hat
 
 

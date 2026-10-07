@@ -3,7 +3,7 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
-[1.3.5] - 2026-09-22
+[1.3.5] - 2026-10-13
 --------------------
 Added
 ~~~~~
@@ -11,7 +11,8 @@ Added
 - **MLP Multi-Output Support**: Added multi-output support to ``MLP()`` for regression tasks with multiple targets.
 - **Neural Fingerprint Wrapper**: Added simplified wrapper function ``NeuralGraphFingerprint()`` to allow for instantiation of Neural Graph Fingerprint models with easy-to-tweak parameters.
 - **Neural Fingerprint PyTorch Engine**: Added PyTorch engine for neural fingerprints as an alternate to TensorFlow.
-- **Z-Score Feature Selection**: Added ``ZScoreFSel`` in ``feature_selection.py`` to remove low z-score binary features during preprocessing.
+- **Z-Score Feature Selection**: Added ``ZScoreFSel()`` in ``feature_selection.py`` to remove low z-score binary features during preprocessing.
+- **GPU Support (CUDA/ROCm)**: Added a ``device`` option (``None``/``'cpu'``, ``'auto'``, ``'cuda'``, ``'cuda:N'``) to the PyTorch engines of ``MLP()``, ``NeuralGraphFingerprint()`` and ``ModelScreener()``.
 
 Changed
 ~~~~~~~
@@ -21,8 +22,8 @@ Changed
    - **OpenBabel**: Now supporting OpenBabel 3.2.x.
 - Made ChemML installation a one-command job with OpenBabel and PyTorch included in ``pyproject.toml`` (**NOTE: Python 3.8 still requires separate OpenBabel install, see** `README.md <https://github.com/hachmannlab/chemml/blob/master/README.md>`_).
 - Verified Python 3.13 compatibility with all dependencies and CI/CD testing. ChemML with Python 3.13+ is fully `SPEC 0 compliant for 2026-2028 <https://scientific-python.org/specs/spec-0000/>`_
-- ``friedman_mse`` criterion removed from ``DecisionTreeRegressor`` and ``RandomForestRegressor`` hyperparameter search space as it's mathematically identical to ``mean_squared_error`` and `will be removed in future scikit-learn versions <https://github.com/scikit-learn/scikit-learn/issues/32700>`_.
-- ``MLPRegressor`` n_neurons reduced in AutoML due to ``MLPRegressor`` and ``MLP`` being used separately for small/large datasets.
+- ``friedman_mse`` criterion removed from ``DecisionTreeRegressor()`` and ``RandomForestRegressor()`` hyperparameter search space as it's mathematically identical to ``mean_squared_error`` and `will be removed in future scikit-learn versions <https://github.com/scikit-learn/scikit-learn/issues/32700>`_.
+- ``MLPRegressor()`` n_neurons reduced in AutoML due to ``MLPRegressor()`` and ``MLP()`` being used separately for small/large datasets.
 - Added demo for classification AutoML workflow in ``docs/ipython_notebooks/autoML_classification.ipynb``.
 - Classification AutoML now includes ``MLPClassifier`` from scikit-learn.
 - Neural fingerprints now support multi-output regression and classification tasks, see wrapper function ``NeuralGraphFingerprint()`` for details.
@@ -44,9 +45,6 @@ Fixed/Miscellaneous
 - Tests now make use of pytest parametrization to reduce duplicate tests.
 - All ChemML modules now implement lazy loading for performance improvement, as well as `SPEC 1 compliance <https://scientific-python.org/specs/spec-0001/>`_.
 
-Notes
-~~~~~
-- **Future TensorFlow Support**: ChemML v1.3.5+ is compatible with Python 3.14; however, some legacy published models use tensorflow, which has not released a version compatible with Python 3.14 at the time of this release. It is recommended to use Python 3.13 for reproducing the published models. For new models, we now have dual PyTorch and Tensorflow backends for all neural networks; ChemML will automatically use PyTorch if TF is unavailable.
 
 [1.3.4] - 2026-07-28
 --------------------

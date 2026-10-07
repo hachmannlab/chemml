@@ -30,6 +30,7 @@ from .utilities import load_chemml_model
 
 from .backend import is_tensorflow_available
 from .backend import resolve_engine
+from .backend import resolve_device
 
 __all__ = [
     'list_del_indices',

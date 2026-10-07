@@ -35,7 +35,7 @@ def _log(message, output_file=None, to_console=True):
 
 
 class ModelScreener(object):
-    def __init__(self, df, target, featurization=False, cache_features=False, store_models=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log"):
+    def __init__(self, df, target, featurization=False, cache_features=False, store_models=False, smiles=None, screener_type="regressor", n_gen=10, output_dir="automl_results", output_file="output.log", device=None):
         """
         This is a constructor function that initializes parameters for AutoML.
         
@@ -66,9 +66,12 @@ class ModelScreener(object):
             The name of the directory where the scores will be written to
         output_file : str, optional (default "output.log")
             The name of the file where all stdout output will be written to
+        device : str, optional (default None)
+            Device for the PyTorch MLP: None/'cpu', 'auto', 'cuda' or 'cuda:N' (CUDA and ROCm)
 
         """        
         
+        self.device = device
         self.n_gen=n_gen
         self.best_model=None
         self.best_model_info = None
@@ -314,7 +317,7 @@ class ModelScreener(object):
                     activations = [activation_map[act] for act in activations]
                 is_regression = self.screener_type != 'classifier'
                 nclasses = getattr(self, 'nclasses', None)
-                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42, verbose=0) 
+                model = getattr(module,model_name)(engine=parameters_list[0], alpha=np.exp(parameters_list[1]), activations=activations, nneurons=layers, nepochs=parameters_list[8], batch_size=parameters_list[9], opt_config=parameters_list[10], learning_rate=np.exp(parameters_list[11]), nfeatures=self.nfeatures, is_regression=is_regression, nclasses=nclasses, random_seed=42, verbose=0, device=self.device) 
 
             elif model_name == 'GradientBoostingRegressor':
                 model = getattr(module,model_name)(loss=parameters_list[0], n_estimators=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3], random_state=42)
@@ -338,7 +341,7 @@ class ModelScreener(object):
                 model = getattr(module,model_name)(criterion=parameters_list[0], splitter=parameters_list[1], min_samples_split=parameters_list[2], min_samples_leaf=parameters_list[3])
 
             elif model_name in ("XGBRegressor", "XGBClassifier"):
-                model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]), max_depth=parameters_list[3],learning_rate=np.exp(parameters_list[4]),colsample_bytree=np.exp(parameters_list[5]),subsample=np.exp(parameters_list[6]),gamma=np.exp(parameters_list[7]),min_child_weight=parameters_list[8], device='cuda' if 'cuda' in os.environ.get('CUDA_VISIBLE_DEVICES', '') else 'cpu', random_state=42)
+                model = getattr(module,model_name)(n_estimators=parameters_list[0], reg_alpha=np.exp(parameters_list[1]), reg_lambda=np.exp(parameters_list[2]), max_depth=parameters_list[3],learning_rate=np.exp(parameters_list[4]),colsample_bytree=np.exp(parameters_list[5]),subsample=np.exp(parameters_list[6]),gamma=np.exp(parameters_list[7]),min_child_weight=parameters_list[8], device=self.device, random_state=42)
 
             elif model_name in ("LGBMRegressor", "LGBMClassifier"):
                 model = getattr(module,model_name)(n_estimators=parameters_list[0], num_leaves=parameters_list[1], learning_rate=np.exp(parameters_list[2]), max_depth=parameters_list[3], min_child_samples=parameters_list[4], subsample=np.exp(parameters_list[5]), colsample_bytree=np.exp(parameters_list[6]), reg_alpha=np.exp(parameters_list[7]), reg_lambda=np.exp(parameters_list[8]), random_state=42, verbosity=-1)

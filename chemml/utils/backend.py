@@ -31,6 +31,42 @@ def is_tensorflow_available():
     return _TENSORFLOW_AVAILABLE
 
 
+def resolve_device(device=None):
+    """Resolve the PyTorch device string.
+
+    Works for both CUDA and ROCm builds of PyTorch (both use the 'cuda' device type).
+
+    Parameters
+    ----------
+    device: str or None
+        None or 'cpu' -> 'cpu'; 'auto' -> 'cuda' if available else 'cpu';
+        'cuda' or 'cuda:N' -> that device, falling back to 'cpu' with a warning if unavailable.
+
+    Returns
+    -------
+    str
+    """
+    if device is None:
+        return 'cpu'
+    device = str(device).lower()
+    if device == 'cpu':
+        return 'cpu'
+
+    import torch
+    if device == 'auto':
+        return 'cuda' if torch.cuda.is_available() else 'cpu'
+    if not device.startswith('cuda'):
+        raise ValueError("device has to be None, 'auto', 'cpu', 'cuda' or 'cuda:N'")
+    if not torch.cuda.is_available():
+        warnings.warn(
+            "A GPU (CUDA/ROCm) was requested but is not available. Falling back to 'cpu'.",
+            UserWarning,
+            stacklevel=3,
+        )
+        return 'cpu'
+    return device
+
+
 def resolve_engine(engine, default='tensorflow'):
     """Validate the requested ``engine`` and fall back to PyTorch if needed.
 

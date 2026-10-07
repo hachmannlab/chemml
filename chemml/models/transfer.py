@@ -138,7 +138,8 @@ class TransferLearning(object):
 
         new_chemml_model = MLP(engine=self.engine, nfeatures=self.nfeatures, learning_rate=child_model.learning_rate, 
                                 nepochs= child_model.nepochs, batch_size=child_model.batch_size, alpha=child_model.alpha, 
-                                loss=child_model.loss, opt_config=child_model.opt_config, layer_config_file=model_layers)
+                                loss=child_model.loss, opt_config=child_model.opt_config, layer_config_file=model_layers,
+                                device=child_model.device)
         print(new_chemml_model.model)
         new_chemml_model.fit(X, y)
 

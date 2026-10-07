@@ -529,4 +529,5 @@ class _NeuralGraphNetworkPT(nn.Module):
             final_input_dim = self.fp_length
 
         self.n_outputs = n_outputs
-        self.output_layer = nn.Linear(final_input_dim, n_outputs, bias=True)
+        device = next(self.parameters()).device
+        self.output_layer = nn.Linear(final_input_dim, n_outputs, bias=True).to(device)

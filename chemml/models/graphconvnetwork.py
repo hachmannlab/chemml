@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from chemml.utils.backend import resolve_engine
+from chemml.utils.backend import resolve_engine, resolve_device
 
 
 class NeuralGraphFingerprint:
@@ -57,6 +57,10 @@ class NeuralGraphFingerprint:
     n_classes : int, optional
         Number of classes for classification (required if regression=False).
         Default None.
+    device : str, optional
+        PyTorch engine only. None/'cpu', 'auto' (GPU if available), 'cuda' or 'cuda:N'
+        (works for CUDA and ROCm builds). TensorFlow uses any visible GPU automatically.
+        Default None.
     """
 
     def __init__(
@@ -79,6 +83,7 @@ class NeuralGraphFingerprint:
         random_seed=None,
         regression=True,
         n_classes=None,
+        device=None,
     ):
         if not regression and n_classes is None:
             raise ValueError("n_classes must be specified when regression=False")
@@ -87,6 +92,7 @@ class NeuralGraphFingerprint:
 
         # Falls back to 'pytorch' if 'tensorflow' was requested but isn't available
         self.engine = resolve_engine(engine)
+        self.device = resolve_device(device) if self.engine == "pytorch" else "cpu"
         self.regression = regression
         self.n_classes = n_classes
         self.conv_width = conv_width
@@ -389,7 +395,7 @@ class NeuralGraphFingerprint:
             conv_activation=self.conv_activation,
             fp_activation=self.fp_activation,
             use_bias=self.use_bias,
-        )
+        ).to(self.device)
 
         # Create optimizer
         if self.optimizer == "adam":
@@ -449,13 +455,13 @@ class NeuralGraphFingerprint:
         """Train PyTorch model."""
         import torch
         # Convert to tensors
-        atoms_t = torch.tensor(atoms, dtype=torch.float32)
-        bonds_t = torch.tensor(bonds, dtype=torch.float32)
-        edges_t = torch.tensor(edges, dtype=torch.int32)
+        atoms_t = torch.tensor(atoms, dtype=torch.float32, device=self.device)
+        bonds_t = torch.tensor(bonds, dtype=torch.float32, device=self.device)
+        edges_t = torch.tensor(edges, dtype=torch.int32, device=self.device)
         if not self.regression:
-            y_t = torch.tensor(y, dtype=torch.long)
+            y_t = torch.tensor(y, dtype=torch.long, device=self.device)
         else:
-            y_t = torch.tensor(y, dtype=torch.float32)
+            y_t = torch.tensor(y, dtype=torch.float32, device=self.device)
 
         # Ensure y has correct shape for regression only
         if self.regression and y_t.ndim == 1:
@@ -468,7 +474,7 @@ class NeuralGraphFingerprint:
         self.model.train()
         for epoch in tqdm(range(self.epochs), desc="Training", disable=not self.verbose, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'):
             # Shuffle
-            permutation = torch.randperm(n_samples)
+            permutation = torch.randperm(n_samples, device=self.device)
             epoch_losses = []
 
             # Mini-batches
@@ -568,14 +574,14 @@ class NeuralGraphFingerprint:
         else:
             # PyTorch
             import torch
-            atoms_t = torch.tensor(atoms, dtype=torch.float32)
-            bonds_t = torch.tensor(bonds, dtype=torch.float32)
-            edges_t = torch.tensor(edges, dtype=torch.int32)
+            atoms_t = torch.tensor(atoms, dtype=torch.float32, device=self.device)
+            bonds_t = torch.tensor(bonds, dtype=torch.float32, device=self.device)
+            edges_t = torch.tensor(edges, dtype=torch.int32, device=self.device)
 
             self.model.eval()
             with torch.no_grad():
                 predictions = self.model(atoms_t, bonds_t, edges_t)
-                predictions = predictions.numpy()
+                predictions = predictions.cpu().numpy()
 
         # Ensure correct output shape
         if not self.regression:
@@ -640,14 +646,14 @@ class NeuralGraphFingerprint:
         else:
             # PyTorch
             import torch
-            atoms_t = torch.tensor(atoms, dtype=torch.float32)
-            bonds_t = torch.tensor(bonds, dtype=torch.float32)
-            edges_t = torch.tensor(edges, dtype=torch.int32)
+            atoms_t = torch.tensor(atoms, dtype=torch.float32, device=self.device)
+            bonds_t = torch.tensor(bonds, dtype=torch.float32, device=self.device)
+            edges_t = torch.tensor(edges, dtype=torch.int32, device=self.device)
 
             self.model.eval()
             with torch.no_grad():
                 logits = self.model(atoms_t, bonds_t, edges_t)
-                logits = logits.numpy()
+                logits = logits.cpu().numpy()
 
         # Apply softmax to logits
         logits = np.asarray(logits)

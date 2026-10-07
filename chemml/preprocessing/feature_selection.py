@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
+import warnings
 
 
 def GAFSel(df=None, target=None, target_features_count=None, evaluator=None, 
@@ -234,11 +235,11 @@ def ZScoreFSel(features: pd.DataFrame, target: pd.Series, threshold=2.0):
         DataFrame containing selected features and the target column.
     """
     # sanity-check threshold to avoid unnecessary computation
-    if threshold <= 0:
+    if threshold <= 0.0:
         raise ValueError("Threshold must be positive.")
-    elif threshold < 2:
-        raise UserWarning("Threshold is below the recommended value of 2.0. Z-scores below 2 are not a strong indicator of feature relevance.")
-    elif threshold > 5:
+    elif threshold < 2.0:
+        warnings.warn(UserWarning("Threshold is below the recommended value of 2.0. Z-scores below 2 are not a strong indicator of feature relevance."))
+    elif threshold > 5.0:
         raise ValueError("Z-score thresholds above 5 are not supported by ChemML.")
     
     selected_features = []

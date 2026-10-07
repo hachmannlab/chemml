@@ -218,22 +218,25 @@ def test_zscorefsel_selection_behavior(zscore_data):
     features, target = zscore_data
 
     # Checkpoint 1: a correlated binary feature is selected.
-    result = ZScoreFSel(features, target, threshold=1.0)
-    assert 'good_feature' in result.columns
+    with pytest.warns(UserWarning):
+        result = ZScoreFSel(features, target, threshold=1.0)
+        assert 'good_feature' in result.columns
 
     # Checkpoint 2: non-binary features are never selected.
-    result_zero = ZScoreFSel(features, target, threshold=0.0)
-    assert 'continuous_feature' not in result_zero.columns
+    with pytest.raises(ValueError):
+        result_zero = ZScoreFSel(features, target, threshold=0.0)
+        assert 'continuous_feature' not in result_zero.columns
 
     # Checkpoint 3: an unreachably high threshold warns and selects no features.
-    with pytest.warns(UserWarning):
+    with pytest.raises(ValueError):
         result_unreachable = ZScoreFSel(features, target, threshold=100.0)
-    assert result_unreachable.shape[1] == 1
+        assert result_unreachable.shape[1] == 1
 
     # Checkpoint 4: lowering the threshold selects at least as many features.
-    result_low = ZScoreFSel(features, target, threshold=0.0)
-    result_high = ZScoreFSel(features, target, threshold=2.0)
+    with pytest.raises(ValueError):
+        result_low = ZScoreFSel(features, target, threshold=0.0)
+        result_high = ZScoreFSel(features, target, threshold=2.0)
 
-    n_features_low = result_low.shape[1] - 1
-    n_features_high = result_high.shape[1] - 1
-    assert n_features_low >= n_features_high
+        n_features_low = result_low.shape[1] - 1
+        n_features_high = result_high.shape[1] - 1
+        assert n_features_low >= n_features_high

@@ -27,6 +27,9 @@ We give a brief overview of the types of methods that are covered by each of the
 - Optimize
    This task class provides methods to quantify and improve both the accuracy and reliability of predictions. We can optimize a given model in  hyper-parameter space using a coarse grid search or evolutionary algorithm. In addition, ML design methodologies such as active learning (AL) and transfer learning (TL) are available to enhance the efficiency of the exploration of compound space. The available optimization methods link to other elements of an ML workflow and ChemML allows us to automatize the modeling of specified search spaces.
 
+- Generate
+   This task class encompasses methods for the generation of new chemical compounds or materials. It includes techniques such as genetic algorithms, generative models, and other computational strategies to explore chemical space efficiently. The generated candidates can then be evaluated and optimized using other task classes within ChemML.
+
 - Visualize
    Data visualization methods that help facilitate a better comprehension of the modeling results are available via a separate module, which builds on the Matplotlib and Seaborn libraries for key visualization elements. These elements are accessible as part of any ML workflow.
 

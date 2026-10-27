@@ -134,6 +134,7 @@ Please cite the use of ChemML as:
    ./prepare_task/index
    ./model_task/index
    ./optimize_task/index
+   ./generate_task/index
    ./visualize_task/index
    ./automl_task/index
    ./explain_task/index

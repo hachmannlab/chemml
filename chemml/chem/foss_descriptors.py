@@ -325,7 +325,8 @@ class Mordred(object):
         >>> df = mord.represent(smiles_list, remove_corr=True)
         >>> print(df.shape)
         '''
-        print("Step 1: Normalizing molecule input")
+        if not quiet:
+            print("Step 1: Normalizing molecule input")
         if self.ignore_3D:
             smi_list, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=False)
             step = 2
@@ -333,11 +334,13 @@ class Mordred(object):
         else:
             smi_list, _, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=True)
             force_optimize = kwargs.pop('force_optimize', False)
-            print("Step 2/3: Optimizing geometry for 3D descriptor calculation")
+            if not quiet:
+                print("Step 2/3: Optimizing geometry for 3D descriptor calculation")
             smi_list, mol_list  = self._optimize_3d_serial(mol_list, optimizer=optimizer, quiet=quiet, force_optimize=force_optimize)
             step = 3
 
-        print(f'Step {step}/{step}: Calculating Mordred descriptors')
+        if not quiet:
+            print(f'Step {step}/{step}: Calculating Mordred descriptors')
         if 'n_jobs' in kwargs:
             self.n_jobs = kwargs.get('n_jobs')
             pand = self.calc.pandas(mol_list, quiet=quiet, nproc=self.n_jobs)

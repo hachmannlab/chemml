@@ -1,0 +1,21 @@
+Canonical SMILES,Fitness Values
+"c1coc(c1)c1ccnc(c1)c1ccco1	
+","(1201.8342181578541,)"
+"n1csc(n1)c1ccnc(c1)c1scnn1	
+","(1406.5399623054018,)"
+"Cc1cc(ncc1c1ccncc1)c1nncs1	
+","(1264.180369120589,)"
+"Cc1ccsc1c1ccco1	
+","(1199.8548495274617,)"
+"c1ccc(cc1)c1nncs1	
+","(1194.6448030390677,)"
+"Oc1ccoc1c1nncs1	
+","(1365.2562129252788,)"
+"Oc1cc(ncc1c1ccccc1)c1nncs1	
+","(1306.972482910377,)"
+"c1coc(c1)c1cc(ncc1c1ccco1)c1nncs1	
+","(1319.2910538716849,)"
+"Nc1nccc(c1)c1ccco1	
+","(1184.7197116868604,)"
+"Oc1nccc(c1)c1cnc(cc1C)c1nncs1	
+","(1302.8865770032785,)"

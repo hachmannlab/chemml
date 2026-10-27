@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from numpy.linalg import norm
 from .Line import Line
@@ -134,12 +135,12 @@ class Plane:
         y = w[1]
         z = w[2]
         if abs(x) <= threshold:
-            inverse = 1 / np.math.sqrt(y ** 2 + z ** 2)
+            inverse = 1 / math.sqrt(y ** 2 + z ** 2)
             return np.array([0, inverse * z, -inverse * y])
         elif abs(y) <= threshold:
-            inverse = 1 / np.math.sqrt(x ** 2 + z ** 2)
+            inverse = 1 / math.sqrt(x ** 2 + z ** 2)
             return np.array([-inverse * z, 0, inverse * x])
-        inverse = 1 / np.math.sqrt(x ** 2 + y ** 2)
+        inverse = 1 / math.sqrt(x ** 2 + y ** 2)
         return np.array([inverse * y, -inverse * x, 0])
 
     def get_normal(self):

@@ -60,10 +60,10 @@ class CoulombSineMatrixRegression:
         flag = len(e1) > len(e2)
         len_diff = len(e1) - len(e2)
         if flag:
-            e2 = np.lib.pad(e2, (0, len_diff), 'constant', constant_values=(0))
+            e2 = np.pad(e2, (0, len_diff), 'constant', constant_values=(0))
             diff = e1 - e2
         else:
-            e1 = np.lib.pad(e1, (0, -len_diff), 'constant', constant_values=(
+            e1 = np.pad(e1, (0, -len_diff), 'constant', constant_values=(
                 0))
             diff = e2 - e1
 
@@ -151,7 +151,7 @@ class CoulombSineMatrixRegression:
                 disp = np.matmul(basis_inverse, disp)
 
                 # Multiply by pi and compute sin^2 of each element.
-                disp = np.sin(disp * np.math.pi) ** 2
+                disp = np.sin(disp * math.pi) ** 2
 
                 # Multiply by basis vectors.
                 disp = np.matmul(basis, disp)

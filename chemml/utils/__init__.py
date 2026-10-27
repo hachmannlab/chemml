@@ -14,7 +14,7 @@ from .utilities import chunk
 from .utilities import bool_formatter
 from .utilities import padaxis
 from .utilities import mol_shapes_to_dims
-from .utilities import regression_metrics
+from .utilities import regression_metrics, classification_metrics
 from .validation import isfloat
 from .validation import islist
 from .validation import istuple
@@ -28,11 +28,17 @@ from .validation import update_default_kwargs
 from .utilities import ConvertFile
 from .utilities import load_chemml_model
 
+from .backend import is_tensorflow_available
+from .backend import resolve_engine
+from .backend import resolve_device
+
 __all__ = [
     'list_del_indices',
     'std_datetime_str',
     'isfloat',
     'mol_shapes_to_dims',
     'ConvertFile'
-    'load_chemml_model'
+    'load_chemml_model',
+    'is_tensorflow_available',
+    'resolve_engine',
 ]

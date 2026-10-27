@@ -28,7 +28,7 @@ def test_rdkdesc_represent(monkeypatch, smiles_list, molecule_list):
 
     # Exercise the joblib branch with real RDKit descriptors.
     desc.descriptor_list = ["MolWt", "HeavyAtomCount"]
-    df_parallel = desc.represent(smiles_list, dropna=False, remove_corr=False, n_jobs=2)
+    df_parallel = desc.represent(smiles_list, dropna=False, n_jobs=2)
     assert df_parallel.shape[0] == len(smiles_list)
     assert set(["MolWt", "HeavyAtomCount", "SMILES"]).issubset(df_parallel.columns)
 
@@ -53,23 +53,17 @@ def test_rdkdesc_represent(monkeypatch, smiles_list, molecule_list):
     monkeypatch.setattr(Descriptors, "_test_with_nan", _with_nan, raising=False)
 
     desc.descriptor_list = ["_test_const", "_test_double_heavy", "_test_heavy", "_test_with_nan"]
-    df_dropna = desc.represent(smiles_list, dropna=True, remove_corr=False, n_jobs=1)
+    df_dropna = desc.represent(smiles_list, dropna=True, n_jobs=1)
     assert "_test_with_nan" not in df_dropna.columns
     assert "SMILES" in df_dropna.columns
 
-    # With <=100 molecules, remove_corr issues a UserWarning and skips removal.
-    with pytest.warns(UserWarning):
-        df_warn = desc.represent(smiles_list, dropna=True, remove_corr=True, n_jobs=1)
-    assert "SMILES" in df_warn.columns
-    assert "_test_with_nan" not in df_warn.columns
-
     # Exercise the Molecule-object input branch.
-    df_molecule = desc.represent(molecule_list, dropna=False, remove_corr=False, n_jobs=1)
+    df_molecule = desc.represent(molecule_list, dropna=False, n_jobs=1)
     assert df_molecule.shape[0] == len(molecule_list)
     assert list(df_molecule["SMILES"]) == [m.smiles for m in molecule_list]
 
     # Exercise single-string input branch.
-    df_single = desc.represent("CC", dropna=False, remove_corr=False, n_jobs=1)
+    df_single = desc.represent("CC", dropna=False, n_jobs=1)
     assert df_single.shape[0] == 1
     assert df_single.loc[0, "SMILES"] == "CC"
 
@@ -107,13 +101,6 @@ def test_mordred_represent(smiles_list, molecule_list):
     # Modified dropna behaviour drops only columns with all NaN values, not rows; row imputation is left to the user.
     assert list(df_missing.columns) == ["a","c","SMILES"]
 
-    # Exercise Molecule-object input + correlated-feature removal with <=100 molecules.
-    # With a small dataset, remove_corr warns and skips correlation removal.
-    mord.calc = FakeCalcCorrelated()
-    with pytest.warns(UserWarning):
-        df_corr = mord.represent(molecule_list, remove_corr=True)
-    assert {"x", "y", "z", "SMILES"} <= set(df_corr.columns)
-
     mord = Mordred(ignore_3D=False)
 
     with pytest.raises(ValueError):
@@ -136,18 +123,11 @@ def test_padeldesc_represent(smiles_list, molecule_list):
     padel = PadelDesc()
 
     # Exercise list-of-smiles input + dropna columns.
-    df_smiles = padel.represent(smiles_list, dropna=True, remove_corr=False)
+    df_smiles = padel.represent(smiles_list, dropna=True)
     assert "p3" not in df_smiles.columns
     assert "SMILES" in df_smiles.columns
 
-    # remove_corr drops correlated columns; after dropna removes p3, p1 and p2 are
-    # perfectly correlated (r=1.0 > 0.95), so p2 is dropped.
-    df_corr = padel.represent(smiles_list, dropna=True, remove_corr=True)
-    assert "p1" in df_corr.columns
-    assert "p2" not in df_corr.columns
-    assert "SMILES" in df_corr.columns
-
     # Exercise single-Molecule input branch.
-    df_single = padel.represent(molecule_list[0], dropna=False, remove_corr=False)
+    df_single = padel.represent(molecule_list[0], dropna=False)
     assert df_single.shape[0] == 1
     assert "SMILES" in df_single.columns

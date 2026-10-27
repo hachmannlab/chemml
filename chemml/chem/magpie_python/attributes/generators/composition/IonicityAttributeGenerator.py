@@ -6,7 +6,7 @@ from ....data.materials.util.LookUpData import LookUpData
 from ....utility.tools.OxidationStateGuesser import OxidationStateGuesser
 
 class IonicityAttributeGenerator:
-    """Class to generate the attributes based on the ionicity of a compound.
+    r"""Class to generate the attributes based on the ionicity of a compound.
     Creates attributes based on whether it is possible to form a
     charge-neutral ionic compound, and two features based on a simple measure
     of "bond ionicity" (see Ref. [1]).

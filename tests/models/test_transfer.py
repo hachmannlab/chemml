@@ -1,14 +1,19 @@
 import pytest
 from chemml.datasets import load_organic_density
 from chemml.models import MLP, TransferLearning
-from chemml.utils import regression_metrics
-import tensorflow as tf
+from chemml.utils import regression_metrics, is_tensorflow_available
 import torch
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 
+HAS_TENSORFLOW = is_tensorflow_available()
+requires_tensorflow = pytest.mark.skipif(
+    not HAS_TENSORFLOW, reason="TensorFlow is not installed/importable"
+)
+
 @pytest.fixture()
 def data():
+    np.random.seed(42)
     _, y, X = load_organic_density()
     y = y.values.reshape(y.shape[0], 1).astype('float32')
     X = X.values.reshape(X.shape[0], X.shape[1]).astype('float32')
@@ -28,6 +33,7 @@ def data():
 
 
 
+@requires_tensorflow
 def test_tl_tensorflow(data):
 
     ################### CHILD MODEL ###################
@@ -75,6 +81,8 @@ def test_tl_tensorflow(data):
 
 
 def test_tl_pytorch(data):
+    torch.manual_seed(42)
+    np.random.seed(42)
 
     ################### CHILD MODEL ###################
     # initialize a ChemML MLP object

@@ -4,7 +4,7 @@ import numpy as np
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 
 class EffectiveCoordinationNumberAttributeGenerator:
-    """Compute attributes based on the effective coordination number.
+    r"""Compute attributes based on the effective coordination number.
 
     Notes
     -----

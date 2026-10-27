@@ -14,19 +14,20 @@ def mols():
     return molecules
 
 
-def test_exception():
-    # not a molecule
-    with pytest.raises(ValueError):
-        tensorise_molecules('mol')
-
-    # not a list of molecules
-    with pytest.raises(Exception):
-        tensorise_molecules(['mol1', 'mol2'])
+@pytest.mark.parametrize(
+    "input_value, expected_exception",
+    [
+        ("mol", ValueError),
+        (["mol1", "mol2"], Exception),
+    ],
+)
+def test_tensorise_molecules_invalid_inputs(input_value, expected_exception):
+    with pytest.raises(expected_exception):
+        tensorise_molecules(input_value)
 
 
 def test_tensorise_molecules(mols):
-
-    a,b,d = tensorise_molecules(mols, batch_size=1)
+    a, b, d = tensorise_molecules(mols, batch_size=1)
 
     assert a.shape[0] == 2
     assert b.shape[1] == 4

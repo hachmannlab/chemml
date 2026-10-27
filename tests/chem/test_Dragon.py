@@ -22,43 +22,43 @@ def chemml_molecule_list():
     yield mol_list
 
 
-def test_weights_exception(setup_teardown, chemml_molecule_list):
-    with pytest.raises(ValueError):
-        drg = Dragon(Weights=['a'])
-        df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
+@pytest.mark.parametrize(
+    "kwargs, expected_error",
+    [
+        ({"Weights": ["a"]}, ValueError),
+        ({"blocks": list(range(2, 32))}, ValueError),
+    ],
+)
+def test_dragon_invalid_inputs_raise(setup_teardown, chemml_molecule_list, kwargs, expected_error):
+    try:
+        drg = Dragon(**kwargs)
+        with pytest.raises(expected_error):
+            drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
 
 
-def test_blocks_exception(setup_teardown, chemml_molecule_list):
-    with pytest.raises(ValueError):
-        drg = Dragon(blocks=list(range(2, 32)))
-        df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
-
-
-def test_empty_mol_list(setup_teardown):
-    with pytest.raises(ValueError):
+@pytest.mark.parametrize(
+    "mol_list, expected_error",
+    [
+        ([], ValueError),
+        ("CC", ValueError),
+        (["CC"], ValueError),
+    ],
+)
+def test_dragon_invalid_mol_list_inputs(setup_teardown, mol_list, expected_error):
+    try:
         drg = Dragon()
-        # print(drg, drg.getattr())
-        df = drg.represent(mol_list=[], output_directory=setup_teardown, dropna=False)
-
-
-
-def test_input_str(setup_teardown):
-    with pytest.raises(ValueError):
-        drg = Dragon()
-        df = drg.represent(mol_list='CC', output_directory=setup_teardown)
-        
-
-def test_input_list(setup_teardown):
-    with pytest.raises(ValueError):
-        drg = Dragon()
-        df = drg.represent(mol_list=['CC'], output_directory=setup_teardown)
-
+        with pytest.raises(expected_error):
+            drg.represent(mol_list=mol_list, output_directory=setup_teardown, dropna=False)
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")
 
 
 def test_dragon_df(setup_teardown, chemml_molecule_list):
-    drg = Dragon()
-    df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
-    assert df.shape[0] == 4
-
-
-
+    try:
+        drg = Dragon()
+        df = drg.represent(mol_list=chemml_molecule_list, output_directory=setup_teardown)
+        assert df.shape[0] == 4
+    except ImportError:
+        pytest.skip("Dragon requires external dependencies")

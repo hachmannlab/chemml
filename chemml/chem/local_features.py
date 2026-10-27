@@ -13,8 +13,6 @@ This code is governed by the MIT licence:
     - https://github.com/keiserlab/keras-neural-graph-fingerprint/blob/master/license.txt
 
 """
-from __future__ import division, print_function
-
 import numpy as np
 from functools import partial
 from multiprocessing import cpu_count, Pool
@@ -23,8 +21,6 @@ import rdkit
 from rdkit import Chem
 from chemml.chem import Molecule
 from chemml.utils import padaxis
-
-from tensorflow.keras.utils import Progbar
 
 
 def one_of_k_encoding_unk(x, allowable_set):
@@ -400,6 +396,7 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
     # MAP: Tensorise in parallel
     map_function = partial(tensorise_molecules_singlecore, max_degree=max_degree, max_atoms=max_atoms)
     if verbose:
+        from tensorflow.keras.utils import Progbar
         print('Tensorising molecules in batches of %i ...'%batch_size)
         pbar = Progbar(len(molecules), width=50)
         tensor_list = []

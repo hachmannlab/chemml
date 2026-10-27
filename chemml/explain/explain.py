@@ -37,6 +37,9 @@ class Explain(object):
         # check of dnn_obj is of chemml model type
         if isinstance(dnn_obj,torch.nn.Module):
             self.dnn_obj = dnn_obj
+            # Run on whichever device the network already lives on
+            self.device = next(dnn_obj.parameters()).device
+            self.X_instance = self.X_instance.to(self.device)
         else:
             raise TypeError('dnn_obj has to be a pytorch deep neural network')
 
@@ -140,7 +143,7 @@ class Explain(object):
             return R[0]
 
         self.explainer = 'lrp'
-        device = 'cpu'
+        device = self.device
         X = self.X_instance
         scores = []
         for i in range(0,X.shape[0]):
@@ -179,6 +182,8 @@ class Explain(object):
         elif type(X_background) != torch.Tensor:
             raise TypeError('background has to be a numpy array or pytorch tensor')
 
+        X_background = X_background.to(self.device)
+
         import shap
 
         shap_obj = shap.DeepExplainer(self.dnn_obj,X_background)
@@ -213,7 +218,7 @@ class Explain(object):
                                                             verbose=True,mode='regression',random_state=42)
         scores_all = []
         for i in range(len(self.X_instance)):
-            rel = lime_obj.explain_instance(self.X_instance[i].numpy().reshape(-1,),self._predict_for_lime, num_features=len(self.feature_names))
+            rel = lime_obj.explain_instance(self.X_instance[i].cpu().numpy().reshape(-1,),self._predict_for_lime, num_features=len(self.feature_names))
             rel = rel.as_list()
             labels = []
             relevances = []
@@ -238,9 +243,9 @@ class Explain(object):
 
 
     def _predict_for_lime(self, X_test):
-        X_test = torch.tensor((X_test),dtype=torch.float)
+        X_test = torch.tensor((X_test),dtype=torch.float,device=self.device)
         y_hat = self.dnn_obj(X_test)
-        y_hat = y_hat.detach().numpy()
+        y_hat = y_hat.detach().cpu().numpy()
         return y_hat
 
 
@@ -302,7 +307,7 @@ class Explain(object):
 
         elif self.explainer == 'deepshap':
             if isinstance(self.X_instance, torch.Tensor):
-                features = self.X_instance.detach().numpy()
+                features = self.X_instance.detach().cpu().numpy()
             if local == True:
                 expected_value = shap_obj.expected_value[0]
                 f = []

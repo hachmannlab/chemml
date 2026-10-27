@@ -1,11 +1,8 @@
-from builtins import range
 import pandas as pd
 import numpy as np
 
 from functools import partial
 from multiprocessing import cpu_count, Pool
-
-from tensorflow.keras.utils import Progbar
 
 from chemml.chem import Molecule
 from chemml.utils import padaxis
@@ -115,7 +112,9 @@ class CoulombMatrix(object):
         # pad with zero values
         if self.max_n_atoms_ > len(mol):
             cm = padaxis(np.array(cm), self.max_n_atoms_, 0, 0)
-        return np.array(cm)[:self.max_n_atoms_, :self.max_n_atoms_] #shape nAtoms*nAtoms
+        cm = np.asarray(cm).real.astype(float)[:self.max_n_atoms_, :self.max_n_atoms_]  # NumPy 2.x safe dtype casting
+        cm = 0.5 * (cm + cm.T)
+        return cm  # shape nAtoms*nAtoms
 
     def represent(self, molecules):
         """
@@ -184,6 +183,7 @@ class CoulombMatrix(object):
         # MAP: CM in parallel
         map_function = partial(self._represent)
         if self.verbose:
+            from tensorflow.keras.utils import Progbar
             print('featurizing molecules in batches of %i ...' % batch_size)
             pbar = Progbar(len(molecules), width=50)
             tensor_list = []
@@ -228,9 +228,10 @@ class CoulombMatrix(object):
             eigenspectrums = np.array([])
             for mol in molecules:
                 cm = self.__cal_coul_mat(mol) # Check the constant value for unit conversion; atomic unit -> 1 , Angstrom -> 0.529
-                eig = np.linalg.eigvals(cm)
-                eig[::-1].sort()
-                eigenspectrums = np.append(eigenspectrums,eig)
+                eig = np.linalg.eigvalsh(cm)
+                eig = np.real(eig).astype(float)  # Extract real part, safe for both NumPy 1 and 2
+                eig = np.sort(eig)[::-1]
+                eigenspectrums = np.append(eigenspectrums, eig)
             eigenspectrums = eigenspectrums.reshape(n_molecules_, self.max_n_atoms_)
             eigenspectrums = pd.DataFrame(eigenspectrums)
             return eigenspectrums
@@ -379,6 +380,7 @@ class BagofBonds(object):
         # MAP: CM in parallel
         map_function = partial(self._represent)
         if self.verbose:
+            from tensorflow.keras.utils import Progbar
             print('featurizing molecules in batches of %i ...' % batch_size)
             pbar = Progbar(len(molecules), width=50)
             bbs_info = []
@@ -475,7 +477,7 @@ class BagofBonds(object):
         df = pd.DataFrame(bbs_matrix)
         del bbs_matrix
         order_headers = list(df.columns)
-        output = pd.DataFrame(list(df.sum(1)))
+        output = pd.DataFrame(list(df.sum(axis=1)))
         del df
 
         self.header_ = []

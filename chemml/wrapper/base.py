@@ -341,7 +341,7 @@ class LIBRARY(object):
                 self.refs['keras'] = {'url': ref_g, 'paper': ref_p}
             elif function in ['GA']:
                 ref_g = "https://github.com/deap/deap"
-                ref_p = """@article{DEAP_JMLR2012,
+                ref_p = r"""@article{DEAP_JMLR2012,
                                 author    = " F\'elix-Antoine Fortin and Fran\c{c}ois-Michel {De Rainville} and Marc-Andr\'e Gardner and Marc Parizeau and Christian Gagn\'e ",
                                 title     = { {DEAP}: Evolutionary Algorithms Made Easy },
                                 pages    = { 2171--2175 },
@@ -357,7 +357,7 @@ class LIBRARY(object):
                 self.refs['magpie'] = {'url': ref_g, 'paper': ref_p}
             elif function in matplotlib_all:
                 ref_g = "https://bitbucket.org/wolverton/magpie"
-                ref_p = """@Article{Hunter:2007,
+                ref_p = r"""@Article{Hunter:2007,
                               Author    = {Hunter, J. D.},
                               Title     = {Matplotlib: A 2D graphics environment},
                               Journal   = {Computing In Science \& Engineering},

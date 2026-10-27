@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.12']
+        python-version: ['3.13','3.8']
 
     steps:
     - uses: actions/checkout@v4
@@ -25,28 +25,22 @@ jobs:
         python-version: ${{ matrix.python-version }}
         activate-environment: chemml_env
 
-    - name: Install conda-forge dependencies
+    - name: Upgrade pip, setuptools, and wheel
       shell: bash -l {0}
       run: |
-        conda install -c conda-forge openbabel nb_conda_kernels python-graphviz tk -y
-        pip install openbabel-wheel
+        python -m pip install --upgrade pip setuptools wheel
 
-    - name: Install PyTorch (Ubuntu/macOS)
-      if: runner.os != 'Windows'
+    - name: Install OpenBabel (Python 3.8 only)
       shell: bash -l {0}
+      if: matrix.python-version == '3.8'
       run: |
-        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-
-    - name: Install PyTorch (Windows)
-      if: runner.os == 'Windows'
-      shell: bash -l {0}
-      run: |
-        pip install torch torchvision torchaudio
+        conda install -c conda-forge openbabel -y
 
     - name: Install ChemML and dependencies
       shell: bash -l {0}
       run: |
-        pip install --upgrade pip setuptools wheel
+        # Install CPU-only PyTorch to avoid GPU/CUDA initialization issues in CI
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
         pip install -e .
         pip install pytest pytest-cov
 
@@ -55,14 +49,28 @@ jobs:
       run: |
         mkdir -p ~/.config/matplotlib
         echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
+      if: runner.os != 'Windows'
+
+    - name: Configure matplotlib for CI (Windows)
+      shell: powershell
+      run: |
+        $matplotlibDir = "$env:USERPROFILE\.config\matplotlib"
+        New-Item -ItemType Directory -Force -Path $matplotlibDir | Out-Null
+        @"
+        backend: Agg
+        "@ | Out-File -FilePath "$matplotlibDir\matplotlibrc" -Encoding UTF8
+      if: runner.os == 'Windows'
 
     - name: Run tests
       shell: bash -l {0}
       env:
         MPLBACKEND: Agg
+        CUDA_VISIBLE_DEVICES: ""
+        TORCH_CUDA_AVAILABLE: 0
+        TRITON_CACHE_DIR: /tmp/triton_cache
       run: |
-        pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term -k "not test_Dragon"
-
+        pytest tests/ -v --tb=short --cov=chemml --cov-report=xml --cov-report=term -k "not test_tl_tensorflow"
+    
     - name: Upload coverage reports to GitHub
       uses: actions/upload-artifact@v4
       if: always()

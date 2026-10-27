@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-# py2 and py3 compatible
 import functools
-from future.utils import iteritems
-
 from collections import OrderedDict
 from numpy.linalg import norm
 import numpy as np
@@ -355,7 +352,7 @@ class VoronoiCell:
                         surface_area -= new_steps.pop(previous_step)
 
                 # Create new paths, making sure to update weights.
-                for (k,v) in iteritems(new_steps):
+                for (k,v) in new_steps.items():
                     # Increment path.
                     new_path = list(path[0])
                     new_path.append(k)

@@ -28,7 +28,7 @@ space_models = {
                         ],
 
                 'DecisionTreeRegressor':[
-                                {'criterion': {'choice': ['squared_error', 'absolute_error', 'friedman_mse']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
+                                {'criterion': {'choice': ['squared_error', 'absolute_error']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
                                 {'splitter': {'choice': ['best', 'random']}},
                                 {'min_samples_split': {'choice': range(2,50,10)}},
                                 {'min_samples_leaf': {'choice': range(1,100,10)}},
@@ -43,9 +43,9 @@ space_models = {
                         {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
                         'mutation': [0, 1]}}, 
                         {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
-                        {'neurons1':  {'choice': range(0,220,20)}},
-                        {'neurons2':  {'choice': range(0,220,20)}},
-                        {'neurons3':  {'choice': range(0,220,20)}}
+                        {'neurons1':  {'choice': range(0,32,8)}},
+                        {'neurons2':  {'choice': range(0,32,8)}},
+                        {'neurons3':  {'choice': range(0,32,8)}}
                         ],
                 
                 'GradientBoostingRegressor':[
@@ -59,7 +59,7 @@ space_models = {
 
                 'RandomForestRegressor':[
                                 {'n_estimators': {'choice': np.random.randint(1,400,size=10).tolist()}},
-                                {'criterion': {'choice': ['squared_error', 'absolute_error', 'friedman_mse']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
+                                {'criterion': {'choice': ['squared_error', 'absolute_error']}}, # Note from v1.3.4: Removing poisson temporarily due to incompatibility with negative y values; root cause uncertain
                                 {'min_samples_split': {'choice': range(2,50,10)}},
                                 {'min_samples_leaf': {'choice': range(1,100,10)}},
                                 {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
@@ -122,7 +122,7 @@ space_models_classifiers = {
                 "LogisticRegression": [
                         {'C': {'choice': np.linspace(start=0.1, stop=100, num=20, endpoint=True).tolist()}},
                         {'fit_intercept': {'choice': [True, False]}},
-                        {'solver': {'choice': ['lbfgs', 'liblinear', 'newton-cg', 'sag', 'saga']}},
+                        {'solver': {'choice': ['lbfgs', 'newton-cg', 'sag', 'saga']}},
                         {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],             
                         'mutation': [0, 1]}}                                              
                         ], 
@@ -142,7 +142,7 @@ space_models_classifiers = {
                         ],
                 
                 "KNeighborsClassifier": [
-                        {"n_neighbors": {"choice": range(2,100)}},
+                        {"n_neighbors": {"choice": range(2,25)}},
                         {"weights": {"choice": ["uniform", "distance"]}},
                         {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
                                 'mutation': [0, 1]}}
@@ -154,8 +154,19 @@ space_models_classifiers = {
                 "RandomForestClassifier": [
                         {"n_estimators": {"choice": range(10,200)}},
                         {"criterion": {"choice": ["gini", "entropy"]}},
+                        {"min_samples_split": {"choice": range(2,10)}},
+                        {"min_samples_leaf": {"choice": range(1,5)}},
                         {'dummy': {'uniform': [np.log(0.0001), np.log(0.1)],                
-                                'mutation': [0, 1]}}
+                                'mutation': [0, 1]}},
+                        ],
+
+                'MLPClassifier':[
+                        {'alpha': {'uniform': [np.log(0.0001), np.log(0.1)],                
+                        'mutation': [0, 1]}}, 
+                        {'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},
+                        {'neurons1':  {'choice': range(0,32,8)}},
+                        {'neurons2':  {'choice': range(0,32,8)}},
+                        {'neurons3':  {'choice': range(0,32,8)}}
                         ],
 
                 'XGBClassifier':[

@@ -40,47 +40,31 @@ def caffeine_inchi():
     inchi = 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'
     return inchi
 
-def test_exception_smiles():
-    # syntax error: SMILES Parse Error
-    with pytest.raises(ValueError):
-        m = Molecule('fake', 'smiles')
-    # wrong SMILES
-    with pytest.raises(ValueError):
-        m = Molecule('CO(C)C', 'smiles')
-    # can't kekulize
-    with pytest.raises(ValueError):
-        m = Molecule('c1cc1', 'smiles')
+def test_exception_input_formats():
+    cases = [
+        ('fake', 'smiles'),
+        ('CO(C)C', 'smiles'),
+        ('c1cc1', 'smiles'),
+        ('fake', 'smarts'),
+        ('[#6](=[#6]', 'smarts'),
+        ('fake', 'inchi'),
+        ('RYYVLZVUVIJVGH-UHFFFAOYSA-N', 'inchi'),
+    ]
+    for value, kind in cases:
+        with pytest.raises(ValueError):
+            Molecule(value, kind)
 
-def test_exception_smarts():
-    # syntax error: SMARTS Parse Error
-    with pytest.raises(ValueError):
-        m = Molecule('fake', 'smarts')
-    # syntax error: SMARTS Parse Error
-    with pytest.raises(ValueError):
-        m = Molecule('[#6](=[#6]', 'smarts')
 
-def test_exception_inchi():
-    # syntax error: SMARTS Parse Error
-    with pytest.raises(ValueError):
-        m = Molecule('fake', 'inchi')
-    # inchi key: syntax error: SMARTS Parse Error
-    with pytest.raises(ValueError):
-        m = Molecule('RYYVLZVUVIJVGH-UHFFFAOYSA-N', 'inchi')
-
-def test_load_smiles(caffeine_smiles):
-    m = Molecule(caffeine_smiles, 'smiles')
-    assert m.creator == ('SMILES', caffeine_smiles)
-    assert isinstance(m.rdkit_molecule, Chem.Mol)
-
-def test_load_smarts(caffeine_smarts):
-    m = Molecule(caffeine_smarts, 'smarts')
-    assert m.creator == ('SMARTS', caffeine_smarts)
-    assert isinstance(m.rdkit_molecule, Chem.Mol)
-
-def test_load_inchi(caffeine_inchi):
-    m = Molecule(caffeine_inchi, 'inchi')
-    assert m.creator == ('InChi', caffeine_inchi)
-    assert isinstance(m.rdkit_molecule, Chem.Mol)
+def test_load_input_formats(caffeine_smiles, caffeine_smarts, caffeine_inchi):
+    cases = [
+        (caffeine_smiles, 'smiles', 'SMILES'),
+        (caffeine_smarts, 'smarts', 'SMARTS'),
+        (caffeine_inchi, 'inchi', 'InChi'),
+    ]
+    for value, kind, expected_creator in cases:
+        m = Molecule(value, kind)
+        assert m.creator == (expected_creator, value)
+        assert isinstance(m.rdkit_molecule, Chem.Mol)
 
 def test_mol2smiles(caffeine_smiles, caffeine_canonical, caffeine_kekulize):
     m = Molecule(caffeine_smiles, 'smiles')

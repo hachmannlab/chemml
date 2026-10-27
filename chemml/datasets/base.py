@@ -1,4 +1,3 @@
-from __future__ import print_function
 import sys
 if sys.version_info >= (3, 9):
     from importlib.resources import files
@@ -57,7 +56,7 @@ def load_organic_density():
     =================   ======================
     rows                                   500
     Columns                                202
-    last twoo headers     smiles,density_Kg/m3
+    last two headers      smiles,density_Kg/m3
     molecules rep.                      SMILES
     Features                               200
     Returns                       3 dataframes

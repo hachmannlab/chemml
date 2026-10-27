@@ -22,33 +22,28 @@ def data_path():
     return str(files('chemml').joinpath('datasets', 'data', 'test_files'))
 
 
-def test_isfloat_exception():
+def test_type_checkers():
+    # isfloat/islist/istuple/isint all follow the same "native value or its string form" check
     assert isfloat('1') is True
     assert isfloat('a') is False
 
-
-def test_islist_exception():
     assert islist('[1]') is True
     assert islist([1]) is True
     assert islist('a') is False
 
-
-def test_istuple_exception():
     assert istuple('(1,)') is True
     assert istuple((1,)) is True
     assert istuple('a') is False
+
+    assert isint('1') is True
+    assert isint(1) is True
+    assert isint('a') is False
 
 
 def test_isnpdot_exception():
     assert isnpdot('np.') is True
     with pytest.raises(ValueError):
         assert isnpdot(np.sin) is True
-
-
-def test_isint_exception():
-    assert isint('1') is True
-    assert isint(1) is True
-    assert isint('a') is False
 
 
 def test_value():

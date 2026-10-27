@@ -5,9 +5,11 @@ The chemml.preprocessing module includes (please click on links adjacent to func
     - Outliers: :func:`~chemml.preprocessing.Outliers`
     - RemoveCorrFeatures: :func:`~chemml.preprocessing.RemoveCorrFeatures`
     - RemoveInvFeatures: :func:`~chemml.preprocessing.RemoveInvFeatures`
+    - GAFSel: :func:`~chemml.preprocessing.GAFSel`
 """
 
-from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures
+from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
+from .feature_selection import GAFSel, ZScoreFSel
 
 
 __all__ = [
@@ -15,5 +17,8 @@ __all__ = [
     'ConstantColumns',
     'Outliers',
     'RemoveCorrFeatures',
-    'RemoveInvFeatures'
+    'RemoveInvFeatures',
+    'GAFSel',
+    'ZScoreFSel',
+    'remove_complex_columns'
 ]

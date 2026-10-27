@@ -17,12 +17,10 @@ def test_exception(mols):
         atom_features(mols)
 
 
-def test_num_atom_features(mols):
+def test_atom_feature_helpers(mols):
     n = num_atom_features()
     assert n == 62
 
-
-def test_atom_features(mols):
     atom = mols.rdkit_molecule.GetAtoms()[0]
     x = atom_features(atom)
 

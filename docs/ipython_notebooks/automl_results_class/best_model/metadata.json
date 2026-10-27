@@ -1,0 +1,37 @@
+{
+  "artifact_schema_version": 1,
+  "model_name": "LogisticRegression",
+  "feature_key": "mord_descriptors",
+  "run_key": "LogisticRegression_mord_descriptors_324dd7b551dd4d0e89563c3fa79868b8",
+  "screener_type": "classifier",
+  "parameters": {
+    "C": 0.1,
+    "class_weight": null,
+    "dual": false,
+    "fit_intercept": true,
+    "intercept_scaling": 1,
+    "l1_ratio": 0.0,
+    "max_iter": 100,
+    "n_jobs": null,
+    "penalty": "deprecated",
+    "random_state": null,
+    "solver": "sag",
+    "tol": 0.0001,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "n_folds": 5,
+  "n_datapoints": 200,
+  "metrics": {
+    "Accuracy": 0.8,
+    "Recall": 0.7936507936507936,
+    "Precision": 0.8444444444444444,
+    "F1-score": 0.7975867269984916,
+    "time(seconds)": 9.955028772354126
+  },
+  "model_serializer": "pickle",
+  "model_artifact_dir": "model_artifact",
+  "scaler_file": "scaler.pkl",
+  "feature_order_file": "feature_order.json",
+  "timestamp": "Mon Aug 31 01:30:34 2026"
+}

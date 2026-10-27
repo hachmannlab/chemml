@@ -1,6 +1,5 @@
 import os
 from rdkit import Chem
-from openbabel import pybel
 
 import warnings
 import numpy as np
@@ -517,6 +516,7 @@ class Molecule(object):
         The internal function to load a molecule using openbabel engine.
 
         """
+        from openbabel import pybel
         # if the molecule is already being created warn the user
         if self.pybel_molecule and self.creator:
             msg = "The molecule was already built using %s" % (
@@ -805,6 +805,7 @@ class Molecule(object):
         except ImportError:
             # TODO(v1.4): remove Python 3.8 RDKit embedding and forcefield fallback.
             from rdkit.Chem import AllChem 
+        from rdkit.Chem import AllChem
         """
         The internal function creates and stores the xyz coordinates for a pre-built molecule object.
         """
@@ -833,7 +834,7 @@ class Molecule(object):
                     else:
                         msg = "The MMFF parameters are not available for all of the molecule's atoms."
                         raise ValueError(msg)
-                except AttributeError:
+                except (AttributeError, TypeError):
                     # TODO(v1.4): remove Python 3.8 RDKit forcefield fallback.
                     if AllChem.MMFFHasAllMoleculeParams(self.rdkit_molecule):
                         optimize_status = AllChem.MMFFOptimizeMolecule(self.rdkit_molecule, **kwargs)

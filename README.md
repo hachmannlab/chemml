@@ -5,22 +5,16 @@
 
 # ChemML
 ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
+
+ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. 
+The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
+
 Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
-
-   - ChemML documentation: https://hachmannlab.github.io/chemml
-
 
 
 <p align="center">
   <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
  </p>
-
-
-## Code Design:
-ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries. 
-The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
-
-The format of library is similar to the well known libraries like Scikit-learn. 
 
 
 ## Latest Version:
@@ -30,15 +24,11 @@ The format of library is similar to the well known libraries like Scikit-learn.
 ## Installation and Dependencies:
 We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:
 
-    conda create --name chemml_env python=3.12
+    conda create --name chemml_env python=3.13
     source activate chemml_env
-    conda install -c conda-forge openbabel nb_conda_kernels
-    
+    <!-- Make sure to run this command in a clean location -->
     git clone https://github.com/hachmannlab/chemml.git
-    cd chemml
-    pip install -e .
-
-We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on [this page](https://pytorch.org/get-started/locally/).
+    pip install ./chemml
 
 Here is a list of external libraries that will be installed with chemml:
    - numpy
@@ -53,12 +43,17 @@ Here is a list of external libraries that will be installed with chemml:
    - ipywidgets
    - shap
    - lime
+   - openbabel 
+        - (NOTE: Python 3.8 requires a separate conda install of openbabel) 
+        `conda install -c conda-forge openbabel`
+   - torch
+   - torchvision
 
 ### Optional dependencies (user-installed):
 
-- python-graphviz (for ChemML Jupyter wrapper)
+- python-graphviz, nb_conda_kernels (for ChemML Jupyter wrapper)
 - xgboost, lightgbm (for AutoML screening)
-
+- Additional PyTorch libraries depending on operating system and GPU configuration, [see here](https://pytorch.org/get-started/locally/).
 
 ## Citation:
 Please cite the use of ChemML as:
@@ -111,7 +106,7 @@ Please cite the use of ChemML as:
     }
 
 ## License:
-ChemML is copyright (C) 2014-2022 Johannes Hachmann and Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+ChemML is copyright (C) 2014-2026 Johannes Hachmann and Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy all rights reserved.
 ChemML is distributed under 3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause).
 
 ## About us:

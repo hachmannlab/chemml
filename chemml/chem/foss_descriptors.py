@@ -29,7 +29,12 @@ To add a new descriptor package:
 import warnings
 import pandas as pd
 import numpy as np
-from joblib import Parallel, delayed
+
+# # DEPRECATED: Numpy 2 compatibility is now handled less like sticking uppy bits on a racecar to go faster
+# # NumPy 2.0 compatibility: provide np.product as an alias for np.prod
+# # for third-party packages that haven't been updated yet
+# if not hasattr(np, 'product'):
+#     np.product = np.prod
 
 from rdkit.Chem import Descriptors, MolFromSmiles
 from tqdm import tqdm
@@ -75,7 +80,7 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
         molecule_out = []
 
         if isinstance(items[0], Molecule):
-            iterator = tqdm(items, desc='Normalizing Molecule input', disable=quiet)
+            iterator = tqdm(items, desc='Normalizing Molecule input', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             for mol_obj in iterator:
                 if not isinstance(mol_obj, Molecule):
                     raise ValueError('Mixed input types are not supported in the same list.')
@@ -86,7 +91,7 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
                 rdkit_out.append(mol_obj.rdkit_molecule)
                 molecule_out.append(mol_obj)
         elif isinstance(items[0], str):
-            iterator = tqdm(items, desc='Converting SMILES input', disable=quiet)
+            iterator = tqdm(items, desc='Converting SMILES input', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             for smi in iterator:
                 if not isinstance(smi, str):
                     raise ValueError('Mixed input types are not supported in the same list.')
@@ -106,9 +111,13 @@ def normalize_input(mol_list, quiet=True, force_molecule=False):
                         continue
                     smiles_out.append(smi)
                     rdkit_out.append(mol)
+                # Raise a ValueError if no valid molecules were processed
         else:
             raise ValueError('Input must be a SMILES string, list of SMILES, Molecule, or list of Molecule objects.')
-
+    
+        if all(mol is None for mol in rdkit_out):
+            raise ValueError('No valid molecules were processed.')
+        
         if force_molecule:
             return smiles_out, rdkit_out, molecule_out
         return smiles_out, rdkit_out
@@ -139,7 +148,7 @@ class RDKDesc(object):
     def __init__(self):
         self.descriptor_list = [x[0] for x in Descriptors._descList]
 
-    def represent(self, mol_list, dropna=True, remove_corr=False, n_jobs=1):
+    def represent(self, mol_list, dropna=True, n_jobs=1):
         """
         Generate RDKit molecular descriptors for a list of molecules.
 
@@ -156,9 +165,6 @@ class RDKDesc(object):
 
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
-            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
         n_jobs : int, optional
             Number of parallel jobs to run for descriptor calculation. Default is 1 (no parallelization).
         Returns:
@@ -172,17 +178,19 @@ class RDKDesc(object):
         ValueError
             If the input SMILES strings are not in a valid format.
         """
+        print("Step 1: Normalizing molecule input")
         smi_list, mol_list = normalize_input(mol_list)
 
         desc_data = []
         if n_jobs == 1:
-            for mol in tqdm(mol_list, desc='Calculating RDKit descriptors'):
+            for mol in tqdm(mol_list, desc='Step 2: Calculating RDKit descriptors', bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'):
                 mol_desc = {}
                 for desc_name in self.descriptor_list:
                     mol_desc[desc_name] = getattr(Descriptors, desc_name)(mol)
                 desc_data.append(mol_desc)
         else:
-            
+            from joblib import Parallel, delayed
+
             def calculate_descriptors(mol, descriptor_list):
                 mol_desc = {}
                 for desc_name in descriptor_list:
@@ -190,7 +198,7 @@ class RDKDesc(object):
                 return mol_desc
             
             desc_data = Parallel(n_jobs=n_jobs)(
-            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in tqdm(mol_list, desc='Calculating RDKit descriptors')
+            delayed(calculate_descriptors)(mol, self.descriptor_list) for mol in tqdm(mol_list, desc='Calculating RDKit descriptors', bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
             )
 
         df = pd.DataFrame(desc_data)
@@ -199,15 +207,6 @@ class RDKDesc(object):
         if dropna:
             df.dropna(axis=1, inplace=True)
 
-        if remove_corr and len(mol_list) > 100:
-            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            df = df.drop(columns=to_drop)
-        elif len(mol_list) <= 100 and remove_corr:
-            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >100 molecules.')
-        
-        
         return df
 
 
@@ -236,9 +235,9 @@ class Mordred(object):
 
     Notes:
     -----
-        - Requires installation of Mordred descriptors as described in:
-          https://github.com/mordred-descriptor/mordred
-        - By default, all available descriptors are generated.
+        Mordred uses the mordred-community package from Python 3.10+ and legacy mordred 1.2.1 for older Python versions.
+        Descriptor calculation is identical, but there are some performance gains in the newer version.
+        
 
     Examples:
     --------
@@ -270,7 +269,7 @@ class Mordred(object):
         optimized_smis = []
         optimized_mols = []
 
-        iterator = tqdm(molecule_list, desc='Optimizing 3D geometries', disable=quiet)
+        iterator = tqdm(molecule_list, desc='Optimizing 3D geometries', disable=quiet, bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}')
         for mol_obj in iterator:
             if mol_obj.xyz is not None and not force_optimize:
                 iterator.desc = '3D geometry already exists, loading geometry'
@@ -306,9 +305,6 @@ class Mordred(object):
             - Single RDKit Mol object
         quiet : bool, optional
             If True, suppress Mordred's output messages. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
-            Warning: Only use this option if you have >100 molecules, as correlation calculations can be unreliable with small datasets.
 
         Returns:
         -------
@@ -329,32 +325,32 @@ class Mordred(object):
         >>> df = mord.represent(smiles_list, remove_corr=True)
         >>> print(df.shape)
         '''
-
+        if not quiet:
+            print("Step 1: Normalizing molecule input")
         if self.ignore_3D:
             smi_list, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=False)
+            step = 2
 
         else:
             smi_list, _, mol_list = normalize_input(mol_list, quiet=quiet, force_molecule=True)
             force_optimize = kwargs.pop('force_optimize', False)
+            if not quiet:
+                print("Step 2/3: Optimizing geometry for 3D descriptor calculation")
             smi_list, mol_list  = self._optimize_3d_serial(mol_list, optimizer=optimizer, quiet=quiet, force_optimize=force_optimize)
-        
-        pand = self.calc.pandas(mol_list, quiet=quiet)
-        pand = pand.select_dtypes([np.number]).replace([np.inf, -np.inf], np.nan)
+            step = 3
+
+        if not quiet:
+            print(f'Step {step}/{step}: Calculating Mordred descriptors')
+        if 'n_jobs' in kwargs:
+            self.n_jobs = kwargs.get('n_jobs')
+            pand = self.calc.pandas(mol_list, quiet=quiet, nproc=self.n_jobs)
+        else:
+            pand = self.calc.pandas(mol_list, quiet=quiet)
+        pand = pand.select_dtypes(include=[np.floating, np.integer]).replace([np.inf, -np.inf], np.nan)  # Exclude complex dtypes for NumPy 2.x
         pand = pand.dropna(axis=1, how='all')
 
         pand['SMILES'] = smi_list
 
-        if remove_corr and len(mol_list) > 1000:
-            # Generate matrix of correlation values
-            corr_matrix = pand.drop(columns=['SMILES']).corr().abs()
-            # Keep only upper triangle of values, since the correlation matrix is mirrored around the diagonal
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            # Find columns that are highly correlated
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            pand = pand.drop(columns=to_drop)
-        elif len(mol_list) <= 1000 and remove_corr:
-            warnings.warn('Correlation calculations can be unreliable with small datasets. Use this option only if you have >1000 molecules.')
-            
         return pand
 
 
@@ -379,7 +375,7 @@ class PadelDesc:
     def __init__(self):
         pass
 
-    def represent(self, mol_list, dropna=True, remove_corr=False):
+    def represent(self, mol_list, dropna=True):
         """
         Generate PaDEL molecular descriptors for a list of molecules.
 
@@ -398,8 +394,6 @@ class PadelDesc:
             - Single RDKit Mol object
         dropna : bool, optional
             If True, drop columns with NaN values. Default is True.
-        remove_corr : bool, optional
-            If True, remove highly correlated descriptors (correlation > 0.95). Default is False.
 
         Returns:
         --------
@@ -414,9 +408,11 @@ class PadelDesc:
         """
         from padelpy import from_smiles
 
+        print("Step 1/2: Normalizing molecule input")
         smi_list, _ = normalize_input(mol_list, quiet=True, force_molecule=False)
 
         # Calculate descriptors
+        print("Step 2/2: Calculating PaDEL descriptors")
         descriptors = from_smiles(smi_list)
         
         # Convert to DataFrame
@@ -425,11 +421,5 @@ class PadelDesc:
 
         if dropna:
             df.dropna(axis=1, inplace=True)
-
-        if remove_corr:
-            corr_matrix = df.drop(columns=['SMILES']).corr().abs()
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
-            df = df.drop(columns=to_drop)
 
         return df

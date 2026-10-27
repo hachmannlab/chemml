@@ -305,3 +305,26 @@ def RemoveInvFeatures(df,
         removed_df = df[removed_unique].copy()
         return clean_df, removed_df
     return clean_df
+
+def remove_complex_columns(df):
+    """
+    Remove columns with complex data types from the dataframe.
+
+    Parameters
+    ----------
+    df: pandas dataframe
+        input dataframe
+
+    Returns
+    -------
+    df: pandas dataframe
+        dataframe with complex columns removed
+    """
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("'df' must be a pandas DataFrame.")
+
+    complex_cols = [col for col in df.columns if np.issubdtype(df[col].dtype, np.complexfloating)]
+    if len(complex_cols) > 0:
+        df = df.drop(columns=complex_cols)
+    
+    return df

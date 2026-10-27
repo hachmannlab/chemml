@@ -4,7 +4,7 @@ from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 from ....data.materials.util.LookUpData import LookUpData
 
 class LocalPropertyDifferenceAttributeGenerator:
-    """Class to compute attributes based on the difference in elemental
+    r"""Class to compute attributes based on the difference in elemental
     properties between neighboring atoms.
 
     Attributes

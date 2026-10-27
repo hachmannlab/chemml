@@ -127,15 +127,20 @@ class MLP(object):
         'cuda' or 'cuda:N' requests a specific GPU (works for both CUDA and ROCm builds of PyTorch).
         TensorFlow uses any visible GPU automatically.
 
+    use_batching: bool, optional, default: False
+        PyTorch engine only. If True, transfers each mini-batch to the target device instead
+        of moving the full training dataset there before fitting.
+
     """
     def __init__(self, engine, nfeatures, nneurons=None, activations=None,
                 learning_rate=0.01, nepochs=100, batch_size=100, alpha=0.001, loss='mean_squared_error', 
                 is_regression=True, nclasses=None, noutputs=1, layer_config_file=None, opt_config='sgd',random_seed=112, verbose=None,
-                device=None, **params):
+                device=None, use_batching=False, **params):
 
         # Falls back to 'pytorch' if 'tensorflow' was requested but isn't available
         self.engine = resolve_engine(engine)
         self.device = resolve_device(device) if self.engine == 'pytorch' else 'cpu'
+        self.use_batching = use_batching
 
         if layer_config_file == None:
             if nneurons == None or activations == None:
@@ -420,6 +425,7 @@ class MLP(object):
             'opt_config': self.opt_config,
             'random_seed': self.random_seed,
             'device': self.device,
+            'use_batching': self.use_batching,
         }
         return params
 
@@ -441,7 +447,7 @@ class MLP(object):
         
         required = ['engine','nfeatures','nepochs','batch_size','alpha',
                     'is_regression','nclasses','noutputs','layer_config_file','opt_config',
-                    'learning_rate','nneurons','activations','loss','random_seed']
+                    'learning_rate','nneurons','activations','loss','random_seed','use_batching']
         
         obj_dict = vars(self)
         chemml_options = {}
@@ -551,12 +557,14 @@ class MLP(object):
             raise TypeError('y has to be a numpy array or pytorch tensor or Pandas DataFrame/Series')
         
         self.losses = []
-        X, y = X.to(self.device), y.to(self.device)
+        if not self.use_batching:
+            X, y = X.to(self.device), y.to(self.device)
 
         #forward feed    
         for _ in range(self.nepochs):
             #shuffle rows
-            permutation = torch.randperm(X.size()[0], device=self.device)
+            permutation = torch.randperm(
+                X.size()[0], device='cpu' if self.use_batching else self.device)
             # batch loss
             avg_loss=[]
             for i in range(0, X.size()[0], self.batch_size):
@@ -565,7 +573,11 @@ class MLP(object):
                 #creating indices for split
                 indices = permutation[i:i+self.batch_size]
                 #shuffle split done
-                batch_x, batch_y = X[indices], y[indices]
+                if self.use_batching:
+                    batch_x = X[indices.to(X.device)].to(self.device)
+                    batch_y = y[indices.to(y.device)].to(self.device)
+                else:
+                    batch_x, batch_y = X[indices], y[indices]
                 # y_pred = lin_model.forward(batch_x)
                 y_pred = self.model.forward(batch_x)
                 #calculate the loss

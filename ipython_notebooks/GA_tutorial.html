@@ -18,7 +18,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -133,18 +133,18 @@
 <p>The file <code class="docutils literal notranslate"><span class="pre">ga_eval.txt</span></code> contains python code which evaluates every individual (tuple of hyperparameters) and yields the results of the error metric for each generation. Once model type is selected in the Wrapper parameters section of the GUI, the model is defined in this section code. For each generation, the hyperparemeters of the model are set and the model is passed to the objective function (<code class="docutils literal notranslate"><span class="pre">single_obj</span></code>) which evaluates the model.</p>
 <p>The hyperparameter optimization process can be a time consuming one. Hence, for our convinience, we use a temporary file to guage and print the progress of the iterations. This is done using this section of the code:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#count iterations of GA
-count=open(&quot;tmp.txt&quot;, &quot;a&quot;)
-count.write(&quot;GA search iteration in process... \n&quot;)
+count=open("tmp.txt", "a")
+count.write("GA search iteration in process... \n")
 count.close()
-file = open(&quot;tmp.txt&quot;,&quot;r&quot;)
+file = open("tmp.txt","r")
 Counter = 0
 # Reading number of lines from file
 Content = file.read()
-CoList = Content.split(&quot;\n&quot;)
+CoList = Content.split("\n")
 for i in CoList:
     if i:
         Counter += 1
-print(&quot;GA search iteration in process... &quot;,Counter)
+print("GA search iteration in process... ",Counter)
 </pre></div>
 </div>
 <p><em>Note: The ``tmp.txt`` file is deleted once the GA search is completed</em></p>
@@ -153,23 +153,23 @@ print(&quot;GA search iteration in process... &quot;,Counter)
 
     layers = [indi[i] for i in range(2,5) if indi[i] != 0]
     #count iterations of GA
-    count=open(&quot;tmp.txt&quot;, &quot;a&quot;)
-    count.write(&quot;GA search iteration in process... \n&quot;)
+    count=open("tmp.txt", "a")
+    count.write("GA search iteration in process... \n")
     count.close()
-    file = open(&quot;tmp.txt&quot;,&quot;r&quot;)
+    file = open("tmp.txt","r")
     Counter = 0
     # Reading number of lines from file
     Content = file.read()
-    CoList = Content.split(&quot;\n&quot;)
+    CoList = Content.split("\n")
     for i in CoList:
         if i:
             Counter += 1
-    print(&quot;GA search iteration in process... &quot;,Counter)
+    print("GA search iteration in process... ",Counter)
     mlp = MLPRegressor(alpha=np.exp(indi[0]), activation=indi[1],
-    hidden_layer_sizes=tuple(layers),learning_rate=&#39;invscaling&#39;, max_iter=10,early_stopping=True)
+    hidden_layer_sizes=tuple(layers),learning_rate='invscaling', max_iter=10,early_stopping=True)
     ga_search = single_obj(mlp=mlp, x=X.values, y=Y.values,n_splits=n_splits)
-    f=open(&quot;GA.txt&quot;, &quot;a&quot;)
-    f.write(&quot;%f %s %d %d %d %f \n&quot; %(float(np.exp(indi[0])), str(indi[1]), int(indi[2]), int(indi[3]),
+    f=open("GA.txt", "a")
+    f.write("%f %s %d %d %d %f \n" %(float(np.exp(indi[0])), str(indi[1]), int(indi[2]), int(indi[3]),
     int(indi[4]),float(ga_search)))
     f.close()
     return ga_search
@@ -208,7 +208,7 @@ print(&quot;GA search iteration in process... &quot;,Counter)
         y_pred, y_act =y_pred.reshape(-1,1), y[testing].reshape(-1,1)
         model_accuracy=mae(y_act,y_pred)                             # evaluation metric:  mae
         accuracy_kfold.append(model_accuracy)                         # creates list of accuracies for each fold
-    #print(&quot;def single_obj - completed&quot;)
+    #print("def single_obj - completed")
     return np.mean(accuracy_kfold)
 </pre></div>
 </div>
@@ -216,7 +216,7 @@ print(&quot;GA search iteration in process... &quot;,Counter)
 <section id="space">
 <h2>space<a class="headerlink" href="#space" title="Link to this heading"></a></h2>
 <p>The file <code class="docutils literal notranslate"><span class="pre">space.txt</span></code> contains python code which defines the space variable.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>space = ({&#39;alpha&#39;: {&#39;uniform&#39;: [np.log(0.0001), np.log(0.1)], &#39;mutation&#39;: [0, 1]}},{&#39;activation&#39;: {&#39;choice&#39;: [&#39;identity&#39;, &#39;logistic&#39;, &#39;tanh&#39;, &#39;relu&#39;]}},{&#39;neurons1&#39;:  {&#39;choice&#39;: range(0,220,20)}},{&#39;neurons2&#39;:  {&#39;choice&#39;: range(0,220,20)}},{&#39;neurons3&#39;:  {&#39;choice&#39;: range(0,220,20)}})
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>space = ({'alpha': {'uniform': [np.log(0.0001), np.log(0.1)], 'mutation': [0, 1]}},{'activation': {'choice': ['identity', 'logistic', 'tanh', 'relu']}},{'neurons1':  {'choice': range(0,220,20)}},{'neurons2':  {'choice': range(0,220,20)}},{'neurons3':  {'choice': range(0,220,20)}})
 </pre></div>
 </div>
 </section>
@@ -228,7 +228,7 @@ print(&quot;GA search iteration in process... &quot;,Counter)
     mlp.fit(x, y)
     ypred = mlp.predict(xtest)
     acc=mae(ytest,ypred)
-    # print(&quot; test_hyp completed &quot;)
+    # print(" test_hyp completed ")
     return np.mean(acc)
 </pre></div>
 </div>
@@ -287,7 +287,7 @@ The ChemML Wrapper&#39;s config file has been successfully saved ...
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.wrapper.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
-<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemML_config.txt&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;ga_out&#39;</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">'/mnt/c/Aatish/UB/Mr. Hachmann/master_chemml_wrapper_v2/chemML_config.txt'</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">'ga_out'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -528,7 +528,7 @@ Total execution time: 223.80s (0h 3m 43.80s)
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

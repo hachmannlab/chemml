@@ -62,7 +62,7 @@
      "output_type": "stream",
      "text": [
       "Tensorising molecules in batches of 100 ...\n",
-      "\u001b[1m500/500\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m7s\u001b[0m 14ms/step \n",
+      "\u001b[1m500/500\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m9s\u001b[0m 17ms/step \n",
       "Merging batch tensors ...    [DONE]\n"
      ]
     }
@@ -157,16 +157,10 @@
    "metadata": {},
    "outputs": [
     {
-     "ename": "AttributeError",
-     "evalue": "property 'trainable_weights' of 'NeuralGraphHidden' object has no setter",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[1;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
-      "Cell \u001b[1;32mIn[6], line 21\u001b[0m\n\u001b[0;32m     18\u001b[0m edges \u001b[38;5;241m=\u001b[39m Input(name\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124medge_inputs\u001b[39m\u001b[38;5;124m'\u001b[39m, shape\u001b[38;5;241m=\u001b[39m(max_atoms, max_degree), dtype\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mint32\u001b[39m\u001b[38;5;124m'\u001b[39m,batch_size\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mNone\u001b[39;00m)\n\u001b[0;32m     20\u001b[0m \u001b[38;5;66;03m# Defining the convolved atom feature layers                                    \u001b[39;00m\n\u001b[1;32m---> 21\u001b[0m atoms1 \u001b[38;5;241m=\u001b[39m \u001b[43mNeuralGraphHidden\u001b[49m\u001b[43m(\u001b[49m\u001b[43mconv_width\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mactivation\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mrelu\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43muse_bias\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[38;5;28;43;01mFalse\u001b[39;49;00m\u001b[43m)\u001b[49m\u001b[43m(\u001b[49m\u001b[43m[\u001b[49m\u001b[43matoms0\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mbonds\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43medges\u001b[49m\u001b[43m]\u001b[49m\u001b[43m)\u001b[49m\n\u001b[0;32m     22\u001b[0m atoms2 \u001b[38;5;241m=\u001b[39m NeuralGraphHidden(conv_width, activation\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mrelu\u001b[39m\u001b[38;5;124m'\u001b[39m, use_bias\u001b[38;5;241m=\u001b[39m\u001b[38;5;28;01mFalse\u001b[39;00m)([atoms1, bonds, edges])\n\u001b[0;32m     24\u001b[0m \u001b[38;5;66;03m# Defining the outputs of each (convolved) atom feature layer to fingerprint\u001b[39;00m\n",
-      "File \u001b[1;32mc:\\Users\\nitin\\anaconda3\\envs\\chemml_dev_env\\Lib\\site-packages\\keras\\src\\utils\\traceback_utils.py:122\u001b[0m, in \u001b[0;36mfilter_traceback.<locals>.error_handler\u001b[1;34m(*args, **kwargs)\u001b[0m\n\u001b[0;32m    119\u001b[0m     filtered_tb \u001b[38;5;241m=\u001b[39m _process_traceback_frames(e\u001b[38;5;241m.\u001b[39m__traceback__)\n\u001b[0;32m    120\u001b[0m     \u001b[38;5;66;03m# To get the full stack trace, call:\u001b[39;00m\n\u001b[0;32m    121\u001b[0m     \u001b[38;5;66;03m# `keras.config.disable_traceback_filtering()`\u001b[39;00m\n\u001b[1;32m--> 122\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m e\u001b[38;5;241m.\u001b[39mwith_traceback(filtered_tb) \u001b[38;5;28;01mfrom\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m\n\u001b[0;32m    123\u001b[0m \u001b[38;5;28;01mfinally\u001b[39;00m:\n\u001b[0;32m    124\u001b[0m     \u001b[38;5;28;01mdel\u001b[39;00m filtered_tb\n",
-      "File \u001b[1;32mc:\\users\\nitin\\documents\\ub\\hachmann_group\\chemml_dev_nitin\\chemml\\chemml\\models\\graphconvlayers.py:214\u001b[0m, in \u001b[0;36mNeuralGraphHidden.build\u001b[1;34m(self, inputs_shape)\u001b[0m\n\u001b[0;32m    212\u001b[0m \u001b[38;5;66;03m# Store inner_3D_layer and it's weights\u001b[39;00m\n\u001b[0;32m    213\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39minner_3D_layers\u001b[38;5;241m.\u001b[39mappend(inner_3D_layer)\n\u001b[1;32m--> 214\u001b[0m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mtrainable_weights\u001b[49m \u001b[38;5;241m+\u001b[39m\u001b[38;5;241m=\u001b[39m inner_3D_layer\u001b[38;5;241m.\u001b[39mtrainable_weights\n",
-      "\u001b[1;31mAttributeError\u001b[0m: property 'trainable_weights' of 'NeuralGraphHidden' object has no setter"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Neural Fingerprint Shape:  (None, 200)\n"
      ]
     }
    ],
@@ -215,70 +209,173 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Model: \"model\"\n",
-      "__________________________________________________________________________________________________\n",
-      "Layer (type)                    Output Shape         Param #     Connected to                     \n",
-      "==================================================================================================\n",
-      "atom_inputs (InputLayer)        [(None, 57, 62)]     0                                            \n",
-      "__________________________________________________________________________________________________\n",
-      "bond_inputs (InputLayer)        [(None, 57, 5, 6)]   0                                            \n",
-      "__________________________________________________________________________________________________\n",
-      "edge_inputs (InputLayer)        [(None, 57, 5)]      0                                            \n",
-      "__________________________________________________________________________________________________\n",
-      "neural_graph_hidden (NeuralGrap (None, 57, 8)        2720        atom_inputs[0][0]                \n",
-      "                                                                 bond_inputs[0][0]                \n",
-      "                                                                 edge_inputs[0][0]                \n",
-      "__________________________________________________________________________________________________\n",
-      "neural_graph_hidden_1 (NeuralGr (None, 57, 8)        560         neural_graph_hidden[0][0]        \n",
-      "                                                                 bond_inputs[0][0]                \n",
-      "                                                                 edge_inputs[0][0]                \n",
-      "__________________________________________________________________________________________________\n",
-      "neural_graph_output (NeuralGrap (None, 200)          13800       atom_inputs[0][0]                \n",
-      "                                                                 bond_inputs[0][0]                \n",
-      "                                                                 edge_inputs[0][0]                \n",
-      "__________________________________________________________________________________________________\n",
-      "neural_graph_output_1 (NeuralGr (None, 200)          3000        neural_graph_hidden[0][0]        \n",
-      "                                                                 bond_inputs[0][0]                \n",
-      "                                                                 edge_inputs[0][0]                \n",
-      "__________________________________________________________________________________________________\n",
-      "neural_graph_output_2 (NeuralGr (None, 200)          3000        neural_graph_hidden_1[0][0]      \n",
-      "                                                                 bond_inputs[0][0]                \n",
-      "                                                                 edge_inputs[0][0]                \n",
-      "__________________________________________________________________________________________________\n",
-      "add (Add)                       (None, 200)          0           neural_graph_output[0][0]        \n",
-      "                                                                 neural_graph_output_1[0][0]      \n",
-      "                                                                 neural_graph_output_2[0][0]      \n",
-      "__________________________________________________________________________________________________\n",
-      "dense_layer0 (Dense)            (None, 128)          25728       add[0][0]                        \n",
-      "__________________________________________________________________________________________________\n",
-      "dense_layer1 (Dense)            (None, 64)           8256        dense_layer0[0][0]               \n",
-      "__________________________________________________________________________________________________\n",
-      "main_prediction (Dense)         (None, 1)            65          dense_layer1[0][0]               \n",
-      "==================================================================================================\n",
-      "Total params: 57,129\n",
-      "Trainable params: 57,129\n",
-      "Non-trainable params: 0\n",
-      "__________________________________________________________________________________________________\n"
-     ]
-    },
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "2021-11-09 18:23:04.812435: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)\n"
+      "WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.\n"
      ]
     },
     {
      "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\">Model: \"functional\"</span>\n",
+       "</pre>\n"
+      ],
       "text/plain": [
-       "<keras.callbacks.History at 0x7feda4198be0>"
+       "\u001b[1mModel: \"functional\"\u001b[0m\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓\n",
+       "┃<span style=\"font-weight: bold\"> Layer (type)        </span>┃<span style=\"font-weight: bold\"> Output Shape      </span>┃<span style=\"font-weight: bold\">    Param # </span>┃<span style=\"font-weight: bold\"> Connected to      </span>┃\n",
+       "┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩\n",
+       "│ atom_inputs         │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">57</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">62</span>)    │          <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │ -                 │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ bond_inputs         │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">57</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">5</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">6</span>)  │          <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │ -                 │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ edge_inputs         │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">57</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">5</span>)     │          <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │ -                 │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_hidden │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">57</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">8</span>)     │      <span style=\"color: #00af00; text-decoration-color: #00af00\">2,720</span> │ atom_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">NeuralGraphHidden</span>) │                   │            │ bond_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│                     │                   │            │ edge_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_hidde… │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">57</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">8</span>)     │        <span style=\"color: #00af00; text-decoration-color: #00af00\">560</span> │ neural_graph_hid… │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">NeuralGraphHidden</span>) │                   │            │ bond_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│                     │                   │            │ edge_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_output │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">200</span>)       │     <span style=\"color: #00af00; text-decoration-color: #00af00\">13,800</span> │ atom_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│                     │                   │            │ edge_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_outpu… │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">200</span>)       │      <span style=\"color: #00af00; text-decoration-color: #00af00\">3,000</span> │ neural_graph_hid… │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│                     │                   │            │ edge_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_outpu… │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">200</span>)       │      <span style=\"color: #00af00; text-decoration-color: #00af00\">3,000</span> │ neural_graph_hid… │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">NeuralGraphOutput</span>) │                   │            │ bond_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>… │\n",
+       "│                     │                   │            │ edge_inputs[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ add (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Add</span>)           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">200</span>)       │          <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │ neural_graph_out… │\n",
+       "│                     │                   │            │ neural_graph_out… │\n",
+       "│                     │                   │            │ neural_graph_out… │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ dense_layer0        │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">128</span>)       │     <span style=\"color: #00af00; text-decoration-color: #00af00\">25,728</span> │ add[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>]         │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)             │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ dense_layer1        │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">64</span>)        │      <span style=\"color: #00af00; text-decoration-color: #00af00\">8,256</span> │ dense_layer0[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">…</span> │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)             │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ main_prediction     │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1</span>)         │         <span style=\"color: #00af00; text-decoration-color: #00af00\">65</span> │ dense_layer1[<span style=\"color: #00af00; text-decoration-color: #00af00\">0</span>][<span style=\"color: #00af00; text-decoration-color: #00af00\">…</span> │\n",
+       "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)             │                   │            │                   │\n",
+       "└─────────────────────┴───────────────────┴────────────┴───────────────────┘\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓\n",
+       "┃\u001b[1m \u001b[0m\u001b[1mLayer (type)       \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mOutput Shape     \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1m   Param #\u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mConnected to     \u001b[0m\u001b[1m \u001b[0m┃\n",
+       "┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩\n",
+       "│ atom_inputs         │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m57\u001b[0m, \u001b[38;5;34m62\u001b[0m)    │          \u001b[38;5;34m0\u001b[0m │ -                 │\n",
+       "│ (\u001b[38;5;33mInputLayer\u001b[0m)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ bond_inputs         │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m57\u001b[0m, \u001b[38;5;34m5\u001b[0m, \u001b[38;5;34m6\u001b[0m)  │          \u001b[38;5;34m0\u001b[0m │ -                 │\n",
+       "│ (\u001b[38;5;33mInputLayer\u001b[0m)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ edge_inputs         │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m57\u001b[0m, \u001b[38;5;34m5\u001b[0m)     │          \u001b[38;5;34m0\u001b[0m │ -                 │\n",
+       "│ (\u001b[38;5;33mInputLayer\u001b[0m)        │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_hidden │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m57\u001b[0m, \u001b[38;5;34m8\u001b[0m)     │      \u001b[38;5;34m2,720\u001b[0m │ atom_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│ (\u001b[38;5;33mNeuralGraphHidden\u001b[0m) │                   │            │ bond_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│                     │                   │            │ edge_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_hidde… │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m57\u001b[0m, \u001b[38;5;34m8\u001b[0m)     │        \u001b[38;5;34m560\u001b[0m │ neural_graph_hid… │\n",
+       "│ (\u001b[38;5;33mNeuralGraphHidden\u001b[0m) │                   │            │ bond_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│                     │                   │            │ edge_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_output │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m200\u001b[0m)       │     \u001b[38;5;34m13,800\u001b[0m │ atom_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│ (\u001b[38;5;33mNeuralGraphOutput\u001b[0m) │                   │            │ bond_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│                     │                   │            │ edge_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_outpu… │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m200\u001b[0m)       │      \u001b[38;5;34m3,000\u001b[0m │ neural_graph_hid… │\n",
+       "│ (\u001b[38;5;33mNeuralGraphOutput\u001b[0m) │                   │            │ bond_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│                     │                   │            │ edge_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ neural_graph_outpu… │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m200\u001b[0m)       │      \u001b[38;5;34m3,000\u001b[0m │ neural_graph_hid… │\n",
+       "│ (\u001b[38;5;33mNeuralGraphOutput\u001b[0m) │                   │            │ bond_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m… │\n",
+       "│                     │                   │            │ edge_inputs[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m] │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ add (\u001b[38;5;33mAdd\u001b[0m)           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m200\u001b[0m)       │          \u001b[38;5;34m0\u001b[0m │ neural_graph_out… │\n",
+       "│                     │                   │            │ neural_graph_out… │\n",
+       "│                     │                   │            │ neural_graph_out… │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ dense_layer0        │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m128\u001b[0m)       │     \u001b[38;5;34m25,728\u001b[0m │ add[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m0\u001b[0m]         │\n",
+       "│ (\u001b[38;5;33mDense\u001b[0m)             │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ dense_layer1        │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m64\u001b[0m)        │      \u001b[38;5;34m8,256\u001b[0m │ dense_layer0[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m…\u001b[0m │\n",
+       "│ (\u001b[38;5;33mDense\u001b[0m)             │                   │            │                   │\n",
+       "├─────────────────────┼───────────────────┼────────────┼───────────────────┤\n",
+       "│ main_prediction     │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1\u001b[0m)         │         \u001b[38;5;34m65\u001b[0m │ dense_layer1[\u001b[38;5;34m0\u001b[0m][\u001b[38;5;34m…\u001b[0m │\n",
+       "│ (\u001b[38;5;33mDense\u001b[0m)             │                   │            │                   │\n",
+       "└─────────────────────┴───────────────────┴────────────┴───────────────────┘\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Total params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">57,129</span> (223.16 KB)\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "\u001b[1m Total params: \u001b[0m\u001b[38;5;34m57,129\u001b[0m (223.16 KB)\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">57,129</span> (223.16 KB)\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "\u001b[1m Trainable params: \u001b[0m\u001b[38;5;34m57,129\u001b[0m (223.16 KB)\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Non-trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> (0.00 B)\n",
+       "</pre>\n"
+      ],
+      "text/plain": [
+       "\u001b[1m Non-trainable params: \u001b[0m\u001b[38;5;34m0\u001b[0m (0.00 B)\n"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<keras.src.callbacks.history.History at 0x1d239e1f920>"
       ]
      },
      "execution_count": 7,
@@ -318,15 +415,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Mean Absolute Error = 16.518 kg/m^3\n",
-      "R squared = 0.935\n"
+      "\u001b[1m4/4\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m9s\u001b[0m 2s/step\n",
+      "Mean Absolute Error = 17.415 kg/m^3\n",
+      "R squared = 0.928\n"
      ]
     }
    ],
@@ -342,11 +440,469 @@
     "print(\"Mean Absolute Error = {} kg/m^3\".format(mae.round(3)))\n",
     "print(\"R squared = {}\".format(r_2.round(3)))"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ME</th>\n",
+       "      <th>MAE</th>\n",
+       "      <th>MSE</th>\n",
+       "      <th>RMSE</th>\n",
+       "      <th>MSLE</th>\n",
+       "      <th>RMSLE</th>\n",
+       "      <th>MAPE</th>\n",
+       "      <th>MaxAPE</th>\n",
+       "      <th>RMSPE</th>\n",
+       "      <th>MPE</th>\n",
+       "      <th>MaxAE</th>\n",
+       "      <th>deltaMaxE</th>\n",
+       "      <th>r_squared</th>\n",
+       "      <th>std</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>-10.108292</td>\n",
+       "      <td>17.415105</td>\n",
+       "      <td>551.830271</td>\n",
+       "      <td>23.491068</td>\n",
+       "      <td>0.000387</td>\n",
+       "      <td>0.019676</td>\n",
+       "      <td>1.420658</td>\n",
+       "      <td>9.103122</td>\n",
+       "      <td>2.012218</td>\n",
+       "      <td>-0.868725</td>\n",
+       "      <td>91.540991</td>\n",
+       "      <td>127.90665</td>\n",
+       "      <td>0.928118</td>\n",
+       "      <td>87.617825</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "          ME        MAE         MSE       RMSE      MSLE     RMSLE      MAPE  \\\n",
+       "0 -10.108292  17.415105  551.830271  23.491068  0.000387  0.019676  1.420658   \n",
+       "\n",
+       "     MaxAPE     RMSPE       MPE      MaxAE  deltaMaxE  r_squared        std  \n",
+       "0  9.103122  2.012218 -0.868725  91.540991  127.90665   0.928118  87.617825  "
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "metrics_df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Unified Neural Graph Fingerprint API with Engine Selection\n",
+    "\n",
+    "ChemML now provides a unified wrapper `NeuralGraphFingerprint` that supports multiple computation backends (TensorFlow and PyTorch). You can easily switch between engines without changing the core logic."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "============================================================\n",
+      "Example 1: PyTorch Backend\n",
+      "============================================================\n",
+      "PyTorch predictions shape: (100, 1)\n",
+      "Actual values (first 5): [1328.35 1143.8  1351.33 1466.57 1207.67]\n",
+      "PyTorch predictions (first 5): [1339.304  1137.8044 1331.6082 1462.5497 1215.6892]\n",
+      "PyTorch training and prediction time: 13.98 seconds\n",
+      "\n",
+      "============================================================\n",
+      "Example 2: TensorFlow Backend\n",
+      "============================================================\n",
+      "TensorFlow predictions shape: (100, 1)\n",
+      "Actual values (first 5): [1328.35 1143.8  1351.33 1466.57 1207.67]\n",
+      "TensorFlow predictions (first 5): [1358.3076 1153.0071 1357.1093 1474.0562 1220.1882]\n",
+      "TensorFlow training and prediction time: 74.82 seconds\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ME</th>\n",
+       "      <th>MAE</th>\n",
+       "      <th>MSE</th>\n",
+       "      <th>RMSE</th>\n",
+       "      <th>MSLE</th>\n",
+       "      <th>RMSLE</th>\n",
+       "      <th>MAPE</th>\n",
+       "      <th>MaxAPE</th>\n",
+       "      <th>RMSPE</th>\n",
+       "      <th>MPE</th>\n",
+       "      <th>MaxAE</th>\n",
+       "      <th>deltaMaxE</th>\n",
+       "      <th>r_squared</th>\n",
+       "      <th>std</th>\n",
+       "      <th>engine</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>3.434481</td>\n",
+       "      <td>14.846350</td>\n",
+       "      <td>344.743988</td>\n",
+       "      <td>18.567283</td>\n",
+       "      <td>0.000230</td>\n",
+       "      <td>0.015162</td>\n",
+       "      <td>1.194169</td>\n",
+       "      <td>4.399324</td>\n",
+       "      <td>1.516716</td>\n",
+       "      <td>0.239773</td>\n",
+       "      <td>46.250522</td>\n",
+       "      <td>92.256938</td>\n",
+       "      <td>0.955093</td>\n",
+       "      <td>87.617825</td>\n",
+       "      <td>PyTorch</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>-7.184584</td>\n",
+       "      <td>14.876365</td>\n",
+       "      <td>355.668758</td>\n",
+       "      <td>18.859182</td>\n",
+       "      <td>0.000236</td>\n",
+       "      <td>0.015351</td>\n",
+       "      <td>1.197706</td>\n",
+       "      <td>5.650654</td>\n",
+       "      <td>1.552435</td>\n",
+       "      <td>-0.601583</td>\n",
+       "      <td>56.822974</td>\n",
+       "      <td>97.304233</td>\n",
+       "      <td>0.953670</td>\n",
+       "      <td>87.617825</td>\n",
+       "      <td>TensorFlow</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         ME        MAE         MSE       RMSE      MSLE     RMSLE      MAPE  \\\n",
+       "0  3.434481  14.846350  344.743988  18.567283  0.000230  0.015162  1.194169   \n",
+       "1 -7.184584  14.876365  355.668758  18.859182  0.000236  0.015351  1.197706   \n",
+       "\n",
+       "     MaxAPE     RMSPE       MPE      MaxAE  deltaMaxE  r_squared        std  \\\n",
+       "0  4.399324  1.516716  0.239773  46.250522  92.256938   0.955093  87.617825   \n",
+       "1  5.650654  1.552435 -0.601583  56.822974  97.304233   0.953670  87.617825   \n",
+       "\n",
+       "       engine  \n",
+       "0     PyTorch  \n",
+       "1  TensorFlow  "
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from chemml.models import NeuralGraphFingerprint\n",
+    "import pandas as pd\n",
+    "from time import time\n",
+    "\n",
+    "# Example 1: Using PyTorch backend\n",
+    "pt_start_time = time()\n",
+    "print(\"=\" * 60)\n",
+    "print(\"Example 1: PyTorch Backend\")\n",
+    "print(\"=\" * 60)\n",
+    "ngf_pytorch = NeuralGraphFingerprint(\n",
+    "    engine='pytorch',\n",
+    "    conv_width=8,\n",
+    "    fp_length=200,\n",
+    "    n_conv_layers=3,\n",
+    "    hidden_sizes = [128, 64, 32],\n",
+    "    epochs=50,\n",
+    "    batch_size=32,\n",
+    "    learning_rate=0.001,\n",
+    "    verbose=False\n",
+    ")\n",
+    "\n",
+    "ngf_pytorch.fit(xatoms_train, xbonds_train, xedges_train, target_train)\n",
+    "y_pred_pt = y_scale.inverse_transform(ngf_pytorch.predict(xatoms_test, xbonds_test, xedges_test).reshape(-1, 1))\n",
+    "print(f\"PyTorch predictions shape: {y_pred_pt.shape}\")\n",
+    "print(f\"Actual values (first 5): {target_test[:5]}\")\n",
+    "print(f\"PyTorch predictions (first 5): {y_pred_pt[:5].flatten()}\")\n",
+    "\n",
+    "pt_end_time = time()\n",
+    "print(f\"PyTorch training and prediction time: {pt_end_time - pt_start_time:.2f} seconds\")\n",
+    "\n",
+    "# Example 2: Using TensorFlow backend\n",
+    "tf_start_time = time()\n",
+    "print(\"\\n\" + \"=\" * 60)\n",
+    "print(\"Example 2: TensorFlow Backend\")\n",
+    "print(\"=\" * 60)\n",
+    "ngf_tensorflow = NeuralGraphFingerprint(\n",
+    "    engine='tensorflow',\n",
+    "    conv_width=8,\n",
+    "    fp_length=200,\n",
+    "    n_conv_layers=3,\n",
+    "    hidden_sizes = [128, 64, 32],\n",
+    "    epochs=50,\n",
+    "    batch_size=32,\n",
+    "    learning_rate=0.001,\n",
+    "    verbose=False\n",
+    ")\n",
+    "\n",
+    "# Same data, different backend\n",
+    "ngf_tensorflow.fit(xatoms_train, xbonds_train, xedges_train, target_train)\n",
+    "y_pred_tf = y_scale.inverse_transform(ngf_tensorflow.predict(xatoms_test, xbonds_test, xedges_test).reshape(-1, 1))\n",
+    "print(f\"TensorFlow predictions shape: {y_pred_tf.shape}\")\n",
+    "print(f\"Actual values (first 5): {target_test[:5]}\")\n",
+    "print(f\"TensorFlow predictions (first 5): {y_pred_tf[:5].flatten()}\")\n",
+    "\n",
+    "tf_end_time = time()\n",
+    "print(f\"TensorFlow training and prediction time: {tf_end_time - tf_start_time:.2f} seconds\")\n",
+    "\n",
+    "metrics_pt = regression_metrics(target_test, list(y_pred_pt.reshape(-1,)))\n",
+    "metrics_tf = regression_metrics(target_test, list(y_pred_tf.reshape(-1,)))\n",
+    "\n",
+    "metrics_pt['engine'] = 'PyTorch'\n",
+    "metrics_tf['engine'] = 'TensorFlow'\n",
+    "\n",
+    "pd.concat([metrics_pt, metrics_tf], ignore_index=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Simplified Workflow: Direct SMILES-to-Model\n",
+    "\n",
+    "The `NeuralGraphFingerprint` wrapper also supports end-to-end workflows directly from SMILES strings or Molecule objects, eliminating the need for manual tensorization steps."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This section demonstrates the complete pipeline from loading the dataset to model prediction using the `NeuralGraphFingerprint` API."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Training set: 400 molecules\n",
+      "Test set: 100 molecules\n",
+      "Training completed in 18.20 seconds\n",
+      "\n",
+      "Generating predictions from raw SMILES...\n",
+      "Predictions generated for 100 molecules in 8.62 seconds\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ME</th>\n",
+       "      <th>MAE</th>\n",
+       "      <th>MSE</th>\n",
+       "      <th>RMSE</th>\n",
+       "      <th>MSLE</th>\n",
+       "      <th>RMSLE</th>\n",
+       "      <th>MAPE</th>\n",
+       "      <th>MaxAPE</th>\n",
+       "      <th>RMSPE</th>\n",
+       "      <th>MPE</th>\n",
+       "      <th>MaxAE</th>\n",
+       "      <th>deltaMaxE</th>\n",
+       "      <th>r_squared</th>\n",
+       "      <th>std</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0.077003</td>\n",
+       "      <td>14.059737</td>\n",
+       "      <td>354.052032</td>\n",
+       "      <td>18.816271</td>\n",
+       "      <td>0.000221</td>\n",
+       "      <td>0.014878</td>\n",
+       "      <td>1.113103</td>\n",
+       "      <td>5.090196</td>\n",
+       "      <td>1.49254</td>\n",
+       "      <td>-0.031188</td>\n",
+       "      <td>56.511597</td>\n",
+       "      <td>107.698608</td>\n",
+       "      <td>0.953881</td>\n",
+       "      <td>87.617821</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         ME        MAE         MSE       RMSE      MSLE     RMSLE      MAPE  \\\n",
+       "0  0.077003  14.059737  354.052032  18.816271  0.000221  0.014878  1.113103   \n",
+       "\n",
+       "     MaxAPE    RMSPE       MPE      MaxAE   deltaMaxE  r_squared        std  \n",
+       "0  5.090196  1.49254 -0.031188  56.511597  107.698608   0.953881  87.617821  "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# Force aggressive module reload\n",
+    "import sys\n",
+    "import importlib\n",
+    "import numpy as np\n",
+    "from sklearn.preprocessing import StandardScaler\n",
+    "\n",
+    "# Remove all chemml modules from cache\n",
+    "modules_to_remove = [mod for mod in sys.modules if mod.startswith('chemml')]\n",
+    "for mod in modules_to_remove:\n",
+    "    del sys.modules[mod]\n",
+    "\n",
+    "# Step 1: Load dataset using load_organic_density\n",
+    "from chemml.datasets import load_organic_density\n",
+    "smiles_df, density_df, features_df = load_organic_density()\n",
+    "\n",
+    "# Step 2: Prepare data\n",
+    "smiles_all = smiles_df['smiles'].tolist()\n",
+    "smiles_idx = np.arange(len(smiles_all))\n",
+    "targets_all = density_df['density_Kg/m3'].values.astype('float32')\n",
+    "\n",
+    "# Step 3: Train/Test split\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "smiles_train, smiles_test, y_train, y_test = train_test_split(\n",
+    "    smiles_idx, targets_all, test_size=0.2, random_state=42\n",
+    ")\n",
+    "\n",
+    "yscale = StandardScaler()\n",
+    "y_train = yscale.fit_transform(y_train.reshape(-1, 1))\n",
+    "\n",
+    "smiles_train = [smiles_all[i] for i in smiles_train]\n",
+    "smiles_test = [smiles_all[i] for i in smiles_test]\n",
+    "print(f\"Training set: {len(smiles_train)} molecules\")\n",
+    "print(f\"Test set: {len(smiles_test)} molecules\")\n",
+    "\n",
+    "# Step 4: Create and train model directly from SMILES (no manual tensorization!)\n",
+    "from chemml.models import NeuralGraphFingerprint\n",
+    "from time import time\n",
+    "\n",
+    "start_time = time()\n",
+    "\n",
+    "ngf_complete = NeuralGraphFingerprint(\n",
+    "    engine='pytorch',\n",
+    "    conv_width=8,\n",
+    "    fp_length=200,\n",
+    "    n_conv_layers=3,\n",
+    "    hidden_sizes=[128,64,32],\n",
+    "    epochs=50,\n",
+    "    batch_size=32,\n",
+    "    learning_rate=0.001,\n",
+    "    verbose=False,\n",
+    "    random_seed=42\n",
+    ")\n",
+    "\n",
+    "# Fit the model directly on SMILES strings\n",
+    "ngf_complete.fit(smiles_train, y=y_train, tensorize_kwargs={'n_jobs': 1, 'verbose': False})\n",
+    "\n",
+    "training_time = time() - start_time\n",
+    "print(f\"Training completed in {training_time:.2f} seconds\")\n",
+    "\n",
+    "# Step 5: Make predictions on test set\n",
+    "print(\"\\nGenerating predictions from raw SMILES...\")\n",
+    "start_time = time()\n",
+    "y_pred = yscale.inverse_transform(ngf_complete.predict(smiles_test, tensorize_kwargs={'n_jobs': 1, 'verbose': False}).reshape(-1, 1))\n",
+    "prediction_time = time() - start_time\n",
+    "print(f\"Predictions generated for {len(y_pred)} molecules in {prediction_time:.2f} seconds\")\n",
+    "\n",
+    "# Step 6: Evaluate results\n",
+    "from chemml.utils import regression_metrics\n",
+    "metrics = regression_metrics(y_test, list(y_pred.reshape(-1,)))\n",
+    "display(metrics)"
+   ]
   }
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "chemml_dev_env",
+   "display_name": "nitin_py312_env",
    "language": "python",
    "name": "python3"
   },
@@ -360,7 +916,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.12.5"
+   "version": "3.12.13"
   },
   "widgets": {
    "application/vnd.jupyter.widget-state+json": {

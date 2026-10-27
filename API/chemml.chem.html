@@ -17,7 +17,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -274,17 +274,17 @@ between atoms i and j</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoulombMatrix</span><span class="p">,</span> <span class="n">Molecule</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;c1ccc1&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CNC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">m3</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">m4</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;CCC&#39;</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">'c1ccc1'</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">'CNC'</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m3</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">'CC'</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m4</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">'CCC'</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">molecules</span> <span class="o">=</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">m4</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>   <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;UFF&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cm</span> <span class="o">=</span> <span class="n">CoulombMatrix</span><span class="p">(</span><span class="n">cm_type</span><span class="o">=</span><span class="s1">&#39;SC&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>   <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'UFF'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cm</span> <span class="o">=</span> <span class="n">CoulombMatrix</span><span class="p">(</span><span class="n">cm_type</span><span class="o">=</span><span class="s1">'SC'</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">molecules</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -383,7 +383,7 @@ For doing so, please use Script Wizard in Drgon GUI.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dragon</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">drg</span> <span class="o">=</span> <span class="n">Dragon</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">drg</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_list</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">drg</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_list</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="s1">'./'</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -477,68 +477,68 @@ The available types are enlisted here:</p>
 <section id="id18">
 <h2>Examples<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">&#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_smarts</span> <span class="o">=</span> <span class="s1">&#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_inchi</span> <span class="o">=</span> <span class="s1">&#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_smiles</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_smarts</span> <span class="o">=</span> <span class="s1">'[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">caffeine_inchi</span> <span class="o">=</span> <span class="s1">'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_smiles</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span>
 <span class="go">&lt;Molecule(rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x11060a8a0&gt;,</span>
-<span class="go">      creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),</span>
-<span class="go">      smiles         : &#39;Cn1c(=O)c2c(ncn2C)n(C)c1=O&#39;,</span>
+<span class="go">      creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),</span>
+<span class="go">      smiles         : 'Cn1c(=O)c2c(ncn2C)n(C)c1=O',</span>
 <span class="go">      smarts         : None,</span>
 <span class="go">      inchi          : None,</span>
 <span class="go">      xyz            : None)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">smiles</span> <span class="c1"># this is the canonical SMILES by default</span>
-<span class="go">&#39;Cn1c(=O)c2c(ncn2C)n(C)c1=O&#39;</span>
+<span class="go">'Cn1c(=O)c2c(ncn2C)n(C)c1=O'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">creator</span>
-<span class="go">(&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;)</span>
+<span class="go">('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_smiles</span><span class="p">(</span><span class="n">kekuleSmiles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span>
 <span class="go">&lt;Molecule(rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x11060a8a0&gt;,</span>
-<span class="go">      creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),</span>
-<span class="go">      smiles         : &#39;CN1C(=O)C2=C(N=CN2C)N(C)C1=O&#39;,</span>
+<span class="go">      creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),</span>
+<span class="go">      smiles         : 'CN1C(=O)C2=C(N=CN2C)N(C)C1=O',</span>
 <span class="go">      smarts         : None,</span>
 <span class="go">      inchi          : None,</span>
 <span class="go">      xyz            : None)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">smiles</span> <span class="c1"># the kukule SMILES is not canonical</span>
-<span class="go">&#39;CN1C(=O)C2=C(N=CN2C)N(C)C1=O&#39;</span>
+<span class="go">'CN1C(=O)C2=C(N=CN2C)N(C)C1=O'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">inchi</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_inchi</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span>
 <span class="go">&lt;Molecule(rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x11060a8a0&gt;,</span>
-<span class="go">      creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),</span>
-<span class="go">      smiles         : &#39;CN1C(=O)C2=C(N=CN2C)N(C)C1=O&#39;,</span>
+<span class="go">      creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),</span>
+<span class="go">      smiles         : 'CN1C(=O)C2=C(N=CN2C)N(C)C1=O',</span>
 <span class="go">      smarts         : None,</span>
-<span class="go">      inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,</span>
+<span class="go">      inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',</span>
 <span class="go">      xyz            : None)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">inchi</span>
-<span class="go">&#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;</span>
+<span class="go">'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_smarts</span><span class="p">(</span><span class="n">isomericSmiles</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">smarts</span>
-<span class="go">&#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;</span>
+<span class="go">'[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># add hydrogens and recreate smiles and inchi</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_smiles</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_inchi</span><span class="p">()</span>
 <span class="go">&lt;Molecule(rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x11060ab70&gt;,</span>
-<span class="go">      creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),</span>
-<span class="go">      smiles         : &#39;[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]&#39;,</span>
-<span class="go">      smarts         : &#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;,</span>
-<span class="go">      inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,</span>
+<span class="go">      creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),</span>
+<span class="go">      smiles         : '[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]',</span>
+<span class="go">      smarts         : '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]',</span>
+<span class="go">      inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',</span>
 <span class="go">      xyz            : None)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># note that by addition of hydrogens, the smiles string changed, but not inchi</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">()</span>
 <span class="go">ValueError: The conformation has not been built yet. Maybe due to the 2D representation of the creator.</span>
 <span class="go">You should set the optimizer value if you wish to embed and optimize the 3D geometries.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">'MMFF'</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">'MMFF94s'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span>
 <span class="go">&lt;Molecule(rdkit_molecule : &lt;rdkit.Chem.rdchem.Mol object at 0x11060ab70&gt;,</span>
-<span class="go">      creator        : (&#39;SMILES&#39;, &#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;),</span>
-<span class="go">      smiles         : &#39;[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]&#39;,</span>
-<span class="go">      smarts         : &#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;,</span>
-<span class="go">      inchi          : &#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;,</span>
+<span class="go">      creator        : ('SMILES', 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),</span>
+<span class="go">      smiles         : '[H]c1nc2c(c(=O)n(C([H])([H])[H])c(=O)n2C([H])([H])[H])n1C([H])([H])[H]',</span>
+<span class="go">      smarts         : '[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]',</span>
+<span class="go">      inchi          : 'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3',</span>
 <span class="go">      xyz            : &lt;chemml.chem.molecule.XYZ object at 0x1105f34e0&gt;)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">xyz</span>
 <span class="go">&lt;chemml.chem.molecule.XYZ object at 0x1105f34e0&gt;</span>
@@ -593,30 +593,30 @@ The available types are enlisted here:</p>
 <span class="go">   [1],</span>
 <span class="go">   [1]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="n">atomic_symbols</span>
-<span class="go">array([[&#39;C&#39;],</span>
-<span class="go">       [&#39;N&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;N&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;O&#39;],</span>
-<span class="go">       [&#39;N&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;O&#39;],</span>
-<span class="go">       [&#39;N&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;C&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;],</span>
-<span class="go">       [&#39;H&#39;]], dtype=&#39;&lt;U1&#39;)</span>
+<span class="go">array([['C'],</span>
+<span class="go">       ['N'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['N'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['O'],</span>
+<span class="go">       ['N'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['O'],</span>
+<span class="go">       ['N'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['C'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H'],</span>
+<span class="go">       ['H']], dtype='&lt;U1')</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -872,11 +872,8 @@ selected_descriptors (bool): If True, generate only selected descriptors. Defaul
 <section id="id35">
 <h2>Notes:<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
 <blockquote>
-<div><ul class="simple">
-<li><p>Requires installation of Mordred descriptors as described in:
-<a class="reference external" href="https://github.com/mordred-descriptor/mordred">https://github.com/mordred-descriptor/mordred</a></p></li>
-<li><p>By default, all available descriptors are generated.</p></li>
-</ul>
+<div><p>Mordred uses the mordred-community package from Python 3.10+ and legacy mordred 1.2.1 for older Python versions.
+Descriptor calculation is identical, but there are some performance gains in the newer version.</p>
 </div></blockquote>
 </section>
 <section id="id36">
@@ -906,9 +903,6 @@ It can handle input in the form of SMILES strings or ChemML Molecule objects.</p
 </dd>
 <dt>quiet<span class="classifier">bool, optional</span></dt><dd><p>If True, suppress Mordred’s output messages. Default is True.</p>
 </dd>
-<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.
-Warning: Only use this option if you have &gt;100 molecules, as correlation calculations can be unreliable with small datasets.</p>
-</dd>
 </dl>
 </section>
 <section id="id38">
@@ -930,7 +924,7 @@ We automatically drop columns with all NaN values, but row imputation is left to
 <section id="id39">
 <h3>Examples:<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mord</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CCO&#39;</span><span class="p">,</span> <span class="s1">&#39;CCCO&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'CC'</span><span class="p">,</span> <span class="s1">'CCO'</span><span class="p">,</span> <span class="s1">'CCCO'</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">mord</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">,</span> <span class="n">remove_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
@@ -954,7 +948,7 @@ for chemical compounds using the PaDEL-Descriptor software through its Python wr
 </dl>
 </dd>
 <dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">padel_desc</span> <span class="o">=</span> <span class="n">PadelDesc</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CCO&#39;</span><span class="p">,</span> <span class="s1">&#39;CCCO&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'CC'</span><span class="p">,</span> <span class="s1">'CCO'</span><span class="p">,</span> <span class="s1">'CCCO'</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">padel_desc</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -962,7 +956,7 @@ for chemical compounds using the PaDEL-Descriptor software through its Python wr
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.PadelDesc.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.PadelDesc.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.PadelDesc.represent" title="Link to this definition"></a></dt>
 <dd><p>Generate PaDEL molecular descriptors for a list of molecules.</p>
 <p>This method calculates PaDEL descriptors for the provided molecules and returns them as a pandas DataFrame.
 Note: Requires installation of PaDEL-Descriptor and its Python wrapper, PaDELPy.</p>
@@ -978,8 +972,6 @@ Note: Requires installation of PaDEL-Descriptor and its Python wrapper, PaDELPy.
 - Single RDKit Mol object</p>
 </dd>
 <dt>dropna<span class="classifier">bool, optional</span></dt><dd><p>If True, drop columns with NaN values. Default is True.</p>
-</dd>
-<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.</p>
 </dd>
 </dl>
 </section>
@@ -1018,7 +1010,7 @@ for chemical compounds using the RDKit library.</p>
 </dd>
 <dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">RDKDesc</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rdkit_desc</span> <span class="o">=</span> <span class="n">RDKDesc</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CCO&#39;</span><span class="p">,</span> <span class="s1">&#39;CCCO&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">smiles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'CC'</span><span class="p">,</span> <span class="s1">'CCO'</span><span class="p">,</span> <span class="s1">'CCCO'</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">rdkit_desc</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1026,7 +1018,7 @@ for chemical compounds using the RDKit library.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.RDKDesc.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKDesc.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKDesc.represent" title="Link to this definition"></a></dt>
 <dd><p>Generate RDKit molecular descriptors for a list of molecules.</p>
 <p>This method calculates RDKit descriptors for the provided molecules and returns them as a pandas DataFrame.</p>
 <section id="id43">
@@ -1039,9 +1031,6 @@ for chemical compounds using the RDKit library.</p>
 - Single ChemML Molecule object</p>
 </dd>
 <dt>dropna<span class="classifier">bool, optional</span></dt><dd><p>If True, drop columns with NaN values. Default is True.</p>
-</dd>
-<dt>remove_corr<span class="classifier">bool, optional</span></dt><dd><p>If True, remove highly correlated descriptors (correlation &gt; 0.95). Default is False.
-Warning: Only use this option if you have &gt;100 molecules, as correlation calculations can be unreliable with small datasets.</p>
 </dd>
 <dt>n_jobs<span class="classifier">int, optional</span></dt><dd><p>Number of parallel jobs to run for descriptor calculation. Default is 1 (no parallelization).</p>
 </dd>
@@ -1148,15 +1137,16 @@ GetMorganFeatureAtomInvGen(), ‘useBondTypes’ passed through</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="chemml.chem.RDKitFingerprint.represent">
-<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">represent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molecules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_numpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.chem.RDKitFingerprint.represent" title="Link to this definition"></a></dt>
 <dd><p>The main function to provide fingerprint representation of input molecule(s).</p>
 <section id="id50">
 <h3>Parameters<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
 <dl class="simple">
-<dt>molecules<span class="classifier">chemml.chem.Molecule object or list</span></dt><dd><p>It must be an instance of chemml.chem.Molecule object or a list of those objects, otherwise a ValueError will be raised.
-If smiles representation of the molecule (or rdkit molecule object) is not available, we convert the molecule to
-smiles automatically. However, the automatic conversion may ignore your manual settings, for example removed hydrogens,
-kekulized, or canonical smiles.</p>
+<dt>molecules<span class="classifier">chemml.chem.Molecule object or list</span></dt><dd><p>This can be a single ChemML Molecule object, a single SMILES string, or a homogeneous list of either.
+ChemML internally converts the input to a standardized format.</p>
+</dd>
+<dt>as_numpy<span class="classifier">bool, optional</span></dt><dd><p>If True, return features as a NumPy array and bypasses Pandas DataFrame creation.
+Use if represent() causes OOM errors.</p>
 </dd>
 </dl>
 </section>
@@ -1344,7 +1334,7 @@ A connectivity array of shape (molecules, max_atoms, max_degree, bond_features)<
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

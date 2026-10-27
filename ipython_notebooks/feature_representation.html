@@ -18,7 +18,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -53,18 +53,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../represent_task/index.html">Represent</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Feature Representation Methods in ChemML</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Creating-chemml.chem.Molecule-object-from-molecule-SMILES">Creating <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> object from molecule SMILES</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Coulomb-Matrix">Coulomb Matrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Fingerprints-from-RDKit">Fingerprints from RDKit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Molecule-tensors-from-chemml.chem.Molecule-objects">Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-RDKit">Descriptors from RDKit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-Mordred">Descriptors from Mordred</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Creating-chemml.chem.Molecule-object-from-molecule-SMILES">Creating <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> object from molecule SMILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Coulomb-Matrix">Coulomb Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Fingerprints-from-RDKit">Fingerprints from RDKit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Molecule-tensors-from-chemml.chem.Molecule-objects">Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Descriptors-from-RDKit">Descriptors from RDKit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Descriptors-from-Mordred">Descriptors from Mordred</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#3D-Descriptors-from-Mordred">3D Descriptors from Mordred</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#3D-Descriptors-from-Mordred">3D Descriptors from Mordred</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Descriptors-from-PaDELPy">Descriptors from PaDELPy</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#Descriptors-from-PaDELPy">Descriptors from PaDELPy</a></li>
 </ul>
 </li>
 </ul>
@@ -127,7 +125,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -141,16 +139,17 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing an existing dataset from ChemML</span>
 <span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dragon_subset</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
 <span class="n">mol_objs_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">[</span><span class="s1">&#39;smiles&#39;</span><span class="p">]:</span>
-    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
-    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
-    <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">[</span><span class="s1">'smiles'</span><span class="p">]:</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">'MMFF'</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">'MMFF94s'</span><span class="p">)</span>
     <span class="n">mol_objs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</section>
 <section id="Coulomb-Matrix">
-<h3><a class="reference external" href="https://doi.org/10.1103/PhysRevLett.108.058301">Coulomb Matrix</a><a class="headerlink" href="#Coulomb-Matrix" title="Link to this heading"></a></h3>
+<h2><a class="reference external" href="https://doi.org/10.1103/PhysRevLett.108.058301">Coulomb Matrix</a><a class="headerlink" href="#Coulomb-Matrix" title="Link to this heading"></a></h2>
 <p>Simple molecular descriptor which mimics the electro-static interaction between nuclei.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -159,48 +158,197 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoulombMatrix</span>
 
 <span class="c1">#The coulomb matrix type can be sorted (SC), unsorted(UM), unsorted triangular(UT), eigen spectrum(E), or random (RC)</span>
-<span class="n">CM</span> <span class="o">=</span> <span class="n">CoulombMatrix</span><span class="p">(</span><span class="n">cm_type</span><span class="o">=</span><span class="s1">&#39;SC&#39;</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">CM</span> <span class="o">=</span> <span class="n">CoulombMatrix</span><span class="p">(</span><span class="n">cm_type</span><span class="o">=</span><span class="s1">'SC'</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">features</span> <span class="o">=</span> <span class="n">CM</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 featurizing molecules in batches of 31 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">30s</span> 60ms/step
+500/500 [==================================================] - 11s 21ms/step
 Merging batch features ...    [DONE]
-         0          1           2          3          4           5     \
-0  388.023441  72.409289  388.023441  49.814801  70.880915  388.023441
-1   73.516695  14.960583   73.516695  12.181378  15.302628   53.358707
-2  388.023441  11.749276   73.516695  40.563264   5.582635   53.358707
-3  388.023441  72.492805  388.023441  48.345061  39.989036   73.516695
-4  388.023441  30.680525  388.023441  21.739042  21.151124   73.516695
-
-        6          7          8          9     ...  1643  1644  1645  1646  \
-0  43.493377  29.659975  22.280869  53.358707  ...   0.0   0.0   0.0   0.0
-1  20.835288   8.040554   7.380430  53.358707  ...   0.0   0.0   0.0   0.0
-2  24.754692   7.173281  20.174207  53.358707  ...   0.0   0.0   0.0   0.0
-3  28.398128  20.462807  13.932923  73.516695  ...   0.0   0.0   0.0   0.0
-4  28.888787  16.325814  12.977799  53.358707  ...   0.0   0.0   0.0   0.0
-
-   1647  1648  1649  1650  1651  1652
-0   0.0   0.0   0.0   0.0   0.0   0.0
-1   0.0   0.0   0.0   0.0   0.0   0.0
-2   0.0   0.0   0.0   0.0   0.0   0.0
-3   0.0   0.0   0.0   0.0   0.0   0.0
-4   0.0   0.0   0.0   0.0   0.0   0.0
-
-[5 rows x 1653 columns]
 </pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>1643</th>
+      <th>1644</th>
+      <th>1645</th>
+      <th>1646</th>
+      <th>1647</th>
+      <th>1648</th>
+      <th>1649</th>
+      <th>1650</th>
+      <th>1651</th>
+      <th>1652</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>388.023441</td>
+      <td>72.409291</td>
+      <td>388.023441</td>
+      <td>49.814751</td>
+      <td>70.881016</td>
+      <td>388.023441</td>
+      <td>43.493371</td>
+      <td>29.659901</td>
+      <td>22.280919</td>
+      <td>53.358707</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>73.516695</td>
+      <td>14.960493</td>
+      <td>73.516695</td>
+      <td>12.181409</td>
+      <td>15.302646</td>
+      <td>53.358707</td>
+      <td>20.835127</td>
+      <td>8.040502</td>
+      <td>7.380458</td>
+      <td>53.358707</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>388.023441</td>
+      <td>10.095779</td>
+      <td>73.516695</td>
+      <td>40.531118</td>
+      <td>5.583446</td>
+      <td>53.358707</td>
+      <td>21.559163</td>
+      <td>7.172857</td>
+      <td>20.141293</td>
+      <td>53.358707</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>388.023441</td>
+      <td>72.492835</td>
+      <td>388.023441</td>
+      <td>48.345064</td>
+      <td>39.988956</td>
+      <td>73.516695</td>
+      <td>28.398112</td>
+      <td>20.462810</td>
+      <td>13.932927</td>
+      <td>73.516695</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>388.023441</td>
+      <td>32.939514</td>
+      <td>388.023441</td>
+      <td>20.776038</td>
+      <td>19.839362</td>
+      <td>73.516695</td>
+      <td>18.287313</td>
+      <td>28.898187</td>
+      <td>12.782574</td>
+      <td>53.358707</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 1653 columns</p>
+</div></div>
 </div>
 </section>
 <section id="Fingerprints-from-RDKit">
-<h3><a class="reference external" href="https://www.rdkit.org/">Fingerprints from RDKit</a><a class="headerlink" href="#Fingerprints-from-RDKit" title="Link to this heading"></a></h3>
+<h2><a class="reference external" href="https://www.rdkit.org/">Fingerprints from RDKit</a><a class="headerlink" href="#Fingerprints-from-RDKit" title="Link to this heading"></a></h2>
 <p>Molecular fingerprints are a way of encoding the structure of a molecule. The most common type of fingerprint is a series of binary digits (bits) that represent the presence or absence of particular substructures in the molecule. Comparing fingerprints allows you to determine the similarity between two molecules, to find matches to a query substructure, etc.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -208,38 +356,195 @@ Merging batch features ...    [DONE]
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">RDKitFingerprint</span>
 
-<span class="c1"># RDKit fingerprint types: &#39;morgan&#39;, &#39;hashed_topological_torsion&#39; or &#39;htt&#39; , &#39;MACCS&#39; or &#39;maccs&#39;, &#39;hashed_atom_pair&#39; or &#39;hap&#39;</span>
-<span class="n">morgan_fp</span> <span class="o">=</span> <span class="n">RDKitFingerprint</span><span class="p">(</span><span class="n">fingerprint_type</span><span class="o">=</span><span class="s1">&#39;morgan&#39;</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="s1">&#39;bit&#39;</span><span class="p">,</span> <span class="n">n_bits</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># RDKit fingerprint types: 'morgan', 'hashed_topological_torsion' or 'htt' , 'MACCS' or 'maccs', 'hashed_atom_pair' or 'hap'</span>
+<span class="n">morgan_fp</span> <span class="o">=</span> <span class="n">RDKitFingerprint</span><span class="p">(</span><span class="n">fingerprint_type</span><span class="o">=</span><span class="s1">'morgan'</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="s1">'bit'</span><span class="p">,</span> <span class="n">n_bits</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">morgan_fp</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Generating Morgan Fingerprints: 100%|██████████| 500/500 [00:00&lt;00:00, 5901.04molecule/s]
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-   0     1     2     3     4     5     6     7     8     9     ...  1014  \
-0     0     0     0     0     0     0     1     0     0     0  ...     0
-1     0     0     0     0     0     0     0     0     0     0  ...     0
-2     0     0     0     0     0     0     0     0     0     0  ...     0
-3     0     0     0     0     0     0     1     0     0     0  ...     0
-4     0     0     0     1     0     0     0     0     1     0  ...     0
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-   1015  1016  1017  1018  1019  1020  1021  1022  1023
-0     0     0     0     0     1     0     0     0     0
-1     0     0     0     0     0     0     0     0     0
-2     0     0     0     0     0     0     0     0     0
-3     0     0     0     0     0     0     0     0     0
-4     0     0     0     0     1     0     1     0     0
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-[5 rows x 1024 columns]
-</pre></div></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>1014</th>
+      <th>1015</th>
+      <th>1016</th>
+      <th>1017</th>
+      <th>1018</th>
+      <th>1019</th>
+      <th>1020</th>
+      <th>1021</th>
+      <th>1022</th>
+      <th>1023</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 1024 columns</p>
+</div></div>
 </div>
 </section>
 <section id="Molecule-tensors-from-chemml.chem.Molecule-objects">
-<h3>Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects<a class="headerlink" href="#Molecule-tensors-from-chemml.chem.Molecule-objects" title="Link to this heading"></a></h3>
+<h2>Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects<a class="headerlink" href="#Molecule-tensors-from-chemml.chem.Molecule-objects" title="Link to this heading"></a></h2>
 <p>Molecule tensors can be used to create neural graph fingerprints using <code class="docutils literal notranslate"><span class="pre">chemml.models</span></code></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -256,7 +561,7 @@ Merging batch features ...    [DONE]
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Tensorising molecules in batches of 100 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">15s</span> 29ms/step
+<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">12s</span> 24ms/step
 Merging batch tensors ...    [DONE]
 </pre></div></div>
 </div>
@@ -264,9 +569,9 @@ Merging batch tensors ...    [DONE]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix for atom features (num_molecules, max_atoms, num_atom_features):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix for connectivity between atoms (num_molecules, max_atoms, max_degree):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_features):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">bonds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Matrix for atom features (num_molecules, max_atoms, num_atom_features):</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Matrix for connectivity between atoms (num_molecules, max_atoms, max_degree):</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_features):</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">bonds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -285,7 +590,7 @@ Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_feature
 </div>
 </section>
 <section id="Descriptors-from-RDKit">
-<h3><a class="reference external" href="https://www.rdkit.org/docs/source/rdkit.Chem.Descriptors.html">Descriptors from RDKit</a><a class="headerlink" href="#Descriptors-from-RDKit" title="Link to this heading"></a></h3>
+<h2><a class="reference external" href="https://www.rdkit.org/docs/source/rdkit.Chem.Descriptors.html">Descriptors from RDKit</a><a class="headerlink" href="#Descriptors-from-RDKit" title="Link to this heading"></a></h2>
 <p>Comprehensive set of molecular descriptors calculated using RDKit. Includes topological, geometrical, electronic, and constitutional properties. Efficient calculation for large datasets. Flexible selection of specific or all descriptors via the RDKDesc class declaration. Integrates with other RDKit functions and Python workflows.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -295,7 +600,7 @@ Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_feature
 
 <span class="n">rdd</span> <span class="o">=</span> <span class="n">RDKDesc</span><span class="p">()</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">rdd</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -304,55 +609,183 @@ Matrix for bond features (num_molecules, max_atoms, max_degree, num_bond_feature
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Calculating RDKit descriptors:   0%|          | 0/500 [00:00&lt;?, ?it/s]Calculating RDKit descriptors: 100%|██████████| 500/500 [00:04&lt;00:00, 124.14it/s]
+Calculating RDKit descriptors: 100%|██████████| 500/500 [00:02&lt;00:00, 248.34it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-   MaxAbsEStateIndex  MaxEStateIndex  MinAbsEStateIndex  MinEStateIndex  \
-0           8.638741        8.638741           0.039513       -3.852793
-1           8.193508        8.193508           0.286175       -0.599619
-2           8.666998        8.666998           0.049406       -3.394321
-3           8.032986        8.032986           0.013750       -2.742153
-4           9.189644        9.189644           0.166504       -3.306171
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-        qed        SPS    MolWt  HeavyAtomMolWt  ExactMolWt  \
-0  0.816913  70.705882  285.503         266.351  285.067963
-1  0.735869  16.444444  240.222         232.158  240.064725
-2  0.801905  32.818182  313.386         298.266  313.099731
-3  0.749729  51.384615  218.299         208.219  218.007136
-4  0.772983  38.095238  319.415         306.311  319.056152
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-   NumValenceElectrons  ...  fr_sulfonamd  fr_sulfone  fr_term_acetylene  \
-0                   94  ...             0           0                  0
-1                   88  ...             0           0                  0
-2                  112  ...             0           0                  0
-3                   72  ...             0           0                  0
-4                  108  ...             0           0                  0
-
-   fr_tetrazole  fr_thiazole  fr_thiocyan  fr_thiophene  fr_unbrch_alkane  \
-0             0            1            0             0                 0
-1             0            0            0             0                 0
-2             0            1            0             0                 0
-3             0            0            0             0                 0
-4             0            2            0             0                 0
-
-   fr_urea                                 SMILES
-0        0              c1nc(C2CSCCS2)sc1CC1CCCC1
-1        0           Oc1nccnc1-c1coc(-c2cnccn2)c1
-2        0  c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1
-3        0                    Oc1occc1C1(O)CSCCS1
-4        0       c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1
-
-[5 rows x 218 columns]
-</pre></div></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MaxAbsEStateIndex</th>
+      <th>MaxEStateIndex</th>
+      <th>MinAbsEStateIndex</th>
+      <th>MinEStateIndex</th>
+      <th>qed</th>
+      <th>SPS</th>
+      <th>MolWt</th>
+      <th>HeavyAtomMolWt</th>
+      <th>ExactMolWt</th>
+      <th>NumValenceElectrons</th>
+      <th>...</th>
+      <th>fr_sulfonamd</th>
+      <th>fr_sulfone</th>
+      <th>fr_term_acetylene</th>
+      <th>fr_tetrazole</th>
+      <th>fr_thiazole</th>
+      <th>fr_thiocyan</th>
+      <th>fr_thiophene</th>
+      <th>fr_unbrch_alkane</th>
+      <th>fr_urea</th>
+      <th>SMILES</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8.638741</td>
+      <td>8.638741</td>
+      <td>0.039513</td>
+      <td>-3.852793</td>
+      <td>0.816913</td>
+      <td>70.705882</td>
+      <td>285.503</td>
+      <td>266.351</td>
+      <td>285.067963</td>
+      <td>94</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>c1nc(C2CSCCS2)sc1CC1CCCC1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8.193508</td>
+      <td>8.193508</td>
+      <td>0.286175</td>
+      <td>-0.599619</td>
+      <td>0.735869</td>
+      <td>16.444444</td>
+      <td>240.222</td>
+      <td>232.158</td>
+      <td>240.064725</td>
+      <td>88</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Oc1nccnc1-c1coc(-c2cnccn2)c1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8.666998</td>
+      <td>8.666998</td>
+      <td>0.049406</td>
+      <td>-3.394321</td>
+      <td>0.801905</td>
+      <td>32.818182</td>
+      <td>313.386</td>
+      <td>298.266</td>
+      <td>313.099731</td>
+      <td>112</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8.032986</td>
+      <td>8.032986</td>
+      <td>0.013750</td>
+      <td>-2.742153</td>
+      <td>0.749729</td>
+      <td>51.384615</td>
+      <td>218.299</td>
+      <td>208.219</td>
+      <td>218.007136</td>
+      <td>72</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Oc1occc1C1(O)CSCCS1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9.189644</td>
+      <td>9.189644</td>
+      <td>0.166504</td>
+      <td>-3.306171</td>
+      <td>0.772983</td>
+      <td>38.095238</td>
+      <td>319.415</td>
+      <td>306.311</td>
+      <td>319.056152</td>
+      <td>108</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 218 columns</p>
+</div></div>
 </div>
 </section>
 <section id="Descriptors-from-Mordred">
-<h3><a class="reference external" href="https://github.com/mordred-descriptor/mordred">Descriptors from Mordred</a><a class="headerlink" href="#Descriptors-from-Mordred" title="Link to this heading"></a></h3>
+<h2><a class="reference external" href="https://github.com/mordred-descriptor/mordred">Descriptors from Mordred</a><a class="headerlink" href="#Descriptors-from-Mordred" title="Link to this heading"></a></h2>
 <p>Note: This function requires Mordred to be installed from the link.</p>
 <p>Mordred molecular descriptors are an open-source alternative to Dragon/RDKit descriptors. This library can generate up to 1800+ descriptors, in comparison to Dragon’s 5200+ and RDKit’s 200.</p>
 <div class="nbinput docutils container">
@@ -363,7 +796,201 @@ Calculating RDKit descriptors:   0%|          | 0/500 [00:00&lt;?, ?it/s]Calcula
 
 <span class="n">mord</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">()</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">mord</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Normalizing Molecule input: 100%|██████████| 500/500 [00:00&lt;00:00, 283437.22it/s]
+100%|██████████| 500/500 [00:15&lt;00:00, 32.49it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ABC</th>
+      <th>ABCGG</th>
+      <th>nAcid</th>
+      <th>nBase</th>
+      <th>SpAbs_A</th>
+      <th>SpMax_A</th>
+      <th>SpDiam_A</th>
+      <th>SpAD_A</th>
+      <th>SpMAD_A</th>
+      <th>LogEE_A</th>
+      <th>...</th>
+      <th>TSRW10</th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>WPath</th>
+      <th>WPol</th>
+      <th>Zagreb1</th>
+      <th>Zagreb2</th>
+      <th>mZagreb1</th>
+      <th>mZagreb2</th>
+      <th>SMILES</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13.394589</td>
+      <td>11.392017</td>
+      <td>0</td>
+      <td>0</td>
+      <td>22.998278</td>
+      <td>2.356990</td>
+      <td>4.586123</td>
+      <td>22.998278</td>
+      <td>1.352840</td>
+      <td>3.780704</td>
+      <td>...</td>
+      <td>64.739856</td>
+      <td>285.067963</td>
+      <td>7.918555</td>
+      <td>564</td>
+      <td>19</td>
+      <td>88.0</td>
+      <td>101.0</td>
+      <td>3.694444</td>
+      <td>3.777778</td>
+      <td>c1nc(C2CSCCS2)sc1CC1CCCC1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>14.130205</td>
+      <td>11.712802</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24.114905</td>
+      <td>2.401132</td>
+      <td>4.700060</td>
+      <td>24.114905</td>
+      <td>1.339717</td>
+      <td>3.834684</td>
+      <td>...</td>
+      <td>64.604946</td>
+      <td>240.064725</td>
+      <td>9.233259</td>
+      <td>624</td>
+      <td>25</td>
+      <td>94.0</td>
+      <td>110.0</td>
+      <td>4.555556</td>
+      <td>4.000000</td>
+      <td>Oc1nccnc1-c1coc(-c2cnccn2)c1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>17.556349</td>
+      <td>13.858237</td>
+      <td>0</td>
+      <td>1</td>
+      <td>30.133660</td>
+      <td>2.388743</td>
+      <td>4.753098</td>
+      <td>30.133660</td>
+      <td>1.369712</td>
+      <td>4.046753</td>
+      <td>...</td>
+      <td>71.264318</td>
+      <td>313.099731</td>
+      <td>8.462155</td>
+      <td>1142</td>
+      <td>30</td>
+      <td>118.0</td>
+      <td>139.0</td>
+      <td>4.666667</td>
+      <td>4.833333</td>
+      <td>c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10.065754</td>
+      <td>9.496809</td>
+      <td>0</td>
+      <td>0</td>
+      <td>16.550756</td>
+      <td>2.429396</td>
+      <td>4.799667</td>
+      <td>16.550756</td>
+      <td>1.273135</td>
+      <td>3.507942</td>
+      <td>...</td>
+      <td>58.294869</td>
+      <td>218.007136</td>
+      <td>9.478571</td>
+      <td>226</td>
+      <td>18</td>
+      <td>68.0</td>
+      <td>80.0</td>
+      <td>4.284722</td>
+      <td>2.861111</td>
+      <td>Oc1occc1C1(O)CSCCS1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16.768362</td>
+      <td>14.962063</td>
+      <td>0</td>
+      <td>2</td>
+      <td>28.597221</td>
+      <td>2.464180</td>
+      <td>4.847996</td>
+      <td>28.597221</td>
+      <td>1.361772</td>
+      <td>4.008031</td>
+      <td>...</td>
+      <td>71.560531</td>
+      <td>319.056152</td>
+      <td>9.384004</td>
+      <td>870</td>
+      <td>29</td>
+      <td>114.0</td>
+      <td>137.0</td>
+      <td>4.416667</td>
+      <td>4.638889</td>
+      <td>c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 1390 columns</p>
+</div></div>
+</div>
+<section id="3D-Descriptors-from-Mordred">
+<h3>3D Descriptors from Mordred<a class="headerlink" href="#3D-Descriptors-from-Mordred" title="Link to this heading"></a></h3>
+<p>Mordred requires explicit initialization to calculate 3D descriptors. Since XYZ geometry already exists, the generator will skip optimization unless specified.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mord_3d</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">(</span><span class="n">ignore_3D</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">features_3d</span> <span class="o">=</span> <span class="n">mord_3d</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features_3d</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -373,95 +1000,185 @@ Calculating RDKit descriptors:   0%|          | 0/500 [00:00&lt;?, ?it/s]Calcula
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 Normalizing Molecule input: 100%|██████████| 500/500 [00:00&lt;?, ?it/s]
-100%|██████████| 500/500 [00:18&lt;00:00, 26.51it/s]
+Optimizing 3D geometries:   0%|          | 0/500 [00:00&lt;?, ?it/s]Optimizing 3D geometries: 100%|██████████| 500/500 [00:29&lt;00:00, 16.79it/s]
+100%|██████████| 500/500 [00:19&lt;00:00, 25.94it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-   nAcid  nBase    SpAbs_A   SpMax_A  SpDiam_A     SpAD_A   SpMAD_A   LogEE_A  \
-0      0      0  22.998278  2.356990  4.586123  22.998278  1.352840  3.780704
-1      0      0  24.114905  2.401132  4.700060  24.114905  1.339717  3.834684
-2      0      1  30.133660  2.388743  4.753098  30.133660  1.369712  4.046753
-3      0      0  16.550756  2.429396  4.799667  16.550756  1.273135  3.507942
-4      0      2  28.597221  2.464180  4.847996  28.597221  1.361772  4.008031
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-          SM1_A     VE1_A  ...     TSRW10          MW       AMW  WPath  WPol  \
-0 -5.218048e-15  3.771227  ...  64.739856  285.067963  7.918555    564    19
-1  8.215650e-15  3.859715  ...  64.604946  240.064725  9.233259    624    25
-2 -1.232348e-14  4.414919  ...  71.264318  313.099731  8.462155   1142    30
-3  6.328271e-15  3.324299  ...  58.294869  218.007136  9.478571    226    18
-4 -1.554312e-15  4.162396  ...  71.560531  319.056152  9.384004    870    29
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-   Zagreb1  Zagreb2  mZagreb1  mZagreb2                                 SMILES
-0     88.0    101.0  3.694444  3.777778              c1nc(C2CSCCS2)sc1CC1CCCC1
-1     94.0    110.0  4.555556  4.000000           Oc1nccnc1-c1coc(-c2cnccn2)c1
-2    118.0    139.0  4.666667  4.833333  c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1
-3     68.0     80.0  4.284722  2.861111                    Oc1occc1C1(O)CSCCS1
-4    114.0    137.0  4.416667  4.638889       c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1
-
-[5 rows x 1373 columns]
-</pre></div></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ABC</th>
+      <th>ABCGG</th>
+      <th>nAcid</th>
+      <th>nBase</th>
+      <th>SpAbs_A</th>
+      <th>SpMax_A</th>
+      <th>SpDiam_A</th>
+      <th>SpAD_A</th>
+      <th>SpMAD_A</th>
+      <th>LogEE_A</th>
+      <th>...</th>
+      <th>TSRW10</th>
+      <th>MW</th>
+      <th>AMW</th>
+      <th>WPath</th>
+      <th>WPol</th>
+      <th>Zagreb1</th>
+      <th>Zagreb2</th>
+      <th>mZagreb1</th>
+      <th>mZagreb2</th>
+      <th>SMILES</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>13.394589</td>
+      <td>11.392017</td>
+      <td>0</td>
+      <td>0</td>
+      <td>22.998278</td>
+      <td>2.356990</td>
+      <td>4.586123</td>
+      <td>22.998278</td>
+      <td>1.352840</td>
+      <td>3.780704</td>
+      <td>...</td>
+      <td>64.739856</td>
+      <td>285.067963</td>
+      <td>7.918555</td>
+      <td>564</td>
+      <td>19</td>
+      <td>88.0</td>
+      <td>101.0</td>
+      <td>3.694444</td>
+      <td>3.777778</td>
+      <td>c1nc(C2CSCCS2)sc1CC1CCCC1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>14.130205</td>
+      <td>11.712802</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24.114905</td>
+      <td>2.401132</td>
+      <td>4.700060</td>
+      <td>24.114905</td>
+      <td>1.339717</td>
+      <td>3.834684</td>
+      <td>...</td>
+      <td>64.604946</td>
+      <td>240.064725</td>
+      <td>9.233259</td>
+      <td>624</td>
+      <td>25</td>
+      <td>94.0</td>
+      <td>110.0</td>
+      <td>4.555556</td>
+      <td>4.000000</td>
+      <td>Oc1nccnc1-c1coc(-c2cnccn2)c1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>17.556349</td>
+      <td>13.858237</td>
+      <td>0</td>
+      <td>1</td>
+      <td>30.133660</td>
+      <td>2.388743</td>
+      <td>4.753098</td>
+      <td>30.133660</td>
+      <td>1.369712</td>
+      <td>4.046753</td>
+      <td>...</td>
+      <td>71.264318</td>
+      <td>313.099731</td>
+      <td>8.462155</td>
+      <td>1142</td>
+      <td>30</td>
+      <td>118.0</td>
+      <td>139.0</td>
+      <td>4.666667</td>
+      <td>4.833333</td>
+      <td>c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10.065754</td>
+      <td>9.496809</td>
+      <td>0</td>
+      <td>0</td>
+      <td>16.550756</td>
+      <td>2.429396</td>
+      <td>4.799667</td>
+      <td>16.550756</td>
+      <td>1.273135</td>
+      <td>3.507942</td>
+      <td>...</td>
+      <td>58.294869</td>
+      <td>218.007136</td>
+      <td>9.478571</td>
+      <td>226</td>
+      <td>18</td>
+      <td>68.0</td>
+      <td>80.0</td>
+      <td>4.284722</td>
+      <td>2.861111</td>
+      <td>Oc1occc1C1(O)CSCCS1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16.768362</td>
+      <td>14.962063</td>
+      <td>0</td>
+      <td>2</td>
+      <td>28.597221</td>
+      <td>2.464180</td>
+      <td>4.847996</td>
+      <td>28.597221</td>
+      <td>1.361772</td>
+      <td>4.008031</td>
+      <td>...</td>
+      <td>71.560531</td>
+      <td>319.056152</td>
+      <td>9.384004</td>
+      <td>870</td>
+      <td>29</td>
+      <td>114.0</td>
+      <td>137.0</td>
+      <td>4.416667</td>
+      <td>4.638889</td>
+      <td>c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 1603 columns</p>
+</div></div>
 </div>
 </section>
 </section>
-<section id="3D-Descriptors-from-Mordred">
-<h2>3D Descriptors from Mordred<a class="headerlink" href="#3D-Descriptors-from-Mordred" title="Link to this heading"></a></h2>
-<p>Mordred requires explicit initialization to calculate 3D descriptors. Since XYZ geometry already exists, the generator will skip optimization unless specified.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mord_3d</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">(</span><span class="n">ignore_3D</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">features_3d</span> <span class="o">=</span> <span class="n">mord_3d</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features_3d</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Normalizing Molecule input: 100%|██████████| 500/500 [00:00&lt;00:00, 502673.06it/s]
-Optimizing 3D geometries:   0%|          | 0/500 [00:00&lt;?, ?it/s]Optimizing 3D geometries: 100%|██████████| 500/500 [00:21&lt;00:00, 23.11it/s]
-100%|██████████| 500/500 [00:28&lt;00:00, 17.58it/s]
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-   nAcid  nBase    SpAbs_A   SpMax_A  SpDiam_A     SpAD_A   SpMAD_A   LogEE_A  \
-0      0      0  22.998278  2.356990  4.586123  22.998278  1.352840  3.780704
-1      0      0  24.114905  2.401132  4.700060  24.114905  1.339717  3.834684
-2      0      1  30.133660  2.388743  4.753098  30.133660  1.369712  4.046753
-3      0      0  16.550756  2.429396  4.799667  16.550756  1.273135  3.507942
-4      0      2  28.597221  2.464180  4.847996  28.597221  1.361772  4.008031
-
-          SM1_A     VE1_A  ...     TSRW10          MW       AMW  WPath  WPol  \
-0 -5.218048e-15  3.771227  ...  64.739856  285.067963  7.918555    564    19
-1  8.215650e-15  3.859715  ...  64.604946  240.064725  9.233259    624    25
-2 -1.232348e-14  4.414919  ...  71.264318  313.099731  8.462155   1142    30
-3  6.328271e-15  3.324299  ...  58.294869  218.007136  9.478571    226    18
-4 -1.554312e-15  4.162396  ...  71.560531  319.056152  9.384004    870    29
-
-   Zagreb1  Zagreb2  mZagreb1  mZagreb2                                 SMILES
-0     88.0    101.0  3.694444  3.777778              c1nc(C2CSCCS2)sc1CC1CCCC1
-1     94.0    110.0  4.555556  4.000000           Oc1nccnc1-c1coc(-c2cnccn2)c1
-2    118.0    139.0  4.666667  4.833333  c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1
-3     68.0     80.0  4.284722  2.861111                    Oc1occc1C1(O)CSCCS1
-4    114.0    137.0  4.416667  4.638889       c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1
-
-[5 rows x 1425 columns]
-</pre></div></div>
-</div>
 <section id="Descriptors-from-PaDELPy">
-<h3><a class="reference external" href="https://pypi.org/project/padelpy/">Descriptors from PaDELPy</a><a class="headerlink" href="#Descriptors-from-PaDELPy" title="Link to this heading"></a></h3>
+<h2><a class="reference external" href="https://pypi.org/project/padelpy/">Descriptors from PaDELPy</a><a class="headerlink" href="#Descriptors-from-PaDELPy" title="Link to this heading"></a></h2>
 <p>Note: This function requires PaDELPy and JRE 6+ to be installed from the link.</p>
 <p>PaDEL-Descriptor: Open-source software for calculating molecular descriptors and fingerprints. Computes 797 descriptors (663 1D/2D, 134 3D) and 10 fingerprint types. Uses Chemistry Development Kit and custom implementations. Offers GUI and CLI, supports multiple file formats, and enables multithreading for efficient calculations.</p>
 <div class="nbinput docutils container">
@@ -472,43 +1189,184 @@ Optimizing 3D geometries:   0%|          | 0/500 [00:00&lt;?, ?it/s]Optimizing 3
 
 <span class="n">padel</span> <span class="o">=</span> <span class="n">PadelDesc</span><span class="p">()</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">padel</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">mol_objs_list</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">features</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-  nAcid                ALogP                 ALogp2                 AMR  \
-0     0   1.4476999999999995      2.095835289999999  63.309999999999995
-1     0  -0.6144000000000001    0.37748736000000005              4.1837
-2     0  0.05900000000000016  0.0034810000000000192  31.210299999999997
-3     0  0.16129999999999978   0.026017689999999927  38.772499999999994
-4     0   0.3426999999999998    0.11744328999999985  38.349399999999996
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-                 apol naAromAtom nAromBond nAtom nHeavyAtom  nH  ... P2s E1s  \
-0   45.34906699999998          5         5    36         17  19  ...
-1           32.458344         17        19    26         18   8  ...
-2   45.60389499999999         16        17    37         22  15  ...
-3  28.953929999999986          5         5    23         13  10  ...
-4  43.650308999999986         15        16    34         21  13  ...
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-  E2s E3s Ts As Vs Ks Ds                                 SMILES
-0                                     c1nc(C2CSCCS2)sc1CC1CCCC1
-1                                  Oc1nccnc1-c1coc(-c2cnccn2)c1
-2                         c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1
-3                                           Oc1occc1C1(O)CSCCS1
-4                              c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1
-
-[5 rows x 1876 columns]
-</pre></div></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nAcid</th>
+      <th>ALogP</th>
+      <th>ALogp2</th>
+      <th>AMR</th>
+      <th>apol</th>
+      <th>naAromAtom</th>
+      <th>nAromBond</th>
+      <th>nAtom</th>
+      <th>nHeavyAtom</th>
+      <th>nH</th>
+      <th>...</th>
+      <th>P2s</th>
+      <th>E1s</th>
+      <th>E2s</th>
+      <th>E3s</th>
+      <th>Ts</th>
+      <th>As</th>
+      <th>Vs</th>
+      <th>Ks</th>
+      <th>Ds</th>
+      <th>SMILES</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1.4476999999999995</td>
+      <td>2.095835289999999</td>
+      <td>63.309999999999995</td>
+      <td>45.34906699999998</td>
+      <td>5</td>
+      <td>5</td>
+      <td>36</td>
+      <td>17</td>
+      <td>19</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>c1nc(C2CSCCS2)sc1CC1CCCC1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>-0.6144000000000001</td>
+      <td>0.37748736000000005</td>
+      <td>4.1837</td>
+      <td>32.458344</td>
+      <td>17</td>
+      <td>19</td>
+      <td>26</td>
+      <td>18</td>
+      <td>8</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Oc1nccnc1-c1coc(-c2cnccn2)c1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0.05900000000000016</td>
+      <td>0.0034810000000000192</td>
+      <td>31.210299999999997</td>
+      <td>45.60389499999999</td>
+      <td>16</td>
+      <td>17</td>
+      <td>37</td>
+      <td>22</td>
+      <td>15</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>c1cc(-c2ccc(N3CNCN(c4cncs4)C3)nc2)co1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0.16129999999999978</td>
+      <td>0.026017689999999927</td>
+      <td>38.772499999999994</td>
+      <td>28.953929999999986</td>
+      <td>5</td>
+      <td>5</td>
+      <td>23</td>
+      <td>13</td>
+      <td>10</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Oc1occc1C1(O)CSCCS1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0.3426999999999998</td>
+      <td>0.11744328999999985</td>
+      <td>38.349399999999996</td>
+      <td>43.650308999999986</td>
+      <td>15</td>
+      <td>16</td>
+      <td>34</td>
+      <td>21</td>
+      <td>13</td>
+      <td>...</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>c1nc(-c2cocc2C2NCNCN2c2cscn2)cs1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 1876 columns</p>
+</div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script></section>
-</section>
 </section>
 
 
@@ -522,7 +1380,7 @@ Optimizing 3D geometries:   0%|          | 0/500 [00:00&lt;?, ?it/s]Optimizing 3
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -17,7 +17,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -77,6 +77,7 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Models module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.models.NeuralGraphFingerprint"><code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.models.NeuralGraphHidden"><code class="docutils literal notranslate"><span class="pre">NeuralGraphHidden</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.models.NeuralGraphOutput"><code class="docutils literal notranslate"><span class="pre">NeuralGraphOutput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.models.TransferLearning"><code class="docutils literal notranslate"><span class="pre">TransferLearning</span></code></a></li>
@@ -122,7 +123,7 @@
 <p id="module-chemml.models">The chemml.models.keras module includes (please click on links adjacent to function names for more information):</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.MLP">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">MLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nneurons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nepochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nclasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sgd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">112</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">MLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfeatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nneurons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nepochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nclasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noutputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sgd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">112</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_batching</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.MLP" title="Link to this definition"></a></dt>
 <dd><p>Class associated with Multi-Layer Perceptron (Neural Network)</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
@@ -157,6 +158,10 @@ Refer <a class="reference external" href="https://pytorch.org/docs/stable/nn.htm
 </dd>
 <dt>nclasses: int, optional, default: None</dt><dd><p>Number of classes labels needs to be specified if regression is False</p>
 </dd>
+<dt>noutputs: int, optional, default: 1</dt><dd><p>Number of output nodes. Only used when is_regression is True.
+For multi-output regression, set this to the desired number of outputs.
+For classification, output count is determined by nclasses.</p>
+</dd>
 <dt>layer_config_file: str, optional, default: None</dt><dd><p>Path to the file that specifies layer configuration
 Refer MLP test to see a sample file
 Note: this variable SHOULD be consolidated with the layers variable to reduce redundancy</p>
@@ -172,6 +177,13 @@ If list, should provide exact configurations and parameters corresponding to the
 <dl class="simple">
 <dt>verbose: bool, optional, default: None</dt><dd><p>Determines whether TensorFlow models print train loss every epoch
 Mainly used to make AutoML outputs easier to read.</p>
+</dd>
+<dt>device: str, optional, default: None</dt><dd><p>PyTorch engine only. None or ‘cpu’ runs on the CPU, ‘auto’ uses a GPU if available,
+‘cuda’ or ‘cuda:N’ requests a specific GPU (works for both CUDA and ROCm builds of PyTorch).
+TensorFlow uses any visible GPU automatically.</p>
+</dd>
+<dt>use_batching: bool, optional, default: False</dt><dd><p>PyTorch engine only. If True, transfers each mini-batch to the target device instead
+of moving the full training dataset there before fitting.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -253,6 +265,194 @@ tensorflow.python.keras object</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphFingerprint">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conv_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_activations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'relu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp_activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'softmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphFingerprint" title="Link to this definition"></a></dt>
+<dd><p>Neural graph fingerprint model with engine selection.</p>
+<p>Generates fixed-size molecular fingerprints using graph neural networks.
+Supports lazy model building and automatic multi-output detection.</p>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>engine<span class="classifier">str</span></dt><dd><p>‘tensorflow’ or ‘pytorch’</p>
+</dd>
+<dt>conv_width<span class="classifier">int, optional</span></dt><dd><p>Width of convolution layers. Default 8.</p>
+</dd>
+<dt>fp_length<span class="classifier">int, optional</span></dt><dd><p>Fingerprint output dimension. Default 200.</p>
+</dd>
+<dt>n_conv_layers<span class="classifier">int, optional</span></dt><dd><p>Number of convolutional layers. Default 2.</p>
+</dd>
+<dt>hidden_sizes<span class="classifier">list, optional</span></dt><dd><p>Sizes of optional MLP head layers. Default None (no MLP head).</p>
+</dd>
+<dt>hidden_activations<span class="classifier">list, optional</span></dt><dd><p>Activations for MLP head. Default None.</p>
+</dd>
+<dt>conv_activation<span class="classifier">str, optional</span></dt><dd><p>Activation for conv layers. Default ‘relu’.</p>
+</dd>
+<dt>fp_activation<span class="classifier">str, optional</span></dt><dd><p>Activation for fingerprint layers. Default ‘softmax’.</p>
+</dd>
+<dt>epochs<span class="classifier">int, optional</span></dt><dd><p>Training epochs. Default 100.</p>
+</dd>
+<dt>batch_size<span class="classifier">int, optional</span></dt><dd><p>Batch size. Default 32.</p>
+</dd>
+<dt>learning_rate<span class="classifier">float, optional</span></dt><dd><p>Learning rate. Default 0.001.</p>
+</dd>
+<dt>optimizer<span class="classifier">str, optional</span></dt><dd><p>‘adam’ or ‘sgd’. Default ‘adam’.</p>
+</dd>
+<dt>alpha<span class="classifier">float, optional</span></dt><dd><p>L2 regularization weight (PyTorch only). Default 0.001.</p>
+</dd>
+<dt>use_bias<span class="classifier">bool, optional</span></dt><dd><p>Whether to use bias in layers. Default True.</p>
+</dd>
+<dt>verbose<span class="classifier">bool, optional</span></dt><dd><p>Print training progress. Default True.</p>
+</dd>
+<dt>random_seed<span class="classifier">int, optional</span></dt><dd><p>Random seed. Default None.</p>
+</dd>
+<dt>regression<span class="classifier">bool, optional</span></dt><dd><p>If True, model performs regression. If False, multiclass classification.
+Default True.</p>
+</dd>
+<dt>n_classes<span class="classifier">int, optional</span></dt><dd><p>Number of classes for classification (required if regression=False).
+Default None.</p>
+</dd>
+<dt>device<span class="classifier">str, optional</span></dt><dd><p>PyTorch engine only. None/’cpu’, ‘auto’ (GPU if available), ‘cuda’ or ‘cuda:N’
+(works for CUDA and ROCm builds). TensorFlow uses any visible GPU automatically.
+Default None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphFingerprint.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorize_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphFingerprint.fit" title="Link to this definition"></a></dt>
+<dd><p>Train the model.</p>
+<p>Supports both raw molecular inputs and pre-tensorized inputs.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>atoms<span class="classifier">array_like or str/list/Molecule</span></dt><dd><p>Either:
+- Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+- Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules</p>
+</dd>
+<dt>bonds<span class="classifier">array_like, optional</span></dt><dd><p>Bond features if atoms is pre-tensorized.
+Not needed if atoms is raw molecular input.</p>
+</dd>
+<dt>edges<span class="classifier">array_like, optional</span></dt><dd><p>Edge connectivity if atoms is pre-tensorized.
+Not needed if atoms is raw molecular input.</p>
+</dd>
+<dt>y<span class="classifier">array_like</span></dt><dd><p>Target values, shape (n_samples,) for single output or (n_samples, n_outputs) for multi-output</p>
+</dd>
+<dt>tensorize_kwargs<span class="classifier">dict, optional</span></dt><dd><p>Arguments for _tensorize_input when using raw molecular input.
+Supported keys: max_degree, max_atoms, n_jobs, batch_size, verbose.
+Default: {max_degree=5, max_atoms=None, n_jobs=1, batch_size=10, verbose=False}</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>self</p>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<p># Pre-tensorized input (existing workflow)
+ngf.fit(atoms, bonds, edges, y)</p>
+<p># Raw SMILES input (new workflow)
+ngf.fit([‘CC’, ‘CCO’, ‘CCCO’], y=y)</p>
+<p># Raw Molecule objects (new workflow)
+ngf.fit(mol_objs_list, y=y)</p>
+<p># With tensorization options
+ngf.fit(smiles_list, y=y, tensorize_kwargs={‘max_degree’: 5, ‘n_jobs’: -1})</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphFingerprint.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphFingerprint.get_model" title="Link to this definition"></a></dt>
+<dd><p>Return the underlying model object.</p>
+<section id="id9">
+<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">tensorflow.keras.Model or _NeuralGraphNetworkPT</span></dt><dd><p>The underlying model</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphFingerprint.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorize_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphFingerprint.predict" title="Link to this definition"></a></dt>
+<dd><p>Generate predictions.</p>
+<p>Supports both raw molecular inputs and pre-tensorized inputs.</p>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>atoms<span class="classifier">array_like or str/list/Molecule</span></dt><dd><p>Either:
+- Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+- Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules</p>
+</dd>
+<dt>bonds<span class="classifier">array_like, optional</span></dt><dd><p>Bond features if atoms is pre-tensorized.
+Not needed if atoms is raw molecular input.</p>
+</dd>
+<dt>edges<span class="classifier">array_like, optional</span></dt><dd><p>Edge connectivity if atoms is pre-tensorized.
+Not needed if atoms is raw molecular input.</p>
+</dd>
+<dt>tensorize_kwargs<span class="classifier">dict, optional</span></dt><dd><p>Arguments for _tensorize_input when using raw molecular input.
+Supported keys: max_degree, max_atoms, n_jobs, batch_size, verbose.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>predictions<span class="classifier">ndarray</span></dt><dd><p>Predictions, shape (n_samples,) for single output or (n_samples, n_outputs) for multi-output</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Examples<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<p># Pre-tensorized input
+predictions = ngf.predict(atoms_test, bonds_test, edges_test)</p>
+<p># Raw SMILES input
+predictions = ngf.predict([‘CC’, ‘CCO’, ‘CCCO’])</p>
+<p># Raw Molecule objects
+predictions = ngf.predict(mol_objs_test)</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chemml.models.NeuralGraphFingerprint.predict_proba">
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorize_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphFingerprint.predict_proba" title="Link to this definition"></a></dt>
+<dd><p>Get class probabilities.</p>
+<p>Supports both raw molecular inputs and pre-tensorized inputs.</p>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>atoms<span class="classifier">array_like or str/list/Molecule</span></dt><dd><p>Either:
+- Pre-tensorized atom features, shape (n_samples, max_atoms, num_atom_features)
+- Raw molecular input: SMILES string, list of SMILES, Molecule, or list of Molecules</p>
+</dd>
+<dt>bonds<span class="classifier">array_like, optional</span></dt><dd><p>Bond features if atoms is pre-tensorized.</p>
+</dd>
+<dt>edges<span class="classifier">array_like, optional</span></dt><dd><p>Edge connectivity if atoms is pre-tensorized.</p>
+</dd>
+<dt>tensorize_kwargs<span class="classifier">dict, optional</span></dt><dd><p>Arguments for _tensorize_input when using raw molecular input.</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>probabilities<span class="classifier">ndarray</span></dt><dd><p>Class probabilities, shape (n_samples, n_classes)</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If model is regression or not built</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="chemml.models.NeuralGraphHidden">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.models.</span></span><span class="sig-name descname"><span class="pre">NeuralGraphHidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.NeuralGraphHidden" title="Link to this definition"></a></dt>
 <dd><dl>
@@ -271,13 +471,13 @@ conv_width.
 # Example</p>
 <blockquote>
 <div><p>Define the input:
-<a href="#id6"><span class="problematic" id="id7">``</span></a><a href="#id8"><span class="problematic" id="id9">`</span></a>python</p>
+<a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a>python</p>
 <blockquote>
 <div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
 bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
 edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
 </div></blockquote>
-<p><a href="#id10"><span class="problematic" id="id11">``</span></a>`
+<p><a href="#id19"><span class="problematic" id="id20">``</span></a>`
 The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 1. Using an integer <cite>conv_width</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
 <blockquote>
@@ -319,7 +519,7 @@ The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 <p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
 </dd>
 <dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
-<a href="#id12"><span class="problematic" id="id13">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<a href="#id21"><span class="problematic" id="id22">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
 <blockquote>
 <div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
 </div></blockquote>
@@ -343,12 +543,12 @@ The <cite>NeuralGraphHidden</cite> can be initialised in three ways:
 same operation from the config dictionary.</p>
 <p>Note: If you override this method, you might receive a serialized dtype
 config, which is a <cite>dict</cite>. You can deserialize it as follows:</p>
-<p><a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a>python
+<p><a href="#id23"><span class="problematic" id="id24">``</span></a><a href="#id25"><span class="problematic" id="id26">`</span></a>python
 if “dtype” in config and isinstance(config[“dtype”], dict):</p>
 <blockquote>
 <div><p>policy = dtype_policies.deserialize(config[“dtype”])</p>
 </div></blockquote>
-<p><a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p><a href="#id27"><span class="problematic" id="id28">``</span></a><a href="#id29"><span class="problematic" id="id30">`</span></a></p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>config: A Python dictionary, typically the output of <cite>get_config</cite>.</p>
 </dd>
@@ -387,13 +587,13 @@ three tensors.</p>
 need to be summed in the end to come up with the final fingerprint.</p>
 <dl>
 <dt># Example</dt><dd><p>Define the input:
-<a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">`</span></a>python</p>
+<a href="#id31"><span class="problematic" id="id32">``</span></a><a href="#id33"><span class="problematic" id="id34">`</span></a>python</p>
 <blockquote>
 <div><p>atoms0 = Input(name=’atom_inputs’, shape=(max_atoms, num_atom_features))
 bonds = Input(name=’bond_inputs’, shape=(max_atoms, max_degree, num_bond_features))
 edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’int32’)</p>
 </div></blockquote>
-<p><a href="#id26"><span class="problematic" id="id27">``</span></a><a href="#id28"><span class="problematic" id="id29">`</span></a></p>
+<p><a href="#id35"><span class="problematic" id="id36">``</span></a><a href="#id37"><span class="problematic" id="id38">`</span></a></p>
 <p>The <cite>NeuralGraphOutput</cite> can be initialised in three ways:
 1. Using an integer <cite>fp_length</cite> and possible kwags (<cite>Dense</cite> layer is used)</p>
 <blockquote>
@@ -437,7 +637,7 @@ edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’in
 <p>kwargs: For initialisation 1. you can pass <cite>Dense</cite> layer kwargs</p>
 </dd>
 <dt># Input shape</dt><dd><p>List of Atom and edge tensors of shape:
-<a href="#id30"><span class="problematic" id="id31">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
+<a href="#id39"><span class="problematic" id="id40">`</span></a>[(samples, max_atoms, atom_features), (samples, max_atoms, max_degrees,</p>
 <blockquote>
 <div><p>bond_features), (samples, max_atoms, max_degrees)]`</p>
 </div></blockquote>
@@ -459,12 +659,12 @@ edges = Input(name=’edge_inputs’, shape=(max_atoms, max_degree), dtype=’in
 same operation from the config dictionary.</p>
 <p>Note: If you override this method, you might receive a serialized dtype
 config, which is a <cite>dict</cite>. You can deserialize it as follows:</p>
-<p><a href="#id32"><span class="problematic" id="id33">``</span></a><a href="#id34"><span class="problematic" id="id35">`</span></a>python
+<p><a href="#id41"><span class="problematic" id="id42">``</span></a><a href="#id43"><span class="problematic" id="id44">`</span></a>python
 if “dtype” in config and isinstance(config[“dtype”], dict):</p>
 <blockquote>
 <div><p>policy = dtype_policies.deserialize(config[“dtype”])</p>
 </div></blockquote>
-<p><a href="#id36"><span class="problematic" id="id37">``</span></a><a href="#id38"><span class="problematic" id="id39">`</span></a></p>
+<p><a href="#id45"><span class="problematic" id="id46">``</span></a><a href="#id47"><span class="problematic" id="id48">`</span></a></p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>config: A Python dictionary, typically the output of <cite>get_config</cite>.</p>
 </dd>
@@ -489,8 +689,8 @@ containing the information needed to re-instantiate it.</p>
 <dd><p>Class used to facilitate transfer learning from a parent (or head) model to a child model.
 Freezes the layers (weights and biases) of the pre-trained base 
 model and removes the output layers and appends the child model to the base model.</p>
-<section id="id40">
-<h2>Parameters<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
+<section id="id49">
+<h2>Parameters<a class="headerlink" href="#id49" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>base_model: chemml.models.MLP object, tensorflow.python.keras object, or a torch.nn.Module object</dt><dd><p>pre-trained base model</p>
 </dd>
@@ -507,8 +707,8 @@ Note that this number should not include the output layer.</p>
 <span class="sig-name descname"><span class="pre">transfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.models.TransferLearning.transfer" title="Link to this definition"></a></dt>
 <dd><p>Adds the base model’s frozen layers (without its input and output layers) 
 to the child model and fits the new model to the training data.</p>
-<section id="id41">
-<h3>Parameters<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<section id="id50">
+<h3>Parameters<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>X, y: numpy.ndarray</dt><dd><p>X is an array of features and y is an array of the target values
 X should have the same input features (columns) as the base model.</p>
@@ -518,8 +718,8 @@ the final transfer learned model</p>
 </dd>
 </dl>
 </section>
-<section id="id42">
-<h3>Returns<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<section id="id51">
+<h3>Returns<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>child_model: chemml.models.mlp.MLP object</dt><dd><p>The trained transfer-learned child model.</p>
 </dd>
@@ -543,7 +743,7 @@ the final transfer learned model</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

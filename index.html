@@ -17,7 +17,7 @@
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -98,40 +98,29 @@
 <section id="welcome-to-the-chemml-s-documentation">
 <h1>Welcome to the ChemML’s documentation!<a class="headerlink" href="#welcome-to-the-chemml-s-documentation" title="Link to this heading"></a></h1>
 <p>ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>source repository on github: <a class="reference external" href="https://github.com/hachmannlab/chemml">https://github.com/hachmannlab/chemml</a></p></li>
-</ul>
-</div></blockquote>
-<section id="code-design">
-<h2>Code Design:<a class="headerlink" href="#code-design" title="Link to this heading"></a></h2>
-<p>ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries(accessible through the Anaconda distribution), as well as domain-specific libraries.
-The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.</p>
-<p>The format of library is similar to the well known libraries like Scikit-learn.</p>
-</section>
+<p>ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.</p>
 <section id="latest-version">
 <h2>Latest Version:<a class="headerlink" href="#latest-version" title="Link to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>to find out about the latest version and release history, click here: <a class="reference external" href="https://github.com/hachmannlab/chemml/releases">https://github.com/hachmannlab/chemml/releases</a></p></li>
+<li><p>to find out about the latest version and release history, <a class="reference external" href="https://github.com/hachmannlab/chemml/releases">click here</a></p></li>
+<li><p><a class="reference external" href="https://github.com/hachmannlab/chemml">source repository on github</a></p></li>
 <li><p>for a detailed list of changes, see the <a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a></p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="installation-and-dependencies">
 <h2>Installation and Dependencies:<a class="headerlink" href="#installation-and-dependencies" title="Link to this heading"></a></h2>
-<p>We strongly recommend you to install ChemML in an Anaconda environment. The instructions to create the environment, install ChemML’s dependencies, and subsequently install ChemML are as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>chemml_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+<p>We strongly recommend you install ChemML in an Anaconda environment. The instructions to create the environment and install ChemML are as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>chemml_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.13
 <span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>chemml_env
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openbabel<span class="w"> </span>nb_conda_kernels<span class="w"> </span>python-graphviz
-
+<span class="c1"># Make sure to run this command in a clean location</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hachmannlab/chemml.git
-<span class="nb">cd</span><span class="w"> </span>chemml
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+pip<span class="w"> </span>install<span class="w"> </span>./chemml
 </pre></div>
 </div>
-<dl class="simple">
-<dt>Note: Here is a list of external libraries that will be installed with chemml:</dt><dd><ul class="simple">
+<dl>
+<dt>Note: Here is a list of external libraries that will be installed with chemml:</dt><dd><ul>
 <li><p>numpy</p></li>
 <li><p>pandas</p></li>
 <li><p>tensorflow</p></li>
@@ -144,17 +133,34 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <li><p>ipywidgets</p></li>
 <li><p>shap</p></li>
 <li><p>lime</p></li>
+<li><dl>
+<dt>openbabel</dt><dd><ul class="simple">
+<li><p>(NOTE: Python 3.8 requires a separate conda install of openbabel)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openbabel
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>torch</p></li>
+<li><p>torchvision</p></li>
 </ul>
 </dd>
 </dl>
-<p>We also require the user to install PyTorch depending on their operating system and GPU configuration, which can be done by following the wizard on <a class="reference external" href="https://pytorch.org/get-started/locally/">this page</a>.</p>
-<p>AutoML supports XGBoost and LightGBM models, but, to reduce install overhead, we require the user to install these libraries manually.
-AutoML will still work without installing these models.</p>
+</section>
+<section id="optional-dependencies-user-installed">
+<h2>Optional dependencies (user-installed):<a class="headerlink" href="#optional-dependencies-user-installed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>python-graphviz, nb_conda_kernels (for ChemML Jupyter wrapper)</p></li>
+<li><p>xgboost, lightgbm (if you want to include these models for AutoML screening)</p></li>
+<li><p>Additional PyTorch libraries depending on operating system and GPU configuration, <a class="reference external" href="https://pytorch.org/get-started/locally/">see here</a>.</p></li>
+</ul>
 </section>
 <section id="errors-during-installation">
 <h2>Errors during installation:<a class="headerlink" href="#errors-during-installation" title="Link to this heading"></a></h2>
 <p>After installing ChemML in an Anaconda environment, you may run into the following error with respect to the rdkit module:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ImportError:<span class="w"> </span>/lib64/libstdc++.so.6:<span class="w"> </span>version<span class="w"> </span><span class="sb">`</span>CXXABI_1.3.9<span class="err">&#39;</span><span class="w"> </span>not<span class="w"> </span>found
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ImportError:<span class="w"> </span>/lib64/libstdc++.so.6:<span class="w"> </span>version<span class="w"> </span><span class="sb">`</span>CXXABI_1.3.9<span class="err">'</span><span class="w"> </span>not<span class="w"> </span>found
 </pre></div>
 </div>
 <p>Solution: Activate the environment in which you have installed ChemML and use the following code:</p>
@@ -234,7 +240,12 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l1"><a class="reference internal" href="represent_task/index.html">Represent</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/feature_representation.html">Feature Representation Methods in ChemML</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Creating-chemml.chem.Molecule-object-from-molecule-SMILES">Creating <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> object from molecule SMILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#3D-Descriptors-from-Mordred">3D Descriptors from Mordred</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Coulomb-Matrix">Coulomb Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Fingerprints-from-RDKit">Fingerprints from RDKit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Molecule-tensors-from-chemml.chem.Molecule-objects">Molecule tensors from <code class="docutils literal notranslate"><span class="pre">chemml.chem.Molecule</span></code> objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Descriptors-from-RDKit">Descriptors from RDKit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Descriptors-from-Mordred">Descriptors from Mordred</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/feature_representation.html#Descriptors-from-PaDELPy">Descriptors from PaDELPy</a></li>
 </ul>
 </li>
 </ul>
@@ -278,6 +289,8 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Convo_nets.html#Splitting-and-preprocessing-the-data">Splitting and preprocessing the data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Convo_nets.html#Building-the-Neural-Fingerprints">Building the Neural Fingerprints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Convo_nets.html#Building-and-training-the-neural-network">Building and training the neural network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Convo_nets.html#Unified-Neural-Graph-Fingerprint-API-with-Engine-Selection">Unified Neural Graph Fingerprint API with Engine Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/Convo_nets.html#Simplified-Workflow:-Direct-SMILES-to-Model">Simplified Workflow: Direct SMILES-to-Model</a></li>
 </ul>
 </li>
 </ul>
@@ -288,6 +301,11 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Defining-objective-function">Defining objective function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Optimize-the-model">Optimize the model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Resume-optimization">Resume optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Hyperparameter-optimization-for-multi-output-models">Hyperparameter optimization for multi-output models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Multioutput-method-1:-Scikit-learn-MultiOutputRegressor-wrapper">Multioutput method 1: Scikit-learn MultiOutputRegressor wrapper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/ga_hyper_opt.html#Multioutput-method-2:-Neural-networks-(ChemML-MLP)">Multioutput method 2: Neural networks (ChemML MLP)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/ga_feature_selection.html">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a><ul>
@@ -320,6 +338,12 @@ AutoML will still work without installing these models.</p>
 <li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_regression.html#Validating-AutoML-generated-model">Validating AutoML-generated model</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="ipython_notebooks/autoML_classification.html">AutoML for Classification Model Screening</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_classification.html#Load-your-data">Load your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_classification.html#Run-autoML-for-a-classification-task">Run autoML for a classification task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipython_notebooks/autoML_classification.html#Validating-AutoML-generated-model">Validating AutoML-generated model</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a><ul>
@@ -332,22 +356,28 @@ AutoML will still work without installing these models.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[1.3.4] - 2026-07-28</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[1.3.5] - 2026-10-27</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed-miscellaneous">Fixed/Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">[1.3.4] - 2026-07-28</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Fixed/Miscellaneous</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[1.3.3] - 2026-04-22</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Fixed/Miscellaneous</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">[1.3.3] - 2026-04-22</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id8">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id10">Fixed/Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#removed">Removed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#technical-details">Technical Details</a></li>
@@ -435,7 +465,7 @@ AutoML will still work without installing these models.</p>
 </section>
 <section id="license">
 <h2>License:<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
-<p>ChemML is copyright (C) 2014-2023 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan all rights reserved.
+<p>ChemML is copyright (C) 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy, all rights reserved.
 ChemML is distributed under 3-Clause BSD License (<a class="reference external" href="https://opensource.org/licenses/BSD-3-Clause">https://opensource.org/licenses/BSD-3-Clause</a>).</p>
 </section>
 <section id="about-us">
@@ -444,10 +474,7 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
 <dt class="field-odd">Maintainers<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>Johannes Hachmann, <a class="reference external" href="mailto:hachmann&#37;&#52;&#48;buffalo&#46;edu">hachmann<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
-<li><p>Aatish Pradhan, <a class="reference external" href="mailto:aatishpr&#37;&#52;&#48;buffalo&#46;edu">aatishpr<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
-<li><p>Aditya Sonpal, <a class="reference external" href="mailto:adityaso&#37;&#52;&#48;buffalo&#46;edu">adityaso<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
-<li><p>Gaurav Vishwakarma</p></li>
-<li><p>Mojtaba Haghighatlari</p></li>
+<li><p>Nitin Murthy, <a class="reference external" href="mailto:nitinmad&#37;&#52;&#48;buffalo&#46;edu">nitinmad<span>&#64;</span>buffalo<span>&#46;</span>edu</a></p></li>
 </ul>
 <p>University at Buffalo - The State University of New York (UB)</p>
 </dd>
@@ -457,11 +484,12 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
 <li><p>Gaurav Vishwakarma (UB): automated model optimization</p></li>
 <li><p>Ramachandran Subramanian (UB): Magpie descriptor library port</p></li>
 <li><p>Bhargava Urala Kota (UB): library database</p></li>
-<li><p>Aditya Sonpal (UB): graph convolution NNs</p></li>
+<li><p>Aditya Sonpal (UB): graph convolution NNs and explainable AI (XAI)</p></li>
 <li><p>Srirangaraj Setlur (UB): scientific advice</p></li>
 <li><p>Venugopal Govindaraju (UB): scientific advice</p></li>
 <li><p>Krishna Rajan (UB): scientific advice</p></li>
 <li><p>Aatish Pradhan (UB): AutoML and Jupyter GUI developer</p></li>
+<li><p>Nitin Murthy (UB): Feature selection, AutoML developer</p></li>
 <li><p>We encourage any contributions and feedback. Feel free to fork and make pull-request to the “development” branch.</p></li>
 </ul>
 </dd>
@@ -486,7 +514,7 @@ ChemML is distributed under 3-Clause BSD License (<a class="reference external" 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

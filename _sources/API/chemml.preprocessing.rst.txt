@@ -11,10 +11,10 @@ Preprocessing module
 .. Submodules
 .. ----------
 
-.. chemml.preprocessing.handle_missing module
+.. chemml.preprocessing.feature_cleaning module
 .. -----------------------------------------
 
-.. .. automodule:: chemml.preprocessing.handle_missing
+.. .. automodule:: chemml.preprocessing.feature_cleaning
     :members:
     :undoc-members:
     :show-inheritance:

@@ -18,7 +18,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -56,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../optimize_task/index.html">Optimize</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ga_hyper_opt.html">Hyperparameter Optimization using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ga_hyper_opt.html#Hyperparameter-optimization-for-multi-output-models">Hyperparameter optimization for multi-output models</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Feature Selection using <code class="docutils literal notranslate"><span class="pre">chemml.optimization.GeneticAlgorithm</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Defining-hyperparameter-space">Defining hyperparameter space</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Defining-objective-function">Defining objective function</a></li>
@@ -146,7 +147,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">space</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([{</span><span class="n">i</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;choice&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">space</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([{</span><span class="n">i</span><span class="p">:</span> <span class="p">{</span><span class="s1">'choice'</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
 </pre></div>
 </div>
 </div>
@@ -182,7 +183,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeneticAlgorithm</span>
-<span class="n">ga</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">crossover_type</span><span class="o">=</span><span class="s2">&quot;Uniform&quot;</span><span class="p">,</span>
+<span class="n">ga</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span> <span class="p">),</span> <span class="n">crossover_type</span><span class="o">=</span><span class="s2">"Uniform"</span><span class="p">,</span>
                         <span class="n">pop_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">crossover_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">mutation_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">fitness_df</span><span class="p">,</span> <span class="n">final_best_features</span> <span class="o">=</span> <span class="n">ga</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">n_generations</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
@@ -427,7 +428,7 @@ The search converged with convergence criteria =  10
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ga_tuned</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="p">),</span> <span class="n">crossover_type</span><span class="o">=</span><span class="s2">&quot;Uniform&quot;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ga_tuned</span> <span class="o">=</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">fitness</span><span class="o">=</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span> <span class="p">),</span> <span class="n">crossover_type</span><span class="o">=</span><span class="s2">"Uniform"</span><span class="p">,</span>
                         <span class="n">pop_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">crossover_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">mutation_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                         <span class="n">target_features_count</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">fitness_df_tuned</span><span class="p">,</span> <span class="n">final_best_features_tuned</span> <span class="o">=</span> <span class="n">ga_tuned</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">n_generations</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -502,7 +503,7 @@ The search converged with convergence criteria =  10
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

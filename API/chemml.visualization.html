@@ -17,7 +17,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -78,6 +78,7 @@
 <li class="toctree-l3"><a class="reference internal" href="chemml.models.html">Models module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemml.optimization.html">Optimization module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Visualization module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#chemml.visualization.ClassificationPlots"><code class="docutils literal notranslate"><span class="pre">ClassificationPlots</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.visualization.SavePlot"><code class="docutils literal notranslate"><span class="pre">SavePlot</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.visualization.decorator"><code class="docutils literal notranslate"><span class="pre">decorator</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#chemml.visualization.hist"><code class="docutils literal notranslate"><span class="pre">hist</span></code></a></li>
@@ -125,16 +126,69 @@
 <li><p>hist: <a class="reference internal" href="#chemml.visualization.hist" title="chemml.visualization.hist"><code class="xref py py-func docutils literal notranslate"><span class="pre">hist()</span></code></a></p></li>
 <li><p>decorator: <a class="reference internal" href="#chemml.visualization.decorator" title="chemml.visualization.decorator"><code class="xref py py-func docutils literal notranslate"><span class="pre">decorator()</span></code></a></p></li>
 <li><p>SavePlot: <a class="reference internal" href="#chemml.visualization.SavePlot" title="chemml.visualization.SavePlot"><code class="xref py py-func docutils literal notranslate"><span class="pre">SavePlot()</span></code></a></p></li>
+<li><p>ClassificationPlots: <a class="reference internal" href="#chemml.visualization.ClassificationPlots" title="chemml.visualization.ClassificationPlots"><code class="xref py py-func docutils literal notranslate"><span class="pre">ClassificationPlots()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="chemml.visualization.ClassificationPlots">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.visualization.</span></span><span class="sig-name descname"><span class="pre">ClassificationPlots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blues'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.ClassificationPlots" title="Link to this definition"></a></dt>
+<dd><p>Generate classification evaluation plots including confusion matrix and ROC curves with AUC.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>plot_type: string, optional (default=’both’)</dt><dd><p>type of plot to generate: ‘confusion_matrix’, ‘roc’, or ‘both’</p>
+</dd>
+<dt>figsize: tuple, optional (default=(12, 4))</dt><dd><p>figure size as (width, height)</p>
+</dd>
+<dt>cmap: string, optional (default=’Blues’)</dt><dd><p>colormap for confusion matrix</p>
+</dd>
+<dt>kwargs<span class="classifier">dictionary, optional (default = {})</span></dt><dd><p>additional matplotlib options in the form of a dictionary</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationPlots</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">ClassificationPlots</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">'both'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="chemml.visualization.ClassificationPlots.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred_proba</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.ClassificationPlots.plot" title="Link to this definition"></a></dt>
+<dd><p>Generate classification plots.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>y_true: array-like</dt><dd><p>ground truth labels</p>
+</dd>
+<dt>y_pred: array-like</dt><dd><p>predicted class labels</p>
+</dd>
+<dt>y_pred_proba: array-like, optional (default=None)</dt><dd><p>predicted probabilities for ROC curve. If None, ROC plot is skipped.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<p>matplotlib.figure.Figure object</p>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="chemml.visualization.SavePlot">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.visualization.</span></span><span class="sig-name descname"><span class="pre">SavePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.SavePlot" title="Link to this definition"></a></dt>
 <dd><p>Accepts a matplotlib AxesSubplot object and saves the figure with distinct options and at a specific location.
 Displays the path to the saved figure.</p>
-<section id="parameters">
-<h2>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<section id="id2">
+<h2>Parameters:<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>filename: string</dt><dd><p>name of the file that needs to be saved</p>
 </dd>
@@ -156,9 +210,9 @@ for example kwargs = {‘key’:value}
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_cep_homo</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">SavePlot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles</span><span class="p">,</span> <span class="n">homo</span> <span class="o">=</span> <span class="n">load_cep_homo</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">homo</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sa</span><span class="o">=</span><span class="n">SavePlot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;homo&#39;</span><span class="p">,</span><span class="n">output_directory</span><span class="o">=</span><span class="s1">&#39;plots&#39;</span><span class="p">,</span><span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;facecolor&#39;</span><span class="p">:</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;dpi&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="s1">&#39;pad_inches&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sa</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">main_directory</span><span class="o">=</span><span class="s1">&#39;project&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">homo</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'hist'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sa</span><span class="o">=</span><span class="n">SavePlot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'homo'</span><span class="p">,</span><span class="n">output_directory</span><span class="o">=</span><span class="s1">'plots'</span><span class="p">,</span><span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">'facecolor'</span><span class="p">:</span><span class="s1">'w'</span><span class="p">,</span><span class="s1">'dpi'</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="s1">'pad_inches'</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">'bbox_inches'</span><span class="p">:</span><span class="s1">'tight'</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sa</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">main_directory</span><span class="o">=</span><span class="s1">'project'</span><span class="p">)</span>
 <span class="go">The Plot has been saved at:  project/plots/homo.png</span>
 </pre></div>
 </div>
@@ -166,8 +220,8 @@ for example kwargs = {‘key’:value}
 <dt class="sig sig-object py" id="chemml.visualization.SavePlot.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.SavePlot.save" title="Link to this definition"></a></dt>
 <dd><p>This is the main function that saves the figure.</p>
-<section id="id1">
-<h3>Parameters:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3>Parameters:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>obj: matplotlib.axes._subplots.AxesSubplot or matplotlib.figure.Figure</dt><dd><p>contains information about the plot</p>
 </dd>
@@ -184,8 +238,8 @@ for example kwargs = {‘key’:value}
 <dt class="sig sig-object py" id="chemml.visualization.decorator">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.visualization.</span></span><span class="sig-name descname"><span class="pre">decorator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'--'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.decorator" title="Link to this definition"></a></dt>
 <dd><p>This class provides options to decorate a plot with more information.</p>
-<section id="id2">
-<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>title: string, optional (default=’’)</dt><dd><p>title</p>
 </dd>
@@ -208,14 +262,14 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 </dd>
 </dl>
 </section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>Examples<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">hist</span><span class="p">,</span> <span class="n">decorator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hg</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,{</span><span class="s1">&#39;normed&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">hg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="s1">&#39;AMW&#39;</span><span class="p">)</span>   <span class="c1"># atomic molecular weights</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dec</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="s1">&#39;histogram&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span>            <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid_color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">grid_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hg</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">'g'</span><span class="p">,{</span><span class="s1">'normed'</span><span class="p">:</span><span class="kc">True</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">hg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="s1">'AMW'</span><span class="p">)</span>   <span class="c1"># atomic molecular weights</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dec</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="s1">'histogram'</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">'density'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'%'</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span>            <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid_color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">grid_linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">grid_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">dec</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -224,15 +278,15 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 <dt class="sig sig-object py" id="chemml.visualization.decorator.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.decorator.fit" title="Link to this definition"></a></dt>
 <dd><p>the main function to fit the parameters to the input figure</p>
-<section id="id3">
-<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>figure: matplotlib.figure.Figure object or matplotlib.AxesSubplot object</dt><dd><p>this function only proceed with one set of axes in the figure.</p>
 </dd>
 </dl>
 </section>
-<section id="returns">
-<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>matplotlib.figure.Figure object</p>
 </section>
 </dd></dl>
@@ -245,8 +299,8 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 <h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
 <p>Changing these parameters wil affect all the plots in your working session.</p>
 </section>
-<section id="id4">
-<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>family: string, optional (default = ‘normal’)</dt><dd><p>check this example: <a class="reference external" href="https://matplotlib.org/examples/pylab_examples/fonts_demo.html">https://matplotlib.org/examples/pylab_examples/fonts_demo.html</a></p>
 </dd>
@@ -260,8 +314,8 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 </dd>
 </dl>
 </section>
-<section id="id5">
-<h3>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 </section>
 </dd></dl>
 
@@ -273,8 +327,8 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.visualization.</span></span><span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.hist" title="Link to this definition"></a></dt>
 <dd><p>The histogram plotting interface. It is built on top of the matplotlib.pyplot.hist function .
 check this link: <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist">https://matplotlib.org/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist</a></p>
-<section id="id6">
-<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <dl>
 <dt>bins:  integer or sequence or ‘auto’, optional (default = None)</dt><dd><p>exact same parameter from matplotlib.pyplot.hist</p>
 </dd>
@@ -287,13 +341,13 @@ for example kwargs = {‘key’:value}</p>
 </dd>
 </dl>
 </section>
-<section id="id7">
-<h2>Examples<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>Examples<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">hist</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hg</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,{</span><span class="s1">&#39;normed&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">hg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="s1">&#39;AMW&#39;</span><span class="p">)</span>   <span class="c1"># atomic molecular weights</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hg</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">'g'</span><span class="p">,{</span><span class="s1">'normed'</span><span class="p">:</span><span class="kc">True</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">hg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="s1">'AMW'</span><span class="p">)</span>   <span class="c1"># atomic molecular weights</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -301,8 +355,8 @@ for example kwargs = {‘key’:value}</p>
 <dt class="sig sig-object py" id="chemml.visualization.hist.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.hist.plot" title="Link to this definition"></a></dt>
 <dd><p>the main function to plot based on the input dataframe and its header</p>
-<section id="id8">
-<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>dfx: pandas dataframe</dt><dd><p>the x axis data</p>
 </dd>
@@ -310,8 +364,8 @@ for example kwargs = {‘key’:value}</p>
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id13">
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <p>matplotlib.figure.Figure object</p>
 </section>
 </dd></dl>
@@ -323,8 +377,8 @@ for example kwargs = {‘key’:value}</p>
 <dt class="sig sig-object py" id="chemml.visualization.scatter2D">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">chemml.visualization.</span></span><span class="sig-name descname"><span class="pre">scatter2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'b'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.scatter2D" title="Link to this definition"></a></dt>
 <dd><p>The scatter 2D plotting interface. It is built on top of the matplotlib.pyplot.plot function.</p>
-<section id="id10">
-<h2>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>color: string, optional (default=’b’)</dt><dd><p>set color
 check this link Notes for available options: <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot">https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot</a></p>
@@ -340,12 +394,12 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h2>Examples<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id15">
+<h2>Examples<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">scatter2D</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">smiles</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span> <span class="o">=</span> <span class="n">scatter2D</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span> <span class="o">=</span> <span class="n">scatter2D</span><span class="p">(</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'.'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dfx</span><span class="o">=</span><span class="n">den</span><span class="p">,</span> <span class="n">dfy</span><span class="o">=</span><span class="n">fea</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -354,8 +408,8 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 <dt class="sig sig-object py" id="chemml.visualization.scatter2D.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chemml.visualization.scatter2D.plot" title="Link to this definition"></a></dt>
 <dd><p>the main function to plot based on the input dataframes and their headers</p>
-<section id="id12">
-<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>dfx: pandas dataframe</dt><dd><p>the x axis data</p>
 </dd>
@@ -367,8 +421,8 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 <p>matplotlib.figure.Figure object</p>
 </section>
 </dd></dl>
@@ -389,7 +443,7 @@ check this link: <a class="reference external" href="https://matplotlib.org/api/
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

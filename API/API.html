@@ -17,7 +17,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -180,14 +180,18 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.preprocessing.html">Preprocessing module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.ConstantColumns"><code class="docutils literal notranslate"><span class="pre">ConstantColumns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.GAFSel"><code class="docutils literal notranslate"><span class="pre">GAFSel()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.MissingValues"><code class="docutils literal notranslate"><span class="pre">MissingValues()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.Outliers"><code class="docutils literal notranslate"><span class="pre">Outliers()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.RemoveCorrFeatures"><code class="docutils literal notranslate"><span class="pre">RemoveCorrFeatures()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.RemoveInvFeatures"><code class="docutils literal notranslate"><span class="pre">RemoveInvFeatures()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.ZScoreFSel"><code class="docutils literal notranslate"><span class="pre">ZScoreFSel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.preprocessing.html#chemml.preprocessing.remove_complex_columns"><code class="docutils literal notranslate"><span class="pre">remove_complex_columns()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.models.html">Models module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.NeuralGraphFingerprint"><code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.NeuralGraphHidden"><code class="docutils literal notranslate"><span class="pre">NeuralGraphHidden</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.NeuralGraphOutput"><code class="docutils literal notranslate"><span class="pre">NeuralGraphOutput</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.models.html#chemml.models.TransferLearning"><code class="docutils literal notranslate"><span class="pre">TransferLearning</span></code></a></li>
@@ -199,6 +203,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chemml.visualization.html">Visualization module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.ClassificationPlots"><code class="docutils literal notranslate"><span class="pre">ClassificationPlots</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.SavePlot"><code class="docutils literal notranslate"><span class="pre">SavePlot</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.decorator"><code class="docutils literal notranslate"><span class="pre">decorator</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemml.visualization.html#chemml.visualization.hist"><code class="docutils literal notranslate"><span class="pre">hist</span></code></a></li>
@@ -238,7 +243,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -17,7 +17,7 @@
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -56,32 +56,35 @@
 <li class="toctree-l1"><a class="reference internal" href="automl_task/index.html">AutoML</a></li>
 <li class="toctree-l1"><a class="reference internal" href="explain_task/index.html">Explain</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[1.3.4] - 2026-07-28</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[1.3.5] - 2026-10-27</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixed-miscellaneous">Fixed/Miscellaneous</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a><ul>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">[1.3.4] - 2026-07-28</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Fixed/Miscellaneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">[1.3.3] - 2026-04-22</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Fixed/Miscellaneous</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#commits-included">Commits Included:</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[1.3.3] - 2026-04-22</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Fixed/Miscellaneous</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id6">Commits Included:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">[1.3.2] - 2025-12-05</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">[1.3.2] - 2025-12-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#technical-details">Technical Details</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id10">Commits Included:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Commits Included:</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dependencies-updated">Dependencies Updated</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#migration-guide-for-users">Migration Guide for Users</a></li>
@@ -134,9 +137,63 @@
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
 <p>All notable changes to this project will be documented in this file.</p>
 <section id="id1">
-<h2>[1.3.4] - 2026-07-28<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>[1.3.5] - 2026-10-27<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>GA Feature Selection Wrapper</strong>: Added <code class="docutils literal notranslate"><span class="pre">feature_selection.py</span></code> under preprocessing, with a wrapper for <code class="docutils literal notranslate"><span class="pre">GeneticAlgorithm()</span></code> to perform model-driven feature selection on datasets.</p></li>
+<li><p><strong>MLP Multi-Output Support</strong>: Added multi-output support to <code class="docutils literal notranslate"><span class="pre">MLP()</span></code> for regression tasks with multiple targets.</p></li>
+<li><p><strong>Neural Fingerprint Wrapper</strong>: Added simplified wrapper function <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint()</span></code> to allow for instantiation of Neural Graph Fingerprint models with easy-to-tweak parameters.</p></li>
+<li><p><strong>Neural Fingerprint PyTorch Engine</strong>: Added PyTorch engine for neural fingerprints as an alternate to TensorFlow.</p></li>
+<li><p><strong>Z-Score Feature Selection</strong>: Added <code class="docutils literal notranslate"><span class="pre">ZScoreFSel()</span></code> in <code class="docutils literal notranslate"><span class="pre">feature_selection.py</span></code> to remove low z-score binary features during preprocessing.</p></li>
+<li><p><strong>GPU Support (CUDA/ROCm)</strong>: Added a <code class="docutils literal notranslate"><span class="pre">device</span></code> option (<code class="docutils literal notranslate"><span class="pre">None</span></code>/<code class="docutils literal notranslate"><span class="pre">'cpu'</span></code>, <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cuda'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cuda:N'</span></code>) to the PyTorch engines of <code class="docutils literal notranslate"><span class="pre">MLP()</span></code>, <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint()</span></code> and <code class="docutils literal notranslate"><span class="pre">ModelScreener()</span></code>.</p></li>
+</ul>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Python 3.9+ dependency updates</strong>: Updated dependencies for higher Python versions to support actively developed package versions.</dt><dd><ul>
+<li><p><strong>NumPy</strong>: Updated codebase to support NumPy 2.x (this also applies to Python 3.8).</p></li>
+<li><p><strong>mordred</strong>: Mordred now uses <code class="docutils literal notranslate"><span class="pre">mordred-community</span></code> package.</p></li>
+<li><p><strong>OpenBabel</strong>: Now supporting OpenBabel 3.2.x.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Made ChemML installation a one-command job with OpenBabel and PyTorch included in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> (<strong>NOTE: Python 3.8 still requires separate OpenBabel install, see</strong> <a class="reference external" href="https://github.com/hachmannlab/chemml/blob/master/README.md">README.md</a>).</p></li>
+<li><p>Verified Python 3.13 compatibility with all dependencies and CI/CD testing. ChemML with Python 3.13+ is fully <a class="reference external" href="https://scientific-python.org/specs/spec-0000/">SPEC 0 compliant for 2026-2028</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">friedman_mse</span></code> criterion removed from <code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressor()</span></code> and <code class="docutils literal notranslate"><span class="pre">RandomForestRegressor()</span></code> hyperparameter search space as it’s mathematically identical to <code class="docutils literal notranslate"><span class="pre">mean_squared_error</span></code> and <a class="reference external" href="https://github.com/scikit-learn/scikit-learn/issues/32700">will be removed in future scikit-learn versions</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MLPRegressor()</span></code> n_neurons reduced in AutoML due to <code class="docutils literal notranslate"><span class="pre">MLPRegressor()</span></code> and <code class="docutils literal notranslate"><span class="pre">MLP()</span></code> being used separately for small/large datasets.</p></li>
+<li><p>Added demo for classification AutoML workflow in <code class="docutils literal notranslate"><span class="pre">docs/ipython_notebooks/autoML_classification.ipynb</span></code>.</p></li>
+<li><p>Classification AutoML now includes <code class="docutils literal notranslate"><span class="pre">MLPClassifier</span></code> from scikit-learn.</p></li>
+<li><p>Neural fingerprints now support multi-output regression and classification tasks, see wrapper function <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint()</span></code> for details.</p></li>
+<li><p>AutoML now also uses Z-score feature selection for preprocessing, removing low z-score binary features.</p></li>
+</ul>
+</section>
+<section id="fixed-miscellaneous">
+<h3>Fixed/Miscellaneous<a class="headerlink" href="#fixed-miscellaneous" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Updated CI/CD to reflect one-line installation.</p></li>
+<li><p>Removed correlated feature removal from FOSS descriptor generators, as this functionality is now available in the new feature_selection.py module.</p></li>
+<li><p>AutoML tests now run single-core and multi-core models in separate tests, so it’s easier to test the overall architecture.</p></li>
+<li><p>Removed ‘std’ column from ModelScreener() output, it is not reflective of model performance.</p></li>
+<li><p>Removed Python 2 compatibility layer, as Python 2 is no longer supported by ChemML and all dependencies.</p></li>
+<li><p>Removed TensorFlow transfer learning testing from CI due to stochastic errors causing unpredictable test failures.</p></li>
+<li><p>Fixed issue <a class="reference external" href="https://github.com/hachmannlab/chemml/issues/23">#23</a>, a possible failure mode in GA.</p></li>
+<li><p>Dragon tests now skip if Dragon is not installed, rather than using -k in the pytest call.</p></li>
+<li><p>Fixed classification AutoML bug where SVC was not being instantiated with probability=True, which is required for ROC curve plotting and AUC calculation.</p></li>
+<li><p>Removed liblinear solver from LogisticRegression hyperparameter search space, as it is not compatible with multi-class classification.</p></li>
+<li><p>Found and fixed a NumPy 2.x issue with complex numbers randomly appearing during feature generation.</p></li>
+<li><p>Tests now make use of pytest parametrization to reduce duplicate tests.</p></li>
+<li><p>All ChemML modules now implement lazy loading for performance improvement, as well as <a class="reference external" href="https://scientific-python.org/specs/spec-0001/">SPEC 1 compliance</a>.</p></li>
+</ul>
+</section>
+</section>
+<section id="id3">
+<h2>[1.3.4] - 2026-07-28<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>Added<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>RDKit XYZ Saving</strong>: Added XYZ file output support to RDKit <code class="docutils literal notranslate"><span class="pre">Molecule.to_xyz(...)</span></code> optimizer workflows.</p></li>
 <li><p><strong>Mordred 3D Descriptors</strong>: Added 3D descriptor support to <code class="docutils literal notranslate"><span class="pre">Mordred</span></code> when configured with <code class="docutils literal notranslate"><span class="pre">ignore_3D=False</span></code>, using ChemML <code class="docutils literal notranslate"><span class="pre">Molecule</span></code>-based serial 3D optimization followed by parallel Mordred descriptor calculation.</p></li>
@@ -145,8 +202,8 @@
 <li><p><strong>AutoML Model Saving</strong>: Both overall best model and best model per feature are now saved to disk within the output directory, along with other metadata necessary for model replication. Replication example given in docs as well.</p></li>
 </ul>
 </section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>Changed<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Standardized molecule loading for foss_descriptors to avoid redundant code in each descriptor generator.</p></li>
 <li><p>foss_descriptors and feature_cleaning use lazy loading of modules throughout (SPEC 1 compliant).</p></li>
@@ -156,8 +213,8 @@
 <li><p>AutoML now accepts an output_dir parameter due to increased output files and directories being generated, including best model artifacts.</p></li>
 </ul>
 </section>
-<section id="fixed-miscellaneous">
-<h3>Fixed/Miscellaneous<a class="headerlink" href="#fixed-miscellaneous" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Fixed/Miscellaneous<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Some minor code comment updates.</p></li>
 <li><p>Updated documentation and tests for new/changed features.</p></li>
@@ -166,25 +223,22 @@
 <section id="notes">
 <h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>Support Status</strong>: ChemML v1.3.5 will be the last release to support Python 3.8-3.12 as they are EoL. Future releases (v1.4+) will require an update to Python 3.14 in accordance with [SPEC 0](<a class="reference external" href="https://scientific-python.org/specs/spec-0000/">https://scientific-python.org/specs/spec-0000/</a>). Note that 1.3.5 and 1.4.0 will be equally capable, and this is being done to streamline future development and maintenance.</p></li>
+<li><p><strong>Support Status</strong>: ChemML v1.3.5 will be the last release to support Python 3.8-3.12 as they are EoL. Future releases (v1.4+) will require an update to Python 3.13+ in accordance with <a class="reference external" href="https://scientific-python.org/specs/spec-0000/">SPEC 0</a>. Note that 1.3.5 and 1.4.0 will be equally capable, and this is being done to streamline future development and maintenance.</p></li>
 </ul>
-<section id="commits-included">
-<h4>Commits Included:<a class="headerlink" href="#commits-included" title="Link to this heading"></a></h4>
 </section>
 </section>
-</section>
-<section id="id2">
-<h2>[1.3.3] - 2026-04-22<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<section id="id3">
-<h3>Added<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id7">
+<h2>[1.3.3] - 2026-04-22<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>LightGBM Integration</strong>: Added LightGBM algorithm support to the model screener functionality</p></li>
 <li><p><strong>Classifier AutoML</strong>: Completed classifier AutoML capabilities for expanded model screening</p></li>
 <li><p><strong>Pradhan et al. 2026</strong>: Added reproducible workflow and datasets for the <a class="reference external" href="https://doi.org/10.26434/chemrxiv.15001186/v1">Inverse Design paper by Pradhan et al. 2026</a></p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>Changed<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Changed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>RDKit Fingerprints</strong>: Upgraded the RDKFP implementation to utilize RDKit’s modern <code class="docutils literal notranslate"><span class="pre">rdFingerprintGenerator</span></code> set of fingerprint generators</p></li>
 <li><p><strong>Descriptor Calculation Logic</strong>: AutoML’s RDKit descriptor calculation now relies on <code class="docutils literal notranslate"><span class="pre">RDKDesc()</span></code> wrapper class in FOSS descriptor module</p></li>
@@ -194,8 +248,8 @@
 <li><p><strong>Progress Tracking via tqdm</strong>: Implemented a progress bar for RDKit descriptor calculations and genetic algorithm using tqdm</p></li>
 </ul>
 </section>
-<section id="id5">
-<h3>Fixed/Miscellaneous<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>Fixed/Miscellaneous<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Modernized Packaging</strong>: Added <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> for standard PEP 517/518 builds, eliminating setup.py and –use-pep517 flag during install</p></li>
 <li><p><strong>Pandas 3.0 Compatibility</strong>: Fixed some incompatibilities with pandas 3.0 found in CI/CD testing; in theory this should make ChemML compatible with pandas 3.0, but further testing is needed</p></li>
@@ -203,8 +257,8 @@
 <li><p><strong>Python 3.8 Support</strong>: Ensured dependencies, test module configurations, and setups maintain Python 3.8 backwards compatibility</p></li>
 <li><p><strong>Documentation</strong>: Updated documentation index page to keep up-to-date with README.md</p></li>
 </ul>
-<section id="id6">
-<h4>Commits Included:<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
+<section id="commits-included">
+<h4>Commits Included:<a class="headerlink" href="#commits-included" title="Link to this heading"></a></h4>
 <ol class="arabic simple">
 <li><p><strong>5eb23ef</strong> - updating feature rep docs with new RDKFP code</p></li>
 <li><p><strong>6e3fe21</strong> - patching TF2.x error in neural fingerprints</p></li>
@@ -226,10 +280,10 @@
 </section>
 </section>
 </section>
-<section id="id7">
-<h2>[1.3.2] - 2025-12-05<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
-<section id="id8">
-<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id11">
+<h2>[1.3.2] - 2025-12-05<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>Added<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>MLP Model Enhancement</strong>: Added <code class="docutils literal notranslate"><span class="pre">get_params()</span></code> method to the MLP class for scikit-learn compatibility with model screening tools</p></li>
 <li><p><strong>GitHub Actions Workflow</strong>: Created comprehensive CI/CD pipeline (<code class="docutils literal notranslate"><span class="pre">test.yml</span></code>) for cross-platform testing on Ubuntu, macOS, and Windows with native coverage reporting</p></li>
@@ -240,8 +294,8 @@
 <li><p><strong>GitHub Actions Badge</strong>: Added workflow status badge to README for visibility into test status</p></li>
 </ul>
 </section>
-<section id="id9">
-<h3>Changed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id13">
+<h3>Changed<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Loss Specification</strong>: Updated LorentzLorenz model compilation to use list of losses for each output instead of single loss string, matching Keras 3 requirements</p></li>
 <li><p><strong>Metrics Configuration</strong>: Changed from list-based metrics to dictionary-based metrics for multi-output models to ensure unique metric names in Keras 3</p></li>
@@ -272,8 +326,8 @@
 </section>
 <section id="technical-details">
 <h3>Technical Details<a class="headerlink" href="#technical-details" title="Link to this heading"></a></h3>
-<section id="id10">
-<h4>Commits Included:<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
+<section id="id14">
+<h4>Commits Included:<a class="headerlink" href="#id14" title="Link to this heading"></a></h4>
 <ol class="arabic simple">
 <li><p><strong>b83abd9</strong> - patch to published models
 - Added <code class="docutils literal notranslate"><span class="pre">get_params()</span></code> method to MLP class
@@ -333,7 +387,7 @@
 <li><p><strong>Adam Optimizer Parameters</strong>: The <code class="docutils literal notranslate"><span class="pre">decay</span></code> parameter is no longer supported in Adam. Use <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> scheduling instead.</p></li>
 <li><p><strong>Keras 3 Models</strong>: Multi-output models now require dictionary-based metrics configuration:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;output_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;metric1&#39;</span><span class="p">,</span> <span class="s1">&#39;metric2&#39;</span><span class="p">],</span>
+    <span class="s1">'output_name'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'metric1'</span><span class="p">,</span> <span class="s1">'metric2'</span><span class="p">],</span>
     <span class="o">...</span>
 <span class="p">}</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">metrics</span><span class="o">=</span><span class="n">metrics_dict</span><span class="p">)</span>
@@ -360,7 +414,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

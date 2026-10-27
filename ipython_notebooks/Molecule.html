@@ -18,7 +18,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -121,9 +121,9 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
 
-<span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">&#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;</span>
-<span class="n">caffeine_smarts</span> <span class="o">=</span> <span class="s1">&#39;[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]&#39;</span>
-<span class="n">caffeine_inchi</span> <span class="o">=</span> <span class="s1">&#39;InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3&#39;</span>
+<span class="n">caffeine_smiles</span> <span class="o">=</span> <span class="s1">'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'</span>
+<span class="n">caffeine_smarts</span> <span class="o">=</span> <span class="s1">'[#6]-[#7]1:[#6]:[#7]:[#6]2:[#6]:1:[#6](=[#8]):[#7](:[#6](=[#8]):[#7]:2-[#6])-[#6]'</span>
+<span class="n">caffeine_inchi</span> <span class="o">=</span> <span class="s1">'InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3'</span>
 </pre></div>
 </div>
 </div>
@@ -134,7 +134,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_smiles</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_smiles</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s1">'smiles'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">smiles</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">creator</span><span class="p">)</span>
@@ -165,7 +165,7 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">&#39;images/1_opt.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="s1">'images/1_opt.xyz'</span><span class="p">,</span> <span class="s1">'xyz'</span><span class="p">)</span>
 <span class="n">mol</span>
 </pre></div>
 </div>
@@ -193,7 +193,7 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_inchi</span><span class="p">,</span> <span class="s1">&#39;inchi&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">caffeine_inchi</span><span class="p">,</span> <span class="s1">'inchi'</span><span class="p">)</span>
 <span class="n">mol</span>
 </pre></div>
 </div>
@@ -242,7 +242,7 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
 <span class="n">mol</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -259,7 +259,7 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">)</span> <span class="c1"># just for the sake of visualization: to fit the text inside the box</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'remove'</span><span class="p">)</span> <span class="c1"># just for the sake of visualization: to fit the text inside the box</span>
 <span class="n">mol</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -310,8 +310,8 @@ Cn1c(=O)c2c(ncn2C)n(C)c1=O
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
-<span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="c1"># &#39;UFF&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'MMFF'</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">'MMFF94s'</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span> <span class="c1"># 'UFF'</span>
 <span class="n">mol</span>
 </pre></div>
 </div>
@@ -388,7 +388,7 @@ array([[-2.36692757, -2.28335772,  0.53992304],
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

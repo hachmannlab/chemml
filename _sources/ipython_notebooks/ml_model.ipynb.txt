@@ -427,7 +427,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": null,
    "metadata": {},
    "outputs": [
     {
@@ -452,11 +452,11 @@
     "from chemml.visualization import scatter2D, SavePlot, decorator\n",
     "import pandas as pd\n",
     "%matplotlib inline\n",
-    "df = pd.DataFrame()\n",
-    "df[\"Actual\"] = y_test.reshape(-1,)\n",
-    "df[\"Predicted\"] = y_pred.reshape(-1,)\n",
+    "df_viz = pd.DataFrame()\n",
+    "df_viz[\"Actual\"] = y_test.reshape(-1,)\n",
+    "df_viz[\"Predicted\"] = y_pred.reshape(-1,)\n",
     "sc = scatter2D('r', marker='.')\n",
-    "fig = sc.plot(dfx=df, dfy=df, x=\"Actual\", y=\"Predicted\")\n",
+    "fig = sc.plot(dfx=df_viz, dfy=df_viz, x=\"Actual\", y=\"Predicted\")\n",
     "\n",
     "dec = decorator(title='Actual vs. Predicted',xlabel='Actual Density', ylabel='Predicted Density',\n",
     "                xlim= (950,1550), ylim=(950,1550), grid=True, \n",

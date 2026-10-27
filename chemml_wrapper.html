@@ -17,7 +17,7 @@
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -145,7 +145,7 @@ Here you can see a simple input script:</p>
 <span class="c1">## (Store,figure)</span>
     <span class="o">&lt;&lt;</span> <span class="n">host</span> <span class="o">=</span> <span class="n">chemml</span>
     <span class="o">&lt;&lt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">SavePlot</span>
-    <span class="o">&lt;&lt;</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;normed&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span><span class="s1">&#39;tight&#39;</span><span class="p">}</span>
+    <span class="o">&lt;&lt;</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'normed'</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">'bbox_inches'</span><span class="p">:</span><span class="s1">'tight'</span><span class="p">}</span>
     <span class="o">&lt;&lt;</span> <span class="n">output_directory</span> <span class="o">=</span> <span class="n">plots</span>
     <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">performance</span>
     <span class="o">&gt;&gt;</span> <span class="mi">2</span> <span class="n">fig</span>
@@ -200,13 +200,13 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <section id="method-two-running-in-any-python-interpreter">
 <h3>method two: Running in any Python Interpreter<a class="headerlink" href="#method-two-running-in-any-python-interpreter" title="Link to this heading"></a></h3>
 <p>You can also run your input script with python codes as a python script or interactively, using:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name &#39;tutorial.config&#39; in your Desktop folder</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we assume you saved your script with the name 'tutorial.config' in your Desktop folder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">chemml.wrapper.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
-<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">&#39;/Desktop/tutorial.config&#39;</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="s1">'/Desktop/tutorial.config'</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">'output_directory'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 
-<span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">            ## (Enter,datasets)</span>
 <span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = load_xyz_polarizability</span>
@@ -230,7 +230,7 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <span class="s2">            ## (Store,figure)</span>
 <span class="s2">                &lt;&lt; host = chemml</span>
 <span class="s2">                &lt;&lt; function = SavePlot</span>
-<span class="s2">                &lt;&lt; kwargs = {&#39;normed&#39;:True, &#39;bbox_inches&#39;:&#39;tight&#39;}</span>
+<span class="s2">                &lt;&lt; kwargs = {'normed':True, 'bbox_inches':'tight'}</span>
 <span class="s2">                &lt;&lt; output_directory = plots</span>
 <span class="s2">                &lt;&lt; filename = performance</span>
 <span class="s2">                &gt;&gt; 2 fig</span>
@@ -266,8 +266,8 @@ In the Terminal, navigate to the Desktop folder and enter the following command:
 <span class="s2">                &gt;&gt; 6 dfx</span>
 <span class="s2">                &gt;&gt; dfy_predict 7</span>
 
-<span class="s2">         &quot;&quot;&quot;</span>
-<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="n">script</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;output_directory&#39;</span><span class="p">)</span>
+<span class="s2">         """</span>
+<span class="n">run</span><span class="p">(</span><span class="n">INPUT_FILE</span> <span class="o">=</span> <span class="n">script</span><span class="p">,</span> <span class="n">OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="s1">'output_directory'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Although you can run your script interactively, we recommend using the first method
@@ -299,7 +299,7 @@ and citation file.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

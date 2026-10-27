@@ -18,7 +18,7 @@
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -59,6 +59,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#Splitting-and-preprocessing-the-data">Splitting and preprocessing the data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Building-the-Neural-Fingerprints">Building the Neural Fingerprints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Building-and-training-the-neural-network">Building and training the neural network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Unified-Neural-Graph-Fingerprint-API-with-Engine-Selection">Unified Neural Graph Fingerprint API with Engine Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Simplified-Workflow:-Direct-SMILES-to-Model">Simplified Workflow: Direct SMILES-to-Model</a></li>
 </ul>
 </li>
 </ul>
@@ -119,7 +121,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
 <span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dragon_subset</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
-<span class="n">target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="s1">&#39;density_Kg/m3&#39;</span><span class="p">])</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="s1">'density_Kg/m3'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -130,10 +132,10 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
 <span class="n">mol_objs_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">[</span><span class="s1">&#39;smiles&#39;</span><span class="p">]:</span>
-    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
-    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
-    <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">&#39;MMFF&#39;</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">&#39;MMFF94s&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">[</span><span class="s1">'smiles'</span><span class="p">]:</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">'MMFF'</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">'MMFF94s'</span><span class="p">)</span>
     <span class="n">mol_objs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -155,7 +157,7 @@
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Tensorising molecules in batches of 100 ...
-<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">8s</span> 16ms/step
+<span class="ansi-bold">500/500</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">9s</span> 17ms/step
 Merging batch tensors ...    [DONE]
 </pre></div></div>
 </div>
@@ -187,17 +189,17 @@ Merging batch tensors ...    [DONE]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training data:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Atoms: &#39;</span><span class="p">,</span><span class="n">xatoms_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bonds: &#39;</span><span class="p">,</span><span class="n">xbonds_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Edges: &#39;</span><span class="p">,</span><span class="n">xedges_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Target: &#39;</span><span class="p">,</span><span class="n">target_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Training data:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Atoms: '</span><span class="p">,</span><span class="n">xatoms_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Bonds: '</span><span class="p">,</span><span class="n">xbonds_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Edges: '</span><span class="p">,</span><span class="n">xedges_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Target: '</span><span class="p">,</span><span class="n">target_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Testing data:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Atoms: &#39;</span><span class="p">,</span><span class="n">xatoms_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bonds: &#39;</span><span class="p">,</span><span class="n">xbonds_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Edges: &#39;</span><span class="p">,</span><span class="n">xedges_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Target: &#39;</span><span class="p">,</span><span class="n">target_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Testing data:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Atoms: '</span><span class="p">,</span><span class="n">xatoms_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Bonds: '</span><span class="p">,</span><span class="n">xbonds_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Edges: '</span><span class="p">,</span><span class="n">xedges_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Target: '</span><span class="p">,</span><span class="n">target_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -244,22 +246,22 @@ Target:  (100,)
 <span class="n">num_bond_features</span> <span class="o">=</span> <span class="n">xbonds_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># Creating input layers for atoms ,bonds and edge information</span>
-<span class="n">atoms0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;atom_inputs&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">num_atom_features</span><span class="p">),</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">bonds</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;bond_inputs&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">,</span> <span class="n">num_bond_features</span><span class="p">),</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">edges</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;edge_inputs&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">atoms0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'atom_inputs'</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">num_atom_features</span><span class="p">),</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">bonds</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'bond_inputs'</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">,</span> <span class="n">num_bond_features</span><span class="p">),</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'edge_inputs'</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span> <span class="n">max_degree</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'int32'</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 <span class="c1"># Defining the convolved atom feature layers</span>
-<span class="n">atoms1</span> <span class="o">=</span> <span class="n">NeuralGraphHidden</span><span class="p">(</span><span class="n">conv_width</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)([</span><span class="n">atoms0</span><span class="p">,</span> <span class="n">bonds</span><span class="p">,</span> <span class="n">edges</span><span class="p">])</span>
-<span class="n">atoms2</span> <span class="o">=</span> <span class="n">NeuralGraphHidden</span><span class="p">(</span><span class="n">conv_width</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)([</span><span class="n">atoms1</span><span class="p">,</span> <span class="n">bonds</span><span class="p">,</span> <span class="n">edges</span><span class="p">])</span>
+<span class="n">atoms1</span> <span class="o">=</span> <span class="n">NeuralGraphHidden</span><span class="p">(</span><span class="n">conv_width</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)([</span><span class="n">atoms0</span><span class="p">,</span> <span class="n">bonds</span><span class="p">,</span> <span class="n">edges</span><span class="p">])</span>
+<span class="n">atoms2</span> <span class="o">=</span> <span class="n">NeuralGraphHidden</span><span class="p">(</span><span class="n">conv_width</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)([</span><span class="n">atoms1</span><span class="p">,</span> <span class="n">bonds</span><span class="p">,</span> <span class="n">edges</span><span class="p">])</span>
 
 <span class="c1"># Defining the outputs of each (convolved) atom feature layer to fingerprint</span>
-<span class="n">fp_out0</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)([</span><span class="n">atoms0</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
-<span class="n">fp_out1</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)([</span><span class="n">atoms1</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
-<span class="n">fp_out2</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)([</span><span class="n">atoms2</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
+<span class="n">fp_out0</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">)([</span><span class="n">atoms0</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
+<span class="n">fp_out1</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">)([</span><span class="n">atoms1</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
+<span class="n">fp_out2</span> <span class="o">=</span> <span class="n">NeuralGraphOutput</span><span class="p">(</span><span class="n">fp_length</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">)([</span><span class="n">atoms2</span><span class="p">,</span><span class="n">bonds</span><span class="p">,</span><span class="n">edges</span><span class="p">])</span>
 
 <span class="c1"># Sum outputs to obtain fingerprint</span>
 <span class="n">final_fp</span> <span class="o">=</span> <span class="n">add</span><span class="p">([</span><span class="n">fp_out0</span><span class="p">,</span> <span class="n">fp_out1</span><span class="p">,</span> <span class="n">fp_out2</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Neural Fingerprint Shape: &#39;</span><span class="p">,</span><span class="n">final_fp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Neural Fingerprint Shape: '</span><span class="p">,</span><span class="n">final_fp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -283,16 +285,16 @@ Neural Fingerprint Shape:  (None, 200)
 <span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span>
 
 <span class="c1"># Build and compile model for regression.</span>
-<span class="n">dense_layer0</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;dense_layer0&#39;</span><span class="p">,</span>
+<span class="n">dense_layer0</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">'dense_layer0'</span><span class="p">,</span>
                      <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))(</span><span class="n">final_fp</span><span class="p">)</span>
-<span class="n">dense_layer1</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;dense_layer1&#39;</span><span class="p">,</span>
+<span class="n">dense_layer1</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">'dense_layer1'</span><span class="p">,</span>
                      <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))(</span><span class="n">dense_layer0</span><span class="p">)</span>
-<span class="n">dense_layer2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;dense_layer2&#39;</span><span class="p">,</span>
+<span class="n">dense_layer2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">'dense_layer2'</span><span class="p">,</span>
                      <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))(</span><span class="n">dense_layer1</span><span class="p">)</span>
 
-<span class="n">main_prediction</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;main_prediction&#39;</span><span class="p">)(</span><span class="n">dense_layer1</span><span class="p">)</span>
+<span class="n">main_prediction</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'main_prediction'</span><span class="p">)(</span><span class="n">dense_layer1</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">atoms0</span><span class="p">,</span> <span class="n">bonds</span><span class="p">,</span> <span class="n">edges</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">main_prediction</span><span class="p">])</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mae&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'mae'</span><span class="p">)</span>
 
 <span class="c1"># Show summary</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -395,7 +397,7 @@ WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;keras.src.callbacks.history.History at 0x1e6eaea49e0&gt;
+&lt;keras.src.callbacks.history.History at 0x1d239e1f920&gt;
 </pre></div></div>
 </div>
 <p>Predicting the density of the molecules in our test data and evaluating our model based on it.</p>
@@ -408,11 +410,11 @@ WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">xatoms_test</span><span class="p">,</span><span class="n">xbonds_test</span><span class="p">,</span><span class="n">xedges_test</span><span class="p">])</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_scale</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">target_test</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
-<span class="n">mae</span> <span class="o">=</span> <span class="n">metrics_df</span><span class="p">[</span><span class="s1">&#39;MAE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">r_2</span> <span class="o">=</span> <span class="n">metrics_df</span><span class="p">[</span><span class="s1">&#39;r_squared&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="n">metrics_df</span><span class="p">[</span><span class="s1">'MAE'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">r_2</span> <span class="o">=</span> <span class="n">metrics_df</span><span class="p">[</span><span class="s1">'r_squared'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Absolute Error = </span><span class="si">{}</span><span class="s2"> kg/m^3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mae</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R squared = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r_2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Mean Absolute Error = </span><span class="si">{}</span><span class="s2"> kg/m^3"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mae</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"R squared = </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r_2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -421,9 +423,9 @@ WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-bold">4/4</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">6s</span> 1s/step
-Mean Absolute Error = 15.303 kg/m^3
-R squared = 0.945
+<span class="ansi-bold">4/4</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">9s</span> 2s/step
+Mean Absolute Error = 17.415 kg/m^3
+R squared = 0.928
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -476,20 +478,353 @@ R squared = 0.945
   <tbody>
     <tr>
       <th>0</th>
-      <td>-6.17789</td>
-      <td>15.302616</td>
-      <td>419.635458</td>
-      <td>20.485006</td>
-      <td>0.000286</td>
-      <td>0.016918</td>
-      <td>1.238328</td>
-      <td>7.243467</td>
-      <td>1.715904</td>
-      <td>-0.526769</td>
-      <td>72.840308</td>
-      <td>111.701436</td>
-      <td>0.945338</td>
+      <td>-10.108292</td>
+      <td>17.415105</td>
+      <td>551.830271</td>
+      <td>23.491068</td>
+      <td>0.000387</td>
+      <td>0.019676</td>
+      <td>1.420658</td>
+      <td>9.103122</td>
+      <td>2.012218</td>
+      <td>-0.868725</td>
+      <td>91.540991</td>
+      <td>127.90665</td>
+      <td>0.928118</td>
       <td>87.617825</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Unified-Neural-Graph-Fingerprint-API-with-Engine-Selection">
+<h2>Unified Neural Graph Fingerprint API with Engine Selection<a class="headerlink" href="#Unified-Neural-Graph-Fingerprint-API-with-Engine-Selection" title="Link to this heading"></a></h2>
+<p>ChemML now provides a unified wrapper <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint</span></code> that supports multiple computation backends (TensorFlow and PyTorch). You can easily switch between engines without changing the core logic.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeuralGraphFingerprint</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+
+<span class="c1"># Example 1: Using PyTorch backend</span>
+<span class="n">pt_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Example 1: PyTorch Backend"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">ngf_pytorch</span> <span class="o">=</span> <span class="n">NeuralGraphFingerprint</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s1">'pytorch'</span><span class="p">,</span>
+    <span class="n">conv_width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">fp_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">n_conv_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">hidden_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">ngf_pytorch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xatoms_train</span><span class="p">,</span> <span class="n">xbonds_train</span><span class="p">,</span> <span class="n">xedges_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+<span class="n">y_pred_pt</span> <span class="o">=</span> <span class="n">y_scale</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">ngf_pytorch</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xatoms_test</span><span class="p">,</span> <span class="n">xbonds_test</span><span class="p">,</span> <span class="n">xedges_test</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PyTorch predictions shape: </span><span class="si">{</span><span class="n">y_pred_pt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Actual values (first 5): </span><span class="si">{</span><span class="n">target_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PyTorch predictions (first 5): </span><span class="si">{</span><span class="n">y_pred_pt</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">pt_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PyTorch training and prediction time: </span><span class="si">{</span><span class="n">pt_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pt_start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+
+<span class="c1"># Example 2: Using TensorFlow backend</span>
+<span class="n">tf_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Example 2: TensorFlow Backend"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">ngf_tensorflow</span> <span class="o">=</span> <span class="n">NeuralGraphFingerprint</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s1">'tensorflow'</span><span class="p">,</span>
+    <span class="n">conv_width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">fp_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">n_conv_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">hidden_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="c1"># Same data, different backend</span>
+<span class="n">ngf_tensorflow</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xatoms_train</span><span class="p">,</span> <span class="n">xbonds_train</span><span class="p">,</span> <span class="n">xedges_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+<span class="n">y_pred_tf</span> <span class="o">=</span> <span class="n">y_scale</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">ngf_tensorflow</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xatoms_test</span><span class="p">,</span> <span class="n">xbonds_test</span><span class="p">,</span> <span class="n">xedges_test</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TensorFlow predictions shape: </span><span class="si">{</span><span class="n">y_pred_tf</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Actual values (first 5): </span><span class="si">{</span><span class="n">target_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TensorFlow predictions (first 5): </span><span class="si">{</span><span class="n">y_pred_tf</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">tf_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TensorFlow training and prediction time: </span><span class="si">{</span><span class="n">tf_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tf_start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+
+<span class="n">metrics_pt</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">target_test</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_pred_pt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+<span class="n">metrics_tf</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">target_test</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_pred_tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+
+<span class="n">metrics_pt</span><span class="p">[</span><span class="s1">'engine'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'PyTorch'</span>
+<span class="n">metrics_tf</span><span class="p">[</span><span class="s1">'engine'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TensorFlow'</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">metrics_pt</span><span class="p">,</span> <span class="n">metrics_tf</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+============================================================
+Example 1: PyTorch Backend
+============================================================
+PyTorch predictions shape: (100, 1)
+Actual values (first 5): [1328.35 1143.8  1351.33 1466.57 1207.67]
+PyTorch predictions (first 5): [1339.304  1137.8044 1331.6082 1462.5497 1215.6892]
+PyTorch training and prediction time: 13.98 seconds
+
+============================================================
+Example 2: TensorFlow Backend
+============================================================
+TensorFlow predictions shape: (100, 1)
+Actual values (first 5): [1328.35 1143.8  1351.33 1466.57 1207.67]
+TensorFlow predictions (first 5): [1358.3076 1153.0071 1357.1093 1474.0562 1220.1882]
+TensorFlow training and prediction time: 74.82 seconds
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ME</th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MSLE</th>
+      <th>RMSLE</th>
+      <th>MAPE</th>
+      <th>MaxAPE</th>
+      <th>RMSPE</th>
+      <th>MPE</th>
+      <th>MaxAE</th>
+      <th>deltaMaxE</th>
+      <th>r_squared</th>
+      <th>std</th>
+      <th>engine</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.434481</td>
+      <td>14.846350</td>
+      <td>344.743988</td>
+      <td>18.567283</td>
+      <td>0.000230</td>
+      <td>0.015162</td>
+      <td>1.194169</td>
+      <td>4.399324</td>
+      <td>1.516716</td>
+      <td>0.239773</td>
+      <td>46.250522</td>
+      <td>92.256938</td>
+      <td>0.955093</td>
+      <td>87.617825</td>
+      <td>PyTorch</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-7.184584</td>
+      <td>14.876365</td>
+      <td>355.668758</td>
+      <td>18.859182</td>
+      <td>0.000236</td>
+      <td>0.015351</td>
+      <td>1.197706</td>
+      <td>5.650654</td>
+      <td>1.552435</td>
+      <td>-0.601583</td>
+      <td>56.822974</td>
+      <td>97.304233</td>
+      <td>0.953670</td>
+      <td>87.617825</td>
+      <td>TensorFlow</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Simplified-Workflow:-Direct-SMILES-to-Model">
+<h2>Simplified Workflow: Direct SMILES-to-Model<a class="headerlink" href="#Simplified-Workflow:-Direct-SMILES-to-Model" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint</span></code> wrapper also supports end-to-end workflows directly from SMILES strings or Molecule objects, eliminating the need for manual tensorization steps.</p>
+<p>This section demonstrates the complete pipeline from loading the dataset to model prediction using the <code class="docutils literal notranslate"><span class="pre">NeuralGraphFingerprint</span></code> API.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Force aggressive module reload</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Remove all chemml modules from cache</span>
+<span class="n">modules_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="n">mod</span> <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="k">if</span> <span class="n">mod</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'chemml'</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">modules_to_remove</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">mod</span><span class="p">]</span>
+
+<span class="c1"># Step 1: Load dataset using load_organic_density</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
+<span class="n">smiles_df</span><span class="p">,</span> <span class="n">density_df</span><span class="p">,</span> <span class="n">features_df</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
+
+<span class="c1"># Step 2: Prepare data</span>
+<span class="n">smiles_all</span> <span class="o">=</span> <span class="n">smiles_df</span><span class="p">[</span><span class="s1">'smiles'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">smiles_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smiles_all</span><span class="p">))</span>
+<span class="n">targets_all</span> <span class="o">=</span> <span class="n">density_df</span><span class="p">[</span><span class="s1">'density_Kg/m3'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'float32'</span><span class="p">)</span>
+
+<span class="c1"># Step 3: Train/Test split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">smiles_train</span><span class="p">,</span> <span class="n">smiles_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">smiles_idx</span><span class="p">,</span> <span class="n">targets_all</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="n">yscale</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">yscale</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">smiles_train</span> <span class="o">=</span> <span class="p">[</span><span class="n">smiles_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">smiles_train</span><span class="p">]</span>
+<span class="n">smiles_test</span> <span class="o">=</span> <span class="p">[</span><span class="n">smiles_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">smiles_test</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Training set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">smiles_train</span><span class="p">)</span><span class="si">}</span><span class="s2"> molecules"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">smiles_test</span><span class="p">)</span><span class="si">}</span><span class="s2"> molecules"</span><span class="p">)</span>
+
+<span class="c1"># Step 4: Create and train model directly from SMILES (no manual tensorization!)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeuralGraphFingerprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+
+<span class="n">ngf_complete</span> <span class="o">=</span> <span class="n">NeuralGraphFingerprint</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s1">'pytorch'</span><span class="p">,</span>
+    <span class="n">conv_width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">fp_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">n_conv_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">32</span><span class="p">],</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit the model directly on SMILES strings</span>
+<span class="n">ngf_complete</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">smiles_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">tensorize_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">'n_jobs'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'verbose'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Training completed in </span><span class="si">{</span><span class="n">training_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+
+<span class="c1"># Step 5: Make predictions on test set</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Generating predictions from raw SMILES..."</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">yscale</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">ngf_complete</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">smiles_test</span><span class="p">,</span> <span class="n">tensorize_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">'n_jobs'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'verbose'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">prediction_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Predictions generated for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span><span class="si">}</span><span class="s2"> molecules in </span><span class="si">{</span><span class="n">prediction_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+
+<span class="c1"># Step 6: Evaluate results</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">regression_metrics</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">regression_metrics</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training set: 400 molecules
+Test set: 100 molecules
+Training completed in 18.20 seconds
+
+Generating predictions from raw SMILES...
+Predictions generated for 100 molecules in 8.62 seconds
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ME</th>
+      <th>MAE</th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MSLE</th>
+      <th>RMSLE</th>
+      <th>MAPE</th>
+      <th>MaxAPE</th>
+      <th>RMSPE</th>
+      <th>MPE</th>
+      <th>MaxAE</th>
+      <th>deltaMaxE</th>
+      <th>r_squared</th>
+      <th>std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.077003</td>
+      <td>14.059737</td>
+      <td>354.052032</td>
+      <td>18.816271</td>
+      <td>0.000221</td>
+      <td>0.014878</td>
+      <td>1.113103</td>
+      <td>5.090196</td>
+      <td>1.49254</td>
+      <td>-0.031188</td>
+      <td>56.511597</td>
+      <td>107.698608</td>
+      <td>0.953881</td>
+      <td>87.617821</td>
     </tr>
   </tbody>
 </table>
@@ -511,7 +846,7 @@ R squared = 0.945
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2014-2022 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma and Aatish Pradhan.</p>
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

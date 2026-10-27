@@ -1,0 +1,2721 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoML for Classification Model Screening &mdash; ChemML  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Explain" href="../explain_task/index.html" />
+    <link rel="prev" title="AutoML for Regression Model Screening" href="autoML_regression.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ChemML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">ChemML Library</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../chemml_library.html">Introduction to ChemML Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_task/index.html">Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../represent_task/index.html">Represent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare_task/index.html">Prepare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_task/index.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize_task/index.html">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualize_task/index.html">Visualize</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../automl_task/index.html">AutoML</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="autoML_regression.html">AutoML for Regression Model Screening</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AutoML for Classification Model Screening</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-your-data">Load your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Run-autoML-for-a-classification-task">Run autoML for a classification task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Validating-AutoML-generated-model">Validating AutoML-generated model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../explain_task/index.html">Explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML Wrapper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chemml_wrapper.html">Introduction to ChemML Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">ChemML Wrapper Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Published Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../published/index.html">Published</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ChemML API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">ChemML API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ChemML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../automl_task/index.html">AutoML</a></li>
+      <li class="breadcrumb-item active">AutoML for Classification Model Screening</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ipython_notebooks/autoML_classification.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="AutoML-for-Classification-Model-Screening">
+<h1>AutoML for Classification Model Screening<a class="headerlink" href="#AutoML-for-Classification-Model-Screening" title="Link to this heading"></a></h1>
+<p>The following are the steps for using AutoML for a classification task:</p>
+<ol class="arabic">
+<li><p>Provide an input pandas dataframe consisting of two columns:</p>
+<ul class="simple">
+<li><p>SMILES strings</p></li>
+<li><p>target class values</p></li>
+</ul>
+</li>
+<li><p>If featurization = True, Molecules are represented as:</p>
+<ul class="simple">
+<li><p>Coulomb matrix</p></li>
+<li><p>RDKit Morgan (ECFP6 1024-bit) fingerprints</p></li>
+<li><p>MACCs keys</p></li>
+<li><p>RDKit hashed topological torsion</p></li>
+<li><p>RDKit molecular descriptors (all)</p></li>
+<li><p>Mordred molecular descriptors</p></li>
+</ul>
+<p>If featurization=False, a feature set must be provided by the user.</p>
+</li>
+<li><p>Screens through various classifier models:</p>
+<ul class="simple">
+<li><p>Single-core (runs regardless of multi_core value):</p>
+<ul>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">LogisticRegression</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">DecisionTreeClassifier</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">SVC</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">KNeighboursClassifier</a></p></li>
+</ul>
+</li>
+<li><p>Multi-core(set multi_core=True):</p>
+<ul>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">RandomForestClassifier</a></p></li>
+<li><p><a class="reference external" href="https://hachmannlab.github.io/chemml/ipython_notebooks/ml_model.html">ChemML_MLP</a> (if n_datapoints&gt;500)</p></li>
+<li><p>(optional) <a class="reference external" href="https://xgboost.readthedocs.io/en/latest/python/python_api.html">XGBClassifier</a></p></li>
+<li><p>(optional) <a class="reference external" href="https://lightgbm.readthedocs.io/en/stable/">LightGBM</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Yields ‘n-best’ models, with optimized hyperparamters.</p>
+<p>The output_dir argument specifies a folder that will be created wherever the code is run from, containing the following directory tree:</p>
+<pre> &lt;output_dir&gt;/<br> |-- output.log<br> |-- scores.csv<br> |-- best_model/<br> |   |-- model.pkl # most non-MLP models<br> |   |-- model_chemml_model.json # MLP case (plus possible extra model files)<br> |   |-- scaler.pkl # present when scaler exists for chosen feature_key<br> |   |-- feature_order.json<br> |   |-- metadata.json<br> |-- .model_screener_artifacts/<br> |   |-- &lt;run_key_1&gt;/<br> |        |-- model.pkl # or MLP artifact files<br> |   |-- &lt;run_key_2&gt;/<br>... </pre><section id="Load-your-data">
+<h2>Load your data<a class="headerlink" href="#Load-your-data" title="Link to this heading"></a></h2>
+<p>We are using ChemML’s in-built dataset to demonstrate the minimum requirements to run AutoML.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_organic_density</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dragon_subset</span> <span class="o">=</span> <span class="n">load_organic_density</span><span class="p">()</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">molecules</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>smiles</th>
+      <th>density_Kg/m3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>361</th>
+      <td>c1scc(n1)c1ncc(s1)c1c(ccc2c1cccc2)c1cncs1</td>
+      <td>1328.35</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>S1CC(SC(C1)C1CCCC1)c1cocc1c1ccccc1</td>
+      <td>1143.80</td>
+    </tr>
+    <tr>
+      <th>374</th>
+      <td>N1CNC(NC1)c1sccc1C1(CSCCS1)c1cccs1</td>
+      <td>1351.33</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>c1nc(c(s1)c1nsnc1)c1csc(n1)c1cccs1</td>
+      <td>1466.57</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>Oc1ccc2c(c1c1cocc1)c(ccc2)c1ccccn1</td>
+      <td>1207.67</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>Oc1ncc(c(c1)C)c1cnccn1</td>
+      <td>1195.16</td>
+    </tr>
+    <tr>
+      <th>145</th>
+      <td>Sc1cc2ccccc2c(c1)c1cnccc1c1cnccn1</td>
+      <td>1213.41</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>c1sc(c(c1)c1ncccc1c1nsnc1)c1ccc2c(c1)cccc2</td>
+      <td>1264.16</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>N1CNC(NC1)(N1CNC(NC1)c1cncs1)c1cccc2c1cccc2</td>
+      <td>1270.40</td>
+    </tr>
+    <tr>
+      <th>367</th>
+      <td>C1CSC(CS1)C1(CSC(CS1)c1ccc2c(c1)cccc2)c1cnccn1</td>
+      <td>1268.28</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Labeling data for classification instead of regression</span>
+<span class="c1"># Note: This is just for demonstration purposes. In practice, you would want to use a regression model for predicting density.</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'density_class'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'density_Kg/m3'</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Run-autoML-for-a-classification-task">
+<h2>Run autoML for a classification task<a class="headerlink" href="#Run-autoML-for-a-classification-task" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.autoML</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelScreener</span>
+
+<span class="n">output_dir</span> <span class="o">=</span> <span class="s2">"automl_results_class"</span>
+
+<span class="n">MS</span> <span class="o">=</span> <span class="n">ModelScreener</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">"density_class"</span><span class="p">,</span> <span class="n">featurization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache_features</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">smiles</span><span class="o">=</span><span class="s2">"smiles"</span><span class="p">,</span>
+                   <span class="n">screener_type</span><span class="o">=</span><span class="s2">"classifier"</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">MS</span><span class="o">.</span><span class="n">screen_models</span><span class="p">(</span><span class="n">n_best</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">multi_core</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+-------------------------ChemML AutoML Model Screening-------------------------
+
+-------------------------Model screening started at Mon Aug 31 01:28:19 2026-------------------------
+
+
+
+Converting SMILES to ChemML Molecule objects...
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Converting SMILES to ChemML Molecule objects: 100%|██████████| 200/200 [00:06&lt;00:00, 28.92it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Generating Coulomb matrix representation...
+
+featurizing molecules in batches of 12 ...
+<span class="ansi-bold">200/200</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">14s</span> 69ms/step
+Merging batch features ...    [DONE]
+
+Generating RDKit fingerprint representations...
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Generating Morgan Fingerprints: 100%|██████████| 200/200 [00:00&lt;00:00, 10268.08molecule/s]
+Generating MACCS Fingerprints: 100%|██████████| 200/200 [00:00&lt;00:00, 998.62molecule/s]
+Generating Hashed Topological Torsion Fingerprints: 100%|██████████| 200/200 [00:00&lt;00:00, 8634.43molecule/s]
+Generating Atom Pair Fingerprints: 100%|██████████| 200/200 [00:00&lt;00:00, 9262.83molecule/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Generating RDKit descriptor representations...
+
+Step 1: Normalizing molecule input
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Step 2: Calculating RDKit descriptors: 100%|██████████| 200/200 [00:02&lt;00:00, 95.34it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Generating Mordred descriptor representations...
+
+Step 1: Normalizing molecule input
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Normalizing Molecule input: 100%|██████████| 200/200 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Step 2/3: Optimizing geometry for 3D descriptor calculation
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+3D geometry already exists, loading geometry: 100%|██████████| 200/200 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Step 3/3: Calculating Mordred descriptors
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+100%|██████████| 200/200 [00:06&lt;00:00, 31.55it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Cleaning feature sets to remove constant, highly correlated, low-variance, and complex features...
+
+Feature set &#39;CoulombMatrix&#39; cleaned: 25 features retained.
+
+Feature set &#39;morganfingerprints_radius3&#39; cleaned: 252 features retained.
+
+Feature set &#39;MACCS_radius3&#39; cleaned: 48 features retained.
+
+Feature set &#39;hashedtopologicaltorsion_radius3&#39; cleaned: 76 features retained.
+
+Feature set &#39;hashedatompair_radius3&#39; cleaned: 421 features retained.
+
+Feature set &#39;rdkit_descriptors&#39; cleaned: 90 features retained.
+
+Feature set &#39;mord_descriptors&#39; cleaned: 530 features retained.
+
+
+-------------------------Run parameters-------------------------
+  Featurization: True
+  Multi_core: False
+  Screener_type: classifier
+  Number of datapoints: 200
+  Note: Dataset &lt;= 500 samples; MLP is excluded from screening due to inefficiency.
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set CoulombMatrix, time taken: 16.359 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set morganfingerprints_radius3, time taken: 13.086 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set MACCS_radius3, time taken: 12.781 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set hashedtopologicaltorsion_radius3, time taken: 12.867 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set hashedatompair_radius3, time taken: 14.05 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set rdkit_descriptors, time taken: 12.805 seconds -------------------------
+
+split done!
+Single-core complete
+
+
+------------------------- Screening complete for feature set mord_descriptors, time taken: 16.855 seconds -------------------------
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>Recall</th>
+      <th>Precision</th>
+      <th>F1-score</th>
+      <th>time(seconds)</th>
+      <th>parameters</th>
+      <th>Feature</th>
+      <th>run_key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27</th>
+      <td>LogisticRegression</td>
+      <td>0.8</td>
+      <td>0.793651</td>
+      <td>0.844444</td>
+      <td>0.797587</td>
+      <td>9.955029</td>
+      <td>[{'C': 0.1, 'class_weight': None, 'dual': Fals...</td>
+      <td>mord_descriptors</td>
+      <td>LogisticRegression_mord_descriptors_324dd7b551...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>KNeighborsClassifier</td>
+      <td>0.75</td>
+      <td>0.746032</td>
+      <td>0.811111</td>
+      <td>0.758371</td>
+      <td>6.259871</td>
+      <td>[{'algorithm': 'auto', 'leaf_size': 30, 'metri...</td>
+      <td>mord_descriptors</td>
+      <td>KNeighborsClassifier_mord_descriptors_1e7fa7c1...</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>DecisionTreeClassifier</td>
+      <td>0.7</td>
+      <td>0.690476</td>
+      <td>0.763889</td>
+      <td>0.694444</td>
+      <td>3.405225</td>
+      <td>[{'ccp_alpha': 0.0, 'class_weight': None, 'cri...</td>
+      <td>mord_descriptors</td>
+      <td>DecisionTreeClassifier_mord_descriptors_6a4d98...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>LogisticRegression</td>
+      <td>0.65</td>
+      <td>0.642857</td>
+      <td>0.662963</td>
+      <td>0.646562</td>
+      <td>7.150034</td>
+      <td>[{'C': 42.16315789473685, 'class_weight': None...</td>
+      <td>hashedatompair_radius3</td>
+      <td>LogisticRegression_hashedatompair_radius3_c444...</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>SVC</td>
+      <td>0.6</td>
+      <td>0.595238</td>
+      <td>0.604762</td>
+      <td>0.597691</td>
+      <td>2.851144</td>
+      <td>[{'C': 0.0037926901907322525, 'break_ties': Fa...</td>
+      <td>hashedatompair_radius3</td>
+      <td>SVC_hashedatompair_radius3_ef5a1fb731b9493682d...</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>KNeighborsClassifier</td>
+      <td>0.55</td>
+      <td>0.563492</td>
+      <td>0.541667</td>
+      <td>0.545788</td>
+      <td>5.889152</td>
+      <td>[{'algorithm': 'auto', 'leaf_size': 30, 'metri...</td>
+      <td>hashedtopologicaltorsion_radius3</td>
+      <td>KNeighborsClassifier_hashedtopologicaltorsion_...</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>DecisionTreeClassifier</td>
+      <td>0.5</td>
+      <td>0.507937</td>
+      <td>0.541667</td>
+      <td>0.505628</td>
+      <td>1.434301</td>
+      <td>[{'ccp_alpha': 0.0, 'class_weight': None, 'cri...</td>
+      <td>hashedatompair_radius3</td>
+      <td>DecisionTreeClassifier_hashedatompair_radius3_...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Validating-AutoML-generated-model">
+<h2>Validating AutoML-generated model<a class="headerlink" href="#Validating-AutoML-generated-model" title="Link to this heading"></a></h2>
+<p>Since ChemML v1.3.4, AutoML outputs the best model and required scaler and feature order as easy-to-import files. A quick demonstration of the model loading workflow is given below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/best_model/metadata.json'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/best_model/explanation.json'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">explanation</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/best_model/feature_order.json'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">feature_order</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/best_model/model.pkl"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/best_model/scaler.pkl"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">loaded_scaler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Metadata isn’t necessary for model validation, but gives us a lot of context from the AutoML screening workflow.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;artifact_schema_version&#39;: 1,
+ &#39;model_name&#39;: &#39;LogisticRegression&#39;,
+ &#39;feature_key&#39;: &#39;mord_descriptors&#39;,
+ &#39;run_key&#39;: &#39;LogisticRegression_mord_descriptors_324dd7b551dd4d0e89563c3fa79868b8&#39;,
+ &#39;screener_type&#39;: &#39;classifier&#39;,
+ &#39;parameters&#39;: {&#39;C&#39;: 0.1,
+  &#39;class_weight&#39;: None,
+  &#39;dual&#39;: False,
+  &#39;fit_intercept&#39;: True,
+  &#39;intercept_scaling&#39;: 1,
+  &#39;l1_ratio&#39;: 0.0,
+  &#39;max_iter&#39;: 100,
+  &#39;n_jobs&#39;: None,
+  &#39;penalty&#39;: &#39;deprecated&#39;,
+  &#39;random_state&#39;: None,
+  &#39;solver&#39;: &#39;sag&#39;,
+  &#39;tol&#39;: 0.0001,
+  &#39;verbose&#39;: 0,
+  &#39;warm_start&#39;: False},
+ &#39;n_folds&#39;: 5,
+ &#39;n_datapoints&#39;: 200,
+ &#39;metrics&#39;: {&#39;Accuracy&#39;: 0.8,
+  &#39;Recall&#39;: 0.7936507936507936,
+  &#39;Precision&#39;: 0.8444444444444444,
+  &#39;F1-score&#39;: 0.7975867269984916,
+  &#39;time(seconds)&#39;: 9.955028772354126},
+ &#39;model_serializer&#39;: &#39;pickle&#39;,
+ &#39;model_artifact_dir&#39;: &#39;model_artifact&#39;,
+ &#39;scaler_file&#39;: &#39;scaler.pkl&#39;,
+ &#39;feature_order_file&#39;: &#39;feature_order.json&#39;,
+ &#39;timestamp&#39;: &#39;Mon Aug 31 01:30:34 2026&#39;}
+</pre></div></div>
+</div>
+<p>Explanation gives the user a list of feature importances alongside feature names; while not necessary for validation, this is useful to understand what features the model is actually using.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">explanation</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;model_type&#39;: &#39;LogisticRegression&#39;,
+ &#39;explanation_type&#39;: &#39;linear.coef_&#39;,
+ &#39;importance_values&#39;: {&#39;BCUTs-1l&#39;: 0.12080837896578821,
+  &#39;ATSC6s&#39;: 0.11705360020911237,
+  &#39;BCUTdv-1l&#39;: 0.11643211939895474,
+  &#39;MATS6s&#39;: 0.11176801885427924,
+  &#39;MIC0&#39;: -0.10732155496149466,
+  &#39;BCUTZ-1h&#39;: -0.10718923909200691,
+  &#39;VSA_EState7&#39;: 0.10557335217812619,
+  &#39;SM1_DzZ&#39;: -0.10481593783264181,
+  &#39;MIC2&#39;: -0.10150151886248547,
+  &#39;MDEC-22&#39;: 0.10067185163430138,
+  &#39;PEOE_VSA4&#39;: -0.10042496013838315,
+  &#39;Mor13&#39;: 0.09870373105961783,
+  &#39;IC0&#39;: -0.09707281423378299,
+  &#39;C2SP3&#39;: 0.09600380966243331,
+  &#39;Mor19&#39;: 0.09434981175135433,
+  &#39;IC2&#39;: -0.09216564338412887,
+  &#39;Mor23v&#39;: -0.08944319176524317,
+  &#39;WNSA4&#39;: 0.08883671204663847,
+  &#39;Mor11m&#39;: 0.08859302230665116,
+  &#39;nHetero&#39;: -0.08830107172063842,
+  &#39;Mor21&#39;: -0.0877983270264638,
+  &#39;nS&#39;: -0.0852109498551405,
+  &#39;MATS1s&#39;: 0.0849868365554287,
+  &#39;ATSC8i&#39;: -0.08486929913376605,
+  &#39;Mor11v&#39;: 0.0843377479785362,
+  &#39;PEOE_VSA6&#39;: 0.08371084437200652,
+  &#39;GATS3Z&#39;: 0.08314941767103975,
+  &#39;ZMIC4&#39;: -0.08291889991449908,
+  &#39;SlogP_VSA11&#39;: -0.08264076194322785,
+  &#39;Mor22&#39;: 0.0811945672039007,
+  &#39;AATSC0Z&#39;: -0.08025587707186668,
+  &#39;AATSC2Z&#39;: 0.07969179763267753,
+  &#39;ATSC0Z&#39;: -0.07938387796472843,
+  &#39;GATS1s&#39;: -0.0778363152307057,
+  &#39;PNSA4&#39;: 0.07711466587068334,
+  &#39;WNSA3&#39;: 0.07702985845556001,
+  &#39;SMR_VSA5&#39;: 0.07635130453924953,
+  &#39;ATS0Z&#39;: -0.07621573428909163,
+  &#39;MIC1&#39;: -0.07537027853437128,
+  &#39;Mor07v&#39;: 0.07493426507957587,
+  &#39;ATSC2Z&#39;: 0.07423512895464822,
+  &#39;Mor17&#39;: -0.07265706116251208,
+  &#39;SM1_Dzse&#39;: -0.07258756393687768,
+  &#39;Mor23m&#39;: -0.07243901248933617,
+  &#39;AMID_h&#39;: -0.0715074895084047,
+  &#39;Mor18&#39;: -0.07134081353269153,
+  &#39;FNSA2&#39;: 0.07098238606356791,
+  &#39;DPSA3&#39;: -0.07086776819047452,
+  &#39;WNSA5&#39;: 0.07072208522949826,
+  &#39;NaaS&#39;: -0.07011039127881565,
+  &#39;Mor21m&#39;: -0.06984160210315588,
+  &#39;Mor23&#39;: -0.06979633396704292,
+  &#39;AATS5Z&#39;: -0.06776667525244524,
+  &#39;DPSA4&#39;: -0.06743265563863299,
+  &#39;AATS6Z&#39;: -0.0671288925307278,
+  &#39;ATSC4c&#39;: -0.06709979041594832,
+  &#39;Mor31&#39;: 0.06705804301418883,
+  &#39;DPSA1&#39;: 0.06667074035047829,
+  &#39;PNSA2&#39;: 0.06665612606226767,
+  &#39;PNSA3&#39;: 0.06598975001498042,
+  &#39;Mor07&#39;: 0.06558397866509244,
+  &#39;ATSC6v&#39;: -0.06527858478714987,
+  &#39;AATS0Z&#39;: -0.06513692171231619,
+  &#39;RNCS&#39;: 0.06500833397631156,
+  &#39;VSA_EState6&#39;: 0.06467998846396998,
+  &#39;ATSC1s&#39;: 0.0639567175973236,
+  &#39;SRW05&#39;: -0.06385335676797899,
+  &#39;Mor03m&#39;: 0.0635536906752689,
+  &#39;ZMIC2&#39;: 0.0633770766472029,
+  &#39;ATSC1dv&#39;: 0.06315167855356948,
+  &#39;Mor07m&#39;: 0.06299027299502238,
+  &#39;PNSA1&#39;: -0.06284026238877223,
+  &#39;MATS1c&#39;: 0.0627341979463412,
+  &#39;SlogP_VSA5&#39;: 0.0625480201773812,
+  &#39;GATS3p&#39;: 0.062294692738831585,
+  &#39;Mor27&#39;: -0.06183006226945349,
+  &#39;Mor06p&#39;: -0.061320930862255645,
+  &#39;NsCH3&#39;: 0.061107468780475446,
+  &#39;AATSC7i&#39;: 0.0609338990453993,
+  &#39;Mor25&#39;: 0.06088850374545029,
+  &#39;Mor16&#39;: 0.06065044433704577,
+  &#39;n5HRing&#39;: -0.06056563915935044,
+  &#39;ATSC6p&#39;: -0.060454239126411874,
+  &#39;PEOE_VSA9&#39;: -0.0600792995531491,
+  &#39;PNSA5&#39;: 0.05925226467000524,
+  &#39;ATSC1c&#39;: 0.05879170065770135,
+  &#39;EState_VSA4&#39;: -0.05878302306780468,
+  &#39;Xch-7dv&#39;: -0.058671009652759135,
+  &#39;Mor12&#39;: -0.05831698042454397,
+  &#39;Mor27v&#39;: -0.05783720073530536,
+  &#39;n6aRing&#39;: 0.05779768084307773,
+  &#39;Mor05&#39;: -0.056562456827765124,
+  &#39;AATS5p&#39;: -0.056103765160925564,
+  &#39;AATS6p&#39;: -0.05584058998601546,
+  &#39;nC&#39;: 0.055696487376654696,
+  &#39;nHRing&#39;: -0.05569562438544719,
+  &#39;NsSH&#39;: -0.05557082227059615,
+  &#39;Mor22m&#39;: 0.05546542693895479,
+  &#39;ATSC3c&#39;: 0.05545302844910022,
+  &#39;Mor24m&#39;: -0.05518521095380485,
+  &#39;GATS3s&#39;: 0.05507287368131927,
+  &#39;ATSC3s&#39;: -0.054405275267100005,
+  &#39;ATSC1pe&#39;: 0.053341518437240255,
+  &#39;Mor20&#39;: 0.05289003546006708,
+  &#39;AATS6se&#39;: -0.05263014767903107,
+  &#39;ATSC6Z&#39;: -0.05225501029632406,
+  &#39;Mor22v&#39;: 0.052208026618504474,
+  &#39;AATS1se&#39;: -0.052016972573772045,
+  &#39;WNSA1&#39;: -0.05171974088332188,
+  &#39;Mor27m&#39;: -0.05160604383234613,
+  &#39;Mor02m&#39;: -0.05150896285084032,
+  &#39;ATSC8p&#39;: -0.05140676549186002,
+  &#39;Mor08&#39;: 0.05065750034077404,
+  &#39;ATSC1d&#39;: 0.05049038574033142,
+  &#39;AATS7se&#39;: -0.050397534695051004,
+  &#39;GATS7dv&#39;: 0.050337125780684985,
+  &#39;AATS0p&#39;: -0.050133006029732294,
+  &#39;nH&#39;: 0.04994985338326599,
+  &#39;ATSC7pe&#39;: -0.0499325873419884,
+  &#39;ATSC7i&#39;: 0.049757529903058186,
+  &#39;Mor08m&#39;: -0.049655392893681344,
+  &#39;n6aHRing&#39;: 0.049326708043321135,
+  &#39;SMR_VSA6&#39;: -0.04875171896956202,
+  &#39;ATSC0c&#39;: -0.04853618150329924,
+  &#39;Mor06m&#39;: -0.04843296330364251,
+  &#39;MATS7se&#39;: -0.04825440075448658,
+  &#39;AATS0se&#39;: -0.04803193343483492,
+  &#39;NaaCH&#39;: 0.047451231845715536,
+  &#39;ATSC6d&#39;: -0.047438229513838054,
+  &#39;Xch-7d&#39;: -0.04672316245021522,
+  &#39;n5ARing&#39;: 0.04656107401997829,
+  &#39;GATS8c&#39;: 0.046445633614312684,
+  &#39;Mor03v&#39;: 0.04613276455370276,
+  &#39;ATSC2s&#39;: -0.045158917984958566,
+  &#39;AATSC6dv&#39;: 0.045088567124141644,
+  &#39;GATS2i&#39;: 0.0449961983869565,
+  &#39;SssssC&#39;: -0.04484900692779872,
+  &#39;Xch-6dv&#39;: -0.044822868571114144,
+  &#39;Mor19v&#39;: 0.044568215687565874,
+  &#39;PPSA5&#39;: -0.044566700343472855,
+  &#39;SlogP_VSA2&#39;: -0.04385382135295167,
+  &#39;Mor13m&#39;: -0.043827443270466844,
+  &#39;PPSA1&#39;: 0.04372327809832466,
+  &#39;GATS5se&#39;: 0.04369325110545239,
+  &#39;AATS6v&#39;: -0.04343297632486252,
+  &#39;AATSC0i&#39;: -0.04341791286884424,
+  &#39;GATS7i&#39;: -0.0434061357080254,
+  &#39;EState_VSA5&#39;: 0.043374799734754096,
+  &#39;AATS6d&#39;: -0.0433590548614338,
+  &#39;VSA_EState4&#39;: -0.04324451352340742,
+  &#39;GATS5s&#39;: 0.043077255568700526,
+  &#39;IC3&#39;: -0.04304824612498354,
+  &#39;GATS1c&#39;: -0.04268478018796047,
+  &#39;BCUTi-1h&#39;: -0.042563074562621574,
+  &#39;GATS8se&#39;: 0.04234499544350699,
+  &#39;Mor04&#39;: 0.042174025066053104,
+  &#39;ATSC1i&#39;: 0.042123078096283836,
+  &#39;Mor11&#39;: 0.04183428134082267,
+  &#39;Mor09v&#39;: -0.04139005913449453,
+  &#39;PBF&#39;: -0.041357787060382276,
+  &#39;ATS1s&#39;: 0.041118530026729085,
+  &#39;WPSA4&#39;: -0.04103054559761104,
+  &#39;ATSC1v&#39;: 0.04097175567563154,
+  &#39;Mor06v&#39;: -0.04088194743414806,
+  &#39;PPSA3&#39;: -0.040781104102206964,
+  &#39;TSRW10&#39;: -0.04067851727584217,
+  &#39;nAtom&#39;: 0.04061022541330121,
+  &#39;ATSC5d&#39;: -0.04057738727442518,
+  &#39;AATSC1dv&#39;: 0.040422250329272824,
+  &#39;PPSA4&#39;: -0.040403788344096726,
+  &#39;GATS8i&#39;: 0.04030302886012403,
+  &#39;ATSC8v&#39;: -0.03998086414854392,
+  &#39;FilterItLogS&#39;: -0.039921638053251565,
+  &#39;ATS1Z&#39;: -0.03971944245657374,
+  &#39;GATS8d&#39;: 0.039695789372516,
+  &#39;Mor09m&#39;: -0.03913069799730909,
+  &#39;EState_VSA7&#39;: -0.03912183849300865,
+  &#39;BCUTdv-1h&#39;: 0.03900251000427328,
+  &#39;MATS8se&#39;: -0.03868718084008164,
+  &#39;PEOE_VSA3&#39;: -0.038544662912747045,
+  &#39;EState_VSA8&#39;: 0.03832646356895805,
+  &#39;GGI5&#39;: -0.03818453197788489,
+  &#39;VSA_EState1&#39;: -0.03813749920248062,
+  &#39;AATS4Z&#39;: -0.03793591279064621,
+  &#39;C2SP2&#39;: 0.037918849523622865,
+  &#39;Mor28v&#39;: 0.03791048872968623,
+  &#39;ATSC2p&#39;: 0.0377302251776739,
+  &#39;EState_VSA9&#39;: -0.03772536321427576,
+  &#39;AATSC8i&#39;: -0.03756741721389703,
+  &#39;ATSC7s&#39;: -0.03752247664142901,
+  &#39;GATS3pe&#39;: 0.03748397243724362,
+  &#39;MATS7pe&#39;: -0.037454316039981214,
+  &#39;Mor03p&#39;: 0.03742225801021257,
+  &#39;TIC0&#39;: -0.037091138743572956,
+  &#39;MOMI-Z&#39;: -0.03673544730428269,
+  &#39;ATSC2c&#39;: -0.03659842931031411,
+  &#39;WPSA3&#39;: -0.03655098660898325,
+  &#39;AATS8Z&#39;: -0.036426949000269715,
+  &#39;GATS4c&#39;: 0.03640763506047627,
+  &#39;C3SP2&#39;: 0.03622097013264929,
+  &#39;n6Ring&#39;: 0.03600524256872238,
+  &#39;VSA_EState3&#39;: -0.03598617330057456,
+  &#39;AATS8se&#39;: -0.03598336238532537,
+  &#39;AATS8v&#39;: -0.03588540437424892,
+  &#39;Mor25v&#39;: 0.03575406686616382,
+  &#39;GATS6c&#39;: -0.03571323705637587,
+  &#39;AATS7dv&#39;: -0.035709233992754275,
+  &#39;SlogP_VSA4&#39;: 0.035595726333001766,
+  &#39;ATSC2i&#39;: -0.035533947698472214,
+  &#39;GATS7pe&#39;: 0.03544377091744612,
+  &#39;IC1&#39;: -0.035318856821838794,
+  &#39;GATS2Z&#39;: -0.03523082334691317,
+  &#39;AATSC5Z&#39;: -0.03518587363716325,
+  &#39;GATS8v&#39;: 0.03515408663806315,
+  &#39;GATS5c&#39;: 0.03499472480062851,
+  &#39;nN&#39;: -0.034973671072659474,
+  &#39;AATS3se&#39;: -0.03479487354198179,
+  &#39;Mor28&#39;: 0.03465975459211602,
+  &#39;ATSC1se&#39;: 0.03459650262766007,
+  &#39;Mor20v&#39;: 0.03455455953869654,
+  &#39;GATS3se&#39;: 0.03417833564230912,
+  &#39;AATS7d&#39;: -0.03379234214974467,
+  &#39;ATSC6se&#39;: 0.03368938958085084,
+  &#39;ATSC4s&#39;: 0.03348157704550467,
+  &#39;AETA_eta_F&#39;: 0.03344524366162438,
+  &#39;GGI3&#39;: 0.03333809347740654,
+  &#39;GATS7s&#39;: 0.03329907226614312,
+  &#39;SLogP&#39;: 0.033296158740393066,
+  &#39;ATSC5Z&#39;: -0.03291013612885785,
+  &#39;Mor14&#39;: 0.032494717094798266,
+  &#39;Mor02v&#39;: -0.03243454950353637,
+  &#39;ATSC1p&#39;: 0.03235723703221591,
+  &#39;GATS4d&#39;: 0.03213071756937961,
+  &#39;WPSA1&#39;: 0.03204081935416987,
+  &#39;ZMIC1&#39;: 0.03175504914419546,
+  &#39;GATS6s&#39;: -0.03174403296326133,
+  &#39;AATS7v&#39;: -0.03158880137632405,
+  &#39;GATS8dv&#39;: 0.03149243806228315,
+  &#39;BCUTv-1l&#39;: 0.03141600025632607,
+  &#39;Mor02&#39;: -0.03141313893835163,
+  &#39;Mor17m&#39;: -0.03108572632809317,
+  &#39;Mor31v&#39;: 0.031030703631038617,
+  &#39;AATS0v&#39;: -0.03094044861566445,
+  &#39;AATS8dv&#39;: -0.03089234179186471,
+  &#39;ATSC2d&#39;: 0.030859505152072943,
+  &#39;ETA_beta_ns_d&#39;: -0.030760271583760854,
+  &#39;AATS5se&#39;: -0.030673974188087906,
+  &#39;AATSC7Z&#39;: 0.03062008976467808,
+  &#39;GATS5dv&#39;: 0.030363024750366778,
+  &#39;BCUTd-1l&#39;: 0.03034751402930108,
+  &#39;AATS5v&#39;: -0.030054379260253988,
+  &#39;Mor30&#39;: 0.030026921537975884,
+  &#39;Mor12v&#39;: -0.02995494123464769,
+  &#39;C1SP3&#39;: -0.029850079987276748,
+  &#39;AATS0d&#39;: -0.029786400838106974,
+  &#39;ATSC6c&#39;: 0.029634235738143305,
+  &#39;AATS7p&#39;: -0.029579194629221896,
+  &#39;ATSC8dv&#39;: 0.02956838830959986,
+  &#39;GATS7se&#39;: 0.029560655514654085,
+  &#39;AATS7Z&#39;: -0.02938696938277561,
+  &#39;ATSC7p&#39;: 0.029294574241194842,
+  &#39;ATSC7dv&#39;: -0.02927189635074724,
+  &#39;Mor15m&#39;: 0.02924786240531492,
+  &#39;Xch-5d&#39;: -0.0292284675316169,
+  &#39;Mor26&#39;: 0.029227336506969362,
+  &#39;ATSC3se&#39;: 0.029090242864351516,
+  &#39;MATS8c&#39;: -0.028737757192897992,
+  &#39;GATS7c&#39;: 0.02871728591065137,
+  &#39;ATSC4Z&#39;: 0.02861463295868068,
+  &#39;GATS4dv&#39;: -0.028602795346020473,
+  &#39;SMR_VSA9&#39;: -0.028436211874360486,
+  &#39;ATSC0pe&#39;: -0.028174027562501442,
+  &#39;GATS8s&#39;: 0.028027497144830545,
+  &#39;Mor32&#39;: -0.027993098403816467,
+  &#39;ATSC5pe&#39;: -0.027865227096743512,
+  &#39;EState_VSA10&#39;: -0.027765215131674813,
+  &#39;Mor16m&#39;: -0.02747678915681787,
+  &#39;SpDiam_A&#39;: 0.02707751469458059,
+  &#39;GATS4Z&#39;: -0.027076555261340566,
+  &#39;NaaaC&#39;: 0.027051961639268735,
+  &#39;AETA_eta&#39;: -0.02635034188664906,
+  &#39;SlogP_VSA3&#39;: 0.026101049264122173,
+  &#39;GATS1v&#39;: 0.025984281294022943,
+  &#39;PEOE_VSA1&#39;: -0.02595518355265528,
+  &#39;GATS1i&#39;: -0.02579969730869756,
+  &#39;ATSC7se&#39;: -0.025749022568350342,
+  &#39;GATS6se&#39;: -0.024877375469614656,
+  &#39;GATS1dv&#39;: -0.02487193856883485,
+  &#39;ZMIC3&#39;: -0.02481406451167846,
+  &#39;ATSC0s&#39;: -0.024664162611399188,
+  &#39;Mor29m&#39;: 0.024635822452118733,
+  &#39;naHRing&#39;: -0.0244160224209537,
+  &#39;Mor26m&#39;: 0.024393142174503377,
+  &#39;PEOE_VSA11&#39;: -0.024158926935076683,
+  &#39;SsssCH&#39;: 0.024151614605519355,
+  &#39;AATS5d&#39;: -0.0240537394560784,
+  &#39;C3SP3&#39;: -0.023930094098212035,
+  &#39;ATS8Z&#39;: -0.023845978695860522,
+  &#39;Mor18m&#39;: 0.02372629202014074,
+  &#39;Mor14m&#39;: 0.023681010725991394,
+  &#39;ATSC4pe&#39;: 0.023497304830171806,
+  &#39;PEOE_VSA7&#39;: 0.02335863107276624,
+  &#39;ATSC3v&#39;: 0.023224391427887205,
+  &#39;Mor14v&#39;: 0.022849585533492225,
+  &#39;AATSC6i&#39;: 0.022733282370838992,
+  &#39;Mor10m&#39;: 0.022693229431218653,
+  &#39;PEOE_VSA10&#39;: 0.022612955260741616,
+  &#39;Mor03&#39;: 0.022574412132690302,
+  &#39;GATS7p&#39;: -0.022562967133813918,
+  &#39;AATS8d&#39;: -0.022506183812222098,
+  &#39;ATSC3d&#39;: 0.022434065641580275,
+  &#39;MATS2c&#39;: -0.022235910306878787,
+  &#39;Kier3&#39;: 0.02209691431108705,
+  &#39;Mor18v&#39;: -0.022034478423942447,
+  &#39;Mor20m&#39;: 0.022030408353566844,
+  &#39;AATSC1Z&#39;: -0.021798724701541445,
+  &#39;AATS6i&#39;: 0.021795803436324458,
+  &#39;ATSC5s&#39;: 0.021724251870350087,
+  &#39;GATS8p&#39;: 0.021561892868083674,
+  &#39;AATSC3Z&#39;: -0.02138593757099824,
+  &#39;AATS4v&#39;: -0.021380028623155453,
+  &#39;Mor30v&#39;: 0.02128891759160878,
+  &#39;nBondsS&#39;: 0.021245438965662014,
+  &#39;ATSC5v&#39;: 0.021165322577128286,
+  &#39;AATS6dv&#39;: -0.020618411361216192,
+  &#39;ATSC3Z&#39;: 0.02055258260850909,
+  &#39;GeomRadius&#39;: -0.020365194458673772,
+  &#39;GGI6&#39;: 0.020245840183482973,
+  &#39;GATS6i&#39;: -0.01996577030664135,
+  &#39;GATS4s&#39;: -0.019901593682738417,
+  &#39;Mor19m&#39;: 0.019894103328682643,
+  &#39;ATSC8Z&#39;: -0.0197225636172513,
+  &#39;nBase&#39;: -0.019564851553910717,
+  &#39;AATSC4Z&#39;: 0.01954478320106971,
+  &#39;Mor26v&#39;: 0.01944767438693513,
+  &#39;ATS0s&#39;: 0.019420890511106893,
+  &#39;Mor05m&#39;: 0.0191717524435837,
+  &#39;nO&#39;: -0.019102406157183102,
+  &#39;NssS&#39;: -0.019022275818320313,
+  &#39;Mor24v&#39;: -0.01899422049238081,
+  &#39;Mor15&#39;: -0.018963789164845295,
+  &#39;PEOE_VSA2&#39;: -0.01888627921356993,
+  &#39;AATS5i&#39;: 0.018883019070424507,
+  &#39;NaasC&#39;: -0.018860335924556344,
+  &#39;ATSC4se&#39;: -0.018718299423674763,
+  &#39;MATS8pe&#39;: -0.018713655414184422,
+  &#39;GATS2s&#39;: 0.01845801972633954,
+  &#39;SlogP_VSA10&#39;: -0.018453408599639877,
+  &#39;Mor15v&#39;: 0.018370474208481303,
+  &#39;AATSC3dv&#39;: -0.01816487281000892,
+  &#39;Mor16v&#39;: -0.018039991701816402,
+  &#39;ATS8dv&#39;: -0.01803103830420602,
+  &#39;bpol&#39;: -0.01790988535814143,
+  &#39;SpMAD_Dzv&#39;: -0.017662584935053235,
+  &#39;AATSC4dv&#39;: 0.017655581863441818,
+  &#39;ATSC0dv&#39;: 0.01759992703689625,
+  &#39;GeomDiameter&#39;: -0.017592270004226924,
+  &#39;VSA_EState5&#39;: -0.017575783706958507,
+  &#39;Mor24&#39;: -0.017247652356007122,
+  &#39;AATSC0dv&#39;: -0.01679405907743964,
+  &#39;GATS3i&#39;: 0.016729722877538884,
+  &#39;GATS3d&#39;: 0.016716326167183247,
+  &#39;nAromAtom&#39;: 0.01663544423871456,
+  &#39;ATSC8pe&#39;: 0.0165489757976493,
+  &#39;BCUTs-1h&#39;: -0.016375298303912638,
+  &#39;EState_VSA3&#39;: -0.01637158872863449,
+  &#39;Mor30m&#39;: 0.0162990875191024,
+  &#39;ATSC4dv&#39;: 0.016052266391098753,
+  &#39;AATS0dv&#39;: -0.01597193168906244,
+  &#39;ATSC5i&#39;: 0.01595376511830446,
+  &#39;Xc-5dv&#39;: -0.0159334533542992,
+  &#39;BCUTse-1h&#39;: 0.01581502820625964,
+  &#39;SM1_Dzv&#39;: 0.01567428400897486,
+  &#39;ATSC4i&#39;: -0.01555376531026534,
+  &#39;AATS8s&#39;: -0.015507668494879032,
+  &#39;ATS5Z&#39;: -0.015505966323840633,
+  &#39;AATS7i&#39;: 0.01529088377921347,
+  &#39;AATSC5i&#39;: -0.015206230067802503,
+  &#39;ABC&#39;: 0.01504900999678791,
+  &#39;ATSC1Z&#39;: -0.01494853102953502,
+  &#39;Mor17v&#39;: -0.014929294487106051,
+  &#39;Mor09&#39;: -0.0148456512922033,
+  &#39;Mor10&#39;: 0.014818335522133267,
+  &#39;ATSC4d&#39;: -0.014671718922032085,
+  &#39;EState_VSA6&#39;: -0.014620905427907517,
+  &#39;NaaN&#39;: -0.01461249488018046,
+  &#39;NssCH2&#39;: 0.014433326572594258,
+  &#39;AATSC5dv&#39;: 0.014361123743243328,
+  &#39;ATS4Z&#39;: -0.014295005564255907,
+  &#39;Mor04v&#39;: -0.014274482358727676,
+  &#39;Mor29v&#39;: 0.013942273803252875,
+  &#39;AATSC7v&#39;: 0.013927729782467571,
+  &#39;AATSC6v&#39;: -0.013845625977691081,
+  &#39;IC4&#39;: 0.013841369031042643,
+  &#39;ATSC6i&#39;: -0.013809963550853866,
+  &#39;GATS6d&#39;: -0.013278827188968063,
+  &#39;AATS5s&#39;: 0.01327335136899033,
+  &#39;AATSC4v&#39;: -0.013265763055328393,
+  &#39;AATSC4i&#39;: -0.013208798229842698,
+  &#39;AATS6s&#39;: 0.013111145876303718,
+  &#39;BCUTd-1h&#39;: 0.013039791446187431,
+  &#39;AATS1s&#39;: 0.01297712631644322,
+  &#39;MATS7s&#39;: -0.012819518397026159,
+  &#39;ATSC6dv&#39;: -0.012695458971319025,
+  &#39;ATSC2pe&#39;: 0.012627986175127386,
+  &#39;MATS3c&#39;: 0.012532211191348218,
+  &#39;GATS1se&#39;: -0.01226020248651081,
+  &#39;GATS4se&#39;: 0.012044764182006677,
+  &#39;ATS0p&#39;: -0.01202874740132981,
+  &#39;MOMI-X&#39;: -0.01195705188224151,
+  &#39;AATSC8dv&#39;: 0.011593901857097626,
+  &#39;EState_VSA2&#39;: 0.011485509005819157,
+  &#39;Mor29&#39;: 0.011442491495566209,
+  &#39;ATSC3pe&#39;: 0.011252494641212038,
+  &#39;GATS6Z&#39;: 0.011004069202544696,
+  &#39;MATS6Z&#39;: -0.010922885759840106,
+  &#39;SpMAD_Dzse&#39;: 0.01091386629500248,
+  &#39;AATSC3i&#39;: -0.010792789862865448,
+  &#39;VSA_EState2&#39;: -0.010669171906056407,
+  &#39;PPSA2&#39;: -0.010552607701175708,
+  &#39;NsssN&#39;: -0.01048360294504262,
+  &#39;NsOH&#39;: -0.010399404378233161,
+  &#39;GGI4&#39;: 0.010371577152687722,
+  &#39;ATSC8s&#39;: -0.010289387062335077,
+  &#39;HybRatio&#39;: -0.010203032282095544,
+  &#39;VSA_EState8&#39;: -0.01012299968417748,
+  &#39;Xc-3d&#39;: 0.01004582444826636,
+  &#39;NsssCH&#39;: 0.00987138365890545,
+  &#39;ATSC3i&#39;: 0.009860001349554158,
+  &#39;AATSC8v&#39;: -0.009851679397161897,
+  &#39;GATS5Z&#39;: 0.0098296033697443,
+  &#39;Mor10v&#39;: 0.009524195326703427,
+  &#39;RPCS&#39;: 0.009479618511522283,
+  &#39;GATS4i&#39;: 0.009434124915095588,
+  &#39;AATSC3v&#39;: -0.009250485551279448,
+  &#39;ATSC2dv&#39;: -0.009248887894812406,
+  &#39;n6HRing&#39;: 0.009220218970159056,
+  &#39;GATS1p&#39;: 0.00913905968461284,
+  &#39;ABCGG&#39;: 0.008846590790875604,
+  &#39;ATSC7Z&#39;: 0.008836035647976647,
+  &#39;ATSC5p&#39;: -0.008771074035330353,
+  &#39;ATSC6pe&#39;: 0.008741724958691814,
+  &#39;GATS7d&#39;: 0.008658437699936567,
+  &#39;Mor31m&#39;: -0.008631865746234656,
+  &#39;PEOE_VSA5&#39;: 0.008608479318108455,
+  &#39;NaaO&#39;: 0.008470508231880062,
+  &#39;Mor06&#39;: -0.008324047346850843,
+  &#39;AATSC5v&#39;: 0.008244623690123996,
+  &#39;Mor25m&#39;: 0.008210285307578077,
+  &#39;Mor08v&#39;: -0.008176492232599985,
+  &#39;TIC1&#39;: 0.008111812714411117,
+  &#39;TASA&#39;: -0.008076971938866709,
+  &#39;PEOE_VSA8&#39;: 0.007991740676410645,
+  &#39;AATSC0s&#39;: -0.007880053497496244,
+  &#39;AATS4d&#39;: -0.007847738060549957,
+  &#39;ATS3Z&#39;: -0.007752947283317865,
+  &#39;GATS5p&#39;: -0.007731696636388393,
+  &#39;ATSC3dv&#39;: 0.007701331853378726,
+  &#39;AATSC6Z&#39;: 0.007673583603162428,
+  &#39;GATS7Z&#39;: -0.007672085357791472,
+  &#39;GATS6dv&#39;: 0.007596712280292142,
+  &#39;GATS4p&#39;: 0.007556136439638323,
+  &#39;GeomShapeIndex&#39;: 0.007549975306883341,
+  &#39;GATS2p&#39;: -0.007521998694664529,
+  &#39;ATSC8d&#39;: 0.007378353981595479,
+  &#39;MATS8s&#39;: -0.007371633631964059,
+  &#39;GATS5d&#39;: 0.007259039134314974,
+  &#39;GATS3c&#39;: 0.006907057823903871,
+  &#39;AATS3i&#39;: 0.006784190636373167,
+  &#39;ATSC7v&#39;: -0.006647635199080438,
+  &#39;ATSC4v&#39;: -0.006415697640047022,
+  &#39;GATS6p&#39;: 0.006413182801058924,
+  &#39;TPSA&#39;: 0.006306411336226291,
+  &#39;GATS2d&#39;: 0.006004335795723908,
+  &#39;Diameter&#39;: 0.005906372134926628,
+  &#39;GATS2dv&#39;: 0.005632581173283952,
+  &#39;Mor13v&#39;: -0.005505364083768485,
+  &#39;Mor32v&#39;: -0.005309891043961399,
+  &#39;AATS4s&#39;: -0.004972038769412041,
+  &#39;ATSC8se&#39;: 0.00496770140295598,
+  &#39;SaasC&#39;: 0.0048910366323222255,
+  &#39;GATS2se&#39;: 0.004797693231150838,
+  &#39;GATS2c&#39;: -0.004746725781479923,
+  &#39;nARing&#39;: -0.004642425776856336,
+  &#39;SpAbs_Dzv&#39;: 0.00463528097789879,
+  &#39;ATSC3p&#39;: 0.004558142291516235,
+  &#39;ATSC2v&#39;: -0.004550088266698585,
+  &#39;ATSC5se&#39;: -0.00442243501281143,
+  &#39;ATSC0i&#39;: 0.004314492190282043,
+  &#39;AATS0i&#39;: 0.004241714262895952,
+  &#39;SMR_VSA4&#39;: 0.004214130514558937,
+  &#39;Mor12m&#39;: 0.004123668433162665,
+  &#39;GATS8Z&#39;: 0.003878508009245308,
+  &#39;GATS2pe&#39;: 0.0038411985668661656,
+  &#39;ATSC2se&#39;: -0.0036228142018597045,
+  &#39;Mor05v&#39;: -0.0034515466442078917,
+  &#39;BertzCT&#39;: 0.0033810458092780635,
+  &#39;GATS1d&#39;: 0.0033145741419369507,
+  &#39;AATSC7dv&#39;: 0.0032971353646910977,
+  &#39;Mor32m&#39;: -0.0031899890121089096,
+  &#39;GATS1pe&#39;: -0.0031599525391522725,
+  &#39;Mor04m&#39;: -0.002994585785813329,
+  &#39;Xpc-4d&#39;: 0.0029481044932680657,
+  &#39;ATSC5c&#39;: -0.0027035010160079047,
+  &#39;GATS7v&#39;: -0.0026707947283959163,
+  &#39;C1SP2&#39;: 0.002609641521495827,
+  &#39;BalabanJ&#39;: -0.0026005323726227417,
+  &#39;Mor28m&#39;: -0.002558739893057113,
+  &#39;Mor08p&#39;: 0.002402515626697463,
+  &#39;ATS0dv&#39;: 0.002391766968703715,
+  &#39;ATSC4p&#39;: 0.0023100954233423484,
+  &#39;AATS0s&#39;: -0.002283643270338704,
+  &#39;SlogP_VSA8&#39;: -0.0021781827981010656,
+  &#39;ATSC7d&#39;: -0.002157439015782142,
+  &#39;AATS7s&#39;: -0.0021031222183819803,
+  &#39;AATS4i&#39;: 0.0018362999805065171,
+  &#39;AATSC8Z&#39;: -0.0017249952237436636,
+  &#39;AATSC8s&#39;: -0.0013104399048625135,
+  &#39;ETA_eta&#39;: -0.0012892607379178737,
+  &#39;AATSC0v&#39;: 0.0011370541916987963,
+  &#39;ETA_beta_s&#39;: -0.0011002668124823179,
+  &#39;GGI1&#39;: -0.00102978149010937,
+  &#39;Xc-5d&#39;: 0.0009812545095996433,
+  &#39;ATS6Z&#39;: -0.000951268458762142,
+  &#39;AATS8i&#39;: -0.0006175520907965654,
+  &#39;ATS7Z&#39;: 0.0006012797445065009,
+  &#39;AATSC8d&#39;: 0.0005781758748009287,
+  &#39;GATS5i&#39;: -0.0005646279557973399,
+  &#39;Xc-3dv&#39;: 0.0005191797356694013,
+  &#39;ATSC5dv&#39;: -0.0004020036125952537}}
+</pre></div></div>
+</div>
+<p>feature_order ensures that the trained model sees features in the exact same order as trained.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_order</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;ABC&#39;, &#39;ABCGG&#39;, &#39;nBase&#39;, &#39;SpDiam_A&#39;, &#39;nAromAtom&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.chem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mordred</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVR</span>
+
+<span class="n">mol_objs_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">smi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"smiles"</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Converting SMILES to ChemML Molecule objects"</span><span class="p">)):</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="s1">'smiles'</span><span class="p">)</span>
+    <span class="n">mol</span><span class="o">.</span><span class="n">hydrogens</span><span class="p">(</span><span class="s1">'add'</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mol</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(</span><span class="s1">'MMFF'</span><span class="p">,</span> <span class="n">maxIters</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">mmffVariant</span><span class="o">=</span><span class="s1">'MMFF94s'</span><span class="p">)</span>
+        <span class="n">mol_objs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Unable to process SMILES: </span><span class="si">{</span><span class="n">smi</span><span class="si">}</span><span class="s2">; Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="c1"># self.discarded_indices.append(i)</span>
+<span class="n">loaded_mols</span> <span class="o">=</span> <span class="n">mol_objs_list</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">Mordred</span><span class="p">(</span><span class="n">ignore_3D</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">represent</span><span class="p">(</span><span class="n">loaded_mols</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'SMILES'</span><span class="p">])[</span><span class="n">feature_order</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"density_class"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">loaded_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Converting SMILES to ChemML Molecule objects: 100%|██████████| 200/200 [00:06&lt;00:00, 29.34it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Step 1: Normalizing molecule input
+Step 2/3: Optimizing geometry for 3D descriptor calculation
+Step 3/3: Calculating Mordred descriptors
+</pre></div></div>
+</div>
+<p>The loaded_model object can be treated just like any model object</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>.sk-global {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+}
+
+.sk-global.light {
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: black;
+  --sklearn-color-background: white;
+  --sklearn-color-border-box: black;
+  --sklearn-color-icon: #696969;
+}
+
+.sk-global.dark {
+  --sklearn-color-text-on-default-background: white;
+  --sklearn-color-background: #111;
+  --sklearn-color-border-box: white;
+  --sklearn-color-icon: #878787;
+}
+
+.sk-global {
+  color: var(--sklearn-color-text);
+}
+
+.sk-global pre {
+  padding: 0;
+}
+
+.sk-global input.sk-hidden--visually {
+  border: 0;
+  clip-path: inset(100%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sk-global div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+.sk-global div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+.sk-global div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+.sk-global div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+.sk-global div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+.sk-global div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.sk-global div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+.sk-global div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+.sk-global div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+.sk-global div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+.sk-global div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+.sk-global label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.sk-global label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+.sk-global label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+.sk-global label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+.sk-global div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.sk-global input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.sk-global input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+.sk-global div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+.sk-global div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+.sk-global div.sk-label label.sk-toggleable__label,
+.sk-global div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+.sk-global div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+.sk-global div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+.sk-global div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+.sk-global div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+.sk-global div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+.sk-global div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3) 1pt solid;
+  color: var(--sklearn-color-fitted-level-3);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-0);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-fitted-level-0);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+.sk-global a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+.sk-global a.estimator_doc_link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+.sk-global a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+.sk-global a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-top-container.sk-global {
+  /* pydata-sphinx-theme hides overflow, so scrolling is disabled.
+   We need to set it to !important and add tabindex="0" in the HTML
+   to allow keyboard-only users to navigate the display. */
+  overflow-x: scroll !important;
+  max-width: 100%;
+}
+
+.estimator-table {
+    font-family: monospace;
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.estimator-table summary::marker {
+    font-size: 0.7rem;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover td {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table :is(td, th) {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+/*
+    `table td`is set in notebook with right text-align.
+    We need to overwrite it.
+*/
+.estimator-table table td.param {
+    text-align: left;
+    position: relative;
+    padding: 0;
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left !important;
+}
+
+.user-set td.value {
+    color:rgb(255, 94, 0);
+    background-color: transparent;
+}
+
+.default td, .estimator-table th {
+    color: black;
+    text-align: left !important;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+td.fitted-att-type {
+    white-space: preserve nowrap;
+}
+
+/*
+    Styles for parameter documentation links
+    We need styling for visited so jupyter doesn't overwrite it
+*/
+a.param-doc-link,
+a.param-doc-link:link,
+a.param-doc-link:visited {
+    text-decoration: underline dashed;
+    text-underline-offset: .3em;
+    color: inherit;
+    display: block;
+    padding: .5em;
+}
+
+@supports(anchor-name: --doc-link) {
+    a.param-doc-link,
+    a.param-doc-link:link,
+    a.param-doc-link:visited {
+    anchor-name: --doc-link;
+    }
+}
+
+/* "hack" to make the entire area of the cell containing the link clickable */
+a.param-doc-link::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+}
+
+.param-doc-description {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    padding: .5ex;
+    margin-left: 1.5em;
+    color: var(--sklearn-color-text);
+    box-shadow: .3em .3em .4em #999;
+    width: max-content;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+
+    /* unfitted */
+    background: var(--sklearn-color-unfitted-level-0);
+    border: thin solid var(--sklearn-color-unfitted-level-3);
+}
+
+@supports(position-area: center right) {
+    .param-doc-description {
+    position-area: center right;
+    position: fixed;
+    margin-left: 0;
+    }
+}
+
+/* Fitted state for parameter tooltips */
+.fitted .param-doc-description {
+    /* fitted */
+    background: var(--sklearn-color-fitted-level-0);
+    border: thin solid var(--sklearn-color-fitted-level-3);
+}
+
+.param-doc-link:hover .param-doc-description {
+    display: block;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.features {
+  font-family: monospace;
+  cursor: pointer;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: .20em;
+  margin-bottom: 0.5em;
+  font-size: inherit; /* Needed for jupyter */
+}
+
+.features.fitted {
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.features summary {
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: .25em;
+}
+
+.features details[open] > summary {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+  border-radius: .20em 0 0 0;
+}
+
+.features.fitted details[open] > summary {
+  background-color: var(--sklearn-color-fitted-level-2);
+  border-radius: .20em 0 0 0;
+}
+
+.features details > summary .arrow::before {
+  content: "▸";
+  color: grey;
+}
+
+.features details[open] > summary .arrow::before {
+  content: "▾";
+}
+
+.features details:hover > summary {
+  margin: 0;
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.features.fitted details:hover > summary {
+  margin: 0;
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+.features .features-container {
+  max-width: 15em;
+  max-height: 10em;
+  overflow: auto;
+  scrollbar-width: thin;
+  padding: .25em 0.1rem;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 0 0 .5em .5em;
+}
+
+.features.fitted .features-container {
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.features .image-container {
+  block-size: 1em;
+  inline-size: 1em;
+  padding: 0;
+  margin: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.features .copy-paste-icon {
+  background-size: 1em 1em;
+  width: 1em;
+  height: 1em;
+  filter: grayscale(100%) opacity(60%);
+}
+
+.features .features-container table {
+  width: 100%;
+  margin: 0.01em;
+}
+
+.features .features-container table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.features .features-container table tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.features .features-container table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.features .features-container table {
+  table-layout: inherit;
+}
+
+.features .features-container table td {
+  text-align: left;
+  padding: 0 0.5em;
+  border: 1px solid rgba(106, 105, 104, 0.232);
+  white-space: nowrap;
+  color: var(--sklearn-color-text);
+}
+
+.total_features {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+</style><body><div id="sk-container-id-1" tabindex="0" class="sk-top-container sk-global"><div class="sk-text-repr-fallback"><pre>LogisticRegression(C=0.1, solver=&#x27;sag&#x27;)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>LogisticRegression</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html">?<span>Documentation for LogisticRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                <table class="parameters-table">
+                  <tbody>
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('C',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-C;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=C,-float%2C%20default%3D1.0">
+            C
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-C;">
+            C: float, default=1.0<br><br>Inverse of regularization strength; must be a positive float.<br>Like in support vector machines, smaller values specify stronger<br>regularization. `C=np.inf` results in unpenalized logistic regression.<br>For a visual example on the effect of tuning the `C` parameter<br>with an L1 penalty, see:<br>:ref:`sphx_glr_auto_examples_linear_model_plot_logistic_path.py`.</span>
+        </a>
+    </td>
+            <td class="value">0.1</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('solver',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-solver;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=solver,-%7B%27lbfgs%27%2C%20%27liblinear%27%2C%20%27newton-cg%27%2C%20%27newton-cholesky%27%2C%20%27sag%27%2C%20%27saga%27%7D%2C%20%20%20%20%20%20%20%20%20%20%20%20%20default%3D%27lbfgs%27">
+            solver
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-solver;">
+            solver: {&#x27;lbfgs&#x27;, &#x27;liblinear&#x27;, &#x27;newton-cg&#x27;, &#x27;newton-cholesky&#x27;, &#x27;sag&#x27;, &#x27;saga&#x27;},             default=&#x27;lbfgs&#x27;<br><br>Algorithm to use in the optimization problem. Default is &#x27;lbfgs&#x27;.<br>To choose a solver, you might want to consider the following aspects:<br><br>- &#x27;lbfgs&#x27; is a good default solver because it works reasonably well for a wide<br>  class of problems.<br>- For :term:`multiclass` problems (`n_classes &gt;= 3`), all solvers except<br>  &#x27;liblinear&#x27; minimize the full multinomial loss, &#x27;liblinear&#x27; will raise an<br>  error.<br>- &#x27;newton-cholesky&#x27; is a good choice for<br>  `n_samples` &gt;&gt; `n_features * n_classes`, especially with one-hot encoded<br>  categorical features with rare categories. Be aware that the memory usage<br>  of this solver has a quadratic dependency on `n_features * n_classes`<br>  because it explicitly computes the full Hessian matrix.<br>- For small datasets, &#x27;liblinear&#x27; is a good choice, whereas &#x27;sag&#x27;<br>  and &#x27;saga&#x27; are faster for large ones;<br>- &#x27;liblinear&#x27; can only handle binary classification by default. To apply a<br>  one-versus-rest scheme for the multiclass setting one can wrap it with the<br>  :class:`~sklearn.multiclass.OneVsRestClassifier`.<br><br>.. warning::<br>   The choice of the algorithm depends on the penalty chosen (`l1_ratio=0`<br>   for L2-penalty, `l1_ratio=1` for L1-penalty and `0 &lt; l1_ratio &lt; 1` for<br>   Elastic-Net) and on (multinomial) multiclass support:<br><br>   ================= ======================== ======================<br>   solver            l1_ratio                 multinomial multiclass<br>   ================= ======================== ======================<br>   &#x27;lbfgs&#x27;           l1_ratio=0               yes<br>   &#x27;liblinear&#x27;       l1_ratio=1 or l1_ratio=0 no<br>   &#x27;newton-cg&#x27;       l1_ratio=0               yes<br>   &#x27;newton-cholesky&#x27; l1_ratio=0               yes<br>   &#x27;sag&#x27;             l1_ratio=0               yes<br>   &#x27;saga&#x27;            0&lt;=l1_ratio&lt;=1           yes<br>   ================= ======================== ======================<br><br>.. note::<br>   &#x27;sag&#x27; and &#x27;saga&#x27; fast convergence is only guaranteed on features<br>   with approximately the same scale. You can preprocess the data with<br>   a scaler from :mod:`sklearn.preprocessing`.<br><br>.. seealso::<br>   Refer to the :ref:`User Guide &lt;Logistic_regression&gt;` for more<br>   information regarding :class:`LogisticRegression` and more specifically the<br>   :ref:`Table &lt;logistic_regression_solvers&gt;`<br>   summarizing solver/penalty supports.<br><br>.. versionadded:: 0.17<br>   Stochastic Average Gradient (SAG) descent solver. Multinomial support in<br>   version 0.18.<br>.. versionadded:: 0.19<br>   SAGA solver.<br>.. versionchanged:: 0.22<br>   The default solver changed from &#x27;liblinear&#x27; to &#x27;lbfgs&#x27; in 0.22.<br>.. versionadded:: 1.2<br>   newton-cholesky solver. Multinomial support in version 1.6.</span>
+        </a>
+    </td>
+            <td class="value">&#x27;sag&#x27;</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('penalty',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-penalty;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=penalty,-%7B%27l1%27%2C%20%27l2%27%2C%20%27elasticnet%27%2C%20None%7D%2C%20default%3D%27l2%27">
+            penalty
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-penalty;">
+            penalty: {&#x27;l1&#x27;, &#x27;l2&#x27;, &#x27;elasticnet&#x27;, None}, default=&#x27;l2&#x27;<br><br>Specify the norm of the penalty:<br><br>- `None`: no penalty is added;<br>- `&#x27;l2&#x27;`: add an L2 penalty term and it is the default choice;<br>- `&#x27;l1&#x27;`: add an L1 penalty term;<br>- `&#x27;elasticnet&#x27;`: both L1 and L2 penalty terms are added.<br><br>.. warning::<br>   Some penalties may not work with some solvers. See the parameter<br>   `solver` below, to know the compatibility between the penalty and<br>   solver.<br><br>.. versionadded:: 0.19<br>   l1 penalty with SAGA solver (allowing &#x27;multinomial&#x27; + L1)<br><br>.. deprecated:: 1.8<br>   `penalty` was deprecated in version 1.8 and will be removed in 1.10.<br>   Use `l1_ratio` and `C` instead. `l1_ratio=0` for `penalty=&#x27;l2&#x27;`,<br>   `l1_ratio=1` for `penalty=&#x27;l1&#x27;`, `l1_ratio` set to any float between 0 and 1<br>   for `penalty=&#x27;elasticnet&#x27;`, and `C=np.inf` for `penalty=None`.</span>
+        </a>
+    </td>
+            <td class="value">&#x27;deprecated&#x27;</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('l1_ratio',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-l1_ratio;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=l1_ratio,-float%2C%20default%3D0.0">
+            l1_ratio
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-l1_ratio;">
+            l1_ratio: float, default=0.0<br><br>The Elastic-Net mixing parameter, with `0 &lt;= l1_ratio &lt;= 1`. Setting<br>`l1_ratio=1` gives a pure L1-penalty, setting `l1_ratio=0` a pure L2-penalty.<br>Any value between 0 and 1 gives an Elastic-Net penalty of the form<br>`l1_ratio * L1 + (1 - l1_ratio) * L2`.<br><br>.. warning::<br>   Certain values of `l1_ratio`, i.e. some penalties, may not work with some<br>   solvers. See the parameter `solver` below, to know the compatibility between<br>   the penalty and solver.<br><br>.. versionchanged:: 1.8<br>    Default value changed from None to 0.0.<br><br>.. deprecated:: 1.8<br>    `None` is deprecated and will be removed in version 1.10. Always use<br>    `l1_ratio` to specify the penalty type.</span>
+        </a>
+    </td>
+            <td class="value">0.0</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('dual',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-dual;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=dual,-bool%2C%20default%3DFalse">
+            dual
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-dual;">
+            dual: bool, default=False<br><br>Dual (constrained) or primal (regularized, see also<br>:ref:`this equation &lt;regularized-logistic-loss&gt;`) formulation. Dual formulation<br>is only implemented for l2 penalty with liblinear solver. Prefer `dual=False`<br>when n_samples &gt; n_features.</span>
+        </a>
+    </td>
+            <td class="value">False</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('tol',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-tol;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=tol,-float%2C%20default%3D1e-4">
+            tol
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-tol;">
+            tol: float, default=1e-4<br><br>Tolerance for stopping criteria.</span>
+        </a>
+    </td>
+            <td class="value">0.0001</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('fit_intercept',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-fit_intercept;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=fit_intercept,-bool%2C%20default%3DTrue">
+            fit_intercept
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-fit_intercept;">
+            fit_intercept: bool, default=True<br><br>Specifies if a constant (a.k.a. bias or intercept) should be<br>added to the decision function.</span>
+        </a>
+    </td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('intercept_scaling',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-intercept_scaling;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=intercept_scaling,-float%2C%20default%3D1">
+            intercept_scaling
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-intercept_scaling;">
+            intercept_scaling: float, default=1<br><br>Useful only when the solver `liblinear` is used<br>and `self.fit_intercept` is set to `True`. In this case, `x` becomes<br>`[x, self.intercept_scaling]`,<br>i.e. a &quot;synthetic&quot; feature with constant value equal to<br>`intercept_scaling` is appended to the instance vector.<br>The intercept becomes<br>``intercept_scaling * synthetic_feature_weight``.<br><br>.. note::<br>    The synthetic feature weight is subject to L1 or L2<br>    regularization as all other features.<br>    To lessen the effect of regularization on synthetic feature weight<br>    (and therefore on the intercept) `intercept_scaling` has to be increased.</span>
+        </a>
+    </td>
+            <td class="value">1</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('class_weight',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-class_weight;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=class_weight,-dict%20or%20%27balanced%27%2C%20default%3DNone">
+            class_weight
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-class_weight;">
+            class_weight: dict or &#x27;balanced&#x27;, default=None<br><br>Weights associated with classes in the form ``{class_label: weight}``.<br>If not given, all classes are supposed to have weight one.<br><br>The &quot;balanced&quot; mode uses the values of y to automatically adjust<br>weights inversely proportional to class frequencies in the input data<br>as ``n_samples / (n_classes * np.bincount(y))``.<br><br>Note that these weights will be multiplied with sample_weight (passed<br>through the fit method) if sample_weight is specified.<br><br>.. versionadded:: 0.17<br>   *class_weight=&#x27;balanced&#x27;*</span>
+        </a>
+    </td>
+            <td class="value">None</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('random_state',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-random_state;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=random_state,-int%2C%20RandomState%20instance%2C%20default%3DNone">
+            random_state
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-random_state;">
+            random_state: int, RandomState instance, default=None<br><br>Used when ``solver`` == &#x27;sag&#x27;, &#x27;saga&#x27; or &#x27;liblinear&#x27; to shuffle the<br>data. See :term:`Glossary &lt;random_state&gt;` for details.</span>
+        </a>
+    </td>
+            <td class="value">None</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('max_iter',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-max_iter;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=max_iter,-int%2C%20default%3D100">
+            max_iter
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-max_iter;">
+            max_iter: int, default=100<br><br>Maximum number of iterations taken for the solvers to converge.</span>
+        </a>
+    </td>
+            <td class="value">100</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('verbose',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-verbose;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=verbose,-int%2C%20default%3D0">
+            verbose
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-verbose;">
+            verbose: int, default=0<br><br>For the liblinear and lbfgs solvers set verbose to any positive<br>number for verbosity.</span>
+        </a>
+    </td>
+            <td class="value">0</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('warm_start',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-warm_start;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=warm_start,-bool%2C%20default%3DFalse">
+            warm_start
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-warm_start;">
+            warm_start: bool, default=False<br><br>When set to True, reuse the solution of the previous call to fit as<br>initialization, otherwise, just erase the previous solution.<br>Useless for liblinear solver. See :term:`the Glossary &lt;warm_start&gt;`.<br><br>.. versionadded:: 0.17<br>   *warm_start* to support *lbfgs*, *newton-cg*, *sag*, *saga* solvers.</span>
+        </a>
+    </td>
+            <td class="value">False</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('n_jobs',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-n_jobs;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=n_jobs,-int%2C%20default%3DNone">
+            n_jobs
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-n_jobs;">
+            n_jobs: int, default=None<br><br>Does not have any effect.<br><br>.. deprecated:: 1.8<br>   `n_jobs` is deprecated in version 1.8 and will be removed in 1.10.</span>
+        </a>
+    </td>
+            <td class="value">None</td>
+        </tr>
+
+                  </tbody>
+                </table>
+            </details>
+        </div>
+
+        <div class="estimator-table">
+            <details>
+                <summary>Fitted attributes</summary>
+                <table class="parameters-table">
+                    <tbody>
+                        <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                        </tr>
+
+       <tr class="default">
+           <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-classes_;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=classes_,-ndarray%20of%20shape%20%28n_classes%2C%20%29">
+            classes_
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-classes_;">
+            classes_: ndarray of shape (n_classes, )<br><br>A list of class labels known to the classifier.</span>
+        </a>
+    </td>
+           <td class="fitted-att-type">ndarray[int64](3,)</td>
+           <td>[0,1,2]</td>
+
+
+       </tr>
+
+
+       <tr class="default">
+           <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-coef_;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=coef_,-ndarray%20or%20CSR%20matrix%20of%20shape%20%281%2C%20n_features%29%20or%20%28n_classes%2C%20n_features%29">
+            coef_
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-coef_;">
+            coef_: ndarray or CSR matrix of shape (1, n_features) or (n_classes, n_features)<br><br>Coefficients of the features in the decision function.<br><br>`coef_` is of shape (1, n_features) when the given problem is binary.<br><br>By default, it will be created as a dense array, but can be turned to<br>sparse (CSR format) through :meth:`sparsify` (which can be beneficial<br>under L1 regularization when many coefficients are zero), and back to<br>dense through :meth:`densify`.</span>
+        </a>
+    </td>
+           <td class="fitted-att-type">ndarray[float64](3, 530)</td>
+           <td>[[ 0.02, 0.01,-0.02,..., 0.01,-0.06,-0.04],
+ [-0.  ,-0.02, 0.  ,..., 0.03, 0.01, 0.01],
+ [-0.01, 0.01, 0.02,...,-0.03, 0.05, 0.03]]</td>
+
+
+       </tr>
+
+
+       <tr class="default">
+           <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-intercept_;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=intercept_,-ndarray%20of%20shape%20%281%2C%29%20or%20%28n_classes%2C%29">
+            intercept_
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-intercept_;">
+            intercept_: ndarray of shape (1,) or (n_classes,)<br><br>Intercept (a.k.a. bias) added to the decision function.<br><br>If `fit_intercept` is set to False, the intercept is set to zero.<br>`intercept_` is of shape (1,) when the given problem is binary.</span>
+        </a>
+    </td>
+           <td class="fitted-att-type">ndarray[float64](3,)</td>
+           <td>[-0.49, 0.87,-0.38]</td>
+
+
+       </tr>
+
+
+       <tr class="default">
+           <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-n_features_in_;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=n_features_in_,-int">
+            n_features_in_
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-n_features_in_;">
+            n_features_in_: int<br><br>Number of features seen during :term:`fit`.<br><br>.. versionadded:: 0.24</span>
+        </a>
+    </td>
+           <td class="fitted-att-type">int</td>
+           <td>530</td>
+
+
+       </tr>
+
+
+       <tr class="default">
+           <td class="param">
+        <a class="param-doc-link"
+            style="anchor-name: --doc-link-n_iter_;"
+            rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.linear_model.LogisticRegression.html#:~:text=n_iter_,-ndarray%20of%20shape%20%281%2C%20%29">
+            n_iter_
+            <span class="param-doc-description"
+            style="position-anchor: --doc-link-n_iter_;">
+            n_iter_: ndarray of shape (1, )<br><br>Actual number of iterations for all classes.<br><br>.. versionchanged:: 0.20<br><br>    In SciPy &lt;= 1.0.0 the number of lbfgs iterations may exceed<br>    ``max_iter``. ``n_iter_`` will now report at most ``max_iter``.</span>
+        </a>
+    </td>
+           <td class="fitted-att-type">ndarray[int32](1,)</td>
+           <td>[100]</td>
+
+
+       </tr>
+
+                    </tbody>
+                </table>
+            </details>
+        </div>
+    </div></div></div></div></div><script>/*  Authors: The scikit-learn developers
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+
+function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+
+    const parent = element.parentElement;
+    if (!parent || !parent.nextElementSibling) {
+        console.warn('Expected copy-paste icon is missing from the DOM structure');
+        return;
+    }
+
+    const paramName = element.parentElement.nextElementSibling
+        .textContent.trim().split(' ')[0];
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+
+/**
+ * Copy the list of feature names formatted as a Python list.
+ *
+ * @param {HTMLElement} element - The copy button inside a `.features` block; its siblings
+ *   contain a `details` element and a table containing feature named.
+ * @returns {boolean} Always returns `false` so callers can prevent the default click behavior.
+ */
+function copyFeatureNamesToClipboard(element) {
+    var detailsElem = element.closest('.features').querySelector('details');
+    var wasOpen = detailsElem.open;
+    detailsElem.open = true;
+    var content = element.closest('.features').querySelector('tbody')
+                  .innerText.trim();
+    if (!wasOpen) detailsElem.open = false;
+    const rows = content.split('\n').map(row => `    "${row}"`);
+    const formattedText = `[\n${rows.join(',\n')},\n]`;
+    const originalHTML = element.innerHTML.replace('✔', '');
+    const originalStyle = element.style;
+    const copyMark = document.createElement('span');
+    copyMark.innerHTML = '✔';
+    copyMark.style.color = 'blue';
+    copyMark.style.fontSize = '1em';
+
+    navigator.clipboard.writeText(formattedText)
+        .then(() => {
+            element.style.display = 'none';
+            element.parentElement.appendChild(copyMark);
+
+            setTimeout(() => {
+                copyMark.remove();
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 1000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'orange';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 1000);
+        });
+    return false;
+}
+/**
+ * Adapted from Skrub
+ * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
+ * @returns "light" or "dark"
+ */
+function detectTheme(element) {
+    const body = document.querySelector('body');
+
+    // Check VSCode theme
+    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
+    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
+
+    if (themeKindAttr && themeNameAttr) {
+        const themeKind = themeKindAttr.toLowerCase();
+        const themeName = themeNameAttr.toLowerCase();
+
+        if (themeKind.includes("dark") || themeName.includes("dark")) {
+            return "dark";
+        }
+        if (themeKind.includes("light") || themeName.includes("light")) {
+            return "light";
+        }
+    }
+
+    // Check Jupyter theme
+    if (body.getAttribute('data-jp-theme-light') === 'false') {
+        return 'dark';
+    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
+        return 'light';
+    }
+
+    // Guess based on a parent element's color
+    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
+    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
+    if (match) {
+        const [r, g, b] = [
+            parseFloat(match[1]),
+            parseFloat(match[2]),
+            parseFloat(match[3])
+        ];
+
+        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (luma > 180) {
+            // If the text is very bright we have a dark theme
+            return 'dark';
+        }
+        if (luma < 75) {
+            // If the text is very dark we have a light theme
+            return 'light';
+        }
+        // Otherwise fall back to the next heuristic.
+    }
+
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+
+function forceTheme(elementId) {
+    const estimatorElement = document.querySelector(`#${elementId}`);
+    if (estimatorElement === null) {
+        console.error(`Element with id ${elementId} not found.`);
+    } else {
+        const theme = detectTheme(estimatorElement);
+        estimatorElement.classList.add(theme);
+    }
+}
+
+forceTheme('sk-container-id-1');</script></body></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">targets</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([2, 0, 2, 2, 0]
+ Categories (3, int64): [0 &lt; 1 &lt; 2],
+ array([2, 0, 2, 2, 0]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemml.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_metrics</span>
+<span class="n">classification_metrics</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TP:  [65 66 65]
+FP:  [0 3 1]
+TN:  [131 130 131]
+FN : [2 4 2]
+Accuracy:  0.98
+Precision:  [1.         0.95652174 0.98484848]
+Recall:  [0.97014925 1.         0.97014925]
+f1_score:  [0.98484848 0.97777778 0.97744361]
+FPR:  [0.         0.02255639 0.00757576]
+TPR:  [0.97014925 0.94285714 0.97014925]
+                    0           1           2
+TP          65.000000   66.000000   65.000000
+TN         131.000000  130.000000  131.000000
+FP           0.000000    3.000000    1.000000
+FN           2.000000    4.000000    2.000000
+precision    1.000000    0.956522    0.984848
+recall       0.970149    1.000000    0.970149
+f1_score     0.984848    0.977778    0.977444
+TPR          0.970149    0.942857    0.970149
+FPR          0.000000    0.022556    0.007576
+TNR          1.000000    0.977444    0.992424
+PPV          1.000000    0.956522    0.984848
+NPV          0.984962    0.970149    0.984962
+FNR          0.029851    0.057143    0.029851
+FDR          0.000000    0.043478    0.015152
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(np.float64(0.98),
+       0     1     2
+ 0  65.0   1.0   1.0
+ 1   0.0  66.0   0.0
+ 2   0.0   2.0  65.0,
+                     0           1           2
+ TP          65.000000   66.000000   65.000000
+ TN         131.000000  130.000000  131.000000
+ FP           0.000000    3.000000    1.000000
+ FN           2.000000    4.000000    2.000000
+ precision    1.000000    0.956522    0.984848
+ recall       0.970149    1.000000    0.970149
+ f1_score     0.984848    0.977778    0.977444
+ TPR          0.970149    0.942857    0.970149
+ FPR          0.000000    0.022556    0.007576
+ TNR          1.000000    0.977444    0.992424
+ PPV          1.000000    0.956522    0.984848
+ NPV          0.984962    0.970149    0.984962
+ FNR          0.029851    0.057143    0.029851
+ FDR          0.000000    0.043478    0.015152)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemml.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassificationPlots</span>
+
+
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">ClassificationPlots</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">plotter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipython_notebooks_autoML_classification_21_0.png" src="../_images/ipython_notebooks_autoML_classification_21_0.png" />
+</div>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autoML_regression.html" class="btn btn-neutral float-left" title="AutoML for Regression Model Screening" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../explain_task/index.html" class="btn btn-neutral float-right" title="Explain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2026 Johannes Hachmann, Mojtaba Haghighatlari, Aditya Sonpal, Gaurav Vishwakarma, Aatish Pradhan and Nitin Murthy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

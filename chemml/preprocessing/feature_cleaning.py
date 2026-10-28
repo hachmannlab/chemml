@@ -121,29 +121,6 @@ def Outliers(df, m=2.0, strategy='median'):
     return df
 
 
-def ConstantColumns(df):
-    """
-    Removes single-value columns.
-    NOTE: Deprecated in v1.3.4, now backend uses RemoveInvFeatures. Will be removed in v1.4.
-
-    Parameters
-    ----------
-    df: pandas dataframe
-        input dataframe
-
-    Returns
-    -------
-    df: pandas dataframe
-
-    """
-    return RemoveInvFeatures(df,
-                             filter_single_value=True,
-                             sanitize_binary=False,
-                             sanitize_nonbinary=False,
-                             use_variance_filtering=False,
-                             keep_filtered_columns=False)
-
-
 def RemoveCorrFeatures(df, correlation_threshold=0.9):
     """
     remove highly correlated feature columns.

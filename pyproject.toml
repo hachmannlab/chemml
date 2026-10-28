@@ -19,29 +19,22 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 dependencies = [
-    # Core utilities
-    "importlib_resources; python_version < '3.9'",
     # Scientific computing
-    "numpy>=1.24,<2; python_version < '3.9'",
-    "numpy>=2; python_version >= '3.9'",
+    "numpy>=2",
     "scipy",
     "pandas",
     "h5py",
     # Machine learning & deep learning
-    # tensorflow has no published wheels yet for very new Python releases
-    # (e.g. 3.14+); skip it there and chemml.models will automatically fall
-    # back to the pytorch engine at runtime.
-    "tensorflow; python_version < '3.14'",
+    "tensorflow",
     "torch>=2.0; platform_system != 'Darwin'",
     "torchvision>=0.15; platform_system != 'Darwin'",
     "scikit-learn",
     # Chemistry & materials
     "rdkit",
-    "mordred; python_version < '3.10'",
-    "mordredcommunity; python_version >= '3.10'",
-    "openbabel>=3.2; python_version >= '3.9'",
+    "mordredcommunity",
+    "openbabel>=3.2",
     # Visualization & plotting
     "matplotlib>=1.5.1",
     "seaborn",
@@ -60,12 +53,12 @@ dependencies = [
 
 [project.optional-dependencies]
 cpu = [
-    "torch>=2.0; python_version >= '3.9'",
-    "torchvision>=0.15; python_version >= '3.9'",
+    "torch>=2.0",
+    "torchvision>=0.15",
 ]
 gpu = [
-    "torch[cuda]; python_version >= '3.9'",
-    "torchvision; python_version >= '3.9'",
+    "torch[cuda]",
+    "torchvision",
 ]
 docs = [
     "sphinx",

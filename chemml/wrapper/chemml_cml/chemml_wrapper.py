@@ -1338,64 +1338,6 @@ class MissingValues(BASE):
         # step7: delete all inputs from memory
         del self.inputs
 
-class ConstantColumns(BASE):
-    def fit(self):
-        # parameters
-        self.paramFROMinput()
-        if 'func_method' in self.parameters:
-            method = self.parameters.pop('func_method')
-        else:
-            method = None
-        # get df value only in case method is None, but output df is requested
-        df = self.inputs['df'].value
-
-        # step4: import module and make APIs
-        try:
-            from chemml.preprocessing import ConstantColumns
-            if method == None:
-                model = ConstantColumns()
-            elif method == 'fit_transform':
-                model = ConstantColumns()
-                self.required('df', req=True)
-                df = self.inputs['df'].value
-                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-                df = model.fit_transform(df)
-            elif method == 'transform':
-                self.required('df', req=True)
-                df = self.inputs['df'].value
-                df, _ = self.data_check('df', df, ndim=2, n0=None, n1=None, format_out='df')
-                self.required('api', req=True)
-                model = self.inputs['api'].value
-                df = model.transform(df)
-        except Exception as err:
-            msg = '@Task #%i(%s): ' % (self.iblock + 1, self.Task) + type(
-                err).__name__ + ': ' + str(err.message)
-            raise TypeError(msg)
-
-        # step5: process
-        # step6: send out
-        order = [edge[1] for edge in self.Base.graph if edge[0] == self.iblock]
-        for token in set(order):
-            if token not in self.outputs:
-                msg = "@Task #%i(%s): not a valid output token '%s'" % (self.iblock + 1, self.Task, token)
-                raise NameError(msg)
-            elif token == 'df':
-                self.set_value(token, df)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'removed_columns_':
-                removed_columns_ = pd.DataFrame(model.removed_columns_)
-                self.set_value(token, removed_columns_)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-            elif token == 'api':
-                self.set_value(token, model)
-                self.outputs[token].count = order.count(token)
-                self.Base.send[(self.iblock, token)] = self.outputs[token]
-
-        # step7: delete all inputs from memory
-        del self.inputs
-
 class Outliers(BASE):
     def fit(self):
         # parameters

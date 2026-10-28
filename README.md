@@ -44,8 +44,6 @@ Here is a list of external libraries that will be installed with chemml:
    - shap
    - lime
    - openbabel 
-        - (NOTE: Python 3.8 requires a separate conda install of openbabel) 
-        `conda install -c conda-forge openbabel`
    - torch
    - torchvision
 

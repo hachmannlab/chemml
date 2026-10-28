@@ -233,29 +233,6 @@ class Split(object):
     class FParameters:
         selection = Parameter('selection', 1)
 
-class ConstantColumns(object):
-    task = 'Prepare'
-    subtask = 'data cleaning'
-    host = 'chemml'
-    function = 'ConstantColumns'
-    modules = ('chemml','preprocessing')
-    requirements = (req(0), req(2))
-    documentation = ""
-
-    class Inputs:
-        df = Input("df", "pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Input("api", "instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.ConstantColumns'>",))
-    class Outputs:
-        df = Output("df","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        removed_columns_ = Output("removed_columns_","pandas dataframe", ("<class 'pandas.core.frame.DataFrame'>",))
-        api = Output("api","instance of ChemML's Constant class", ("<class 'chemml.preprocessing.purge.ConstantColumns'>",))
-    class WParameters:
-        func_method = Parameter('func_method','None','string',
-                        description = "",
-                        options = ('fit_transform','transform', None))
-    class FParameters:
-        pass
-
 class Outliers(object):
     task = 'Prepare'
     subtask = 'data cleaning'

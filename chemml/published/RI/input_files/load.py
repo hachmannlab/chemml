@@ -1,12 +1,7 @@
 import chemml
 from chemml.models import MLP 
 import pandas as pd
-import sys
-if sys.version_info >= (3, 9):
-    from importlib.resources import files
-else:
-    from importlib_resources import files
-import os
+from importlib.resources import files
 
 
 def load_hyperparameters(mlp_obj, features, targets, model_type):

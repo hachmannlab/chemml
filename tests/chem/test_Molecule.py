@@ -3,11 +3,7 @@ import os
 from rdkit import Chem
 from openbabel import pybel
 import warnings
-import sys
-if sys.version_info >= (3, 9):
-    from importlib.resources import files
-else:
-    from importlib_resources import files
+from importlib.resources import files
 
 from chemml.chem import Molecule
 

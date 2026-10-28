@@ -1,4 +1,3 @@
-.. include:: wrapper_docs/chemml.ConstantColumns.rst
 .. include:: wrapper_docs/chemml.MissingValues.rst
 .. include:: wrapper_docs/chemml.Outliers.rst
 .. include:: wrapper_docs/chemml.Split.rst

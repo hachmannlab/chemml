@@ -27,7 +27,10 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.13'
+    
+    - name: Install Pandoc
+      run: sudo apt-get update && sudo apt-get install --yes pandoc
 
     - name: Upgrade pip, setuptools, and wheel
       run: |

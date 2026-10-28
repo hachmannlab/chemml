@@ -1,8 +1,7 @@
 """
 Helpers to detect available deep learning backends (TensorFlow / PyTorch) and
 resolve the ``engine`` requested by chemml's neural network models, falling
-back to PyTorch when TensorFlow cannot be imported (e.g. no TensorFlow build
-available yet for the running Python version, such as 3.14+).
+back to PyTorch when TensorFlow cannot be imported.
 """
 
 import warnings

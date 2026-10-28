@@ -30,12 +30,6 @@ import warnings
 import pandas as pd
 import numpy as np
 
-# # DEPRECATED: Numpy 2 compatibility is now handled less like sticking uppy bits on a racecar to go faster
-# # NumPy 2.0 compatibility: provide np.product as an alias for np.prod
-# # for third-party packages that haven't been updated yet
-# if not hasattr(np, 'product'):
-#     np.product = np.prod
-
 from rdkit.Chem import Descriptors, MolFromSmiles
 from tqdm import tqdm
 from chemml.chem import Molecule
@@ -235,8 +229,7 @@ class Mordred(object):
 
     Notes:
     -----
-        Mordred uses the mordred-community package from Python 3.10+ and legacy mordred 1.2.1 for older Python versions.
-        Descriptor calculation is identical, but there are some performance gains in the newer version.
+        ChemML uses the mordred-community package. Descriptor calculation is identical to legacy Mordred, with some performance gains.
         
 
     Examples:

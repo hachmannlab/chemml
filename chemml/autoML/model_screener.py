@@ -439,7 +439,7 @@ class ModelScreener(object):
             list of pandas DataFrames consisting of various molecular representations
         """        
         from chemml.chem import Molecule, RDKitFingerprint, CoulombMatrix, RDKDesc, Mordred
-        from chemml.preprocessing import ConstantColumns, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns, ZScoreFSel
+        from chemml.preprocessing import RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns, ZScoreFSel
         # generate all representation techniques here
 
         feature_keys = ["CoulombMatrix", "morganfingerprints_radius3", "MACCS_radius3", "hashedtopologicaltorsion_radius3", "hashedatompair_radius3", "rdkit_descriptors", "mord_descriptors"]
@@ -543,7 +543,6 @@ class ModelScreener(object):
         os.makedirs(features_path, exist_ok=True)
         _log("\nCleaning feature sets to remove constant, highly correlated, low-variance, complex, and low z-score features...\n", output_file=self.output_file)
         for x_key, x_df in self.x_list.items():
-            # x_df = ConstantColumns(x_df) NOTE: ConstantColumns is deprecated and will be removed in ChemML v1.4
             x_df = RemoveCorrFeatures(x_df, correlation_threshold=0.95)
             x_df = RemoveInvFeatures(x_df, sanitize_threshold=0.95, variance_threshold=0.01)
             x_df = remove_complex_columns(x_df)

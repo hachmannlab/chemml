@@ -29,7 +29,6 @@ Represent,molecular descriptors,chemml,BagofBonds,"molecules, __dict__, __weakre
 Represent,molecular descriptors,chemml,CoulombMatrix,"molecules, __dict__, __weakref__","df, __dict__, __weakref__"
 Represent,molecular descriptors,chemml,Dragon,"molfile, __dict__, __weakref__","df, __dict__, __weakref__"
 Represent,molecular descriptors,chemml,RDKitFingerprint,"molfile, __dict__, __weakref__","df, removed_rows, __dict__, __weakref__"
-Prepare,data cleaning,chemml,ConstantColumns,"df, api, __dict__, __weakref__","df, removed_columns_, api, __dict__, __weakref__"
 Prepare,data cleaning,chemml,MissingValues,"api, df, __dict__, __weakref__","df, api, __dict__, __weakref__"
 Prepare,data cleaning,chemml,Outliers,"df, api, __dict__, __weakref__","df, removed_columns_, api, __dict__, __weakref__"
 Prepare,data manipulation,chemml,Split,"df, __dict__, __weakref__","df1, df2, __dict__, __weakref__"

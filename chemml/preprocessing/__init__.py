@@ -1,20 +1,18 @@
 """
 The chemml.preprocessing module includes (please click on links adjacent to function names for more information):
     - MissingValues: :func:`~chemml.preprocessing.MissingValues`
-    - ConstantColumns: :func:`~chemml.preprocessing.ConstantColumns`
     - Outliers: :func:`~chemml.preprocessing.Outliers`
     - RemoveCorrFeatures: :func:`~chemml.preprocessing.RemoveCorrFeatures`
     - RemoveInvFeatures: :func:`~chemml.preprocessing.RemoveInvFeatures`
     - GAFSel: :func:`~chemml.preprocessing.GAFSel`
 """
 
-from .feature_cleaning import MissingValues, ConstantColumns, Outliers, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
+from .feature_cleaning import MissingValues, Outliers, RemoveCorrFeatures, RemoveInvFeatures, remove_complex_columns
 from .feature_selection import GAFSel, ZScoreFSel
 
 
 __all__ = [
     'MissingValues',
-    'ConstantColumns',
     'Outliers',
     'RemoveCorrFeatures',
     'RemoveInvFeatures',

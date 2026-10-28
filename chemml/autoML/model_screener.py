@@ -822,11 +822,30 @@ class ModelScreener(object):
 
         self.y = self.df[self.target].reset_index(drop=True)
 
+
+        # Write run parameters to output file
+        params_msg = (
+            "\n-------------------------Run parameters-------------------------\n"
+            f"  Featurization: {self.featurization}\n"
+            f"  Multi_core: {multi_core}\n"
+            f"  Screener_type: {self.screener_type}\n"
+            f"  Number of datapoints: {int(len(self.y))}\n"
+        )
+        if multi_core:
+            params_msg += "MLP thread limit: 1 (hard-coded)\n"
+            # multi_core_model_names = list(multi_core_models.keys())
+            # params_msg += f"  Multi-core models: {', '.join(multi_core_model_names)}\n"
+        if len(self.y) > 5e2:
+            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
+        else: 
+            params_msg += "  Note: Dataset <= 500 samples; MLP is excluded from screening due to inefficiency.\n"
+        _log(params_msg, output_file=self.output_file)
+
+
         if self.featurization == True:
             self._represent_smiles()
             
-
-        
+ 
         if self.screener_type == "classifier":
             from .space import space_models_classifiers as space_models
             self.nclasses = self.y.nunique()
@@ -871,24 +890,6 @@ class ModelScreener(object):
                 if multi_core:
                     multi_core_models.pop('MLP', None)  
                     multi_core_models.pop('XGBClassifier', None)
-
-        # Write run parameters to output file
-        params_msg = (
-            "\n-------------------------Run parameters-------------------------\n"
-            f"  Featurization: {self.featurization}\n"
-            f"  Multi_core: {multi_core}\n"
-            f"  Screener_type: {self.screener_type}\n"
-            f"  Number of datapoints: {int(len(self.y))}\n"
-        )
-        if multi_core:
-            params_msg += "MLP thread limit: 1 (hard-coded)\n"
-            multi_core_model_names = list(multi_core_models.keys())
-            params_msg += f"  Multi-core models: {', '.join(multi_core_model_names)}\n"
-        if len(self.y) > 5e2:
-            params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
-        else: 
-            params_msg += "  Note: Dataset <= 500 samples; MLP is excluded from screening due to inefficiency.\n"
-        _log(params_msg, output_file=self.output_file)
 
         self.feature_order_map = {
             k: list(self.x_list[k].columns)

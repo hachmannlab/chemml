@@ -1,9 +1,9 @@
 from chemml.chem.magpie_python import StructuralHeterogeneityAttributeGenerator
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 
-class testStructuralHeterogeneityAttributeGenerator(
-    testCoordinationNumberAttributeGenerator):
+class TestStructuralHeterogeneityAttributeGenerator(
+    TestCoordinationNumberAttributeGenerator):
     def get_generator(self):
         return StructuralHeterogeneityAttributeGenerator()
 

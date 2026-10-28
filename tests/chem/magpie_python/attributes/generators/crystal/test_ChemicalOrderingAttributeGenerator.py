@@ -1,10 +1,9 @@
-import unittest
 from chemml.chem.magpie_python import ChemicalOrderingAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testChemicalOrderingAttributeGenerator(unittest.TestCase):
+class TestChemicalOrderingAttributeGenerator:
     def test_results(self):
         # Structure of a B2 crystal.
         structure = Cell()
@@ -25,13 +24,13 @@ class testChemicalOrderingAttributeGenerator(unittest.TestCase):
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertAlmostEqual(0.142857, features.values[0][0], delta=1e-6)
-        self.assertAlmostEqual(0.04, features.values[0][1], delta=1e-6)
+        assert abs(0.142857 - features.values[0][0]) <= 1e-06
+        assert abs(0.04 - features.values[0][1]) <= 1e-06
 
         # Now with weights.
         gen.set_weighted(True)
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertAlmostEqual(0.551982, features.values[0][0], delta=1e-6)
-        self.assertAlmostEqual(0.253856, features.values[0][1], delta=1e-6)
+        assert abs(0.551982 - features.values[0][0]) <= 1e-06
+        assert abs(0.253856 - features.values[0][1]) <= 1e-06

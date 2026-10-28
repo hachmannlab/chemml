@@ -4,12 +4,12 @@ from chemml.chem.magpie_python import \
     LocalPropertyDifferenceAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testLocalPropertyDifferenceAttributeGenerator(
-    testCoordinationNumberAttributeGenerator):
+class TestLocalPropertyDifferenceAttributeGenerator(
+    TestCoordinationNumberAttributeGenerator):
     def get_generator(self):
         gen = LocalPropertyDifferenceAttributeGenerator()
         gen.clear_shells()
@@ -44,6 +44,6 @@ class testLocalPropertyDifferenceAttributeGenerator(
         features = gen.generate_features(entries)
 
         # Test the results.
-        self.assertEqual(self.expected_count(), features.shape[1])
+        assert self.expected_count() == features.shape[1]
         np_tst.assert_array_almost_equal([1, 0, 1, 1, 0, 0, 0, 0, 0, 0],
                                          features.values[0])

@@ -1,4 +1,3 @@
-import unittest
 from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiCell import VoronoiCell
 from chemml.chem.magpie_python.vassal.analysis.voronoi.VoronoiFace import VoronoiFace
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
@@ -8,7 +7,7 @@ from chemml.chem.magpie_python.vassal.geometry.Plane import Plane
 from chemml.chem.magpie_python.vassal.util.VectorCombinationComputer import \
     VectorCombinationComputer
 
-class testVoronoiCell(unittest.TestCase):
+class TestVoronoiCell:
     def test_supercell(self):
         # Create cell.
         structure = Cell()
@@ -28,8 +27,8 @@ class testVoronoiCell(unittest.TestCase):
         direct_faces = cell.compute_direct_neighbors(faces)
 
         # Simple tests.
-        self.assertEqual(6, len(direct_faces))
-        self.assertEqual(len(images) - 6 - 1, len(faces))
+        assert 6 == len(direct_faces)
+        assert len(images) - 6 - 1 == len(faces)
 
         # Make sure direct faces match up with expectations.
         neighboring_faces = []
@@ -61,7 +60,7 @@ class testVoronoiCell(unittest.TestCase):
         # Test whether they are all there.
         for f in neighboring_faces:
             direct_faces.remove(f)
-        self.assertTrue(len(direct_faces) == 0)
+        assert len(direct_faces) == 0
 
     def test_FCC(self):
         # Create cell.
@@ -83,12 +82,11 @@ class testVoronoiCell(unittest.TestCase):
 
         # Get direct neighbors.
         direct_faces = cell.compute_direct_neighbors(faces)
-        self.assertTrue(direct_faces[0].get_face_distance() <= direct_faces[
-            -1].get_face_distance())
+        assert direct_faces[0].get_face_distance() <= direct_faces[-1].get_face_distance()
 
         # Simple tests.
-        self.assertEqual(12, len(direct_faces))
-        self.assertEqual(len(images) - 12 - 1, len(faces))
+        assert 12 == len(direct_faces)
+        assert len(images) - 12 - 1 == len(faces)
 
         # Make sure direct faces match up with expectations.
         neighboring_faces = []
@@ -143,7 +141,7 @@ class testVoronoiCell(unittest.TestCase):
         # Test whether they are all there.
         for f in neighboring_faces:
             direct_faces.remove(f)
-        self.assertTrue(len(direct_faces) == 0)
+        assert len(direct_faces) == 0
 
     def test_intersection(self):
         # Create cell.
@@ -171,11 +169,11 @@ class testVoronoiCell(unittest.TestCase):
         cell.compute_intersection(cut_face)
 
         # Check results.
-        self.assertTrue(cut_face.is_closed())
-        self.assertEqual(4, cut_face.n_edges())
-        self.assertTrue(cell.geometry_is_valid())
-        self.assertEqual(6, cell.n_faces())
-        self.assertAlmostEqual(1.0, cell.get_volume(), delta=1e-6)
+        assert cut_face.is_closed()
+        assert 4 == cut_face.n_edges()
+        assert cell.geometry_is_valid()
+        assert 6 == cell.n_faces()
+        assert abs(1.0 - cell.get_volume()) <= 1e-06
 
     def test_edge_replacement(self):
         # Create cell.
@@ -193,7 +191,7 @@ class testVoronoiCell(unittest.TestCase):
         cell.compute_cell_helper(images)
 
         # Make sure it turned out OK.
-        self.assertAlmostEqual(1.0, cell.get_volume(), delta=1e-6)
+        assert abs(1.0 - cell.get_volume()) <= 1e-06
 
         # Find position of atom that will take corner off.
         p = Plane(p1=(0.4, 0.5, 0.5), p2=(0.5, 0.4, 0.5), p3=(0.5, 0.5, 0.4),
@@ -206,7 +204,7 @@ class testVoronoiCell(unittest.TestCase):
         cell.compute_intersection(VoronoiFace(cell.get_atom(), AtomImage(
             structure.get_atom(1), [0, 0, 0]), radical=False))
         vol = cell.get_volume()
-        self.assertEqual(7, cell.n_faces())
+        assert 7 == cell.n_faces()
 
         # Compute a cell that will cut off just slightly more area.
         p = Plane(p1=(0.4, 0.5, 0.5), p2=(0.5, 0.4, 0.5), p3=(0.5, 0.5, 0.3),
@@ -216,9 +214,9 @@ class testVoronoiCell(unittest.TestCase):
         structure.add_atom(Atom(atm_pos, 0))
         cell.compute_intersection(VoronoiFace(cell.get_atom(), AtomImage(
             structure.get_atom(2), [0, 0, 0]), radical=False))
-        self.assertEqual(7, cell.n_faces())
-        self.assertTrue(cell.geometry_is_valid())
-        self.assertTrue(cell.get_volume() < vol)
+        assert 7 == cell.n_faces()
+        assert cell.geometry_is_valid()
+        assert cell.get_volume() < vol
 
     def test_vertex_replacement(self):
         # Create cell.
@@ -236,7 +234,7 @@ class testVoronoiCell(unittest.TestCase):
         cell.compute_cell_helper(images)
 
         # Make sure it turned out OK.
-        self.assertAlmostEqual(1.0, cell.get_volume(), delta=1e-6)
+        assert abs(1.0 - cell.get_volume()) <= 1e-06
 
         # Find position of atom that will take corner off.
         p = Plane(p1=(0.4, 0.5, 0.5), p2=(0.5, 0.4, 0.5), p3=(0.5, 0.5, 0.4),
@@ -249,7 +247,7 @@ class testVoronoiCell(unittest.TestCase):
         cell.compute_intersection(VoronoiFace(cell.get_atom(), AtomImage(
             structure.get_atom(1), [0, 0, 0]), radical=False))
         vol = cell.get_volume()
-        self.assertEqual(7, cell.n_faces())
+        assert 7 == cell.n_faces()
 
         # Compute a cell that will cut off just slightly more area.
         p = Plane(p1=(0.4, 0.5, 0.5), p2=(0.5, 0.35, 0.5), p3=(0.5, 0.5, 0.35),
@@ -259,14 +257,14 @@ class testVoronoiCell(unittest.TestCase):
         structure.add_atom(Atom(atm_pos, 0))
         new_face = VoronoiFace(cell.get_atom(), AtomImage(
             structure.get_atom(2), [0, 0, 0]), radical=False)
-        self.assertTrue(cell.compute_intersection(new_face))
-        self.assertEqual(7, cell.n_faces())
-        self.assertTrue(cell.get_volume() < vol)
-        self.assertTrue(cell.geometry_is_valid())
+        assert cell.compute_intersection(new_face)
+        assert 7 == cell.n_faces()
+        assert cell.get_volume() < vol
+        assert cell.geometry_is_valid()
 
         # Remove that face.
         cell.remove_face(new_face)
-        self.assertEqual(6, cell.n_faces())
-        self.assertEqual(6, cell.get_polyhedron_shape()[4])
-        self.assertAlmostEqual(1.0, cell.get_volume(), delta=1e-6)
-        self.assertTrue(cell.geometry_is_valid())
+        assert 6 == cell.n_faces()
+        assert 6 == cell.get_polyhedron_shape()[4]
+        assert abs(1.0 - cell.get_volume()) <= 1e-06
+        assert cell.geometry_is_valid()

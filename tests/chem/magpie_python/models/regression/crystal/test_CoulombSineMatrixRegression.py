@@ -1,4 +1,3 @@
-import unittest
 import numpy as np
 import sys
 from chemml.chem.magpie_python.models.regression.crystal.CoulombSineMatrixRegression import \
@@ -6,11 +5,11 @@ from chemml.chem.magpie_python.models.regression.crystal.CoulombSineMatrixRegres
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testCoulombSineMatrixRegression(unittest.TestCase):
-    def setUp(self):
+class TestCoulombSineMatrixRegression:
+    def setup_method(self):
         self.r = CoulombSineMatrixRegression()
 
-    def tearDown(self):
+    def teardown_method(self):
         self.r = None
 
     def test_matrix(self):
@@ -21,21 +20,21 @@ class testCoulombSineMatrixRegression(unittest.TestCase):
 
         # Compute the sine matrix.
         mat = self.r.compute_coulomb_matrix(structure)
-        self.assertEqual(1, mat.shape[0])
-        self.assertEqual(1, mat.shape[1])
-        self.assertAlmostEqual(0.5 * 13 ** 2.4, mat[0, 0],delta=1e-6)
+        assert 1 == mat.shape[0]
+        assert 1 == mat.shape[1]
+        assert abs(0.5 * 13 ** 2.4 - mat[0, 0]) <= 1e-06
 
         # Add another atom and repeat.
         structure.add_atom(Atom([0.5, 0.5, 0.5], 0))
         mat = self.r.compute_coulomb_matrix(structure)
-        self.assertEqual(2, mat.shape[0])
-        self.assertEqual(2, mat.shape[1])
+        assert 2 == mat.shape[0]
+        assert 2 == mat.shape[1]
 
         # Test: Is it insensitive to basis changes.
         new_basis = structure.get_basis()
         new_basis[1, 0] = 12
         structure.set_basis(basis=new_basis)
-        self.assertAlmostEqual(1.0, structure.volume(), delta=1e-6)
+        assert abs(1.0 - structure.volume()) <= 1e-06
         mat2 = self.r.compute_coulomb_matrix(structure)
         if np.linalg.norm(mat - mat2) > 1e-6:
             sys.stderr.write("WARNING: Not insensitive to basis changes\n")
@@ -48,18 +47,18 @@ class testCoulombSineMatrixRegression(unittest.TestCase):
 
         # Compute the sine matrix.
         mat = self.r.compute_representation(structure)
-        self.assertEqual(1, len(mat))
+        assert 1 == len(mat)
 
         # Add another atom and repeat.
         structure.add_atom(Atom([0.5, 0.5, 0.5], 0))
         mat = self.r.compute_coulomb_matrix(structure)
-        self.assertEqual(2, len(mat))
+        assert 2 == len(mat)
 
         # Test: Is it insensitive to basis changes.
         new_basis = structure.get_basis()
         new_basis[1, 0] = 12
         structure.set_basis(basis=new_basis)
-        self.assertAlmostEqual(1.0, structure.volume(), delta=1e-6)
+        assert abs(1.0 - structure.volume()) <= 1e-06
         mat2 = self.r.compute_representation(structure)
         if np.sum(mat - mat2) / len(mat) > 1e-6:
             sys.stderr.write("WARNING: Not insensitive to basis changes\n")
@@ -79,15 +78,11 @@ class testCoulombSineMatrixRegression(unittest.TestCase):
         rep2 = self.r.compute_representation(structure2)
 
         # Check that similarity between identical structures is 1.0.
-        self.assertAlmostEqual(1.0, self.r.compute_similarity(rep1, rep1),
-                                delta=1e-6)
-        self.assertAlmostEqual(1.0, self.r.compute_similarity(rep2, rep2),
-                                delta=1e-6)
+        assert abs(1.0 - self.r.compute_similarity(rep1, rep1)) <= 1e-06
+        assert abs(1.0 - self.r.compute_similarity(rep2, rep2)) <= 1e-06
 
         # Check symmetry.
-        self.assertAlmostEqual(self.r.compute_similarity(rep1, rep2),
-                                self.r.compute_similarity(rep2, rep1),
-                                delta=1e-6)
+        assert abs(self.r.compute_similarity(rep1, rep2) - self.r.compute_similarity(rep2, rep1)) <= 1e-06
 
         # Check that similarity between these structures is less than 1.0.
-        self.assertTrue(self.r.compute_similarity(rep1, rep2) < 1.0)
+        assert self.r.compute_similarity(rep1, rep2) < 1.0

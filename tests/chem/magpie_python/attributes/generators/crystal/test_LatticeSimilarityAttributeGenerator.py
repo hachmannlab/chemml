@@ -1,9 +1,9 @@
 from chemml.chem.magpie_python import LatticeSimilarityAttributeGenerator
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 
-class testLatticeSimilarityAttributeGenerator(
-    testCoordinationNumberAttributeGenerator):
+class TestLatticeSimilarityAttributeGenerator(
+    TestCoordinationNumberAttributeGenerator):
 
         def get_generator(self):
             return LatticeSimilarityAttributeGenerator()

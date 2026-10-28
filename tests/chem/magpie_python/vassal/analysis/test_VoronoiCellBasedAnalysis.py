@@ -1,4 +1,3 @@
-import unittest
 import numpy as np
 import math
 from chemml.chem.magpie_python.vassal.analysis.VoronoiCellBasedAnalysis import \
@@ -7,7 +6,7 @@ from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 import numpy.testing as np_tst
 
-class testVoronoiCellBasedAnalysis(unittest.TestCase):
+class TestVoronoiCellBasedAnalysis:
     def test_BCC(self):
         # Structure of bcc.
         structure = Cell()
@@ -24,34 +23,26 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         n_eff = 11.95692194
         np_tst.assert_array_almost_equal([n_eff, n_eff],
                             tool.get_effective_coordination_numbers())
-        self.assertAlmostEqual(14.0, tool.face_count_average(), delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.face_count_variance(), delta=1e-2)
-        self.assertAlmostEqual(14.0, tool.face_count_minimum(), delta=1e-2)
-        self.assertAlmostEqual(14.0, tool.face_count_maximum(), delta=1e-2)
-        self.assertAlmostEqual(1, len(tool.get_unique_polyhedron_shapes()),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.volume_variance(), delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_minimum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_maximum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.68, tool.max_packing_efficiency(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0, tool.mean_bcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(14.0 / 12.0, tool.mean_fcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(8.0 / 6.0, tool.mean_sc_dissimilarity(),
-                                delta=1e-2)
+        assert abs(14.0 - tool.face_count_average()) <= 0.01
+        assert abs(0.0 - tool.face_count_variance()) <= 0.01
+        assert abs(14.0 - tool.face_count_minimum()) <= 0.01
+        assert abs(14.0 - tool.face_count_maximum()) <= 0.01
+        assert abs(1 - len(tool.get_unique_polyhedron_shapes())) <= 0.01
+        assert abs(0.0 - tool.volume_variance()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_minimum()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_maximum()) <= 0.01
+        assert abs(0.68 - tool.max_packing_efficiency()) <= 0.01
+        assert abs(0 - tool.mean_bcc_dissimilarity()) <= 0.01
+        assert abs(14.0 / 12.0 - tool.mean_fcc_dissimilarity()) <= 0.01
+        assert abs(8.0 / 6.0 - tool.mean_sc_dissimilarity()) <= 0.01
         bond_lengths = tool.bond_lengths()
-        self.assertEqual(2, len(bond_lengths))
-        self.assertEqual(14, len(bond_lengths[0]))
-        self.assertAlmostEqual(math.sqrt(3) / 2 , bond_lengths[0][0],
-                                delta=1e-6)
-        self.assertAlmostEqual(1.0, bond_lengths[0][12], delta=1e-6)
+        assert 2 == len(bond_lengths)
+        assert 14 == len(bond_lengths[0])
+        assert abs(math.sqrt(3) / 2 - bond_lengths[0][0]) <= 1e-06
+        assert abs(1.0 - bond_lengths[0][12]) <= 1e-06
         mean_bond_lengths = tool.mean_bond_lengths()
         var_bond_lengths = tool.bond_length_variance(mean_bond_lengths)
-        self.assertTrue(var_bond_lengths[0] > 0)
+        assert var_bond_lengths[0] > 0
 
     def test_B2(self):
         # Structure of bcc.
@@ -69,34 +60,26 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         n_eff = 11.95692194
         np_tst.assert_array_almost_equal([n_eff, n_eff],
                             tool.get_effective_coordination_numbers())
-        self.assertAlmostEqual(14.0, tool.face_count_average(), delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.face_count_variance(), delta=1e-2)
-        self.assertAlmostEqual(14.0, tool.face_count_minimum(), delta=1e-2)
-        self.assertAlmostEqual(14.0, tool.face_count_maximum(), delta=1e-2)
-        self.assertAlmostEqual(1, len(tool.get_unique_polyhedron_shapes()),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.volume_variance(), delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_minimum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_maximum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.68, tool.max_packing_efficiency(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0, tool.mean_bcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(14.0 / 12.0, tool.mean_fcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(8.0 / 6.0, tool.mean_sc_dissimilarity(),
-                                delta=1e-2)
+        assert abs(14.0 - tool.face_count_average()) <= 0.01
+        assert abs(0.0 - tool.face_count_variance()) <= 0.01
+        assert abs(14.0 - tool.face_count_minimum()) <= 0.01
+        assert abs(14.0 - tool.face_count_maximum()) <= 0.01
+        assert abs(1 - len(tool.get_unique_polyhedron_shapes())) <= 0.01
+        assert abs(0.0 - tool.volume_variance()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_minimum()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_maximum()) <= 0.01
+        assert abs(0.68 - tool.max_packing_efficiency()) <= 0.01
+        assert abs(0 - tool.mean_bcc_dissimilarity()) <= 0.01
+        assert abs(14.0 / 12.0 - tool.mean_fcc_dissimilarity()) <= 0.01
+        assert abs(8.0 / 6.0 - tool.mean_sc_dissimilarity()) <= 0.01
         bond_lengths = tool.bond_lengths()
-        self.assertEqual(2, len(bond_lengths))
-        self.assertEqual(14, len(bond_lengths[0]))
-        self.assertAlmostEqual(math.sqrt(3) / 2 , bond_lengths[0][0],
-                                delta=1e-6)
-        self.assertAlmostEqual(1.0, bond_lengths[0][12], delta=1e-6)
+        assert 2 == len(bond_lengths)
+        assert 14 == len(bond_lengths[0])
+        assert abs(math.sqrt(3) / 2 - bond_lengths[0][0]) <= 1e-06
+        assert abs(1.0 - bond_lengths[0][12]) <= 1e-06
         mean_bond_lengths = tool.mean_bond_lengths()
         var_bond_lengths = tool.bond_length_variance(mean_bond_lengths)
-        self.assertTrue(var_bond_lengths[0] > 0)
+        assert var_bond_lengths[0] > 0
 
         # Check ordering parameters (against values computed by hand).
         np_tst.assert_array_almost_equal([0.142857, -0.142857],
@@ -111,22 +94,10 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         np_tst.assert_array_almost_equal([-0.253856, 0.253856],
                                          tool.get_neighbor_ordering_parameters(
                                              2, True)[0], decimal=2)
-        self.assertAlmostEqual(0.142857,
-                                tool.warren_cowley_ordering_magnitude(1,
-                                                                      False),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.04,
-                                tool.warren_cowley_ordering_magnitude(2,
-                                                                      False),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.551982,
-                                tool.warren_cowley_ordering_magnitude(1,
-                                                                      True),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.253856,
-                                tool.warren_cowley_ordering_magnitude(2,
-                                                                      True),
-                                delta=1e-2)
+        assert abs(0.142857 - tool.warren_cowley_ordering_magnitude(1, False)) <= 0.01
+        assert abs(0.04 - tool.warren_cowley_ordering_magnitude(2, False)) <= 0.01
+        assert abs(0.551982 - tool.warren_cowley_ordering_magnitude(1, True)) <= 0.01
+        assert abs(0.253856 - tool.warren_cowley_ordering_magnitude(2, True)) <= 0.01
 
     def test_B1(self):
         # Structure of rocksalt.
@@ -149,17 +120,14 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         n_eff = 6
         np_tst.assert_array_almost_equal([n_eff, n_eff],
                             tool.get_effective_coordination_numbers())
-        self.assertAlmostEqual(6.0, tool.face_count_average(), delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.face_count_variance(), delta=1e-2)
-        self.assertAlmostEqual(6.0, tool.face_count_minimum(), delta=1e-2)
-        self.assertAlmostEqual(6.0, tool.face_count_maximum(), delta=1e-2)
-        self.assertAlmostEqual(1, len(tool.get_unique_polyhedron_shapes()),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.volume_variance(), delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_minimum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.5, tool.volume_fraction_maximum(),
-                                delta=1e-2)
+        assert abs(6.0 - tool.face_count_average()) <= 0.01
+        assert abs(0.0 - tool.face_count_variance()) <= 0.01
+        assert abs(6.0 - tool.face_count_minimum()) <= 0.01
+        assert abs(6.0 - tool.face_count_maximum()) <= 0.01
+        assert abs(1 - len(tool.get_unique_polyhedron_shapes())) <= 0.01
+        assert abs(0.0 - tool.volume_variance()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_minimum()) <= 0.01
+        assert abs(0.5 - tool.volume_fraction_maximum()) <= 0.01
         np_tst.assert_array_almost_equal([1, -1],
                                          tool.get_neighbor_ordering_parameters(
                                              1, False)[0], decimal=2)
@@ -178,31 +146,19 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         np_tst.assert_array_almost_equal([1, -1],
                                          tool.get_neighbor_ordering_parameters(
                                              3, True)[0], decimal=2)
-        self.assertAlmostEqual(1,
-                                tool.warren_cowley_ordering_magnitude(1,
-                                                                      False),
-                                delta=1e-2)
-        self.assertAlmostEqual(1,
-                                tool.warren_cowley_ordering_magnitude(2,
-                                                                      False),
-                                delta=1e-2)
-        self.assertAlmostEqual(1,
-                                tool.warren_cowley_ordering_magnitude(1,
-                                                                      True),
-                                delta=1e-2)
-        self.assertAlmostEqual(1,
-                                tool.warren_cowley_ordering_magnitude(2,
-                                                                      True),
-                                delta=1e-2)
+        assert abs(1 - tool.warren_cowley_ordering_magnitude(1, False)) <= 0.01
+        assert abs(1 - tool.warren_cowley_ordering_magnitude(2, False)) <= 0.01
+        assert abs(1 - tool.warren_cowley_ordering_magnitude(1, True)) <= 0.01
+        assert abs(1 - tool.warren_cowley_ordering_magnitude(2, True)) <= 0.01
         bond_lengths = tool.bond_lengths()
-        self.assertEqual(2, len(bond_lengths))
-        self.assertEqual(6, len(bond_lengths[0]))
-        self.assertAlmostEqual(0.5 , bond_lengths[0][0], delta=1e-6)
+        assert 2 == len(bond_lengths)
+        assert 6 == len(bond_lengths[0])
+        assert abs(0.5 - bond_lengths[0][0]) <= 1e-06
         mean_bond_lengths = tool.mean_bond_lengths()
-        self.assertEqual(2, len(mean_bond_lengths))
-        self.assertAlmostEqual(0.5, mean_bond_lengths[0], delta=1e-6)
+        assert 2 == len(mean_bond_lengths)
+        assert abs(0.5 - mean_bond_lengths[0]) <= 1e-06
         var_bond_lengths = tool.bond_length_variance(mean_bond_lengths)
-        self.assertAlmostEqual(0, var_bond_lengths[0], delta=1e-6)
+        assert abs(0 - var_bond_lengths[0]) <= 1e-06
 
         # Neighbor property attributes.
         np_tst.assert_array_almost_equal([1, 1],
@@ -237,33 +193,25 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         # Check results.
         np_tst.assert_array_almost_equal([12, 12, 12, 12],
                             tool.get_effective_coordination_numbers())
-        self.assertAlmostEqual(12.0, tool.face_count_average(), delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.face_count_variance(), delta=1e-2)
-        self.assertAlmostEqual(12.0, tool.face_count_minimum(), delta=1e-2)
-        self.assertAlmostEqual(12.0, tool.face_count_maximum(), delta=1e-2)
-        self.assertAlmostEqual(1, len(tool.get_unique_polyhedron_shapes()),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.0, tool.volume_variance(), delta=1e-2)
-        self.assertAlmostEqual(0.25, tool.volume_fraction_minimum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.25, tool.volume_fraction_maximum(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0.74, tool.max_packing_efficiency(),
-                                delta=1e-2)
-        self.assertAlmostEqual(1, tool.mean_bcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(0, tool.mean_fcc_dissimilarity(),
-                                delta=1e-2)
-        self.assertAlmostEqual(1, tool.mean_sc_dissimilarity(),
-                                delta=1e-2)
+        assert abs(12.0 - tool.face_count_average()) <= 0.01
+        assert abs(0.0 - tool.face_count_variance()) <= 0.01
+        assert abs(12.0 - tool.face_count_minimum()) <= 0.01
+        assert abs(12.0 - tool.face_count_maximum()) <= 0.01
+        assert abs(1 - len(tool.get_unique_polyhedron_shapes())) <= 0.01
+        assert abs(0.0 - tool.volume_variance()) <= 0.01
+        assert abs(0.25 - tool.volume_fraction_minimum()) <= 0.01
+        assert abs(0.25 - tool.volume_fraction_maximum()) <= 0.01
+        assert abs(0.74 - tool.max_packing_efficiency()) <= 0.01
+        assert abs(1 - tool.mean_bcc_dissimilarity()) <= 0.01
+        assert abs(0 - tool.mean_fcc_dissimilarity()) <= 0.01
+        assert abs(1 - tool.mean_sc_dissimilarity()) <= 0.01
         bond_lengths = tool.bond_lengths()
-        self.assertEqual(4, len(bond_lengths))
-        self.assertEqual(12, len(bond_lengths[0]))
-        self.assertAlmostEqual(math.sqrt(2) / 2, bond_lengths[0][0],
-                                delta=1e-6)
+        assert 4 == len(bond_lengths)
+        assert 12 == len(bond_lengths[0])
+        assert abs(math.sqrt(2) / 2 - bond_lengths[0][0]) <= 1e-06
         mean_bond_lengths = tool.mean_bond_lengths()
         var_bond_lengths = tool.bond_length_variance(mean_bond_lengths)
-        self.assertAlmostEqual(0, var_bond_lengths[0], delta=1e-6)
+        assert abs(0 - var_bond_lengths[0]) <= 1e-06
 
         # Neighbor analysis results.
         neigh_diff = tool.neighbor_property_differences([-1, 1], 1)
@@ -306,8 +254,4 @@ class testVoronoiCellBasedAnalysis(unittest.TestCase):
         b2 = bcc.__copy__()
         b2.get_atom(1).set_type(1)
         tool2 = VoronoiCellBasedAnalysis(old_tessellation=tool,
-                                         new_structure=b2)
-
-        # Make sure it balks if I change the basis.
-        # with self.assertRaises(ValueError):
-        #     b2.set_basis(lengths=[2, 1, 1], angles=[90, 90, 90])
+                         new_structure=b2)

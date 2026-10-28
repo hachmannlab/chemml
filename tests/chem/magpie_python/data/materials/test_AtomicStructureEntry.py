@@ -1,9 +1,8 @@
-import unittest
 from chemml.chem.magpie_python.data.materials.CrystalStructureEntry import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testAtomicStructureEntry(unittest.TestCase):
+class TestAtomicStructureEntry:
     def test_replacement(self):
         # Make B2-CuZr
         cell = Cell()
@@ -21,18 +20,13 @@ class testAtomicStructureEntry(unittest.TestCase):
         NiZr = CuZr.replace_elements(changes)
 
         # Make sure the tessellation object did not change.
-        self.assertTrue(CuZr.compute_voronoi_tessellation() is
-                        NiZr.compute_voronoi_tessellation())
+        assert CuZr.compute_voronoi_tessellation() is NiZr.compute_voronoi_tessellation()
 
         # Make sure the two are still unchanged.
-        self.assertAlmostEqual(0.5, CuZr.get_element_fraction(name="Cu"),
-                                delta=1e-6)
-        self.assertAlmostEqual(0.0, CuZr.get_element_fraction(name="Ni"),
-                                delta=1e-6)
-        self.assertAlmostEqual(0.0, NiZr.get_element_fraction(name="Cu"),
-                                delta=1e-6)
-        self.assertAlmostEqual(0.5, NiZr.get_element_fraction(name="Ni"),
-                                delta=1e-6)
+        assert abs(0.5 - CuZr.get_element_fraction(name='Cu')) <= 1e-06
+        assert abs(0.0 - CuZr.get_element_fraction(name='Ni')) <= 1e-06
+        assert abs(0.0 - NiZr.get_element_fraction(name='Cu')) <= 1e-06
+        assert abs(0.5 - NiZr.get_element_fraction(name='Ni')) <= 1e-06
 
         # Now, change the structure such that it has fewer types.
         changes["Ni"] = "Zr"
@@ -40,12 +34,10 @@ class testAtomicStructureEntry(unittest.TestCase):
         bccZr = NiZr.replace_elements(changes)
 
         # Make sure the structure only has one type.
-        self.assertAlmostEqual(1.0, bccZr.get_element_fraction(name="Zr"),
-                                delta=1e-6)
-        self.assertEqual(1, bccZr.get_structure().n_types())
+        assert abs(1.0 - bccZr.get_element_fraction(name='Zr')) <= 1e-06
+        assert 1 == bccZr.get_structure().n_types()
 
-        self.assertFalse(NiZr.compute_voronoi_tessellation() is
-                         bccZr.compute_voronoi_tessellation())
+        assert not (NiZr.compute_voronoi_tessellation() is bccZr.compute_voronoi_tessellation())
 
     def test_to_string(self):
         # Make B2-CuZr
@@ -58,5 +50,5 @@ class testAtomicStructureEntry(unittest.TestCase):
 
         name = CuZr.__str__()
         # print(name)
-        self.assertTrue("CuZr" in name)
-        self.assertTrue("B2" in name)
+        assert 'CuZr' in name
+        assert 'B2' in name

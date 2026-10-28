@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import unittest
 import numpy.testing as np_tst
 import pandas as pd
 from chemml.chem.magpie_python import ElementFractionAttributeGenerator
@@ -7,7 +6,7 @@ from chemml.chem.magpie_python import MeredigAttributeGenerator
 from chemml.chem.magpie_python import ValenceShellAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testMeredigAttributeGenerator(unittest.TestCase):
+class TestMeredigAttributeGenerator:
     def test_attribute_generator(self):
         # Make a list of CompositionEntry's.
         entries = [CompositionEntry(composition="FeO")]
@@ -26,11 +25,11 @@ class testMeredigAttributeGenerator(unittest.TestCase):
         features = pd.concat([f1, f2, f3], axis=1)
 
         # Test results.
-        self.assertEqual(129, len(features.columns))
-        self.assertEqual(129, features.values[0].size)
+        assert 129 == len(features.columns)
+        assert 129 == features.values[0].size
 
-        self.assertEqual(0.5, features.values[0][25])
-        self.assertEqual(0.5, features.values[0][7])
+        assert 0.5 == features.values[0][25]
+        assert 0.5 == features.values[0][7]
         np_tst.assert_array_almost_equal([35.92, 12.0, 3.0, 18, 17, 66, 99,
                                           1.61, 2.635, 2, 2, 3, 0, 2.0 / 7.0,
                                           2.0 / 7.0, 3.0 / 7.0, 0],

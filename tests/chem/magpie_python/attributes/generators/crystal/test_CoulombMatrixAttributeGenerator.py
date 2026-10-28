@@ -1,11 +1,10 @@
-import unittest
 from chemml.chem.magpie_python import \
     CoulombMatrixAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testCoulombMatrixAttributeGenerator(unittest.TestCase):
+class TestCoulombMatrixAttributeGenerator:
     def test(self):
         # Make two simple structures.
         structure1 = Cell()
@@ -33,14 +32,14 @@ class testCoulombMatrixAttributeGenerator(unittest.TestCase):
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertEqual(10, features.shape[1])
+        assert 10 == features.shape[1]
 
-        self.assertNotAlmostEqual(0, features.values[0][0], delta=1e-6)
+        assert abs(0 - features.values[0][0]) > 1e-06
         for i in range(1, 10):
-            self.assertAlmostEqual(0, features.values[0][i], delta=1e-6)
+            assert abs(0 - features.values[0][i]) <= 1e-06
 
-        self.assertNotAlmostEqual(0, features.values[1][0], delta=1e-6)
-        self.assertNotAlmostEqual(0, features.values[1][1], delta=1e-6)
-        self.assertNotAlmostEqual(0, features.values[1][2], delta=1e-6)
+        assert abs(0 - features.values[1][0]) > 1e-06
+        assert abs(0 - features.values[1][1]) > 1e-06
+        assert abs(0 - features.values[1][2]) > 1e-06
         for i in range(3, 10):
-            self.assertAlmostEqual(0, features.values[1][i], delta=1e-6)
+            assert abs(0 - features.values[1][i]) <= 1e-06

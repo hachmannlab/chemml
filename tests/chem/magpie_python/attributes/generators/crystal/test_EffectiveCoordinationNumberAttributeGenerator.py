@@ -1,9 +1,9 @@
 from chemml.chem.magpie_python import \
     EffectiveCoordinationNumberAttributeGenerator
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 
 class EffectiveCoordinationNumberAttributeGeneratorTest(
-    testCoordinationNumberAttributeGenerator):
+    TestCoordinationNumberAttributeGenerator):
     def get_generator(self):
         return EffectiveCoordinationNumberAttributeGenerator()

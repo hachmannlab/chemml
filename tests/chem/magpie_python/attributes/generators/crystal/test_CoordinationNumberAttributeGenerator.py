@@ -1,11 +1,10 @@
-import unittest
 from chemml.chem.magpie_python import CoordinationNumberAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 
-class testCoordinationNumberAttributeGenerator(unittest.TestCase):
+class TestCoordinationNumberAttributeGenerator:
     def get_generator(self):
         return CoordinationNumberAttributeGenerator()
 
@@ -64,21 +63,18 @@ class testCoordinationNumberAttributeGenerator(unittest.TestCase):
 
         # Make sure the correct number were generated.
         ec = self.expected_count()
-        self.assertEqual(ec, features.shape[1])
+        assert ec == features.shape[1]
         for i in range(len(dataset)):
-            self.assertEqual(ec, len(features.values[i]))
+            assert ec == len(features.values[i])
 
         # Make sure scaling doesn't effect it.
         for i in range(ec):
-            self.assertAlmostEqual(features.values[0][i], features.values[
-                1][i], delta=1e-6)
+            assert abs(features.values[0][i] - features.values[1][i]) <= 1e-06
 
         # Make sure its permutationally-invariant.
         for i in range(ec):
-            self.assertAlmostEqual(features.values[0][i], features.values[
-                2][i], delta=1e-6)
+            assert abs(features.values[0][i] - features.values[2][i]) <= 1e-06
 
         # Make sure it passes supercell.
         for i in range(ec):
-            self.assertAlmostEqual(features.values[0][i], features.values[
-                3][i], delta=1e-6)
+            assert abs(features.values[0][i] - features.values[3][i]) <= 1e-06

@@ -1,9 +1,9 @@
 from chemml.chem.magpie_python import PackingEfficiencyAttributeGenerator
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 
-class testPackingEfficiencyAttributeGenerator(
-    testCoordinationNumberAttributeGenerator):
+class TestPackingEfficiencyAttributeGenerator(
+    TestCoordinationNumberAttributeGenerator):
     def get_generator(self):
         return PackingEfficiencyAttributeGenerator()
 

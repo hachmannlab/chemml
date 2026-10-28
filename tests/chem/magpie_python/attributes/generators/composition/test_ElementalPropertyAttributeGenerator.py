@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import unittest
 import numpy as np
 import numpy.testing as np_test
 from chemml.chem.magpie_python import ElementalPropertyAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testElementalPropertyAttributeGenerator(unittest.TestCase):
+class TestElementalPropertyAttributeGenerator:
 
     def test_easy(self):
         # Make list of CompositionEntry's.
@@ -20,7 +19,7 @@ class testElementalPropertyAttributeGenerator(unittest.TestCase):
         features = el.generate_features(entries)
 
         # Test results.
-        self.assertEqual(6, features.values[0].size)
+        assert 6 == features.values[0].size
 
         # Results for NaCl.
         np_test.assert_array_almost_equal([14, 6, 3, 17, 11, 14],
@@ -44,12 +43,12 @@ class testElementalPropertyAttributeGenerator(unittest.TestCase):
         features = el.generate_features(entries)
 
         # Test results.
-        self.assertEqual(18, features.values[0].size)
+        assert 18 == features.values[0].size
 
         # Results for HBr, only bothering testing mean and max.
-        self.assertAlmostEqual(18, features.values[0][0], delta=1e-6)
-        self.assertAlmostEqual(35, features.values[0][3], delta=1e-6)
-        self.assertTrue(np.isnan(features.values[0][6]))
-        self.assertTrue(np.isnan(features.values[0][9]))
-        self.assertAlmostEqual(2.5, features.values[0][12], delta=1e-6)
-        self.assertAlmostEqual(4, features.values[0][15], delta=1e-6)
+        assert abs(18 - features.values[0][0]) <= 1e-06
+        assert abs(35 - features.values[0][3]) <= 1e-06
+        assert np.isnan(features.values[0][6])
+        assert np.isnan(features.values[0][9])
+        assert abs(2.5 - features.values[0][12]) <= 1e-06
+        assert abs(4 - features.values[0][15]) <= 1e-06

@@ -1,4 +1,3 @@
-import unittest
 import math
 import numpy.testing as np_tst
 from chemml.chem.magpie_python import APRDFAttributeGenerator
@@ -6,7 +5,7 @@ from chemml.chem.magpie_python import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testAPRDFAttributeGenerator(unittest.TestCase):
+class TestAPRDFAttributeGenerator:
     def test(self):
         structure = Cell()
         structure.set_basis(lengths=[3.2, 3.2, 3.2], angles=[90, 90, 90])
@@ -27,7 +26,7 @@ class testAPRDFAttributeGenerator(unittest.TestCase):
 
         # Generate features.
         features = gen.generate_features(entries)
-        self.assertEqual(2, len(features.columns))
+        assert 2 == len(features.columns)
 
         ap_rdf = features.values
 

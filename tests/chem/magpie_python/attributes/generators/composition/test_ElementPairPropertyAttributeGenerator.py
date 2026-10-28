@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import unittest
 import numpy as np
 import numpy.testing as np_tst
 from chemml.chem.magpie_python import ElementPairPropertyAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testElementPairPropertyAttributeGenerator(unittest.TestCase):
+class TestElementPairPropertyAttributeGenerator:
     def test_attribute_generator(self):
         # Make list of CompositionEntry's.
         entries = [CompositionEntry(composition="Fe"), CompositionEntry(
@@ -21,7 +20,7 @@ class testElementPairPropertyAttributeGenerator(unittest.TestCase):
         features = el.generate_features(entries)
 
         # Test results.
-        self.assertEqual(5, len(features.columns))
+        assert 5 == len(features.columns)
 
         # Fe.
         np_tst.assert_array_equal([np.nan] * 5, features.values[0])

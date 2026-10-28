@@ -2,12 +2,12 @@ import numpy.testing as np_tst
 from chemml.chem.magpie_python import LocalPropertyVarianceAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from test_CoordinationNumberAttributeGenerator import \
-    testCoordinationNumberAttributeGenerator
+    TestCoordinationNumberAttributeGenerator
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testLocalPropertyVarianceAttributeGenerator(
-    testCoordinationNumberAttributeGenerator):
+class TestLocalPropertyVarianceAttributeGenerator(
+    TestCoordinationNumberAttributeGenerator):
     def get_generator(self):
         gen = LocalPropertyVarianceAttributeGenerator()
         gen.clear_shells()
@@ -43,7 +43,7 @@ class testLocalPropertyVarianceAttributeGenerator(
         features = gen.generate_features(entries)
 
         # Test the results.
-        self.assertEqual(5, features.shape[1])
+        assert 5 == features.shape[1]
         np_tst.assert_array_almost_equal(
             [0.166666667, 0.083333333, 0, 2.0 / 9,
              2.0 / 9], features.values[0])

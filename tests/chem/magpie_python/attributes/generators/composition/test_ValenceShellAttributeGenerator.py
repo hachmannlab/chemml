@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import unittest
 import numpy.testing as np_tst
 from chemml.chem.magpie_python import ValenceShellAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testValenceShellAttributeGenerator(unittest.TestCase):
+class TestValenceShellAttributeGenerator:
     def test_attribute_generator(self):
         # Make a list of CompositionEntry's.
         entries = [CompositionEntry(composition="NaCl"), CompositionEntry(
@@ -17,8 +16,8 @@ class testValenceShellAttributeGenerator(unittest.TestCase):
         features = vg.generate_features(entries)
 
         # Test results.
-        self.assertEqual(4, len(features.columns))
-        self.assertEqual(4, features.values[0].size)
+        assert 4 == len(features.columns)
+        assert 4 == features.values[0].size
 
         # Results for NaCl.
         np_tst.assert_array_almost_equal([0.375, 0.625, 0, 0],

@@ -1,16 +1,15 @@
-import unittest
 import math
 from chemml.chem.magpie_python.vassal.analysis.APRDFAnalysis import APRDFAnalysis
 import numpy.testing as np_tst
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testAPRDFAnalysis(unittest.TestCase):
-    def setUp(self):
+class TestAPRDFAnalysis:
+    def setup_method(self):
         # Make the analysis tool.
         self.tool = APRDFAnalysis()
 
-    def tearDown(self):
+    def teardown_method(self):
         self.tool = None
 
     def test_eval_distance(self):

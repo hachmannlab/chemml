@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-import unittest
 import numpy.testing as np_tst
 from chemml.chem.magpie_python import IonicCompoundProximityAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
+class TestIonicCompoundProximityAttributeGenerator:
     def test_attribute_generator(self):
         # Make a list of CompositionEntry's.
         entries = [CompositionEntry(composition="Na0.9Cl1.1"),
@@ -19,7 +18,7 @@ class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
         features = ig.generate_features(entries)
 
         # Test results.
-        self.assertEqual(1, len(features.columns))
+        assert 1 == len(features.columns)
         np_tst.assert_array_almost_equal([0.1, 0, 2, 1], features.iloc[:,0])
 
         # Now decrease the maximum size to 2, which means CuCl2 should match
@@ -30,6 +29,6 @@ class testIonicCompoundProximityAttributeGenerator(unittest.TestCase):
         features = ig.generate_features(entries)
 
         # Test results.
-        self.assertEqual(1, len(features.columns))
+        assert 1 == len(features.columns)
         np_tst.assert_array_almost_equal([0.1, 1.0 / 3, 2, 1],
                                          features.iloc[:,0])

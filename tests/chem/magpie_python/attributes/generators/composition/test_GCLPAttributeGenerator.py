@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import unittest
 from math import log, sqrt
 import numpy.testing as np
 from chemml.chem.magpie_python import GCLPAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testGCLPAttributeGenerator(unittest.TestCase):
+class TestGCLPAttributeGenerator:
     def test_attribute_generator(self):
         # Create the hull data set.
         g = GCLPAttributeGenerator()

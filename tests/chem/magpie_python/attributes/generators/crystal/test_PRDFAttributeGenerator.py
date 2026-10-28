@@ -1,10 +1,9 @@
-import unittest
 from chemml.chem.magpie_python import PRDFAttributeGenerator
 from chemml.chem.magpie_python import CrystalStructureEntry
 from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
-class testPRDFAttributeGenerator(unittest.TestCase):
+class TestPRDFAttributeGenerator:
     def test(self):
         # Make two simple structures.
         structure1 = Cell()
@@ -37,20 +36,16 @@ class testPRDFAttributeGenerator(unittest.TestCase):
         features = gen.generate_features(entries)
 
         # Test results.
-        self.assertEqual(3 * 3 * 5, features.shape[1])
-        self.assertEqual(3 * 3 * 5, len(features.values[0]))
-        self.assertAlmostEqual(0, sum(features.values[0][0 : 4 * 5]),
-                                delta=1e-6) # First 4 PRDFs are H-X.
-        self.assertTrue(max(features.values[0][4 * 5 : 5 * 5]) > 0)
-        self.assertAlmostEqual(0, sum(features.values[0][6 * 5 : 9 * 5]),
-                                delta=1e-6)  # Only Al in structure.
+        assert 3 * 3 * 5 == features.shape[1]
+        assert 3 * 3 * 5 == len(features.values[0])
+        assert abs(0 - sum(features.values[0][0:4 * 5])) <= 1e-06 # First 4 PRDFs are H-X.
+        assert max(features.values[0][4 * 5:5 * 5]) > 0
+        assert abs(0 - sum(features.values[0][6 * 5:9 * 5])) <= 1e-06  # Only Al in structure.
 
-        self.assertEqual(3 * 3 * 5, len(features.values[1]))
-        self.assertAlmostEqual(0, sum(features.values[1][0: 4 * 5]),
-                                delta=1e-6)  # First 4 PRDFs are H-X.
-        self.assertTrue(max(features.values[1][4 * 5: 5 * 5]) > 0)
-        self.assertTrue(max(features.values[1][5 * 5: 6 * 5]) > 0)
-        self.assertAlmostEqual(0, sum(features.values[1][6 * 5: 7 * 5]),
-                                delta=1e-6)  # Only Al in structure.
-        self.assertTrue(max(features.values[1][7 * 5: 8 * 5]) > 0)
-        self.assertTrue(max(features.values[1][8 * 5: 9 * 5]) > 0)
+        assert 3 * 3 * 5 == len(features.values[1])
+        assert abs(0 - sum(features.values[1][0:4 * 5])) <= 1e-06  # First 4 PRDFs are H-X.
+        assert max(features.values[1][4 * 5:5 * 5]) > 0
+        assert max(features.values[1][5 * 5:6 * 5]) > 0
+        assert abs(0 - sum(features.values[1][6 * 5:7 * 5])) <= 1e-06  # Only Al in structure.
+        assert max(features.values[1][7 * 5:8 * 5]) > 0
+        assert max(features.values[1][8 * 5:9 * 5]) > 0

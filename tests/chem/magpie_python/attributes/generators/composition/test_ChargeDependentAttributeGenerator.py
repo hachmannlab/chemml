@@ -1,10 +1,9 @@
-import unittest
 import numpy as np
 import numpy.testing as np_tst
 from chemml.chem.magpie_python import ChargeDependentAttributeGenerator
 from chemml.chem.magpie_python import CompositionEntry
 
-class testChargeDependentAttributeGenerator(unittest.TestCase):
+class TestChargeDependentAttributeGenerator:
     def test_attribute_generator(self):
         entries = [CompositionEntry(composition="NaCl"), CompositionEntry(
             composition="Fe"), CompositionEntry(composition="ZrO2"),

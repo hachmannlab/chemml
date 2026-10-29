@@ -49,7 +49,7 @@ class CrystalStructureEntry(CompositionEntry):
             Use None to leave radii unchanged.
 
         """
-        super(CrystalStructureEntry, self).__init__()
+        super().__init__()
         self.structure = structure
         self.name = name
         if structure.n_atoms() == 0:
@@ -151,7 +151,7 @@ class CrystalStructureEntry(CompositionEntry):
         """
         if isinstance(other, CrystalStructureEntry):
             return self.structure.__eq__(other.structure) and \
-                   super(CrystalStructureEntry, self).__eq__(other)
+                   super().__eq__(other)
         return False
 
     def __cmp__(self, other):
@@ -179,7 +179,7 @@ class CrystalStructureEntry(CompositionEntry):
                 return 0
 
             # Second: Check the composition / attributes.
-            super_comp = super(CrystalStructureEntry, self).__cmp__(other)
+            super_comp = super().__cmp__(other)
             if super_comp != 0:
                 return super_comp
 
@@ -205,22 +205,26 @@ class CrystalStructureEntry(CompositionEntry):
             for i in range(self.structure.n_atoms()):
                 my_atom = self.structure.get_atom(i)
                 your_atom = other.structure.get_atom(i)
-                if my_atom.get_type() > your_atom.get_type():
-                    return my_atom.get_type() - your_atom.get_type()
+                my_type = my_atom.get_type()
+                your_type = your_atom.get_type()
+                if my_type != your_type:
+                    return -1 if my_type < your_type else 1
                 my_pos = my_atom.get_position()
                 your_pos = your_atom.get_position()
-                for i in range(3):
-                    v1 = my_pos[i]
-                    v2 = your_pos[i]
+                for coordinate in range(3):
+                    v1 = my_pos[coordinate]
+                    v2 = your_pos[coordinate]
                     if (v1 - v2) ** 2 < 1e-30:
                         c = 0
                     elif v1 < v2:
                         c = -1
                     else:
                         c = +1
+                    if c != 0:
+                        return c
             raise Exception("These entries were supposed to be unequal.")
         else:
-            return super(CrystalStructureEntry, self).__cmp__(other)
+            return super().__cmp__(other)
 
     def __hash__(self):
         """Function to compute the hashcode of this instance.
@@ -231,7 +235,7 @@ class CrystalStructureEntry(CompositionEntry):
             Hashcode of this instance.
 
         """
-        return super(CrystalStructureEntry, self).__hash__() ^ \
+        return super().__hash__() ^ \
                self.structure.__hash__()
 
     def get_structure(self):
@@ -290,7 +294,7 @@ class CrystalStructureEntry(CompositionEntry):
 
         """
 
-        comp = super(CrystalStructureEntry, self).__str__()
+        comp = super().__str__()
         return self.name+":"+comp
 
     @classmethod

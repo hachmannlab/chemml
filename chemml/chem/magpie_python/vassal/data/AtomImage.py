@@ -80,7 +80,7 @@ class AtomImage:
         """
 
         if isinstance(other, AtomImage):
-            return  self.atom.get_id == other.atom.get_id and np.array_equal(
+            return self.atom.get_id() == other.atom.get_id() and np.array_equal(
                 self.supercell, other.supercell)
         return False
 
@@ -94,7 +94,7 @@ class AtomImage:
         """
 
         h = 7
-        h = 43 * h + id(self.atom)
+        h = 43 * h + hash(self.atom.get_id())
         for i in self.supercell:
             h = 31 * h + hash(i)
         return h
@@ -171,6 +171,6 @@ class AtomImage:
         output += "("
         for i in range(3):
             if image[i] != 0:
-                output += "{0:d}{1:s}".format(image[i], str(chr(97+i)))
+                output += f"{image[i]:d}{chr(97 + i)}"
         output += ")"
         return output

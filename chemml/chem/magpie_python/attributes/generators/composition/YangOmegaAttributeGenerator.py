@@ -1,6 +1,5 @@
 # coding=utf-8
 import math
-import types
 import numpy as np
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry

@@ -1,5 +1,4 @@
 # coding=utf-8
-import types
 import pandas as pd
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 from ....data.materials.util.LookUpData import LookUpData

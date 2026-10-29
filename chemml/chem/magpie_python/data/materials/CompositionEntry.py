@@ -6,7 +6,7 @@ from ...data.materials.util.LookUpData import LookUpData
 # Todo: add all the rich comparisons, using total_ordering comes with the cost of slower execution
 # check this link for more info: https://portingguide.readthedocs.io/en/latest/comparisons.html
 @total_ordering
-class CompositionEntry(object):
+class CompositionEntry:
     """Class that defines a CompositionEntry object.
     Mainly used to store ids, names and fractions of elements belonging to a
     single compound.
@@ -86,10 +86,10 @@ class CompositionEntry(object):
                 raise RuntimeError("No composition was read.")
 
             # Store values.
-            self.element_ids = comp_map.keys()
+            self.element_ids = list(comp_map.keys())
             self.element_names = [self.lp_element_names[i] for i in
                                   self.element_ids]
-            self.fractions = comp_map.values()
+            self.fractions = list(comp_map.values())
             self.sort_and_normalize()
         elif fractions and (element_names or element_ids):
             self.set_composition(fractions, element_ids=element_ids,
@@ -416,33 +416,18 @@ class CompositionEntry(object):
         return 0.0
 
     def __cmp__(self, other):
-        """Function to compare two CompositionEntry objects.
-
-        Parameters
-        ----------
-        other : CompositionEntry
-            Other composition entry to compare.
-
-        Returns
-        -------
-        output : int
-            -1 if self < other , 1 if self > other or 0 if self = other.
-
-        """
-
+        """Return -1, 0, or 1 according to composition ordering."""
         if isinstance(other, CompositionEntry):
-            # If this has more elements, this is greater.
             if len(self.element_ids) != len(other.element_ids):
-                return -1 if len(self.element_ids) < len(other.element_ids) \
-                    else 1
-            # Check which has greater element fractions.
-            for i in range(len(other.element_ids)):
-                if self.element_ids[i] != other.element_ids[i]:
-                    return -1 if self.element_ids[i] < other.element_ids[i] \
-                        else 1
-                elif self.fractions[i] != other.fractions[i]:
-                    return -1 if self.fractions[i] < other.fractions[i] else 1
-            # We have concluded that they are equal.
+                return -1 if len(self.element_ids) < len(other.element_ids) else 1
+            for element_id, other_element_id, fraction, other_fraction in zip(
+                self.element_ids, other.element_ids, self.fractions,
+                other.fractions,
+            ):
+                if element_id != other_element_id:
+                    return -1 if element_id < other_element_id else 1
+                if fraction != other_fraction:
+                    return -1 if fraction < other_fraction else 1
         return 0
 
     def __hash__(self):
@@ -608,10 +593,9 @@ class CompositionEntry(object):
         for f in fraction:
             expanded = f * n_in_formula_unit
             if abs(expanded - round(expanded)) < 0.0001:
-                output.append("" if int(expanded) == 1 else "{0:d}".format(
-                    int(expanded)))
+                output.append("" if int(expanded) == 1 else f"{int(expanded):d}")
             else:
-                output.append("{0:1.3f}".format(expanded))
+                output.append(f"{expanded:1.3f}")
         return output
 
     def __str__(self):
@@ -651,7 +635,7 @@ class CompositionEntry(object):
 
         """
         composition_list = []
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding="utf-8") as f:
             for line in f.readlines():
                 words = line.strip()
                 entry = CompositionEntry(composition=words)
@@ -679,7 +663,7 @@ class CompositionEntry(object):
         """
 
         property_list = []
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding="utf-8") as f:
             for line in f.readlines():
                 property_list.append(float(line.strip()))
 

@@ -38,7 +38,7 @@ class VASP5IO:
         # Open file.
         lines = None
         if list_of_lines is None:
-            with open(file_name, 'r') as f:
+            with open(file_name, 'r', encoding="utf-8") as f:
                 # Add contents to file.
                 lines = [line.strip() for line in f.readlines()]
         else:
@@ -129,8 +129,10 @@ class VASP5IO:
         # Write lattice vectors.
         lat_vectors = structure.get_lattice_vectors()
         for i in range(3):
-            output.append(" {0:.10f} {1:.10f} {2:.10f}".format(lat_vectors[
-                i][0], lat_vectors[i][1], lat_vectors[i][2]))
+            output.append(
+                f" {lat_vectors[i][0]:.10f} {lat_vectors[i][1]:.10f} "
+                f"{lat_vectors[i][2]:.10f}"
+            )
 
         # Gather atoms.
         names = OrderedDict()
@@ -159,8 +161,7 @@ class VASP5IO:
         for key in atoms:
             for atom in atoms[key]:
                 x = atom.get_position()
-                output.append("{0:.10f} {1:.10f} {2:.10f}".format(x[0], x[1],
-                                                                  x[2]))
+                output.append(f"{x[0]:.10f} {x[1]:.10f} {x[2]:.10f}")
         return output
 
     def write_structure_to_file(self, structure, filename):
@@ -179,7 +180,7 @@ class VASP5IO:
         to_write = self.convert_structure_to_string(structure)
 
         # Write to file.
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding="utf-8") as f:
             f.writelines(to_write)
 
     def print_structure(self, structure):

@@ -8,6 +8,34 @@ from chemml.chem.magpie_python.vassal.util.VectorCombinationComputer import \
     VectorCombinationComputer
 
 class TestVoronoiCell:
+    def test_vertices_are_unique(self):
+        structure = Cell()
+        structure.add_atom(Atom([0, 0, 0], 0))
+        cell = VoronoiCell(structure.get_atom(0), radical=True)
+        images = [AtomImage(structure.get_atom(0), sc) for sc in
+                  VectorCombinationComputer(
+                      structure.get_lattice_vectors(),
+                      1.1).get_supercell_coordinates()]
+
+        cell.compute_cell_helper(images)
+
+        assert len(cell.get_vertices()) == 8
+        min_distance, max_distance = cell.get_min_max_vertex_distance()
+        assert abs(min_distance - 1.0) <= 1e-6
+        assert abs(max_distance - 3 ** 0.5) <= 1e-6
+
+    def test_atom_images_compare_by_atom_id(self):
+        structure = Cell()
+        structure.add_atom(Atom([0, 0, 0], 0))
+        structure.add_atom(Atom([0.5, 0.5, 0.5], 0))
+        first = AtomImage(structure.get_atom(0), [0, 0, 0])
+        second_atom = structure.get_atom(1)
+        second_atom.set_id(structure.get_atom(0).get_id())
+        second = AtomImage(second_atom, [0, 0, 0])
+
+        assert first == second
+        assert hash(first) == hash(second)
+
     def test_supercell(self):
         # Create cell.
         structure = Cell()

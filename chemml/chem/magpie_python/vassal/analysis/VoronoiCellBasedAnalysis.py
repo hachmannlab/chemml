@@ -67,8 +67,7 @@ class VoronoiCellBasedAnalysis:
                 old_atom_pos = old_structure.get_atom(a).get_position()
                 new_atom_pos = new_structure.get_atom(a).get_position()
                 if not np.allclose(old_atom_pos, new_atom_pos, rtol=1e-6):
-                    raise Exception("Atom # {} position is different".format(
-                        a))
+                    raise Exception(f"Atom # {a} position is different")
 
             # Create new instance.
             self.cells = old_tessellation.cells

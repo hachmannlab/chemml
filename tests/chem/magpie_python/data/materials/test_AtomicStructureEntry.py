@@ -3,6 +3,20 @@ from chemml.chem.magpie_python.vassal.data.Atom import Atom
 from chemml.chem.magpie_python.vassal.data.Cell import Cell
 
 class TestAtomicStructureEntry:
+    def test_compare_different_atom_positions(self):
+        first_cell = Cell()
+        first_cell.add_atom(Atom([0, 0, 0], 0))
+        first_cell.set_type_name(0, "Cu")
+        first = CrystalStructureEntry(first_cell, "first", None)
+
+        second_cell = Cell()
+        second_cell.add_atom(Atom([0.1, 0, 0], 0))
+        second_cell.set_type_name(0, "Cu")
+        second = CrystalStructureEntry(second_cell, "second", None)
+
+        assert first.__cmp__(second) == -second.__cmp__(first)
+        assert first.__cmp__(second) != 0
+
     def test_replacement(self):
         # Make B2-CuZr
         cell = Cell()

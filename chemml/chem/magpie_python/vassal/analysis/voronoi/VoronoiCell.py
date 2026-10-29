@@ -102,7 +102,12 @@ class VoronoiCell:
             List of vertices.
 
         """
-        return list(set([face.get_vertices() for face in self.faces]))
+        vertices = {}
+        for face in self.faces:
+            for vertex in face.get_vertices():
+                key = tuple(np.round(vertex.get_position(), decimals=12))
+                vertices.setdefault(key, vertex)
+        return list(vertices.values())
 
     def get_neighbor_types(self):
         """Function to get the number of neighbors of each type.

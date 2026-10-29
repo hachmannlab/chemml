@@ -1,5 +1,4 @@
 import sys
-import types
 import numpy as np
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry

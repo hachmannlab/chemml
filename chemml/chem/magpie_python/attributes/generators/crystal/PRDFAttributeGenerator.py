@@ -1,7 +1,6 @@
 # coding=utf-8
 import numpy as np
 import pandas as pd
-import types
 from ....data.materials.CrystalStructureEntry import CrystalStructureEntry
 from ....data.materials.util.LookUpData import LookUpData
 from ....models.regression.crystal.PRDFRegression import PRDFRegression

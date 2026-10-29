@@ -1,4 +1,3 @@
-import types
 import pandas as pd
 from ....data.materials.CompositionEntry import CompositionEntry
 from ....data.utilities.filters.CompositionDistanceFilter import \

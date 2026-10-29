@@ -1,4 +1,3 @@
-import types
 from math import sqrt, log
 import numpy as np
 import pandas as pd

@@ -138,8 +138,7 @@ class APRDFAnalysis:
 
         """
         if d <= 0:
-            raise ValueError("Cut off distance must be positive!! Supplied: "
-                             ""+str(d))
+            raise ValueError(f"Cut off distance must be positive!! Supplied: {d}")
 
         # Set the cutoff distance.
         self.cut_off_distance = d
@@ -148,9 +147,8 @@ class APRDFAnalysis:
         if self.structure is not None:
             try:
                 self.precompute()
-            except Exception:
-                raise Exception("Oops, something went wrong. Check "
-                                "stacktrace.")
+            except Exception as error:
+                raise RuntimeError("Failed to precompute APRDF analysis") from error
 
     def set_n_windows(self, n_w):
         """Function to set the number of points at which to evaluate AP-RDF.
@@ -181,9 +179,10 @@ class APRDFAnalysis:
 
         # Make sure the number of properties is correct.
         if len(properties) != self.structure.n_types():
-            raise ValueError("Incorrect number of properties. Supplied: {}. "
-                             "Required: {}".format(len(properties),
-                                                   self.structure.n_types()))
+            raise ValueError(
+                f"Incorrect number of properties. Supplied: {len(properties)}. "
+                f"Required: {self.structure.n_types()}"
+            )
 
         # Get the evaluation distances.
         eval_R = self.get_evaluation_distances()

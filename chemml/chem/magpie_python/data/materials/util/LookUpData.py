@@ -1,6 +1,9 @@
+from collections.abc import Iterable
+from functools import lru_cache
+from importlib.resources import files
+
 import numpy as np
-import sys
-import os
+from numpy.typing import NDArray
 
 class LookUpData:
     """Class to look up properties of elements stored in files.
@@ -123,12 +126,24 @@ class LookUpData:
                       "SpaceGroupNumber", "ZungerPP-r_d", "ZungerPP-r_pi",
                       "ZungerPP-r_p", "ZungerPP-r_sigma", "ZungerPP-r_s"]
 
-    this_file_path = os.path.dirname(__file__)
-    abs_path = os.path.join(this_file_path, "../../../lookup-data/")
-    pair_abs_path = abs_path+"pair/"
+    lookup_data = files("chemml.chem.magpie_python").joinpath("lookup-data")
 
     @classmethod
-    def load_property(self, property):
+    @lru_cache(maxsize=None)
+    def _read_table(cls, relative_path: str) -> tuple[str, ...]:
+        resource = cls.lookup_data.joinpath(*relative_path.split("/"))
+        try:
+            with resource.open("r", encoding="utf-8") as table_file:
+                return tuple(table_file)
+        except FileNotFoundError as error:
+            raise IOError(
+                f"File {relative_path} doesn't exist in lookup-data"
+            ) from error
+
+    @classmethod
+    def load_property(
+        cls, property: str
+    ) -> NDArray[np.float64] | NDArray[np.object_]:
         """Function to load a specific property from the directory containing
         all the lookup tables.
 
@@ -152,34 +167,25 @@ class LookUpData:
         # IonizationEnergies and OxidationStates are 2-D arrays. So treat
         # them differently.
         if property == "IonizationEnergies" or property == "OxidationStates":
-            return self.load_special_property(property)
+            return cls.load_special_property(property)
 
         # Initialize the numpy array.
-        values = np.zeros(len(self.element_ids), dtype=float)
+        values = np.zeros(len(cls.element_ids), dtype=float)
         values.fill(np.nan)
 
         # Property file name.
-        file = self.abs_path + property + ".table"
-        try:
-            prop_file = open(file, 'r')
-        except IOError:
-            raise IOError("File {} doesn't exist!!! Please make sure you " \
-                  "specify the correct file name".format(file))
-
-        else:
-            for i in range(values.size):
-                line = prop_file.readline().strip()
-                try:
-                    values[i] = float(line)
-                except ValueError:
-                    # Line is a string, which implies that data is missing.
-                    # So we let the value of NaN stay.
-                    continue
-            prop_file.close()
+        table = cls._read_table(f"{property}.table")
+        for i, line in enumerate(table[:values.size]):
+            try:
+                values[i] = float(line.strip())
+            except ValueError:
+                # Line is a string, which implies that data is missing.
+                # So we let the value of NaN stay.
+                continue
         return values
 
     @classmethod
-    def load_pair_property(self, property):
+    def load_pair_property(cls, property: str) -> NDArray[np.object_]:
         """Function to load property of a binary system.
 
         Parameters
@@ -201,38 +207,26 @@ class LookUpData:
         """
 
         # Initialize the 2-D numpy array.
-        values = np.zeros(len(self.element_ids), dtype=object)
-        for i in range(len(self.element_ids)):
+        values = np.zeros(len(cls.element_ids), dtype=object)
+        for i in range(len(cls.element_ids)):
             values[i] = np.zeros(i, dtype=float)
 
-        # Property file name.
-        file = self.pair_abs_path + property + ".table"
-
-        try:
-            prop_file = open(file, 'r')
-        except IOError:
-            raise IOError("File {} doesn't exist!!! Please make sure you " \
-                  "specify the correct file name".format(file))
-        else:
-            for line in prop_file.readlines():
-                words = line.strip().split()
-                if len(words) < 3:
-                    continue
-                else:
-                    if words[0] not in self.element_ids or words[1] not in \
-                            self.element_ids:
-                        continue
-                    elemA = self.element_ids[words[0]]
-                    elemB = self.element_ids[words[1]]
-                    if words[2].endswith("\n"):
-                        print(line)
-                        sys.exit(1)
-                    values[max(elemA,elemB)][min(elemA,elemB)] = float(words[2])
-            prop_file.close()
+        table = cls._read_table(f"pair/{property}.table")
+        for line in table:
+            words = line.strip().split()
+            if len(words) < 3:
+                continue
+            if words[0] not in cls.element_ids or words[1] not in cls.element_ids:
+                continue
+            elem_a = cls.element_ids[words[0]]
+            elem_b = cls.element_ids[words[1]]
+            values[max(elem_a, elem_b)][min(elem_a, elem_b)] = float(words[2])
         return values
 
     @classmethod
-    def load_pair_properties(self, properties):
+    def load_pair_properties(
+        cls, properties: Iterable[str]
+    ) -> dict[str, NDArray[np.object_]]:
         """Function to load multiple pair property values from the directory
         containing all the lookup tables.
 
@@ -253,11 +247,13 @@ class LookUpData:
         values = {}
 
         for prop in properties:
-            values[prop] = self.load_pair_property(prop)
+            values[prop] = cls.load_pair_property(prop)
         return values
 
     @classmethod
-    def load_properties(self, properties):
+    def load_properties(
+        cls, properties: Iterable[str]
+    ) -> dict[str, NDArray[np.float64] | NDArray[np.object_]]:
         """Function to load multiple property values from the directory
         containing all the lookup tables.
 
@@ -278,11 +274,11 @@ class LookUpData:
         values = {}
 
         for prop in properties:
-            values[prop] = self.load_property(prop)
+            values[prop] = cls.load_property(prop)
         return values
 
     @classmethod
-    def load_special_property(self, property):
+    def load_special_property(cls, property: str) -> NDArray[np.object_]:
         """Function to load the special property files related to
         IonizationEnergies and OxidationStates.
 
@@ -303,26 +299,10 @@ class LookUpData:
             If property table doesn't exist.
 
         """
-        # Property file name.
-        file = self.abs_path + property + ".table"
-
-        # Initialize the list.
         tmp_values = []
-
-        try:
-            prop_file = open(file, 'r')
-        except IOError:
-            print ("File {} doesn't exist!!! Please make sure you " \
-                  "specify the correct file name".format(file))
-            sys.exit(1)
-        else:
-            for line in prop_file.readlines():
-                words = line.strip().split()
-                tmp_list = []
-                for word in words:
-                    tmp_list.append(float(word))
-                tmp_values.append(tmp_list)
-            prop_file.close()
+        for line in cls._read_table(f"{property}.table"):
+            words = line.strip().split()
+            tmp_values.append([float(word) for word in words])
 
         values = np.zeros(len(tmp_values), dtype=object)
         for i in range(len(tmp_values)):

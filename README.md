@@ -4,17 +4,15 @@
 
 
 # ChemML
-ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data.
-
-ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. 
-The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
-
-Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
-
 
 <p align="center">
   <img align="middle" src="./docs/images/logo.png" alt="ChemML" width="400px" class="center">
  </p>
+
+ChemML is a machine learning and informatics program suite for the analysis, mining, and modeling of chemical and materials data. ChemML is developed in the Python 3 programming language and makes use of a host of data analysis and ML libraries, as well as domain-specific libraries. 
+The development follows a strictly modular and object-oriented design to make the overall code as flexible and versatile as possible.
+
+Please check the [ChemML website](https://hachmannlab.github.io/chemml) for more information.
 
 
 ## Latest Version:
@@ -26,7 +24,9 @@ We strongly recommend you to install ChemML in an Anaconda environment. The inst
 
     conda create --name chemml_env python=3.13
     source activate chemml_env
-    <!-- Make sure to run this command in a clean location -->
+
+Before running this command, make sure you cd to a clean location to pull the chemml folder:
+
     git clone https://github.com/hachmannlab/chemml.git
     pip install ./chemml
 

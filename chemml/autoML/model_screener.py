@@ -833,7 +833,7 @@ class ModelScreener(object):
         )
         if multi_core:
             params_msg += "MLP thread limit: 1 (hard-coded)\n"
-            # multi_core_model_names = list(multi_core_models.keys())
+            
             # params_msg += f"  Multi-core models: {', '.join(multi_core_model_names)}\n"
         if len(self.y) > 5e2:
             params_msg += "  Note: Dataset > 500 samples; GradientBoostingRegressor, SVR, and MLPRegressor are excluded from screening due to inefficiency.\n"
@@ -860,6 +860,7 @@ class ModelScreener(object):
         # Multi-core model initialization
         if multi_core:
             multi_core_models = space_models['multi_core']
+            multi_core_model_names = list(multi_core_models.keys())
         
         # Removing inefficient models for large datasets
         if len(self.y) > 5e2:

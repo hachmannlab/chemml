@@ -1,6 +1,8 @@
 [![Tests](https://github.com/hachmannlab/chemml/actions/workflows/test.yml/badge.svg)](https://github.com/hachmannlab/chemml/actions/workflows/test.yml)
 [![version status](http://img.shields.io/github/v/release/hachmannlab/chemml.svg?style=flat)](https://github.com/hachmannlab/chemml/releases)
 [![license](http://img.shields.io/badge/license-BSD-blue.svg?style=flat)](https://github.com/hachmannlab/chemml/blob/master/LICENSE)
+[![SPEC 0 — Minimum Supported Dependencies](https://img.shields.io/badge/SPEC-0-green?labelColor=%23004811&color=%235CA038)](https://scientific-python.org/specs/spec-0000/)
+[![SPEC 1 — Lazy Loading of Submodules and Functions](https://img.shields.io/badge/SPEC-1-green?labelColor=%23004811&color=%235CA038)](https://scientific-python.org/specs/spec-0001/)
 
 
 # ChemML

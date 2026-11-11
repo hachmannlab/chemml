@@ -34,6 +34,8 @@ def atom_features(atom):
     """
     This function encodes the RDKit atom to a binary vector.
 
+    Atom degrees of five or greater share the final degree category.
+
     Parameters
     ----------
     bond : rdkit.Chem.rdchem.Bond
@@ -122,7 +124,7 @@ def num_bond_features():
     return len(bond_features(simple_mol.GetBonds()[0]))
 
 
-def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
+def tensorise_molecules_singlecore(molecules, max_degree=7, max_atoms=None):
     """
     Takes a list of molecules and provides tensor representation of atom and bond features.
 
@@ -133,9 +135,12 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
         In addition, all the molecule objects must provide the SMILES representation.
         We try to create the SMILES representation if it's not available.
 
-    max_degree : int, optional (default=5)
+    max_degree : int, optional (default=7)
         The maximum number of neighbour per atom that each molecule can have
-        (to which all molecules will be padded), use 'None' for auto
+        (to which all molecules will be padded), use 'None' for auto. For atoms
+        with six neighbours, set this to at least 6. Graph models must use the
+        same maximum degree for all batches, and require a value greater than
+        the largest atom degree.
 
     max_atoms : int, optional (default=None)
         The maximum number of atoms per molecule (to which all
@@ -150,7 +155,7 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
         be rebuild for different values of `max_degree`, as the architecture
         will be different.
 
-        For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)
+        For typical organic molecules, `max_degree=5` may be sufficient.
 
 
     Returns
@@ -229,7 +234,11 @@ def tensorise_molecules_singlecore(molecules, max_degree=5, max_atoms=None):
             # If max_degree is exceeded, resize if max_degree=None (auto), else raise
             new_degree = max(a1_neigh, a2_neigh) + 1
             if new_degree > bond_tensor.shape[2]:
-                assert max_degree is None, 'too many neighours ({0}) in molecule: {1}'.format(new_degree, mol)
+                assert max_degree is None, (
+                    'too many neighbours ({0}) for max_degree={1} in molecule: {2}. '
+                    'Set max_degree to at least {0}, or use None for automatic sizing; '
+                    'graph models require a consistent max_degree greater than {0}.'
+                ).format(new_degree, max_degree, mol)
                 bond_tensor = padaxis(bond_tensor, new_degree, axis=2)
                 edge_tensor = padaxis(edge_tensor, new_degree, axis=2, pad_value=-1)
 
@@ -313,7 +322,7 @@ def concat_mol_tensors(mol_tensors_list, match_degree=True, match_max_atoms=Fals
     return atoms, bonds, edges
 
 
-def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batch_size=3000, verbose=True):
+def tensorise_molecules(molecules, max_degree=7, max_atoms=None, n_jobs=-1, batch_size=3000, verbose=True):
     """
     Takes a list of molecules and provides tensor representation of atom and bond features.
     This representation is based on the "convolutional networks on graphs for learning molecular fingerprints" by
@@ -326,9 +335,12 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         In addition, all the molecule objects must provide the SMILES representation.
         We try to create the SMILES representation if it's not available.
 
-    max_degree : int, optional (default=5)
+    max_degree : int, optional (default=7)
         The maximum number of neighbour per atom that each molecule can have
-        (to which all molecules will be padded), use 'None' for auto
+        (to which all molecules will be padded), use 'None' for auto. For atoms
+        with six neighbours, set this to at least 6. Graph models must use the
+        same maximum degree for all batches, and require a value greater than
+        the largest atom degree.
 
     max_atoms : int, optional (default=None)
         The maximum number of atoms per molecule (to which all
@@ -352,7 +364,7 @@ def tensorise_molecules(molecules, max_degree=5, max_atoms=None, n_jobs=-1, batc
         be rebuild for different values of `max_degree`, as the architecture
         will be different.
 
-        For organic molecules `max_degree=5` is a good value (Duvenaud et. al, 2015)
+        For typical organic molecules, `max_degree=5` may be sufficient.
 
 
     Returns

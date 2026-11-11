@@ -6,9 +6,10 @@ import pytest
 import numpy as np
 import os
 import warnings
+import torch
 
 from chemml.models import NeuralGraphFingerprint
-from chemml.models.graphconvlayers_torch import _NeuralGraphNetworkPT
+from chemml.models.graphconvlayers_torch import _NeuralGraphNetworkPT, NeuralGraphHidden
 from chemml.datasets import load_organic_density
 from chemml.chem import Molecule, tensorise_molecules
 from chemml.utils import is_tensorflow_available
@@ -27,7 +28,8 @@ def graph_data():
     """Load molecular graph data from load_organic_density dataset.
     
     Loads first 20 molecules from the organic density dataset, converts
-    SMILES to molecule objects, and tensorizes them for testing.
+    SMILES to molecule objects, and tensorizes them for testing. A sulfur
+    molecule with a synthetic target is also included.
     """
     # Suppress warnings during molecule creation
     with warnings.catch_warnings():
@@ -54,39 +56,30 @@ def graph_data():
         
         # Handle case where not enough molecules succeeded
         if len(mol_objs_list) < 10:
-            # Fall back to synthetic data if molecule processing fails
-            n_samples = 10
-            max_atoms = 5
-            max_degree = 3
-            num_atom_features = 6
-            num_bond_features = 4
-            
-            atoms = np.random.randn(n_samples, max_atoms, num_atom_features).astype('float32')
-            bonds = np.random.randn(n_samples, max_atoms, max_degree, num_bond_features).astype('float32')
-            edges = np.random.randint(-1, max_atoms, size=(n_samples, max_atoms, max_degree)).astype('int32')
-        else:
-            # Tensorize molecules
-            atoms, bonds, edges = tensorise_molecules(
-                molecules=mol_objs_list,
-                max_degree=5,
-                max_atoms=None,
-                n_jobs=1,
-                batch_size=10,
-                verbose=False
-            )
-        
-        n_samples = atoms.shape[0]
+            mol_objs_list = [Molecule('CC', 'smiles') for _ in range(10)]
+
         # Get corresponding targets
-        targets = target_df['density_Kg/m3'].iloc[:n_samples].values.astype('float32')
+        targets = np.asarray(target_df['density_Kg/m3'].iloc[:len(mol_objs_list)], dtype='float32')
+        mol_objs_list.append(Molecule(
+            'CCc1[nH]ccc1C(=O)N1CC(C2CN(C(=O)/C=C/S(F)(F)(F)(F)F)C2)C1',
+            'smiles',
+        ))
+        targets = np.append(targets, targets.mean()).astype('float32')
+        atoms, bonds, edges = tensorise_molecules(
+            molecules=mol_objs_list,
+            max_atoms=None,
+            n_jobs=1,
+            batch_size=10,
+            verbose=False
+        )
     
     return atoms, bonds, edges, targets
 
 
 @pytest.fixture()
 def single_output_targets(graph_data):
-    """Single output target values from dataset."""
+    """Single output target values, including one synthetic value."""
     atoms, bonds, edges, targets = graph_data
-    # Use actual targets from dataset
     return targets
 
 
@@ -173,6 +166,18 @@ class TestPyTorchEngine:
 
         predictions = ngf.predict(atoms, bonds, edges)
         assert predictions.shape == (atoms.shape[0],)
+        sulfur = np.flatnonzero((edges[-1] >= 0).sum(axis=-1) == 6).item()
+        layer = NeuralGraphHidden(1, atoms.shape[-1], bonds.shape[-1], edges.shape[2])
+        with torch.no_grad():
+            degree_layer = layer.degree_layers[6]
+            assert isinstance(degree_layer, torch.nn.Linear)
+            assert degree_layer.bias is not None
+            torch.nn.init.ones_(degree_layer.weight)
+            torch.nn.init.zeros_(degree_layer.bias)
+            output = layer(torch.tensor(atoms[-1:], dtype=torch.float32),
+                           torch.tensor(bonds[-1:], dtype=torch.float32),
+                           torch.tensor(edges[-1:]))
+        assert output[0, sulfur, 0] > 0
     def test_pytorch_multi_output(self, graph_data, multi_output_targets):
         """Test PyTorch multi-output training and prediction."""
         atoms, bonds, edges, _ = graph_data
@@ -202,6 +207,9 @@ class TestTensorFlowEngine:
 
     def test_tensorflow_single_output(self, graph_data, single_output_targets):
         """Test TensorFlow with optional MLP head."""
+        import tensorflow as tf
+        from chemml.models.graphconvlayers import NeuralGraphHidden as TensorFlowGraphHidden
+
         atoms, bonds, edges, _ = graph_data
         y = single_output_targets
 
@@ -220,6 +228,12 @@ class TestTensorFlowEngine:
 
         predictions = ngf.predict(atoms, bonds, edges)
         assert predictions.shape == (atoms.shape[0],)
+        sulfur = np.flatnonzero((edges[-1] >= 0).sum(axis=-1) == 6).item()
+        layer = TensorFlowGraphHidden(1, kernel_initializer='ones', bias_initializer='zeros')
+        output = layer([tf.constant(atoms[-1:], dtype=tf.float32),
+                tf.constant(bonds[-1:], dtype=tf.float32),
+                tf.constant(edges[-1:], dtype=tf.int32)])
+        assert output[0, sulfur, 0].numpy() > 0
     def test_tensorflow_multi_output(self, graph_data, multi_output_targets):
         """Test TensorFlow multi-output training and prediction."""
         atoms, bonds, edges, _ = graph_data

@@ -123,7 +123,7 @@ class NeuralGraphFingerprint:
         self.model = None
         self.n_outputs = 1
 
-    def _tensorize_input(self, molecules_input, max_degree=5, max_atoms=None, n_jobs=1, batch_size=10, verbose=False):
+    def _tensorize_input(self, molecules_input, max_degree=7, max_atoms=None, n_jobs=1, batch_size=10, verbose=False):
         """Convert SMILES or Molecule objects to tensor format.
 
         Uses normalize_input from foss_descriptors to ensure all inputs are in Molecule format,
@@ -138,7 +138,7 @@ class NeuralGraphFingerprint:
             - Molecule object (single molecule)
             - List of Molecule objects
         max_degree : int, optional
-            Maximum degree for tensorization. Default 5.
+            Maximum degree for tensorization. Default 7.
         max_atoms : int, optional
             Maximum number of atoms. Default None (auto-detect from data).
         n_jobs : int, optional
@@ -197,7 +197,7 @@ class NeuralGraphFingerprint:
         tensorize_kwargs : dict, optional
             Arguments for _tensorize_input when using raw molecular input.
             Supported keys: max_degree, max_atoms, n_jobs, batch_size, verbose.
-            Default: {max_degree=5, max_atoms=None, n_jobs=1, batch_size=10, verbose=False}
+            Default: {max_degree=7, max_atoms=None, n_jobs=1, batch_size=10, verbose=False}
 
         Returns
         -------
